@@ -1,5 +1,5 @@
 /**
- * UserService.java 04-jun-2017
+ * LibroService.java 08-jul-2017
  *
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
@@ -8,12 +8,12 @@ package com.momoko.es.model.service;
 
 import java.util.List;
 
-import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.dto.LibroDTO;
 
 /**
- * The Interface UserService.
+ * The Interface LibroService.
  */
-public interface UserService {
+public interface LibroService {
 
     /**
      * Crear usuario.
@@ -22,13 +22,12 @@ public interface UserService {
      *            the nuevo usuario
      * @return the integer
      */
-    public Integer crearUsuario(UsuarioDTO nuevoUsuario);
+    public Integer crearLibro(LibroDTO nuevoLibro);
 
     /**
      * Recuperar usuarios.
      *
      * @return the list
      */
-    public List<UsuarioDTO> recuperarUsuarios();
-
+    public List<LibroDTO> recuperarLibros();
 }

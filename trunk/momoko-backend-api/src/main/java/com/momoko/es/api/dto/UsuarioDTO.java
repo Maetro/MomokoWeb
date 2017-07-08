@@ -1,10 +1,10 @@
 /**
- * UsuarioDTO.java 04-jun-2017
+ * UsuarioDTO.java 08-jul-2017
  *
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.model.dto;
+package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,11 +13,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.model.enums.UserStatusEnum;
+import com.momoko.es.api.enums.UserStatusEnum;
 
-/**
- * The Class UsuarioDTO.
- */
 public class UsuarioDTO implements Serializable {
 
     private static final long serialVersionUID = -4327870243033258976L;
