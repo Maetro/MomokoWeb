@@ -6,9 +6,11 @@
  */
 package com.momoko.es.util;
 
-import com.momoko.es.model.dto.UsuarioDTO;
+import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.enums.UserStatusEnum;
+import com.momoko.es.model.entity.LibroEntity;
 import com.momoko.es.model.entity.UsuarioEntity;
-import com.momoko.es.model.enums.UserStatusEnum;
 
 /**
  * The Class DTOToEntityAdapter.
@@ -58,4 +60,26 @@ public final class DTOToEntityAdapter {
         return idStatus;
     }
 
+    /**
+     * Adaptar libro.
+     *
+     * @param libroDTO
+     *            the libro dto
+     * @return the libro entity
+     */
+    public static LibroEntity adaptarLibro(final LibroDTO libroDTO) {
+        final LibroEntity libroEntity = new LibroEntity();
+        libroEntity.setAnoEdicion(libroDTO.getAnoEdicion());
+        libroEntity.setAutorId(libroDTO.getAutorId());
+        libroEntity.setCitaLibro(libroDTO.getCitaLibro());
+        libroEntity.setEditorialId(libroDTO.getEditorialId());
+        libroEntity.setEnlaceAmazon(libroDTO.getEnlaceAmazon());
+        libroEntity.setGeneroId(libroDTO.getGeneroId());
+        libroEntity.setLibroId(libroDTO.getLibroId());
+        libroEntity.setResumen(libroDTO.getResumen());
+        libroEntity.setSagaId(libroDTO.getSagaId());
+        libroEntity.setTitulo(libroDTO.getTitulo());
+        libroEntity.setUrlImagen(libroDTO.getUrlImagen());
+        return libroEntity;
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.momoko.es.model.dto.UsuarioDTO;
+import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.model.entity.UsuarioEntity;
 import com.momoko.es.model.repository.UsuarioRepository;
 import com.momoko.es.util.DTOToEntityAdapter;

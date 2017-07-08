@@ -8,7 +8,7 @@ package com.momoko.es.model.service;
 
 import java.util.List;
 
-import com.momoko.es.model.dto.UsuarioDTO;
+import com.momoko.es.api.dto.UsuarioDTO;
 
 /**
  * The Interface UserService.
