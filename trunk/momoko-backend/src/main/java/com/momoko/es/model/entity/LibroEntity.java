@@ -6,9 +6,15 @@
  */
 package com.momoko.es.model.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -26,7 +32,9 @@ public class LibroEntity {
     private @Id @GeneratedValue Integer libroId;
 
     /** The autor id. */
-    private Integer autorId;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "libro_autor", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "autorId"))
+    private Set<AutorEntity> autores;
 
     /** The saga id. */
     private Integer sagaId;
@@ -81,22 +89,22 @@ public class LibroEntity {
     }
 
     /**
-     * Gets the autor id.
+     * Gets the autores.
      *
-     * @return the autor id
+     * @return the autores
      */
-    public Integer getAutorId() {
-        return this.autorId;
+    public Set<AutorEntity> getAutores() {
+        return this.autores;
     }
 
     /**
-     * Sets the autor id.
+     * Sets the autores.
      *
-     * @param autorId
-     *            the new autor id
+     * @param autores
+     *            the new autores
      */
-    public void setAutorId(final Integer autorId) {
-        this.autorId = autorId;
+    public void setAutores(final Set<AutorEntity> autores) {
+        this.autores = autores;
     }
 
     /**
@@ -276,7 +284,7 @@ public class LibroEntity {
             return false;
         }
         final LibroEntity castOther = (LibroEntity) other;
-        return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autorId, castOther.autorId)
+        return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
                 .append(this.sagaId, castOther.sagaId).append(this.editorialId, castOther.editorialId)
                 .append(this.generoId, castOther.generoId).append(this.titulo, castOther.titulo)
                 .append(this.anoEdicion, castOther.anoEdicion).append(this.citaLibro, castOther.citaLibro)
@@ -286,7 +294,7 @@ public class LibroEntity {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.libroId).append(this.autorId).append(this.sagaId)
+        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
                 .append(this.editorialId).append(this.generoId)
                 .append(this.titulo).append(this.anoEdicion).append(this.citaLibro).append(this.resumen)
                 .append(this.enlaceAmazon)
@@ -295,7 +303,7 @@ public class LibroEntity {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("libroId", this.libroId).append("autorId", this.autorId)
+        return new ToStringBuilder(this).append("libroId", this.libroId).append("autorId", this.autores)
                 .append("sagaId", this.sagaId)
                 .append("editorialId", this.editorialId).append("generoId", this.generoId).append("titulo", this.titulo)
                 .append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)

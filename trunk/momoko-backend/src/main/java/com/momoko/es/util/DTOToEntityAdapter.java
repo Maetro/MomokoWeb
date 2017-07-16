@@ -6,9 +6,14 @@
  */
 package com.momoko.es.util;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.UserStatusEnum;
+import com.momoko.es.model.entity.AutorEntity;
 import com.momoko.es.model.entity.LibroEntity;
 import com.momoko.es.model.entity.UsuarioEntity;
 
@@ -70,7 +75,7 @@ public final class DTOToEntityAdapter {
     public static LibroEntity adaptarLibro(final LibroDTO libroDTO) {
         final LibroEntity libroEntity = new LibroEntity();
         libroEntity.setAnoEdicion(libroDTO.getAnoEdicion());
-        libroEntity.setAutorId(libroDTO.getAutorId());
+        libroEntity.setAutores(adaptarAutores(libroDTO.getAutores()));
         libroEntity.setCitaLibro(libroDTO.getCitaLibro());
         libroEntity.setEditorialId(libroDTO.getEditorialId());
         libroEntity.setEnlaceAmazon(libroDTO.getEnlaceAmazon());
@@ -81,5 +86,20 @@ public final class DTOToEntityAdapter {
         libroEntity.setTitulo(libroDTO.getTitulo());
         libroEntity.setUrlImagen(libroDTO.getUrlImagen());
         return libroEntity;
+    }
+
+    private static Set<AutorEntity> adaptarAutores(final Set<AutorDTO> autores) {
+        final Set<AutorEntity> autoresEntities = new HashSet<AutorEntity>();
+        for (final AutorDTO autorDTO : autores) {
+            autoresEntities.add(adaptarAutor(autorDTO));
+        }
+        return autoresEntities;
+    }
+
+    private static AutorEntity adaptarAutor(final AutorDTO autorDTO) {
+        final AutorEntity entity = new AutorEntity();
+        entity.setAutorId(autorDTO.getAutorId());
+        entity.setNombre(autorDTO.getNombre());
+        return entity;
     }
 }

@@ -7,30 +7,43 @@
 package com.momoko.es.model.facade;
 
 import java.util.Calendar;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.enums.ErrorCreacionLibro;
+import com.momoko.es.api.enums.EstadoGuardadoLibroEnum;
 import com.momoko.es.api.enums.UserStatusEnum;
+import com.momoko.es.api.response.GuardarLibroResponse;
 import com.momoko.es.model.parameter.CrearUsuarioDummyParameter;
 import com.momoko.es.model.service.LibroService;
 import com.momoko.es.model.service.UserService;
+import com.momoko.es.model.service.ValidadorService;
 
 @Controller
 @RequestMapping(path = "/modelo")
 public class MainController {
 
-    @Autowired
+    @Autowired(required = false)
     private UserService userService;
 
-    @Autowired
+    @Autowired(required = false)
     private LibroService libroService;
+
+    @Autowired(required = false)
+    private ValidadorService validadorService;
 
     @GetMapping(path = "/usuarios/add")
     public @ResponseBody String addNewUser(@RequestParam final String email,
@@ -71,8 +84,34 @@ public class MainController {
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
-        // This returns a JSON or XML with the users
         return this.libroService.recuperarLibros();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/libro/guardar")
+    ResponseEntity<GuardarLibroResponse> add(@RequestBody final LibroDTO libroDTO) {
+
+        // Validar
+        final List<ErrorCreacionLibro> listaErrores = this.validadorService.validarLibro(libroDTO);
+
+        // Guardar
+        LibroDTO libro = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            libro = this.libroService.guardarLibro(libroDTO);
+        }
+
+        // Responder
+        final GuardarLibroResponse respuesta = new GuardarLibroResponse();
+        respuesta.setLibroDTO(libro);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((libro != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoLibroEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoLibroEnum.ERROR);
+        }
+
+        return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);
+
     }
 
 }

@@ -7,6 +7,11 @@
 package com.momoko.es.api.dto;
 
 import java.io.Serializable;
+import java.util.Set;
+
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class LibroDTO implements Serializable {
 
@@ -17,7 +22,7 @@ public class LibroDTO implements Serializable {
     private Integer libroId;
 
     /** The autor id. */
-    private Integer autorId;
+    private Set<AutorDTO> autores;
 
     /** The saga id. */
     private Integer sagaId;
@@ -54,12 +59,23 @@ public class LibroDTO implements Serializable {
         this.libroId = libroId;
     }
 
-    public Integer getAutorId() {
-        return this.autorId;
+    /**
+     * Gets the autores.
+     *
+     * @return the autores
+     */
+    public Set<AutorDTO> getAutores() {
+        return this.autores;
     }
 
-    public void setAutorId(final Integer autorId) {
-        this.autorId = autorId;
+    /**
+     * Sets the autores.
+     *
+     * @param autores
+     *            the new autores
+     */
+    public void setAutores(final Set<AutorDTO> autores) {
+        this.autores = autores;
     }
 
     public Integer getSagaId() {
@@ -132,6 +148,39 @@ public class LibroDTO implements Serializable {
 
     public void setUrlImagen(final String urlImagen) {
         this.urlImagen = urlImagen;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (!(other instanceof LibroDTO)) {
+            return false;
+        }
+        final LibroDTO castOther = (LibroDTO) other;
+        return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
+                .append(this.sagaId, castOther.sagaId).append(this.editorialId, castOther.editorialId)
+                .append(this.generoId, castOther.generoId).append(this.titulo, castOther.titulo)
+                .append(this.anoEdicion, castOther.anoEdicion).append(this.citaLibro, castOther.citaLibro)
+                .append(this.resumen, castOther.resumen).append(this.enlaceAmazon, castOther.enlaceAmazon)
+                .append(this.urlImagen, castOther.urlImagen).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
+                .append(this.editorialId).append(this.generoId)
+                .append(this.titulo).append(this.anoEdicion).append(this.citaLibro).append(this.resumen)
+                .append(this.enlaceAmazon)
+                .append(this.urlImagen).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)
+                .append("sagaId", this.sagaId)
+                .append("editorialId", this.editorialId).append("generoId", this.generoId).append("titulo", this.titulo)
+                .append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
+                .append("resumen", this.resumen)
+                .append("enlaceAmazon", this.enlaceAmazon).append("urlImagen", this.urlImagen).toString();
     }
 
 }

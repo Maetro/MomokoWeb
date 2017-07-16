@@ -30,4 +30,13 @@ public interface LibroService {
      * @return the list
      */
     public List<LibroDTO> recuperarLibros();
+
+    /**
+     * Guardar libro.
+     *
+     * @param libroAGuardar
+     *            the libro a guardar
+     * @return the estado guardado libro enum
+     */
+    public LibroDTO guardarLibro(LibroDTO libroAGuardar);
 }
