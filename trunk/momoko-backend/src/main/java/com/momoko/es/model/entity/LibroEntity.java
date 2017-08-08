@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -40,10 +41,14 @@ public class LibroEntity {
     private Integer sagaId;
 
     /** The editorial id. */
-    private Integer editorialId;
+    @ManyToOne
+    @JoinColumn(name = "editorial_id")
+    private EditorialEntity editorial;
 
     /** The genero id. */
-    private Integer generoId;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "genero_id", referencedColumnName = "generoId"))
+    private Set<GeneroEntity> generos;
 
     /** The titulo. */
     private String titulo;
@@ -131,8 +136,8 @@ public class LibroEntity {
      *
      * @return the editorial id
      */
-    public Integer getEditorialId() {
-        return this.editorialId;
+    public EditorialEntity getEditorial() {
+        return this.editorial;
     }
 
     /**
@@ -141,27 +146,27 @@ public class LibroEntity {
      * @param editorialId
      *            the new editorial id
      */
-    public void setEditorialId(final Integer editorialId) {
-        this.editorialId = editorialId;
+    public void setEditorial(final EditorialEntity editorialId) {
+        this.editorial = editorialId;
     }
 
     /**
-     * Gets the genero id.
+     * Gets the generos.
      *
-     * @return the genero id
+     * @return the generos
      */
-    public Integer getGeneroId() {
-        return this.generoId;
+    public Set<GeneroEntity> getGeneros() {
+        return this.generos;
     }
 
     /**
-     * Sets the genero id.
+     * Sets the generos.
      *
-     * @param generoId
-     *            the new genero id
+     * @param generos
+     *            the new generos
      */
-    public void setGeneroId(final Integer generoId) {
-        this.generoId = generoId;
+    public void setGeneros(final Set<GeneroEntity> generos) {
+        this.generos = generos;
     }
 
     /**
@@ -285,8 +290,8 @@ public class LibroEntity {
         }
         final LibroEntity castOther = (LibroEntity) other;
         return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
-                .append(this.sagaId, castOther.sagaId).append(this.editorialId, castOther.editorialId)
-                .append(this.generoId, castOther.generoId).append(this.titulo, castOther.titulo)
+                .append(this.sagaId, castOther.sagaId).append(this.editorial, castOther.editorial)
+                .append(this.generos, castOther.generos).append(this.titulo, castOther.titulo)
                 .append(this.anoEdicion, castOther.anoEdicion).append(this.citaLibro, castOther.citaLibro)
                 .append(this.resumen, castOther.resumen).append(this.enlaceAmazon, castOther.enlaceAmazon)
                 .append(this.urlImagen, castOther.urlImagen).isEquals();
@@ -295,7 +300,7 @@ public class LibroEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
-                .append(this.editorialId).append(this.generoId)
+                .append(this.editorial).append(this.generos)
                 .append(this.titulo).append(this.anoEdicion).append(this.citaLibro).append(this.resumen)
                 .append(this.enlaceAmazon)
                 .append(this.urlImagen).toHashCode();
@@ -305,7 +310,7 @@ public class LibroEntity {
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autorId", this.autores)
                 .append("sagaId", this.sagaId)
-                .append("editorialId", this.editorialId).append("generoId", this.generoId).append("titulo", this.titulo)
+                .append("editorialId", this.editorial).append("generoId", this.generos).append("titulo", this.titulo)
                 .append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
                 .append("resumen", this.resumen)
                 .append("enlaceAmazon", this.enlaceAmazon).append("urlImagen", this.urlImagen).toString();

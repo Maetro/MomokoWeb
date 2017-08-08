@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
@@ -33,6 +35,7 @@ import com.momoko.es.model.service.UserService;
 import com.momoko.es.model.service.ValidadorService;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "/modelo")
 public class MainController {
 
@@ -46,9 +49,9 @@ public class MainController {
     private ValidadorService validadorService;
 
     @GetMapping(path = "/usuarios/add")
-    public @ResponseBody String addNewUser(@RequestParam final String email,
-            @RequestParam final String contrasena, @RequestParam final String login, @RequestParam final String nick,
-            @RequestParam final String nombreVisible, @RequestParam final String url) {
+    public @ResponseBody String addNewUser(@RequestParam final String email, @RequestParam final String contrasena,
+            @RequestParam final String login, @RequestParam final String nick, @RequestParam final String nombreVisible,
+            @RequestParam final String url) {
         final UsuarioDTO nuevoUsuario = crearUsuarioDummy(
                 new CrearUsuarioDummyParameter(email, contrasena, login, nick, nombreVisible, url));
         this.userService.crearUsuario(nuevoUsuario);
@@ -85,6 +88,11 @@ public class MainController {
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
         return this.libroService.recuperarLibros();
+    }
+
+    @GetMapping(path = "/generos")
+    public @ResponseBody Iterable<GeneroDTO> getAllGeneros() {
+        return this.libroService.obtenerTodosGeneros();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/libro/guardar")

@@ -10,8 +10,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.momoko.es.api.dto.AutorDTO;
+import com.momoko.es.api.dto.EditorialDTO;
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.model.entity.AutorEntity;
+import com.momoko.es.model.entity.EditorialEntity;
+import com.momoko.es.model.entity.GeneroEntity;
 import com.momoko.es.model.entity.LibroEntity;
 
 /**
@@ -30,15 +34,15 @@ public final class EntityToDTOAdapter {
         final LibroDTO libroDTO = new LibroDTO();
         libroDTO.setAnoEdicion(libroEntity.getAnoEdicion());
         libroDTO.setCitaLibro(libroEntity.getCitaLibro());
-        libroDTO.setEditorialId(libroEntity.getEditorialId());
+        libroDTO.setEditorial(adaptarEditorial(libroEntity.getEditorial()));
         libroDTO.setEnlaceAmazon(libroEntity.getEnlaceAmazon());
-        libroDTO.setGeneroId(libroEntity.getGeneroId());
         libroDTO.setLibroId(libroEntity.getLibroId());
         libroDTO.setResumen(libroEntity.getResumen());
         libroDTO.setSagaId(libroEntity.getSagaId());
         libroDTO.setTitulo(libroEntity.getTitulo());
         libroDTO.setUrlImagen(libroEntity.getUrlImagen());
         libroDTO.setAutores(adaptarAutores(libroEntity.getAutores()));
+        libroDTO.setGeneros(adaptarGeneros(libroEntity.getGeneros()));
         return libroDTO;
     }
 
@@ -62,6 +66,49 @@ public final class EntityToDTOAdapter {
         autorDTO.setAutorId(autorEntity.getAutorId());
         autorDTO.setNombre(autorEntity.getNombre());
         return autorDTO;
+    }
+
+    /**
+     * Adaptar editorial.
+     *
+     * @param editorial
+     *            the editorial
+     * @return the editorial dto
+     */
+    public static EditorialDTO adaptarEditorial(final EditorialEntity editorial) {
+        final EditorialDTO editorialDTO = new EditorialDTO();
+        editorialDTO.setEditorialId(editorial.getEditorialId());
+        editorialDTO.setNombreEditorial(editorial.getNombreEditorial());
+        return editorialDTO;
+    }
+
+    /**
+     * Adaptar generos.
+     *
+     * @param generos
+     *            the generos
+     * @return the establece
+     */
+    public static Set<GeneroDTO> adaptarGeneros(final Set<GeneroEntity> generos) {
+        final Set<GeneroDTO> generosEntities = new HashSet<GeneroDTO>();
+        for (final GeneroEntity generoEntity : generos) {
+            generosEntities.add(adaptarGenero(generoEntity));
+        }
+        return generosEntities;
+    }
+
+    /**
+     * Adaptar genero.
+     *
+     * @param generoEntity
+     *            the genero dto
+     * @return the genero entity
+     */
+    public static GeneroDTO adaptarGenero(final GeneroEntity generoEntity) {
+        final GeneroDTO generoDTO = new GeneroDTO();
+        generoDTO.setGeneroId(generoEntity.getGeneroId());
+        generoDTO.setNombre(generoEntity.getNombre());
+        return generoDTO;
     }
 
 }

@@ -15,6 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 /**
  * The Class AutorEntity.
  */
@@ -87,6 +91,25 @@ public class AutorEntity {
      */
     public void setLibrosAutor(final Set<LibroEntity> librosAutor) {
         this.librosAutor = librosAutor;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (!(other instanceof AutorEntity)) {
+            return false;
+        }
+        final AutorEntity castOther = (AutorEntity) other;
+        return new EqualsBuilder().append(this.autorId, castOther.autorId).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.autorId).toHashCode();
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("autorId", this.autorId).append("nombre", this.nombre).toString();
     }
 
 }

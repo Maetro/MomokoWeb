@@ -35,7 +35,7 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionLibro.FALTA_AUTOR);
         }
 
-        if (libroDTO.getEditorialId() == null) {
+        if (libroDTO.getEditorial() == null) {
             listaErrores.add(ErrorCreacionLibro.FALTA_EDITORIAL);
         }
 

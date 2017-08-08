@@ -14,8 +14,11 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.model.entity.GeneroEntity;
 import com.momoko.es.model.entity.LibroEntity;
+import com.momoko.es.model.repository.GeneroRepository;
 import com.momoko.es.model.repository.LibroRepository;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
@@ -28,6 +31,9 @@ public class LibroServiceImpl implements LibroService {
 
     @Autowired
     private LibroRepository libroRepository;
+
+    @Autowired
+    private GeneroRepository generoRepository;
 
     @Override
     @Transactional
@@ -50,6 +56,16 @@ public class LibroServiceImpl implements LibroService {
     public LibroDTO guardarLibro(final LibroDTO libroAGuardar) {
         final LibroEntity libroEntiity = DTOToEntityAdapter.adaptarLibro(libroAGuardar);
         return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntiity));
+    }
+
+    @Override
+    public List<GeneroDTO> obtenerTodosGeneros() {
+        final List<GeneroDTO> listaGeneros = new ArrayList<GeneroDTO>();
+        final Iterable<GeneroEntity> generoEntityIterable = this.generoRepository.findAll();
+        for (final GeneroEntity generoEntity : generoEntityIterable) {
+            listaGeneros.add(EntityToDTOAdapter.adaptarGenero(generoEntity));
+        }
+        return listaGeneros;
     }
 
 }

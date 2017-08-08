@@ -8,6 +8,7 @@ package com.momoko.es.model.service;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 
 /**
@@ -39,4 +40,11 @@ public interface LibroService {
      * @return the estado guardado libro enum
      */
     public LibroDTO guardarLibro(LibroDTO libroAGuardar);
+
+    /**
+     * Obtener todos generos.
+     *
+     * @return the lsit
+     */
+    public List<GeneroDTO> obtenerTodosGeneros();
 }
