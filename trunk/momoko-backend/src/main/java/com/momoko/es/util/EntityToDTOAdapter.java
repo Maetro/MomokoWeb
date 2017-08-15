@@ -13,10 +13,10 @@ import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.model.entity.AutorEntity;
-import com.momoko.es.model.entity.EditorialEntity;
-import com.momoko.es.model.entity.GeneroEntity;
-import com.momoko.es.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.AutorEntity;
+import com.momoko.es.backend.model.entity.EditorialEntity;
+import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.entity.LibroEntity;
 
 /**
  * The Class EntityToDTOAdapter.

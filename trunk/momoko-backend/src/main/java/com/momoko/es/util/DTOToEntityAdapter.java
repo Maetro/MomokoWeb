@@ -15,11 +15,11 @@ import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.UserStatusEnum;
-import com.momoko.es.model.entity.AutorEntity;
-import com.momoko.es.model.entity.EditorialEntity;
-import com.momoko.es.model.entity.GeneroEntity;
-import com.momoko.es.model.entity.LibroEntity;
-import com.momoko.es.model.entity.UsuarioEntity;
+import com.momoko.es.backend.model.entity.AutorEntity;
+import com.momoko.es.backend.model.entity.EditorialEntity;
+import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.UsuarioEntity;
 
 /**
  * The Class DTOToEntityAdapter.
