@@ -93,6 +93,12 @@
 			<artifactId>webjars-locator</artifactId>
 		</dependency>
 		
+		<dependency>
+            <groupId>mysql</groupId>
+    		<artifactId>mysql-connector-java</artifactId>
+    		<scope>test</scope>
+		</dependency>
+		
 		<!-- FIN BORRAME -->
 		<!-- LOGIN -->
 		<dependency>

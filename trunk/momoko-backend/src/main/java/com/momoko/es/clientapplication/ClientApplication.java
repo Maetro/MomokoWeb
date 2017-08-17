@@ -1,0 +1,37 @@
+package com.momoko.es.clientapplication;
+
+import java.security.Principal;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@EnableAutoConfiguration
+@Configuration
+@EnableOAuth2Sso
+@RestController
+public class ClientApplication {
+
+    @RequestMapping("/")
+    public String home(Principal user) {
+      return "Hello " + user.getName();
+    }
+
+    public static void main(String[] args) {
+      new SpringApplicationBuilder(ClientApplication.class)
+          .properties("spring.config.name=client").run(args);
+    }
+    
+    
+    @RequestMapping({ "/user", "/me" })
+    public Map<String, String> user(Principal principal) {
+      Map<String, String> map = new LinkedHashMap<>();
+      map.put("name", principal.getName());
+      return map;
+    }
+}

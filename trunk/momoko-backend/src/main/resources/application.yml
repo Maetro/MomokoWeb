@@ -4,35 +4,44 @@ spring:
       ddl-auto: none
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/momokobd
-    username: root
+    url: jdbc:mysql://http://momokobd.cae16pqtnoxt.us-west-2.rds.amazonaws.com:3306/
+    username: momokobdUser
+    password: ***********
     
 #Google
-#security:
-#  oauth2:
-#    client:
-#      clientId: 720469847940-k8urpge03m9cn055mhi4mae4nn1p843m.apps.googleusercontent.com
-#      clientSecret: jgwe1NMipdo79Mfwkjd08WiW
-#      accessTokenUri: https://www.googleapis.com/oauth2/v3/token
-#      userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
-#      clientAuthenticationScheme: query
-#      scope: profile email
-#    resource:
-#      userInfoUri: https://www.googleapis.com/plus/v1/people/me
-#      preferTokenInfo: false
+gmail:
+	client:
+		clientId: 720469847940-k8urpge03m9cn055mhi4mae4nn1p843m.apps.googleusercontent.com
+		clientSecret: ****************
+		accessTokenUri: https://www.googleapis.com/oauth2/v3/token
+		userAuthorizationUri: https://accounts.google.com/o/oauth2/auth
+		clientAuthenticationScheme: query
+		scope: profile email
+	resource:
+		userInfoUri: https://www.googleapis.com/plus/v1/people/me
+		preferTokenInfo: false
 
 
 
 #Facebook
+facebook:
+	client:
+	  clientId: 1932678757049258
+	  clientSecret: ****************
+	  accessTokenUri: https://graph.facebook.com/oauth/access_token
+	  userAuthorizationUri: https://www.facebook.com/dialog/oauth
+	  tokenName: oauth_token
+	  authenticationScheme: query
+	  clientAuthenticationScheme: form
+	resource:
+	  userInfoUri: https://graph.facebook.com/me
+	  
+#AuthoritationServer  
+
 security:
   oauth2:
     client:
-      clientId: 1932678757049258
-      clientSecret: 5631874010ff42582ee3bf7a642bec6a
-      accessTokenUri: https://graph.facebook.com/oauth/access_token
-      userAuthorizationUri: https://www.facebook.com/dialog/oauth
-      tokenName: oauth_token
-      authenticationScheme: query
-      clientAuthenticationScheme: form
-    resource:
-      userInfoUri: https://graph.facebook.com/me
+      client-id: acme
+      client-secret: **********
+      scope: read,write
+      auto-approve-scopes: '.*'
