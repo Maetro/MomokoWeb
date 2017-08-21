@@ -13,22 +13,19 @@ import { LibroService } from './libro.service';
   <app-header>Cargando cabecera ...</app-header>
   <div class="light-wrapper">
     <div class="container inner">
-      <div class="col-sm-12">
-        <h1 class="centered titulos margen_inferior"> Dar de alta la ficha de un libro </h1>
-      </div>
       <div class="row">
         <div class="col-md-12">
           <router-outlet></router-outlet>
         </div>
-        <app-contenido>Cargando libros...</app-contenido>
+        <!-- <app-contenido>Cargando libros...</app-contenido> -->
       </div>
     </div>
   </div>
 
 </div>
 <app-footer></app-footer>`,
-  styles: [`
-    .selected {
+  styles: [
+  ` .selected {
       background-color: #CFD8DC !important;
       color: white;
     }
@@ -80,21 +77,10 @@ import { LibroService } from './libro.service';
   providers: [LibroService]
 })
 export class AppComponent implements OnInit {
-  title = 'Libros';
-  libros: Libro[];
-  selectedLibro: Libro;
+  constructor() { }
 
-  constructor(private libroService: LibroService) { }
-
-  getLibros(): void {
-    this.libroService.getLibros().then(libros => this.libros = libros);
-  }
-
-  ngOnInit(): void {
-    this.getLibros();
-  }
-
-  onSelect(libro: Libro): void {
-    this.selectedLibro = libro;
-  }
+    ngOnInit() {
+    }
 }
+
+export const API_URL = 'http://localhost:8080/api';

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.TestLibroDTO;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.response.GuardarLibroResponse;
@@ -41,6 +42,7 @@ public class MainController {
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
+        System.out.println("LLamada a la lista de libros");
         return this.libroService.recuperarLibros();
     }
 
@@ -49,7 +51,7 @@ public class MainController {
         return this.libroService.obtenerTodosGeneros();
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/libro/guardar")
+    @RequestMapping(method = RequestMethod.POST, path = "/libros/add")
     ResponseEntity<GuardarLibroResponse> add(@RequestBody final LibroDTO libroDTO) {
 
         // Validar
@@ -71,6 +73,35 @@ public class MainController {
         } else {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
         }
+
+        return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/libros/add2")
+    ResponseEntity<GuardarLibroResponse> add2(@RequestBody final TestLibroDTO libroDTO) {
+
+        System.out.println(libroDTO);
+
+        // // Validar
+        // final List<ErrorCreacionLibro> listaErrores = this.validadorService.validarLibro(libroDTO);
+        //
+        // // Guardar
+        // LibroDTO libro = null;
+        // if (CollectionUtils.isEmpty(listaErrores)) {
+        // libro = this.libroService.guardarLibro(libroDTO);
+        // }
+        //
+        // // Responder
+        final GuardarLibroResponse respuesta = new GuardarLibroResponse();
+        // respuesta.setLibroDTO(libro);
+        // respuesta.setListaErroresValidacion(listaErrores);
+        //
+        // if ((libro != null) && CollectionUtils.isEmpty(listaErrores)) {
+        // respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        // } else {
+        // respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        // }
 
         return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);
 

@@ -1,0 +1,141 @@
+<div *ngIf="libro" class="form-container">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="vanilla vanilla-form" novalidate="novalidate">
+        <div class="row">
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Título del libro: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="libro.titulo" placeholder="Escribe aquí el título del libro"/>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 lp10">
+            <h4> Autor de la obra <a href="#"> <i class="ion-plus"></i> </a> </h4>
+          </div>
+          <div *ngFor="let autor of libro.autores">
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <label>
+                    <input type="text" [(ngModel)]="autor.nombre" placeholder="Escribe aquí al autor de la obra">
+                  </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-3 lp10">
+            <h4> Editorial </h4>
+          </div>
+          <div class="col-sm-9 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="libro.editorial.nombre" placeholder="Nombre de la editorial">
+              </label>
+            </div>
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-3 lp10">
+            <h4> Año de edición </h4>
+          </div>
+
+          <div class="col-sm-9 lp10">
+            <div class="form-field">
+              <label>
+                <input type="number" [(ngModel)]="libro.anoEdicion" placeholder="Año de edición" required="required">
+              </label>
+            </div>
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-3 lp10">
+            <h4> Género de la obra </h4>
+          </div>
+
+          <div class="col-sm-9 lp10">
+
+            <p-multiSelect defaultLabel="Escoge los géneros" (onChange)="onChange($event)" [options]="generos" [(ngModel)]="selectedGeneros"></p-multiSelect>
+
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12">
+
+
+            <div class="radio-set">
+              <h4> ¿Forma parte de una saga? </h4>
+              <label>
+                      <input type="radio" name="subject" value="General">
+                      <span></span> No </label>
+              <label>
+                      <input type="radio" name="subject" value="Hi">
+                      <span><!-- fake radio --></span> Sí </label>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="col-md-12">
+
+            <h4> Breve resumen de la obra </h4>
+            <textarea name="resumen" [(ngModel)]="libro.resumen" placeholder="Type your message here..."></textarea>
+
+
+            <h4> Cita identificativa </h4>
+            <textarea name="cita" [(ngModel)]="libro.citaLibro" placeholder="Type your message here..."></textarea>
+            <div [hidden]="!esLibroNuevo">
+              <input type="submit" class="btn btn-forest" value="Crear libro" (click)="crearLibro()" data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
+            <div [hidden]="esLibroNuevo">
+                <input type="submit" class="btn btn-forest" value="Actualizar ficha" data-error="Fix errors" data-processing="Sending..."
+                  data-success="Thank you!">
+              </div>
+
+            <footer class="notification-box"></footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="col-sm-4 sidebar">
+      <div class="sidebox widget">
+
+        <img src="{{libro.urlImagen}}">
+        <h2 class="section-title widget-title margen_superior">Imagen del libro </h2>
+
+        <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+
+
+
+        <h4 class="margen_superior"> Enlace Amazon </h4>
+
+        <div class="form-field">
+          <label>
+            <input type="email" [(ngModel)]="libro.enlaceAmazon" placeholder="Enlace de amazon">
+          </label>
+        </div>
+
+      </div>
+      <!-- /.widget -->
+
+    </aside>
+  </div>
+</div>

@@ -65,7 +65,7 @@ public class ModelApplication extends WebSecurityConfigurerAdapter {
         http.antMatcher("/**").authorizeRequests()
                 .antMatchers("/", "/login**", "/webjars/**", "/modelo/**", "/usuario/usuarios**").permitAll()
                 .anyRequest().authenticated().and().exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().logout()
+                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().loefdgout()
                 .logoutSuccessUrl("/").permitAll().and().csrf()
                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);

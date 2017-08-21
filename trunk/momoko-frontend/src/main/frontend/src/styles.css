@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+body .ui-multiselect {
+  padding: 0px;
+}
+
+.ui-multiselect .ui-multiselect-label {
+  padding: .25em 2em .25em .75em;
+}
+
+.ui-multiselect-filter-container input.ui-inputtext.ui-widget.ui-state-default.ui-corner-all {
+  height: auto;
+  margin-bottom: 0px;
+  background: #ffffff;
+  padding: .125em .125em .125em 1.50em;
+}

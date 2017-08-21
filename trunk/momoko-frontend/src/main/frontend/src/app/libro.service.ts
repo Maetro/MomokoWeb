@@ -1,8 +1,7 @@
 import { Editorial } from './dtos/editorial';
 import { Injectable, OnInit } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClient } from "@angular/common/http";
-import { Headers, Http } from '@angular/http';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import 'rxjs/add/operator/toPromise';
 
@@ -13,7 +12,10 @@ import { Autor } from './dtos/autor';
 @Injectable()
 export class LibroService {
   private librosUrl = 'http://localhost:8080/modelo/libros';  // URL to web api
+  private addLibroUrl = 'http://localhost:8080/modelo/libros/add';
   private generosUrl = 'http://localhost:8080/modelo/generos';
+
+  private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
   results: string[];
 
@@ -26,7 +28,7 @@ export class LibroService {
 
 
     this.http.get(this.librosUrl).toPromise().then((resp:Response) => {
-
+      console.log("LLamada a la lista de libros");
       for(var numLibro in resp){
         var l = new Libro();
         let json = resp[numLibro];
@@ -64,7 +66,7 @@ export class LibroService {
           }
         }
         l.generos = generosList;
-        console.log(l);
+        // console.log(l);
         this.librosList.push(l);
       }
 
@@ -74,22 +76,33 @@ export class LibroService {
     return Promise.resolve(this.librosList);
   }
 
+  crearLibro(libro: Libro): Promise<Libro> {
+    return this.http
+      .post(this.addLibroUrl, JSON.stringify(libro), {headers: this.headers})
+      .toPromise()
+      .then(res => console.log(res))
+      .catch(this.handleError);
+  }
+
   getGeneros(): Promise<Genero[]> {
-    this.http.get(this.generosUrl).toPromise().then((resp:Response) => {
+   return this.http.get(this.generosUrl).toPromise().then((resp:Response) => {
 
       for(var numGenero in resp){
         var g = new Genero();
         let json = resp[numGenero];
         g.generoId = json.generoId;
         g.nombre = json.nombre;
+        // console.log(g);
         this.allGenerosList.push(g);
       }
 
       return this.allGenerosList;
 
     });
-    return Promise.resolve(this.allGenerosList);
   }
 
-
+  private handleError(error: any): Promise<any> {
+    console.error('An error occurred', error); // for demo purposes only
+    return Promise.reject(error.message || error);
+  }
 }

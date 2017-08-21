@@ -11,21 +11,9 @@ import { LibroService } from './../libro.service';
 })
 export class ContenidoComponent implements OnInit {
 
-  title = 'Libros';
-  libros: Libro[];
-  selectedLibro: Libro;
+  constructor() { }
 
-  constructor(private libroService: LibroService) { }
+    ngOnInit() {
+    }
 
-  getLibros(): void {
-    this.libroService.getLibros().then(libros => this.libros = libros);
-  }
-
-  ngOnInit(): void {
-    this.getLibros();
-  }
-
-  onSelect(libro: Libro): void {
-    this.selectedLibro = libro;
-  }
 }
