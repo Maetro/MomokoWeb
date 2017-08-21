@@ -1,22 +1,32 @@
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
 import { Component, OnInit } from '@angular/core';
 
-import { Libro } from './libro';
+import { Libro } from './dtos/libro';
 import { LibroService } from './libro.service';
 
 @Component({
   selector: 'app-root',
   template: `
-    <h1>{{title}}</h1>
-    <h2>Mis libros</h2>
-    <ul class="libros">
-      <li *ngFor="let libro of libros"
-        [class.selected]="libro === selectedLibro"
-        (click)="onSelect(libro)">
-        <span class="badge">{{libro.libroId}}</span> {{libro.titulo}}
-      </li>
-    </ul>
-    <libro-detail [libro]="selectedLibro"></libro-detail>
-  `,
+  <div class="content-wrapper">
+  <app-menu> Cargando menu... </app-menu>
+  <app-header>Cargando cabecera ...</app-header>
+  <div class="light-wrapper">
+    <div class="container inner">
+      <div class="col-sm-12">
+        <h1 class="centered titulos margen_inferior"> Dar de alta la ficha de un libro </h1>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <router-outlet></router-outlet>
+        </div>
+        <app-contenido>Cargando libros...</app-contenido>
+      </div>
+    </div>
+  </div>
+
+</div>
+<app-footer></app-footer>`,
   styles: [`
     .selected {
       background-color: #CFD8DC !important;

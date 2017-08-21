@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.exceptions.EmailExistsException;
 
 /**
  * The Interface UserService.
@@ -22,7 +23,7 @@ public interface UserService {
      *            the nuevo usuario
      * @return the integer
      */
-    public Integer crearUsuario(UsuarioDTO nuevoUsuario);
+    public Integer crearUsuario(UsuarioDTO nuevoUsuario) throws EmailExistsException;
 
     /**
      * Recuperar usuarios.

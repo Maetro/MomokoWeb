@@ -4,15 +4,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { HttpClient } from "@angular/common/http";
 import { Headers, Http } from '@angular/http';
 
-import { Libro } from './libro';
+import 'rxjs/add/operator/toPromise';
+
+import { Libro } from './dtos/libro';
 import { Genero } from './dtos/genero';
 import { Autor } from './dtos/autor';
 
-import 'rxjs/add/operator/toPromise';
-
 @Injectable()
-export class LibroService{
-
+export class LibroService {
   private librosUrl = 'http://localhost:8080/modelo/libros';  // URL to web api
   private generosUrl = 'http://localhost:8080/modelo/generos';
 
@@ -91,5 +90,6 @@ export class LibroService{
     });
     return Promise.resolve(this.allGenerosList);
   }
+
 
 }

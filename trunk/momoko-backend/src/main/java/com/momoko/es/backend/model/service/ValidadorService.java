@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 
 /**
@@ -24,5 +25,14 @@ public interface ValidadorService {
      * @return the list
      */
     List<ErrorCreacionLibro> validarLibro(LibroDTO libroDTO);
+
+    /**
+     * Validar usuario.
+     *
+     * @param nuevoUsuarioRequest
+     *            the nuevo usuario request
+     * @return the list
+     */
+    boolean validarUsuario(RegistroNuevoUsuarioDTO nuevoUsuarioRequest);
 
 }

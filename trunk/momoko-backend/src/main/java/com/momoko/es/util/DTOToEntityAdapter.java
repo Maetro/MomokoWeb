@@ -38,7 +38,7 @@ public final class DTOToEntityAdapter {
         usuario.setUsuario_id(nuevoUsuario.getUsuarioId());
         usuario.setUsuario_login(nuevoUsuario.getLogin());
         usuario.setUsuario_contrasena(nuevoUsuario.getContrasena());
-        usuario.setUsuario_email(nuevoUsuario.getEmail());
+        usuario.setUsuarioEmail(nuevoUsuario.getEmail());
         usuario.setUsuario_fecha_registro(nuevoUsuario.getFechaRegistro());
         usuario.setUsuario_nick(nuevoUsuario.getNick());
         usuario.setUsuario_url(nuevoUsuario.getUrl());

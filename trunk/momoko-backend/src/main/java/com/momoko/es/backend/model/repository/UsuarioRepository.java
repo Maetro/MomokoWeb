@@ -15,4 +15,13 @@ import com.momoko.es.backend.model.entity.UsuarioEntity;
  */
 public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
 
+    /**
+     * Find by email.
+     *
+     * @param email
+     *            the email
+     * @return the user
+     */
+    UsuarioEntity findByUsuarioEmail(String email);
+
 }

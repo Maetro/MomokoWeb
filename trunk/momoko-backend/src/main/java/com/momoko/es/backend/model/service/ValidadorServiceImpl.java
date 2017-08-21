@@ -9,11 +9,14 @@ package com.momoko.es.backend.model.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 
 /**
@@ -48,6 +51,11 @@ public class ValidadorServiceImpl implements ValidadorService {
         }
 
         return listaErrores;
+    }
+
+    @Override
+    public boolean validarUsuario(@Valid final RegistroNuevoUsuarioDTO nuevoUsuarioRequest) {
+        return true;
     }
 
 }

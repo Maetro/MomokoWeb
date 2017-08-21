@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,7 +34,8 @@ public class UsuarioEntity {
 
     private String usuario_nick;
 
-    private String usuario_email;
+    @Column(name = "usuario_email")
+    private String usuarioEmail;
 
     private String usuario_url;
 
@@ -128,8 +130,8 @@ public class UsuarioEntity {
      *
      * @return the usuario_email
      */
-    public String getUsuario_email() {
-        return this.usuario_email;
+    public String getUsuarioEmail() {
+        return this.usuarioEmail;
     }
 
     /**
@@ -138,8 +140,8 @@ public class UsuarioEntity {
      * @param usuario_email
      *            the new usuario_email
      */
-    public void setUsuario_email(final String usuario_email) {
-        this.usuario_email = usuario_email;
+    public void setUsuarioEmail(final String usuarioEmail) {
+        this.usuarioEmail = usuarioEmail;
     }
 
     /**
@@ -258,26 +260,24 @@ public class UsuarioEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("usuario_id", this.usuario_id)
-                .append("usuario_login", this.usuario_login)
-                .append("usuario_contrasena", this.usuario_contrasena).append("usuario_nick", this.usuario_nick)
-                .append("usuario_email", this.usuario_email).append("usuario_url", this.usuario_url)
-                .append("usuario_fecha_registro", this.usuario_fecha_registro)
+                .append("usuario_login", this.usuario_login).append("usuario_contrasena", this.usuario_contrasena)
+                .append("usuario_nick", this.usuario_nick).append("usuario_email", this.usuarioEmail)
+                .append("usuario_url", this.usuario_url).append("usuario_fecha_registro", this.usuario_fecha_registro)
                 .append("usuario_clave_activacion", this.usuario_clave_activacion)
                 .append("usuario_status", this.usuario_status)
                 .append("usuario_nombre_visible", this.usuario_nombre_visible)
-                .append("usuario_rol_id", this.usuario_rol_id)
-                .toString();
+                .append("usuario_rol_id", this.usuario_rol_id).toString();
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -289,7 +289,7 @@ public class UsuarioEntity {
         return new EqualsBuilder().append(this.usuario_id, castOther.usuario_id)
                 .append(this.usuario_login, castOther.usuario_login)
                 .append(this.usuario_contrasena, castOther.usuario_contrasena)
-                .append(this.usuario_nick, castOther.usuario_nick).append(this.usuario_email, castOther.usuario_email)
+                .append(this.usuario_nick, castOther.usuario_nick).append(this.usuarioEmail, castOther.usuarioEmail)
                 .append(this.usuario_url, castOther.usuario_url)
                 .append(this.usuario_fecha_registro, castOther.usuario_fecha_registro)
                 .append(this.usuario_clave_activacion, castOther.usuario_clave_activacion)
@@ -300,16 +300,15 @@ public class UsuarioEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.usuario_id).append(this.usuario_login).append(this.usuario_contrasena)
-                .append(this.usuario_nick).append(this.usuario_email).append(this.usuario_url)
-                .append(this.usuario_fecha_registro)
-                .append(this.usuario_clave_activacion).append(this.usuario_status).append(this.usuario_nombre_visible)
-                .append(this.usuario_rol_id).toHashCode();
+                .append(this.usuario_nick).append(this.usuarioEmail).append(this.usuario_url)
+                .append(this.usuario_fecha_registro).append(this.usuario_clave_activacion).append(this.usuario_status)
+                .append(this.usuario_nombre_visible).append(this.usuario_rol_id).toHashCode();
     }
 
 }

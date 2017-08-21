@@ -246,28 +246,26 @@ public class UsuarioDTO implements Serializable {
         final UsuarioDTO castOther = (UsuarioDTO) other;
         return new EqualsBuilder().append(this.usuarioId, castOther.usuarioId).append(this.login, castOther.login)
                 .append(this.contrasena, castOther.contrasena).append(this.nick, castOther.nick)
-                .append(this.email, castOther.email)
-                .append(this.url, castOther.url).append(this.fechaRegistro, castOther.fechaRegistro)
-                .append(this.usuarioStatus, castOther.usuarioStatus).append(this.nombreVisible, castOther.nombreVisible)
+                .append(this.email, castOther.email).append(this.url, castOther.url)
+                .append(this.fechaRegistro, castOther.fechaRegistro).append(this.usuarioStatus, castOther.usuarioStatus)
+                .append(this.nombreVisible, castOther.nombreVisible)
                 .append(this.usuario_rol_id, castOther.usuario_rol_id).isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.usuarioId).append(this.login).append(this.contrasena).append(this.nick)
-                .append(this.email)
-                .append(this.url).append(this.fechaRegistro).append(this.usuarioStatus).append(this.nombreVisible)
-                .append(this.usuario_rol_id)
-                .toHashCode();
+                .append(this.email).append(this.url).append(this.fechaRegistro).append(this.usuarioStatus)
+                .append(this.nombreVisible).append(this.usuario_rol_id).toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("usuarioId", this.usuarioId).append("login", this.login)
                 .append("contrasena", this.contrasena).append("nick", this.nick).append("email", this.email)
-                .append("url", this.url)
-                .append("fechaRegistro", this.fechaRegistro).append("usuarioStatus", this.usuarioStatus)
-                .append("nombreVisible", this.nombreVisible).append("usuario_rol_id", this.usuario_rol_id).toString();
+                .append("url", this.url).append("fechaRegistro", this.fechaRegistro)
+                .append("usuarioStatus", this.usuarioStatus).append("nombreVisible", this.nombreVisible)
+                .append("usuario_rol_id", this.usuario_rol_id).toString();
     }
 
 }

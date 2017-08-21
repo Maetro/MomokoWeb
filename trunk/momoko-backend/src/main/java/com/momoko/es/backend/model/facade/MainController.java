@@ -6,7 +6,6 @@
  */
 package com.momoko.es.backend.model.facade;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +18,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
-import com.momoko.es.api.enums.EstadoGuardadoLibroEnum;
-import com.momoko.es.api.enums.UserStatusEnum;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.response.GuardarLibroResponse;
-import com.momoko.es.backend.model.parameter.CrearUsuarioDummyParameter;
 import com.momoko.es.backend.model.service.LibroService;
-import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
@@ -40,50 +34,10 @@ import com.momoko.es.backend.model.service.ValidadorService;
 public class MainController {
 
     @Autowired(required = false)
-    private UserService userService;
-
-    @Autowired(required = false)
     private LibroService libroService;
 
     @Autowired(required = false)
     private ValidadorService validadorService;
-
-    @GetMapping(path = "/usuarios/add")
-    public @ResponseBody String addNewUser(@RequestParam final String email, @RequestParam final String contrasena,
-            @RequestParam final String login, @RequestParam final String nick, @RequestParam final String nombreVisible,
-            @RequestParam final String url) {
-        final UsuarioDTO nuevoUsuario = crearUsuarioDummy(
-                new CrearUsuarioDummyParameter(email, contrasena, login, nick, nombreVisible, url));
-        this.userService.crearUsuario(nuevoUsuario);
-        return "Saved";
-    }
-
-    /**
-     * Crear usuario dummy.
-     *
-     * @param usuarioDummyParametros
-     *            the usuario dummy parametros
-     * @return the usuario dto
-     */
-    public UsuarioDTO crearUsuarioDummy(final CrearUsuarioDummyParameter usuarioDummyParametros) {
-        final UsuarioDTO nuevoUsuario = new UsuarioDTO();
-        nuevoUsuario.setLogin(usuarioDummyParametros.getLogin());
-        nuevoUsuario.setEmail(usuarioDummyParametros.getEmail());
-        nuevoUsuario.setContrasena(usuarioDummyParametros.getContrasena());
-        nuevoUsuario.setNick(usuarioDummyParametros.getNick());
-        nuevoUsuario.setNombreVisible(usuarioDummyParametros.getNombreVisible());
-        nuevoUsuario.setUrl(usuarioDummyParametros.getUrl());
-        nuevoUsuario.setFechaRegistro(Calendar.getInstance().getTime());
-        nuevoUsuario.setUsuarioStatus(UserStatusEnum.ACTIVO);
-        nuevoUsuario.setUsuario_rol_id(1);
-        return nuevoUsuario;
-    }
-
-    @GetMapping(path = "/usuarios")
-    public @ResponseBody Iterable<UsuarioDTO> getAllUsers() {
-        // This returns a JSON or XML with the users
-        return this.userService.recuperarUsuarios();
-    }
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
@@ -113,9 +67,9 @@ public class MainController {
         respuesta.setListaErroresValidacion(listaErrores);
 
         if ((libro != null) && CollectionUtils.isEmpty(listaErrores)) {
-            respuesta.setEstadoGuardado(EstadoGuardadoLibroEnum.CORRECTO);
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
         } else {
-            respuesta.setEstadoGuardado(EstadoGuardadoLibroEnum.ERROR);
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
         }
 
         return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);

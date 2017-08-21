@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Libro } from './libro';
+import { Libro } from './dtos/libro';
 
 @Component({
   selector: 'libro-detail',
