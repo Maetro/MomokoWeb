@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -24,6 +25,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Class LibroEntity.
+ *
+ * @author <a href="josercpo@ext.inditex.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "libro")
@@ -67,7 +70,25 @@ public class LibroEntity {
 
     /** The url imagen. */
     private String urlImagen;
+    
+    /** The usuario alta. */
+    private String usuarioAlta;
+    
+    /** The fecha alta. */
+    private Date fechaAlta;
 
+    /** The usuario alta. */
+    private String usuarioModificacion;
+    
+    /** The fecha alta. */
+    private Date fechaModificacion;
+    
+    /** The usuario alta. */
+    private String usuarioBaja;
+    
+    /** The fecha alta. */
+    private Date fechaBaja;
+    
     /**
      * Instantiates a new libro entity.
      */
@@ -282,7 +303,120 @@ public class LibroEntity {
     public void setUrlImagen(final String urlImagen) {
         this.urlImagen = urlImagen;
     }
+    
+    
 
+    /**
+     * Obtiene usuario alta.
+     *
+     * @return usuario alta
+     */
+    public String getUsuarioAlta() {
+        return usuarioAlta;
+    }
+
+    /**
+     * Establece usuario alta.
+     *
+     * @param usuarioAlta nuevo usuario alta
+     */
+    public void setUsuarioAlta(String usuarioAlta) {
+        this.usuarioAlta = usuarioAlta;
+    }
+
+    /**
+     * Obtiene fecha alta.
+     *
+     * @return fecha alta
+     */
+    public Date getFechaAlta() {
+        return fechaAlta;
+    }
+
+    /**
+     * Establece fecha alta.
+     *
+     * @param fechaAlta nuevo fecha alta
+     */
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Obtiene usuario modificacion.
+     *
+     * @return usuario modificacion
+     */
+    public String getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    /**
+     * Establece usuario modificacion.
+     *
+     * @param usuarioModificacion nuevo usuario modificacion
+     */
+    public void setUsuarioModificacion(String usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    /**
+     * Obtiene fecha modificacion.
+     *
+     * @return fecha modificacion
+     */
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    /**
+     * Establece fecha modificacion.
+     *
+     * @param fechaModificacion nuevo fecha modificacion
+     */
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Obtiene usuario baja.
+     *
+     * @return usuario baja
+     */
+    public String getUsuarioBaja() {
+        return usuarioBaja;
+    }
+
+    /**
+     * Establece usuario baja.
+     *
+     * @param usuarioBaja nuevo usuario baja
+     */
+    public void setUsuarioBaja(String usuarioBaja) {
+        this.usuarioBaja = usuarioBaja;
+    }
+
+    /**
+     * Obtiene fecha baja.
+     *
+     * @return fecha baja
+     */
+    public Date getFechaBaja() {
+        return fechaBaja;
+    }
+
+    /**
+     * Establece fecha baja.
+     *
+     * @param fechaBaja nuevo fecha baja
+     */
+    public void setFechaBaja(Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof LibroEntity)) {
@@ -297,6 +431,9 @@ public class LibroEntity {
                 .append(this.urlImagen, castOther.urlImagen).isEquals();
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
@@ -306,6 +443,9 @@ public class LibroEntity {
                 .append(this.urlImagen).toHashCode();
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autorId", this.autores)

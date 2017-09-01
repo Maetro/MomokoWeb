@@ -62,13 +62,25 @@ public class ModelApplication extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
-        http.antMatcher("/**").authorizeRequests()
+
+     // @formatter:off
+        http
+            .antMatcher("/**").authorizeRequests()
                 .antMatchers("/", "/login**", "/webjars/**", "/modelo/**", "/usuario/usuarios**").permitAll()
-                .anyRequest().authenticated().and().exceptionHandling()
-                .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/")).and().loefdgout()
-                .logoutSuccessUrl("/").permitAll().and().csrf()
-                .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
-                .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+                .antMatchers("/gestion/**").hasRole("ROLE_ADMIN")
+                .anyRequest().authenticated()
+            .and()
+                .exceptionHandling()
+                    .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/"))
+             .and()
+                 .logout()
+                     .logoutSuccessUrl("/").permitAll()
+             .and()
+                 .csrf()
+                     .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+             .and()
+                 .addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class);
+     // @formatter:on
     }
 
     // @RequestMapping("/unauthenticated")
