@@ -40,7 +40,7 @@
           <div class="col-sm-9 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="libro.editorial.nombre" placeholder="Nombre de la editorial">
+                <input type="text" [(ngModel)]="libro.editorial.nombreEditorial" placeholder="Nombre de la editorial">
               </label>
             </div>
           </div>
@@ -105,7 +105,7 @@
                 data-success="Thank you!">
             </div>
             <div [hidden]="esLibroNuevo">
-                <input type="submit" class="btn btn-forest" value="Actualizar ficha" data-error="Fix errors" data-processing="Sending..."
+                <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="actualizarLibro()" data-error="Fix errors" data-processing="Sending..."
                   data-success="Thank you!">
               </div>
 
@@ -118,10 +118,21 @@
     <aside class="col-sm-4 sidebar">
       <div class="sidebox widget">
 
-        <img src="{{libro.urlImagen}}">
+        <img src="{{libro.urlImagen}}" alt="Portada libro - {{libro.titulo}}"/>
+
+        <div class="divide10"></div>
         <h2 class="section-title widget-title margen_superior">Imagen del libro </h2>
 
-        <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+        <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
+
+          <ng-template pTemplate="content">
+              <div>Arrastra aquí la imagen que quieras subir.</div>
+          </ng-template>
+        </p-fileUpload>
+
+        <div class="divide10"></div>
+
+        <!-- <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
 
 
 

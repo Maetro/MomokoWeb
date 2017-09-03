@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Libro } from './../../dtos/libro';
 import { Autor } from './../../dtos/autor';
 import { LibroService } from './../../libro.service';
+import { FileUploadService } from './../../services/fileUpload.service';
 
 @Component({
   selector: 'app-lista-libros',
@@ -15,7 +16,7 @@ export class ListaLibrosComponent implements OnInit {
   libros: Libro[];
   selectedLibro: Libro;
 
-  constructor(private libroService: LibroService) { }
+  constructor(private libroService: LibroService, private fileUploadService: FileUploadService) { }
 
   getLibros(): void {
     console.log("service -> getLibros()")

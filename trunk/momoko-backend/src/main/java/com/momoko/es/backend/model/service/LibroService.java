@@ -38,8 +38,9 @@ public interface LibroService {
      * @param libroAGuardar
      *            the libro a guardar
      * @return the estado guardado libro enum
+     * @throws Exception
      */
-    public LibroDTO guardarLibro(LibroDTO libroAGuardar);
+    public LibroDTO guardarLibro(LibroDTO libroAGuardar) throws Exception;
 
     /**
      * Obtener todos generos.

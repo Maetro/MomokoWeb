@@ -1,8 +1,8 @@
-
-import { Component, Input, OnInit, OnChanges, SimpleChange } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChange, style } from '@angular/core';
 import { Libro } from './../../dtos/libro';
 import { Genero } from './../../dtos/genero';
 import { LibroService } from './../../libro.service';
+import { FileUploadService } from './../../services/fileUpload.service';
 
 import { MultiSelectModule } from 'primeng/primeng';
 
@@ -11,6 +11,10 @@ import { SelectItem } from 'primeng/primeng';
 @Component({
   selector: 'libro-detail',
   templateUrl: './libro-detail.component.html',
+  styles: [`.sidebox img {
+    width: 100%;
+    height: auto;
+  }`]
 })
 export class LibroDetailComponent implements OnInit, OnChanges {
 
@@ -25,6 +29,10 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   changeLog: string[] = [];
 
   esLibroNuevo:boolean = false;
+
+  constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
+    this.generos = [];
+  }
 
   ngOnInit(): void {
     console.log("ngOnInit Lista Generos")
@@ -77,9 +85,7 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     });
   }
 
-  constructor(private libroService: LibroService) {
-    this.generos = [];
-  }
+
 
   onChange(event: any) {
     console.log(event);
@@ -95,6 +101,20 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
   crearLibro() : void{
     this.libroService.crearLibro(this.libro);
+  }
+
+
+  fileChange($event) : void{
+    this.fileUploadService.fileChange($event).subscribe
+      (urlImagenNueva => {
+        // Emit list event
+        console.log(urlImagenNueva);
+        this.libro.urlImagen = urlImagenNueva;
+       },
+      err => {
+      // Log errors if any
+      console.log(err);
+    });
   }
 
 }

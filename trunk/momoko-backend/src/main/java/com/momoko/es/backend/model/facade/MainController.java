@@ -60,7 +60,11 @@ public class MainController {
         // Guardar
         LibroDTO libro = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
-            libro = this.libroService.guardarLibro(libroDTO);
+            try {
+                libro = this.libroService.guardarLibro(libroDTO);
+            } catch (final Exception e) {
+                listaErrores.add(ErrorCreacionLibro.TITULO_YA_EXISTE);
+            }
         }
 
         // Responder

@@ -159,7 +159,7 @@ public final class DTOToEntityAdapter {
      */
     public static GeneroEntity adaptarGenero(final GeneroDTO generoDTO) {
         final GeneroEntity entity = new GeneroEntity();
-        entity.setGeneroId(generoDTO.getGeneroId());
+        entity.setGenero_id(generoDTO.getGeneroId());
         entity.setNombre(generoDTO.getNombre());
         return entity;
     }

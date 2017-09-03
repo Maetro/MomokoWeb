@@ -1,9 +1,11 @@
+
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
@@ -15,7 +17,7 @@ import { FooterComponent } from './footer/footer.component';
 import { routing } from './app.routing';
 import { ListaLibrosComponent } from './contenido/lista-libros/lista-libros.component';
 import { PageNotFoundComponent} from './error/page-not-found/page-not-found.component';
-import { InputTextModule} from 'primeng/primeng';
+import { InputTextModule, FileUploadModule } from 'primeng/primeng';
 import { MultiSelectModule} from 'primeng/primeng';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -41,8 +43,10 @@ import { RegisterFormComponent } from './auth/components/register-form/register-
     FormsModule,
     AuthModule,
     HttpClientModule,
+    HttpModule,
     InputTextModule,
     MultiSelectModule,
+    FileUploadModule,
     routing
   ],
   providers: [],

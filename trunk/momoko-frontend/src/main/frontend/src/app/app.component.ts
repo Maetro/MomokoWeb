@@ -1,9 +1,11 @@
+
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { Component, OnInit } from '@angular/core';
 
 import { Libro } from './dtos/libro';
 import { LibroService } from './libro.service';
+import { FileUploadService } from './services/fileUpload.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +18,25 @@ import { LibroService } from './libro.service';
       <div class="row">
         <div class="col-md-12">
           <router-outlet></router-outlet>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div>
+            Usuarios: <a href="http://localhost:8080/usuario/usuarios">click here</a>
+          </div>
+          <div>
+            Libros: <a href="http://localhost:8080/modelo/libros">click here</a>
+          </div>
+          <div>
+            Generos: <a href="http://localhost:8080/modelo/generos">click here</a>
+          </div>
+          <div>
+            With Facebook: <a href="http://localhost:8080/login/facebook">click here</a>
+          </div>
+          <div>
+            With Gmail: <a href="http://localhost:8080/login/gmail">click here</a>
+          </div>
         </div>
         <!-- <app-contenido>Cargando libros...</app-contenido> -->
       </div>
@@ -74,7 +95,7 @@ import { LibroService } from './libro.service';
       border-radius: 4px 0 0 4px;
     }
   `],
-  providers: [LibroService]
+  providers: [LibroService, FileUploadService]
 })
 export class AppComponent implements OnInit {
   constructor() { }

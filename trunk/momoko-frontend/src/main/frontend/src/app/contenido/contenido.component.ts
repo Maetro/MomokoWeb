@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Libro } from './../dtos/libro';
 import { LibroService } from './../libro.service';
+import { FileUploadService } from './../services/fileUpload.service';
 
 @Component({
   selector: 'app-contenido',

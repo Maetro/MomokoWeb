@@ -30,7 +30,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
         final List<ErrorCreacionLibro> listaErrores = new ArrayList<ErrorCreacionLibro>();
 
-        if (StringUtils.isNotEmpty(libroDTO.getTitulo())) {
+        if (StringUtils.isEmpty(libroDTO.getTitulo())) {
             listaErrores.add(ErrorCreacionLibro.FALTA_TITULO);
 
         }

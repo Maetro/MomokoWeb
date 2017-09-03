@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,32 +28,32 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class GeneroEntity {
 
     /** The autor id. */
-    private @Id @GeneratedValue Integer generoId;
+    private @Id @GeneratedValue Integer genero_id;
 
     /** The nombre. */
     private String nombre;
 
     /** The libros autor. */
-    @ManyToMany(mappedBy = "generos", fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "generos", fetch = FetchType.LAZY)
     private Set<LibroEntity> librosGenero;
 
     /**
-     * Gets the genero id.
+     * Gets the genero_id.
      *
-     * @return the genero id
+     * @return the genero_id
      */
-    public Integer getGeneroId() {
-        return this.generoId;
+    public Integer getGenero_id() {
+        return this.genero_id;
     }
 
     /**
-     * Sets the genero id.
+     * Sets the genero_id.
      *
-     * @param generoId
-     *            the new genero id
+     * @param genero_id
+     *            the new genero_id
      */
-    public void setGeneroId(final Integer generoId) {
-        this.generoId = generoId;
+    public void setGenero_id(final Integer genero_id) {
+        this.genero_id = genero_id;
     }
 
     /**
@@ -93,23 +94,38 @@ public class GeneroEntity {
         this.librosGenero = librosGenero;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof GeneroEntity)) {
             return false;
         }
         final GeneroEntity castOther = (GeneroEntity) other;
-        return new EqualsBuilder().append(this.generoId, castOther.generoId).isEquals();
+        return new EqualsBuilder().append(this.genero_id, castOther.genero_id).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.generoId).toHashCode();
+        return new HashCodeBuilder().append(this.genero_id).toHashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("generoId", this.generoId).append("nombre", this.nombre).toString();
+        return new ToStringBuilder(this).append("genero_id", this.genero_id).append("nombre", this.nombre).toString();
     }
 
 }

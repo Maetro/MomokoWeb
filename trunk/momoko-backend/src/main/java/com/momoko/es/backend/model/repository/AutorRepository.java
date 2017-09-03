@@ -6,6 +6,8 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.momoko.es.backend.model.entity.AutorEntity;
@@ -14,5 +16,7 @@ import com.momoko.es.backend.model.entity.AutorEntity;
  * The Interface AutorRepository.
  */
 public interface AutorRepository extends CrudRepository<AutorEntity, Integer> {
+
+    List<AutorEntity> findByNombre(String nombre);
 
 }

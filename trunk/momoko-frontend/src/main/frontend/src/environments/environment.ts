@@ -4,5 +4,12 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+
+  //URLS app
+  uploadUrl : 'http://localhost:8080/upload',
+  urlFiles : 'http://localhost/images/',
+  librosUrl : 'http://localhost:8080/modelo/libros',
+  addLibroUrl : 'http://localhost:8080/modelo/libros/add',
+  generosUrl : 'http://localhost:8080/modelo/generos'
 };

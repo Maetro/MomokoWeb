@@ -7,17 +7,25 @@
 package com.momoko.es.backend.model.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.backend.model.entity.AutorEntity;
+import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.repository.AutorRepository;
+import com.momoko.es.backend.model.repository.EditorialRepository;
 import com.momoko.es.backend.model.repository.GeneroRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.util.DTOToEntityAdapter;
@@ -31,6 +39,12 @@ public class LibroServiceImpl implements LibroService {
 
     @Autowired
     private LibroRepository libroRepository;
+
+    @Autowired
+    private AutorRepository autorRepository;
+
+    @Autowired
+    private EditorialRepository editorialRepository;
 
     @Autowired
     private GeneroRepository generoRepository;
@@ -53,9 +67,81 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public LibroDTO guardarLibro(final LibroDTO libroAGuardar) {
-        final LibroEntity libroEntiity = DTOToEntityAdapter.adaptarLibro(libroAGuardar);
-        return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntiity));
+    public LibroDTO guardarLibro(final LibroDTO libroAGuardar) throws Exception {
+        final LibroEntity libroEntity = DTOToEntityAdapter.adaptarLibro(libroAGuardar);
+        // Comprobamos si el autor existe.
+        final List<LibroEntity> coincidencias = this.libroRepository.findByTitulo(libroAGuardar.getTitulo());
+        if (CollectionUtils.isEmpty(coincidencias)) {
+            final Set<AutorEntity> autoresObra = obtenerOGuardarAutoresObra(libroEntity);
+            libroEntity.setAutores(autoresObra);
+            final EditorialEntity editorialObra = obtenerOGuardarEditorialObra(libroEntity);
+            libroEntity.setEditorial(editorialObra);
+            // libroEntity.
+            libroEntity.setUsuarioAlta("RMaetro@gmail.com");
+            libroEntity.setFechaAlta(Calendar.getInstance().getTime());
+            return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntity));
+        } else {
+            throw new Exception("El titulo del libro ya se esta utilizando");
+        }
+
+    }
+
+    /**
+     * Obtener o guardar editorial obra.
+     *
+     * @param libroEntity
+     *            the libro entity
+     * @return the editorial entity
+     */
+    private EditorialEntity obtenerOGuardarEditorialObra(final LibroEntity libroEntity) {
+        final EditorialEntity editorialABuscar = libroEntity.getEditorial();
+        EditorialEntity editorialEncontrada = null;
+        if (editorialABuscar != null) {
+            editorialEncontrada = this.editorialRepository
+                    .findFirstByNombreEditorial(editorialABuscar.getNombreEditorial());
+            if (editorialEncontrada == null) {
+                // No existe la editorial, la creamos
+                editorialEncontrada = new EditorialEntity();
+                editorialEncontrada.setNombreEditorial(editorialABuscar.getNombreEditorial());
+                editorialEncontrada.setFechaAlta(Calendar.getInstance().getTime());
+                // TODO: poner algo que identifique al usuario.
+                editorialEncontrada.setUsuarioAlta("RMaetro@gmail.com");
+                editorialEncontrada = this.editorialRepository.save(editorialEncontrada);
+            }
+        }
+        return editorialEncontrada;
+    }
+
+    /**
+     * Obtener o guardar autores obra.
+     *
+     * @param libroEntity
+     *            the libro entity
+     * @return the establece
+     */
+    public Set<AutorEntity> obtenerOGuardarAutoresObra(final LibroEntity libroEntity) {
+        final Set<AutorEntity> autoresObra = new HashSet<AutorEntity>();
+        if (CollectionUtils.isNotEmpty(libroEntity.getAutores())) {
+            for (final AutorEntity autor : libroEntity.getAutores()) {
+
+                final List<AutorEntity> autorEncontradoL = this.autorRepository.findByNombre(autor.getNombre());
+                AutorEntity autorEncontrado = null;
+                if (CollectionUtils.isEmpty(autorEncontradoL)) {
+                    // No existe el autor, lo creamos
+                    final AutorEntity nuevoAutor = new AutorEntity();
+                    nuevoAutor.setNombre(autor.getNombre());
+                    nuevoAutor.setFechaAlta(Calendar.getInstance().getTime());
+                    // TODO: poner algo que identifique al usuario.
+                    nuevoAutor.setUsuarioAlta("RMaetro@gmail.com");
+                    autorEncontrado = this.autorRepository.save(nuevoAutor);
+
+                } else {
+                    autorEncontrado = autorEncontradoL.get(0);
+                }
+                autoresObra.add(autorEncontrado);
+            }
+        }
+        return autoresObra;
     }
 
     @Override

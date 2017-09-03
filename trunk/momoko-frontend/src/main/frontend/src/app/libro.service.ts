@@ -9,11 +9,13 @@ import { Libro } from './dtos/libro';
 import { Genero } from './dtos/genero';
 import { Autor } from './dtos/autor';
 
+import { environment } from './../environments/environment';
+
 @Injectable()
 export class LibroService {
-  private librosUrl = 'http://localhost:8080/modelo/libros';  // URL to web api
-  private addLibroUrl = 'http://localhost:8080/modelo/libros/add';
-  private generosUrl = 'http://localhost:8080/modelo/generos';
+  private librosUrl = environment.librosUrl;
+  private addLibroUrl = environment.addLibroUrl;
+  private generosUrl = environment.generosUrl;
 
   private headers = new HttpHeaders({'Content-Type': 'application/json'});
 
@@ -42,7 +44,7 @@ export class LibroService {
         l.titulo = json.titulo;
         var editorial = new Editorial();
         editorial.editorialId = json.editorial.editorialId;
-        editorial.nombre = json.editorial.nombreEditorial;
+        editorial.nombreEditorial = json.editorial.nombreEditorial;
         l.editorial = editorial;
         var autoresList = new Array();
         for (var numAutor in json.autores){
@@ -77,6 +79,8 @@ export class LibroService {
   }
 
   crearLibro(libro: Libro): Promise<Libro> {
+    console.log(libro);
+    console.log(JSON.stringify(libro));
     return this.http
       .post(this.addLibroUrl, JSON.stringify(libro), {headers: this.headers})
       .toPromise()

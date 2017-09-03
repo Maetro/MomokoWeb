@@ -15,4 +15,13 @@ import com.momoko.es.backend.model.entity.EditorialEntity;
  */
 public interface EditorialRepository extends CrudRepository<EditorialEntity, Integer> {
 
+    /**
+     * Find first by nombre editorial.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the list
+     */
+    EditorialEntity findFirstByNombreEditorial(String nombre);
+
 }

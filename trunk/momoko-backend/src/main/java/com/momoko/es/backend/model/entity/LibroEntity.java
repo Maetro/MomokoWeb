@@ -49,8 +49,8 @@ public class LibroEntity {
     private EditorialEntity editorial;
 
     /** The genero id. */
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "genero_id", referencedColumnName = "generoId"))
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "genero_id", referencedColumnName = "genero_id"))
     private Set<GeneroEntity> generos;
 
     /** The titulo. */
@@ -70,25 +70,25 @@ public class LibroEntity {
 
     /** The url imagen. */
     private String urlImagen;
-    
+
     /** The usuario alta. */
     private String usuarioAlta;
-    
+
     /** The fecha alta. */
     private Date fechaAlta;
 
     /** The usuario alta. */
     private String usuarioModificacion;
-    
+
     /** The fecha alta. */
     private Date fechaModificacion;
-    
+
     /** The usuario alta. */
     private String usuarioBaja;
-    
+
     /** The fecha alta. */
     private Date fechaBaja;
-    
+
     /**
      * Instantiates a new libro entity.
      */
@@ -303,8 +303,6 @@ public class LibroEntity {
     public void setUrlImagen(final String urlImagen) {
         this.urlImagen = urlImagen;
     }
-    
-    
 
     /**
      * Obtiene usuario alta.
@@ -312,15 +310,16 @@ public class LibroEntity {
      * @return usuario alta
      */
     public String getUsuarioAlta() {
-        return usuarioAlta;
+        return this.usuarioAlta;
     }
 
     /**
      * Establece usuario alta.
      *
-     * @param usuarioAlta nuevo usuario alta
+     * @param usuarioAlta
+     *            nuevo usuario alta
      */
-    public void setUsuarioAlta(String usuarioAlta) {
+    public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
     }
 
@@ -330,15 +329,16 @@ public class LibroEntity {
      * @return fecha alta
      */
     public Date getFechaAlta() {
-        return fechaAlta;
+        return this.fechaAlta;
     }
 
     /**
      * Establece fecha alta.
      *
-     * @param fechaAlta nuevo fecha alta
+     * @param fechaAlta
+     *            nuevo fecha alta
      */
-    public void setFechaAlta(Date fechaAlta) {
+    public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
@@ -348,15 +348,16 @@ public class LibroEntity {
      * @return usuario modificacion
      */
     public String getUsuarioModificacion() {
-        return usuarioModificacion;
+        return this.usuarioModificacion;
     }
 
     /**
      * Establece usuario modificacion.
      *
-     * @param usuarioModificacion nuevo usuario modificacion
+     * @param usuarioModificacion
+     *            nuevo usuario modificacion
      */
-    public void setUsuarioModificacion(String usuarioModificacion) {
+    public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
     }
 
@@ -366,15 +367,16 @@ public class LibroEntity {
      * @return fecha modificacion
      */
     public Date getFechaModificacion() {
-        return fechaModificacion;
+        return this.fechaModificacion;
     }
 
     /**
      * Establece fecha modificacion.
      *
-     * @param fechaModificacion nuevo fecha modificacion
+     * @param fechaModificacion
+     *            nuevo fecha modificacion
      */
-    public void setFechaModificacion(Date fechaModificacion) {
+    public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 
@@ -384,15 +386,16 @@ public class LibroEntity {
      * @return usuario baja
      */
     public String getUsuarioBaja() {
-        return usuarioBaja;
+        return this.usuarioBaja;
     }
 
     /**
      * Establece usuario baja.
      *
-     * @param usuarioBaja nuevo usuario baja
+     * @param usuarioBaja
+     *            nuevo usuario baja
      */
-    public void setUsuarioBaja(String usuarioBaja) {
+    public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
     }
 
@@ -402,19 +405,22 @@ public class LibroEntity {
      * @return fecha baja
      */
     public Date getFechaBaja() {
-        return fechaBaja;
+        return this.fechaBaja;
     }
 
     /**
      * Establece fecha baja.
      *
-     * @param fechaBaja nuevo fecha baja
+     * @param fechaBaja
+     *            nuevo fecha baja
      */
-    public void setFechaBaja(Date fechaBaja) {
+    public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -431,29 +437,31 @@ public class LibroEntity {
                 .append(this.urlImagen, castOther.urlImagen).isEquals();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
-                .append(this.editorial).append(this.generos)
-                .append(this.titulo).append(this.anoEdicion).append(this.citaLibro).append(this.resumen)
-                .append(this.enlaceAmazon)
-                .append(this.urlImagen).toHashCode();
+                .append(this.editorial).append(this.generos).append(this.titulo).append(this.anoEdicion)
+                .append(this.citaLibro).append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen)
+                .toHashCode();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     *
      * @see java.lang.Object#toString()
      */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autorId", this.autores)
-                .append("sagaId", this.sagaId)
-                .append("editorialId", this.editorial).append("generoId", this.generos).append("titulo", this.titulo)
-                .append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
-                .append("resumen", this.resumen)
-                .append("enlaceAmazon", this.enlaceAmazon).append("urlImagen", this.urlImagen).toString();
+                .append("sagaId", this.sagaId).append("editorialId", this.editorial).append("generoId", this.generos)
+                .append("titulo", this.titulo).append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
+                .append("resumen", this.resumen).append("enlaceAmazon", this.enlaceAmazon)
+                .append("urlImagen", this.urlImagen).toString();
     }
 
 }

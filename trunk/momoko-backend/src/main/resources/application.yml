@@ -8,6 +8,11 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/momokobd
     username: root
+  http:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  
     
 #Google
 gmail:
@@ -39,13 +44,13 @@ facebook:
 
 #AuthoritationServer  
 
-security:
-  oauth2:
-    client:
-      client-id: acme
-      client-secret: acmepass
-      scope: read,write
-      auto-approve-scopes: '.*'
+#security:
+#  oauth2:
+#    client:
+#      client-id: acme
+#      client-secret: acmepass
+#      scope: read,write
+#      auto-approve-scopes: '.*'
       
 logging:
   level:
