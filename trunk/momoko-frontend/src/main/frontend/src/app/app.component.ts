@@ -20,26 +20,6 @@ import { FileUploadService } from './services/fileUpload.service';
           <router-outlet></router-outlet>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <div>
-            Usuarios: <a href="http://localhost:8080/usuario/usuarios">click here</a>
-          </div>
-          <div>
-            Libros: <a href="http://localhost:8080/modelo/libros">click here</a>
-          </div>
-          <div>
-            Generos: <a href="http://localhost:8080/modelo/generos">click here</a>
-          </div>
-          <div>
-            With Facebook: <a href="http://localhost:8080/login/facebook">click here</a>
-          </div>
-          <div>
-            With Gmail: <a href="http://localhost:8080/login/gmail">click here</a>
-          </div>
-        </div>
-        <!-- <app-contenido>Cargando libros...</app-contenido> -->
-      </div>
     </div>
   </div>
 

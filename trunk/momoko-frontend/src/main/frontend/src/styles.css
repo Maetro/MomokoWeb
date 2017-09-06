@@ -13,3 +13,7 @@ body .ui-multiselect {
   background: #ffffff;
   padding: .125em .125em .125em 1.50em;
 }
+
+.ui-growl {
+  top: 90px;
+}

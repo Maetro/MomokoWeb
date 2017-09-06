@@ -18,7 +18,7 @@ import { routing } from './app.routing';
 import { ListaLibrosComponent } from './contenido/lista-libros/lista-libros.component';
 import { PageNotFoundComponent} from './error/page-not-found/page-not-found.component';
 import { InputTextModule, FileUploadModule } from 'primeng/primeng';
-import { MultiSelectModule} from 'primeng/primeng';
+import { MultiSelectModule, GrowlModule} from 'primeng/primeng';
 import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 
@@ -46,6 +46,7 @@ import { RegisterFormComponent } from './auth/components/register-form/register-
     HttpModule,
     InputTextModule,
     MultiSelectModule,
+    GrowlModule,
     FileUploadModule,
     routing
   ],

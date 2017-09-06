@@ -22,8 +22,7 @@ const appRoutes: Routes = [
       component: ListaLibrosComponent
     },
     { path: '',
-      redirectTo: '/lista-libros',
-      pathMatch: 'full'
+      component: ListaLibrosComponent
     },
     { path: '**', component: PageNotFoundComponent },
 ];

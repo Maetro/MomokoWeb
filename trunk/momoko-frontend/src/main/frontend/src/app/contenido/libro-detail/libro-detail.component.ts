@@ -1,24 +1,29 @@
-import { Component, Input, OnInit, OnChanges, SimpleChange, style } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter, OnChanges, SimpleChange, style } from '@angular/core';
 import { Libro } from './../../dtos/libro';
 import { Genero } from './../../dtos/genero';
 import { LibroService } from './../../libro.service';
 import { FileUploadService } from './../../services/fileUpload.service';
 
 import { MultiSelectModule } from 'primeng/primeng';
-
+import { Message } from 'primeng/components/common/api';
+import { GrowlModule } from 'primeng/primeng';
 import { SelectItem } from 'primeng/primeng';
 
 @Component({
   selector: 'libro-detail',
   templateUrl: './libro-detail.component.html',
-  styles: [`.sidebox img {
-    width: 100%;
-    height: auto;
-  }`]
+  styles: [
+    `.sidebox img {
+      width: 100%;
+      height: auto;
+    }`
+  ]
 })
 export class LibroDetailComponent implements OnInit, OnChanges {
 
   @Input() libro: Libro;
+
+  @Output() onLibroGuardado: EventEmitter<Libro> = new EventEmitter<Libro>();
 
   listaGeneros: Genero[];
 
@@ -29,6 +34,8 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   changeLog: string[] = [];
 
   esLibroNuevo:boolean = false;
+
+  msgs: Message[] = [];
 
   constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
     this.generos = [];
@@ -78,7 +85,7 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     this.libroService.getGeneros().then(generos => {
       this.listaGeneros = generos;
       generos.forEach(genero => {
-        this.generos.push({ label: genero.nombre, value: genero.generoId });
+        this.generos.push({ label: " " + genero.nombre, value: genero.generoId });
 
       });
 
@@ -99,16 +106,28 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     });
   }
 
-  crearLibro() : void{
-    this.libroService.crearLibro(this.libro);
+  guardarLibro() : void{
+    this.libroService.guardarLibro(this.libro)
+    .then(res => {
+
+      this.showSuccess("Libro guardado correctamente");
+      this.onLibroGuardado.emit(this.libro);
+    })
+    .catch();
   }
 
+  showSuccess(mensaje :string) {
+    this.msgs = [];
+    console.log(mensaje);
+    this.msgs.push({severity:'success', summary:'OK', detail: mensaje});
+}
 
   fileChange($event) : void{
     this.fileUploadService.fileChange($event).subscribe
       (urlImagenNueva => {
         // Emit list event
         console.log(urlImagenNueva);
+        this.showSuccess("Imagen guardada correctamente");
         this.libro.urlImagen = urlImagenNueva;
        },
       err => {

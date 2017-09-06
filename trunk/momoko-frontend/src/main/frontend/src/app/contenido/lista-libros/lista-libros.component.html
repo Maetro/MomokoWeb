@@ -28,7 +28,7 @@
       </tr>
     </tbody>
   </table>
-  <libro-detail [libro]="selectedLibro"></libro-detail>
+  <libro-detail [libro]="selectedLibro" (onLibroGuardado)="actualizarOAnadirLibro($event)"></libro-detail>
   <div [hidden]="!selectedLibro">
     <button  type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
   </div>

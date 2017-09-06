@@ -1,3 +1,4 @@
+<p-growl [(value)]="msgs" sticky="true"></p-growl>
 <div *ngIf="libro" class="form-container">
   <div class="row">
     <div class="col-sm-8">
@@ -74,24 +75,6 @@
 
           <div class="divide10"></div>
 
-          <div class="col-sm-12">
-
-
-            <div class="radio-set">
-              <h4> ¿Forma parte de una saga? </h4>
-              <label>
-                      <input type="radio" name="subject" value="General">
-                      <span></span> No </label>
-              <label>
-                      <input type="radio" name="subject" value="Hi">
-                      <span><!-- fake radio --></span> Sí </label>
-
-            </div>
-
-          </div>
-
-
-
           <div class="col-md-12">
 
             <h4> Breve resumen de la obra </h4>
@@ -101,14 +84,13 @@
             <h4> Cita identificativa </h4>
             <textarea name="cita" [(ngModel)]="libro.citaLibro" placeholder="Type your message here..."></textarea>
             <div [hidden]="!esLibroNuevo">
-              <input type="submit" class="btn btn-forest" value="Crear libro" (click)="crearLibro()" data-error="Fix errors" data-processing="Sending..."
+              <input type="submit" class="btn btn-forest" value="Crear libro" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
                 data-success="Thank you!">
             </div>
             <div [hidden]="esLibroNuevo">
-                <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="actualizarLibro()" data-error="Fix errors" data-processing="Sending..."
+                <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
                   data-success="Thank you!">
               </div>
-
             <footer class="notification-box"></footer>
           </div>
         </div>

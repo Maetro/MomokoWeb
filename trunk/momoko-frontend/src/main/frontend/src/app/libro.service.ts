@@ -28,7 +28,7 @@ export class LibroService {
 
   getLibros(): Promise<Libro[]> {
 
-
+    this.librosList = new Array();
     this.http.get(this.librosUrl).toPromise().then((resp:Response) => {
       console.log("LLamada a la lista de libros");
       for(var numLibro in resp){
@@ -58,7 +58,7 @@ export class LibroService {
         var generosList = new Array();
         for (var numGenero in json.generos){
           var genero = new Genero();
-          let jsonGenero = json.generos[numAutor];
+          let jsonGenero = json.generos[numGenero];
           genero.generoId = jsonGenero.generoId;
           genero.nombre = jsonGenero.nombre;
           generosList.push(genero);
@@ -78,14 +78,12 @@ export class LibroService {
     return Promise.resolve(this.librosList);
   }
 
-  crearLibro(libro: Libro): Promise<Libro> {
+  guardarLibro(libro: Libro): Promise<any> {
     console.log(libro);
     console.log(JSON.stringify(libro));
     return this.http
       .post(this.addLibroUrl, JSON.stringify(libro), {headers: this.headers})
-      .toPromise()
-      .then(res => console.log(res))
-      .catch(this.handleError);
+      .toPromise();
   }
 
   getGeneros(): Promise<Genero[]> {

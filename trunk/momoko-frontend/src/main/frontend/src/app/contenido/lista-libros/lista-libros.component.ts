@@ -47,4 +47,11 @@ export class ListaLibrosComponent implements OnInit {
     this.selectedLibro = null;
   }
 
+  actualizarOAnadirLibro(libro: Libro):void {
+    this.selectedLibro = null;
+    this.libros = [];
+    this.getLibros();
+    console.log(libro);
+  }
+
 }

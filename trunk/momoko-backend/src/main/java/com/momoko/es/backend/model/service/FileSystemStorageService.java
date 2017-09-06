@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.momoko.es.api.exceptions.StorageException;
-import com.momoko.es.backend.model.service.properties.StorageProperties;
+import com.momoko.es.backend.configuration.MomokoConfiguracion;
 
 /**
  * The Class FileSystemStorageService.
@@ -30,15 +30,15 @@ import com.momoko.es.backend.model.service.properties.StorageProperties;
 @Service
 public class FileSystemStorageService implements StorageService {
 
-    private final String location;
-
     @Autowired
-    public FileSystemStorageService(final StorageProperties properties) {
-        this.location = properties.getLocation();
+    public FileSystemStorageService() {
     }
 
     @Autowired
     ServletContext servletContext;
+
+    @Autowired
+    MomokoConfiguracion momokoConfiguracion;
 
     @Override
     public void store(final MultipartFile file) {
@@ -92,7 +92,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     private Path getFileLocation() {
-        return Paths.get("D:\\XAMPP\\htdocs\\images");
+        return Paths.get(this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlFiles());
     }
 
 }

@@ -71,14 +71,25 @@ public class LibroServiceImpl implements LibroService {
         final LibroEntity libroEntity = DTOToEntityAdapter.adaptarLibro(libroAGuardar);
         // Comprobamos si el autor existe.
         final List<LibroEntity> coincidencias = this.libroRepository.findByTitulo(libroAGuardar.getTitulo());
-        if (CollectionUtils.isEmpty(coincidencias)) {
+        if ((CollectionUtils.isEmpty(coincidencias)) || ((libroAGuardar.getLibroId() != null))) {
+            if ((libroEntity.getLibroId() != null) && CollectionUtils.isNotEmpty(coincidencias)) {
+                if ((coincidencias.size() > 1)
+                        || (!libroEntity.getLibroId().equals(coincidencias.get(0).getLibroId()))) {
+                    throw new Exception("El titulo del libro ya se esta utilizando");
+                }
+            }
             final Set<AutorEntity> autoresObra = obtenerOGuardarAutoresObra(libroEntity);
             libroEntity.setAutores(autoresObra);
             final EditorialEntity editorialObra = obtenerOGuardarEditorialObra(libroEntity);
             libroEntity.setEditorial(editorialObra);
             // libroEntity.
-            libroEntity.setUsuarioAlta("RMaetro@gmail.com");
-            libroEntity.setFechaAlta(Calendar.getInstance().getTime());
+            if (libroEntity.getLibroId() != null) {
+                libroEntity.setUsuarioModificacion("RMaetro@gmail.com");
+                libroEntity.setFechaModificacion(Calendar.getInstance().getTime());
+            } else {
+                libroEntity.setUsuarioAlta("RMaetro@gmail.com");
+                libroEntity.setFechaAlta(Calendar.getInstance().getTime());
+            }
             return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntity));
         } else {
             throw new Exception("El titulo del libro ya se esta utilizando");

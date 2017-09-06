@@ -6,8 +6,9 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/momokobd
+    url: jdbc:mysql://momokobd.cd3zhdzz8wuz.eu-west-1.rds.amazonaws.com:3306/momokobd
     username: root
+    password: ${momoko.spring.datasource.password}
   http:
     multipart:
       max-file-size: 10MB
@@ -55,3 +56,9 @@ facebook:
 logging:
   level:
     org.springframework.security: DEBUG
+    
+#momoko properties
+momokoConfiguracion:
+  directorios:
+    urlFiles: /var/www/html/images
+    test: hola
