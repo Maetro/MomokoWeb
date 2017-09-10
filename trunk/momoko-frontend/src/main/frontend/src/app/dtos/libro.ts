@@ -9,10 +9,15 @@ export class Libro {
   editorial: Editorial;
   generos: Genero[];
   anoEdicion: number;
+  anoPublicacion: number;
+  numeroPaginas: number;
   citaLibro: string;
   resumen: string;
   enlaceAmazon: string;
   urlImagen: string;
   titulo: string;
+  tituloOriginal: string;
   autores: Autor[];
+  autoresString: string;
+  generosString: string;
 }

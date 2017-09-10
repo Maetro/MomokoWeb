@@ -89,6 +89,15 @@ public class LibroEntity {
     /** The fecha alta. */
     private Date fechaBaja;
 
+    /** The ano publicacion. */
+    private Integer anoPublicacion;
+
+    /** The numero paginas. */
+    private Integer numeroPaginas;
+
+    /** The titulo original. */
+    private String tituloOriginal;
+
     /**
      * Instantiates a new libro entity.
      */
@@ -418,11 +427,63 @@ public class LibroEntity {
         this.fechaBaja = fechaBaja;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Gets the ano publicacion.
      *
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @return the ano publicacion
      */
+    public Integer getAnoPublicacion() {
+        return this.anoPublicacion;
+    }
+
+    /**
+     * Sets the ano publicacion.
+     *
+     * @param anoPublicacion
+     *            the new ano publicacion
+     */
+    public void setAnoPublicacion(final Integer anoPublicacion) {
+        this.anoPublicacion = anoPublicacion;
+    }
+
+    /**
+     * Gets the numero paginas.
+     *
+     * @return the numero paginas
+     */
+    public Integer getNumeroPaginas() {
+        return this.numeroPaginas;
+    }
+
+    /**
+     * Sets the numero paginas.
+     *
+     * @param numeroPaginas
+     *            the new numero paginas
+     */
+    public void setNumeroPaginas(final Integer numeroPaginas) {
+        this.numeroPaginas = numeroPaginas;
+    }
+
+    /**
+     * Gets the titulo original.
+     *
+     * @return the titulo original
+     */
+    public String getTituloOriginal() {
+        return this.tituloOriginal;
+    }
+
+    /**
+     * Sets the titulo original.
+     *
+     * @param tituloOriginal
+     *            the new titulo original
+     */
+    public void setTituloOriginal(final String tituloOriginal) {
+        this.tituloOriginal = tituloOriginal;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof LibroEntity)) {
@@ -434,34 +495,37 @@ public class LibroEntity {
                 .append(this.generos, castOther.generos).append(this.titulo, castOther.titulo)
                 .append(this.anoEdicion, castOther.anoEdicion).append(this.citaLibro, castOther.citaLibro)
                 .append(this.resumen, castOther.resumen).append(this.enlaceAmazon, castOther.enlaceAmazon)
-                .append(this.urlImagen, castOther.urlImagen).isEquals();
+                .append(this.urlImagen, castOther.urlImagen).append(this.usuarioAlta, castOther.usuarioAlta)
+                .append(this.fechaAlta, castOther.fechaAlta)
+                .append(this.usuarioModificacion, castOther.usuarioModificacion)
+                .append(this.fechaModificacion, castOther.fechaModificacion)
+                .append(this.usuarioBaja, castOther.usuarioBaja).append(this.fechaBaja, castOther.fechaBaja)
+                .append(this.anoPublicacion, castOther.anoPublicacion)
+                .append(this.numeroPaginas, castOther.numeroPaginas)
+                .append(this.tituloOriginal, castOther.tituloOriginal).isEquals();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
                 .append(this.editorial).append(this.generos).append(this.titulo).append(this.anoEdicion)
                 .append(this.citaLibro).append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen)
-                .toHashCode();
+                .append(this.usuarioAlta).append(this.fechaAlta).append(this.usuarioModificacion)
+                .append(this.fechaModificacion).append(this.usuarioBaja).append(this.fechaBaja)
+                .append(this.anoPublicacion).append(this.numeroPaginas).append(this.tituloOriginal).toHashCode();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("libroId", this.libroId).append("autorId", this.autores)
-                .append("sagaId", this.sagaId).append("editorialId", this.editorial).append("generoId", this.generos)
+        return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)
+                .append("sagaId", this.sagaId).append("editorial", this.editorial).append("generos", this.generos)
                 .append("titulo", this.titulo).append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
                 .append("resumen", this.resumen).append("enlaceAmazon", this.enlaceAmazon)
-                .append("urlImagen", this.urlImagen).toString();
+                .append("urlImagen", this.urlImagen).append("usuarioAlta", this.usuarioAlta)
+                .append("fechaAlta", this.fechaAlta).append("usuarioModificacion", this.usuarioModificacion)
+                .append("fechaModificacion", this.fechaModificacion).append("usuarioBaja", this.usuarioBaja)
+                .append("fechaBaja", this.fechaBaja).append("anoPublicacion", this.anoPublicacion)
+                .append("numeroPaginas", this.numeroPaginas).append("tituloOriginal", this.tituloOriginal).toString();
     }
 
 }

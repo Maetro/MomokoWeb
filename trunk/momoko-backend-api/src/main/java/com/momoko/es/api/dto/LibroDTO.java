@@ -39,8 +39,17 @@ public class LibroDTO implements Serializable {
     /** The titulo. */
     private String titulo;
 
+    /** The titulo original. */
+    private String tituloOriginal;
+
     /** The ano edicion. */
     private Integer anoEdicion;
+
+    /** The ano publicacion. */
+    private Integer anoPublicacion;
+
+    /** The numero paginas. */
+    private Integer numeroPaginas;
 
     /** The cita libro. */
     private String citaLibro;
@@ -137,6 +146,63 @@ public class LibroDTO implements Serializable {
      */
     public Set<GeneroDTO> getGeneros() {
         return this.generos;
+    }
+
+    /**
+     * Gets the titulo original.
+     *
+     * @return the titulo original
+     */
+    public String getTituloOriginal() {
+        return this.tituloOriginal;
+    }
+
+    /**
+     * Sets the titulo original.
+     *
+     * @param tituloOriginal
+     *            the new titulo original
+     */
+    public void setTituloOriginal(final String tituloOriginal) {
+        this.tituloOriginal = tituloOriginal;
+    }
+
+    /**
+     * Gets the ano publicacion.
+     *
+     * @return the ano publicacion
+     */
+    public Integer getAnoPublicacion() {
+        return this.anoPublicacion;
+    }
+
+    /**
+     * Sets the ano publicacion.
+     *
+     * @param anoPublicacion
+     *            the new ano publicacion
+     */
+    public void setAnoPublicacion(final Integer anoPublicacion) {
+        this.anoPublicacion = anoPublicacion;
+    }
+
+    /**
+     * Gets the numero paginas.
+     *
+     * @return the numero paginas
+     */
+    public Integer getNumeroPaginas() {
+        return this.numeroPaginas;
+    }
+
+    /**
+     * Sets the numero paginas.
+     *
+     * @param numeroPaginas
+     *            the new numero paginas
+     */
+    public void setNumeroPaginas(final Integer numeroPaginas) {
+        this.numeroPaginas = numeroPaginas;
     }
 
     /**
@@ -272,7 +338,9 @@ public class LibroDTO implements Serializable {
         return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
                 .append(this.sagaId, castOther.sagaId).append(this.editorial, castOther.editorial)
                 .append(this.generos, castOther.generos).append(this.titulo, castOther.titulo)
-                .append(this.anoEdicion, castOther.anoEdicion).append(this.citaLibro, castOther.citaLibro)
+                .append(this.tituloOriginal, castOther.tituloOriginal).append(this.anoEdicion, castOther.anoEdicion)
+                .append(this.anoPublicacion, castOther.anoPublicacion)
+                .append(this.numeroPaginas, castOther.numeroPaginas).append(this.citaLibro, castOther.citaLibro)
                 .append(this.resumen, castOther.resumen).append(this.enlaceAmazon, castOther.enlaceAmazon)
                 .append(this.urlImagen, castOther.urlImagen).isEquals();
     }
@@ -280,16 +348,18 @@ public class LibroDTO implements Serializable {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
-                .append(this.editorial).append(this.generos).append(this.titulo).append(this.anoEdicion)
-                .append(this.citaLibro).append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen)
-                .toHashCode();
+                .append(this.editorial).append(this.generos).append(this.titulo).append(this.tituloOriginal)
+                .append(this.anoEdicion).append(this.anoPublicacion).append(this.numeroPaginas).append(this.citaLibro)
+                .append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen).toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)
                 .append("sagaId", this.sagaId).append("editorial", this.editorial).append("generos", this.generos)
-                .append("titulo", this.titulo).append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
+                .append("titulo", this.titulo).append("tituloOriginal", this.tituloOriginal)
+                .append("anoEdicion", this.anoEdicion).append("anoPublicacion", this.anoPublicacion)
+                .append("numeroPaginas", this.numeroPaginas).append("citaLibro", this.citaLibro)
                 .append("resumen", this.resumen).append("enlaceAmazon", this.enlaceAmazon)
                 .append("urlImagen", this.urlImagen).toString();
     }

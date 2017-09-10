@@ -20,6 +20,22 @@
 
           <div class="divide10"></div>
 
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Título original: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="libro.tituloOriginal" placeholder="Escribe aquí el título original del libro"/>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
           <div class="col-sm-12 lp10">
             <h4> Autor de la obra <a href="#"> <i class="ion-plus"></i> </a> </h4>
           </div>
@@ -55,7 +71,35 @@
           <div class="col-sm-9 lp10">
             <div class="form-field">
               <label>
-                <input type="number" [(ngModel)]="libro.anoEdicion" placeholder="Año de edición" required="required">
+                <input type="number" [(ngModel)]="libro.anoEdicion" placeholder="Año de edición">
+              </label>
+            </div>
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-3 lp10">
+            <h4> Año de publicación </h4>
+          </div>
+
+          <div class="col-sm-9 lp10">
+            <div class="form-field">
+              <label>
+                <input type="number" [(ngModel)]="libro.anoPublicacion" placeholder="Año de publicación">
+              </label>
+            </div>
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-3 lp10">
+            <h4> Número de páginas </h4>
+          </div>
+
+          <div class="col-sm-9 lp10">
+            <div class="form-field">
+              <label>
+                <input type="number" [(ngModel)]="libro.numeroPaginas" placeholder="Número de páginas">
               </label>
             </div>
           </div>

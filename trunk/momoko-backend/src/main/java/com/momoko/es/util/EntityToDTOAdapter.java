@@ -43,6 +43,9 @@ public final class EntityToDTOAdapter {
         libroDTO.setUrlImagen(libroEntity.getUrlImagen());
         libroDTO.setAutores(adaptarAutores(libroEntity.getAutores()));
         libroDTO.setGeneros(adaptarGeneros(libroEntity.getGeneros()));
+        libroDTO.setAnoPublicacion(libroEntity.getAnoPublicacion());
+        libroDTO.setNumeroPaginas(libroEntity.getNumeroPaginas());
+        libroDTO.setTituloOriginal(libroEntity.getTituloOriginal());
         return libroDTO;
     }
 

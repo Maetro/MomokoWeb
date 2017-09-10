@@ -17,3 +17,165 @@ body .ui-multiselect {
 .ui-growl {
   top: 90px;
 }
+
+.tabla-libros .ui-datatable .ui-datatable-thead > tr > th,
+.tabla-libros .ui-datatable .ui-datatable-data > tr > td {
+  padding: .25em .5em;
+}
+
+.tabla-libros .ui-paginator .ui-paginator-pages .ui-paginator-page{
+  background-color: #303030;
+}
+
+.tabla-libros .ui-paginator .ui-paginator-pages .ui-paginator-page:hover.ui-state-active{
+  background-color: #DBAE27;
+}
+
+.tabla-libros .ui-button-icon-only{
+  background-color: #303030;
+  color: white !important;
+}
+
+.tabla-libros .ui-button:focus, body .ui-button:enabled:hover{
+  background-color: #DBAE27;
+}
+
+.tabla-libros .ui-datatable thead th.ui-state-active{
+  background-color: #DBAE27;
+}
+
+.tabla-libros .ui-paginator span{
+  color: #DBAE27;
+}
+
+.tabla-libros .ui-datatable .ui-datatable-data tr.ui-datatable-even {
+  background-color: rgba(227, 176, 21, 0.07);
+}
+
+.tabla-libros .ui-datatable .ui-paginator {
+  margin-top: 5px;
+  padding: 0;
+}
+
+select.ui-paginator-rpp-options.ui-widget.ui-state-default {
+  width: 60px !important;
+  align-items: center;
+  background-attachment: scroll;
+  background-clip: border-box;
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: none;
+  background-origin: padding-box;
+  background-position-x: 0%;
+  background-position-y: 0%;
+  background-size: auto;
+  border-color: rgb(169, 169, 169);
+  border-radius: 0px;
+  border-style: solid;
+  border-width: 1px;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: rgb(80, 80, 80);
+  cursor: default;
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  font-stretch: normal;
+  font-style: normal;
+  font-variant-caps: normal;
+  font-variant-ligatures: normal;
+  font-variant-numeric: normal;
+  font-weight: normal;
+  height: 25px;
+  letter-spacing: normal;
+  line-height: normal;
+  margin-bottom: 15px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 0px;
+  overflow-x: visible;
+  overflow-y: visible;
+  padding: 0px;
+  resize: none;
+  text-align: start;
+  text-decoration-color: rgb(80, 80, 80);
+  text-decoration-line: none;
+  text-decoration-style: solid;
+  text-indent: 0px;
+  text-rendering: auto;
+  text-shadow: none;
+  text-transform: none;
+  transition-delay: 0s;
+  transition-duration: 0.15s;
+  transition-property: all;
+  transition-timing-function: ease-in;
+  user-select: none;
+  vertical-align: baseline;
+  white-space: pre;
+  width: 60px;
+  word-spacing: 0px;
+  writing-mode: horizontal-tb;
+  -webkit-appearance: menulist-button;
+  -webkit-font-smoothing: antialiased;
+  -webkit-rtl-ordering: logical;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.tabla-libros .ui-inputtext.ui-state-focus, body .ui-inputtext{
+background-attachment: scroll;
+background-clip: border-box;
+background-color: rgb(255, 255, 255);
+background-image: none;
+background-origin: padding-box;
+background-position-x: 0%;
+background-position-y: 0%;
+background-size: auto;
+border-color: rgba(0, 0, 0, 0.15);
+border-radius: 4px;
+border-style: solid;
+border-width: 1px;
+box-shadow: none;
+box-sizing: border-box;
+color: rgb(45, 53, 60);
+cursor: auto;
+display: inline-block;
+font-size: 16px;
+font-stretch: normal;
+font-style: normal;
+font-variant-caps: normal;
+font-variant-ligatures: normal;
+font-variant-numeric: normal;
+font-weight: normal;
+height: 38px;
+letter-spacing: normal;
+line-height: 20px;
+margin-bottom: 0px;
+margin-left: 0px;
+margin-right: 0px;
+margin-top: 0px;
+outline-color: rgb(45, 53, 60);
+outline-offset: 0px;
+outline-style: none;
+outline-width: 0px;
+padding-bottom: 8px;
+padding-left: 12px;
+padding-right: 12px;
+padding-top: 8px;
+resize: none;
+text-align: start;
+text-decoration-color: rgb(45, 53, 60);
+text-decoration-line: none;
+text-decoration-style: solid;
+text-indent: 0px;
+text-rendering: auto;
+text-shadow: none;
+text-transform: none;
+user-select: text;
+vertical-align: baseline;
+width: 410px;
+word-spacing: 0px;
+writing-mode: horizontal-tb;
+-webkit-appearance: none;
+-webkit-font-smoothing: antialiased;
+-webkit-rtl-ordering: logical;
+-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}

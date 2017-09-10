@@ -89,6 +89,9 @@ public final class DTOToEntityAdapter {
         libroEntity.setSagaId(libroDTO.getSagaId());
         libroEntity.setTitulo(libroDTO.getTitulo());
         libroEntity.setUrlImagen(libroDTO.getUrlImagen());
+        libroEntity.setAnoPublicacion(libroDTO.getAnoPublicacion());
+        libroEntity.setNumeroPaginas(libroDTO.getNumeroPaginas());
+        libroEntity.setTituloOriginal(libroDTO.getTituloOriginal());
         return libroEntity;
     }
 

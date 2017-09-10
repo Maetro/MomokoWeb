@@ -2,7 +2,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Libro } from './../dtos/libro';
-import { LibroService } from './../libro.service';
+import { LibroService } from './../services/libro.service';
 import { FileUploadService } from './../services/fileUpload.service';
 
 @Component({

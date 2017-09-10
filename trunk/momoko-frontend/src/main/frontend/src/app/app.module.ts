@@ -2,55 +2,48 @@
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
-import { LibroDetailComponent } from './contenido/libro-detail/libro-detail.component';
+
 import { MenuComponent } from './menu/menu.component';
 import { HeaderComponent } from './header/header.component';
 import { ContenidoComponent } from './contenido/contenido.component';
 import { FooterComponent } from './footer/footer.component';
 import { routing } from './app.routing';
-import { ListaLibrosComponent } from './contenido/lista-libros/lista-libros.component';
-import { PageNotFoundComponent} from './error/page-not-found/page-not-found.component';
-import { InputTextModule, FileUploadModule } from 'primeng/primeng';
-import { MultiSelectModule, GrowlModule} from 'primeng/primeng';
-import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 
 
 import { LoginFormComponent } from './auth/components/login-form/login-form.component';
 import { RegisterFormComponent } from './auth/components/register-form/register-form.component';
 
+import { GestionLibrosModule } from './contenido/gestion-libros/gestion-libros.module';
+import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/lista-libros.component';
+
 @NgModule({
   declarations: [
     AppComponent,
-    LibroDetailComponent,
     MenuComponent,
     HeaderComponent,
     ContenidoComponent,
     FooterComponent,
     AdminComponent,
-    ListaLibrosComponent,
     PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    FormsModule,
     AuthModule,
     HttpClientModule,
     HttpModule,
-    InputTextModule,
-    MultiSelectModule,
-    GrowlModule,
-    FileUploadModule,
+    GestionLibrosModule,
     routing
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ListaLibrosComponent]
+
 })
 export class AppModule { }
