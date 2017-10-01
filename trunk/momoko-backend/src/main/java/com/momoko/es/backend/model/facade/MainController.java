@@ -22,10 +22,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.TestLibroDTO;
+import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.response.GuardarGeneroResponse;
 import com.momoko.es.api.response.GuardarLibroResponse;
+import com.momoko.es.api.response.InformacionGeneralResponse;
+import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
@@ -38,6 +41,9 @@ public class MainController {
     private LibroService libroService;
 
     @Autowired(required = false)
+    private GeneroService generoService;
+
+    @Autowired(required = false)
     private ValidadorService validadorService;
 
     @GetMapping(path = "/libros")
@@ -48,7 +54,7 @@ public class MainController {
 
     @GetMapping(path = "/generos")
     public @ResponseBody Iterable<GeneroDTO> getAllGeneros() {
-        return this.libroService.obtenerTodosGeneros();
+        return this.generoService.obtenerTodosGeneros();
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/libros/add")
@@ -82,32 +88,48 @@ public class MainController {
 
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/libros/add2")
-    ResponseEntity<GuardarLibroResponse> add2(@RequestBody final TestLibroDTO libroDTO) {
+    @RequestMapping(method = RequestMethod.POST, path = "/generos/add")
+    ResponseEntity<GuardarGeneroResponse> addGenero(@RequestBody final GeneroDTO generoDTO) {
 
-        System.out.println(libroDTO);
+        // Validar
+        final List<ErrorCreacionGenero> listaErrores = this.validadorService.validarGenero(generoDTO);
 
-        // // Validar
-        // final List<ErrorCreacionLibro> listaErrores = this.validadorService.validarLibro(libroDTO);
-        //
-        // // Guardar
-        // LibroDTO libro = null;
-        // if (CollectionUtils.isEmpty(listaErrores)) {
-        // libro = this.libroService.guardarLibro(libroDTO);
-        // }
-        //
-        // // Responder
-        final GuardarLibroResponse respuesta = new GuardarLibroResponse();
-        // respuesta.setLibroDTO(libro);
-        // respuesta.setListaErroresValidacion(listaErrores);
-        //
-        // if ((libro != null) && CollectionUtils.isEmpty(listaErrores)) {
-        // respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
-        // } else {
-        // respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
-        // }
+        // Guardar
+        GeneroDTO genero = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                genero = this.generoService.guardarGenero(generoDTO);
+            } catch (final Exception e) {
+                listaErrores.add(ErrorCreacionGenero.GENERO_YA_EXISTE);
+            }
+        }
 
-        return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);
+        // Responder
+        final GuardarGeneroResponse respuesta = new GuardarGeneroResponse();
+        respuesta.setGeneroDTO(genero);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((genero != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+
+        return new ResponseEntity<GuardarGeneroResponse>(respuesta, HttpStatus.OK);
+
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/informacionGeneral")
+    ResponseEntity<InformacionGeneralResponse> getInformacionGeneral() {
+
+        // Responder
+        final InformacionGeneralResponse respuesta = new InformacionGeneralResponse();
+        final List<String> autores = this.libroService.obtenerListaNombresAutores();
+        final List<String> editoriales = this.libroService.obtenerListaNombresEditoriales();
+        respuesta.setNombresAutores(autores);
+        respuesta.setNombresEditoriales(editoriales);
+
+        return new ResponseEntity<InformacionGeneralResponse>(respuesta, HttpStatus.OK);
 
     }
 

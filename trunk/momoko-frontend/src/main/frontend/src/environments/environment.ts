@@ -11,5 +11,7 @@ export const environment = {
   urlFiles : 'http://localhost/images/',
   librosUrl : 'http://localhost:8080/modelo/libros',
   addLibroUrl : 'http://localhost:8080/modelo/libros/add',
-  generosUrl : 'http://localhost:8080/modelo/generos'
+  addGeneroUrl : 'http://localhost:8080/modelo/generos/add',
+  generosUrl : 'http://localhost:8080/modelo/generos',
+  informacionGeneralUrl: 'http://localhost:8080/modelo/informacionGeneral'
 };

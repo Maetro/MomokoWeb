@@ -3,11 +3,13 @@ import { Libro } from './../../../dtos/libro';
 import { Genero } from './../../../dtos/genero';
 import { LibroService } from './../../../services/libro.service';
 import { FileUploadService } from './../../../services/fileUpload.service';
+import { GeneralDataService } from './../../../services/general-data.service';
 
 import { MultiSelectModule } from 'primeng/primeng';
 import { Message } from 'primeng/components/common/api';
 import { GrowlModule } from 'primeng/primeng';
 import { SelectItem } from 'primeng/primeng';
+import { CompleterService, CompleterData } from 'ng2-completer';
 
 @Component({
   selector: 'app-libro-detail',
@@ -37,13 +39,25 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
   msgs: Message[] = [];
 
-  constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
+  nombresEditoriales: string[];
+
+  nombresAutores: string[];
+
+  constructor(private libroService: LibroService, private generalDataService: GeneralDataService,
+    private fileUploadService: FileUploadService) {
     this.generos = [];
   }
 
   ngOnInit(): void {
     console.log('ngOnInit Lista Generos');
     this.getGeneros();
+    this.generalDataService.getInformacionGeneral().subscribe(datos => {
+      this.nombresAutores = datos.nombresAutores;
+      this.nombresEditoriales = datos.nombresEditoriales;
+    },
+      error =>  {
+        console.log('Error al recuperar los datos generales ', error);
+      });
   }
 
   ngOnChanges(changes: { [propKey: string]: SimpleChange }) {
@@ -91,8 +105,6 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
     });
   }
-
-
 
   onChange(event: any) {
     console.log(event);

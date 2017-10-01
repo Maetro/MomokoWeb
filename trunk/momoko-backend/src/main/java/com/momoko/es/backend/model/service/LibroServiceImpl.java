@@ -18,15 +18,12 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
-import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.repository.AutorRepository;
 import com.momoko.es.backend.model.repository.EditorialRepository;
-import com.momoko.es.backend.model.repository.GeneroRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
@@ -45,9 +42,6 @@ public class LibroServiceImpl implements LibroService {
 
     @Autowired
     private EditorialRepository editorialRepository;
-
-    @Autowired
-    private GeneroRepository generoRepository;
 
     @Override
     @Transactional
@@ -156,13 +150,13 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public List<GeneroDTO> obtenerTodosGeneros() {
-        final List<GeneroDTO> listaGeneros = new ArrayList<GeneroDTO>();
-        final Iterable<GeneroEntity> generoEntityIterable = this.generoRepository.findAll();
-        for (final GeneroEntity generoEntity : generoEntityIterable) {
-            listaGeneros.add(EntityToDTOAdapter.adaptarGenero(generoEntity));
-        }
-        return listaGeneros;
+    public List<String> obtenerListaNombresAutores() {
+        return this.autorRepository.findAllNombresAutores();
+    }
+
+    @Override
+    public List<String> obtenerListaNombresEditoriales() {
+        return this.editorialRepository.findAllNombresEditoriales();
     }
 
 }

@@ -6,7 +6,6 @@
  */
 package com.momoko.es.backend.model.entity;
 
-import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -19,8 +18,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
@@ -30,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "libro")
-public class LibroEntity {
+public class LibroEntity extends AuditoriaBasica {
 
     /** The libro id. */
     private @Id @GeneratedValue Integer libroId;
@@ -70,24 +67,6 @@ public class LibroEntity {
 
     /** The url imagen. */
     private String urlImagen;
-
-    /** The usuario alta. */
-    private String usuarioAlta;
-
-    /** The fecha alta. */
-    private Date fechaAlta;
-
-    /** The usuario alta. */
-    private String usuarioModificacion;
-
-    /** The fecha alta. */
-    private Date fechaModificacion;
-
-    /** The usuario alta. */
-    private String usuarioBaja;
-
-    /** The fecha alta. */
-    private Date fechaBaja;
 
     /** The ano publicacion. */
     private Integer anoPublicacion;
@@ -314,120 +293,6 @@ public class LibroEntity {
     }
 
     /**
-     * Obtiene usuario alta.
-     *
-     * @return usuario alta
-     */
-    public String getUsuarioAlta() {
-        return this.usuarioAlta;
-    }
-
-    /**
-     * Establece usuario alta.
-     *
-     * @param usuarioAlta
-     *            nuevo usuario alta
-     */
-    public void setUsuarioAlta(final String usuarioAlta) {
-        this.usuarioAlta = usuarioAlta;
-    }
-
-    /**
-     * Obtiene fecha alta.
-     *
-     * @return fecha alta
-     */
-    public Date getFechaAlta() {
-        return this.fechaAlta;
-    }
-
-    /**
-     * Establece fecha alta.
-     *
-     * @param fechaAlta
-     *            nuevo fecha alta
-     */
-    public void setFechaAlta(final Date fechaAlta) {
-        this.fechaAlta = fechaAlta;
-    }
-
-    /**
-     * Obtiene usuario modificacion.
-     *
-     * @return usuario modificacion
-     */
-    public String getUsuarioModificacion() {
-        return this.usuarioModificacion;
-    }
-
-    /**
-     * Establece usuario modificacion.
-     *
-     * @param usuarioModificacion
-     *            nuevo usuario modificacion
-     */
-    public void setUsuarioModificacion(final String usuarioModificacion) {
-        this.usuarioModificacion = usuarioModificacion;
-    }
-
-    /**
-     * Obtiene fecha modificacion.
-     *
-     * @return fecha modificacion
-     */
-    public Date getFechaModificacion() {
-        return this.fechaModificacion;
-    }
-
-    /**
-     * Establece fecha modificacion.
-     *
-     * @param fechaModificacion
-     *            nuevo fecha modificacion
-     */
-    public void setFechaModificacion(final Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-
-    /**
-     * Obtiene usuario baja.
-     *
-     * @return usuario baja
-     */
-    public String getUsuarioBaja() {
-        return this.usuarioBaja;
-    }
-
-    /**
-     * Establece usuario baja.
-     *
-     * @param usuarioBaja
-     *            nuevo usuario baja
-     */
-    public void setUsuarioBaja(final String usuarioBaja) {
-        this.usuarioBaja = usuarioBaja;
-    }
-
-    /**
-     * Obtiene fecha baja.
-     *
-     * @return fecha baja
-     */
-    public Date getFechaBaja() {
-        return this.fechaBaja;
-    }
-
-    /**
-     * Establece fecha baja.
-     *
-     * @param fechaBaja
-     *            nuevo fecha baja
-     */
-    public void setFechaBaja(final Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
-    }
-
-    /**
      * Gets the ano publicacion.
      *
      * @return the ano publicacion
@@ -490,16 +355,12 @@ public class LibroEntity {
             return false;
         }
         final LibroEntity castOther = (LibroEntity) other;
-        return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
-                .append(this.sagaId, castOther.sagaId).append(this.editorial, castOther.editorial)
-                .append(this.generos, castOther.generos).append(this.titulo, castOther.titulo)
-                .append(this.anoEdicion, castOther.anoEdicion).append(this.citaLibro, castOther.citaLibro)
-                .append(this.resumen, castOther.resumen).append(this.enlaceAmazon, castOther.enlaceAmazon)
-                .append(this.urlImagen, castOther.urlImagen).append(this.usuarioAlta, castOther.usuarioAlta)
-                .append(this.fechaAlta, castOther.fechaAlta)
-                .append(this.usuarioModificacion, castOther.usuarioModificacion)
-                .append(this.fechaModificacion, castOther.fechaModificacion)
-                .append(this.usuarioBaja, castOther.usuarioBaja).append(this.fechaBaja, castOther.fechaBaja)
+        return equalsAuditoria(this, other).append(this.libroId, castOther.libroId)
+                .append(this.autores, castOther.autores).append(this.sagaId, castOther.sagaId)
+                .append(this.editorial, castOther.editorial).append(this.generos, castOther.generos)
+                .append(this.titulo, castOther.titulo).append(this.anoEdicion, castOther.anoEdicion)
+                .append(this.citaLibro, castOther.citaLibro).append(this.resumen, castOther.resumen)
+                .append(this.enlaceAmazon, castOther.enlaceAmazon).append(this.urlImagen, castOther.urlImagen)
                 .append(this.anoPublicacion, castOther.anoPublicacion)
                 .append(this.numeroPaginas, castOther.numeroPaginas)
                 .append(this.tituloOriginal, castOther.tituloOriginal).isEquals();
@@ -507,11 +368,9 @@ public class LibroEntity {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
+        return hashCodeAuditoria(this).append(this.libroId).append(this.autores).append(this.sagaId)
                 .append(this.editorial).append(this.generos).append(this.titulo).append(this.anoEdicion)
                 .append(this.citaLibro).append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen)
-                .append(this.usuarioAlta).append(this.fechaAlta).append(this.usuarioModificacion)
-                .append(this.fechaModificacion).append(this.usuarioBaja).append(this.fechaBaja)
                 .append(this.anoPublicacion).append(this.numeroPaginas).append(this.tituloOriginal).toHashCode();
     }
 
@@ -521,10 +380,7 @@ public class LibroEntity {
                 .append("sagaId", this.sagaId).append("editorial", this.editorial).append("generos", this.generos)
                 .append("titulo", this.titulo).append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
                 .append("resumen", this.resumen).append("enlaceAmazon", this.enlaceAmazon)
-                .append("urlImagen", this.urlImagen).append("usuarioAlta", this.usuarioAlta)
-                .append("fechaAlta", this.fechaAlta).append("usuarioModificacion", this.usuarioModificacion)
-                .append("fechaModificacion", this.fechaModificacion).append("usuarioBaja", this.usuarioBaja)
-                .append("fechaBaja", this.fechaBaja).append("anoPublicacion", this.anoPublicacion)
+                .append("urlImagen", this.urlImagen).append("anoPublicacion", this.anoPublicacion)
                 .append("numeroPaginas", this.numeroPaginas).append("tituloOriginal", this.tituloOriginal).toString();
     }
 

@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "genero")
-public class GeneroEntity {
+public class GeneroEntity extends AuditoriaBasica {
 
     /** The autor id. */
     private @Id @GeneratedValue Integer genero_id;

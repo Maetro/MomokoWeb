@@ -15,8 +15,10 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 
 /**
@@ -56,6 +58,18 @@ public class ValidadorServiceImpl implements ValidadorService {
     @Override
     public boolean validarUsuario(@Valid final RegistroNuevoUsuarioDTO nuevoUsuarioRequest) {
         return true;
+    }
+
+    @Override
+    public List<ErrorCreacionGenero> validarGenero(final GeneroDTO generoDTO) {
+        final List<ErrorCreacionGenero> listaErrores = new ArrayList<ErrorCreacionGenero>();
+
+        if (StringUtils.isEmpty(generoDTO.getNombre())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_GENERO);
+
+        }
+
+        return listaErrores;
     }
 
 }

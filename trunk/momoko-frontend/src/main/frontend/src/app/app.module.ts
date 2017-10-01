@@ -1,4 +1,5 @@
 
+
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -22,6 +23,7 @@ import { RegisterFormComponent } from './auth/components/register-form/register-
 
 import { GestionLibrosModule } from './contenido/gestion-libros/gestion-libros.module';
 import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/lista-libros.component';
+import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/lista-generos.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,7 @@ import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/li
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ListaLibrosComponent]
+  entryComponents: [ListaLibrosComponent, ListaGenerosComponent]
 
 })
 export class AppModule { }

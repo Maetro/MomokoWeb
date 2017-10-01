@@ -1,0 +1,35 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div [hidden]="selectedGenero">
+        <button type="button" (click)="nuevoGenero()" class="btn btn-outline-primary">Nuevo Genero</button>
+        <a href="/"><button type="button" class="btn btn-outline-primary">Libros</button></a>
+      </div>
+      <div [hidden]="!selectedGenero">
+        <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="divide10"></div>
+  <div class="row tabla-libros" [hidden]="selectedGenero">
+    <div class="col-md-12">
+      <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+          <input #gb type="text" pInputText size="50" placeholder="Filtrar">
+          <i class="fa fa-search" style="margin:4px 0px 0 4px"></i>
+      </div>
+      <p-dataTable [value]="generos" [rows]="10" [paginator]="true" [globalFilter]="gb" resizableColumns="true"
+           [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedGenero">
+        <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+      </p-dataTable>
+    </div>
+  </div>
+
+
+  <div class="divide10"></div>
+
+  <app-genero-detail [genero]="selectedGenero" (onGeneroGuardado)="actualizarOAnadirGenero($event)"></app-genero-detail>
+  <div [hidden]="!selectedGenero">
+    <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
+  </div>
+</div>

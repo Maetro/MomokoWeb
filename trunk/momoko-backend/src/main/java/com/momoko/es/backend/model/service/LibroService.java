@@ -8,7 +8,6 @@ package com.momoko.es.backend.model.service;
 
 import java.util.List;
 
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 
 /**
@@ -43,9 +42,17 @@ public interface LibroService {
     public LibroDTO guardarLibro(LibroDTO libroAGuardar) throws Exception;
 
     /**
-     * Obtener todos generos.
+     * Obtener lista nombres autores.
      *
-     * @return the lsit
+     * @return the list
      */
-    public List<GeneroDTO> obtenerTodosGeneros();
+    public List<String> obtenerListaNombresAutores();
+
+    /**
+     * Obtener lista nombres editoriales.
+     *
+     * @return the list
+     */
+    public List<String> obtenerListaNombresEditoriales();
+
 }

@@ -1,7 +1,7 @@
 import { environment } from './../../environments/environment';
 import { Injectable, OnInit } from '@angular/core';
 import { Http, Response} from '@angular/http';
-import { Headers,RequestOptions } from '@angular/http';
+import { Headers, RequestOptions } from '@angular/http';
 
 import {Observable} from 'rxjs/Rx';
 
@@ -25,17 +25,17 @@ export class FileUploadService {
 
 
   fileChange(event): Observable<string> {
-      let fileList: FileList = event.files;
-      if(fileList.length > 0) {
-          let file: File = fileList[0];
-          let formData:FormData = new FormData();
+      const fileList: FileList = event.files;
+      if (fileList.length > 0) {
+        const file: File = fileList[0];
+        const formData: FormData = new FormData();
           formData.append('uploadFile', file, file.name);
-          let headers = new Headers();
+          const headers = new Headers();
           headers.append('Accept', 'application/json');
-          let options = new RequestOptions({ headers: headers });
+          const options = new RequestOptions({ headers: headers });
           return this.http.post(this.uploadUrl, formData, options)
-            .map((res:Response) => this.urlFiles + file.name)
-            .catch((error:any) => Observable.throw(error.json().error || 'Server error'));
+            .map((res: Response) => this.urlFiles + file.name)
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
       } else{
         return null;
       }

@@ -1,5 +1,5 @@
 import { Editorial } from './../dtos/editorial';
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -16,6 +16,7 @@ export class LibroService {
   private librosUrl = environment.librosUrl;
   private addLibroUrl = environment.addLibroUrl;
   private generosUrl = environment.generosUrl;
+  private addGeneroUrl = environment.addGeneroUrl;
 
   private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
@@ -90,6 +91,14 @@ export class LibroService {
     console.log(JSON.stringify(libro));
     return this.http
       .post(this.addLibroUrl, JSON.stringify(libro), { headers: this.headers })
+      .toPromise();
+  }
+
+  guardarGenero(genero: Genero): Promise<any> {
+    console.log(genero);
+    console.log(JSON.stringify(genero));
+    return this.http
+      .post(this.addGeneroUrl, JSON.stringify(genero), { headers: this.headers })
       .toPromise();
   }
 

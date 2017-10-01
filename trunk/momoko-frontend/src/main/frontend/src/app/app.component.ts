@@ -1,3 +1,4 @@
+import { GeneralDataService } from './services/general-data.service';
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
@@ -25,7 +26,7 @@ import { FileUploadService } from './services/fileUpload.service';
 
 </div>
 <app-footer></app-footer>`,
-  providers: [LibroService, FileUploadService]
+  providers: [LibroService, FileUploadService, GeneralDataService]
 })
 export class AppComponent implements OnInit {
   constructor() { }

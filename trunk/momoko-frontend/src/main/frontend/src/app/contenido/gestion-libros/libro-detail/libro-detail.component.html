@@ -43,7 +43,8 @@
             <div class="col-sm-12 lp10">
               <div class="form-field">
                 <label>
-                    <input type="text" [(ngModel)]="autor.nombre" placeholder="Escribe aquí al autor de la obra">
+                    <ng2-completer placeholder="Escribe aquí al autor de la obra" [(ngModel)]="autor.nombre"
+                    [datasource]="nombresAutores" [minSearchLength]="3"></ng2-completer>
                   </label>
               </div>
             </div>
@@ -57,7 +58,8 @@
           <div class="col-sm-9 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="libro.editorial.nombreEditorial" placeholder="Nombre de la editorial">
+                <ng2-completer placeholder="Nombre de la editorial" [(ngModel)]="libro.editorial.nombreEditorial"
+                [datasource]="nombresEditoriales" [minSearchLength]="3"></ng2-completer>
               </label>
             </div>
           </div>

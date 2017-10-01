@@ -35,13 +35,13 @@ Author:		elemis
 	25. FONT ICON PAGES
 	26. DIVIDERS
 	27. RESPONSIVE
-	
+
 	font-family: 'Josefin Sans', sans-serif;
 	font-family: 'Vidaloka', serif;
 	text: #505050
 	hover: #d77d8a
 	headings: #404040
-	
+
 -------------------------------------------------------------------------------------*/
 /*-----------------------------------------------------------------------------------*/
 /*	00. RESET
@@ -72,13 +72,13 @@ iframe {
 ::selection {
     background: #e9dbdd;
     /* Safari */
-    
+
     color: #2f2f2f;
 }
 ::-moz-selection {
     background: #e9dbdd;
     /* Firefox */
-    
+
     color: #2f2f2f;
 }
 .lg-outer .lg-item:after {
@@ -2554,21 +2554,21 @@ select {
     line-height: 0;
 }
 ::-webkit-input-placeholder {
-    color: #505050 !important;
+    color: #999999 !important;
     font-weight: normal !important;
 }
 :-moz-placeholder {
-    color: #505050 !important;
+    color: #999999 !important;
     font-weight: normal !important;
     opacity: 1;
 }
 ::-moz-placeholder {
-    color: #505050 !important;
+    color: #999999 !important;
     font-weight: normal !important;
     opacity: 1;
 }
 :-ms-input-placeholder {
-    color: #505050 !important;
+    color: #999999 !important;
     font-weight: normal !important;
 }
 .navbar.inverse ::-webkit-input-placeholder {

@@ -1,0 +1,41 @@
+<p-growl [(value)]="msgs" sticky="true"></p-growl>
+<div *ngIf="genero" class="form-container">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="vanilla vanilla-form" novalidate="novalidate">
+        <div class="row">
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Nombre del género: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="genero.nombre" placeholder="Escribe aquí el nombre del género"/>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+            <div [hidden]="!esGeneroNuevo">
+              <input type="submit" class="btn btn-forest" value="Crear genero" (click)="guardarGenero()"
+              data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
+            <div [hidden]="esGeneroNuevo">
+                <input type="submit" class="btn btn-forest" value="Actualizar genero" (click)="guardarGenero()"
+                data-error="Fix errors" data-processing="Sending..."
+                  data-success="Thank you!">
+              </div>
+            <footer class="notification-box"></footer>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+</div>
