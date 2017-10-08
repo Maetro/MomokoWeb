@@ -83,6 +83,11 @@
 
           <li><a href="contact.html" class="btnColaborar"> COLABORA </a></li>
 
+          <li><a routerLink="/auth/login" routerLinkActive="active"  *ngIf="isLoggedIn === false">Login</a></li>
+          <li><a routerLink="/auth/register" routerLinkActive="active" *ngIf="isLoggedIn === false">Signup</a></li>
+          <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li>
+          <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li>
+
           <li><a routerLink="/gestion" routerLinkActive="active">Administrar</a></li>
 
 

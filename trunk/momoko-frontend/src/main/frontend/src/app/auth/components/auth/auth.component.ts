@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
-    templateUrl: './auth.component.html',
-    styleUrls: ['./auth.component.css']
+  template:  `
+    <router-outlet></router-outlet>
+  `
 })
-export class AuthComponent {}
+export class AuthComponent { }

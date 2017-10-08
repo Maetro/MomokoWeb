@@ -17,10 +17,6 @@ import { FooterComponent } from './footer/footer.component';
 import { routing } from './app.routing';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 
-
-import { LoginFormComponent } from './auth/components/login-form/login-form.component';
-import { RegisterFormComponent } from './auth/components/register-form/register-form.component';
-
 import { GestionLibrosModule } from './contenido/gestion-libros/gestion-libros.module';
 import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/lista-libros.component';
 import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/lista-generos.component';

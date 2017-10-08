@@ -35,7 +35,7 @@ import com.momoko.es.backend.model.service.ValidadorService;
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "/modelo")
-public class MainController {
+public class ModeloController {
 
     @Autowired(required = false)
     private LibroService libroService;

@@ -24,12 +24,30 @@ body .ui-multiselect {
 }
 
 .tabla-libros .ui-paginator .ui-paginator-pages .ui-paginator-page{
-  background-color: #303030;
+  background-color: white;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page{
+  color:#DBAE27;
+}
+
+body .ui-paginator .ui-paginator-pages .ui-paginator-page:hover{
+  color:white;
+}
+
+
+a.ui-paginator-page.ui-paginator-element.ui-state-default.ui-corner-all.ui-state-active {
+  background-color: #DBAE27;
+}
+
+.tabla-libros .ui-paginator .ui-paginator-pages .ui-paginator-page:hover{
+  background-color: #DBAE27;
 }
 
 .tabla-libros .ui-paginator .ui-paginator-pages .ui-paginator-page:hover.ui-state-active{
   background-color: #DBAE27;
 }
+
 
 .tabla-libros .ui-button-icon-only{
   background-color: #303030;

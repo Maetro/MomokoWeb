@@ -1,36 +1,20 @@
 import { NgModule } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
-import {FormsModule} from '@angular/forms';
-
-import {AuthComponent} from './components/auth/auth.component';
-import {LoginFormComponent} from './components/login-form/login-form.component';
-import {RegisterFormComponent} from './components/register-form/register-form.component';
-
-import {TabViewModule} from 'primeng/components/tabview/tabview';
-import {ButtonModule} from 'primeng/components/button/button';
-
-import {AuthService} from './services/auth.service';
-import {AuthGuardService} from './services/auth-guard.service';
-import {GrowlModule} from 'primeng/components/growl/growl';
-
-import {HttpModule} from '@angular/http';
+import { FormsModule } from '@angular/forms';
+import { AuthRoutingModule } from 'app/auth/auth-app-routing.module';
+import { AuthComponent } from 'app/auth/components/auth/auth.component';
+import { LoginComponent } from 'app/auth/components/login/login.component';
+import { UserRegistrationComponent } from 'app/auth/components/user-registration/user-registration.component';
+import { ForgotPasswordComponent } from 'app/auth/components/forgot-password/forgot-password.component';
+import { LogoutComponent } from 'app/auth/components/logout/logout.component';
+import { AuthService } from 'app/auth/services/auth.service';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    HttpModule,
-    TabViewModule,
-    ButtonModule,
-    GrowlModule
-  ],
-  providers: [AuthService, AuthGuardService],
-  declarations: [AuthComponent, LoginFormComponent, RegisterFormComponent],
-  exports: [AuthComponent]
+  imports: [CommonModule, FormsModule, AuthRoutingModule],
+  declarations: [AuthComponent, LoginComponent,
+    UserRegistrationComponent, ForgotPasswordComponent, LogoutComponent],
+  providers: [{ provide: AuthService, useClass: AuthService }
+  ]
 })
-
-export class AuthModule {
-
-}
+export class AuthModule { }
