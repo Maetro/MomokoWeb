@@ -27,9 +27,9 @@
 	</properties>
 
 	<modules>
-        <module>frontend</module>
-        <module>backend-api</module>
-        <module>backend</module>
+        <module>momoko-frontend</module>
+        <module>momoko-backend-api</module>
+        <module>momoko-backend</module>
     </modules>
 	
 	
