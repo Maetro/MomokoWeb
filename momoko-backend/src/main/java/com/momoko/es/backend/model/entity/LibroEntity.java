@@ -38,7 +38,12 @@ public class LibroEntity extends AuditoriaBasica {
     private Set<AutorEntity> autores;
 
     /** The saga id. */
-    private Integer sagaId;
+    @ManyToOne
+    @JoinColumn(name = "saga_id")
+    private SagaEntity sagaId;
+
+    /** The orden saga. */
+    private Integer ordenSaga;
 
     /** The editorial id. */
     @ManyToOne
@@ -126,18 +131,18 @@ public class LibroEntity extends AuditoriaBasica {
      *
      * @return the saga id
      */
-    public Integer getSagaId() {
+    public SagaEntity getSagaId() {
         return this.sagaId;
     }
 
     /**
      * Sets the saga id.
      *
-     * @param sagaId
+     * @param saga
      *            the new saga id
      */
-    public void setSagaId(final Integer sagaId) {
-        this.sagaId = sagaId;
+    public void setSagaId(final SagaEntity saga) {
+        this.sagaId = saga;
     }
 
     /**
