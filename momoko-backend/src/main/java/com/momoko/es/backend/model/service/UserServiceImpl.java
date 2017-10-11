@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
-        if (emailExiste(nuevoUsuario.getEmail())) {
-            throw new EmailExistsException("Ya existe un usuario con ese email: " + nuevoUsuario.getEmail());
+        if (emailExiste(nuevoUsuario.getUsuarioEmail())) {
+            throw new EmailExistsException("Ya existe un usuario con ese email: " + nuevoUsuario.getUsuarioEmail());
         }
         final UsuarioEntity usuarioEntity = DTOToEntityAdapter.adaptarUsuario(nuevoUsuario);
         this.usuarioRepository.save(usuarioEntity);

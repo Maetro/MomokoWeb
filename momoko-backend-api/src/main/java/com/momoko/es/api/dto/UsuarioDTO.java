@@ -13,259 +13,294 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.api.enums.UserStatusEnum;
-
+/**
+ * The Class UsuarioDTO.
+ *
+ * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ */
 public class UsuarioDTO implements Serializable {
 
     private static final long serialVersionUID = -4327870243033258976L;
 
+    /** The usuario id. */
     private Integer usuarioId;
 
-    private String login;
+    /** The usuario login. */
+    private String usuarioLogin;
 
-    private String contrasena;
+    /** The usuario contrasena. */
+    private String usuarioContrasena;
 
-    private String nick;
+    /** The usuario nick. */
+    private String usuarioNick;
 
-    private String email;
+    /** The usuario email. */
+    private String usuarioEmail;
 
-    private String url;
+    /** The usuario url. */
+    private String usuarioUrl;
 
-    private Date fechaRegistro;
+    /** The usuario fecha registro. */
+    private Date usuarioFechaRegistro;
 
-    private UserStatusEnum usuarioStatus;
+    /** The usuario clave activacion. */
+    private String usuarioClaveActivacion;
 
-    private String nombreVisible;
+    /** The usuario status. */
+    private Integer usuarioStatus;
 
-    private Integer usuario_rol_id;
+    /** The usuario nombre visible. */
+    private String usuarioNombreVisible;
+
+    /** The usuario rol id. */
+    private Integer usuarioRolId;
 
     /**
-     * Gets the usuario id.
-     *
-     * @return the usuario id
+     * Instancia un nuevo usuario DTO.
      */
-    public Integer getUsuarioId() {
-        return this.usuarioId;
+    public UsuarioDTO() {
     }
 
     /**
-     * Sets the usuario id.
+     * Obtiene usuario id.
+     *
+     * @return usuario id
+     */
+    public Integer getUsuarioId() {
+        return usuarioId;
+    }
+
+    /**
+     * Establece usuario id.
      *
      * @param usuarioId
-     *            the new usuario id
+     *            nuevo usuario id
      */
-    public void setUsuarioId(final Integer usuarioId) {
+    public void setUsuarioId(Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
 
     /**
-     * Gets the login.
+     * Obtiene usuario login.
      *
-     * @return the login
+     * @return usuario login
      */
-    public String getLogin() {
-        return this.login;
+    public String getUsuarioLogin() {
+        return usuarioLogin;
     }
 
     /**
-     * Sets the login.
+     * Establece usuario login.
      *
-     * @param login
-     *            the new login
+     * @param usuarioLogin
+     *            nuevo usuario login
      */
-    public void setLogin(final String login) {
-        this.login = login;
+    public void setUsuarioLogin(String usuarioLogin) {
+        this.usuarioLogin = usuarioLogin;
     }
 
     /**
-     * Gets the contrasena.
+     * Obtiene usuario contrasena.
      *
-     * @return the contrasena
+     * @return usuario contrasena
      */
-    public String getContrasena() {
-        return this.contrasena;
+    public String getUsuarioContrasena() {
+        return usuarioContrasena;
     }
 
     /**
-     * Sets the contrasena.
+     * Establece usuario contrasena.
      *
-     * @param contrasena
-     *            the new contrasena
+     * @param usuarioContrasena
+     *            nuevo usuario contrasena
      */
-    public void setContrasena(final String contrasena) {
-        this.contrasena = contrasena;
+    public void setUsuarioContrasena(String usuarioContrasena) {
+        this.usuarioContrasena = usuarioContrasena;
     }
 
     /**
-     * Gets the nick.
+     * Obtiene usuario nick.
      *
-     * @return the nick
+     * @return usuario nick
      */
-    public String getNick() {
-        return this.nick;
+    public String getUsuarioNick() {
+        return usuarioNick;
     }
 
     /**
-     * Sets the nick.
+     * Establece usuario nick.
      *
-     * @param nick
-     *            the new nick
+     * @param usuarioNick
+     *            nuevo usuario nick
      */
-    public void setNick(final String nick) {
-        this.nick = nick;
+    public void setUsuarioNick(String usuarioNick) {
+        this.usuarioNick = usuarioNick;
     }
 
     /**
-     * Gets the email.
+     * Obtiene usuario email.
      *
-     * @return the email
+     * @return usuario email
      */
-    public String getEmail() {
-        return this.email;
+    public String getUsuarioEmail() {
+        return usuarioEmail;
     }
 
     /**
-     * Sets the email.
+     * Establece usuario email.
      *
-     * @param email
-     *            the new email
+     * @param usuarioEmail
+     *            nuevo usuario email
      */
-    public void setEmail(final String email) {
-        this.email = email;
+    public void setUsuarioEmail(String usuarioEmail) {
+        this.usuarioEmail = usuarioEmail;
     }
 
     /**
-     * Gets the url.
+     * Obtiene usuario url.
      *
-     * @return the url
+     * @return usuario url
      */
-    public String getUrl() {
-        return this.url;
+    public String getUsuarioUrl() {
+        return usuarioUrl;
     }
 
     /**
-     * Sets the url.
+     * Establece usuario url.
      *
-     * @param url
-     *            the new url
+     * @param usuarioUrl
+     *            nuevo usuario url
      */
-    public void setUrl(final String url) {
-        this.url = url;
+    public void setUsuarioUrl(String usuarioUrl) {
+        this.usuarioUrl = usuarioUrl;
     }
 
     /**
-     * Gets the fecha registro.
+     * Obtiene usuario fecha registro.
      *
-     * @return the fecha registro
+     * @return usuario fecha registro
      */
-    public Date getFechaRegistro() {
-        return this.fechaRegistro;
+    public Date getUsuarioFechaRegistro() {
+        return usuarioFechaRegistro;
     }
 
     /**
-     * Sets the fecha registro.
+     * Establece usuario fecha registro.
      *
-     * @param fechaRegistro
-     *            the new fecha registro
+     * @param usuarioFechaRegistro
+     *            nuevo usuario fecha registro
      */
-    public void setFechaRegistro(final Date fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
+    public void setUsuarioFechaRegistro(Date usuarioFechaRegistro) {
+        this.usuarioFechaRegistro = usuarioFechaRegistro;
     }
 
     /**
-     * Gets the usuario status.
+     * Obtiene usuario clave activacion.
      *
-     * @return the usuario status
+     * @return usuario clave activacion
      */
-    public UserStatusEnum getUsuarioStatus() {
-        return this.usuarioStatus;
+    public String getUsuarioClaveActivacion() {
+        return usuarioClaveActivacion;
     }
 
     /**
-     * Sets the usuario status.
+     * Establece usuario clave activacion.
+     *
+     * @param usuarioClaveActivacion
+     *            nuevo usuario clave activacion
+     */
+    public void setUsuarioClaveActivacion(String usuarioClaveActivacion) {
+        this.usuarioClaveActivacion = usuarioClaveActivacion;
+    }
+
+    /**
+     * Obtiene usuario status.
+     *
+     * @return usuario status
+     */
+    public Integer getUsuarioStatus() {
+        return usuarioStatus;
+    }
+
+    /**
+     * Establece usuario status.
      *
      * @param usuarioStatus
-     *            the new usuario status
+     *            nuevo usuario status
      */
-    public void setUsuarioStatus(final UserStatusEnum usuarioStatus) {
+    public void setUsuarioStatus(Integer usuarioStatus) {
         this.usuarioStatus = usuarioStatus;
     }
 
     /**
-     * Gets the nombre visible.
+     * Obtiene usuario nombre visible.
      *
-     * @return the nombre visible
+     * @return usuario nombre visible
      */
-    public String getNombreVisible() {
-        return this.nombreVisible;
+    public String getUsuarioNombreVisible() {
+        return usuarioNombreVisible;
     }
 
     /**
-     * Sets the nombre visible.
+     * Establece usuario nombre visible.
      *
-     * @param nombreVisible
-     *            the new nombre visible
+     * @param usuarioNombreVisible
+     *            nuevo usuario nombre visible
      */
-    public void setNombreVisible(final String nombreVisible) {
-        this.nombreVisible = nombreVisible;
+    public void setUsuarioNombreVisible(String usuarioNombreVisible) {
+        this.usuarioNombreVisible = usuarioNombreVisible;
     }
 
     /**
-     * Gets the usuario_rol_id.
+     * Obtiene usuario rol id.
      *
-     * @return the usuario_rol_id
+     * @return usuario rol id
      */
-    public Integer getUsuario_rol_id() {
-        return this.usuario_rol_id;
+    public Integer getUsuarioRolId() {
+        return usuarioRolId;
     }
 
     /**
-     * Sets the usuario_rol_id.
+     * Establece usuario rol id.
      *
-     * @param usuario_rol_id
-     *            the new usuario_rol_id
+     * @param usuarioRolId
+     *            nuevo usuario rol id
      */
-    public void setUsuario_rol_id(final Integer usuario_rol_id) {
-        this.usuario_rol_id = usuario_rol_id;
-    }
-
-    /**
-     * Gets the serialversionuid.
-     *
-     * @return the serialversionuid
-     */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
+    public void setUsuarioRolId(Integer usuarioRolId) {
+        this.usuarioRolId = usuarioRolId;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof UsuarioDTO)) {
+        if (!(other instanceof UsuarioDTO))
             return false;
-        }
-        final UsuarioDTO castOther = (UsuarioDTO) other;
-        return new EqualsBuilder().append(this.usuarioId, castOther.usuarioId).append(this.login, castOther.login)
-                .append(this.contrasena, castOther.contrasena).append(this.nick, castOther.nick)
-                .append(this.email, castOther.email).append(this.url, castOther.url)
-                .append(this.fechaRegistro, castOther.fechaRegistro).append(this.usuarioStatus, castOther.usuarioStatus)
-                .append(this.nombreVisible, castOther.nombreVisible)
-                .append(this.usuario_rol_id, castOther.usuario_rol_id).isEquals();
+        UsuarioDTO castOther = (UsuarioDTO) other;
+        return new EqualsBuilder().append(usuarioId, castOther.usuarioId).append(usuarioLogin, castOther.usuarioLogin)
+                .append(usuarioContrasena, castOther.usuarioContrasena).append(usuarioNick, castOther.usuarioNick)
+                .append(usuarioEmail, castOther.usuarioEmail).append(usuarioUrl, castOther.usuarioUrl)
+                .append(usuarioFechaRegistro, castOther.usuarioFechaRegistro)
+                .append(usuarioClaveActivacion, castOther.usuarioClaveActivacion)
+                .append(usuarioStatus, castOther.usuarioStatus)
+                .append(usuarioNombreVisible, castOther.usuarioNombreVisible)
+                .append(usuarioRolId, castOther.usuarioRolId).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.usuarioId).append(this.login).append(this.contrasena).append(this.nick)
-                .append(this.email).append(this.url).append(this.fechaRegistro).append(this.usuarioStatus)
-                .append(this.nombreVisible).append(this.usuario_rol_id).toHashCode();
+        return new HashCodeBuilder().append(usuarioId).append(usuarioLogin).append(usuarioContrasena)
+                .append(usuarioNick).append(usuarioEmail).append(usuarioUrl).append(usuarioFechaRegistro)
+                .append(usuarioClaveActivacion).append(usuarioStatus).append(usuarioNombreVisible).append(usuarioRolId)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("usuarioId", this.usuarioId).append("login", this.login)
-                .append("contrasena", this.contrasena).append("nick", this.nick).append("email", this.email)
-                .append("url", this.url).append("fechaRegistro", this.fechaRegistro)
-                .append("usuarioStatus", this.usuarioStatus).append("nombreVisible", this.nombreVisible)
-                .append("usuario_rol_id", this.usuario_rol_id).toString();
+        return new ToStringBuilder(this).append("usuarioId", usuarioId).append("usuarioLogin", usuarioLogin)
+                .append("usuarioContrasena", usuarioContrasena).append("usuarioNick", usuarioNick)
+                .append("usuarioEmail", usuarioEmail).append("usuarioUrl", usuarioUrl)
+                .append("usuarioFechaRegistro", usuarioFechaRegistro)
+                .append("usuarioClaveActivacion", usuarioClaveActivacion).append("usuarioStatus", usuarioStatus)
+                .append("usuarioNombreVisible", usuarioNombreVisible).append("usuarioRolId", usuarioRolId).toString();
     }
 
 }

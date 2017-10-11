@@ -11,14 +11,17 @@ import java.util.Set;
 
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.EditorialDTO;
+import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
-import com.momoko.es.api.enums.UserStatusEnum;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
+import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.SagaEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 
 /**
@@ -35,38 +38,16 @@ public final class DTOToEntityAdapter {
      */
     public static UsuarioEntity adaptarUsuario(final UsuarioDTO nuevoUsuario) {
         final UsuarioEntity usuario = new UsuarioEntity();
-        usuario.setUsuario_id(nuevoUsuario.getUsuarioId());
-        usuario.setUsuario_login(nuevoUsuario.getLogin());
-        usuario.setUsuario_contrasena(nuevoUsuario.getContrasena());
-        usuario.setUsuarioEmail(nuevoUsuario.getEmail());
-        usuario.setUsuario_fecha_registro(nuevoUsuario.getFechaRegistro());
-        usuario.setUsuario_nick(nuevoUsuario.getNick());
-        usuario.setUsuario_url(nuevoUsuario.getUrl());
-        usuario.setUsuario_status(obtenerIdStatus(nuevoUsuario.getUsuarioStatus()));
-        usuario.setUsuario_rol_id(nuevoUsuario.getUsuario_rol_id());
+        usuario.setUsuarioId(nuevoUsuario.getUsuarioId());
+        usuario.setUsuarioLogin(nuevoUsuario.getUsuarioLogin());
+        usuario.setUsuarioContrasena(nuevoUsuario.getUsuarioContrasena());
+        usuario.setUsuarioEmail(nuevoUsuario.getUsuarioEmail());
+        usuario.setUsuarioFechaRegistro(nuevoUsuario.getUsuarioFechaRegistro());
+        usuario.setUsuarioNick(nuevoUsuario.getUsuarioNick());
+        usuario.setUsuarioUrl(nuevoUsuario.getUsuarioUrl());
+        usuario.setUsuarioStatus(nuevoUsuario.getUsuarioStatus());
+        usuario.setUsuarioRolId(nuevoUsuario.getUsuarioRolId());
         return usuario;
-    }
-
-    /**
-     * Obtener id status.
-     *
-     * @param usuarioStatus
-     *            the usuario status
-     * @return the integer
-     */
-    private static Integer obtenerIdStatus(final UserStatusEnum usuarioStatus) {
-        Integer idStatus = 0;
-        switch (usuarioStatus) {
-        case ACTIVO:
-            idStatus = 1;
-            break;
-        case ELIMINADO:
-            idStatus = 2;
-            break;
-        default:
-            break;
-        }
-        return idStatus;
     }
 
     /**
@@ -86,13 +67,46 @@ public final class DTOToEntityAdapter {
         libroEntity.setGeneros(adaptarGeneros(libroDTO.getGeneros()));
         libroEntity.setLibroId(libroDTO.getLibroId());
         libroEntity.setResumen(libroDTO.getResumen());
-        libroEntity.setSagaId(libroDTO.getSagaId());
+        libroEntity.setSaga(adpatarSaga(libroDTO.getSaga()));
         libroEntity.setTitulo(libroDTO.getTitulo());
         libroEntity.setUrlImagen(libroDTO.getUrlImagen());
         libroEntity.setAnoPublicacion(libroDTO.getAnoPublicacion());
         libroEntity.setNumeroPaginas(libroDTO.getNumeroPaginas());
         libroEntity.setTituloOriginal(libroDTO.getTituloOriginal());
         return libroEntity;
+    }
+
+    /**
+     * Adaptar entrada.
+     *
+     * @param entradaDTO
+     *            entrada DTO
+     * @return the entrada entity
+     */
+    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO) {
+        final EntradaEntity entradaEntity = new EntradaEntity();
+        entradaEntity.setEntradaId(entradaDTO.getEntradaId());
+        entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
+        entradaEntity.setEntradaAutor(adaptarUsuario(entradaDTO.getAutor()));
+        entradaEntity.setEstadoEntrada(entradaDTO.getEstadoEntrada());
+        entradaEntity.setLibroEntrada(adaptarLibro(entradaDTO.getLibroEntrada()));
+        entradaEntity.setNumeroComentarios(entradaDTO.getNumeroComentarios());
+        entradaEntity.setOrden(entradaDTO.getOrden());
+        entradaEntity.setPadreEntrada(
+                entradaDTO.getPadreEntrada() != null ? adaptarEntrada(entradaDTO.getPadreEntrada()) : null);
+        entradaEntity.setPermitirComentarios(entradaDTO.getPermitirComentarios());
+        entradaEntity.setResumenEntrada(entradaDTO.getResumenEntrada());
+        entradaEntity.setTipoEntrada(entradaDTO.getTipoEntrada());
+        entradaEntity.setTituloEntrada(entradaDTO.getTituloEntrada());
+        entradaEntity.setUrlEntrada(entradaDTO.getUrlEntrada());
+        return entradaEntity;
+    }
+
+    private static SagaEntity adpatarSaga(SagaDTO saga) {
+        SagaEntity entity = new SagaEntity();
+        entity.setSagaId(saga.getSagaId());
+        entity.setDescripcionSaga(saga.getDescripcionSaga());
+        return entity;
     }
 
     /**

@@ -12,8 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.transaction.Transactional;
-
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,21 +32,14 @@ import com.momoko.es.util.EntityToDTOAdapter;
 @Service
 public class LibroServiceImpl implements LibroService {
 
-    @Autowired
+    @Autowired(required = false)
     private LibroRepository libroRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private AutorRepository autorRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private EditorialRepository editorialRepository;
-
-    @Override
-    @Transactional
-    public Integer crearLibro(final LibroDTO nuevoLibro) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public List<LibroDTO> recuperarLibros() {

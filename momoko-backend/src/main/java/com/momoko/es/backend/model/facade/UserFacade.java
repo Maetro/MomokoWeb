@@ -49,11 +49,11 @@ public class UserFacade {
         final List<ErrorCreacionUsuario> listaErrores = new ArrayList<ErrorCreacionUsuario>();
 
         final UsuarioDTO nuevoUsuario = new UsuarioDTO();
-        nuevoUsuario.setEmail(nuevoUsuarioRequest.getEmail());
-        nuevoUsuario.setNick(nuevoUsuarioRequest.getNombre());
-        nuevoUsuario.setContrasena(nuevoUsuarioRequest.getContrasena());
-        nuevoUsuario.setLogin(nuevoUsuarioRequest.getNick());
-        nuevoUsuario.setUsuario_rol_id(1);
+        nuevoUsuario.setUsuarioEmail(nuevoUsuarioRequest.getEmail());
+        nuevoUsuario.setUsuarioNick(nuevoUsuarioRequest.getNombre());
+        nuevoUsuario.setUsuarioContrasena(nuevoUsuarioRequest.getContrasena());
+        nuevoUsuario.setUsuarioLogin(nuevoUsuarioRequest.getNick());
+        nuevoUsuario.setUsuarioRolId(1);
         Integer usuarioId;
         try {
             usuarioId = this.userService.crearUsuario(nuevoUsuario);

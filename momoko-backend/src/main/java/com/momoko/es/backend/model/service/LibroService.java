@@ -16,15 +16,6 @@ import com.momoko.es.api.dto.LibroDTO;
 public interface LibroService {
 
     /**
-     * Crear usuario.
-     *
-     * @param nuevoUsuario
-     *            the nuevo usuario
-     * @return the integer
-     */
-    public Integer crearLibro(LibroDTO nuevoLibro);
-
-    /**
      * Recuperar usuarios.
      *
      * @return the list

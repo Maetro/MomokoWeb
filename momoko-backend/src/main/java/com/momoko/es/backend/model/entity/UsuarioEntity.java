@@ -13,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -20,295 +21,297 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Class UsuarioEntity.
+ *
+ * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
  */
 @Entity
-public class UsuarioEntity {
+@Table(name = "usuario")
+public class UsuarioEntity extends AuditoriaBasica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer usuario_id;
+    private Integer usuarioId;
 
-    private String usuario_login;
+    /** The usuario login. */
+    private String usuarioLogin;
 
-    private String usuario_contrasena;
+    /** The usuario contrasena. */
+    private String usuarioContrasena;
 
-    private String usuario_nick;
+    /** The usuario nick. */
+    private String usuarioNick;
 
     @Column(name = "usuario_email")
     private String usuarioEmail;
 
-    private String usuario_url;
+    /** The usuario url. */
+    private String usuarioUrl;
 
-    private Date usuario_fecha_registro;
+    /** The usuario fecha registro. */
+    private Date usuarioFechaRegistro;
 
-    private String usuario_clave_activacion;
+    /** The usuario clave activacion. */
+    private String usuarioClaveActivacion;
 
-    private Integer usuario_status;
+    /** The usuario status. */
+    private Integer usuarioStatus;
 
-    private String usuario_nombre_visible;
+    /** The usuario nombre visible. */
+    private String usuarioNombreVisible;
 
-    private Integer usuario_rol_id;
+    /** The usuario rol id. */
+    private Integer usuarioRolId;
 
     /**
-     * Gets the usuario_id.
+     * Obtiene usuario id.
      *
-     * @return the usuario_id
+     * @return usuario id
      */
-    public Integer getUsuario_id() {
-        return this.usuario_id;
+    public Integer getUsuarioId() {
+        return usuarioId;
     }
 
     /**
-     * Sets the usuario_id.
+     * Establece usuario id.
      *
-     * @param usuario_id
-     *            the new usuario_id
+     * @param usuarioId
+     *            nuevo usuario id
      */
-    public void setUsuario_id(final Integer usuario_id) {
-        this.usuario_id = usuario_id;
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     /**
-     * Gets the usuario_login.
+     * Obtiene usuario login.
      *
-     * @return the usuario_login
+     * @return usuario login
      */
-    public String getUsuario_login() {
-        return this.usuario_login;
+    public String getUsuarioLogin() {
+        return usuarioLogin;
     }
 
     /**
-     * Sets the usuario_login.
+     * Establece usuario login.
      *
-     * @param usuario_login
-     *            the new usuario_login
+     * @param usuarioLogin
+     *            nuevo usuario login
      */
-    public void setUsuario_login(final String usuario_login) {
-        this.usuario_login = usuario_login;
+    public void setUsuarioLogin(String usuarioLogin) {
+        this.usuarioLogin = usuarioLogin;
     }
 
     /**
-     * Gets the usuario_contrasena.
+     * Obtiene usuario contrasena.
      *
-     * @return the usuario_contrasena
+     * @return usuario contrasena
      */
-    public String getUsuario_contrasena() {
-        return this.usuario_contrasena;
+    public String getUsuarioContrasena() {
+        return usuarioContrasena;
     }
 
     /**
-     * Sets the usuario_contrasena.
+     * Establece usuario contrasena.
      *
-     * @param usuario_contrasena
-     *            the new usuario_contrasena
+     * @param usuarioContrasena
+     *            nuevo usuario contrasena
      */
-    public void setUsuario_contrasena(final String usuario_contrasena) {
-        this.usuario_contrasena = usuario_contrasena;
+    public void setUsuarioContrasena(String usuarioContrasena) {
+        this.usuarioContrasena = usuarioContrasena;
     }
 
     /**
-     * Gets the usuario_nick.
+     * Obtiene usuario nick.
      *
-     * @return the usuario_nick
+     * @return usuario nick
      */
-    public String getUsuario_nick() {
-        return this.usuario_nick;
+    public String getUsuarioNick() {
+        return usuarioNick;
     }
 
     /**
-     * Sets the usuario_nick.
+     * Establece usuario nick.
      *
-     * @param usuario_nick
-     *            the new usuario_nick
+     * @param usuarioNick
+     *            nuevo usuario nick
      */
-    public void setUsuario_nick(final String usuario_nick) {
-        this.usuario_nick = usuario_nick;
+    public void setUsuarioNick(String usuarioNick) {
+        this.usuarioNick = usuarioNick;
     }
 
     /**
-     * Gets the usuario_email.
+     * Obtiene usuario email.
      *
-     * @return the usuario_email
+     * @return usuario email
      */
     public String getUsuarioEmail() {
-        return this.usuarioEmail;
+        return usuarioEmail;
     }
 
     /**
-     * Sets the usuario_email.
+     * Establece usuario email.
      *
-     * @param usuario_email
-     *            the new usuario_email
+     * @param usuarioEmail
+     *            nuevo usuario email
      */
-    public void setUsuarioEmail(final String usuarioEmail) {
+    public void setUsuarioEmail(String usuarioEmail) {
         this.usuarioEmail = usuarioEmail;
     }
 
     /**
-     * Gets the usuario_url.
+     * Obtiene usuario url.
      *
-     * @return the usuario_url
+     * @return usuario url
      */
-    public String getUsuario_url() {
-        return this.usuario_url;
+    public String getUsuarioUrl() {
+        return usuarioUrl;
     }
 
     /**
-     * Sets the usuario_url.
+     * Establece usuario url.
      *
-     * @param usuario_url
-     *            the new usuario_url
+     * @param usuarioUrl
+     *            nuevo usuario url
      */
-    public void setUsuario_url(final String usuario_url) {
-        this.usuario_url = usuario_url;
+    public void setUsuarioUrl(String usuarioUrl) {
+        this.usuarioUrl = usuarioUrl;
     }
 
     /**
-     * Gets the usuario_fecha_registro.
+     * Obtiene usuario fecha registro.
      *
-     * @return the usuario_fecha_registro
+     * @return usuario fecha registro
      */
-    public Date getUsuario_fecha_registro() {
-        return this.usuario_fecha_registro;
+    public Date getUsuarioFechaRegistro() {
+        return usuarioFechaRegistro;
     }
 
     /**
-     * Sets the usuario_fecha_registro.
+     * Establece usuario fecha registro.
      *
-     * @param usuario_fecha_registro
-     *            the new usuario_fecha_registro
+     * @param usuarioFechaRegistro
+     *            nuevo usuario fecha registro
      */
-    public void setUsuario_fecha_registro(final Date usuario_fecha_registro) {
-        this.usuario_fecha_registro = usuario_fecha_registro;
+    public void setUsuarioFechaRegistro(Date usuarioFechaRegistro) {
+        this.usuarioFechaRegistro = usuarioFechaRegistro;
     }
 
     /**
-     * Gets the usuario_clave_activacion.
+     * Obtiene usuario clave activacion.
      *
-     * @return the usuario_clave_activacion
+     * @return usuario clave activacion
      */
-    public String getUsuario_clave_activacion() {
-        return this.usuario_clave_activacion;
+    public String getUsuarioClaveActivacion() {
+        return usuarioClaveActivacion;
     }
 
     /**
-     * Sets the usuario_clave_activacion.
+     * Establece usuario clave activacion.
      *
-     * @param usuario_clave_activacion
-     *            the new usuario_clave_activacion
+     * @param usuarioClaveActivacion
+     *            nuevo usuario clave activacion
      */
-    public void setUsuario_clave_activacion(final String usuario_clave_activacion) {
-        this.usuario_clave_activacion = usuario_clave_activacion;
+    public void setUsuarioClaveActivacion(String usuarioClaveActivacion) {
+        this.usuarioClaveActivacion = usuarioClaveActivacion;
     }
 
     /**
-     * Gets the usuario_status.
+     * Obtiene usuario status.
      *
-     * @return the usuario_status
+     * @return usuario status
      */
-    public Integer getUsuario_status() {
-        return this.usuario_status;
+    public Integer getUsuarioStatus() {
+        return usuarioStatus;
     }
 
     /**
-     * Sets the usuario_status.
+     * Establece usuario status.
      *
-     * @param usuario_status
-     *            the new usuario_status
+     * @param usuarioStatus
+     *            nuevo usuario status
      */
-    public void setUsuario_status(final Integer usuario_status) {
-        this.usuario_status = usuario_status;
+    public void setUsuarioStatus(Integer usuarioStatus) {
+        this.usuarioStatus = usuarioStatus;
     }
 
     /**
-     * Gets the usuario_nombre_visible.
+     * Obtiene usuario nombre visible.
      *
-     * @return the usuario_nombre_visible
+     * @return usuario nombre visible
      */
-    public String getUsuario_nombre_visible() {
-        return this.usuario_nombre_visible;
+    public String getUsuarioNombreVisible() {
+        return usuarioNombreVisible;
     }
 
     /**
-     * Sets the usuario_nombre_visible.
+     * Establece usuario nombre visible.
      *
-     * @param usuario_nombre_visible
-     *            the new usuario_nombre_visible
+     * @param usuarioNombreVisible
+     *            nuevo usuario nombre visible
      */
-    public void setUsuario_nombre_visible(final String usuario_nombre_visible) {
-        this.usuario_nombre_visible = usuario_nombre_visible;
+    public void setUsuarioNombreVisible(String usuarioNombreVisible) {
+        this.usuarioNombreVisible = usuarioNombreVisible;
     }
 
     /**
-     * Gets the usuario_rol_id.
+     * Obtiene usuario rol id.
      *
-     * @return the usuario_rol_id
+     * @return usuario rol id
      */
-    public Integer getUsuario_rol_id() {
-        return this.usuario_rol_id;
+    public Integer getUsuarioRolId() {
+        return usuarioRolId;
     }
 
     /**
-     * Sets the usuario_rol_id.
+     * Establece usuario rol id.
      *
-     * @param usuario_rol_id
-     *            the new usuario_rol_id
+     * @param usuarioRolId
+     *            nuevo usuario rol id
      */
-    public void setUsuario_rol_id(final Integer usuario_rol_id) {
-        this.usuario_rol_id = usuario_rol_id;
+    public void setUsuarioRolId(Integer usuarioRolId) {
+        this.usuarioRolId = usuarioRolId;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("usuario_id", this.usuario_id)
-                .append("usuario_login", this.usuario_login).append("usuario_contrasena", this.usuario_contrasena)
-                .append("usuario_nick", this.usuario_nick).append("usuario_email", this.usuarioEmail)
-                .append("usuario_url", this.usuario_url).append("usuario_fecha_registro", this.usuario_fecha_registro)
-                .append("usuario_clave_activacion", this.usuario_clave_activacion)
-                .append("usuario_status", this.usuario_status)
-                .append("usuario_nombre_visible", this.usuario_nombre_visible)
-                .append("usuario_rol_id", this.usuario_rol_id).toString();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * {@inheritDoc}
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof UsuarioEntity)) {
+        if (!(other instanceof UsuarioEntity))
             return false;
-        }
-        final UsuarioEntity castOther = (UsuarioEntity) other;
-        return new EqualsBuilder().append(this.usuario_id, castOther.usuario_id)
-                .append(this.usuario_login, castOther.usuario_login)
-                .append(this.usuario_contrasena, castOther.usuario_contrasena)
-                .append(this.usuario_nick, castOther.usuario_nick).append(this.usuarioEmail, castOther.usuarioEmail)
-                .append(this.usuario_url, castOther.usuario_url)
-                .append(this.usuario_fecha_registro, castOther.usuario_fecha_registro)
-                .append(this.usuario_clave_activacion, castOther.usuario_clave_activacion)
-                .append(this.usuario_status, castOther.usuario_status)
-                .append(this.usuario_nombre_visible, castOther.usuario_nombre_visible)
-                .append(this.usuario_rol_id, castOther.usuario_rol_id).isEquals();
+        UsuarioEntity castOther = (UsuarioEntity) other;
+        return new EqualsBuilder().append(usuarioId, castOther.usuarioId).append(usuarioLogin, castOther.usuarioLogin)
+                .append(usuarioContrasena, castOther.usuarioContrasena).append(usuarioNick, castOther.usuarioNick)
+                .append(usuarioEmail, castOther.usuarioEmail).append(usuarioUrl, castOther.usuarioUrl)
+                .append(usuarioFechaRegistro, castOther.usuarioFechaRegistro)
+                .append(usuarioClaveActivacion, castOther.usuarioClaveActivacion)
+                .append(usuarioStatus, castOther.usuarioStatus)
+                .append(usuarioNombreVisible, castOther.usuarioNombreVisible)
+                .append(usuarioRolId, castOther.usuarioRolId).isEquals();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.usuario_id).append(this.usuario_login).append(this.usuario_contrasena)
-                .append(this.usuario_nick).append(this.usuarioEmail).append(this.usuario_url)
-                .append(this.usuario_fecha_registro).append(this.usuario_clave_activacion).append(this.usuario_status)
-                .append(this.usuario_nombre_visible).append(this.usuario_rol_id).toHashCode();
+        return new HashCodeBuilder().append(usuarioId).append(usuarioLogin).append(usuarioContrasena)
+                .append(usuarioNick).append(usuarioEmail).append(usuarioUrl).append(usuarioFechaRegistro)
+                .append(usuarioClaveActivacion).append(usuarioStatus).append(usuarioNombreVisible).append(usuarioRolId)
+                .toHashCode();
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("usuarioId", usuarioId).append("usuarioLogin", usuarioLogin)
+                .append("usuarioContrasena", usuarioContrasena).append("usuarioNick", usuarioNick)
+                .append("usuarioEmail", usuarioEmail).append("usuarioUrl", usuarioUrl)
+                .append("usuarioFechaRegistro", usuarioFechaRegistro)
+                .append("usuarioClaveActivacion", usuarioClaveActivacion).append("usuarioStatus", usuarioStatus)
+                .append("usuarioNombreVisible", usuarioNombreVisible).append("usuarioRolId", usuarioRolId).toString();
+    }
+
 
 }

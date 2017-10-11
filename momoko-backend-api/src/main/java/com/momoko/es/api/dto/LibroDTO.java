@@ -28,7 +28,7 @@ public class LibroDTO implements Serializable {
     private Set<AutorDTO> autores;
 
     /** The saga id. */
-    private Integer sagaId;
+    private SagaDTO saga;
 
     /** The editorial id. */
     private EditorialDTO editorial;
@@ -106,8 +106,8 @@ public class LibroDTO implements Serializable {
      *
      * @return the saga id
      */
-    public Integer getSagaId() {
-        return this.sagaId;
+    public SagaDTO getSaga() {
+        return this.saga;
     }
 
     /**
@@ -116,8 +116,8 @@ public class LibroDTO implements Serializable {
      * @param sagaId
      *            the new saga id
      */
-    public void setSagaId(final Integer sagaId) {
-        this.sagaId = sagaId;
+    public void setSaga(final SagaDTO saga) {
+        this.saga = saga;
     }
 
     /**
@@ -336,7 +336,7 @@ public class LibroDTO implements Serializable {
         }
         final LibroDTO castOther = (LibroDTO) other;
         return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
-                .append(this.sagaId, castOther.sagaId).append(this.editorial, castOther.editorial)
+                .append(this.saga, castOther.saga).append(this.editorial, castOther.editorial)
                 .append(this.generos, castOther.generos).append(this.titulo, castOther.titulo)
                 .append(this.tituloOriginal, castOther.tituloOriginal).append(this.anoEdicion, castOther.anoEdicion)
                 .append(this.anoPublicacion, castOther.anoPublicacion)
@@ -347,7 +347,7 @@ public class LibroDTO implements Serializable {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.sagaId)
+        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.saga)
                 .append(this.editorial).append(this.generos).append(this.titulo).append(this.tituloOriginal)
                 .append(this.anoEdicion).append(this.anoPublicacion).append(this.numeroPaginas).append(this.citaLibro)
                 .append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen).toHashCode();
@@ -356,7 +356,7 @@ public class LibroDTO implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)
-                .append("sagaId", this.sagaId).append("editorial", this.editorial).append("generos", this.generos)
+                .append("saga", this.saga).append("editorial", this.editorial).append("generos", this.generos)
                 .append("titulo", this.titulo).append("tituloOriginal", this.tituloOriginal)
                 .append("anoEdicion", this.anoEdicion).append("anoPublicacion", this.anoPublicacion)
                 .append("numeroPaginas", this.numeroPaginas).append("citaLibro", this.citaLibro)

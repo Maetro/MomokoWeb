@@ -18,6 +18,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
@@ -40,7 +42,7 @@ public class LibroEntity extends AuditoriaBasica {
     /** The saga id. */
     @ManyToOne
     @JoinColumn(name = "saga_id")
-    private SagaEntity sagaId;
+    private SagaEntity saga;
 
     /** The orden saga. */
     private Integer ordenSaga;
@@ -131,8 +133,8 @@ public class LibroEntity extends AuditoriaBasica {
      *
      * @return the saga id
      */
-    public SagaEntity getSagaId() {
-        return this.sagaId;
+    public SagaEntity getSaga() {
+        return this.saga;
     }
 
     /**
@@ -141,8 +143,8 @@ public class LibroEntity extends AuditoriaBasica {
      * @param saga
      *            the new saga id
      */
-    public void setSagaId(final SagaEntity saga) {
-        this.sagaId = saga;
+    public void setSaga(final SagaEntity saga) {
+        this.saga = saga;
     }
 
     /**
@@ -355,38 +357,36 @@ public class LibroEntity extends AuditoriaBasica {
     }
 
     @Override
-    public boolean equals(final Object other) {
-        if (!(other instanceof LibroEntity)) {
-            return false;
-        }
-        final LibroEntity castOther = (LibroEntity) other;
-        return equalsAuditoria(this, other).append(this.libroId, castOther.libroId)
-                .append(this.autores, castOther.autores).append(this.sagaId, castOther.sagaId)
-                .append(this.editorial, castOther.editorial).append(this.generos, castOther.generos)
-                .append(this.titulo, castOther.titulo).append(this.anoEdicion, castOther.anoEdicion)
-                .append(this.citaLibro, castOther.citaLibro).append(this.resumen, castOther.resumen)
-                .append(this.enlaceAmazon, castOther.enlaceAmazon).append(this.urlImagen, castOther.urlImagen)
-                .append(this.anoPublicacion, castOther.anoPublicacion)
-                .append(this.numeroPaginas, castOther.numeroPaginas)
-                .append(this.tituloOriginal, castOther.tituloOriginal).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return hashCodeAuditoria(this).append(this.libroId).append(this.autores).append(this.sagaId)
-                .append(this.editorial).append(this.generos).append(this.titulo).append(this.anoEdicion)
-                .append(this.citaLibro).append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen)
-                .append(this.anoPublicacion).append(this.numeroPaginas).append(this.tituloOriginal).toHashCode();
-    }
-
-    @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)
-                .append("sagaId", this.sagaId).append("editorial", this.editorial).append("generos", this.generos)
+                .append("saga", this.saga).append("editorial", this.editorial).append("generos", this.generos)
                 .append("titulo", this.titulo).append("anoEdicion", this.anoEdicion).append("citaLibro", this.citaLibro)
                 .append("resumen", this.resumen).append("enlaceAmazon", this.enlaceAmazon)
                 .append("urlImagen", this.urlImagen).append("anoPublicacion", this.anoPublicacion)
                 .append("numeroPaginas", this.numeroPaginas).append("tituloOriginal", this.tituloOriginal).toString();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (!(other instanceof LibroEntity))
+            return false;
+        LibroEntity castOther = (LibroEntity) other;
+        return new EqualsBuilder().append(libroId, castOther.libroId).append(autores, castOther.autores)
+                .append(saga, castOther.saga).append(ordenSaga, castOther.ordenSaga)
+                .append(editorial, castOther.editorial).append(generos, castOther.generos)
+                .append(titulo, castOther.titulo).append(anoEdicion, castOther.anoEdicion)
+                .append(citaLibro, castOther.citaLibro).append(resumen, castOther.resumen)
+                .append(enlaceAmazon, castOther.enlaceAmazon).append(urlImagen, castOther.urlImagen)
+                .append(anoPublicacion, castOther.anoPublicacion).append(numeroPaginas, castOther.numeroPaginas)
+                .append(tituloOriginal, castOther.tituloOriginal).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(libroId).append(autores).append(saga).append(ordenSaga).append(editorial)
+                .append(generos).append(titulo).append(anoEdicion).append(citaLibro).append(resumen)
+                .append(enlaceAmazon).append(urlImagen).append(anoPublicacion).append(numeroPaginas)
+                .append(tituloOriginal).toHashCode();
     }
 
 }
