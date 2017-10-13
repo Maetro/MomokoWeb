@@ -10,7 +10,6 @@ import { ListaLibrosComponent } from './lista-libros/lista-libros.component';
 import { ListaGenerosComponent } from './lista-generos/lista-generos.component';
 
 import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule, SharedModule } from 'primeng/primeng';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { LibroService } from './../../services/libro.service';
 import { FileUploadService } from './../../services/fileUpload.service';
@@ -26,7 +25,6 @@ import { GeneroDetailComponent } from './genero-detail/genero-detail.component';
     FileUploadModule,
     DataTableModule,
     SharedModule,
-    BrowserAnimationsModule,
     Ng2CompleterModule
   ],
   declarations: [

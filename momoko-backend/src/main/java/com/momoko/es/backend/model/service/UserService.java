@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.exceptions.EmailExistsException;
+import com.momoko.es.api.exceptions.UserNotFoundException;
 
 /**
  * The Interface UserService.
@@ -23,7 +24,7 @@ public interface UserService {
      *            the nuevo usuario
      * @return the integer
      */
-    public Integer crearUsuario(UsuarioDTO nuevoUsuario) throws EmailExistsException;
+    public UsuarioDTO crearUsuario(UsuarioDTO nuevoUsuario) throws EmailExistsException;
 
     /**
      * Recuperar usuarios.
@@ -31,5 +32,16 @@ public interface UserService {
      * @return the list
      */
     public List<UsuarioDTO> recuperarUsuarios();
+
+    /**
+     * Does user exist.
+     *
+     * @param username
+     *            the username
+     * @return the usuario entity
+     */
+    public UsuarioDTO doesUserExist(String username) throws UserNotFoundException;
+
+    public boolean existeUsuario(String usuarioEmail);
 
 }

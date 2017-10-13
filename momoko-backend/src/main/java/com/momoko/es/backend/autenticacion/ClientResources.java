@@ -7,6 +7,8 @@
 package com.momoko.es.backend.autenticacion;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
+import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
 
 /**
  * The Class ClientResources.
@@ -15,26 +17,16 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceS
  */
 public class ClientResources {
 
-    // @NestedConfigurationProperty
-    // private AuthorizationCodeResourceDetails client = new AuthorizationCodeResourceDetails();
+    @NestedConfigurationProperty
+    private final AuthorizationCodeResourceDetails client = new AuthorizationCodeResourceDetails();
 
-    // @NestedConfigurationProperty
+    @NestedConfigurationProperty
     private final ResourceServerProperties resource = new ResourceServerProperties();
 
-    /**
-     * Obtiene client.
-     *
-     * @return client
-     */
-    // public AuthorizationCodeResourceDetails getClient() {
-    // return client;
-    // }
+    public AuthorizationCodeResourceDetails getClient() {
+        return this.client;
+    }
 
-    /**
-     * Obtiene resource.
-     *
-     * @return resource
-     */
     public ResourceServerProperties getResource() {
         return this.resource;
     }

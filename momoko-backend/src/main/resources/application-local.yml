@@ -28,13 +28,10 @@ gmail:
     userInfoUri: https://www.googleapis.com/plus/v1/people/me
     preferTokenInfo: false
 
-
-
-#Facebook
 facebook:
   client:
-    clientId: 1932678757049258
-    clientSecret: 5631874010ff42582ee3bf7a642bec6a
+    clientId: 233668646673605
+    clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
     accessTokenUri: https://graph.facebook.com/oauth/access_token
     userAuthorizationUri: https://www.facebook.com/dialog/oauth
     tokenName: oauth_token
@@ -42,6 +39,19 @@ facebook:
     clientAuthenticationScheme: form
   resource:
     userInfoUri: https://graph.facebook.com/me
+
+#Facebook
+#facebook:
+#  client:
+#    clientId: 1932678757049258
+#    clientSecret: 5631874010ff42582ee3bf7a642bec6a
+#    accessTokenUri: https://graph.facebook.com/oauth/access_token
+#    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+#    tokenName: oauth_token
+#    authenticationScheme: query
+#    clientAuthenticationScheme: form
+#  resource:
+#    userInfoUri: https://graph.facebook.com/me
 
 #AuthoritationServer  
 

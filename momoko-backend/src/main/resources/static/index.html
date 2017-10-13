@@ -1,4 +1,65 @@
-<!DOCTYPE html><html lang="es_ES"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="Blog de libros, reseñas y análisis literario. Descubre toda la actualidad y tu próxima lectura en momoko.es" content=""><meta name="Momoko" content="libros,literatura,reseñas"><link rel="shortcut icon" href="style/images/favicon.png"><title>Momoko</title><link rel="stylesheet" type="text/css" href="assets/style/css/bootstrap.min.css"><link rel="stylesheet" type="text/css" href="assets/style/css/plugins.css"><link rel="stylesheet" type="text/css" href="assets/style/style.css"><link rel="stylesheet" type="text/css" href="assets/style/css/color/rose.css"><link rel="stylesheet" type="text/css" href="assets/style/type/icons.css"><link href="https://fonts.googleapis.com/css?family=Josefin+Sans:100,100i,300,300i,400,400i,600,600i,700,700i%7CVidaloka" rel="stylesheet"><!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --><!-- WARNING: Respond.js doesn't work if you view the page via file:// --><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><link href="styles.20febb1806685b8ca816.bundle.css" rel="stylesheet"/></head><body><base href="/"><app-root>Cargando ...</app-root><!-- /footer --><script async src="https://pepper.swat.io/embed.js?eyJwb3NpdGlvbiI6InJpZ2h0IiwiY29sb3IiOiJkNzdkOGEiLCJjdXN0b21Db2xvciI6dHJ1ZSwiaWNvbiI6ImJ1YmJsZSIsInByb25vdW4iOiJ1cyIsImxhbmd1YWdlIjoiZW4iLCJicmFuZGVkIjp0cnVlLCJpbnRyb1RleHQiOm51bGwsImNoYW5uZWxzIjpbWyJmYWNlYm9vayIsImVsZW1pcyIsInNvY2lhbCJdLFsidHdpdHRlciIsImVsZW1pc2Rlc2lnbiIsInNvY2lhbCJdLFsiaW5zdGFncmFtIiwidXJiYW5zaG90cyIsInNvY2lhbCJdLFsicGhvbmUiLCIrODAgNTU1IDIzMSA1NyA0MTQiLCJjbGFzc2ljIl0sWyJlbWFpbCIsIm1haWxAanVub3N0dWRpby5jb20iLCJjbGFzc2ljIl1dfQ=="></script><script type="text/javascript" src="assets/style/js/jquery.min.js"></script><script type="text/javascript" src="assets/style/js/bootstrap.min.js"></script><script type="text/javascript" src="assets/style/js/plugins.js"></script><script type="text/javascript" src="assets/style/js/scripts.js"></script><script type="text/javascript" src="inline.5ea4fd403386de98d5e7.bundle.js"></script><script type="text/javascript" src="polyfills.1b26c14347590483ab35.bundle.js"></script><script type="text/javascript" src="vendor.24b5e099dca3470b5b91.bundle.js"></script><script type="text/javascript" src="main.9d22488a4bc2475b8d93.bundle.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<title>Demo</title>
+<meta name="description" content="" />
+<meta name="viewport" content="width=device-width" />
+<base href="/" />
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<script type="text/javascript"
+	src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body ng-app="app" ng-controller="home as home">
+	<h1>Login</h1>
+	<div class="container" ng-show="!home.authenticated">
+		<div>
+			With Facebook: <a href="/login/facebook">click here</a>
+		</div>
+		<div>
+			With Gmail: <a href="/login/gmail">click here</a>
+		</div>
+	</div>
+	<div class="container" ng-show="home.authenticated">
+		Logged in as: <span ng-bind="home.user"></span>
+		<div>
+			<button ng-click="home.logout()" class="btn btn-primary">Logout</button>
+		</div>
+	</div>
+	<script type="text/javascript" src="/webjars/angularjs/angular.min.js"></script>
+	<script type="text/javascript">
+		angular
+				.module("app", [])
+				.config(
+						function($httpProvider) {
+							$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+						}).controller("home", function($http, $location) {
+					var self = this;
+					$http.get("/user").success(function(data) {
+						if (data.name) {
+							self.user = data.name;
+							self.authenticated = true;
+						} else {
+							self.user = "N/A";
+							self.authenticated = false;
+						}
+					}).error(function() {
+						self.user = "N/A";
+						self.authenticated = false;
+					});
+					self.logout = function() {
+						$http.post('logout', {}).success(function() {
+							self.authenticated = false;
+							$location.path("/");
+						}).error(function(data) {
+							console.log("Logout failed")
+							self.authenticated = false;
+						});
+					};
+				});
+	</script>
+</body>
+</html>

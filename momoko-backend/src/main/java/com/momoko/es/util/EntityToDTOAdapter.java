@@ -65,7 +65,7 @@ public final class EntityToDTOAdapter {
         libroDTO.setEnlaceAmazon(libroEntity.getEnlaceAmazon());
         libroDTO.setLibroId(libroEntity.getLibroId());
         libroDTO.setResumen(libroEntity.getResumen());
-        libroDTO.setSaga(adaptarSaga(libroEntity.getSaga()));
+        libroDTO.setSaga(libroEntity.getSaga() != null ? adaptarSaga(libroEntity.getSaga()) : null);
         libroDTO.setTitulo(libroEntity.getTitulo());
         libroDTO.setUrlImagen(libroEntity.getUrlImagen());
         libroDTO.setAutores(adaptarAutores(libroEntity.getAutores()));
@@ -109,8 +109,8 @@ public final class EntityToDTOAdapter {
      *            saga entity
      * @return the saga DTO
      */
-    private static SagaDTO adaptarSaga(SagaEntity sagaEntity) {
-        SagaDTO sagaDTO = new SagaDTO();
+    private static SagaDTO adaptarSaga(final SagaEntity sagaEntity) {
+        final SagaDTO sagaDTO = new SagaDTO();
         sagaDTO.setSagaId(sagaEntity.getSagaId());
         sagaDTO.setDescripcionSaga(sagaEntity.getDescripcionSaga());
         return sagaDTO;

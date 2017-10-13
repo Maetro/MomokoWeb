@@ -11,55 +11,51 @@
                id="email"
                placeholder="Email"
                required
-               [(ngModel)]="model.email"
+               [(ngModel)]="model.usuarioEmail"
                name="email"
                #email="ngModel"
         >
+        {{email.valid}} - {{loginForm}}
         <div [hidden]="email.valid || email.pristine"
              class="alert alert-danger">
-          Email address is required
+          El email es obligatorio.
         </div>
       </div>
     </div>
     <div class="form-group">
-      <label for="password" class="col-sm-2 control-label">Password</label>
+      <label for="password" class="col-sm-2 control-label">Contraseña</label>
       <div class="col-sm-6">
         <input type="password"
                class="form-control"
                id="password"
                placeholder="Password"
                required
-               [(ngModel)]="model.password"
+               [(ngModel)]="model.usuarioContrasena"
                name="password"
                #password="ngModel"
         >
         <div [hidden]="password.valid || password.pristine"
              class="alert alert-danger">
-          Password is required
+          La contraseña es obligatoria.
         </div>
       </div>
     </div>
     <div class="form-group">
-      <label for="firstname" class="col-sm-2 control-label">First Name</label>
+      <label for="firstname" class="col-sm-2 control-label">Nick</label>
       <div class="col-sm-6">
         <input type="text"
                class="form-control"
                id="firstname"
-               placeholder="First Name"
+               placeholder="Nick usuario"
                required
-               [(ngModel)]="model.firstname"
+               [(ngModel)]="model.usuarioLogin"
                name="firstname"
                #firstname="ngModel"
         >
         <div [hidden]="firstname.valid || firstname.pristine"
              class="alert alert-danger">
-          First name is required
+          El nick es obligatorio.
         </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-          <input type="checkbox" [checked]="isDoctor" (change)="isDoctor = !isDoctor" /> <strong>I am a Doctor</strong>
       </div>
     </div>
     <div class="form-group">

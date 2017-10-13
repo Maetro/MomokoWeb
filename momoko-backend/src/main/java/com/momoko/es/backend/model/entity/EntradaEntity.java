@@ -27,11 +27,11 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class EntradaEntity extends AuditoriaBasica {
 
     private @Id @GeneratedValue Integer entradaId;
-    
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private UsuarioEntity entradaAutor;
-    
+
     /** The url entrada. */
     private String urlEntrada;
 
@@ -59,6 +59,8 @@ public class EntradaEntity extends AuditoriaBasica {
     private EntradaEntity padreEntrada;
 
     /** The libro entrada. */
+    @ManyToOne
+    @JoinColumn(name = "libro_entrada")
     private LibroEntity libroEntrada;
 
     /** The numero comentarios. */
@@ -79,7 +81,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return entrada id
      */
     public Integer getEntradaId() {
-        return entradaId;
+        return this.entradaId;
     }
 
     /**
@@ -88,7 +90,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param entradaId
      *            nuevo entrada id
      */
-    public void setEntradaId(Integer entradaId) {
+    public void setEntradaId(final Integer entradaId) {
         this.entradaId = entradaId;
     }
 
@@ -98,7 +100,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return entrada autor
      */
     public UsuarioEntity getEntradaAutor() {
-        return entradaAutor;
+        return this.entradaAutor;
     }
 
     /**
@@ -107,7 +109,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param entradaAutor
      *            nuevo entrada autor
      */
-    public void setEntradaAutor(UsuarioEntity entradaAutor) {
+    public void setEntradaAutor(final UsuarioEntity entradaAutor) {
         this.entradaAutor = entradaAutor;
     }
 
@@ -117,7 +119,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return url entrada
      */
     public String getUrlEntrada() {
-        return urlEntrada;
+        return this.urlEntrada;
     }
 
     /**
@@ -126,7 +128,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param url_Entrada
      *            nuevo url entrada
      */
-    public void setUrlEntrada(String urlEntrada) {
+    public void setUrlEntrada(final String urlEntrada) {
         this.urlEntrada = urlEntrada;
     }
 
@@ -136,7 +138,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return tipo entrada
      */
     public String getTipoEntrada() {
-        return tipoEntrada;
+        return this.tipoEntrada;
     }
 
     /**
@@ -145,7 +147,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param tipoEntrada
      *            nuevo tipo entrada
      */
-    public void setTipoEntrada(String tipoEntrada) {
+    public void setTipoEntrada(final String tipoEntrada) {
         this.tipoEntrada = tipoEntrada;
     }
 
@@ -155,7 +157,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return titulo entrada
      */
     public String getTituloEntrada() {
-        return tituloEntrada;
+        return this.tituloEntrada;
     }
 
     /**
@@ -164,7 +166,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param tituloEntrada
      *            nuevo titulo entrada
      */
-    public void setTituloEntrada(String tituloEntrada) {
+    public void setTituloEntrada(final String tituloEntrada) {
         this.tituloEntrada = tituloEntrada;
     }
 
@@ -174,7 +176,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return contenido entrada
      */
     public String getContenidoEntrada() {
-        return contenidoEntrada;
+        return this.contenidoEntrada;
     }
 
     /**
@@ -183,7 +185,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param contenidoEntrada
      *            nuevo contenido entrada
      */
-    public void setContenidoEntrada(String contenidoEntrada) {
+    public void setContenidoEntrada(final String contenidoEntrada) {
         this.contenidoEntrada = contenidoEntrada;
     }
 
@@ -193,7 +195,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return resumen entrada
      */
     public String getResumenEntrada() {
-        return resumenEntrada;
+        return this.resumenEntrada;
     }
 
     /**
@@ -202,7 +204,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param resumenEntrada
      *            nuevo resumen entrada
      */
-    public void setResumenEntrada(String resumenEntrada) {
+    public void setResumenEntrada(final String resumenEntrada) {
         this.resumenEntrada = resumenEntrada;
     }
 
@@ -212,7 +214,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return estado entrada
      */
     public Integer getEstadoEntrada() {
-        return estadoEntrada;
+        return this.estadoEntrada;
     }
 
     /**
@@ -221,7 +223,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param estadoEntrada
      *            nuevo estado entrada
      */
-    public void setEstadoEntrada(Integer estadoEntrada) {
+    public void setEstadoEntrada(final Integer estadoEntrada) {
         this.estadoEntrada = estadoEntrada;
     }
 
@@ -231,7 +233,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return permitir comentarios
      */
     public Boolean getPermitirComentarios() {
-        return permitirComentarios;
+        return this.permitirComentarios;
     }
 
     /**
@@ -240,7 +242,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param permitirComentarios
      *            nuevo permitir comentarios
      */
-    public void setPermitirComentarios(Boolean permitirComentarios) {
+    public void setPermitirComentarios(final Boolean permitirComentarios) {
         this.permitirComentarios = permitirComentarios;
     }
 
@@ -250,7 +252,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return padre entrada
      */
     public EntradaEntity getPadreEntrada() {
-        return padreEntrada;
+        return this.padreEntrada;
     }
 
     /**
@@ -259,7 +261,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param padreEntrada
      *            nuevo padre entrada
      */
-    public void setPadreEntrada(EntradaEntity padreEntrada) {
+    public void setPadreEntrada(final EntradaEntity padreEntrada) {
         this.padreEntrada = padreEntrada;
     }
 
@@ -269,7 +271,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return libro entrada
      */
     public LibroEntity getLibroEntrada() {
-        return libroEntrada;
+        return this.libroEntrada;
     }
 
     /**
@@ -278,7 +280,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param libroEntrada
      *            nuevo libro entrada
      */
-    public void setLibroEntrada(LibroEntity libroEntrada) {
+    public void setLibroEntrada(final LibroEntity libroEntrada) {
         this.libroEntrada = libroEntrada;
     }
 
@@ -288,7 +290,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return numero comentarios
      */
     public Integer getNumeroComentarios() {
-        return numeroComentarios;
+        return this.numeroComentarios;
     }
 
     /**
@@ -297,7 +299,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param numeroComentarios
      *            nuevo numero comentarios
      */
-    public void setNumeroComentarios(Integer numeroComentarios) {
+    public void setNumeroComentarios(final Integer numeroComentarios) {
         this.numeroComentarios = numeroComentarios;
     }
 
@@ -307,7 +309,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return orden
      */
     public Integer getOrden() {
-        return orden;
+        return this.orden;
     }
 
     /**
@@ -316,42 +318,46 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param orden
      *            nuevo orden
      */
-    public void setOrden(Integer orden) {
+    public void setOrden(final Integer orden) {
         this.orden = orden;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof EntradaEntity))
+        if (!(other instanceof EntradaEntity)) {
             return false;
-        EntradaEntity castOther = (EntradaEntity) other;
-        return new EqualsBuilder().append(entradaId, castOther.entradaId).append(entradaAutor, castOther.entradaAutor)
-                .append(urlEntrada, castOther.urlEntrada).append(tipoEntrada, castOther.tipoEntrada)
-                .append(tituloEntrada, castOther.tituloEntrada).append(contenidoEntrada, castOther.contenidoEntrada)
-                .append(resumenEntrada, castOther.resumenEntrada).append(estadoEntrada, castOther.estadoEntrada)
-                .append(permitirComentarios, castOther.permitirComentarios).append(padreEntrada, castOther.padreEntrada)
-                .append(libroEntrada, castOther.libroEntrada).append(numeroComentarios, castOther.numeroComentarios)
-                .append(orden, castOther.orden).isEquals();
+        }
+        final EntradaEntity castOther = (EntradaEntity) other;
+        return new EqualsBuilder().append(this.entradaId, castOther.entradaId)
+                .append(this.entradaAutor, castOther.entradaAutor).append(this.urlEntrada, castOther.urlEntrada)
+                .append(this.tipoEntrada, castOther.tipoEntrada).append(this.tituloEntrada, castOther.tituloEntrada)
+                .append(this.contenidoEntrada, castOther.contenidoEntrada)
+                .append(this.resumenEntrada, castOther.resumenEntrada)
+                .append(this.estadoEntrada, castOther.estadoEntrada)
+                .append(this.permitirComentarios, castOther.permitirComentarios)
+                .append(this.padreEntrada, castOther.padreEntrada).append(this.libroEntrada, castOther.libroEntrada)
+                .append(this.numeroComentarios, castOther.numeroComentarios).append(this.orden, castOther.orden)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(entradaId).append(entradaAutor).append(urlEntrada).append(tipoEntrada)
-                .append(tituloEntrada).append(contenidoEntrada).append(resumenEntrada).append(estadoEntrada)
-                .append(permitirComentarios).append(padreEntrada).append(libroEntrada).append(numeroComentarios)
-                .append(orden).toHashCode();
+        return new HashCodeBuilder().append(this.entradaId).append(this.entradaAutor).append(this.urlEntrada)
+                .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
+                .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
+                .append(this.padreEntrada).append(this.libroEntrada).append(this.numeroComentarios).append(this.orden)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("entradaId", entradaId).append("entradaAutor", entradaAutor)
-                .append("urlEntrada", urlEntrada).append("tipoEntrada", tipoEntrada)
-                .append("tituloEntrada", tituloEntrada).append("contenidoEntrada", contenidoEntrada)
-                .append("resumenEntrada", resumenEntrada).append("estadoEntrada", estadoEntrada)
-                .append("permitirComentarios", permitirComentarios).append("padreEntrada", padreEntrada)
-                .append("libroEntrada", libroEntrada).append("numeroComentarios", numeroComentarios)
-                .append("orden", orden).toString();
+        return new ToStringBuilder(this).append("entradaId", this.entradaId).append("entradaAutor", this.entradaAutor)
+                .append("urlEntrada", this.urlEntrada).append("tipoEntrada", this.tipoEntrada)
+                .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
+                .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)
+                .append("permitirComentarios", this.permitirComentarios).append("padreEntrada", this.padreEntrada)
+                .append("libroEntrada", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
+                .append("orden", this.orden).toString();
     }
-    
 
 }

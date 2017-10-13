@@ -7,15 +7,19 @@
 package com.momoko.es.backend.model.facade;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,19 +30,23 @@ import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.ErrorCreacionUsuario;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.exceptions.EmailExistsException;
+import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.api.response.RegistrarUsuarioRespoonse;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
-@RequestMapping(path = "/usuario")
+@RequestMapping(path = "/account")
 public class UserFacade {
 
     @Autowired(required = false)
-    private UserService userService;
+    private UserService usuarioService;
 
     @Autowired(required = false)
     private ValidadorService validadorService;
+
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping(path = "/nuevo")
     public @ResponseBody RegistrarUsuarioRespoonse
@@ -54,10 +62,10 @@ public class UserFacade {
         nuevoUsuario.setUsuarioContrasena(nuevoUsuarioRequest.getContrasena());
         nuevoUsuario.setUsuarioLogin(nuevoUsuarioRequest.getNick());
         nuevoUsuario.setUsuarioRolId(1);
-        Integer usuarioId;
+        UsuarioDTO usuario;
         try {
-            usuarioId = this.userService.crearUsuario(nuevoUsuario);
-            nuevoUsuario.setUsuarioId(usuarioId);
+            usuario = this.usuarioService.crearUsuario(nuevoUsuario);
+            nuevoUsuario.setUsuarioId(usuario.getUsuarioId());
         } catch (final EmailExistsException e) {
             listaErrores.add(ErrorCreacionUsuario.EMAIL_YA_EXISTE);
         }
@@ -77,7 +85,7 @@ public class UserFacade {
     @GetMapping(path = "/usuarios")
     public @ResponseBody Iterable<UsuarioDTO> getAllUsers() {
         // This returns a JSON or XML with the users
-        return this.userService.recuperarUsuarios();
+        return this.usuarioService.recuperarUsuarios();
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -87,4 +95,26 @@ public class UserFacade {
         return "registration";
     }
 
+    @PostMapping(value = "/signup")
+    public UsuarioDTO processSignup(final ModelMap model, @RequestBody final UsuarioDTO reqUser)
+            throws EmailExistsException, UserNotFoundException {
+        UsuarioDTO nuevoUsuario = null;
+        boolean existeUsuario = false;
+
+        existeUsuario = this.usuarioService.existeUsuario(reqUser.getUsuarioEmail());
+
+        if (existeUsuario) {
+            throw new UserNotFoundException();
+        }
+        nuevoUsuario = new UsuarioDTO();
+        nuevoUsuario.setUsuarioEmail(reqUser.getUsuarioEmail());
+        nuevoUsuario.setUsuarioContrasena(this.passwordEncoder.encode(reqUser.getUsuarioContrasena()));
+        nuevoUsuario.setUsuarioLogin(reqUser.getUsuarioLogin());
+        nuevoUsuario.setUsuarioNick(reqUser.getUsuarioLogin());
+        nuevoUsuario.setUsuarioFechaRegistro(Calendar.getInstance().getTime());
+        nuevoUsuario.setUsuarioRolId(2);
+        final UsuarioDTO persistedUser = this.usuarioService.crearUsuario(nuevoUsuario);
+
+        return persistedUser;
+    }
 }

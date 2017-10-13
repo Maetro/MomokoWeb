@@ -24,4 +24,13 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
      */
     UsuarioEntity findByUsuarioEmail(String email);
 
+    /**
+     * Find by usuario login.
+     *
+     * @param login
+     *            the login
+     * @return the usuario entity
+     */
+    UsuarioEntity findByUsuarioLogin(String login);
+
 }

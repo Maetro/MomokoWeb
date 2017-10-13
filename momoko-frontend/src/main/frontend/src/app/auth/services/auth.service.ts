@@ -46,8 +46,8 @@ export class AuthService {
 
   login(login: Login): Observable<LoginStatus> {
     const params = new URLSearchParams();
-    params.append('username', login.email);
-    params.append('password', login.password);
+    params.append('username', login.usuarioEmail);
+    params.append('password', login.usuarioContrasena);
     params.append('grant_type', 'password');
     params.append('client_id', 'healthapp');
     const headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Basic ' +

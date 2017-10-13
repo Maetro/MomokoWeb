@@ -12,7 +12,6 @@ import { AuthModule } from './auth/auth.module';
 
 import { MenuComponent } from './menu/menu.component';
 import { HeaderComponent } from './header/header.component';
-import { ContenidoComponent } from './contenido/contenido.component';
 import { FooterComponent } from './footer/footer.component';
 import { routing } from './app.routing';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
@@ -26,7 +25,6 @@ import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/
     AppComponent,
     MenuComponent,
     HeaderComponent,
-    ContenidoComponent,
     FooterComponent,
     AdminComponent,
     PageNotFoundComponent

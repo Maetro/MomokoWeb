@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.exceptions.EmailExistsException;
+import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.util.DTOToEntityAdapter;
+import com.momoko.es.util.EntityToDTOAdapter;
 
 /**
  * The Class UserServiceImpl.
@@ -27,13 +29,13 @@ public class UserServiceImpl implements UserService {
     private UsuarioRepository usuarioRepository;
 
     @Override
-    public Integer crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
+    public UsuarioDTO crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
         if (emailExiste(nuevoUsuario.getUsuarioEmail())) {
             throw new EmailExistsException("Ya existe un usuario con ese email: " + nuevoUsuario.getUsuarioEmail());
         }
         final UsuarioEntity usuarioEntity = DTOToEntityAdapter.adaptarUsuario(nuevoUsuario);
-        this.usuarioRepository.save(usuarioEntity);
-        return null;
+        return EntityToDTOAdapter.adaptarUsuario(this.usuarioRepository.save(usuarioEntity));
+
     }
 
     @Override
@@ -54,6 +56,18 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public UsuarioDTO doesUserExist(final String username) throws UserNotFoundException {
+        final UsuarioEntity usuario = this.usuarioRepository.findByUsuarioLogin(username);
+        return EntityToDTOAdapter.adaptarUsuario(usuario);
+    }
+
+    @Override
+    public boolean existeUsuario(final String usuarioEmail) {
+        // TODO Auto-generated method stub
         return false;
     }
 
