@@ -1,5 +1,5 @@
 /**
- * SimpleCORSFilter.java 02-sep-2017
+ * CorsFilter.java 16-oct-2017
  *
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com

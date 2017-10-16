@@ -9,10 +9,4 @@ export class User {
       constructor() {
       }
 
-      public static isNull(user: User): boolean {
-          return user.email === null &&
-              user.password === null &&
-              user.firstname === null &&
-              user.lastname === null;
-      }
   }

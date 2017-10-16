@@ -19,6 +19,7 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
 import { GestionLibrosModule } from './contenido/gestion-libros/gestion-libros.module';
 import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/lista-libros.component';
 import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/lista-generos.component';
+import { GestionEntradasModule } from 'app/contenido/gestion-entradas/gestion-entradas.module';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/
     HttpClientModule,
     HttpModule,
     GestionLibrosModule,
+    GestionEntradasModule,
     routing
   ],
   providers: [],

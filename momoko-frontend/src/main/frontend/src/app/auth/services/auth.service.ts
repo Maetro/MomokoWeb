@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import { Cookie } from 'ng2-cookies';
 import { NewUser, SignupStatus, LoginStatus, Login } from 'app/auth/dtos/login';
 
+
 @Injectable()
 export class AuthService {
   isLoggedIn: Observable<boolean>;
@@ -45,6 +46,7 @@ export class AuthService {
   }
 
   login(login: Login): Observable<LoginStatus> {
+    console.log(login);
     const params = new URLSearchParams();
     params.append('username', login.usuarioEmail);
     params.append('password', login.usuarioContrasena);
@@ -67,27 +69,22 @@ export class AuthService {
   saveToken(token: any) {
     const expireDate = new Date().getTime() + (1000 * token.expires_in);
     Cookie.set('access_token', token.access_token, expireDate);
+    console.log('Cookie: ' + token.access_token + ' - ' + Cookie.get('access_token'))
     Cookie.set('role', token.role);
     this.changeLoginStatus(true);
     if (token.role === 'ROLE_DOCTOR') {
       this.router.navigate(['rx']);
     } else {
-      this.router.navigate(['patient/home']);
+      this.router.navigate(['/']);
     }
 
   }
 
-  checkCredentials() {
-    if (!Cookie.check('access_token')) {
-      this.router.navigate(['/login']);
-    }
-  }
-
-  logout() {
-    Cookie.delete('access_token');
-    Cookie.delete('role');
-    this.changeLoginStatus(false);
-  }
+  // logout() {
+  //   Cookie.delete('access_token');
+  //   Cookie.delete('role');
+  //   this.changeLoginStatus(false);
+  // }
 
   changeLoginStatus(status: boolean) {
     if (this.observer !== undefined) {
@@ -105,4 +102,63 @@ export class AuthService {
       })
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
+
+  userLoads(): void {
+    console.log('user loads');
+    const url = `${this.serverUrl}/user`;
+    const options       = new RequestOptions({ headers: this.headers, withCredentials: true });
+
+    this.http.get(url)
+      .toPromise()
+      .then(response => {
+        console.log(response);
+      })
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+
+  // BORRAME
+  obtainAccessToken(loginData: Login) {
+    const params = new URLSearchParams();
+    params.append('username', loginData.usuarioEmail);
+    params.append('password', loginData.usuarioContrasena);
+    params.append('grant_type', 'password');
+    params.append('client_id', 'healthapp');
+    const headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization':
+     'Basic ' + btoa('healthapp:HeAltH@!23')});
+    const options = new RequestOptions({ headers: headers });
+
+    this.http.post('http://localhost:8080/oauth/token', params.toString(), options)
+      .map(res => {
+        console.log('autenticado');
+        this.saveToken(res.json());
+        return new LoginStatus('SUCCESS', 'Login Successful')})
+      .subscribe(
+        data => console.log(data),
+        err => alert('Invalid Credentials'));
+  }
+
+  // saveToken(token) {
+  //   const expireDate = new Date().getTime() + (1000 * token.expires_in);
+  //   Cookie.set('access_token', token.access_token, expireDate);
+  //   this.router.navigate(['/']);
+  // }
+
+  checkCredentials() {
+    console.log('checkCredentials')
+    if (!Cookie.check('access_token')) {
+      this.router.navigate(['/auth/login']);
+    } else {
+      this.isLoggedIn = new Observable(observer =>
+        this.observer = observer
+      );
+      this.changeLoginStatus(true);
+    }
+  }
+
+  logout() {
+    Cookie.delete('access_token');
+    this.router.navigate(['/auth/login']);
+  }
+
 }

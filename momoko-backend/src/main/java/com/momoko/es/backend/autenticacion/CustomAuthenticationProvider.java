@@ -1,5 +1,5 @@
 /**
- * CustomAuthenticationProvider.java 12-oct-2017
+ * CustomAuthenticationProvider.java 16-oct-2017
  *
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
@@ -10,15 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +34,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     @Autowired
     private UserService userService;
 
+    @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
 
     public CustomAuthenticationProvider() {
@@ -44,21 +47,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         UsuarioDTO user = null;
         try {
-            user = this.userService.doesUserExist(username);
+            user = this.userService.doesEmailExist(username);
         } catch (final UserNotFoundException e) {
-            throw new InternalAuthenticationServiceException("El usuario no existe");
         }
 
         if ((user == null) || !user.getUsuarioEmail().equalsIgnoreCase(username)) {
             throw new BadCredentialsException("Username not found.");
         }
 
-        if (!password.equals(user.getUsuarioContrasena())) {
+        if (!this.passwordEncoder.matches(password, user.getUsuarioContrasena())) {
             throw new BadCredentialsException("Wrong password.");
         }
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         if (user.getUsuarioRolId() == 1) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_DOCTOR"));
         } else {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
@@ -72,12 +74,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
 
-    public void setPasswordEncoder(final PasswordEncoder passwordEncoder) {
-        this.passwordEncoder = passwordEncoder;
-    }
-
-    public PasswordEncoder getPasswordEncoder() {
-        return this.passwordEncoder;
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

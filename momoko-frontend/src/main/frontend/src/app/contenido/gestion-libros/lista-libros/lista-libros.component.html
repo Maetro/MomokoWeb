@@ -3,6 +3,7 @@
     <div class="col-xs-12">
       <div [hidden]="selectedLibro">
         <button type="button" (click)="nuevoLibro()" class="btn btn-outline-primary">Nuevo Libro</button>
+        <button type="button" (click)="obtenerLibros()" class="btn btn-outline-primary">Obtener Libros</button>
         <a href="/lista-generos"><button type="button" class="btn btn-outline-primary">Nuevo Genero</button></a>
       </div>
       <div [hidden]="!selectedLibro">

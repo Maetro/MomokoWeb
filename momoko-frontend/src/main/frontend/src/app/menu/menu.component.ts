@@ -15,9 +15,15 @@ export class MenuComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.authService.isLoggedIn.subscribe(loginStatus =>
-      this.isLoggedIn = loginStatus
-    );
+    console.log('user loads')
+    this.authService.userLoads();
+    // this.authService.checkLoginStatus();
+    // this.authService.checkCredentials();
+    // this.isLoggedIn = true;
+    // this.authService.isLoggedIn.subscribe(loginStatus => {
+    //   this.isLoggedIn = loginStatus
+    // }
+    // );
   }
 
   myHome() {

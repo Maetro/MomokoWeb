@@ -9,6 +9,8 @@ import { GeneralDataResponse } from './interfaces/GeneralDataResponse';
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { HttpHeaders } from '@angular/common/http';
+import { Cookie } from 'ng2-cookies';
 
 @Injectable()
 export class GeneralDataService {
@@ -21,6 +23,10 @@ export class GeneralDataService {
 
 
   getInformacionGeneral(): Observable<GeneralDataResponse> {
+    // const headers = new HttpHeaders({
+    //   'Content-type': 'application/json',
+    //   'Authorization': 'Bearer ' + Cookie.get('access_token')
+    //   });
     console.log('getInformacionGeneral()');
     this.resultados = this.http.get(this.informacionGeneralUrl)
     .map(this.extractData)

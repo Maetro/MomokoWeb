@@ -66,6 +66,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UsuarioDTO doesEmailExist(final String email) throws UserNotFoundException {
+        final UsuarioEntity usuario = this.usuarioRepository.findByUsuarioEmail(email);
+        return EntityToDTOAdapter.adaptarUsuario(usuario);
+    }
+
+    @Override
     public boolean existeUsuario(final String usuarioEmail) {
         // TODO Auto-generated method stub
         return false;

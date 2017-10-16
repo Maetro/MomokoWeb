@@ -21,7 +21,7 @@ export class ListaLibrosComponent implements OnInit {
 
   title = 'Libros';
   libros: Libro[];
-  generos: Genero[];
+  generos: Genero[];jgh
   selectedLibro: Libro;
 
   constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
@@ -78,6 +78,16 @@ export class ListaLibrosComponent implements OnInit {
     this.libros = [];
     this.getLibros();
     console.log(libro);
+  }
+
+  obtenerLibros(): void {
+    this.libroService.getLibros().then(librosP => {
+      const librosList = librosP
+      librosList.forEach(element => {
+        this.libros =  [ ...this.libros, element ];
+      });
+      this.loading = false;
+    });
   }
 
 }

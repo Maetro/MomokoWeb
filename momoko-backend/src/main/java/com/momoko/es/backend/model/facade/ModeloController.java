@@ -34,7 +34,7 @@ import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(path = "/modelo")
+@RequestMapping(path = "/doctor")
 public class ModeloController {
 
     @Autowired(required = false)
@@ -57,6 +57,7 @@ public class ModeloController {
         return this.generoService.obtenerTodosGeneros();
     }
 
+    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
     @RequestMapping(method = RequestMethod.POST, path = "/libros/add")
     ResponseEntity<GuardarLibroResponse> add(@RequestBody final LibroDTO libroDTO) {
 

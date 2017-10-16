@@ -10,6 +10,8 @@ import { Genero } from './../dtos/genero';
 import { Autor } from './../dtos/autor';
 
 import { environment } from './../../environments/environment';
+import { Cookie } from 'ng2-cookies';
+import { RequestOptions } from '@angular/http';
 
 @Injectable()
 export class LibroService {
@@ -28,9 +30,13 @@ export class LibroService {
   constructor(private http: HttpClient) { }
 
   getLibros(): Promise<Libro[]> {
-
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      });
+    console.log(Cookie.get('access_token'));
     this.librosList = new Array();
-    return this.http.get(this.librosUrl).toPromise().then((resp: Response) => {
+    return this.http.get(this.librosUrl, {headers: headers}).toPromise().then((resp: Response) => {
       console.log('LLamada a la lista de libros');
       for (const numLibro of Object.keys(resp)) {
         const l = new Libro();
@@ -89,8 +95,11 @@ export class LibroService {
   guardarLibro(libro: Libro): Promise<any> {
     console.log(libro);
     console.log(JSON.stringify(libro));
+    console.log(Cookie.get('access_token'));
     return this.http
-      .post(this.addLibroUrl, JSON.stringify(libro), { headers: this.headers })
+      .post(this.addLibroUrl, JSON.stringify(libro), {
+        headers: new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('access_token'))
+        .set('Content-type', 'application/json')})
       .toPromise();
   }
 
@@ -103,7 +112,11 @@ export class LibroService {
   }
 
   getGeneros(): Promise<Genero[]> {
-    return this.http.get(this.generosUrl).toPromise().then((resp: Response) => {
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      });
+    return this.http.get(this.generosUrl, {headers: headers}).toPromise().then((resp: Response) => {
       for (const numGenero of Object.keys(resp)) {
         const g = new Genero();
         const json = resp[numGenero];

@@ -68,7 +68,7 @@ public class EntradaDTO {
      * @return entrada id
      */
     public Integer getEntradaId() {
-        return entradaId;
+        return this.entradaId;
     }
 
     /**
@@ -77,7 +77,7 @@ public class EntradaDTO {
      * @param entradaId
      *            nuevo entrada id
      */
-    public void setEntradaId(Integer entradaId) {
+    public void setEntradaId(final Integer entradaId) {
         this.entradaId = entradaId;
     }
 
@@ -87,7 +87,7 @@ public class EntradaDTO {
      * @return autor
      */
     public UsuarioDTO getAutor() {
-        return autor;
+        return this.autor;
     }
 
     /**
@@ -96,7 +96,7 @@ public class EntradaDTO {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(UsuarioDTO autor) {
+    public void setAutor(final UsuarioDTO autor) {
         this.autor = autor;
     }
 
@@ -106,7 +106,7 @@ public class EntradaDTO {
      * @return url entrada
      */
     public String getUrlEntrada() {
-        return urlEntrada;
+        return this.urlEntrada;
     }
 
     /**
@@ -115,7 +115,7 @@ public class EntradaDTO {
      * @param urlEntrada
      *            nuevo url entrada
      */
-    public void setUrlEntrada(String urlEntrada) {
+    public void setUrlEntrada(final String urlEntrada) {
         this.urlEntrada = urlEntrada;
     }
 
@@ -125,7 +125,7 @@ public class EntradaDTO {
      * @return tipo entrada
      */
     public String getTipoEntrada() {
-        return tipoEntrada;
+        return this.tipoEntrada;
     }
 
     /**
@@ -134,7 +134,7 @@ public class EntradaDTO {
      * @param tipoEntrada
      *            nuevo tipo entrada
      */
-    public void setTipoEntrada(String tipoEntrada) {
+    public void setTipoEntrada(final String tipoEntrada) {
         this.tipoEntrada = tipoEntrada;
     }
 
@@ -144,7 +144,7 @@ public class EntradaDTO {
      * @return titulo entrada
      */
     public String getTituloEntrada() {
-        return tituloEntrada;
+        return this.tituloEntrada;
     }
 
     /**
@@ -153,7 +153,7 @@ public class EntradaDTO {
      * @param tituloEntrada
      *            nuevo titulo entrada
      */
-    public void setTituloEntrada(String tituloEntrada) {
+    public void setTituloEntrada(final String tituloEntrada) {
         this.tituloEntrada = tituloEntrada;
     }
 
@@ -163,7 +163,7 @@ public class EntradaDTO {
      * @return contenido entrada
      */
     public String getContenidoEntrada() {
-        return contenidoEntrada;
+        return this.contenidoEntrada;
     }
 
     /**
@@ -172,7 +172,7 @@ public class EntradaDTO {
      * @param contenidoEntrada
      *            nuevo contenido entrada
      */
-    public void setContenidoEntrada(String contenidoEntrada) {
+    public void setContenidoEntrada(final String contenidoEntrada) {
         this.contenidoEntrada = contenidoEntrada;
     }
 
@@ -182,7 +182,7 @@ public class EntradaDTO {
      * @return resumen entrada
      */
     public String getResumenEntrada() {
-        return resumenEntrada;
+        return this.resumenEntrada;
     }
 
     /**
@@ -191,7 +191,7 @@ public class EntradaDTO {
      * @param resumenEntrada
      *            nuevo resumen entrada
      */
-    public void setResumenEntrada(String resumenEntrada) {
+    public void setResumenEntrada(final String resumenEntrada) {
         this.resumenEntrada = resumenEntrada;
     }
 
@@ -201,7 +201,7 @@ public class EntradaDTO {
      * @return estado entrada
      */
     public Integer getEstadoEntrada() {
-        return estadoEntrada;
+        return this.estadoEntrada;
     }
 
     /**
@@ -210,7 +210,7 @@ public class EntradaDTO {
      * @param estadoEntrada
      *            nuevo estado entrada
      */
-    public void setEstadoEntrada(Integer estadoEntrada) {
+    public void setEstadoEntrada(final Integer estadoEntrada) {
         this.estadoEntrada = estadoEntrada;
     }
 
@@ -220,7 +220,7 @@ public class EntradaDTO {
      * @return permitir comentarios
      */
     public Boolean getPermitirComentarios() {
-        return permitirComentarios;
+        return this.permitirComentarios;
     }
 
     /**
@@ -229,7 +229,7 @@ public class EntradaDTO {
      * @param permitirComentarios
      *            nuevo permitir comentarios
      */
-    public void setPermitirComentarios(Boolean permitirComentarios) {
+    public void setPermitirComentarios(final Boolean permitirComentarios) {
         this.permitirComentarios = permitirComentarios;
     }
 
@@ -239,7 +239,7 @@ public class EntradaDTO {
      * @return padre entrada id
      */
     public EntradaDTO getPadreEntrada() {
-        return padreEntrada;
+        return this.padreEntrada;
     }
 
     /**
@@ -248,7 +248,7 @@ public class EntradaDTO {
      * @param padreEntradaId
      *            nuevo padre entrada id
      */
-    public void setPadreEntrada(EntradaDTO padreEntradaId) {
+    public void setPadreEntrada(final EntradaDTO padreEntradaId) {
         this.padreEntrada = padreEntradaId;
     }
 
@@ -258,7 +258,7 @@ public class EntradaDTO {
      * @return libro entrada id
      */
     public LibroDTO getLibroEntrada() {
-        return libroEntrada;
+        return this.libroEntrada;
     }
 
     /**
@@ -267,7 +267,7 @@ public class EntradaDTO {
      * @param libroEntradaId
      *            nuevo libro entrada id
      */
-    public void setLibroEntrada(LibroDTO libroEntrada) {
+    public void setLibroEntrada(final LibroDTO libroEntrada) {
         this.libroEntrada = libroEntrada;
     }
 
@@ -277,7 +277,7 @@ public class EntradaDTO {
      * @return numero comentarios
      */
     public Integer getNumeroComentarios() {
-        return numeroComentarios;
+        return this.numeroComentarios;
     }
 
     /**
@@ -286,7 +286,7 @@ public class EntradaDTO {
      * @param numeroComentarios
      *            nuevo numero comentarios
      */
-    public void setNumeroComentarios(Integer numeroComentarios) {
+    public void setNumeroComentarios(final Integer numeroComentarios) {
         this.numeroComentarios = numeroComentarios;
     }
 
@@ -296,7 +296,7 @@ public class EntradaDTO {
      * @return orden
      */
     public Integer getOrden() {
-        return orden;
+        return this.orden;
     }
 
     /**
@@ -305,41 +305,46 @@ public class EntradaDTO {
      * @param orden
      *            nuevo orden
      */
-    public void setOrden(Integer orden) {
+    public void setOrden(final Integer orden) {
         this.orden = orden;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof EntradaDTO))
+        if (!(other instanceof EntradaDTO)) {
             return false;
-        EntradaDTO castOther = (EntradaDTO) other;
-        return new EqualsBuilder().append(entradaId, castOther.entradaId).append(autor, castOther.autor)
-                .append(urlEntrada, castOther.urlEntrada).append(tipoEntrada, castOther.tipoEntrada)
-                .append(tituloEntrada, castOther.tituloEntrada).append(contenidoEntrada, castOther.contenidoEntrada)
-                .append(resumenEntrada, castOther.resumenEntrada).append(estadoEntrada, castOther.estadoEntrada)
-                .append(permitirComentarios, castOther.permitirComentarios)
-                .append(padreEntrada, castOther.padreEntrada).append(libroEntrada, castOther.libroEntrada)
-                .append(numeroComentarios, castOther.numeroComentarios).append(orden, castOther.orden).isEquals();
+        }
+        final EntradaDTO castOther = (EntradaDTO) other;
+        return new EqualsBuilder().append(this.entradaId, castOther.entradaId).append(this.autor, castOther.autor)
+                .append(this.urlEntrada, castOther.urlEntrada).append(this.tipoEntrada, castOther.tipoEntrada)
+                .append(this.tituloEntrada, castOther.tituloEntrada)
+                .append(this.contenidoEntrada, castOther.contenidoEntrada)
+                .append(this.resumenEntrada, castOther.resumenEntrada)
+                .append(this.estadoEntrada, castOther.estadoEntrada)
+                .append(this.permitirComentarios, castOther.permitirComentarios)
+                .append(this.padreEntrada, castOther.padreEntrada).append(this.libroEntrada, castOther.libroEntrada)
+                .append(this.numeroComentarios, castOther.numeroComentarios).append(this.orden, castOther.orden)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(entradaId).append(autor).append(urlEntrada).append(tipoEntrada)
-                .append(tituloEntrada).append(contenidoEntrada).append(resumenEntrada).append(estadoEntrada)
-                .append(permitirComentarios).append(padreEntrada).append(libroEntrada).append(numeroComentarios)
-                .append(orden).toHashCode();
+        return new HashCodeBuilder().append(this.entradaId).append(this.autor).append(this.urlEntrada)
+                .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
+                .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
+                .append(this.padreEntrada).append(this.libroEntrada).append(this.numeroComentarios).append(this.orden)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("entradaId", entradaId).append("autor", autor)
-                .append("urlEntrada", urlEntrada).append("tipoEntrada", tipoEntrada)
-                .append("tituloEntrada", tituloEntrada).append("contenidoEntrada", contenidoEntrada)
-                .append("resumenEntrada", resumenEntrada).append("estadoEntrada", estadoEntrada)
-                .append("permitirComentarios", permitirComentarios).append("padreEntradaId", padreEntrada)
-                .append("libroEntradaId", libroEntrada).append("numeroComentarios", numeroComentarios)
-                .append("orden", orden).toString();
+        return new ToStringBuilder(this).append("entradaId", this.entradaId).append("autor", this.autor)
+                .append("urlEntrada", this.urlEntrada).append("tipoEntrada", this.tipoEntrada)
+                .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
+                .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)
+                .append("permitirComentarios", this.permitirComentarios).append("padreEntradaId", this.padreEntrada)
+                .append("libroEntradaId", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
+                .append("orden", this.orden).toString();
     }
 
 }

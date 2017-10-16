@@ -40,14 +40,15 @@ export class LoginComponent implements OnInit {
 
 
   onLogin() {
-    this.initLogin();
-    this.authService.login(this.model)
-      .subscribe((status: LoginStatus) => {
-        this.loginStatus = status;
-        if (status.code === 'FAILURE') {
-          this.alertStyle = 'alert alert-danger';
-        }
-      });
+    this.authService.obtainAccessToken(this.model);
+    // this.initLogin();
+    // this.authService.login(this.model)
+    //   .subscribe((status: LoginStatus) => {
+    //     this.loginStatus = status;
+    //     if (status.code === 'FAILURE') {
+    //       this.alertStyle = 'alert alert-danger';
+    //     }
+    //   });
   }
 
   onLogout() {
