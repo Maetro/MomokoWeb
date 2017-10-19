@@ -46,7 +46,6 @@ export class AuthService {
   }
 
   login(login: Login): Observable<LoginStatus> {
-    console.log(login);
     const params = new URLSearchParams();
     params.append('username', login.usuarioEmail);
     params.append('password', login.usuarioContrasena);
@@ -69,11 +68,10 @@ export class AuthService {
   saveToken(token: any) {
     const expireDate = new Date().getTime() + (1000 * token.expires_in);
     Cookie.set('access_token', token.access_token, expireDate);
-    console.log('Cookie: ' + token.access_token + ' - ' + Cookie.get('access_token'))
     Cookie.set('role', token.role);
     this.changeLoginStatus(true);
-    if (token.role === 'ROLE_DOCTOR') {
-      this.router.navigate(['rx']);
+    if (token.role === 'ROLE_ADMIN') {
+      this.router.navigate(['/']);
     } else {
       this.router.navigate(['/']);
     }
@@ -102,20 +100,6 @@ export class AuthService {
       })
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
-
-  userLoads(): void {
-    console.log('user loads');
-    const url = `${this.serverUrl}/user`;
-    const options       = new RequestOptions({ headers: this.headers, withCredentials: true });
-
-    this.http.get(url)
-      .toPromise()
-      .then(response => {
-        console.log(response);
-      })
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-  }
-
 
   // BORRAME
   obtainAccessToken(loginData: Login) {

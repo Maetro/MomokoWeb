@@ -14,6 +14,7 @@ import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, Data
 import { LibroService } from './../../services/libro.service';
 import { FileUploadService } from './../../services/fileUpload.service';
 import { GeneroDetailComponent } from './genero-detail/genero-detail.component';
+import { JsonAdapterService } from 'app/util/json-adapter.service';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { GeneroDetailComponent } from './genero-detail/genero-detail.component';
     FileUploadModule,
     DataTableModule,
     SharedModule,
-    Ng2CompleterModule
+    Ng2CompleterModule,
   ],
   declarations: [
     LibroDetailComponent,
@@ -34,7 +35,7 @@ import { GeneroDetailComponent } from './genero-detail/genero-detail.component';
     GeneroDetailComponent
   ],
   providers: [
-    LibroService, FileUploadService
+    LibroService, FileUploadService, JsonAdapterService
   ],
   entryComponents: [ListaLibrosComponent, ListaGenerosComponent]
 })

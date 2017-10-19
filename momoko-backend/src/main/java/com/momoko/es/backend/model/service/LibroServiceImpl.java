@@ -14,6 +14,8 @@ import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.LibroDTO;
@@ -68,11 +70,16 @@ public class LibroServiceImpl implements LibroService {
             final EditorialEntity editorialObra = obtenerOGuardarEditorialObra(libroEntity);
             libroEntity.setEditorial(editorialObra);
             // libroEntity.
+            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            final String currentPrincipalName = authentication.getName();
             if (libroEntity.getLibroId() != null) {
-                libroEntity.setUsuarioModificacion("RMaetro@gmail.com");
+                final LibroEntity libroBD = this.libroRepository.findOne(libroEntity.getLibroId());
+                libroEntity.setFechaAlta(libroBD.getFechaAlta());
+                libroEntity.setUsuarioAlta(libroBD.getUsuarioAlta());
+                libroEntity.setUsuarioModificacion(currentPrincipalName);
                 libroEntity.setFechaModificacion(Calendar.getInstance().getTime());
             } else {
-                libroEntity.setUsuarioAlta("RMaetro@gmail.com");
+                libroEntity.setUsuarioAlta(currentPrincipalName);
                 libroEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
             return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntity));

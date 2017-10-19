@@ -8,6 +8,7 @@ import {Observable} from 'rxjs/Rx';
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import { Cookie } from 'ng2-cookies';
 
 @Injectable()
 export class FileUploadService {
@@ -32,11 +33,12 @@ export class FileUploadService {
           formData.append('uploadFile', file, file.name);
           const headers = new Headers();
           headers.append('Accept', 'application/json');
+          headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
           const options = new RequestOptions({ headers: headers });
           return this.http.post(this.uploadUrl, formData, options)
             .map((res: Response) => this.urlFiles + file.name)
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-      } else{
+      } else {
         return null;
       }
   }

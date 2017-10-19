@@ -48,7 +48,7 @@ export class ListaEntradasComponent implements OnInit {
         this.selectedEntrada = entrada;
       }
 
-      nuevoGenero(): void {
+      nuevaEntrada(): void {
         this.selectedEntrada = null;
         const entrada = new Entrada;
         this.selectedEntrada = entrada;

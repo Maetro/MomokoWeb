@@ -26,13 +26,15 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
-        http.requestMatchers().antMatchers("/modelo/**", "/rx/**", "/account/**").and().authorizeRequests()
+        http.requestMatchers().antMatchers("/upload", "/modelo/**", "/rx/**", "/account/**").and().authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/modelo/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.POST, "/modelo/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
                 .antMatchers(HttpMethod.GET, "/rx/**").access("#oauth2.hasScope('modelo') and #oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.POST, "/rx/**")
+                .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
+                .antMatchers(HttpMethod.POST, "/upload")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')").antMatchers("/account/**")
                 .permitAll().and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()).and().csrf()
                 .disable();

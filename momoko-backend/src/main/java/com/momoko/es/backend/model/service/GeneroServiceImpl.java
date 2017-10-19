@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.GeneroDTO;
@@ -45,18 +47,24 @@ public class GeneroServiceImpl implements GeneroService {
         // Comprobamos si el autor existe.
         final List<GeneroEntity> coincidencias = this.generoRepository.findByNombre(generoDTO.getNombre());
         if ((CollectionUtils.isEmpty(coincidencias)) || ((generoDTO.getGeneroId() != null))) {
+
             if ((generoEntity.getGenero_id() != null) && CollectionUtils.isNotEmpty(coincidencias)) {
                 if ((coincidencias.size() > 1)
                         || (!generoEntity.getGenero_id().equals(coincidencias.get(0).getGenero_id()))) {
                     throw new Exception("El nombre del genero ya se esta utilizando");
                 }
             }
-            // libroEntity.
+            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            final String currentPrincipalName = authentication.getName();
+
             if (generoEntity.getGenero_id() != null) {
-                generoEntity.setUsuarioModificacion("RMaetro@gmail.com");
+                final GeneroEntity generoBD = this.generoRepository.findOne(generoEntity.getGenero_id());
+                generoEntity.setFechaAlta(generoBD.getFechaAlta());
+                generoEntity.setUsuarioAlta(generoBD.getUsuarioAlta());
+                generoEntity.setUsuarioModificacion(currentPrincipalName);
                 generoEntity.setFechaModificacion(Calendar.getInstance().getTime());
             } else {
-                generoEntity.setUsuarioAlta("RMaetro@gmail.com");
+                generoEntity.setUsuarioAlta(currentPrincipalName);
                 generoEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
             return EntityToDTOAdapter.adaptarGenero(this.generoRepository.save(generoEntity));

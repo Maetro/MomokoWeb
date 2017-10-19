@@ -3,7 +3,7 @@
   <h2>Entrar en Momoko</h2>
   <hr/>
   <form class="form-horizontal" (ngSubmit)="onLogin()"  #loginForm="ngForm" novalidate>
-    <div class="form-group">
+    <div class="form-group" [hidden]="authenticated">
       <label for="email" class="col-sm-2 control-label">Email</label>
       <div class="col-sm-6">
         <input type="email"
@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [hidden]="authenticated">
       <label for="password" class="col-sm-2 control-label">Password</label>
       <div class="col-sm-6">
         <input type="password"
@@ -39,21 +39,21 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group" [hidden]="authenticated">
       <div class="col-sm-offset-2 col-sm-10">
         <button type="submit" class="btn btn-success"  [disabled]="!loginForm.form.valid">Submit</button>
       </div>
     </div>
     <div class="col-sm-offset-2 col-sm-10" style="padding-top: 20px">
-        <div class="container" [hidden]="!home.authenticated">
+        <div class="container" [hidden]="authenticated">
             Login with:
              <a href="http://localhost:8080/login">Facebook</a>
           </div>
-          <div class="container" [hidden]="!home.authenticated">
+          <div class="container" [hidden]="authenticated">
             Login with: <a href="http://localhost:8080/login/gmail">Gmail</a>
           </div>
-          <div class="container" [hidden]="home.authenticated">
-            Logged in as: <span ng-bind="home.user"></span>
+          <div class="container" [hidden]="!authenticated">
+            Logged in as: <span ng-bind="user">{{user}}</span>
           </div>
       <span style="padding-right: 5px"><a routerLink="/auth/register" routerLinkActive="active">New User? Sign up</a></span>|
       <span style="padding-left: 5px"><a href="/auth/forgotpassword" routerLinkActive="active">Forgot Password?</a></span>

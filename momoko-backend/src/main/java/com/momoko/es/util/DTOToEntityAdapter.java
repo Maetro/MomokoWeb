@@ -102,10 +102,13 @@ public final class DTOToEntityAdapter {
         return entradaEntity;
     }
 
-    private static SagaEntity adpatarSaga(SagaDTO saga) {
-        SagaEntity entity = new SagaEntity();
-        entity.setSagaId(saga.getSagaId());
-        entity.setDescripcionSaga(saga.getDescripcionSaga());
+    private static SagaEntity adpatarSaga(final SagaDTO saga) {
+        SagaEntity entity = null;
+        if (saga != null) {
+            entity = new SagaEntity();
+            entity.setSagaId(saga.getSagaId());
+            entity.setDescripcionSaga(saga.getDescripcionSaga());
+        }
         return entity;
     }
 

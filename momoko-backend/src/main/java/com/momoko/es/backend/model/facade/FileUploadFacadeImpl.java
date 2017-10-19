@@ -8,14 +8,17 @@ package com.momoko.es.backend.model.facade;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.momoko.es.api.dto.StringResponseDTO;
 import com.momoko.es.api.exceptions.StorageFileNotFoundException;
 import com.momoko.es.api.facade.FileUploadFacade;
 import com.momoko.es.backend.model.service.StorageService;
@@ -31,15 +34,15 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
         this.storageService = storageService;
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("uploadFile") final MultipartFile file,
+    public @ResponseBody StringResponseDTO handleFileUpload(@RequestParam("uploadFile") final MultipartFile file,
             final RedirectAttributes redirectAttributes) {
         this.storageService.init();
         this.storageService.store(file);
-        redirectAttributes.addFlashAttribute("message",
-                "You successfully uploaded " + file.getOriginalFilename() + "!");
-
-        return "redirect:/";
+        final StringResponseDTO response = new StringResponseDTO(
+                "You successfully uploaded " + file.getOriginalFilename());
+        return response;
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

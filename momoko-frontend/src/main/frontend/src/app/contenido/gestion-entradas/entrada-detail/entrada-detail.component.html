@@ -1,3 +1,42 @@
-<p>
-  entrada-detail works!
-</p>
+<p-growl [(value)]="msgs" sticky="true"></p-growl>
+<div *ngIf="entrada" class="form-container">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="vanilla vanilla-form" novalidate="novalidate">
+        <div class="row">
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Título: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="entrada.tituloEntrada" placeholder="Escribe aquí el título de la entrada"/>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-md-12">
+
+            <h4> Contenido </h4>
+            <app-simple-tiny [elementId]="'my-editor-id'" (onEditorKeyup)="keyupHandlerFunction($event)"></app-simple-tiny>
+            <div class="divide10"></div>
+            <div [hidden]="!esEntradaNueva">
+              <input type="submit" class="btn btn-forest" value="Crear Entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
+            <div [hidden]="esEntradaNueva">
+                <input type="submit" class="btn btn-forest" value="Actualizar entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
+                  data-success="Thank you!">
+              </div>
+            <footer class="notification-box"></footer>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

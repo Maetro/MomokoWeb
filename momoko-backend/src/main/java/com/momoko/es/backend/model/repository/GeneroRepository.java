@@ -15,7 +15,7 @@ import com.momoko.es.backend.model.entity.GeneroEntity;
 /**
  * The Interface GeneroRepository.
  */
-public interface GeneroRepository extends CrudRepository<GeneroEntity, Long> {
+public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> {
 
     /**
      * Find by nombre.
@@ -25,5 +25,12 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Long> {
      * @return the list
      */
     List<GeneroEntity> findByNombre(String nombre);
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.data.repository.CrudRepository#findOne(java.io.Serializable)
+     */
+    GeneroEntity findOne(Integer genero_id);
 
 }

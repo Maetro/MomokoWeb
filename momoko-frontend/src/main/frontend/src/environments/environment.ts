@@ -9,9 +9,9 @@ export const environment = {
   //URLS app
   uploadUrl : 'http://localhost:8080/upload',
   urlFiles : 'http://localhost/images/',
-  librosUrl : 'http://localhost:8080/doctor/libros',
-  addLibroUrl : 'http://localhost:8080/doctor/libros/add',
-  addGeneroUrl : 'http://localhost:8080/doctor/generos/add',
-  generosUrl : 'http://localhost:8080/doctor/generos',
-  informacionGeneralUrl: 'http://localhost:8080/doctor/informacionGeneral'
+  librosUrl : 'http://localhost:8080/modelo/libros',
+  addLibroUrl : 'http://localhost:8080/modelo/libros/add',
+  addGeneroUrl : 'http://localhost:8080/modelo/generos/add',
+  generosUrl : 'http://localhost:8080/modelo/generos',
+  informacionGeneralUrl: 'http://localhost:8080/modelo/informacionGeneral'
 };

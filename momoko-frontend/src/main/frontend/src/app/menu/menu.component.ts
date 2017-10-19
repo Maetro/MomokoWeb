@@ -15,24 +15,21 @@ export class MenuComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    console.log('user loads')
-    this.authService.userLoads();
-    // this.authService.checkLoginStatus();
+    this.authService.checkLoginStatus();
     // this.authService.checkCredentials();
     // this.isLoggedIn = true;
-    // this.authService.isLoggedIn.subscribe(loginStatus => {
-    //   this.isLoggedIn = loginStatus
-    // }
-    // );
+    this.authService.isLoggedIn.subscribe(loginStatus => {
+      this.isLoggedIn = loginStatus
+    });
   }
 
   myHome() {
     if (this.isLoggedIn) {
       const role = Cookie.get('role');
-      if (role === 'ROLE_DOCTOR') {
-        this.router.navigate(['rx']);
+      if (role === 'ROLE_ADMIN') {
+        this.router.navigate(['/']);
       } else {
-        this.router.navigate(['patient/home']);
+        this.router.navigate(['/']);
       }
     } else {
       this.router.navigate(['/']);

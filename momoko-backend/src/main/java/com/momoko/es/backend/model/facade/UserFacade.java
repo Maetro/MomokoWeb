@@ -13,6 +13,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.dto.StringResponseDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.ErrorCreacionUsuario;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
@@ -47,6 +50,13 @@ public class UserFacade {
 
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
+
+    @GetMapping(path = "/me", produces = "application/json")
+    public @ResponseBody StringResponseDTO obtenerNombreLogin() {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
+        return new StringResponseDTO(currentPrincipalName);
+    }
 
     @GetMapping(path = "/nuevo")
     public @ResponseBody RegistrarUsuarioRespoonse
@@ -117,4 +127,5 @@ public class UserFacade {
 
         return persistedUser;
     }
+
 }

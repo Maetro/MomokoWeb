@@ -49,7 +49,6 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit Lista Generos');
     this.getGeneros();
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
       this.nombresAutores = datos.nombresAutores;
@@ -95,7 +94,6 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   }
 
   getGeneros(): void {
-    console.log('service -> getGeneros()');
     this.libroService.getGeneros().then(generos => {
       this.listaGeneros = generos;
       generos.forEach(genero => {

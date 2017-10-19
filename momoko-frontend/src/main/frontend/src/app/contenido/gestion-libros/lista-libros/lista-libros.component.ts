@@ -21,7 +21,7 @@ export class ListaLibrosComponent implements OnInit {
 
   title = 'Libros';
   libros: Libro[];
-  generos: Genero[];jgh
+  generos: Genero[];
   selectedLibro: Libro;
 
   constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
@@ -30,7 +30,6 @@ export class ListaLibrosComponent implements OnInit {
   }
 
   getLibros(): void {
-    console.log('service -> getLibros()')
     this.libroService.getLibros().then(libros => {
       libros.forEach(element => {
         this.libros =  [ ...this.libros, element ];
@@ -40,7 +39,6 @@ export class ListaLibrosComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit Lista libros')
     this.loading = true;
     this.libroService.getLibros().then(librosP => {
       const librosList = librosP
@@ -49,8 +47,6 @@ export class ListaLibrosComponent implements OnInit {
       });
       this.loading = false;
     });
-    console.log('TEST');
-    // this.getLibros();
   }
 
   selectLibro(libro: Libro) {
