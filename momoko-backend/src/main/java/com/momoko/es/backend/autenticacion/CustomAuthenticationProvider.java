@@ -60,7 +60,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         }
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         if (user.getUsuarioRolId() == 1) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_DOCTOR"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         } else {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }

@@ -15,9 +15,11 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 
@@ -69,6 +71,18 @@ public class ValidadorServiceImpl implements ValidadorService {
 
         }
 
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO) {
+        final List<ErrorCreacionEntrada> listaErrores = new ArrayList<ErrorCreacionEntrada>();
+        if (entradaDTO.getTituloEntrada() != null) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_TITULO);
+        }
+        if (entradaDTO.getContenidoEntrada() != null) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
+        }
         return listaErrores;
     }
 

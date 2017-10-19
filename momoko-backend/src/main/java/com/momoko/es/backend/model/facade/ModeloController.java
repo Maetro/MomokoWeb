@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -20,21 +21,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.response.GuardarEntradaResponse;
 import com.momoko.es.api.response.GuardarGeneroResponse;
 import com.momoko.es.api.response.GuardarLibroResponse;
 import com.momoko.es.api.response.InformacionGeneralResponse;
+import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(path = "/doctor")
+@RequestMapping(path = "/modelo")
 public class ModeloController {
 
     @Autowired(required = false)
@@ -42,6 +47,9 @@ public class ModeloController {
 
     @Autowired(required = false)
     private GeneroService generoService;
+
+    @Autowired(required = false)
+    private EntradaService entradaService;
 
     @Autowired(required = false)
     private ValidadorService validadorService;
@@ -57,7 +65,7 @@ public class ModeloController {
         return this.generoService.obtenerTodosGeneros();
     }
 
-    @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/libros/add")
     ResponseEntity<GuardarLibroResponse> add(@RequestBody final LibroDTO libroDTO) {
 
@@ -89,6 +97,7 @@ public class ModeloController {
 
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/generos/add")
     ResponseEntity<GuardarGeneroResponse> addGenero(@RequestBody final GeneroDTO generoDTO) {
 
@@ -133,5 +142,44 @@ public class ModeloController {
         return new ResponseEntity<InformacionGeneralResponse>(respuesta, HttpStatus.OK);
 
     }
+    
+    @GetMapping(path = "/entradas")
+    public @ResponseBody List<EntradaDTO> getAllEntradas() {
+        System.out.println("LLamada a la lista de entradas");
+        return this.entradaService.recuperarEntradas();
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, path = "/entrada/add")
+    ResponseEntity<GuardarEntradaResponse> add(@RequestBody final EntradaDTO entradaDTO) {
+
+        // Validar
+        final List<ErrorCreacionEntrada> listaErrores = this.validadorService.validarEntrada(entradaDTO);
+
+        // Guardar
+        EntradaDTO entrada = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                entrada = this.entradaService.guardarEntrada(entradaDTO);
+            } catch (final Exception e) {
+                listaErrores.add(ErrorCreacionEntrada.ERROR_EN_GUARDADO);
+            }
+        }
+
+        // Responder
+        final GuardarEntradaResponse respuesta = new GuardarEntradaResponse();
+        respuesta.setEntradaDTO(entrada);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((entrada != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+
+        return new ResponseEntity<GuardarEntradaResponse>(respuesta, HttpStatus.OK);
+
+    }
+
 
 }

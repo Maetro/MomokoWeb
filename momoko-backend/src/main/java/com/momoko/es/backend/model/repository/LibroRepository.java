@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.momoko.es.backend.model.entity.LibroEntity;
@@ -18,5 +19,8 @@ import com.momoko.es.backend.model.entity.LibroEntity;
 public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
 
     List<LibroEntity> findByTitulo(String titulo);
+
+    @Query("SELECT l.titulo FROM LibroEntity l")
+    List<String> findAllTitulosLibros();
 
 }

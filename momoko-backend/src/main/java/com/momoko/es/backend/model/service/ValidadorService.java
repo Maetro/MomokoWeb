@@ -8,9 +8,11 @@ package com.momoko.es.backend.model.service;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 
@@ -45,5 +47,14 @@ public interface ValidadorService {
      * @return the list
      */
     List<ErrorCreacionGenero> validarGenero(GeneroDTO generoDTO);
+
+    /**
+     * Validar entrada.
+     *
+     * @param entradaDTO
+     *            entrada DTO
+     * @return the list
+     */
+    List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO);
 
 }
