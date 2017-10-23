@@ -6,10 +6,15 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -69,6 +74,13 @@ public class EntradaEntity extends AuditoriaBasica {
     /** The orden. */
     private Integer orden;
 
+    /** The genero id. */
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "entrada_etiqueta", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "etiqueta_id", referencedColumnName = "etiqueta_id"))
+    private Set<EtiquetaEntity> etiquetas;
+
+    private String imagenDestacada;
+
     /**
      * Instancia un nuevo entrada entity.
      */
@@ -125,7 +137,7 @@ public class EntradaEntity extends AuditoriaBasica {
     /**
      * Establece url entrada.
      *
-     * @param url_Entrada
+     * @param urlEntrada
      *            nuevo url entrada
      */
     public void setUrlEntrada(final String urlEntrada) {
@@ -322,6 +334,47 @@ public class EntradaEntity extends AuditoriaBasica {
         this.orden = orden;
     }
 
+    /**
+     * Obtiene etiquetas.
+     *
+     * @return etiquetas
+     */
+    public Set<EtiquetaEntity> getEtiquetas() {
+        return etiquetas;
+    }
+
+    /**
+     * Establece etiquetas.
+     *
+     * @param etiquetas
+     *            nuevo etiquetas
+     */
+    public void setEtiquetas(Set<EtiquetaEntity> etiquetas) {
+        this.etiquetas = etiquetas;
+    }
+
+    /**
+     * Obtiene imagen destacada.
+     *
+     * @return imagen destacada
+     */
+    public String getImagenDestacada() {
+        return imagenDestacada;
+    }
+
+    /**
+     * Establece imagen destacada.
+     *
+     * @param imagenDestacada
+     *            nuevo imagen destacada
+     */
+    public void setImagenDestacada(String imagenDestacada) {
+        this.imagenDestacada = imagenDestacada;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EntradaEntity)) {
@@ -340,6 +393,9 @@ public class EntradaEntity extends AuditoriaBasica {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.entradaId).append(this.entradaAutor).append(this.urlEntrada)
@@ -349,6 +405,9 @@ public class EntradaEntity extends AuditoriaBasica {
                 .toHashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("entradaId", this.entradaId).append("entradaAutor", this.entradaAutor)
@@ -359,5 +418,7 @@ public class EntradaEntity extends AuditoriaBasica {
                 .append("libroEntrada", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
                 .append("orden", this.orden).toString();
     }
+
+
 
 }

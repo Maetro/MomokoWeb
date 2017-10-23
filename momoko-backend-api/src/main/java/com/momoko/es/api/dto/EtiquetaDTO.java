@@ -15,7 +15,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class EtiquetasDTO.
  */
-public class EtiquetasDTO implements Serializable {
+public class EtiquetaDTO implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -8099806036673399761L;
@@ -44,10 +44,10 @@ public class EtiquetasDTO implements Serializable {
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof EtiquetasDTO)) {
+        if (!(other instanceof EtiquetaDTO)) {
             return false;
         }
-        final EtiquetasDTO castOther = (EtiquetasDTO) other;
+        final EtiquetaDTO castOther = (EtiquetaDTO) other;
         return new EqualsBuilder().append(this.etiquetaId, castOther.etiquetaId)
                 .append(this.nombreEtiqueta, castOther.nombreEtiqueta).isEquals();
     }

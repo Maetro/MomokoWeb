@@ -6,6 +6,8 @@
  */
 package com.momoko.es.api.dto;
 
+import java.util.Set;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -51,7 +53,7 @@ public class EntradaDTO {
     private LibroDTO libroEntrada;
 
     /** The etiquetas. */
-    private EtiquetasDTO etiquetas;
+    private Set<EtiquetaDTO> etiquetas;
 
     /** The imagen destacada. */
     private String imagenDestacada;
@@ -270,8 +272,8 @@ public class EntradaDTO {
     /**
      * Establece libro entrada id.
      *
-     * @param libroEntradaId
-     *            nuevo libro entrada id
+     * @param libroEntrada
+     *            nuevo libro entrada
      */
     public void setLibroEntrada(final LibroDTO libroEntrada) {
         this.libroEntrada = libroEntrada;
@@ -315,22 +317,47 @@ public class EntradaDTO {
         this.orden = orden;
     }
 
-    public EtiquetasDTO getEtiquetas() {
-        return this.etiquetas;
+    /**
+     * Obtiene etiquetas.
+     *
+     * @return etiquetas
+     */
+    public Set<EtiquetaDTO> getEtiquetas() {
+        return etiquetas;
     }
 
-    public void setEtiquetas(final EtiquetasDTO etiquetas) {
+    /**
+     * Establece etiquetas.
+     *
+     * @param etiquetas
+     *            nuevo etiquetas
+     */
+    public void setEtiquetas(Set<EtiquetaDTO> etiquetas) {
         this.etiquetas = etiquetas;
     }
 
+    /**
+     * Obtiene imagen destacada.
+     *
+     * @return imagen destacada
+     */
     public String getImagenDestacada() {
         return this.imagenDestacada;
     }
 
+    /**
+     * Establece imagen destacada.
+     *
+     * @param imagenDestacada
+     *            nuevo imagen destacada
+     */
     public void setImagenDestacada(final String imagenDestacada) {
         this.imagenDestacada = imagenDestacada;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EntradaDTO)) {
@@ -350,6 +377,9 @@ public class EntradaDTO {
                 .isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.entradaId).append(this.autor).append(this.urlEntrada)
@@ -359,6 +389,9 @@ public class EntradaDTO {
                 .append(this.numeroComentarios).append(this.orden).toHashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("entradaId", this.entradaId).append("autor", this.autor)

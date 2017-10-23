@@ -12,6 +12,7 @@ import java.util.Set;
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
@@ -19,6 +20,7 @@ import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
+import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.SagaEntity;
@@ -186,6 +188,35 @@ public final class EntityToDTOAdapter {
         generoDTO.setGeneroId(generoEntity.getGenero_id());
         generoDTO.setNombre(generoEntity.getNombre());
         return generoDTO;
+    }
+
+    /**
+     * Adaptar etiquetas.
+     *
+     * @param etiquetas
+     *            etiquetas
+     * @return the establece
+     */
+    public static Set<EtiquetaDTO> adaptarEtiquetas(final Set<EtiquetaEntity> etiquetas) {
+        final Set<EtiquetaDTO> etiquetasEntities2 = new HashSet<EtiquetaDTO>();
+        for (final EtiquetaDTO etiquetaDTO : etiquetas) {
+            etiquetasEntities2.add(adaptarEtiqueta(etiquetaDTO));
+        }
+        return etiquetasEntities2;
+    }
+
+    /**
+     * Adaptar etiqueta.
+     *
+     * @param etiquetaEntity
+     *            etiqueta entity
+     * @return the etiqueta DTO
+     */
+    public static EtiquetaDTO adaptarEtiqueta(EtiquetaEntity etiquetaEntity) {
+        final EtiquetaDTO etiquetaDTO = new EtiquetaDTO();
+        etiquetaDTO.setEtiquetaId(etiquetaEntity.getEtiqueta_id());
+        etiquetaDTO.setNombreEtiqueta(etiquetaEntity.getNombre());
+        return etiquetaDTO;
     }
 
 }

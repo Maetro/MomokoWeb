@@ -12,6 +12,7 @@ import java.util.Set;
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
@@ -19,6 +20,7 @@ import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
+import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.SagaEntity;
@@ -99,6 +101,8 @@ public final class DTOToEntityAdapter {
         entradaEntity.setTipoEntrada(entradaDTO.getTipoEntrada());
         entradaEntity.setTituloEntrada(entradaDTO.getTituloEntrada());
         entradaEntity.setUrlEntrada(entradaDTO.getUrlEntrada());
+        entradaEntity.setImagenDestacada(entradaDTO.getImagenDestacada());
+        entradaEntity.setEtiquetas(adaptarEtiquetas(entradaDTO.getEtiquetas()));
         return entradaEntity;
     }
 
@@ -182,5 +186,34 @@ public final class DTOToEntityAdapter {
         entity.setGenero_id(generoDTO.getGeneroId());
         entity.setNombre(generoDTO.getNombre());
         return entity;
+    }
+
+    /**
+     * Adaptar etiquetas.
+     *
+     * @param etiquetas
+     *            etiquetas
+     * @return the establece
+     */
+    public static Set<EtiquetaEntity> adaptarEtiquetas(final Set<EtiquetaDTO> etiquetas) {
+        final Set<EtiquetaEntity> etiquetasEntities = new HashSet<EtiquetaEntity>();
+        for (final EtiquetaDTO etiquetaDTO : etiquetas) {
+            etiquetasEntities.add(adaptarEtiqueta(etiquetaDTO));
+        }
+        return etiquetasEntities;
+    }
+
+    /**
+     * Adaptar etiqueta.
+     *
+     * @param etiquetaDTO
+     *            etiqueta entity
+     * @return the etiqueta DTO
+     */
+    public static EtiquetaEntity adaptarEtiqueta(EtiquetaDTO etiquetaDTO) {
+        final EtiquetaEntity etiquetaEntity = new EtiquetaEntity();
+        etiquetaEntity.setEtiqueta_id(etiquetaDTO.getEtiquetaId());
+        etiquetaEntity.setNombre(etiquetaDTO.getNombreEtiqueta());
+        return etiquetaEntity;
     }
 }
