@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
       this.authenticated = true;
       this.authService.checkCredentials();
     }, err => {
-      console.log('Algo fallo');
+      console.log('Usuario no autenticado');
     });
 
     // this.getLibros();

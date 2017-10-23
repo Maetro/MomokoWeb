@@ -3440,5 +3440,33 @@ select {
 
 }
 
+.marginTop8{
+  margin-top: 8px;
+}
 
+.marginTop10{
+  margin-top: 10px;
+}
 
+.marginBottom10{
+  margin-bottom: 10px;
+}
+
+div.mce-edit-area{
+  background:#FFF;
+  filter:none;
+  padding:15px;
+}
+
+.ui-chips input[type="text"] {
+  height: 30px !important;
+  line-height: 25px;
+}
+
+.ui-chips li{
+  line-height: 15px;
+}
+
+.container img {
+  width: 100%;
+}

@@ -1,3 +1,4 @@
+import { environment } from 'environments/environment';
 
 import { Injectable } from '@angular/core';
 import {Http, RequestOptions} from '@angular/http';
@@ -22,7 +23,9 @@ export class AuthService {
 
   user = {name: 'Guest'};
   redirectUrl: string;
-  serverUrl = 'http://localhost:8080';
+  singUpUrl = environment.singUpURL;
+  oauthTokenUrl = environment.oauthTokenUrl;
+  accountTokenUrl = environment.accountTokenUrl;
   headers = new Headers({'Content-Type': 'application/json'});
 
   constructor(private http: Http, private router: Router) {
@@ -36,10 +39,9 @@ export class AuthService {
   }
 
   signup(newUser: NewUser): Promise<SignupStatus> {
-    const url = `${this.serverUrl}/account/signup`;
     const options       = new RequestOptions({ headers: this.headers });
 
-    return this.http.post(url, newUser, options)
+    return this.http.post(this.singUpUrl, newUser, options)
       .toPromise()
       .then(res => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
@@ -55,7 +57,7 @@ export class AuthService {
     btoa('healthapp:HeAltH@!23')});
     const options = new RequestOptions({ headers: headers });
 
-    return this.http.post('http://localhost:8080/oauth/token', params.toString(), options)
+    return this.http.post(this.oauthTokenUrl, params.toString(), options)
       .map(res => {
         this.saveToken(res.json());
         return new LoginStatus('SUCCESS', 'Login Successful');
@@ -91,10 +93,9 @@ export class AuthService {
   }
 
   token(): void {
-    const url = `${this.serverUrl}/account/token`;
     const options       = new RequestOptions({ headers: this.headers, withCredentials: true });
 
-    this.http.get(url, options)
+    this.http.get(this.accountTokenUrl, options)
       .toPromise()
       .then(response => {
       })
@@ -112,7 +113,7 @@ export class AuthService {
      'Basic ' + btoa('healthapp:HeAltH@!23')});
     const options = new RequestOptions({ headers: headers });
 
-    this.http.post('http://localhost:8080/oauth/token', params.toString(), options)
+    this.http.post(this.oauthTokenUrl, params.toString(), options)
       .map(res => {
         console.log('autenticado');
         this.saveToken(res.json());

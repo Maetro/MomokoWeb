@@ -136,13 +136,14 @@ public class ModeloController {
         final InformacionGeneralResponse respuesta = new InformacionGeneralResponse();
         final List<String> autores = this.libroService.obtenerListaNombresAutores();
         final List<String> editoriales = this.libroService.obtenerListaNombresEditoriales();
+        final List<String> libros = this.libroService.obtenerListaTitulosLibros();
         respuesta.setNombresAutores(autores);
         respuesta.setNombresEditoriales(editoriales);
-
+        respuesta.setTitulosLibros(libros);
         return new ResponseEntity<InformacionGeneralResponse>(respuesta, HttpStatus.OK);
 
     }
-    
+
     @GetMapping(path = "/entradas")
     public @ResponseBody List<EntradaDTO> getAllEntradas() {
         System.out.println("LLamada a la lista de entradas");
@@ -180,6 +181,5 @@ public class ModeloController {
         return new ResponseEntity<GuardarEntradaResponse>(respuesta, HttpStatus.OK);
 
     }
-
 
 }

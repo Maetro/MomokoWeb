@@ -23,14 +23,14 @@ export class GeneralDataService {
 
 
   getInformacionGeneral(): Observable<GeneralDataResponse> {
+    console.log('getInformacionGeneral()');
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
       });
     this.resultados = this.http.get(this.informacionGeneralUrl, {headers: headers})
     .map(this.extractData)
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-
+    .catch(error => Observable.throw(error || 'Server error'));
     return this.resultados;
 
   }

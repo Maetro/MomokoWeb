@@ -1,7 +1,7 @@
 <p-growl [(value)]="msgs" sticky="true"></p-growl>
 <div *ngIf="entrada" class="form-container">
   <div class="row">
-    <div class="col-sm-12">
+    <div class="col-sm-9">
       <div class="vanilla vanilla-form" novalidate="novalidate">
         <div class="row">
           <div class="col-sm-12 rp10">
@@ -12,7 +12,8 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="entrada.tituloEntrada" placeholder="Escribe aquí el título de la entrada"/>
+                <input type="text" [(ngModel)]="entrada.tituloEntrada" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título de la entrada"
+                />
               </label>
             </div>
             <!--/.form-field -->
@@ -20,23 +21,150 @@
 
           <div class="divide10"></div>
 
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> URL: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="entrada.urlEntrada" placeholder="Escribe aqui la url de la entrada" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Etiquetas: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <p-chips [(ngModel)]="entrada.etiquetas"></p-chips>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Tipo Entrada: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <p-dropdown [options]="tiposEntrada" [(ngModel)]="entrada.tipoEntrada" [style]="{'width':'400px'}"></p-dropdown>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Libro asociado: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <p-dropdown [options]="titulosLibros" [(ngModel)]="entrada.libroEntrada" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="col-sm-3 rp10 marginTop10">
+            <div class="form-field">
+              <h4> Permitir comentarios: </h4>
+            </div>
+          </div>
+          <div class="col-sm-9 lp10 marginTop8">
+            <div class="form-field">
+              <label>
+                <p-checkbox binary="true" [(ngModel)]="entrada.permitirComentarios"></p-checkbox>
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+
           <div class="col-md-12">
 
             <h4> Contenido </h4>
-            <app-simple-tiny [elementId]="'my-editor-id'" (onEditorKeyup)="keyupHandlerFunction($event)"></app-simple-tiny>
-            <div class="divide10"></div>
-            <div [hidden]="!esEntradaNueva">
-              <input type="submit" class="btn btn-forest" value="Crear Entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
-                data-success="Thank you!">
+            <app-simple-tiny [elementId]="'editor-contenido'" (onEditorKeyup)="actualizarContenido($event)"></app-simple-tiny>
+          </div>
+
+          <div class="col-md-12 marginTop10 marginBottom10">
+
+            <h4> Resumen </h4>
+            <app-resumen-editor [elementId]="'editor-resumen'" (onEditorKeyup)="actualizarResumen($event)"></app-resumen-editor>
+          </div>
+          <div class="divide10"></div>
+
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Estado Entrada: </h4>
+              </div>
             </div>
-            <div [hidden]="esEntradaNueva">
-                <input type="submit" class="btn btn-forest" value="Actualizar entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <label>
+                  <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
+                </label>
+              </div>
+              <!--/.form-field -->
+            </div>
+
+          <div class="marginTop10">
+            <div class="col-md-12">
+              <div [hidden]="esEntradaNueva">
+                <input type="submit" class="btn btn-forest" value="Crear Entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
                   data-success="Thank you!">
               </div>
-            <footer class="notification-box"></footer>
+              <div [hidden]="!esEntradaNueva">
+                <input type="submit" class="btn btn-forest" value="Actualizar entrada" (click)="guardarEntrada()" data-error="Fix errors"
+                  data-processing="Sending..." data-success="Thank you!">
+              </div>
+              <footer class="notification-box"></footer>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <aside class="col-sm-3 sidebar">
+      <div class="sidebox widget">
+
+        <img src="{{entrada.imagenDestacada}}" alt="Imagen destacada - {{entrada.tituloEntrada}}"/>
+
+        <div class="divide10"></div>
+        <h2 class="section-title widget-title margen_superior">Imagen destacada </h2>
+
+        <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
+
+          <ng-template pTemplate="content">
+              <div>Arrastra aquí la imagen que quieras subir.</div>
+          </ng-template>
+        </p-fileUpload>
+
+        <div class="divide10"></div>
+
+        <!-- <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
+
+
+      </div>
+      <!-- /.widget -->
+
+    </aside>
   </div>
 </div>

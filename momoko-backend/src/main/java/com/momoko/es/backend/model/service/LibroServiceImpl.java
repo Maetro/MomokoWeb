@@ -157,4 +157,8 @@ public class LibroServiceImpl implements LibroService {
         return this.editorialRepository.findAllNombresEditoriales();
     }
 
+    @Override
+    public List<String> obtenerListaTitulosLibros() {
+        return this.libroRepository.findAllTitulosLibros();
+    }
 }

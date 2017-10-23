@@ -51,6 +51,7 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getGeneros();
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
+      console.log('Init info general');
       this.nombresAutores = datos.nombresAutores;
       this.nombresEditoriales = datos.nombresEditoriales;
     },
@@ -133,7 +134,7 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   }
 
   fileChange($event): void {
-    this.fileUploadService.fileChange($event).subscribe
+    this.fileUploadService.fileChange($event, 'portada').subscribe
       (urlImagenNueva => {
         // Emit list event
         console.log(urlImagenNueva);

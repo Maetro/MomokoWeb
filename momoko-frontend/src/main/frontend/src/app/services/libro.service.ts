@@ -21,8 +21,6 @@ export class LibroService {
   private generosUrl = environment.generosUrl;
   private addGeneroUrl = environment.addGeneroUrl;
 
-  private headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-
   results: string[];
 
   librosList: Libro[] = new Array();
@@ -48,16 +46,22 @@ export class LibroService {
   }
 
   guardarLibro(libro: Libro): Promise<any> {
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      });
     return this.http
-      .post(this.addLibroUrl, JSON.stringify(libro), {
-        headers: new HttpHeaders().set('Authorization', 'Bearer ' + Cookie.get('access_token'))
-        .set('Content-type', 'application/json')})
+      .post(this.addLibroUrl, JSON.stringify(libro), {headers: headers})
       .toPromise();
   }
 
   guardarGenero(genero: Genero): Promise<any> {
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      });
     return this.http
-      .post(this.addGeneroUrl, JSON.stringify(genero), { headers: this.headers })
+      .post(this.addGeneroUrl, JSON.stringify(genero), { headers: headers })
       .toPromise();
   }
 

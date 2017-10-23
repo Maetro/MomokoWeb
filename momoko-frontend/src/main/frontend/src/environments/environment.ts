@@ -7,11 +7,17 @@ export const environment = {
   production: false,
 
   //URLS app
+  serverUrl : 'http://localhost:8080/',
   uploadUrl : 'http://localhost:8080/upload',
   urlFiles : 'http://localhost/images/',
-  librosUrl : 'http://localhost:8080/modelo/libros',
-  addLibroUrl : 'http://localhost:8080/modelo/libros/add',
-  addGeneroUrl : 'http://localhost:8080/modelo/generos/add',
-  generosUrl : 'http://localhost:8080/modelo/generos',
-  informacionGeneralUrl: 'http://localhost:8080/modelo/informacionGeneral'
+  entradasUrl: 'http://localhost:8080/modelo/entradas',
+  librosUrl :  'http://localhost:8080/modelo/libros',
+  generosUrl :  'http://localhost:8080/modelo/generos',
+  addEntradaUrl: 'http://localhost:8080/modelo/entradas',
+  addLibroUrl :  'http://localhost:8080/modelo/libros/add',
+  addGeneroUrl :  'http://localhost:8080/modelo/generos/add',
+  informacionGeneralUrl:  'http://localhost:8080/modelo/informacionGeneral',
+  singUpURL: 'http://localhost:8080/account/signup',
+  oauthTokenUrl: 'http://localhost:8080/oauth/token',
+  accountTokenUrl: 'http://localhost:8080/account/token'
 };

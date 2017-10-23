@@ -50,6 +50,12 @@ public class EntradaDTO {
     /** The libro entrada. */
     private LibroDTO libroEntrada;
 
+    /** The etiquetas. */
+    private EtiquetasDTO etiquetas;
+
+    /** The imagen destacada. */
+    private String imagenDestacada;
+
     /** The numero comentarios. */
     private Integer numeroComentarios;
 
@@ -309,6 +315,22 @@ public class EntradaDTO {
         this.orden = orden;
     }
 
+    public EtiquetasDTO getEtiquetas() {
+        return this.etiquetas;
+    }
+
+    public void setEtiquetas(final EtiquetasDTO etiquetas) {
+        this.etiquetas = etiquetas;
+    }
+
+    public String getImagenDestacada() {
+        return this.imagenDestacada;
+    }
+
+    public void setImagenDestacada(final String imagenDestacada) {
+        this.imagenDestacada = imagenDestacada;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EntradaDTO)) {
@@ -323,6 +345,7 @@ public class EntradaDTO {
                 .append(this.estadoEntrada, castOther.estadoEntrada)
                 .append(this.permitirComentarios, castOther.permitirComentarios)
                 .append(this.padreEntrada, castOther.padreEntrada).append(this.libroEntrada, castOther.libroEntrada)
+                .append(this.etiquetas, castOther.etiquetas).append(this.imagenDestacada, castOther.imagenDestacada)
                 .append(this.numeroComentarios, castOther.numeroComentarios).append(this.orden, castOther.orden)
                 .isEquals();
     }
@@ -332,8 +355,8 @@ public class EntradaDTO {
         return new HashCodeBuilder().append(this.entradaId).append(this.autor).append(this.urlEntrada)
                 .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
                 .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
-                .append(this.padreEntrada).append(this.libroEntrada).append(this.numeroComentarios).append(this.orden)
-                .toHashCode();
+                .append(this.padreEntrada).append(this.libroEntrada).append(this.etiquetas).append(this.imagenDestacada)
+                .append(this.numeroComentarios).append(this.orden).toHashCode();
     }
 
     @Override
@@ -342,8 +365,9 @@ public class EntradaDTO {
                 .append("urlEntrada", this.urlEntrada).append("tipoEntrada", this.tipoEntrada)
                 .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
                 .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)
-                .append("permitirComentarios", this.permitirComentarios).append("padreEntradaId", this.padreEntrada)
-                .append("libroEntradaId", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
+                .append("permitirComentarios", this.permitirComentarios).append("padreEntrada", this.padreEntrada)
+                .append("libroEntrada", this.libroEntrada).append("etiquetas", this.etiquetas)
+                .append("imagenDestacada", this.imagenDestacada).append("numeroComentarios", this.numeroComentarios)
                 .append("orden", this.orden).toString();
     }
 

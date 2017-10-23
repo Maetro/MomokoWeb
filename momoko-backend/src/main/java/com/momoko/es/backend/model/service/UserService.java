@@ -42,8 +42,6 @@ public interface UserService {
      */
     public UsuarioDTO doesUserExist(String username) throws UserNotFoundException;
 
-    public boolean existeUsuario(String usuarioEmail);
-
     /**
      * Does email exist.
      *

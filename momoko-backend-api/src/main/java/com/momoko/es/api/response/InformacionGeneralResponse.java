@@ -21,6 +21,8 @@ public class InformacionGeneralResponse implements Serializable {
 
     private List<String> nombresAutores;
 
+    private List<String> titulosLibros;
+
     /**
      * Gets the nombres editoriales.
      *
@@ -57,6 +59,25 @@ public class InformacionGeneralResponse implements Serializable {
      */
     public void setNombresAutores(final List<String> nombresAutores) {
         this.nombresAutores = nombresAutores;
+    }
+
+    /**
+     * Gets the titulos libros.
+     *
+     * @return the titulos libros
+     */
+    public List<String> getTitulosLibros() {
+        return this.titulosLibros;
+    }
+
+    /**
+     * Sets the titulos libros.
+     *
+     * @param titulosLibros
+     *            the new titulos libros
+     */
+    public void setTitulosLibros(final List<String> titulosLibros) {
+        this.titulosLibros = titulosLibros;
     }
 
 }

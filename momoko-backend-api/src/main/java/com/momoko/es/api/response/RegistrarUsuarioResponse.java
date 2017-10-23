@@ -20,7 +20,7 @@ import com.momoko.es.api.enums.EstadoGuardadoEnum;
 /**
  * The Class RegistrarUsuarioRespoonse.
  */
-public class RegistrarUsuarioRespoonse implements Serializable {
+public class RegistrarUsuarioResponse implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6138141949532723854L;
@@ -101,7 +101,7 @@ public class RegistrarUsuarioRespoonse implements Serializable {
         if (!(other instanceof GuardarLibroResponse)) {
             return false;
         }
-        final RegistrarUsuarioRespoonse castOther = (RegistrarUsuarioRespoonse) other;
+        final RegistrarUsuarioResponse castOther = (RegistrarUsuarioResponse) other;
         return new EqualsBuilder().append(this.listaErroresValidacion, castOther.listaErroresValidacion)
                 .append(this.estadoGuardado, castOther.estadoGuardado).append(this.usuarioDTO, castOther.usuarioDTO)
                 .isEquals();

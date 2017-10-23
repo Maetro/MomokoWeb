@@ -16,13 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface StorageService {
 
-    void init();
+    void init(String tipoAlmacenamineto);
 
-    void store(MultipartFile file);
+    void store(MultipartFile file, String tipoAlmacenamineto);
 
-    Stream<Path> loadAll();
+    Stream<Path> loadAll(String tipoAlmacenamineto);
 
-    Path load(String filename);
-
-    void deleteAll();
+    Path load(String filename, String tipoAlmacenamineto);
 }

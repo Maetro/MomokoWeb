@@ -25,18 +25,19 @@ export class FileUploadService {
   }
 
 
-  fileChange(event): Observable<string> {
+  fileChange(event, tipoSubida): Observable<string> {
       const fileList: FileList = event.files;
       if (fileList.length > 0) {
         const file: File = fileList[0];
         const formData: FormData = new FormData();
           formData.append('uploadFile', file, file.name);
+          formData.append('tipoSubida', tipoSubida);
           const headers = new Headers();
           headers.append('Accept', 'application/json');
           headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
           const options = new RequestOptions({ headers: headers });
           return this.http.post(this.uploadUrl, formData, options)
-            .map((res: Response) => this.urlFiles + file.name)
+            .map((res: Response) => this.urlFiles + tipoSubida + '/' + file.name)
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
       } else {
         return null;

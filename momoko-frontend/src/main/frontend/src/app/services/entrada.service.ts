@@ -8,8 +8,8 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class EntradaService {
 
-  private entradasUrl = environment.generosUrl;
-  private addEntradaUrl = environment.addGeneroUrl;
+  private entradasUrl = environment.entradasUrl;
+  private addEntradaUrl = environment.addEntradaUrl;
 
   allEntradasList: Entrada[] = new Array();
 
@@ -44,6 +44,16 @@ export class EntradaService {
       return this.allEntradasList;
 
     });
+  }
+
+  guardarEntrada(entrada: Entrada): Promise<any> {
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      });
+    return this.http
+      .post(this.addEntradaUrl, JSON.stringify(entrada), {headers: headers})
+      .toPromise();
   }
 
 }

@@ -16,6 +16,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 @Configuration
 @EnableResourceServer
@@ -26,8 +28,10 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
-        http.requestMatchers().antMatchers("/upload", "/modelo/**", "/rx/**", "/account/**").and().authorizeRequests()
-                .antMatchers(HttpMethod.GET, "/modelo/**")
+        http.requestMatchers()
+                .antMatchers("/", "/upload", "/modelo/**", "/rx/**", "/assets/**", "/account/**", "/style/**", "/**.js",
+                        "/**.js.map", "/**.woff2", "/**.woff", "/**.ttf")
+                .and().authorizeRequests().antMatchers(HttpMethod.GET, "/modelo/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.POST, "/modelo/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
@@ -35,7 +39,9 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
                 .antMatchers(HttpMethod.POST, "/rx/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
                 .antMatchers(HttpMethod.POST, "/upload")
-                .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')").antMatchers("/account/**")
+                .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
+                .antMatchers("/", "/account/**", "/assets/**", "/**.js", "/style/**", "/**.js.map", "/**.woff2",
+                        "/**.woff", "/**.ttf")
                 .permitAll().and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()).and().csrf()
                 .disable();
 
@@ -46,6 +52,11 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
         final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
         defaultTokenServices.setTokenStore(this.tokenStore);
         config.tokenServices(defaultTokenServices);
+        config.authenticationEntryPoint(authenticationEntryPoint());
+    }
+
+    private AuthenticationEntryPoint authenticationEntryPoint() {
+        return new LoginUrlAuthenticationEntryPoint("/account/login");
     }
 
 }

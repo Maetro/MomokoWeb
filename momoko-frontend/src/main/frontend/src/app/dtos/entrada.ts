@@ -5,15 +5,17 @@ import { User } from 'app/dtos/user';
 export class Entrada {
   entradaId: number;
   autor: User;
+  tituloEntrada: string;
   urlEntrada: string;
   tipoEntrada: string;
-  tituloEntrada: string;
   contenidoEntrada: string;
   resumenEntrada: string;
   estadoEntrada: number;
   permitirComentarios: boolean;
   padreEntrada: Entrada;
-  libroEntrada: Libro;
+  libroEntrada: string;
   numeroComentarios: number;
+  etiquetas: string[];
   orden: number;
+  imagenDestacada: string;
 }

@@ -46,4 +46,11 @@ public interface LibroService {
      */
     public List<String> obtenerListaNombresEditoriales();
 
+    /**
+     * Obtener lista titulos libros.
+     *
+     * @return the list
+     */
+    public List<String> obtenerListaTitulosLibros();
+
 }

@@ -51,6 +51,7 @@ export class ListaEntradasComponent implements OnInit {
       nuevaEntrada(): void {
         this.selectedEntrada = null;
         const entrada = new Entrada;
+        entrada.etiquetas = [];
         this.selectedEntrada = entrada;
       }
 

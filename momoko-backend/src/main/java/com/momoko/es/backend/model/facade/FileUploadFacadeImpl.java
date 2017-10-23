@@ -37,9 +37,9 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/upload")
     public @ResponseBody StringResponseDTO handleFileUpload(@RequestParam("uploadFile") final MultipartFile file,
-            final RedirectAttributes redirectAttributes) {
-        this.storageService.init();
-        this.storageService.store(file);
+            @RequestParam("tipoSubida") final String tipoSubida, final RedirectAttributes redirectAttributes) {
+        this.storageService.init(tipoSubida);
+        this.storageService.store(file, tipoSubida);
         final StringResponseDTO response = new StringResponseDTO(
                 "You successfully uploaded " + file.getOriginalFilename());
         return response;
