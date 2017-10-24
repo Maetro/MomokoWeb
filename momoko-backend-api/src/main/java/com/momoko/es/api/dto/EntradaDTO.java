@@ -29,7 +29,7 @@ public class EntradaDTO {
     private String urlEntrada;
 
     /** The tipo entrada. */
-    private String tipoEntrada;
+    private Integer tipoEntrada;
 
     /** The titulo entrada. */
     private String tituloEntrada;
@@ -50,7 +50,7 @@ public class EntradaDTO {
     private EntradaDTO padreEntrada;
 
     /** The libro entrada. */
-    private LibroDTO libroEntrada;
+    private String libroEntrada;
 
     /** The etiquetas. */
     private Set<EtiquetaDTO> etiquetas;
@@ -132,7 +132,7 @@ public class EntradaDTO {
      *
      * @return tipo entrada
      */
-    public String getTipoEntrada() {
+    public Integer getTipoEntrada() {
         return this.tipoEntrada;
     }
 
@@ -142,7 +142,7 @@ public class EntradaDTO {
      * @param tipoEntrada
      *            nuevo tipo entrada
      */
-    public void setTipoEntrada(final String tipoEntrada) {
+    public void setTipoEntrada(final Integer tipoEntrada) {
         this.tipoEntrada = tipoEntrada;
     }
 
@@ -265,7 +265,7 @@ public class EntradaDTO {
      *
      * @return libro entrada id
      */
-    public LibroDTO getLibroEntrada() {
+    public String getLibroEntrada() {
         return this.libroEntrada;
     }
 
@@ -275,7 +275,7 @@ public class EntradaDTO {
      * @param libroEntrada
      *            nuevo libro entrada
      */
-    public void setLibroEntrada(final LibroDTO libroEntrada) {
+    public void setLibroEntrada(final String libroEntrada) {
         this.libroEntrada = libroEntrada;
     }
 
@@ -323,7 +323,7 @@ public class EntradaDTO {
      * @return etiquetas
      */
     public Set<EtiquetaDTO> getEtiquetas() {
-        return etiquetas;
+        return this.etiquetas;
     }
 
     /**
@@ -332,7 +332,7 @@ public class EntradaDTO {
      * @param etiquetas
      *            nuevo etiquetas
      */
-    public void setEtiquetas(Set<EtiquetaDTO> etiquetas) {
+    public void setEtiquetas(final Set<EtiquetaDTO> etiquetas) {
         this.etiquetas = etiquetas;
     }
 

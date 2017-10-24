@@ -1,13 +1,14 @@
 import { Autor } from './autor';
 import { Libro } from 'app/dtos/libro';
 import { User } from 'app/dtos/user';
+import { Etiqueta } from 'app/dtos/etiqueta';
 
 export class Entrada {
   entradaId: number;
   autor: User;
-  tituloEntrada: string;
   urlEntrada: string;
-  tipoEntrada: string;
+  tipoEntrada: number;
+  tituloEntrada: string;
   contenidoEntrada: string;
   resumenEntrada: string;
   estadoEntrada: number;
@@ -15,7 +16,7 @@ export class Entrada {
   padreEntrada: Entrada;
   libroEntrada: string;
   numeroComentarios: number;
-  etiquetas: string[];
+  etiquetas: Etiqueta[];
   orden: number;
   imagenDestacada: string;
 }

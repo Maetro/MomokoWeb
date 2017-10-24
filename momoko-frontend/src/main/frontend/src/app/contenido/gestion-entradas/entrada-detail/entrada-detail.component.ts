@@ -1,3 +1,4 @@
+import { Etiqueta } from 'app/dtos/etiqueta';
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaService } from 'app/services/entrada.service';
@@ -110,6 +111,13 @@ export class EntradaDetailComponent implements OnInit {
   }
 
   guardarEntrada(): void {
+    this.entrada.etiquetas = [];
+    this.etiquetas.forEach(etiqueta => {
+     const et = new Etiqueta();
+     et.nombreEtiqueta = etiqueta;
+     this.entrada.etiquetas.push(et);
+    });
+
     this.entradaService.guardarEntrada(this.entrada)
       .then(res => {
         this.showSuccess('Entrada guardada correctamente');

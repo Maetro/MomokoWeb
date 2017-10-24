@@ -13,7 +13,7 @@ export const environment = {
   entradasUrl: 'http://localhost:8080/modelo/entradas',
   librosUrl :  'http://localhost:8080/modelo/libros',
   generosUrl :  'http://localhost:8080/modelo/generos',
-  addEntradaUrl: 'http://localhost:8080/modelo/entradas',
+  addEntradaUrl: 'http://localhost:8080/modelo/entradas/add',
   addLibroUrl :  'http://localhost:8080/modelo/libros/add',
   addGeneroUrl :  'http://localhost:8080/modelo/generos/add',
   informacionGeneralUrl:  'http://localhost:8080/modelo/informacionGeneral',

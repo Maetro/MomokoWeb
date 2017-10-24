@@ -41,7 +41,7 @@ public class EntradaEntity extends AuditoriaBasica {
     private String urlEntrada;
 
     /** The tipo entrada. */
-    private String tipoEntrada;
+    private Integer tipoEntrada;
 
     /** The titulo entrada. */
     private String tituloEntrada;
@@ -149,7 +149,7 @@ public class EntradaEntity extends AuditoriaBasica {
      *
      * @return tipo entrada
      */
-    public String getTipoEntrada() {
+    public Integer getTipoEntrada() {
         return this.tipoEntrada;
     }
 
@@ -159,7 +159,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param tipoEntrada
      *            nuevo tipo entrada
      */
-    public void setTipoEntrada(final String tipoEntrada) {
+    public void setTipoEntrada(final Integer tipoEntrada) {
         this.tipoEntrada = tipoEntrada;
     }
 
@@ -340,7 +340,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return etiquetas
      */
     public Set<EtiquetaEntity> getEtiquetas() {
-        return etiquetas;
+        return this.etiquetas;
     }
 
     /**
@@ -349,7 +349,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param etiquetas
      *            nuevo etiquetas
      */
-    public void setEtiquetas(Set<EtiquetaEntity> etiquetas) {
+    public void setEtiquetas(final Set<EtiquetaEntity> etiquetas) {
         this.etiquetas = etiquetas;
     }
 
@@ -359,7 +359,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return imagen destacada
      */
     public String getImagenDestacada() {
-        return imagenDestacada;
+        return this.imagenDestacada;
     }
 
     /**
@@ -368,7 +368,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param imagenDestacada
      *            nuevo imagen destacada
      */
-    public void setImagenDestacada(String imagenDestacada) {
+    public void setImagenDestacada(final String imagenDestacada) {
         this.imagenDestacada = imagenDestacada;
     }
 
@@ -418,7 +418,5 @@ public class EntradaEntity extends AuditoriaBasica {
                 .append("libroEntrada", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
                 .append("orden", this.orden).toString();
     }
-
-
 
 }

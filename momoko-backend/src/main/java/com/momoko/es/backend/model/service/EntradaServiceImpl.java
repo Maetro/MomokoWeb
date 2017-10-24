@@ -1,14 +1,23 @@
+/**
+ * EntradaServiceImpl.java 24-oct-2017
+ *
+ * Copyright 2017 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 package com.momoko.es.backend.model.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
 import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
 import com.momoko.es.backend.model.entity.EntradaEntity;
@@ -20,6 +29,7 @@ import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
+@Service
 public class EntradaServiceImpl implements EntradaService {
 
     @Autowired(required = false)
@@ -33,25 +43,36 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaDTO> recuperarEntradas() {
-        List<EntradaDTO> entradasDTO = new ArrayList<EntradaDTO>();
-        Iterable<EntradaEntity> entradasEntity = entradaRepository.findAll();
-        for (EntradaEntity entradaEntity : entradasEntity) {
+        final List<EntradaDTO> entradasDTO = new ArrayList<EntradaDTO>();
+        final Iterable<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
+        for (final EntradaEntity entradaEntity : entradasEntity) {
             entradasDTO.add(EntityToDTOAdapter.adaptarEntrada(entradaEntity));
         }
         return entradasDTO;
     }
 
     @Override
-    public EntradaDTO guardarEntrada(EntradaDTO entradaAGuardar) throws Exception {
-        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar);
+    public EntradaDTO guardarEntrada(final EntradaDTO entradaAGuardar) throws Exception {
+        LibroDTO libroEntrada = null;
+        if (StringUtils.isNotBlank(entradaAGuardar.getLibroEntrada())) {
+            libroEntrada = EntityToDTOAdapter
+                    .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getLibroEntrada()));
+        }
+        if (entradaAGuardar.getEntradaId() == null) {
+            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            final String currentPrincipalName = authentication.getName();
+            entradaAGuardar.setAutor(
+                    EntityToDTOAdapter.adaptarUsuario(this.usuarioRepository.findByUsuarioEmail(currentPrincipalName)));
+        }
+        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada);
 
-        boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
+        final boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
         // Comprobamos si la url de la entrada existe.
         final EntradaEntity coincidencia = this.entradaRepository.findFirstByUrlEntrada(entradaEntity.getUrlEntrada());
-        if (esNuevaEntrada && coincidencia != null) {
+        if (esNuevaEntrada && (coincidencia != null)) {
             throw new URLEntradaYaExisteException("La entrada es nueva y se esta intentando utilizar una url ya usada");
         }
-        if (!esNuevaEntrada && coincidencia == null) {
+        if (!esNuevaEntrada && (coincidencia == null)) {
             throw new NoSeEncuentraEntradaException("No se encuentra la entrada");
         }
         if (esNuevaEntrada) {
@@ -62,10 +83,10 @@ public class EntradaServiceImpl implements EntradaService {
         return EntityToDTOAdapter.adaptarEntrada(entradaEntity);
     }
 
-    private EntradaEntity actualizarEntrada(EntradaEntity entradaEntity, EntradaEntity viejaEntrada) {
+    private EntradaEntity actualizarEntrada(final EntradaEntity entradaEntity, final EntradaEntity viejaEntrada) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
 
         if (entradaEntity.getLibroEntrada() != null) {
             entradaEntity.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
@@ -76,23 +97,23 @@ public class EntradaServiceImpl implements EntradaService {
         entradaEntity.setUsuarioAlta(viejaEntrada.getUsuarioAlta());
         entradaEntity.setUsuarioModificacion(currentPrincipalName);
         entradaEntity.setUsuarioBaja(viejaEntrada.getUsuarioBaja());
-        UsuarioEntity usuario = usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+        final UsuarioEntity usuario = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
         entradaEntity.setEntradaAutor(usuario);
 
         if (entradaEntity.getPadreEntrada() != null) {
-            EntradaEntity padre = entradaRepository
+            final EntradaEntity padre = this.entradaRepository
                     .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
             entradaEntity.setPadreEntrada(padre);
         }
         // TODO: RAMON: Implementar
         entradaEntity.setNumeroComentarios(0);
-        entradaRepository.save(entradaEntity);
+        this.entradaRepository.save(entradaEntity);
         return entradaEntity;
     }
 
-    private EntradaEntity crearNuevaEntrada(EntradaEntity entradaEntity) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
+    private EntradaEntity crearNuevaEntrada(final EntradaEntity entradaEntity) {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
 
         if (entradaEntity.getLibroEntrada() != null) {
             entradaEntity.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
@@ -100,21 +121,18 @@ public class EntradaServiceImpl implements EntradaService {
         entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
         entradaEntity.setUsuarioAlta(currentPrincipalName);
 
-        UsuarioEntity usuario = usuarioRepository.findByUsuarioEmail(currentPrincipalName);
-        entradaEntity.setEntradaAutor(usuario);
-
         if (entradaEntity.getPadreEntrada() != null) {
-            EntradaEntity padre = entradaRepository
+            final EntradaEntity padre = this.entradaRepository
                     .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
             entradaEntity.setPadreEntrada(padre);
         }
         // TODO: RAMON: Implementar
         entradaEntity.setNumeroComentarios(0);
-        entradaRepository.save(entradaEntity);
+        this.entradaRepository.save(entradaEntity);
         return entradaEntity;
     }
 
-    private LibroEntity obtenerLibroEntrada(LibroEntity libroABuscar) {
+    private LibroEntity obtenerLibroEntrada(final LibroEntity libroABuscar) {
 
         LibroEntity libroEncontrado = null;
         if (libroABuscar != null) {
@@ -123,7 +141,5 @@ public class EntradaServiceImpl implements EntradaService {
         return libroEncontrado;
 
     }
-
-
 
 }

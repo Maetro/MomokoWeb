@@ -50,9 +50,11 @@ export class EntradaService {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
+    });
+
+    console.log(JSON.stringify(entrada));
     return this.http
-      .post(this.addEntradaUrl, JSON.stringify(entrada), {headers: headers})
+      .post(this.addEntradaUrl, JSON.stringify(entrada), { headers: headers })
       .toPromise();
   }
 

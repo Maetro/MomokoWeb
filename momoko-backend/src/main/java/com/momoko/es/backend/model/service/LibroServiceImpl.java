@@ -134,8 +134,10 @@ public class LibroServiceImpl implements LibroService {
                     final AutorEntity nuevoAutor = new AutorEntity();
                     nuevoAutor.setNombre(autor.getNombre());
                     nuevoAutor.setFechaAlta(Calendar.getInstance().getTime());
-                    // TODO: poner algo que identifique al usuario.
-                    nuevoAutor.setUsuarioAlta("RMaetro@gmail.com");
+                    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+                    final String currentPrincipalName = authentication.getName();
+                    nuevoAutor.setUsuarioAlta(currentPrincipalName);
+                    nuevoAutor.setFechaAlta(Calendar.getInstance().getTime());
                     autorEncontrado = this.autorRepository.save(nuevoAutor);
 
                 } else {

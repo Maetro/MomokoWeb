@@ -42,7 +42,6 @@ public final class EntityToDTOAdapter {
         final UsuarioDTO usuario = new UsuarioDTO();
         usuario.setUsuarioId(nuevoUsuario.getUsuarioId());
         usuario.setUsuarioLogin(nuevoUsuario.getUsuarioLogin());
-        usuario.setUsuarioContrasena(nuevoUsuario.getUsuarioContrasena());
         usuario.setUsuarioEmail(nuevoUsuario.getUsuarioEmail());
         usuario.setUsuarioFechaRegistro(nuevoUsuario.getUsuarioFechaRegistro());
         usuario.setUsuarioNick(nuevoUsuario.getUsuarioNick());
@@ -91,7 +90,9 @@ public final class EntityToDTOAdapter {
         entradaDTO.setContenidoEntrada(entradaEntity.getContenidoEntrada());
         entradaDTO.setAutor(adaptarUsuario(entradaEntity.getEntradaAutor()));
         entradaDTO.setEstadoEntrada(entradaEntity.getEstadoEntrada());
-        entradaDTO.setLibroEntrada(adaptarLibro(entradaEntity.getLibroEntrada()));
+        if (entradaEntity.getLibroEntrada() != null) {
+            entradaDTO.setLibroEntrada(entradaEntity.getLibroEntrada().getTitulo());
+        }
         entradaDTO.setNumeroComentarios(entradaEntity.getNumeroComentarios());
         entradaDTO.setOrden(entradaEntity.getOrden());
         entradaDTO.setPadreEntrada(
@@ -198,11 +199,11 @@ public final class EntityToDTOAdapter {
      * @return the establece
      */
     public static Set<EtiquetaDTO> adaptarEtiquetas(final Set<EtiquetaEntity> etiquetas) {
-        final Set<EtiquetaDTO> etiquetasEntities2 = new HashSet<EtiquetaDTO>();
-        for (final EtiquetaDTO etiquetaDTO : etiquetas) {
-            etiquetasEntities2.add(adaptarEtiqueta(etiquetaDTO));
+        final Set<EtiquetaDTO> etiquetasDTO = new HashSet<EtiquetaDTO>();
+        for (final EtiquetaEntity etiquetaEntity : etiquetas) {
+            etiquetasDTO.add(adaptarEtiqueta(etiquetaEntity));
         }
-        return etiquetasEntities2;
+        return etiquetasDTO;
     }
 
     /**
@@ -212,7 +213,7 @@ public final class EntityToDTOAdapter {
      *            etiqueta entity
      * @return the etiqueta DTO
      */
-    public static EtiquetaDTO adaptarEtiqueta(EtiquetaEntity etiquetaEntity) {
+    public static EtiquetaDTO adaptarEtiqueta(final EtiquetaEntity etiquetaEntity) {
         final EtiquetaDTO etiquetaDTO = new EtiquetaDTO();
         etiquetaDTO.setEtiquetaId(etiquetaEntity.getEtiqueta_id());
         etiquetaDTO.setNombreEtiqueta(etiquetaEntity.getNombre());

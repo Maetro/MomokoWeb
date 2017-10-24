@@ -23,4 +23,13 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
     @Query("SELECT l.titulo FROM LibroEntity l")
     List<String> findAllTitulosLibros();
 
+    /**
+     * Find one by titulo.
+     *
+     * @param titulo
+     *            the titulo
+     * @return the libro entity
+     */
+    LibroEntity findOneByTitulo(String titulo);
+
 }

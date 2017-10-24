@@ -151,7 +151,7 @@ public class ModeloController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @RequestMapping(method = RequestMethod.POST, path = "/entrada/add")
+    @RequestMapping(method = RequestMethod.POST, path = "/entradas/add")
     ResponseEntity<GuardarEntradaResponse> add(@RequestBody final EntradaDTO entradaDTO) {
 
         // Validar

@@ -85,17 +85,19 @@ public final class DTOToEntityAdapter {
      *            entrada DTO
      * @return the entrada entity
      */
-    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO) {
+    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final LibroDTO libroEntrada) {
         final EntradaEntity entradaEntity = new EntradaEntity();
         entradaEntity.setEntradaId(entradaDTO.getEntradaId());
         entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
         entradaEntity.setEntradaAutor(adaptarUsuario(entradaDTO.getAutor()));
         entradaEntity.setEstadoEntrada(entradaDTO.getEstadoEntrada());
-        entradaEntity.setLibroEntrada(adaptarLibro(entradaDTO.getLibroEntrada()));
+        if (libroEntrada != null) {
+            entradaEntity.setLibroEntrada(adaptarLibro(libroEntrada));
+        }
         entradaEntity.setNumeroComentarios(entradaDTO.getNumeroComentarios());
         entradaEntity.setOrden(entradaDTO.getOrden());
         entradaEntity.setPadreEntrada(
-                entradaDTO.getPadreEntrada() != null ? adaptarEntrada(entradaDTO.getPadreEntrada()) : null);
+                entradaDTO.getPadreEntrada() != null ? adaptarEntrada(entradaDTO.getPadreEntrada(), null) : null);
         entradaEntity.setPermitirComentarios(entradaDTO.getPermitirComentarios());
         entradaEntity.setResumenEntrada(entradaDTO.getResumenEntrada());
         entradaEntity.setTipoEntrada(entradaDTO.getTipoEntrada());
@@ -210,7 +212,7 @@ public final class DTOToEntityAdapter {
      *            etiqueta entity
      * @return the etiqueta DTO
      */
-    public static EtiquetaEntity adaptarEtiqueta(EtiquetaDTO etiquetaDTO) {
+    public static EtiquetaEntity adaptarEtiqueta(final EtiquetaDTO etiquetaDTO) {
         final EtiquetaEntity etiquetaEntity = new EtiquetaEntity();
         etiquetaEntity.setEtiqueta_id(etiquetaDTO.getEtiquetaId());
         etiquetaEntity.setNombre(etiquetaDTO.getNombreEtiqueta());

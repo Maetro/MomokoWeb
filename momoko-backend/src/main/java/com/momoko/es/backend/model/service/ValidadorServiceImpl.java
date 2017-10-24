@@ -75,12 +75,12 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO) {
+    public List<ErrorCreacionEntrada> validarEntrada(final EntradaDTO entradaDTO) {
         final List<ErrorCreacionEntrada> listaErrores = new ArrayList<ErrorCreacionEntrada>();
-        if (entradaDTO.getTituloEntrada() != null) {
+        if (entradaDTO.getTituloEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_TITULO);
         }
-        if (entradaDTO.getContenidoEntrada() != null) {
+        if (entradaDTO.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
         return listaErrores;
