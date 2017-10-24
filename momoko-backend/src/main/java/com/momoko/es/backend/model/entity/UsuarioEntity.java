@@ -7,12 +7,15 @@
 package com.momoko.es.backend.model.entity;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -61,6 +64,12 @@ public class UsuarioEntity extends AuditoriaBasica {
 
     /** The usuario rol id. */
     private Integer usuarioRolId;
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComentarioEntity> comentarios;
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PuntuacionEntity> puntuaciones;
 
     /**
      * Obtiene usuario id.
@@ -269,6 +278,44 @@ public class UsuarioEntity extends AuditoriaBasica {
      */
     public void setUsuarioRolId(Integer usuarioRolId) {
         this.usuarioRolId = usuarioRolId;
+    }
+
+    /**
+     * Obtiene comentarios.
+     *
+     * @return comentarios
+     */
+    public List<ComentarioEntity> getComentarios() {
+        return comentarios;
+    }
+
+    /**
+     * Establece comentarios.
+     *
+     * @param comentarios
+     *            nuevo comentarios
+     */
+    public void setComentarios(List<ComentarioEntity> comentarios) {
+        this.comentarios = comentarios;
+    }
+
+    /**
+     * Obtiene puntuaciones.
+     *
+     * @return puntuaciones
+     */
+    public List<PuntuacionEntity> getPuntuaciones() {
+        return puntuaciones;
+    }
+
+    /**
+     * Establece puntuaciones.
+     *
+     * @param puntuaciones
+     *            nuevo puntuaciones
+     */
+    public void setPuntuaciones(List<PuntuacionEntity> puntuaciones) {
+        this.puntuaciones = puntuaciones;
     }
 
     /**

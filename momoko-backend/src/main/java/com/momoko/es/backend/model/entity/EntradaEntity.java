@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -67,6 +69,9 @@ public class EntradaEntity extends AuditoriaBasica {
     @ManyToOne
     @JoinColumn(name = "libro_entrada")
     private LibroEntity libroEntrada;
+
+    @OneToMany(mappedBy = "entrada", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ComentarioEntity> comentarios;
 
     /** The numero comentarios. */
     private Integer numeroComentarios;
@@ -370,6 +375,25 @@ public class EntradaEntity extends AuditoriaBasica {
      */
     public void setImagenDestacada(final String imagenDestacada) {
         this.imagenDestacada = imagenDestacada;
+    }
+
+    /**
+     * Obtiene comentarios.
+     *
+     * @return comentarios
+     */
+    public List<ComentarioEntity> getComentarios() {
+        return comentarios;
+    }
+
+    /**
+     * Establece comentarios.
+     *
+     * @param comentarios
+     *            nuevo comentarios
+     */
+    public void setComentarios(List<ComentarioEntity> comentarios) {
+        this.comentarios = comentarios;
     }
 
     /**

@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -83,6 +85,9 @@ public class LibroEntity extends AuditoriaBasica {
 
     /** The titulo original. */
     private String tituloOriginal;
+
+    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PuntuacionEntity> puntuaciones;
 
     /**
      * Instantiates a new libro entity.
@@ -354,6 +359,25 @@ public class LibroEntity extends AuditoriaBasica {
      */
     public void setTituloOriginal(final String tituloOriginal) {
         this.tituloOriginal = tituloOriginal;
+    }
+
+    /**
+     * Obtiene puntuaciones.
+     *
+     * @return puntuaciones
+     */
+    public List<PuntuacionEntity> getPuntuaciones() {
+        return puntuaciones;
+    }
+
+    /**
+     * Establece puntuaciones.
+     *
+     * @param puntuaciones
+     *            nuevo puntuaciones
+     */
+    public void setPuntuaciones(List<PuntuacionEntity> puntuaciones) {
+        this.puntuaciones = puntuaciones;
     }
 
     @Override
