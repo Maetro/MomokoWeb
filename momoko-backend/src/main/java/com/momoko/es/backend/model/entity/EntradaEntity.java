@@ -2,7 +2,7 @@
  * EntradaEntity.java 11-oct-2017
  *
  */
-package com.ms.backend.model.entity;
+package com.momoko.es.backend.model.entity;
 
 import java.util.List;
 import java.util.Set;
@@ -381,7 +381,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @return comentarios
      */
     public List<ComentarioEntity> getComentarios() {
-        return comentarios;
+        return this.comentarios;
     }
 
     /**
@@ -390,7 +390,7 @@ public class EntradaEntity extends AuditoriaBasica {
      * @param comentarios
      *            nuevo comentarios
      */
-    public void setComentarios(List<ComentarioEntity> comentarios) {
+    public void setComentarios(final List<ComentarioEntity> comentarios) {
         this.comentarios = comentarios;
     }
 

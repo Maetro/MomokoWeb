@@ -17,7 +17,7 @@
               <i class="fa fa-search" style="margin:4px 0px 0 4px"></i>
           </div> -->
           <p-dataTable [value]="entradas" [rows]="10" [paginator]="true" [globalFilter]="gb" resizableColumns="true"
-               [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedEntrada">
+               [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedEntrada" (onRowSelect)="handleRowSelect($event)">
             <p-column field="tituloEntrada" header="Titulo" [sortable]="true"></p-column>
             <p-column field="libroEntrada" header="Libro Asociado" [sortable]="true"></p-column>
             <p-column field="urlEntrada" header="URL" [sortable]="true"></p-column>

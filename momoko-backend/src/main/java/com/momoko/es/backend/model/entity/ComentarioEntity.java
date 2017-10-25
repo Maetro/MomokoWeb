@@ -51,9 +51,7 @@ public class ComentarioEntity extends AuditoriaBasica {
     @JoinColumn(name = "entrada_id")
     private EntradaEntity entrada;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comentario_id")
-    private ComentarioEntity respuesta;
+    private Integer respuestaComentarioId;
 
     /**
      * Obtiene autor.
@@ -69,17 +67,17 @@ public class ComentarioEntity extends AuditoriaBasica {
      *
      * @return comentario id
      */
-   public Integer getComentarioId(){
+    public Integer getComentarioId() {
         return this.comentarioId;
-   }
-    
+    }
+
     /**
      * Establece comentario id.
      *
      * @param comentarioId
      *            nuevo comentario id
      */
-    public void setComentarioId(Integer comentarioId) {
+    public void setComentarioId(final Integer comentarioId) {
         this.comentarioId = comentarioId;
     }
 

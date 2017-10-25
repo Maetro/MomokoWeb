@@ -102,13 +102,13 @@
           <div class="col-md-12">
 
             <h4> Contenido </h4>
-            <app-simple-tiny [elementId]="'editor-contenido'" (onEditorKeyup)="actualizarContenido($event)"></app-simple-tiny>
+            <app-simple-tiny [elementId]="'editor-contenido'" initialContent="{{entrada.contenidoEntrada}}" (onEditorKeyup)="actualizarContenido($event)"></app-simple-tiny>
           </div>
 
           <div class="col-md-12 marginTop10 marginBottom10">
 
             <h4> Resumen </h4>
-            <app-resumen-editor [elementId]="'editor-resumen'" (onEditorKeyup)="actualizarResumen($event)"></app-resumen-editor>
+            <app-resumen-editor [elementId]="'editor-resumen'" initialContent="{{entrada.resumenEntrada}}" (onEditorKeyup)="actualizarResumen($event)"></app-resumen-editor>
           </div>
           <div class="divide10"></div>
 
@@ -157,11 +157,11 @@
           </ng-template>
         </p-fileUpload>
 
-        <div class="divide10"></div>
+        <div class="divide10 marginTop10"></div>
         <div class="col-md-12">
 
-          <h4> Galerías </h4>
-          <button type="button" (click)="anadirGaleria()" class="btn btn-outline-primary">+ Galeria</button>
+          <h2> Galerías </h2>
+          <button type="button" (click)="anadirGaleria()" class="btn btn-outline-primary">Añadir Galeria</button>
           <app-anadir-galeria [galerias]="galerias"></app-anadir-galeria>
         </div>
 

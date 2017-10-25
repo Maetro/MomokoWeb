@@ -47,6 +47,12 @@ export class ListaEntradasComponent implements OnInit {
         });
       }
 
+      handleRowSelect(event: any) {
+        let entrada: Entrada;
+        entrada = event.data;
+        console.log(entrada);
+      }
+
       selectEntrada(entrada: Entrada) {
         console.log(entrada);
         this.selectedEntrada = entrada;

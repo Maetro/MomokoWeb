@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResumenEditorComponent } from 'app/contenido/gestion-entradas/simple-tiny/resumen-editor.component';
 import { AnadirGaleriaDirective } from './anadir-galeria/anadir-galeria.directive';
 import { AnadirGaleriaComponent } from 'app/contenido/gestion-entradas/anadir-galeria/anadir-galeria.component';
+import { GaleriaFormImplComponent } from 'app/contenido/gestion-entradas/anadir-galeria/galeria-form-impl.component';
 
 
 @NgModule({
@@ -30,10 +31,10 @@ import { AnadirGaleriaComponent } from 'app/contenido/gestion-entradas/anadir-ga
     BrowserAnimationsModule
   ],
   declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent,
-    AnadirGaleriaComponent, AnadirGaleriaDirective],
+    AnadirGaleriaComponent, AnadirGaleriaDirective, GaleriaFormImplComponent],
   providers: [
     EntradaService, FileUploadService
   ],
-  entryComponents: [ListaEntradasComponent, AnadirGaleriaComponent]
+  entryComponents: [ListaEntradasComponent, GaleriaFormImplComponent]
 })
 export class GestionEntradasModule { }

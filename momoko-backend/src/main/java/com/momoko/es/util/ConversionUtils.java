@@ -34,11 +34,11 @@ public class ConversionUtils {
      *            lista
      * @return the string
      */
-    public static String join(List<String> lista) {
-        StringBuilder sb = new StringBuilder();
+    public static String join(final List<String> lista) {
+        final StringBuilder sb = new StringBuilder();
         if (CollectionUtils.isNotEmpty(lista)) {
-            Iterator<String> it = lista.iterator();
-            while(it.hasNext()) {
+            final Iterator<String> it = lista.iterator();
+            while (it.hasNext()) {
                 sb.append(it.next());
                 if (it.hasNext()) {
                     sb.append(SEPARATOR);
@@ -55,10 +55,10 @@ public class ConversionUtils {
      *            data
      * @return the list
      */
-    public static List<String> divide(String data) {
+    public static List<String> divide(final String data) {
         List<String> resultado = new ArrayList<String>();
         if (StringUtils.isNotBlank(data)) {
-            String[] separated = StringUtils.split(data, SEPARATOR);
+            final String[] separated = StringUtils.split(data, ",");
             resultado = new ArrayList<String>(Arrays.asList(separated));
         }
         return resultado;
@@ -71,8 +71,8 @@ public class ConversionUtils {
      *            autor
      * @return the usuario basico DTO
      */
-    public static UsuarioBasicoDTO obtenerUsuarioBasico(UsuarioEntity autor) {
-        UsuarioBasicoDTO usuarioBasico = new UsuarioBasicoDTO();
+    public static UsuarioBasicoDTO obtenerUsuarioBasico(final UsuarioEntity autor) {
+        final UsuarioBasicoDTO usuarioBasico = new UsuarioBasicoDTO();
         usuarioBasico.setAvatar(autor.getAvatarUrl());
         usuarioBasico.setCargo(autor.getCargo());
         usuarioBasico.setIdUsuario(autor.getUsuarioId());

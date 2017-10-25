@@ -2,7 +2,7 @@
  * EtiquetaEntity.java 23-oct-2017
  *
  */
-package com.ms.backend.model.entity;
+package com.momoko.es.backend.model.entity;
 
 import java.util.Set;
 
@@ -36,14 +36,13 @@ public class EtiquetaEntity extends AuditoriaBasica {
     @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "etiquetas", fetch = FetchType.LAZY)
     private Set<EntradaEntity> etiquetasEntrada;
 
-
     /**
      * Obtiene etiqueta id.
      *
      * @return etiqueta id
      */
     public Integer getEtiqueta_id() {
-        return etiqueta_id;
+        return this.etiqueta_id;
     }
 
     /**
@@ -52,7 +51,7 @@ public class EtiquetaEntity extends AuditoriaBasica {
      * @param etiqueta_id
      *            nuevo etiqueta id
      */
-    public void setEtiqueta_id(Integer etiqueta_id) {
+    public void setEtiqueta_id(final Integer etiqueta_id) {
         this.etiqueta_id = etiqueta_id;
     }
 
@@ -62,7 +61,7 @@ public class EtiquetaEntity extends AuditoriaBasica {
      * @return nombre
      */
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     /**
@@ -71,7 +70,7 @@ public class EtiquetaEntity extends AuditoriaBasica {
      * @param nombre
      *            nuevo nombre
      */
-    public void setNombre(String nombre) {
+    public void setNombre(final String nombre) {
         this.nombre = nombre;
     }
 
@@ -81,7 +80,7 @@ public class EtiquetaEntity extends AuditoriaBasica {
      * @return etiquetas entrada
      */
     public Set<EntradaEntity> getEtiquetasEntrada() {
-        return etiquetasEntrada;
+        return this.etiquetasEntrada;
     }
 
     /**
@@ -90,28 +89,30 @@ public class EtiquetaEntity extends AuditoriaBasica {
      * @param etiquetasEntrada
      *            nuevo etiquetas entrada
      */
-    public void setEtiquetasEntrada(Set<EntradaEntity> etiquetasEntrada) {
+    public void setEtiquetasEntrada(final Set<EntradaEntity> etiquetasEntrada) {
         this.etiquetasEntrada = etiquetasEntrada;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof EtiquetaEntity))
+        if (!(other instanceof EtiquetaEntity)) {
             return false;
-        EtiquetaEntity castOther = (EtiquetaEntity) other;
-        return new EqualsBuilder().append(etiqueta_id, castOther.etiqueta_id).append(nombre, castOther.nombre)
-                .append(etiquetasEntrada, castOther.etiquetasEntrada).isEquals();
+        }
+        final EtiquetaEntity castOther = (EtiquetaEntity) other;
+        return new EqualsBuilder().append(this.etiqueta_id, castOther.etiqueta_id).append(this.nombre, castOther.nombre)
+                .append(this.etiquetasEntrada, castOther.etiquetasEntrada).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(etiqueta_id).append(nombre).append(etiquetasEntrada).toHashCode();
+        return new HashCodeBuilder().append(this.etiqueta_id).append(this.nombre).append(this.etiquetasEntrada)
+                .toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("etiqueta_id", etiqueta_id).append("nombre", nombre)
-                .append("etiquetasEntrada", etiquetasEntrada).toString();
+        return new ToStringBuilder(this).append("etiqueta_id", this.etiqueta_id).append("nombre", this.nombre)
+                .append("etiquetasEntrada", this.etiquetasEntrada).toString();
     }
 
 }

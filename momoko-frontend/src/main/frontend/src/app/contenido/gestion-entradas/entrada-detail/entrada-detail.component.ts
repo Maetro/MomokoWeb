@@ -1,7 +1,7 @@
 
 import { GaleriaItem } from './../anadir-galeria/galeria-item';
 import { Etiqueta } from 'app/dtos/etiqueta';
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaService } from 'app/services/entrada.service';
 
@@ -10,18 +10,20 @@ import { GeneralDataService } from 'app/services/general-data.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
 import { AnadirGaleriaComponent } from '../anadir-galeria/anadir-galeria.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
+import { GaleriaFormImplComponent } from 'app/contenido/gestion-entradas/anadir-galeria/galeria-form-impl.component';
 
 
 @Component({
   selector: 'app-entrada-detail',
-  templateUrl: './entrada-detail.component.html',
-  styleUrls: ['./entrada-detail.component.css']
+  templateUrl: './entrada-detail.component.html'
 })
 export class EntradaDetailComponent implements OnInit {
 
   @Input() entrada: Entrada;
 
   @Output() onEntradaGuardada: EventEmitter<Entrada> = new EventEmitter<Entrada>();
+
+  @ViewChild(AnadirGaleriaComponent) anadirGaleriaComponent: AnadirGaleriaComponent;
 
   esLibroNuevo = true;
 
@@ -36,7 +38,7 @@ export class EntradaDetailComponent implements OnInit {
 
   etiquetas: string[];
 
-  galerias: GaleriaItem[];
+
 
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
     private fileUploadService: FileUploadService) {
@@ -138,7 +140,9 @@ export class EntradaDetailComponent implements OnInit {
   }
 
   anadirGaleria(): void {
-    this.galerias = [new GaleriaItem(AnadirGaleriaComponent, {})];
+    const galerias = new GaleriaItem(GaleriaFormImplComponent, {headline: 'Openings in all departments',
+      body: 'Apply today'});
+    this.anadirGaleriaComponent.loadComponent(galerias);
   }
 
 }

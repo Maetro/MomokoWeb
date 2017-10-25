@@ -17,16 +17,14 @@ export class AnadirGaleriaComponent implements AfterViewInit, OnDestroy  {
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
   ngAfterViewInit() {
-    this.loadComponent();
-    this.getAds();
   }
 
   ngOnDestroy() {
   }
 
-  loadComponent() {
+  loadComponent(galeriaItem: GaleriaItem) {
 
-    const galeriaItem = this.galerias[0];
+    console.log('load Component');
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(galeriaItem.component);
 

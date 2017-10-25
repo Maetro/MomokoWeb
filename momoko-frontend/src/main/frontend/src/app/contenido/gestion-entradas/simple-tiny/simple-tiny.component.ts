@@ -13,6 +13,7 @@ import {
 })
 export class SimpleTinyComponent implements AfterViewInit, OnDestroy {
   @Input() elementId: String;
+  @Input() initialContent: String;
   @Output() onEditorKeyup = new EventEmitter<any>();
 
   editor;
@@ -66,6 +67,9 @@ export class SimpleTinyComponent implements AfterViewInit, OnDestroy {
           this.onEditorKeyup.emit(content);
         });
       },
+      init_instance_callback: (editor: any) => {
+        editor && this.initialContent && this.editor.setContent(this.initialContent)
+      }
     });
   }
 

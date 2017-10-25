@@ -33,6 +33,7 @@ import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.EtiquetaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
+import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
@@ -65,13 +66,14 @@ public class EntradaServiceImpl implements EntradaService {
     @Transactional
     public EntradaDTO guardarEntrada(final EntradaDTO entradaAGuardar) throws Exception {
         LibroDTO libroEntrada = null;
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
         if (StringUtils.isNotBlank(entradaAGuardar.getLibroEntrada())) {
             libroEntrada = EntityToDTOAdapter
                     .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getLibroEntrada()));
         }
         if (entradaAGuardar.getEntradaId() == null) {
-            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            final String currentPrincipalName = authentication.getName();
+
             entradaAGuardar.setAutor(
                     EntityToDTOAdapter.adaptarUsuario(this.usuarioRepository.findByUsuarioEmail(currentPrincipalName)));
         }
@@ -80,11 +82,24 @@ public class EntradaServiceImpl implements EntradaService {
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
             final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
             for (final EtiquetaEntity etiqueta : entradaEntity.getEtiquetas()) {
-                EtiquetaEntity etiquetaBD = this.etiquetaRepository.findOneByNombre(etiqueta.getNombre());
-                if (etiquetaBD == null) {
-                    etiquetaBD = this.etiquetaRepository.save(etiqueta);
+                List<String> etiquetas = new ArrayList<String>();
+                if (StringUtils.contains(etiqueta.getNombre(), ",")) {
+                    etiquetas = ConversionUtils.divide(etiqueta.getNombre());
+                } else {
+                    etiquetas.add(etiqueta.getNombre());
                 }
-                etiquetasBD.add(etiquetaBD);
+                for (final String nombreEtiqueta : etiquetas) {
+                    EtiquetaEntity etiquetaBD = this.etiquetaRepository.findOneByNombre(nombreEtiqueta.trim());
+                    if (etiquetaBD == null) {
+                        final EtiquetaEntity nuevaEtiqueta = new EtiquetaEntity();
+                        nuevaEtiqueta.setNombre(nombreEtiqueta.trim());
+                        nuevaEtiqueta.setFechaAlta(Calendar.getInstance().getTime());
+                        nuevaEtiqueta.setUsuarioAlta(currentPrincipalName);
+                        etiquetaBD = this.etiquetaRepository.save(nuevaEtiqueta);
+                    }
+                    etiquetasBD.add(etiquetaBD);
+                }
+
             }
             entradaEntity.setEtiquetas(etiquetasBD);
         }
