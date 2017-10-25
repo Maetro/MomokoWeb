@@ -1,8 +1,8 @@
 /**
- * AutorEntity.java 08-jul-2017
+ * AutorEntity.java 25-oct-2017
  *
- * Copyright 2017 RAMON CASARES.
- * @author Ramon.Casares.Porto@gmail.com
+ * Copyright 2017 INDITEX.
+ * Departamento de Sistemas
  */
 package com.momoko.es.backend.model.entity;
 
@@ -22,6 +22,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Class AutorEntity.
+ *
+ * @author <a href="josercpo@ext.inditex.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "autor")

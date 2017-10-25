@@ -1,8 +1,6 @@
 /**
  * ComentarioEntity.java 24-oct-2017
  *
- * Copyright 2017 INDITEX.
- * Departamento de Sistemas
  */
 package com.momoko.es.backend.model.entity;
 
@@ -20,7 +18,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 /**
  * The Class ComentarioEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "comentario")
@@ -53,6 +51,10 @@ public class ComentarioEntity extends AuditoriaBasica {
     @JoinColumn(name = "entrada_id")
     private EntradaEntity entrada;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comentario_id")
+    private ComentarioEntity respuesta;
+
     /**
      * Obtiene autor.
      *
@@ -60,6 +62,25 @@ public class ComentarioEntity extends AuditoriaBasica {
      */
     public UsuarioEntity getAutor() {
         return this.autor;
+    }
+
+    /**
+     * Obtiene comentario id.
+     *
+     * @return comentario id
+     */
+   public Integer getComentarioId(){
+        return this.comentarioId;
+   }
+    
+    /**
+     * Establece comentario id.
+     *
+     * @param comentarioId
+     *            nuevo comentario id
+     */
+    public void setComentarioId(Integer comentarioId) {
+        this.comentarioId = comentarioId;
     }
 
     /**

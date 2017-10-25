@@ -10,19 +10,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.momoko.es.api.dto.AutorDTO;
+import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
+import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.backend.model.entity.AutorEntity;
+import com.momoko.es.backend.model.entity.ComentarioEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
+import com.momoko.es.backend.model.entity.GaleriaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.entity.SagaEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 
@@ -217,5 +223,57 @@ public final class DTOToEntityAdapter {
         etiquetaEntity.setEtiqueta_id(etiquetaDTO.getEtiquetaId());
         etiquetaEntity.setNombre(etiquetaDTO.getNombreEtiqueta());
         return etiquetaEntity;
+    }
+
+    /**
+     * Adaptar etiqueta.
+     *
+     * @param etiquetaEntity
+     *            etiqueta entity
+     * @return the etiqueta DTO
+     */
+    public static GaleriaDTO adaptarGaleria(final GaleriaEntity galeriaEntity) {
+        final GaleriaDTO galeriaDTO = new GaleriaDTO();
+        galeriaDTO.setGaleriaId(galeriaEntity.getGaleriaId());
+        galeriaDTO.setEntrada(galeriaEntity.getEntrada().getUrlEntrada());
+        galeriaDTO.setFotografias(ConversionUtils.divide(galeriaEntity.getFotografias()));
+        galeriaDTO.setColumnas(galeriaEntity.getColumnas());
+        return galeriaDTO;
+    }
+
+    /**
+     * Adaptar comentario.
+     *
+     * @param comentarioEntity
+     *            comentario entity
+     * @return the comentario DTO
+     */
+    public static ComentarioDTO adaptarComentario(final ComentarioEntity comentarioEntity) {
+        ComentarioDTO comentarioDTO = new ComentarioDTO();
+        comentarioDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(comentarioEntity.getAutor()));
+        comentarioDTO.setVotosPositivos(ConversionUtils.divide(comentarioEntity.getVotosPositivos()).size());
+        comentarioDTO.setVotosNegativos(ConversionUtils.divide(comentarioEntity.getVotosNegativos()).size());
+        comentarioDTO.setTextoComentario(comentarioEntity.getTextoComentario());
+        comentarioDTO.setEsBan(comentarioEntity.isEsBan());
+        comentarioDTO.setEsSpoiler(comentarioEntity.isEsSpoiler());
+        comentarioDTO.setComentarioId(comentarioEntity.getComentarioId());
+        return comentarioDTO;
+    }
+
+    /**
+     * Adaptar puntuacion.
+     *
+     * @param puntuacionEntity
+     *            puntuacion entity
+     * @return the puntuacion DTO
+     */
+    public static PuntuacionDTO adaptarPuntuacion(final PuntuacionEntity puntuacionEntity) {
+        PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
+        puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(puntuacionEntity.getAutor()));
+        puntuacionDTO.setComentario(puntuacionEntity.getComentario());
+        puntuacionDTO.setEsPuntuacionMomoko(puntuacionEntity.isEsPuntuacionMomoko());
+        puntuacionDTO.setLibroId(puntuacionEntity.getLibro().getLibroId());
+        puntuacionDTO.setValor(puntuacionEntity.getValor());
+        return puntuacionDTO;
     }
 }

@@ -1,7 +1,7 @@
 /**
  * GaleriaEntity.java 24-oct-2017
  *
- * Copyright 2017 INDITEX.
+ * Copyright 2017 .
  * Departamento de Sistemas
  */
 package com.momoko.es.backend.model.entity;
@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class GaleriaEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "galeria")

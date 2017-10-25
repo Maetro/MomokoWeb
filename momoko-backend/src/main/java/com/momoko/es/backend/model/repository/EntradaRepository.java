@@ -14,7 +14,7 @@ import com.momoko.es.backend.model.entity.EntradaEntity;
 /**
  * The Interface EntradaRepository.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Repository
 public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer> {

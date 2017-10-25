@@ -1,7 +1,7 @@
 /**
  * EntradaService.java 11-oct-2017
  *
- * Copyright 2017 INDITEX.
+ * Copyright 2017 .
  * Departamento de Sistemas
  */
 package com.momoko.es.backend.model.service;
@@ -13,7 +13,7 @@ import com.momoko.es.api.dto.EntradaDTO;
 /**
  * The Interface EntradaService.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 public interface EntradaService {
 

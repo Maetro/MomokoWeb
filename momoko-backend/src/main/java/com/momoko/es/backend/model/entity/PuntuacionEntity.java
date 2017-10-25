@@ -1,7 +1,7 @@
 /**
  * PuntuacionEntity.java 24-oct-2017
  *
- * Copyright 2017 INDITEX.
+ * Copyright 2017 .
  * Departamento de Sistemas
  */
 package com.momoko.es.backend.model.entity;
@@ -21,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class PuntuacionEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "puntuacion")
@@ -144,6 +144,25 @@ public class PuntuacionEntity {
      */
     public void setEsPuntuacionMomoko(boolean esPuntuacionMomoko) {
         this.esPuntuacionMomoko = esPuntuacionMomoko;
+    }
+
+    /**
+     * Obtiene libro.
+     *
+     * @return libro
+     */
+    public LibroEntity getLibro() {
+        return libro;
+    }
+
+    /**
+     * Establece libro.
+     *
+     * @param libro
+     *            nuevo libro
+     */
+    public void setLibro(LibroEntity libro) {
+        this.libro = libro;
     }
 
     @Override

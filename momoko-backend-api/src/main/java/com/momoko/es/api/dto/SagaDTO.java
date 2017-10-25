@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * The Class SagaDTO.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 public class SagaDTO implements Serializable{
 

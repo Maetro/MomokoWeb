@@ -27,7 +27,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class LibroEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramon Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "libro")

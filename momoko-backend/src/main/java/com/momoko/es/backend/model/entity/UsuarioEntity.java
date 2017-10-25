@@ -25,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class UsuarioEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "usuario")
@@ -64,6 +64,12 @@ public class UsuarioEntity extends AuditoriaBasica {
 
     /** The usuario rol id. */
     private Integer usuarioRolId;
+
+    /** The avatar url. */
+    private String avatarUrl;
+
+    /** The cargo. */
+    private String cargo;
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComentarioEntity> comentarios;
@@ -319,6 +325,44 @@ public class UsuarioEntity extends AuditoriaBasica {
     }
 
     /**
+     * Obtiene avatar url.
+     *
+     * @return avatar url
+     */
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    /**
+     * Establece avatar url.
+     *
+     * @param avatarUrl
+     *            nuevo avatar url
+     */
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    /**
+     * Obtiene cargo.
+     *
+     * @return cargo
+     */
+    public String getCargo() {
+        return cargo;
+    }
+
+    /**
+     * Establece cargo.
+     *
+     * @param cargo
+     *            nuevo cargo
+     */
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -359,6 +403,5 @@ public class UsuarioEntity extends AuditoriaBasica {
                 .append("usuarioClaveActivacion", usuarioClaveActivacion).append("usuarioStatus", usuarioStatus)
                 .append("usuarioNombreVisible", usuarioNombreVisible).append("usuarioRolId", usuarioRolId).toString();
     }
-
 
 }

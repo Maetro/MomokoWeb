@@ -1,7 +1,7 @@
 /**
  * NoSeEncuentraEntradaException.java 11-oct-2017
  *
- * Copyright 2017 INDITEX.
+ * Copyright 2017 .
  * Departamento de Sistemas
  */
 package com.momoko.es.api.exceptions;
@@ -9,7 +9,7 @@ package com.momoko.es.api.exceptions;
 /**
  * The Class NoSeEncuentraEntradaException.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 public class NoSeEncuentraEntradaException extends Exception {
 

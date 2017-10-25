@@ -1,10 +1,8 @@
 /**
  * EntradaEntity.java 11-oct-2017
  *
- * Copyright 2017 INDITEX.
- * Departamento de Sistemas
  */
-package com.momoko.es.backend.model.entity;
+package com.ms.backend.model.entity;
 
 import java.util.List;
 import java.util.Set;
@@ -27,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class EntradaEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
 @Table(name = "entrada")

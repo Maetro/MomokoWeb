@@ -1,10 +1,8 @@
 /**
  * EtiquetaEntity.java 23-oct-2017
  *
- * Copyright 2017 INDITEX.
- * Departamento de Sistemas
  */
-package com.momoko.es.backend.model.entity;
+package com.ms.backend.model.entity;
 
 import java.util.Set;
 
@@ -23,7 +21,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class EtiquetaEntity.
  *
- * @author <a href="josercpo@ext.inditex.com">Ramón Casares</a>
+ * @author <a href="RMaetro@gmail.com">Ramón Casares</a>
  */
 @Entity
 @Table(name = "etiqueta")
