@@ -16,6 +16,7 @@ export class EntradaService {
   constructor(private http: HttpClient) { }
 
   getEntradas(): Promise<Entrada[]> {
+    this.allEntradasList = [];
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')

@@ -8,8 +8,13 @@ package com.momoko.es.backend.model.service;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import javax.transaction.Transactional;
+
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,9 +26,11 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
 import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
 import com.momoko.es.backend.model.entity.EntradaEntity;
+import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
+import com.momoko.es.backend.model.repository.EtiquetaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.util.DTOToEntityAdapter;
@@ -41,6 +48,9 @@ public class EntradaServiceImpl implements EntradaService {
     @Autowired(required = false)
     private UsuarioRepository usuarioRepository;
 
+    @Autowired(required = false)
+    private EtiquetaRepository etiquetaRepository;
+
     @Override
     public List<EntradaDTO> recuperarEntradas() {
         final List<EntradaDTO> entradasDTO = new ArrayList<EntradaDTO>();
@@ -52,6 +62,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
+    @Transactional
     public EntradaDTO guardarEntrada(final EntradaDTO entradaAGuardar) throws Exception {
         LibroDTO libroEntrada = null;
         if (StringUtils.isNotBlank(entradaAGuardar.getLibroEntrada())) {
@@ -65,6 +76,18 @@ public class EntradaServiceImpl implements EntradaService {
                     EntityToDTOAdapter.adaptarUsuario(this.usuarioRepository.findByUsuarioEmail(currentPrincipalName)));
         }
         EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada);
+
+        if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
+            final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
+            for (final EtiquetaEntity etiqueta : entradaEntity.getEtiquetas()) {
+                EtiquetaEntity etiquetaBD = this.etiquetaRepository.findOneByNombre(etiqueta.getNombre());
+                if (etiquetaBD == null) {
+                    etiquetaBD = this.etiquetaRepository.save(etiqueta);
+                }
+                etiquetasBD.add(etiquetaBD);
+            }
+            entradaEntity.setEtiquetas(etiquetasBD);
+        }
 
         final boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
         // Comprobamos si la url de la entrada existe.

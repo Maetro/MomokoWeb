@@ -75,4 +75,9 @@ public class UserServiceImpl implements UserService {
         return usuario;
     }
 
+    @Override
+    public String getUserEncodedPassword(final String email) {
+        return this.usuarioRepository.findEncodedPasswordByEmail(email);
+    }
+
 }

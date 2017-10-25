@@ -1,11 +1,15 @@
+
+import { GaleriaItem } from './../anadir-galeria/galeria-item';
 import { Etiqueta } from 'app/dtos/etiqueta';
-import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaService } from 'app/services/entrada.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { DropdownModule, CheckboxModule, Message, ChipsModule } from 'primeng/primeng';
+
+import { Message } from 'primeng/primeng';
 import { GeneralDataService } from 'app/services/general-data.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
+import { AnadirGaleriaComponent } from '../anadir-galeria/anadir-galeria.component';
+import { FileUploadService } from 'app/services/fileUpload.service';
 
 
 @Component({
@@ -32,11 +36,13 @@ export class EntradaDetailComponent implements OnInit {
 
   etiquetas: string[];
 
+  galerias: GaleriaItem[];
+
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
     private fileUploadService: FileUploadService) {
     this.tiposEntrada = [];
-    this.tiposEntrada.push({ label: 'Análisis', value: 1 });
-    this.tiposEntrada.push({ label: 'Noticia', value: 2 });
+    this.tiposEntrada.push({ label: 'Noticia', value: 1 });
+    this.tiposEntrada.push({ label: 'Análisis', value: 2 });
     this.estadosEntrada = [];
     this.estadosEntrada.push({ label: 'Borrador', value: 1 });
     this.estadosEntrada.push({ label: 'Publicada', value: 2 });
@@ -52,7 +58,7 @@ export class EntradaDetailComponent implements OnInit {
       console.log('Init info general');
       const libros = datos.titulosLibros;
       this.titulosLibros.push({ label: ' ' + 'No asociar', value: null });
-      libros.forEach(libro => {
+      libros.forEach((libro: string) => {
         this.titulosLibros.push({ label: ' ' + libro, value: libro });
       });
     },
@@ -61,7 +67,7 @@ export class EntradaDetailComponent implements OnInit {
       });
   }
 
-  cambioTitulo(newValue) {
+  cambioTitulo(newValue: string) {
     if (!this.customURL) {
       this.entrada.urlEntrada = encodeURIComponent(this.convertToSlug(newValue));
     }
@@ -117,13 +123,22 @@ export class EntradaDetailComponent implements OnInit {
      et.nombreEtiqueta = etiqueta;
      this.entrada.etiquetas.push(et);
     });
-
+    if (this.entrada.tipoEntrada == null) {
+      this.entrada.tipoEntrada = 1;
+    }
+    if (this.entrada.estadoEntrada == null) {
+      this.entrada.estadoEntrada = 1;
+    }
     this.entradaService.guardarEntrada(this.entrada)
       .then(res => {
         this.showSuccess('Entrada guardada correctamente');
-        this.onEntradaGuardada.emit(this.entrada);
+        // this.onEntradaGuardada.emit(this.entrada);
       })
       .catch();
+  }
+
+  anadirGaleria(): void {
+    this.galerias = [new GaleriaItem(AnadirGaleriaComponent, {})];
   }
 
 }

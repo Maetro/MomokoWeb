@@ -55,7 +55,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
             throw new BadCredentialsException("Username not found.");
         }
 
-        if (!this.passwordEncoder.matches(password, user.getUsuarioContrasena())) {
+        final String encodedPassword = this.userService.getUserEncodedPassword(user.getUsuarioEmail());
+
+        if (!this.passwordEncoder.matches(password, encodedPassword)) {
             throw new BadCredentialsException("Wrong password.");
         }
         final List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

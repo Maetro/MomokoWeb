@@ -2,7 +2,7 @@ import { SimpleTinyComponent } from './simple-tiny/simple-tiny.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule, MultiSelectModule, GrowlModule,  FileUploadModule, DropdownModule,
-  ChipsModule, CheckboxModule} from 'primeng/primeng';
+  ChipsModule, CheckboxModule, DataTableModule} from 'primeng/primeng';
 import { ListaEntradasComponent } from 'app/contenido/gestion-entradas/lista-entradas/lista-entradas.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { EntradaService } from 'app/services/entrada.service';
@@ -10,6 +10,8 @@ import { EntradaDetailComponent } from 'app/contenido/gestion-entradas/entrada-d
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResumenEditorComponent } from 'app/contenido/gestion-entradas/simple-tiny/resumen-editor.component';
+import { AnadirGaleriaDirective } from './anadir-galeria/anadir-galeria.directive';
+import { AnadirGaleriaComponent } from 'app/contenido/gestion-entradas/anadir-galeria/anadir-galeria.component';
 
 
 @NgModule({
@@ -23,13 +25,15 @@ import { ResumenEditorComponent } from 'app/contenido/gestion-entradas/simple-ti
     DropdownModule,
     FileUploadModule,
     MultiSelectModule,
+    DataTableModule,
     CheckboxModule,
     BrowserAnimationsModule
   ],
-  declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent ],
+  declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent,
+    AnadirGaleriaComponent, AnadirGaleriaDirective],
   providers: [
     EntradaService, FileUploadService
   ],
-  entryComponents: [ListaEntradasComponent]
+  entryComponents: [ListaEntradasComponent, AnadirGaleriaComponent]
 })
 export class GestionEntradasModule { }

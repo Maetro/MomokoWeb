@@ -6,8 +6,6 @@
  */
 package com.momoko.es.backend.model.entity;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -36,10 +34,10 @@ public class ComentarioEntity extends AuditoriaBasica {
     private UsuarioEntity autor;
 
     /** The votos positivos. */
-    private List<String> votosPositivos;
+    private String votosPositivos;
 
     /** The votos negativos. */
-    private List<String> votosNegativos;
+    private String votosNegativos;
 
     /** The texto comentario. */
     private String textoComentario;
@@ -61,7 +59,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @return autor
      */
     public UsuarioEntity getAutor() {
-        return autor;
+        return this.autor;
     }
 
     /**
@@ -70,7 +68,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(UsuarioEntity autor) {
+    public void setAutor(final UsuarioEntity autor) {
         this.autor = autor;
     }
 
@@ -79,8 +77,8 @@ public class ComentarioEntity extends AuditoriaBasica {
      *
      * @return votos positivos
      */
-    public List<String> getVotosPositivos() {
-        return votosPositivos;
+    public String getVotosPositivos() {
+        return this.votosPositivos;
     }
 
     /**
@@ -89,7 +87,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param votosPositivos
      *            nuevo votos positivos
      */
-    public void setVotosPositivos(List<String> votosPositivos) {
+    public void setVotosPositivos(final String votosPositivos) {
         this.votosPositivos = votosPositivos;
     }
 
@@ -98,8 +96,8 @@ public class ComentarioEntity extends AuditoriaBasica {
      *
      * @return votos negativos
      */
-    public List<String> getVotosNegativos() {
-        return votosNegativos;
+    public String getVotosNegativos() {
+        return this.votosNegativos;
     }
 
     /**
@@ -108,7 +106,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param votosNegativos
      *            nuevo votos negativos
      */
-    public void setVotosNegativos(List<String> votosNegativos) {
+    public void setVotosNegativos(final String votosNegativos) {
         this.votosNegativos = votosNegativos;
     }
 
@@ -118,7 +116,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @return texto comentario
      */
     public String getTextoComentario() {
-        return textoComentario;
+        return this.textoComentario;
     }
 
     /**
@@ -127,7 +125,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param textoComentario
      *            nuevo texto comentario
      */
-    public void setTextoComentario(String textoComentario) {
+    public void setTextoComentario(final String textoComentario) {
         this.textoComentario = textoComentario;
     }
 
@@ -137,7 +135,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @return entrada
      */
     public EntradaEntity getEntrada() {
-        return entrada;
+        return this.entrada;
     }
 
     /**
@@ -146,7 +144,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param entrada
      *            nuevo entrada
      */
-    public void setEntrada(EntradaEntity entrada) {
+    public void setEntrada(final EntradaEntity entrada) {
         this.entrada = entrada;
     }
 
@@ -156,7 +154,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @return true, si es ban
      */
     public boolean isEsBan() {
-        return esBan;
+        return this.esBan;
     }
 
     /**
@@ -165,7 +163,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param esBan
      *            nuevo es ban
      */
-    public void setEsBan(boolean esBan) {
+    public void setEsBan(final boolean esBan) {
         this.esBan = esBan;
     }
 
@@ -175,7 +173,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @return true, si es spoiler
      */
     public boolean isEsSpoiler() {
-        return esSpoiler;
+        return this.esSpoiler;
     }
 
     /**
@@ -184,7 +182,7 @@ public class ComentarioEntity extends AuditoriaBasica {
      * @param esSpoiler
      *            nuevo es spoiler
      */
-    public void setEsSpoiler(boolean esSpoiler) {
+    public void setEsSpoiler(final boolean esSpoiler) {
         this.esSpoiler = esSpoiler;
     }
 
@@ -193,12 +191,15 @@ public class ComentarioEntity extends AuditoriaBasica {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof ComentarioEntity))
+        if (!(other instanceof ComentarioEntity)) {
             return false;
-        ComentarioEntity castOther = (ComentarioEntity) other;
-        return new EqualsBuilder().append(autor, castOther.autor).append(votosPositivos, castOther.votosPositivos)
-                .append(votosNegativos, castOther.votosNegativos).append(textoComentario, castOther.textoComentario)
-                .append(entrada, castOther.entrada).isEquals();
+        }
+        final ComentarioEntity castOther = (ComentarioEntity) other;
+        return new EqualsBuilder().append(this.autor, castOther.autor)
+                .append(this.votosPositivos, castOther.votosPositivos)
+                .append(this.votosNegativos, castOther.votosNegativos)
+                .append(this.textoComentario, castOther.textoComentario).append(this.entrada, castOther.entrada)
+                .isEquals();
     }
 
     /**
@@ -206,8 +207,8 @@ public class ComentarioEntity extends AuditoriaBasica {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(autor).append(votosPositivos).append(votosNegativos).append(textoComentario)
-                .append(entrada).toHashCode();
+        return new HashCodeBuilder().append(this.autor).append(this.votosPositivos).append(this.votosNegativos)
+                .append(this.textoComentario).append(this.entrada).toHashCode();
     }
 
 }

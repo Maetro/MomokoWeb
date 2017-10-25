@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
+import { Component, OnInit } from '@angular/core';
+
 import { EntradaService } from 'app/services/entrada.service';
 import { FileUploadService } from 'app/services/fileUpload.service';
+
 
 @Component({
   selector: 'app-lista-entradas',
@@ -23,6 +25,7 @@ export class ListaEntradasComponent implements OnInit {
 
       getEntradas(): void {
         console.log('service -> getEntradas()')
+        this.entradas = [];
         this.entradasService.getEntradas().then(entradas => {
           entradas.forEach(entrada => {
             this.entradas =  [ ...this.entradas, entrada ];
@@ -34,6 +37,7 @@ export class ListaEntradasComponent implements OnInit {
       ngOnInit(): void {
         console.log('ngOnInit Lista entradas')
         this.loading = true;
+        this.entradas = [];
         this.entradasService.getEntradas().then(entradas => {
           const entradasList = entradas
           entradasList.forEach(entrada => {

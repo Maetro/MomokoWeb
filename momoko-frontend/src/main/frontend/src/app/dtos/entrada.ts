@@ -1,7 +1,5 @@
-import { Autor } from './autor';
-import { Libro } from 'app/dtos/libro';
-import { User } from 'app/dtos/user';
-import { Etiqueta } from 'app/dtos/etiqueta';
+import { User } from './user';
+import { Etiqueta } from './etiqueta';
 
 export class Entrada {
   entradaId: number;

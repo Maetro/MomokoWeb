@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.momoko.es.backend.model.entity.UsuarioEntity;
@@ -32,5 +33,15 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
      * @return the usuario entity
      */
     UsuarioEntity findByUsuarioLogin(String login);
+
+    /**
+     * Find encoded password by email.
+     *
+     * @param usuarioEmail
+     *            the usuario email
+     * @return the string
+     */
+    @Query("SELECT usuarioContrasena from UsuarioEntity u where u.usuarioEmail = ?1")
+    String findEncodedPasswordByEmail(String usuarioEmail);
 
 }

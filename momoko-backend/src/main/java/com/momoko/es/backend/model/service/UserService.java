@@ -53,4 +53,13 @@ public interface UserService {
      */
     UsuarioDTO doesEmailExist(String email) throws UserNotFoundException;
 
+    /**
+     * Gets the user encoded password.
+     *
+     * @param email
+     *            the email
+     * @return the user encoded password
+     */
+    public String getUserEncodedPassword(String email);
+
 }
