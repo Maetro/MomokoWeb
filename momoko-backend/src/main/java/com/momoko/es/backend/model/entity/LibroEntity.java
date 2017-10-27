@@ -367,7 +367,7 @@ public class LibroEntity extends AuditoriaBasica {
      * @return puntuaciones
      */
     public List<PuntuacionEntity> getPuntuaciones() {
-        return puntuaciones;
+        return this.puntuaciones;
     }
 
     /**
@@ -376,7 +376,7 @@ public class LibroEntity extends AuditoriaBasica {
      * @param puntuaciones
      *            nuevo puntuaciones
      */
-    public void setPuntuaciones(List<PuntuacionEntity> puntuaciones) {
+    public void setPuntuaciones(final List<PuntuacionEntity> puntuaciones) {
         this.puntuaciones = puntuaciones;
     }
 
@@ -396,23 +396,12 @@ public class LibroEntity extends AuditoriaBasica {
             return false;
         }
         final LibroEntity castOther = (LibroEntity) other;
-        return new EqualsBuilder().append(this.libroId, castOther.libroId).append(this.autores, castOther.autores)
-                .append(this.saga, castOther.saga).append(this.ordenSaga, castOther.ordenSaga)
-                .append(this.editorial, castOther.editorial).append(this.generos, castOther.generos)
-                .append(this.titulo, castOther.titulo).append(this.anoEdicion, castOther.anoEdicion)
-                .append(this.citaLibro, castOther.citaLibro).append(this.resumen, castOther.resumen)
-                .append(this.enlaceAmazon, castOther.enlaceAmazon).append(this.urlImagen, castOther.urlImagen)
-                .append(this.anoPublicacion, castOther.anoPublicacion)
-                .append(this.numeroPaginas, castOther.numeroPaginas)
-                .append(this.tituloOriginal, castOther.tituloOriginal).isEquals();
+        return new EqualsBuilder().append(this.libroId, castOther.libroId).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.saga).append(this.ordenSaga)
-                .append(this.editorial).append(this.generos).append(this.titulo).append(this.anoEdicion)
-                .append(this.citaLibro).append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen)
-                .append(this.anoPublicacion).append(this.numeroPaginas).append(this.tituloOriginal).toHashCode();
+        return new HashCodeBuilder().append(this.libroId).toHashCode();
     }
 
 }

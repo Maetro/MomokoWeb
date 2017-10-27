@@ -68,7 +68,9 @@ facebook:
       
 logging:
   level:
-    org.springframework.security: ERROR
+    org:
+      springframework:
+        security: ERROR
     
 #momoko properties
 momokoConfiguracion:

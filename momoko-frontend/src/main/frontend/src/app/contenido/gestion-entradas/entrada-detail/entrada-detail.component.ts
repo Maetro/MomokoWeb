@@ -25,8 +25,6 @@ export class EntradaDetailComponent implements OnInit {
 
   @ViewChild(AnadirGaleriaComponent) anadirGaleriaComponent: AnadirGaleriaComponent;
 
-  esLibroNuevo = true;
-
   msgs: Message[] = [];
   customURL = false;
 
@@ -54,8 +52,6 @@ export class EntradaDetailComponent implements OnInit {
   ngOnInit() {
     this.titulosLibros = [];
 
-    this.esLibroNuevo = true;
-
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
       console.log('Init info general');
       const libros = datos.titulosLibros;
@@ -73,6 +69,10 @@ export class EntradaDetailComponent implements OnInit {
     if (!this.customURL) {
       this.entrada.urlEntrada = encodeURIComponent(this.convertToSlug(newValue));
     }
+  }
+
+  urlChange(newValue: string) {
+    this.customURL = true;
   }
 
   actualizarContenido(contenido: string) {

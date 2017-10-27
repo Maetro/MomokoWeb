@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -150,6 +151,13 @@ public class ModeloController {
         return this.entradaService.recuperarEntradas();
     }
 
+    @GetMapping(path = "/entrada/{url-entrada}")
+    public @ResponseBody EntradaDTO getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
+        System.out.println("Obtener entrada: " + urlEntrada);
+        final EntradaDTO entrada = this.entradaService.obtenerEntrada(urlEntrada);
+        return entrada;
+    }
+
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/entradas/add")
     ResponseEntity<GuardarEntradaResponse> add(@RequestBody final EntradaDTO entradaDTO) {
@@ -171,14 +179,15 @@ public class ModeloController {
         final GuardarEntradaResponse respuesta = new GuardarEntradaResponse();
         respuesta.setEntradaDTO(entrada);
         respuesta.setListaErroresValidacion(listaErrores);
-
+        HttpStatus status = HttpStatus.OK;
         if ((entrada != null) && CollectionUtils.isEmpty(listaErrores)) {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
         } else {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+            status = HttpStatus.BAD_REQUEST;
         }
 
-        return new ResponseEntity<GuardarEntradaResponse>(respuesta, HttpStatus.OK);
+        return new ResponseEntity<GuardarEntradaResponse>(respuesta, status);
 
     }
 

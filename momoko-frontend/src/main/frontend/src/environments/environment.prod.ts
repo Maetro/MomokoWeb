@@ -14,5 +14,6 @@ export const environment = {
     informacionGeneralUrl:  'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/modelo/informacionGeneral',
     singUpURL: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/account/signup',
     oauthTokenUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/oauth/token',
-    accountTokenUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/account/token'
+    accountTokenUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/account/token',
+    getEntradaUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/public/entrada/'
 };

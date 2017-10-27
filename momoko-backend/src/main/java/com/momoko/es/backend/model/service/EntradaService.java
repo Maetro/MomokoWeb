@@ -24,7 +24,6 @@ public interface EntradaService {
      */
     public List<EntradaDTO> recuperarEntradas();
 
-
     /**
      * Guardar entrada.
      *
@@ -35,5 +34,14 @@ public interface EntradaService {
      *             de exception
      */
     public EntradaDTO guardarEntrada(EntradaDTO entradaAGuardar) throws Exception;
+
+    /**
+     * Obtener entrada.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @return the entrada dto
+     */
+    public EntradaDTO obtenerEntrada(String urlEntrada);
 
 }

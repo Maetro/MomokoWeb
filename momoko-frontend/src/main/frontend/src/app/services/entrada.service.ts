@@ -4,23 +4,34 @@ import { Entrada } from 'app/dtos/entrada';
 import { HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { environment } from 'environments/environment';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class EntradaService {
 
   private entradasUrl = environment.entradasUrl;
   private addEntradaUrl = environment.addEntradaUrl;
+  private getEntradaUrl = environment.getEntradaUrl;
 
   allEntradasList: Entrada[] = new Array();
 
   constructor(private http: HttpClient) { }
+
+  getEntrada(urlEntrada): Observable<Entrada> {
+    return this.http.get<Entrada>(this.getEntradaUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerEntradaDeRespuesta(res: Entrada) {
+    return res;
+  }
 
   getEntradas(): Promise<Entrada[]> {
     this.allEntradasList = [];
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
+    });
     return this.http.get(this.entradasUrl, {headers: headers}).toPromise().then((resp: Response) => {
       for (const numGenero of Object.keys(resp)) {
         const e = new Entrada();
@@ -37,6 +48,7 @@ export class EntradaService {
         e.padreEntrada = json.padreEntrada;
         e.libroEntrada = json.libroEntrada;
         e.numeroComentarios = json.numeroComentarios;
+        e.etiquetas = json.etiquetas;
         e.orden = json.orden;
         // console.log(g);
         this.allEntradasList.push(e);
@@ -45,6 +57,19 @@ export class EntradaService {
       return this.allEntradasList;
 
     });
+  }
+
+  getAllEntradas(): Observable<Entrada[]> {
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      'Authorization': 'Bearer ' + Cookie.get('access_token')
+    });
+    return this.http.get<Entrada[]>(this.entradasUrl, {headers: headers}).map(this.obtenerEntradasDeRespuesta)
+    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerEntradasDeRespuesta(res: Entrada[]) {
+    return res;
   }
 
   guardarEntrada(entrada: Entrada): Promise<any> {

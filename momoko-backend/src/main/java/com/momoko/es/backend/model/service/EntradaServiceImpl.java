@@ -53,6 +53,13 @@ public class EntradaServiceImpl implements EntradaService {
     private EtiquetaRepository etiquetaRepository;
 
     @Override
+    public EntradaDTO obtenerEntrada(final String urlEntrada) {
+        final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
+        entradaEntity.getEtiquetas();
+        return EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+    }
+
+    @Override
     public List<EntradaDTO> recuperarEntradas() {
         final List<EntradaDTO> entradasDTO = new ArrayList<EntradaDTO>();
         final Iterable<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
@@ -106,7 +113,13 @@ public class EntradaServiceImpl implements EntradaService {
 
         final boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
         // Comprobamos si la url de la entrada existe.
-        final EntradaEntity coincidencia = this.entradaRepository.findFirstByUrlEntrada(entradaEntity.getUrlEntrada());
+        EntradaEntity coincidencia;
+        if (esNuevaEntrada) {
+            coincidencia = this.entradaRepository.findFirstByUrlEntrada(entradaEntity.getUrlEntrada());
+        } else {
+            coincidencia = this.entradaRepository.findOne(entradaAGuardar.getEntradaId());
+        }
+
         if (esNuevaEntrada && (coincidencia != null)) {
             throw new URLEntradaYaExisteException("La entrada es nueva y se esta intentando utilizar una url ya usada");
         }
@@ -127,25 +140,36 @@ public class EntradaServiceImpl implements EntradaService {
         final String currentPrincipalName = authentication.getName();
 
         if (entradaEntity.getLibroEntrada() != null) {
-            entradaEntity.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
+            viejaEntrada.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
+        } else {
+            viejaEntrada.setLibroEntrada(null);
         }
-        entradaEntity.setFechaAlta(viejaEntrada.getFechaAlta());
-        entradaEntity.setFechaModificacion(Calendar.getInstance().getTime());
-        entradaEntity.setFechaBaja(viejaEntrada.getFechaBaja());
-        entradaEntity.setUsuarioAlta(viejaEntrada.getUsuarioAlta());
-        entradaEntity.setUsuarioModificacion(currentPrincipalName);
-        entradaEntity.setUsuarioBaja(viejaEntrada.getUsuarioBaja());
-        final UsuarioEntity usuario = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
-        entradaEntity.setEntradaAutor(usuario);
 
-        if (entradaEntity.getPadreEntrada() != null) {
+        entradaEntity.setUsuarioModificacion(currentPrincipalName);
+        entradaEntity.setFechaModificacion(Calendar.getInstance().getTime());
+        final UsuarioEntity usuario = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+
+        if (viejaEntrada.getPadreEntrada() != null) {
             final EntradaEntity padre = this.entradaRepository
                     .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
-            entradaEntity.setPadreEntrada(padre);
+            viejaEntrada.setPadreEntrada(padre);
+        } else {
+            viejaEntrada.setPadreEntrada(null);
         }
-        // TODO: RAMON: Implementar
-        entradaEntity.setNumeroComentarios(0);
-        this.entradaRepository.save(entradaEntity);
+
+        viejaEntrada.setContenidoEntrada(entradaEntity.getContenidoEntrada());
+        viejaEntrada.setEntradaId(entradaEntity.getEntradaId());
+        viejaEntrada.setContenidoEntrada(entradaEntity.getContenidoEntrada());
+        viejaEntrada.setEstadoEntrada(entradaEntity.getEstadoEntrada());
+
+        viejaEntrada.setPermitirComentarios(entradaEntity.getPermitirComentarios());
+        viejaEntrada.setResumenEntrada(entradaEntity.getResumenEntrada());
+        viejaEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
+        viejaEntrada.setTituloEntrada(entradaEntity.getTituloEntrada());
+        viejaEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
+        viejaEntrada.setEtiquetas(entradaEntity.getEtiquetas());
+        viejaEntrada.setImagenDestacada(entradaEntity.getImagenDestacada());
+        this.entradaRepository.save(viejaEntrada);
         return entradaEntity;
     }
 

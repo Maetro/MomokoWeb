@@ -12,10 +12,10 @@
     <div class="divide10"></div>
    <div class="row tabla-entradas" [hidden]="selectedEntrada">
         <div class="col-md-12">
-         <!-- <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
+          <div class="ui-widget-header" style="padding:4px 10px;border-bottom: 0 none">
               <input #gb type="text" pInputText size="50" placeholder="Filtrar">
               <i class="fa fa-search" style="margin:4px 0px 0 4px"></i>
-          </div> -->
+          </div>
           <p-dataTable [value]="entradas" [rows]="10" [paginator]="true" [globalFilter]="gb" resizableColumns="true"
                [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedEntrada" (onRowSelect)="handleRowSelect($event)">
             <p-column field="tituloEntrada" header="Titulo" [sortable]="true"></p-column>

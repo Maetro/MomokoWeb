@@ -108,6 +108,8 @@ public final class EntityToDTOAdapter {
         entradaDTO.setTipoEntrada(entradaEntity.getTipoEntrada());
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
+        entradaDTO.setEtiquetas(adaptarEtiquetas(entradaEntity.getEtiquetas()));
+        entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
         return entradaDTO;
     }
 
@@ -250,7 +252,7 @@ public final class EntityToDTOAdapter {
      * @return the comentario DTO
      */
     public static ComentarioDTO adaptarComentario(final ComentarioEntity comentarioEntity) {
-        ComentarioDTO comentarioDTO = new ComentarioDTO();
+        final ComentarioDTO comentarioDTO = new ComentarioDTO();
         comentarioDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(comentarioEntity.getAutor()));
         comentarioDTO.setVotosPositivos(ConversionUtils.divide(comentarioEntity.getVotosPositivos()).size());
         comentarioDTO.setVotosNegativos(ConversionUtils.divide(comentarioEntity.getVotosNegativos()).size());
@@ -269,7 +271,7 @@ public final class EntityToDTOAdapter {
      * @return the puntuacion DTO
      */
     public static PuntuacionDTO adaptarPuntuacion(final PuntuacionEntity puntuacionEntity) {
-        PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
+        final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
         puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(puntuacionEntity.getAutor()));
         puntuacionDTO.setComentario(puntuacionEntity.getComentario());
         puntuacionDTO.setEsPuntuacionMomoko(puntuacionEntity.isEsPuntuacionMomoko());
@@ -277,6 +279,5 @@ public final class EntityToDTOAdapter {
         puntuacionDTO.setValor(puntuacionEntity.getValor());
         return puntuacionDTO;
     }
-
 
 }

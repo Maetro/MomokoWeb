@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.1.0-SNAPSHOT</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>
@@ -70,32 +70,32 @@
 					<workingDirectory>src/main/frontend</workingDirectory>
 				</configuration>
 
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-					</execution>
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<id>install node and npm</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>install-node-and-npm</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
 
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-					</execution>
+<!-- 					<execution> -->
+<!-- 						<id>npm install</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>npm</goal> -->
+<!-- 						</goals> -->
+<!-- 					</execution> -->
 
-					<execution>
-						<id>npm run build</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
+<!-- 					<execution> -->
+<!-- 						<id>npm run build</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>npm</goal> -->
+<!-- 						</goals> -->
 
-						<configuration>
-							<arguments>run build</arguments>
-						</configuration>
-					</execution>
-				</executions>
+<!-- 						<configuration> -->
+<!-- 							<arguments>run build</arguments> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
 			</plugin>
 		</plugins>
 

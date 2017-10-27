@@ -9,8 +9,10 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -28,7 +30,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
-@Table(name = "entrada")
+@Table(name = "entrada", indexes = { @Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true) })
 public class EntradaEntity extends AuditoriaBasica {
 
     private @Id @GeneratedValue Integer entradaId;
@@ -78,7 +80,7 @@ public class EntradaEntity extends AuditoriaBasica {
     private Integer orden;
 
     /** The genero id. */
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "entrada_etiqueta", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "etiqueta_id", referencedColumnName = "etiqueta_id"))
     private Set<EtiquetaEntity> etiquetas;
 
@@ -398,39 +400,6 @@ public class EntradaEntity extends AuditoriaBasica {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(final Object other) {
-        if (!(other instanceof EntradaEntity)) {
-            return false;
-        }
-        final EntradaEntity castOther = (EntradaEntity) other;
-        return new EqualsBuilder().append(this.entradaId, castOther.entradaId)
-                .append(this.entradaAutor, castOther.entradaAutor).append(this.urlEntrada, castOther.urlEntrada)
-                .append(this.tipoEntrada, castOther.tipoEntrada).append(this.tituloEntrada, castOther.tituloEntrada)
-                .append(this.contenidoEntrada, castOther.contenidoEntrada)
-                .append(this.resumenEntrada, castOther.resumenEntrada)
-                .append(this.estadoEntrada, castOther.estadoEntrada)
-                .append(this.permitirComentarios, castOther.permitirComentarios)
-                .append(this.padreEntrada, castOther.padreEntrada).append(this.libroEntrada, castOther.libroEntrada)
-                .append(this.numeroComentarios, castOther.numeroComentarios).append(this.orden, castOther.orden)
-                .isEquals();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(this.entradaId).append(this.entradaAutor).append(this.urlEntrada)
-                .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
-                .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
-                .append(this.padreEntrada).append(this.libroEntrada).append(this.numeroComentarios).append(this.orden)
-                .toHashCode();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public String toString() {
         return new ToStringBuilder(this).append("entradaId", this.entradaId).append("entradaAutor", this.entradaAutor)
                 .append("urlEntrada", this.urlEntrada).append("tipoEntrada", this.tipoEntrada)
@@ -439,6 +408,20 @@ public class EntradaEntity extends AuditoriaBasica {
                 .append("permitirComentarios", this.permitirComentarios).append("padreEntrada", this.padreEntrada)
                 .append("libroEntrada", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
                 .append("orden", this.orden).toString();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (!(other instanceof EntradaEntity)) {
+            return false;
+        }
+        final EntradaEntity castOther = (EntradaEntity) other;
+        return new EqualsBuilder().append(this.entradaId, castOther.entradaId).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.entradaId).toHashCode();
     }
 
 }
