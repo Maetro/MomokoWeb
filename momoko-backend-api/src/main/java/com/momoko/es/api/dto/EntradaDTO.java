@@ -23,7 +23,7 @@ public class EntradaDTO {
     private Integer entradaId;
 
     /** The autor id. */
-    private UsuarioDTO autor;
+    private UsuarioBasicoDTO autor;
 
     /** The url entrada. */
     private String urlEntrada;
@@ -94,7 +94,7 @@ public class EntradaDTO {
      *
      * @return autor
      */
-    public UsuarioDTO getAutor() {
+    public UsuarioBasicoDTO getAutor() {
         return this.autor;
     }
 
@@ -104,7 +104,7 @@ public class EntradaDTO {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(final UsuarioDTO autor) {
+    public void setAutor(final UsuarioBasicoDTO autor) {
         this.autor = autor;
     }
 

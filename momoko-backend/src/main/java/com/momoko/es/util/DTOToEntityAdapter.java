@@ -91,11 +91,14 @@ public final class DTOToEntityAdapter {
      *            entrada DTO
      * @return the entrada entity
      */
-    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final LibroDTO libroEntrada) {
+    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final LibroDTO libroEntrada,
+        final UsuarioEntity autor) {
         final EntradaEntity entradaEntity = new EntradaEntity();
         entradaEntity.setEntradaId(entradaDTO.getEntradaId());
         entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
-        entradaEntity.setEntradaAutor(adaptarUsuario(entradaDTO.getAutor()));
+        if (autor != null) {
+            entradaEntity.setEntradaAutor(autor);
+        }
         entradaEntity.setEstadoEntrada(entradaDTO.getEstadoEntrada());
         if (libroEntrada != null) {
             entradaEntity.setLibroEntrada(adaptarLibro(libroEntrada));
@@ -103,7 +106,7 @@ public final class DTOToEntityAdapter {
         entradaEntity.setNumeroComentarios(entradaDTO.getNumeroComentarios());
         entradaEntity.setOrden(entradaDTO.getOrden());
         entradaEntity.setPadreEntrada(
-                entradaDTO.getPadreEntrada() != null ? adaptarEntrada(entradaDTO.getPadreEntrada(), null) : null);
+                entradaDTO.getPadreEntrada() != null ? adaptarEntrada(entradaDTO.getPadreEntrada(), null, null) : null);
         entradaEntity.setPermitirComentarios(entradaDTO.getPermitirComentarios());
         entradaEntity.setResumenEntrada(entradaDTO.getResumenEntrada());
         entradaEntity.setTipoEntrada(entradaDTO.getTipoEntrada());
