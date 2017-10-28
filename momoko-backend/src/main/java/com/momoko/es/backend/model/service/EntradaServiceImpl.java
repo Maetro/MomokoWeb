@@ -55,7 +55,6 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public EntradaDTO obtenerEntrada(final String urlEntrada) {
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
-        entradaEntity.getEtiquetas();
         return EntityToDTOAdapter.adaptarEntrada(entradaEntity);
     }
 
@@ -79,12 +78,15 @@ public class EntradaServiceImpl implements EntradaService {
             libroEntrada = EntityToDTOAdapter
                     .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getLibroEntrada()));
         }
+        UsuarioEntity autor = null;
         if (entradaAGuardar.getEntradaId() == null) {
-
-            entradaAGuardar.setAutor(
-                    EntityToDTOAdapter.adaptarUsuario(this.usuarioRepository.findByUsuarioEmail(currentPrincipalName)));
+            autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+        } else {
+            autor = this.usuarioRepository
+                    .findByUsuarioLogin(entradaAGuardar.getAutor().getNombre());
         }
-        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada);
+
+        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada, autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
             final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
