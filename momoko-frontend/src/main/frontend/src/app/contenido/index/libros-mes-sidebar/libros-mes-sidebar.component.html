@@ -1,0 +1,20 @@
+<li *ngFor="let libro of libros">
+    <figure class="overlay small">
+      <a href="blog-post.html">
+        <span class="over">
+          <span></span>
+        </span>
+        <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}}"> </a>
+    </figure>
+    <div class="post-content">
+      <h4 class="post-title">
+        <a routerLink="/libro/{{libro.titulo}}">{{libro.titulo}}</a>
+      </h4>
+      <div class="meta">
+        <span class="date">{{libro.nombreAutor}} </span>
+        <span class="autorygenero">
+          <a href="#"> NOTA: {{libro.nota}}  </a>
+        </span>
+      </div>
+    </div>
+  </li>
