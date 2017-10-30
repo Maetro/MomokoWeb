@@ -82,8 +82,7 @@ public class EntradaServiceImpl implements EntradaService {
         if (entradaAGuardar.getEntradaId() == null) {
             autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
         } else {
-            autor = this.usuarioRepository
-                    .findByUsuarioLogin(entradaAGuardar.getAutor().getNombre());
+            autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getAutor().getNombre());
         }
 
         EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada, autor);
@@ -192,6 +191,9 @@ public class EntradaServiceImpl implements EntradaService {
         }
         // TODO: RAMON: Implementar
         entradaEntity.setNumeroComentarios(0);
+        if (entradaEntity.getPermitirComentarios() == null) {
+            entradaEntity.setPermitirComentarios(true);
+        }
         this.entradaRepository.save(entradaEntity);
         return entradaEntity;
     }

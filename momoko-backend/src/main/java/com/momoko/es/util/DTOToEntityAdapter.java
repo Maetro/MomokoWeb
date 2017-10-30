@@ -129,7 +129,7 @@ public final class DTOToEntityAdapter {
 
     /**
      * Adaptar editorial.
-     *
+     *thr
      * @param editorial
      *            the editorial
      * @return the editorial entity

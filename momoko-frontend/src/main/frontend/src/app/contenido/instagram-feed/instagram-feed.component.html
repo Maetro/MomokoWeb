@@ -1,0 +1,12 @@
+<script type="text/javascript" src="assets/style/js/instafeed.min.js"></script>
+<div id="instafeed"></div>
+<script type="text/javascript">
+  var feed = new Instafeed({
+      clientId: '3260305017.3a81a9f.083224ef4bb943f2a5ea6cd4cc697a8c',
+      limit: 16,
+      user: 3260305017,
+      resolution : 'low_resolution',
+      template: '<div class="item col-xs-4 col-sm-6 col-md-4"> <figure class="overlay small"> <a href="{{link}}" target="_blank"> <span class="over"><span></span></span><img src="{{image}}"></a></figure></div>'
+  });
+  feed.run();
+</script>

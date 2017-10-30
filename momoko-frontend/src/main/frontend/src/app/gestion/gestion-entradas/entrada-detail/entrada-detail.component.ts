@@ -10,7 +10,7 @@ import { GeneralDataService } from 'app/services/general-data.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
 import { AnadirGaleriaComponent } from '../anadir-galeria/anadir-galeria.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
-import { GaleriaFormImplComponent } from 'app/contenido/gestion-entradas/anadir-galeria/galeria-form-impl.component';
+import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-galeria/galeria-form-impl.component';
 
 
 @Component({

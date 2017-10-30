@@ -86,6 +86,9 @@ public class LibroEntity extends AuditoriaBasica {
     /** The titulo original. */
     private String tituloOriginal;
 
+    /** The visitas. */
+    private Integer visitas;
+
     @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PuntuacionEntity> puntuaciones;
 
@@ -378,6 +381,25 @@ public class LibroEntity extends AuditoriaBasica {
      */
     public void setPuntuaciones(final List<PuntuacionEntity> puntuaciones) {
         this.puntuaciones = puntuaciones;
+    }
+
+    /**
+     * Sets the visitas.
+     *
+     * @param visitas
+     *            the new visitas
+     */
+    public void setVisitas(final Integer visitas) {
+        this.visitas = visitas;
+    }
+
+    /**
+     * Gets the visitas.
+     *
+     * @return the visitas
+     */
+    public Integer getVisitas() {
+        return this.visitas;
     }
 
     @Override

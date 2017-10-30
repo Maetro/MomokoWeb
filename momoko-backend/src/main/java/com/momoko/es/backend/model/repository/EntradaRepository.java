@@ -6,6 +6,10 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.util.List;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -27,5 +31,15 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      * @return the entrada entity
      */
     EntradaEntity findFirstByUrlEntrada(String urlEntrada);
+
+    /**
+     * Find ultimas entradas.
+     *
+     * @param num
+     *            the num
+     * @return the list
+     */
+    @Query("select e from EntradaEntity e ORDER by e.fechaAlta DESC")
+    List<EntradaEntity> findUltimasEntradas(Pageable pageable);
 
 }

@@ -1,0 +1,40 @@
+<div class="post">
+    <div class="post-content">
+      <figure class="overlay">
+        <a routerLink="/{{data.urlEntrada}}">
+          <span class="over">
+            <span></span>
+          </span>
+          <img src="{{data.imagenEntrada}}" alt="">
+        </a>
+      </figure>
+      <div class="text-center">
+        <span class="category">
+          <em class="purple">
+            <a routerLink="/categoria/{{data.categoria}}">{{data.categoria}} </a>
+          </em>
+        </span>
+      </div>
+      <h2 class="post-title text-center">
+        <a routerLink="/{{data.urlEntrada}}">{{data.tituloEntrada}} </a>
+      </h2>
+      <div class="meta text-center">
+        <span class="date">{{data.fechaAlta | date:'dd MMM yyyy'}}</span>
+        <span class="author">Por
+          <a routerLink="/editor/{{data.nombreAutor}}">{{data.nombreAutor}}</a>
+        </span>
+        <span class="comments">
+          <a routerLink="/{{data.urlEntrada}}">{{data.numeroComentarios}} Comentarios</a>
+        </span>
+      </div>
+      <div [innerHTML]="data.resumen">
+      </div>
+      <div class="text-center">
+        <a routerLink="/{{data.urlEntrada}}" class="more">Sigue leyendo </a>
+      </div>
+    </div>
+    <!-- /.post-content -->
+
+  </div>
+  <hr/>
+  <!-- /.post -->

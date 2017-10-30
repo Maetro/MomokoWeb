@@ -1,5 +1,4 @@
-
-
+import { EntradaComponent } from './contenido/entrada/entrada.component';
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -16,10 +15,12 @@ import { FooterComponent } from './footer/footer.component';
 import { routing } from './app.routing';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
 
-import { GestionLibrosModule } from './contenido/gestion-libros/gestion-libros.module';
-import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/lista-libros.component';
-import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/lista-generos.component';
-import { GestionEntradasModule } from 'app/contenido/gestion-entradas/gestion-entradas.module';
+import { GestionLibrosModule } from './gestion/gestion-libros/gestion-libros.module';
+
+import { ListaGenerosComponent } from './gestion/gestion-libros/lista-generos/lista-generos.component';
+import { GestionEntradasModule } from 'app/gestion/gestion-entradas/gestion-entradas.module';
+import { ListaLibrosComponent } from 'app/gestion/gestion-libros/lista-libros/lista-libros.component';
+import { ContenidoModule } from 'app/contenido/contenido.module';
 
 @NgModule({
   declarations: [
@@ -37,11 +38,12 @@ import { GestionEntradasModule } from 'app/contenido/gestion-entradas/gestion-en
     HttpModule,
     GestionLibrosModule,
     GestionEntradasModule,
+    ContenidoModule,
     routing
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ListaLibrosComponent, ListaGenerosComponent]
+  entryComponents: [ListaLibrosComponent, ListaGenerosComponent, EntradaComponent]
 
 })
 export class AppModule { }

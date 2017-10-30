@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -31,5 +32,15 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      * @return the libro entity
      */
     LibroEntity findOneByTitulo(String titulo);
+
+    /**
+     * Find libros mas vistos.
+     *
+     * @param pageRequest
+     *            the page request
+     * @return the list
+     */
+    @Query("select l from LibroEntity l ORDER BY l.visitas DESC")
+    List<LibroEntity> findLibrosMasVistos(Pageable pageable);
 
 }

@@ -1,23 +1,22 @@
-import { SimpleTinyComponent } from './simple-tiny/simple-tiny.component';
+import { SimpleTinyComponent } from './editores-texto/simple-tiny.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule, MultiSelectModule, GrowlModule,  FileUploadModule, DropdownModule,
   ChipsModule, CheckboxModule, DataTableModule} from 'primeng/primeng';
-import { ListaEntradasComponent } from 'app/contenido/gestion-entradas/lista-entradas/lista-entradas.component';
+import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entradas/lista-entradas.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { EntradaService } from 'app/services/entrada.service';
-import { EntradaDetailComponent } from 'app/contenido/gestion-entradas/entrada-detail/entrada-detail.component';
+import { EntradaDetailComponent } from 'app/gestion/gestion-entradas/entrada-detail/entrada-detail.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ResumenEditorComponent } from 'app/contenido/gestion-entradas/simple-tiny/resumen-editor.component';
+import { ResumenEditorComponent } from 'app/gestion/gestion-entradas/editores-texto/resumen-editor.component';
 import { AnadirGaleriaDirective } from './anadir-galeria/anadir-galeria.directive';
-import { AnadirGaleriaComponent } from 'app/contenido/gestion-entradas/anadir-galeria/anadir-galeria.component';
-import { GaleriaFormImplComponent } from 'app/contenido/gestion-entradas/anadir-galeria/galeria-form-impl.component';
+import { AnadirGaleriaComponent } from 'app/gestion/gestion-entradas/anadir-galeria/anadir-galeria.component';
+import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-galeria/galeria-form-impl.component';
 
 
 @NgModule({
   imports: [
-    CommonModule,
     CommonModule,
     InputTextModule,
     FormsModule,

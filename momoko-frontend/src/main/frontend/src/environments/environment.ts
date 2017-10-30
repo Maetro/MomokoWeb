@@ -20,5 +20,6 @@ export const environment = {
   singUpURL: 'http://localhost:8080/account/signup',
   oauthTokenUrl: 'http://localhost:8080/oauth/token',
   accountTokenUrl: 'http://localhost:8080/account/token',
-  getEntradaUrl: 'http://localhost:8080/public/entrada/'
+  getEntradaUrl: 'http://localhost:8080/public/entrada/',
+  indexDataUrl: 'http://localhost:8080/public/indexData'
 };

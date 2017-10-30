@@ -1,13 +1,15 @@
-import { GestionLibrosModule } from './contenido/gestion-libros/gestion-libros.module';
+import { GestionLibrosModule } from './gestion/gestion-libros/gestion-libros.module';
 import { Routes, RouterModule } from '@angular/router';
 import { ModuleWithProviders } from '@angular/core';
 
 import { AuthGuardService } from './auth/services/auth-guard.service';
 import { AdminComponent } from './admin/admin.component';
 import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
-import { ListaLibrosComponent } from './contenido/gestion-libros/lista-libros/lista-libros.component';
-import { ListaGenerosComponent } from './contenido/gestion-libros/lista-generos/lista-generos.component';
-import { ListaEntradasComponent } from 'app/contenido/gestion-entradas/lista-entradas/lista-entradas.component';
+import { ListaLibrosComponent } from './gestion/gestion-libros/lista-libros/lista-libros.component';
+import { ListaGenerosComponent } from './gestion/gestion-libros/lista-generos/lista-generos.component';
+import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entradas/lista-entradas.component';
+import { EntradaComponent } from 'app/contenido/entrada/entrada.component';
+import { IndexComponent } from 'app/contenido/index/index.component';
 
 const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
@@ -25,7 +27,10 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    component: ListaLibrosComponent
+    component: IndexComponent
+  },
+  { path: ':url',
+    component: EntradaComponent
   },
   { path: '**', component: PageNotFoundComponent },
 ];

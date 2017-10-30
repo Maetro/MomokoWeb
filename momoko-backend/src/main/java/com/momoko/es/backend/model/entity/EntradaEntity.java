@@ -4,6 +4,7 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -31,7 +32,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "entrada", indexes = { @Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true) })
-public class EntradaEntity extends AuditoriaBasica {
+public class EntradaEntity {
 
     private @Id @GeneratedValue Integer entradaId;
 
@@ -85,6 +86,24 @@ public class EntradaEntity extends AuditoriaBasica {
     private Set<EtiquetaEntity> etiquetas;
 
     private String imagenDestacada;
+
+    /** The usuario alta. */
+    private String usuarioAlta;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
+
+    /** The usuario alta. */
+    private String usuarioModificacion;
+
+    /** The fecha alta. */
+    private Date fechaModificacion;
+
+    /** The usuario alta. */
+    private String usuarioBaja;
+
+    /** The fecha alta. */
+    private Date fechaBaja;
 
     /**
      * Instancia un nuevo entrada entity.
@@ -394,6 +413,54 @@ public class EntradaEntity extends AuditoriaBasica {
      */
     public void setComentarios(final List<ComentarioEntity> comentarios) {
         this.comentarios = comentarios;
+    }
+
+    public String getUsuarioAlta() {
+        return this.usuarioAlta;
+    }
+
+    public void setUsuarioAlta(final String usuarioAlta) {
+        this.usuarioAlta = usuarioAlta;
+    }
+
+    public Date getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    public String getUsuarioModificacion() {
+        return this.usuarioModificacion;
+    }
+
+    public void setUsuarioModificacion(final String usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+
+    public void setFechaModificacion(final Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    public String getUsuarioBaja() {
+        return this.usuarioBaja;
+    }
+
+    public void setUsuarioBaja(final String usuarioBaja) {
+        this.usuarioBaja = usuarioBaja;
+    }
+
+    public Date getFechaBaja() {
+        return this.fechaBaja;
+    }
+
+    public void setFechaBaja(final Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
     }
 
     /**

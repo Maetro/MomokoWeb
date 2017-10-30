@@ -10,22 +10,7 @@ import { FileUploadService } from './services/fileUpload.service';
 
 @Component({
   selector: 'app-root',
-  template: `
-  <div class="content-wrapper">
-  <app-menu> Cargando menu... </app-menu>
-  <app-header>Cargando cabecera ...</app-header>
-  <div class="light-wrapper">
-    <div class="container inner">
-      <div class="row">
-        <div class="col-md-12">
-          <router-outlet></router-outlet>
-        </div>
-      </div>
-    </div>
-  </div>
-
-</div>
-<app-footer></app-footer>`,
+  templateUrl: './app.component.html',
   providers: [LibroService, FileUploadService, GeneralDataService]
 })
 export class AppComponent implements OnInit {
