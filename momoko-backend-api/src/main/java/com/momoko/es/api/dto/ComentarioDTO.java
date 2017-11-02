@@ -36,6 +36,12 @@ public class ComentarioDTO implements Serializable {
     /** The texto comentario. */
     private String textoComentario;
 
+    /** The entrada id. */
+    private Integer entradaId;
+
+    /** The comentario referencia. */
+    private Integer comentarioReferencia;
+
     /** The es spoiler. */
     private boolean esSpoiler;
 
@@ -173,6 +179,44 @@ public class ComentarioDTO implements Serializable {
      */
     public void setEsBan(boolean esBan) {
         this.esBan = esBan;
+    }
+
+    /**
+     * Obtiene entrada id.
+     *
+     * @return entrada id
+     */
+    public Integer getEntradaId() {
+        return entradaId;
+    }
+
+    /**
+     * Establece entrada id.
+     *
+     * @param entradaId
+     *            nuevo entrada id
+     */
+    public void setEntradaId(Integer entradaId) {
+        this.entradaId = entradaId;
+    }
+
+    /**
+     * Obtiene comentario referencia.
+     *
+     * @return comentario referencia
+     */
+    public Integer getComentarioReferencia() {
+        return comentarioReferencia;
+    }
+
+    /**
+     * Establece comentario referencia.
+     *
+     * @param comentarioReferencia
+     *            nuevo comentario referencia
+     */
+    public void setComentarioReferencia(Integer comentarioReferencia) {
+        this.comentarioReferencia = comentarioReferencia;
     }
 
     /**

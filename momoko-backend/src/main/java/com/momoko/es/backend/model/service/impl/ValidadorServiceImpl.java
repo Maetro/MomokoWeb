@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,13 +15,18 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
+import com.momoko.es.api.enums.ErrorPublicarComentario;
+import com.momoko.es.backend.model.service.ValidadorService;
 
 /**
  * The Class ValidadorServiceImpl.
@@ -82,6 +87,31 @@ public class ValidadorServiceImpl implements ValidadorService {
         }
         if (entradaDTO.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
+        }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorPublicarComentario> validarComentario(ComentarioDTO comentarioDTO) {
+        final List<ErrorPublicarComentario> listaErrores = new ArrayList<ErrorPublicarComentario>();
+        if (StringUtils.isNotEmpty(comentarioDTO.getTextoComentario())) {
+            listaErrores.add(ErrorPublicarComentario.COMENTARIO_VACIO);
+        }
+        if (comentarioDTO.getEntradaId() == null) {
+            listaErrores.add(ErrorPublicarComentario.FALTA_ENTIDAD_ASOCIADA);
+        }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(PuntuacionDTO puntuacionDTO) {
+        final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<ErrorAnadirPuntuacionEnum>();
+        if ((puntuacionDTO.getValor() == null) || (puntuacionDTO.getValor() >= 0)
+                && (puntuacionDTO.getValor() <= 100)) {
+            listaErrores.add(ErrorAnadirPuntuacionEnum.PUNTUACION_INCORRECTA);
+        }
+        if (puntuacionDTO.getLibroId() == null) {
+            listaErrores.add(ErrorAnadirPuntuacionEnum.FALTA_LIBRO);
         }
         return listaErrores;
     }

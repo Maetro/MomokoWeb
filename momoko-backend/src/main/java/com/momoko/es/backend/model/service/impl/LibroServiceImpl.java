@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,6 +25,7 @@ import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.repository.AutorRepository;
 import com.momoko.es.backend.model.repository.EditorialRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
+import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 

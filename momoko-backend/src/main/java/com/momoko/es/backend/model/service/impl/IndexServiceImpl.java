@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
+import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.util.ConversionUtils;
 
 /**

@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.momoko.es.api.exceptions.StorageException;
 import com.momoko.es.backend.configuration.MomokoConfiguracion;
+import com.momoko.es.backend.model.service.StorageService;
 
 /**
  * The Class FileSystemStorageService.

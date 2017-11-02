@@ -247,36 +247,47 @@ public final class DTOToEntityAdapter {
     /**
      * Adaptar comentario.
      *
-     * @param comentarioEntity
-     *            comentario entity
-     * @return the comentario DTO
+     * @param comentarioDTO
+     *            comentario DTO
+     * @param entrada
+     *            entrada
+     * @param autor
+     *            autor
+     * @param comentarioReferenciaEntity
+     *            comentario referencia entity
+     * @return the comentario entity
      */
-    public static ComentarioDTO adaptarComentario(final ComentarioEntity comentarioEntity) {
-        ComentarioDTO comentarioDTO = new ComentarioDTO();
-        comentarioDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(comentarioEntity.getAutor()));
-        comentarioDTO.setVotosPositivos(ConversionUtils.divide(comentarioEntity.getVotosPositivos()).size());
-        comentarioDTO.setVotosNegativos(ConversionUtils.divide(comentarioEntity.getVotosNegativos()).size());
-        comentarioDTO.setTextoComentario(comentarioEntity.getTextoComentario());
-        comentarioDTO.setEsBan(comentarioEntity.isEsBan());
-        comentarioDTO.setEsSpoiler(comentarioEntity.isEsSpoiler());
-        comentarioDTO.setComentarioId(comentarioEntity.getComentarioId());
-        return comentarioDTO;
+    public static ComentarioEntity adaptarComentario(final ComentarioDTO comentarioDTO, final EntradaEntity entrada,
+        final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
+        ComentarioEntity comentario = new ComentarioEntity();
+        comentario.setAutor(autor);
+        comentario.setEntrada(entrada);
+        comentario.setComentarioReferenciaEntity(comentarioReferenciaEntity);
+        comentario.setTextoComentario(comentarioDTO.getTextoComentario());
+        comentario.setEsBan(comentarioDTO.isEsBan());
+        comentario.setEsSpoiler(comentarioDTO.isEsSpoiler());
+        comentario.setComentarioId(comentarioDTO.getComentarioId());
+        return comentario;
     }
 
     /**
      * Adaptar puntuacion.
      *
-     * @param puntuacionEntity
-     *            puntuacion entity
-     * @return the puntuacion DTO
+     * @param puntuacionDTO
+     *            puntuacion DTO
+     * @param autor
+     *            autor
+     * @param libro
+     *            libro
+     * @return the puntuacion entity
      */
-    public static PuntuacionDTO adaptarPuntuacion(final PuntuacionEntity puntuacionEntity) {
-        PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
-        puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(puntuacionEntity.getAutor()));
-        puntuacionDTO.setComentario(puntuacionEntity.getComentario());
-        puntuacionDTO.setEsPuntuacionMomoko(puntuacionEntity.isEsPuntuacionMomoko());
-        puntuacionDTO.setLibroId(puntuacionEntity.getLibro().getLibroId());
-        puntuacionDTO.setValor(puntuacionEntity.getValor());
-        return puntuacionDTO;
+    public static PuntuacionEntity adaptarPuntuacion(final PuntuacionDTO puntuacionDTO,final UsuarioEntity autor, final LibroEntity libro) {
+        PuntuacionEntity puntuacionEntity = new PuntuacionEntity();
+        puntuacionEntity.setAutor(autor);
+        puntuacionEntity.setComentario(puntuacionEntity.getComentario());
+        puntuacionEntity.setLibro(libro);
+        puntuacionEntity.setValor(puntuacionEntity.getValor());
+        puntuacionEntity.setEsPuntuacionMomoko(puntuacionEntity.isEsPuntuacionMomoko());
+        return puntuacionEntity;
     }
 }

@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.repository.GeneroRepository;
+import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
