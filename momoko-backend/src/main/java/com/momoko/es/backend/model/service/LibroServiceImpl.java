@@ -82,6 +82,7 @@ public class LibroServiceImpl implements LibroService {
                 libroEntity.setUsuarioAlta(currentPrincipalName);
                 libroEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
+
             return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntity));
         } else {
             throw new Exception("El titulo del libro ya se esta utilizando");

@@ -1,0 +1,45 @@
+<div class="dark-wrapper">
+  <div class="container inner">
+    <div class="grid-view">
+      <div class="row blog-posts blog-content">
+
+        <div class="post col-sm-12 col-md-4" *ngFor="let entrada of entradas">
+          <div class="fichaEntrada">
+            <figure class="t">
+              <a routerLink="/{{entrada.urlEntrada}}">
+                <img src="{{entrada.imagenEntrada}}" alt="Imagen de entrada - {{entrada.tituloEntrada}}" />
+              </a>
+            </figure>
+            <div class="post-content">
+              <div class="text-center">
+                <span class="category">
+                  <em class="rose">
+                    <a href="#">{{entrada.categoria}}</a>
+                  </em>
+                </span>
+              </div>
+              <h3 class="post-title">
+                <a routerLink="/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
+              </h3>
+              <div class="meta text-center">
+                <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
+                <span class="author">Por
+                  <a href="#">{{entrada.nombreAutor}}</a>
+                </span>
+                <span class="comments">
+                  <a routerLink="/{{entrada.urlEntrada}}">
+                    <i class="ion-chatbubbles"></i> {{entrada.numeroComentarios}}</a>
+                </span>
+              </div>
+              <p [innerHTML]="entrada.resumen"></p>
+              <div class="text-center">
+                <a routerLink="/{{entrada.urlEntrada}}" class="more">Continuar leyendo</a>
+              </div>
+            </div>
+          </div>
+          <!-- /.post-content -->
+        </div>
+
+      </div>
+    </div>
+  </div>

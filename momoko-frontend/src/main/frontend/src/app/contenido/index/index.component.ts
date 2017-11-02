@@ -1,3 +1,4 @@
+import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IndexDataService } from 'app/services/index-data.service';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
@@ -7,6 +8,7 @@ import { EntradaPortadaNormalImplComponent } from 'app/contenido/index/entrada-p
 import { AnadirEntradaComponent } from 'app/contenido/index/entrada-portada/anadir-entrada.component';
 import { AnadirEntrada2Component} from 'app/contenido/index/entrada-portada/anadir-entrada2.component';
 import { LibroSimple } from 'app/dtos/libroSimple';
+import { LibrosHorizontalComponent } from 'app/contenido/index/libros-horizontal/libros-horizontal.component';
 
 
 @Component({
@@ -17,12 +19,17 @@ import { LibroSimple } from 'app/dtos/libroSimple';
 export class IndexComponent implements OnInit {
 
   ultimasEntradas: EntradaSimple[] = [];
-
+  ultimas3Entradas: EntradaSimple[] = [];
   entradasPortada: EntradaItem[];
   librosMasLeidosMes: LibroSimple[];
+  librosUltimosAnalisis: LibroSimple[];
+
+  tituloUltimosAnalisis = 'Últimos análisis';
 
   @ViewChild(AnadirEntradaComponent) anadirEntradaComponent: AnadirEntradaComponent;
   @ViewChild(AnadirEntrada2Component) anadirEntrada2Component: AnadirEntrada2Component;
+  @ViewChild(Fila3entradasfondonegroComponent) fila3entradasfondonegroComponent: Fila3entradasfondonegroComponent;
+  @ViewChild(LibrosHorizontalComponent) librosHorizontalComponent: LibrosHorizontalComponent;
 
   constructor(private indexDataService: IndexDataService) { }
 
@@ -32,6 +39,7 @@ export class IndexComponent implements OnInit {
       this.ultimasEntradas = datos.ultimasEntradas;
       this.obtenerEntradasPortada(datos.ultimasEntradas);
       this.librosMasLeidosMes = datos.librosMasVistos;
+      this.librosUltimosAnalisis = datos.librosMasVistos;
     },
       error => {
         console.log('Error al recuperar los datos generales ', error);
@@ -41,15 +49,23 @@ export class IndexComponent implements OnInit {
 
   obtenerEntradasPortada(entradas: EntradaSimple[]) {
     this.entradasPortada = [];
+    let entradasBD: EntradaItem[];
+    entradasBD = [];
     entradas.forEach(entradaSimple => {
       let e: EntradaItem;
       // if (entradaSimple.categoria === 'MISCELANEOS') {
         e = new EntradaItem(EntradaPortadaNormalImplComponent, entradaSimple);
       // }
-      this.entradasPortada.push(e);
+      entradasBD.push(e);
     });
+    this.entradasPortada = entradasBD;
     this.anadirEntradaComponent.loadComponent(this.entradasPortada[2]);
     this.anadirEntrada2Component.loadComponent(this.entradasPortada[1]);
+
+    for (let pos = this.ultimasEntradas.length - 3; pos < this.ultimasEntradas.length; pos++) {
+      this.ultimas3Entradas.push(this.ultimasEntradas[pos]);
+    }
+    this.fila3entradasfondonegroComponent.loadEntradas(this.ultimas3Entradas);
   }
 
 }

@@ -1,5 +1,5 @@
 import { EntradaService } from './../../services/entrada.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Etiqueta } from 'app/dtos/etiqueta';
 import { Entrada } from 'app/dtos/entrada';
@@ -16,6 +16,8 @@ export class EntradaComponent implements OnInit, OnDestroy {
   private suscriptor: any;
 
   private entrada: Entrada;
+
+  @Input() titulo: string;
 
   constructor(private entradaService: EntradaService, private route: ActivatedRoute) { }
 

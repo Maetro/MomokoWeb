@@ -235,11 +235,12 @@ $(document).ready(function() {
     var instagramFeed2 = new Instafeed({
         target: 'instafeed',
         get: 'user',
-        limit: 12,
+        limit: 4,
         userId: 3260305017,
         accessToken: '3260305017.3a81a9f.083224ef4bb943f2a5ea6cd4cc697a8c',
         resolution: 'low_resolution',
-        template: '<div class="item col-xs-6 col-sm-4 col-md-2"><figure class="overlay instagram"><a href="{{link}}" target="_blank"><img src="{{image}}" /></a></figure></div>',
+        sortBy: 'most-liked',
+        template: '<div class="item col-xs-6 col-sm-3 col-md-3"><figure class="overlay instagram"><a href="{{link}}" target="_blank"><img src="{{image}}" /></a></figure></div>',
         after: function() {
             $('#instafeed figure.overlay a').prepend('<span class="over"><span></span></span>');
         }
@@ -247,6 +248,22 @@ $(document).ready(function() {
     $('#instafeed').each(function() {
         instagramFeed2.run();
     });
+    var instagramFeed3 = new Instafeed({
+      target: 'instafeed2',
+      get: 'user',
+      limit: 4,
+      userId: 3260305017,
+      sortBy: 'most-liked',
+      accessToken: '3260305017.3a81a9f.083224ef4bb943f2a5ea6cd4cc697a8c',
+      resolution: 'low_resolution',
+      template: '<div class="item col-xs-6 col-sm-3 col-md-3"><figure class="overlay instagram"><a href="{{link}}" target="_blank"><img src="{{image}}" /></a></figure></div>',
+      after: function() {
+          $('#instafeed2 figure.overlay a').prepend('<span class="over"><span></span></span>');
+      }
+  });
+  $('#instafeed2').each(function() {
+      instagramFeed3.run();
+  });
     /*-----------------------------------------------------------------------------------*/
     /*	COUNTER UP
     /*-----------------------------------------------------------------------------------*/

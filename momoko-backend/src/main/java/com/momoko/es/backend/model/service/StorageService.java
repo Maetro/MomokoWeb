@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
 
@@ -23,4 +24,7 @@ public interface StorageService {
     Stream<Path> loadAll(String tipoAlmacenamineto);
 
     Path load(String filename, String tipoAlmacenamineto);
+
+    String obtenerMiniatura(String tipoAlmacenamiento, String filename, Integer width, Integer height)
+            throws IOException;
 }

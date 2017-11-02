@@ -3,4 +3,5 @@ export class LibroSimple {
     nombreAutor: string;
     nota: number;
     portada: string;
+    urlAnalisis: string;
 }

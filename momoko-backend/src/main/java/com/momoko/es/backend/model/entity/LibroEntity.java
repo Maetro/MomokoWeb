@@ -6,11 +6,13 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -89,8 +91,8 @@ public class LibroEntity extends AuditoriaBasica {
     /** The visitas. */
     private Integer visitas;
 
-    @OneToMany(mappedBy = "libro", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PuntuacionEntity> puntuaciones;
+    @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PuntuacionEntity> puntuaciones = new ArrayList<PuntuacionEntity>();
 
     /**
      * Instantiates a new libro entity.

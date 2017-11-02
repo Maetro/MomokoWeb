@@ -8,8 +8,10 @@ import { AnadirEntradaDirective } from 'app/contenido/index/entrada-portada/anad
 import { EntradaPortadaNormalImplComponent } from 'app/contenido/index/entrada-portada/entrada-portada-normal.component';
 import { AnadirEntradaComponent } from 'app/contenido/index/entrada-portada/anadir-entrada.component';
 import { AnadirEntrada2Component } from 'app/contenido/index/entrada-portada/anadir-entrada2.component';
-import { InstagramFeedComponent } from 'app/contenido/instagram-feed/instagram-feed.component';
 import { LibrosMesSidebarComponent } from 'app/contenido/index/libros-mes-sidebar/libros-mes-sidebar.component';
+import { Fila3entradasfondonegroComponent } from 'app/contenido/index/fila3entradasfondonegro/fila3entradasfondonegro.component';
+import { LibrosHorizontalComponent } from 'app/contenido/index/libros-horizontal/libros-horizontal.component';
+
 
 
 
@@ -20,7 +22,8 @@ import { LibrosMesSidebarComponent } from 'app/contenido/index/libros-mes-sideba
     routing
   ],
   declarations: [EntradaComponent, IndexComponent, AnadirEntradaDirective, EntradaPortadaNormalImplComponent,
-    AnadirEntradaComponent, AnadirEntrada2Component, InstagramFeedComponent, LibrosMesSidebarComponent],
+    AnadirEntradaComponent, AnadirEntrada2Component, LibrosMesSidebarComponent, Fila3entradasfondonegroComponent,
+    LibrosHorizontalComponent],
   providers: [IndexDataService],
   entryComponents: [EntradaPortadaNormalImplComponent]
 })

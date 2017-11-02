@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,32 @@ public class IndexServiceImpl implements IndexService {
     @Autowired(required = false)
     private LibroRepository libroRepository;
 
+    @Autowired(required = false)
+    private StorageService storageService;
+
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
         final List<EntradaEntity> listaEntities = this.entradaRepository.findUltimasEntradas(new PageRequest(0, 5));
         final List<EntradaSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerEntradasBasicas(listaEntities);
+        for (final EntradaSimpleDTO entradaSimpleDTO : listaEntradasSimples) {
+            try {
+                final String thumbnail = this.storageService.obtenerMiniatura("imagenes-destacadas",
+                        entradaSimpleDTO.getImagenEntrada(), 628, 418);
+                entradaSimpleDTO.setImagenEntrada(thumbnail);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+
         return listaEntradasSimples;
     }
 
     @Override
     public List<LibroSimpleDTO> obtenerLibrosMasVistos() {
         final List<LibroEntity> listaLibros = this.libroRepository.findLibrosMasVistos(new PageRequest(0, 5));
-        final List<LibroSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerLibrosBasicos(listaLibros);
-        return listaEntradasSimples;
+        final List<LibroSimpleDTO> listaLibrosSimples = ConversionUtils.obtenerLibrosBasicos(listaLibros);
+        return listaLibrosSimples;
     }
 
 }
