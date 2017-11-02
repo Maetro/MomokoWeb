@@ -1,4 +1,4 @@
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.repository.EtiquetaRepository;
+import com.momoko.es.backend.model.service.EtiquetaService;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 

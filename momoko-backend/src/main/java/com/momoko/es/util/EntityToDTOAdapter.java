@@ -260,6 +260,8 @@ public final class EntityToDTOAdapter {
         comentarioDTO.setEsBan(comentarioEntity.isEsBan());
         comentarioDTO.setEsSpoiler(comentarioEntity.isEsSpoiler());
         comentarioDTO.setComentarioId(comentarioEntity.getComentarioId());
+        comentarioDTO.setEntradaId(comentarioEntity.getEntrada().getEntradaId());
+        comentarioDTO.setComentarioReferencia(comentarioEntity.getComentarioReferenciaEntity().getComentarioId());
         return comentarioDTO;
     }
 
@@ -279,5 +281,6 @@ public final class EntityToDTOAdapter {
         puntuacionDTO.setValor(puntuacionEntity.getValor());
         return puntuacionDTO;
     }
+
 
 }

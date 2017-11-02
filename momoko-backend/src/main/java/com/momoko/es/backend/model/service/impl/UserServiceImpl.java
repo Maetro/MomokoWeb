@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.backend.model.service;
+package com.momoko.es.backend.model.service.impl;
 
 import java.util.List;
 
@@ -16,6 +16,7 @@ import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
+import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 

@@ -6,6 +6,8 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,6 +50,27 @@ public class PuntuacionEntity {
     /** The es puntuacion momoko. */
     private boolean esPuntuacionMomoko;
 
+    /** The usuario alta. */
+    private String usuarioAlta;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
+
+    /** The usuario alta. */
+    private String usuarioModificacion;
+
+    /** The fecha alta. */
+    private Date fechaModificacion;
+
+    /** The usuario alta. */
+    private String usuarioBaja;
+
+    /** The fecha alta. */
+    private Date fechaBaja;
+
+    /**
+     * Instancia un nuevo puntuacion entity.
+     */
     public PuntuacionEntity() {
     }
 
@@ -165,6 +188,123 @@ public class PuntuacionEntity {
         this.libro = libro;
     }
 
+    /**
+     * Obtiene usuario alta.
+     *
+     * @return usuario alta
+     */
+    public String getUsuarioAlta() {
+        return usuarioAlta;
+    }
+
+    /**
+     * Establece usuario alta.
+     *
+     * @param usuarioAlta
+     *            nuevo usuario alta
+     */
+    public void setUsuarioAlta(String usuarioAlta) {
+        this.usuarioAlta = usuarioAlta;
+    }
+
+    /**
+     * Obtiene fecha alta.
+     *
+     * @return fecha alta
+     */
+    public Date getFechaAlta() {
+        return fechaAlta;
+    }
+
+    /**
+     * Establece fecha alta.
+     *
+     * @param fechaAlta
+     *            nuevo fecha alta
+     */
+    public void setFechaAlta(Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Obtiene usuario modificacion.
+     *
+     * @return usuario modificacion
+     */
+    public String getUsuarioModificacion() {
+        return usuarioModificacion;
+    }
+
+    /**
+     * Establece usuario modificacion.
+     *
+     * @param usuarioModificacion
+     *            nuevo usuario modificacion
+     */
+    public void setUsuarioModificacion(String usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    /**
+     * Obtiene fecha modificacion.
+     *
+     * @return fecha modificacion
+     */
+    public Date getFechaModificacion() {
+        return fechaModificacion;
+    }
+
+    /**
+     * Establece fecha modificacion.
+     *
+     * @param fechaModificacion
+     *            nuevo fecha modificacion
+     */
+    public void setFechaModificacion(Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Obtiene usuario baja.
+     *
+     * @return usuario baja
+     */
+    public String getUsuarioBaja() {
+        return usuarioBaja;
+    }
+
+    /**
+     * Establece usuario baja.
+     *
+     * @param usuarioBaja
+     *            nuevo usuario baja
+     */
+    public void setUsuarioBaja(String usuarioBaja) {
+        this.usuarioBaja = usuarioBaja;
+    }
+
+    /**
+     * Obtiene fecha baja.
+     *
+     * @return fecha baja
+     */
+    public Date getFechaBaja() {
+        return fechaBaja;
+    }
+
+    /**
+     * Establece fecha baja.
+     *
+     * @param fechaBaja
+     *            nuevo fecha baja
+     */
+    public void setFechaBaja(Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof PuntuacionEntity))
@@ -175,12 +315,18 @@ public class PuntuacionEntity {
                 .append(esPuntuacionMomoko, castOther.esPuntuacionMomoko).isEquals();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(puntuacionId).append(valor).append(autor).append(comentario).append(libro)
                 .append(esPuntuacionMomoko).toHashCode();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("puntuacionId", puntuacionId).append("valor", valor)
