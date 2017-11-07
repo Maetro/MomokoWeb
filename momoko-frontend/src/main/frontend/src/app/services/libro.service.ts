@@ -13,6 +13,8 @@ import { Autor } from './../dtos/autor';
 import { environment } from './../../environments/environment';
 import { Cookie } from 'ng2-cookies';
 import { RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import { FichaLibro } from 'app/dtos/fichaLibro';
 
 @Injectable()
 export class LibroService {
@@ -20,6 +22,8 @@ export class LibroService {
   private addLibroUrl = environment.addLibroUrl;
   private generosUrl = environment.generosUrl;
   private addGeneroUrl = environment.addGeneroUrl;
+  private obtenerLibroUrl = environment.obtenerLibroUrl;
+
 
   results: string[];
 
@@ -43,6 +47,15 @@ export class LibroService {
       return this.librosList;
 
     });
+  }
+
+  getLibro(urlLibro: string): Observable<FichaLibro> {
+    return this.http.get<FichaLibro>(this.obtenerLibroUrl + urlLibro).map(this.extractLibro)
+    .catch(error => Observable.throw(error || 'Server error'));
+  }
+
+  private extractLibro(res: FichaLibro) {
+    return res;
   }
 
   guardarLibro(libro: Libro): Promise<any> {

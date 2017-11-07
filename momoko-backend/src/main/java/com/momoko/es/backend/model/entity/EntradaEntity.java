@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -32,7 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "entrada", indexes = { @Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true) })
-public class EntradaEntity {
+public class EntradaEntity implements Comparable<EntradaEntity> {
 
     private @Id @GeneratedValue Integer entradaId;
 
@@ -489,6 +490,10 @@ public class EntradaEntity {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.entradaId).toHashCode();
+    }
+
+    public int compareTo(final EntradaEntity other) {
+        return new CompareToBuilder().append(this.fechaAlta, other.fechaAlta).toComparison();
     }
 
 }

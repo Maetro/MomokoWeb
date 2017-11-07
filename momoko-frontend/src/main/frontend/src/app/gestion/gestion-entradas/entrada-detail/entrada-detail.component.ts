@@ -1,3 +1,4 @@
+import { UtilService } from './../../../services/util.service';
 
 import { GaleriaItem } from './../anadir-galeria/galeria-item';
 import { Etiqueta } from 'app/dtos/etiqueta';
@@ -11,6 +12,7 @@ import { SelectItem } from 'primeng/components/common/selectitem';
 import { AnadirGaleriaComponent } from '../anadir-galeria/anadir-galeria.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-galeria/galeria-form-impl.component';
+import { Libro } from 'app/dtos/libro';
 
 
 @Component({
@@ -39,7 +41,7 @@ export class EntradaDetailComponent implements OnInit {
 
 
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
-    private fileUploadService: FileUploadService) {
+    private fileUploadService: FileUploadService, private util: UtilService) {
     this.tiposEntrada = [];
     this.tiposEntrada.push({ label: 'Noticia', value: 1 });
     this.tiposEntrada.push({ label: 'Análisis', value: 2 });
@@ -67,7 +69,7 @@ export class EntradaDetailComponent implements OnInit {
 
   cambioTitulo(newValue: string) {
     if (!this.customURL) {
-      this.entrada.urlEntrada = encodeURIComponent(this.convertToSlug(newValue));
+      this.entrada.urlEntrada = encodeURIComponent(this.util.convertToSlug(newValue));
     }
   }
 
@@ -83,20 +85,7 @@ export class EntradaDetailComponent implements OnInit {
     this.entrada.resumenEntrada = resumen;
   }
 
-  convertToSlug(text: string) {
 
-    const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
-    const to = 'aaaaaeeeeeiiiiooooouuuunc------';
-    for (let i = 0, l = from.length; i < l; i++) {
-      text = text.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
-    }
-
-    return text
-      .toLowerCase()
-      .replace(/[^\w ]+/g, '')
-      .replace(/ +/g, '-')
-      ;
-  }
 
   showSuccess(mensaje: string) {
     this.msgs = [];
@@ -131,6 +120,7 @@ export class EntradaDetailComponent implements OnInit {
     if (this.entrada.estadoEntrada == null) {
       this.entrada.estadoEntrada = 1;
     }
+
     this.entradaService.guardarEntrada(this.entrada)
       .then(res => {
         this.showSuccess('Entrada guardada correctamente');

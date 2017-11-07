@@ -24,6 +24,8 @@ export class IndexComponent implements OnInit {
   librosMasLeidosMes: LibroSimple[];
   librosUltimosAnalisis: LibroSimple[];
 
+  portada = "http://elmiedodelosesclavos.com/wp-content/uploads/2017/01/El-miedo-de-los-esclavos-2-345x520.jpg";
+
   tituloUltimosAnalisis = 'Últimos análisis';
 
   @ViewChild(AnadirEntradaComponent) anadirEntradaComponent: AnadirEntradaComponent;

@@ -28,6 +28,9 @@ public class LibroSimpleDTO implements Serializable {
     /** The portada. */
     private String portada;
 
+    /** The url libro. */
+    private String urlLibro;
+
     /**
      * Gets the titulo.
      *
@@ -102,6 +105,25 @@ public class LibroSimpleDTO implements Serializable {
      */
     public void setPortada(final String portada) {
         this.portada = portada;
+    }
+
+    /**
+     * Gets the url libro.
+     *
+     * @return the url libro
+     */
+    public String getUrlLibro() {
+        return this.urlLibro;
+    }
+
+    /**
+     * Sets the url libro.
+     *
+     * @param urlLibro
+     *            the new url libro
+     */
+    public void setUrlLibro(final String urlLibro) {
+        this.urlLibro = urlLibro;
     }
 
 }

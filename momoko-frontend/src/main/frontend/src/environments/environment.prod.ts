@@ -16,5 +16,6 @@ export const environment = {
     oauthTokenUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/oauth/token',
     accountTokenUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/account/token',
     getEntradaUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/public/entrada/',
-    indexDataUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/public/indexData'
+    indexDataUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/public/indexData',
+    obtenerLibroUrl: 'http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com:8080/public/libro/'
 };

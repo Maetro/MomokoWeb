@@ -58,7 +58,7 @@ export class ListaEntradasComponent implements OnInit {
         this.entradaDetailComponent.etiquetas = [];
         this.entradasService.getEntrada(entrada.urlEntrada).subscribe(entradaCompleta => {
           console.log(entradaCompleta);
-          entradaCompleta.etiquetas.forEach((etiqueta: Etiqueta) => {
+          entradaCompleta.entrada.etiquetas.forEach((etiqueta: Etiqueta) => {
             this.entradaDetailComponent.etiquetas.push(etiqueta.nombreEtiqueta);
           });
         });

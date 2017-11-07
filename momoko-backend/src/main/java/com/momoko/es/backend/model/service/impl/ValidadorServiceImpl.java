@@ -47,6 +47,10 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionLibro.FALTA_AUTOR);
         }
 
+        if (StringUtils.isBlank(libroDTO.getUrlLibro())) {
+            listaErrores.add(ErrorCreacionLibro.FALTA_URL);
+        }
+
         if (libroDTO.getEditorial() == null) {
             listaErrores.add(ErrorCreacionLibro.FALTA_EDITORIAL);
         }
@@ -92,7 +96,7 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorPublicarComentario> validarComentario(ComentarioDTO comentarioDTO) {
+    public List<ErrorPublicarComentario> validarComentario(final ComentarioDTO comentarioDTO) {
         final List<ErrorPublicarComentario> listaErrores = new ArrayList<ErrorPublicarComentario>();
         if (StringUtils.isNotEmpty(comentarioDTO.getTextoComentario())) {
             listaErrores.add(ErrorPublicarComentario.COMENTARIO_VACIO);
@@ -104,10 +108,10 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(PuntuacionDTO puntuacionDTO) {
+    public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(final PuntuacionDTO puntuacionDTO) {
         final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<ErrorAnadirPuntuacionEnum>();
-        if ((puntuacionDTO.getValor() == null) || (puntuacionDTO.getValor() >= 0)
-                && (puntuacionDTO.getValor() <= 100)) {
+        if ((puntuacionDTO.getValor() == null)
+                || ((puntuacionDTO.getValor() >= 0) && (puntuacionDTO.getValor() <= 100))) {
             listaErrores.add(ErrorAnadirPuntuacionEnum.PUNTUACION_INCORRECTA);
         }
         if (puntuacionDTO.getLibroId() == null) {

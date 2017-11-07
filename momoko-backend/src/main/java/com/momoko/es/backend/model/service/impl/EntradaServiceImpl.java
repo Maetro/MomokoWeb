@@ -6,8 +6,10 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,10 +23,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
 import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
+import com.momoko.es.api.response.ObtenerEntradaResponse;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
@@ -34,15 +38,23 @@ import com.momoko.es.backend.model.repository.EtiquetaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.service.EntradaService;
+import com.momoko.es.backend.model.service.LibroService;
+import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
+/**
+ * The Class EntradaServiceImpl.
+ */
 @Service
 public class EntradaServiceImpl implements EntradaService {
 
     @Autowired(required = false)
     private LibroRepository libroRepository;
+
+    @Autowired(required = false)
+    private LibroService libroService;
 
     @Autowired(required = false)
     private EntradaRepository entradaRepository;
@@ -53,10 +65,37 @@ public class EntradaServiceImpl implements EntradaService {
     @Autowired(required = false)
     private EtiquetaRepository etiquetaRepository;
 
+    @Autowired(required = false)
+    private StorageService almacenImagenes;
+
     @Override
-    public EntradaDTO obtenerEntrada(final String urlEntrada) {
+    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada) {
+        final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
-        return EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                .findByLibroEntrada(entradaEntity.getLibroEntrada());
+        try {
+            entradaEntity.setImagenDestacada(
+                    this.almacenImagenes.obtenerMiniatura(entradaEntity.getImagenDestacada(), 770, 432));
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+
+        Collections.sort(entradasRelacionadas);
+        if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+            for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
+                final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                listaDatosEntradas.add(datoEntrada);
+            }
+        }
+        final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+        entradaDTO.getLibroEntrada().setEntradasLibro(listaDatosEntradas);
+        respuesta.setEntrada(entradaDTO);
+        respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(entradaDTO.getLibroEntrada(), 5));
+        return respuesta;
     }
 
     @Override
@@ -75,9 +114,9 @@ public class EntradaServiceImpl implements EntradaService {
         LibroDTO libroEntrada = null;
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        if (StringUtils.isNotBlank(entradaAGuardar.getLibroEntrada())) {
+        if (entradaAGuardar.getLibroEntrada() != null) {
             libroEntrada = EntityToDTOAdapter
-                    .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getLibroEntrada()));
+                    .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getTituloLibroEntrada()));
         }
         UsuarioEntity autor = null;
         if (entradaAGuardar.getEntradaId() == null) {

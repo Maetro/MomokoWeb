@@ -38,6 +38,7 @@ import com.momoko.es.api.response.GuardarEntradaResponse;
 import com.momoko.es.api.response.GuardarGeneroResponse;
 import com.momoko.es.api.response.GuardarLibroResponse;
 import com.momoko.es.api.response.InformacionGeneralResponse;
+import com.momoko.es.api.response.ObtenerEntradaResponse;
 import com.momoko.es.api.response.PublicarComentarioResponse;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
@@ -169,8 +170,8 @@ public class ModeloController {
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody EntradaDTO getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
         System.out.println("Obtener entrada: " + urlEntrada);
-        final EntradaDTO entrada = this.entradaService.obtenerEntrada(urlEntrada);
-        return entrada;
+        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntrada(urlEntrada);
+        return entrada.getEntrada();
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -205,14 +206,14 @@ public class ModeloController {
         return new ResponseEntity<GuardarEntradaResponse>(respuesta, status);
 
     }
-    
+
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @RequestMapping(method = RequestMethod.POST, path = "/comentarios/add")
     ResponseEntity<PublicarComentarioResponse> publicarComentario(@RequestBody final ComentarioDTO comentarioDTO) {
 
-        PublicarComentarioResponse respuesta = new PublicarComentarioResponse();
+        final PublicarComentarioResponse respuesta = new PublicarComentarioResponse();
         HttpStatus status = HttpStatus.OK;
-        List<ErrorPublicarComentario> listaErrores = this.validadorService.validarComentario(comentarioDTO);
+        final List<ErrorPublicarComentario> listaErrores = this.validadorService.validarComentario(comentarioDTO);
         ComentarioDTO comentario = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
@@ -235,9 +236,9 @@ public class ModeloController {
     @RequestMapping(method = RequestMethod.POST, path = "/puntuacion/add")
     ResponseEntity<AnadirPuntuacionResponse> puntuarLibro(@RequestBody final PuntuacionDTO puntuacionDTO) {
 
-        AnadirPuntuacionResponse respuesta = new AnadirPuntuacionResponse();
+        final AnadirPuntuacionResponse respuesta = new AnadirPuntuacionResponse();
         HttpStatus status = HttpStatus.OK;
-        List<ErrorAnadirPuntuacionEnum> listaErrores = this.validadorService.validarPuntuacion(puntuacionDTO);
+        final List<ErrorAnadirPuntuacionEnum> listaErrores = this.validadorService.validarPuntuacion(puntuacionDTO);
         PuntuacionDTO puntuacion = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
@@ -255,6 +256,5 @@ public class ModeloController {
         }
         return new ResponseEntity<AnadirPuntuacionResponse>(respuesta, status);
     }
-
 
 }

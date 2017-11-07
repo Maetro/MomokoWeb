@@ -4,4 +4,5 @@ export class LibroSimple {
     nota: number;
     portada: string;
     urlAnalisis: string;
+    urlLibro: string;
 }

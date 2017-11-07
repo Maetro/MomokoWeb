@@ -1,4 +1,3 @@
-import { EntradaComponent } from './contenido/entrada/entrada.component';
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -43,7 +42,7 @@ import { ContenidoModule } from 'app/contenido/contenido.module';
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents: [ListaLibrosComponent, ListaGenerosComponent, EntradaComponent]
+  entryComponents: [ListaLibrosComponent, ListaGenerosComponent]
 
 })
 export class AppModule { }

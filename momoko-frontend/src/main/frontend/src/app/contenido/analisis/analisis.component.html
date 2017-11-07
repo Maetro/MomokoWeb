@@ -1,0 +1,66 @@
+<app-menu-interno-libro [libro]="entrada.libroEntrada"></app-menu-interno-libro>
+<div class="light-wrapper">
+  <div class="container inner">
+    <div class="blog row">
+      <div class="col-md-8">
+        <img src="{{entrada.imagenDestacada}}" alt="Imágen destacada - {{entrada.tituloEntrada}}" title="Imágen destacada - {{entrada.tituloEntrada}}"
+        />
+      </div>
+      <div class="col-md-4">
+        <div class="dark-wrapper bloqueInfoLibro">
+          <div class="bloqueNota">
+            <app-nota-circular [nota]="nota"></app-nota-circular>
+          </div>
+          <div class="bloqueDatos">
+            <div class="datos autor">
+              <b>Autor:
+                <span class="info">{{autores}}</span>
+              </b>
+            </div>
+            <div class="datos numPaginas">
+              <b>Nº de páginas:
+                <span class="info">{{entrada.libroEntrada.numeroPaginas}}</span>
+              </b>
+            </div>
+            <div class="datos autor">
+              <b>Año de publicación:
+                <span class="info">{{entrada.libroEntrada.anoPublicacion}}</span>
+              </b>
+            </div>
+          </div>
+          <div class="bloqueBotones">
+            <a class="amazon" href="{{entrada.libroEntrada.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
+              <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="blog row">
+        <div class="col-md-8">
+          <div class="tituloEntrada">
+            {{entrada.tituloEntrada}}
+          </div>
+          <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada">
+
+          </div>
+        </div>
+        <aside class="col-sm-4 sidebar">
+          <div class="sidebox widget">
+            <h3 class="widget-title section-title">Otros libros parecidos</h3>
+            <ul class="post-list">
+              <app-libros-mes-sidebar [libros]="librosParecidos"></app-libros-mes-sidebar>
+            </ul>
+            <!-- /.post-list -->
+          </div>
+          <div class="sidebox widget">
+              <h3 class="widget-title section-title">Nuestro Instagram </h3>
+              <div class="tiles instagram">
+                <div id="instafeed-widget" class="items row row-offset-0">
+                </div>
+              </div>
+            </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</div>

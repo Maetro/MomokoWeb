@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.exceptions.StorageException;
 import com.momoko.es.backend.configuration.MomokoConfiguracion;
 import com.momoko.es.backend.model.service.StorageService;
@@ -114,7 +115,8 @@ public class FileSystemStorageService implements StorageService {
             final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
             ImageIO.write(scaledImg, "png", newName);
         }
-        return "http://localhost/images/" + tipoAlmacenamiento + "/" + fileNameNuevo;
+        return this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlImages() + tipoAlmacenamiento
+                + "/" + fileNameNuevo;
     }
 
     @Override
@@ -152,6 +154,48 @@ public class FileSystemStorageService implements StorageService {
         final File convFile = new File(multipart.getOriginalFilename());
         multipart.transferTo(convFile);
         return convFile;
+    }
+
+    /**
+     * Gets the image dimensions.
+     *
+     * @param filename
+     *            the filename
+     * @param tipoAlmacenamiento
+     *            the tipo almacenamiento
+     * @return the image dimensions
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    @Override
+    public AnchuraAlturaDTO getImageDimensions(final String filename, final String tipoAlmacenamiento)
+            throws IOException {
+        final Path locationOriginal = getFileLocation(tipoAlmacenamiento).resolve(filename);
+        final AnchuraAlturaDTO resultado = new AnchuraAlturaDTO();
+        if (Files.exists(locationOriginal)) {
+            final InputStream imagenOriginalInputStream = Files.newInputStream(locationOriginal);
+            final BufferedImage imagen = ImageIO.read(imagenOriginalInputStream);
+            final int width = imagen.getWidth();
+            final int height = imagen.getHeight();
+            resultado.setAltura(height);
+            resultado.setAnchura(width);
+        }
+        return resultado;
+    }
+
+    @Override
+    public String obtenerMiniatura(final String urlImagen, final Integer width, final Integer height)
+            throws IOException {
+        final String[] lista = urlImagen.split("/");
+        final int elementos = lista.length;
+        return obtenerMiniatura(lista[elementos - 2], lista[elementos - 1], width, height);
+    }
+
+    @Override
+    public AnchuraAlturaDTO getImageDimensions(final String urlImagen) throws IOException {
+        final String[] lista = urlImagen.split("/");
+        final int elementos = lista.length;
+        return getImageDimensions(lista[elementos - 1], lista[elementos - 2]);
     }
 
 }

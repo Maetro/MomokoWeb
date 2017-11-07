@@ -1,0 +1,23 @@
+.bloqueInfoLibro{
+  min-height: 432px;
+}
+
+.bloqueNota{
+  padding: 10px;
+  border-bottom: 1px dashed #E2E3E5;
+}
+
+.bloqueDatos{
+  padding: 25px;
+  font-size: 15px;
+}
+
+.bloqueBotones img {
+  width: 120px;
+  padding: 10px;
+}
+
+span.info {
+  font-style: normal;
+  font-weight: 500;
+}

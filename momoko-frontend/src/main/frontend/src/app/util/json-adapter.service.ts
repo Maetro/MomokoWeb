@@ -42,6 +42,7 @@ export class JsonAdapterService {
   }
   l.generosString = generosString.slice(0, -2);
   l.generos = generosList;
+  l.urlLibro = json.urlLibro;
   return l;
   }
 

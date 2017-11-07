@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
+import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 
 /**
@@ -34,6 +35,15 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
     LibroEntity findOneByTitulo(String titulo);
 
     /**
+     * Find one by url libro.
+     *
+     * @param urlLibro
+     *            the url libro
+     * @return the libro entity
+     */
+    LibroEntity findOneByUrlLibro(String urlLibro);
+
+    /**
      * Find libros mas vistos.
      *
      * @param pageRequest
@@ -42,5 +52,14 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      */
     @Query("select l from LibroEntity l ORDER BY l.visitas DESC")
     List<LibroEntity> findLibrosMasVistos(Pageable pageable);
+
+    /**
+     * Find libro by generos.
+     *
+     * @param genero
+     *            the genero
+     * @return the list
+     */
+    List<LibroEntity> findLibroByGeneros(List<GeneroEntity> generos, Pageable pageable);
 
 }

@@ -8,31 +8,32 @@ import { PageNotFoundComponent } from './error/page-not-found/page-not-found.com
 import { ListaLibrosComponent } from './gestion/gestion-libros/lista-libros/lista-libros.component';
 import { ListaGenerosComponent } from './gestion/gestion-libros/lista-generos/lista-generos.component';
 import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entradas/lista-entradas.component';
-import { EntradaComponent } from 'app/contenido/entrada/entrada.component';
 import { IndexComponent } from 'app/contenido/index/index.component';
 
 const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
   {
-    path: 'lista-libros',
-    component: ListaLibrosComponent
-  },
-  {
-    path: 'lista-entradas',
-    component: ListaEntradasComponent
-  },
-  {
-    path: 'lista-generos',
-    component: ListaGenerosComponent
+    path: 'admin',
+     children: [
+          {
+            path: 'lista-libros',
+            component: ListaLibrosComponent
+          },
+          {
+            path: 'lista-entradas',
+            component: ListaEntradasComponent
+          },
+          {
+            path: 'lista-generos',
+            component: ListaGenerosComponent
+          }
+        ],
   },
   {
     path: '',
     component: IndexComponent
   },
-  { path: ':url',
-    component: EntradaComponent
-  },
   { path: '**', component: PageNotFoundComponent },
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { enableTracing: false }) // <-- debugging purposes only);
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { enableTracing: true }) // <-- debugging purposes only);

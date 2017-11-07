@@ -50,7 +50,7 @@ public class EntradaDTO {
     private EntradaDTO padreEntrada;
 
     /** The libro entrada. */
-    private String libroEntrada;
+    private LibroDTO libroEntrada;
 
     /** The etiquetas. */
     private Set<EtiquetaDTO> etiquetas;
@@ -60,6 +60,9 @@ public class EntradaDTO {
 
     /** The numero comentarios. */
     private Integer numeroComentarios;
+
+    /** The titulo libro entrada. */
+    private String tituloLibroEntrada;
 
     /** The orden. */
     private Integer orden;
@@ -265,7 +268,7 @@ public class EntradaDTO {
      *
      * @return libro entrada id
      */
-    public String getLibroEntrada() {
+    public LibroDTO getLibroEntrada() {
         return this.libroEntrada;
     }
 
@@ -275,7 +278,7 @@ public class EntradaDTO {
      * @param libroEntrada
      *            nuevo libro entrada
      */
-    public void setLibroEntrada(final String libroEntrada) {
+    public void setLibroEntrada(final LibroDTO libroEntrada) {
         this.libroEntrada = libroEntrada;
     }
 
@@ -353,6 +356,25 @@ public class EntradaDTO {
      */
     public void setImagenDestacada(final String imagenDestacada) {
         this.imagenDestacada = imagenDestacada;
+    }
+
+    /**
+     * Gets the titulo libro entrada.
+     *
+     * @return the titulo libro entrada
+     */
+    public String getTituloLibroEntrada() {
+        return this.tituloLibroEntrada;
+    }
+
+    /**
+     * Sets the titulo libro entrada.
+     *
+     * @param tituloLibroEntrada
+     *            the new titulo libro entrada
+     */
+    public void setTituloLibroEntrada(final String tituloLibroEntrada) {
+        this.tituloLibroEntrada = tituloLibroEntrada;
     }
 
     /**

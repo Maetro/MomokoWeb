@@ -5,6 +5,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
+import { FichaEntrada } from 'app/dtos/fichaEntrada';
 
 @Injectable()
 export class EntradaService {
@@ -17,12 +18,12 @@ export class EntradaService {
 
   constructor(private http: HttpClient) { }
 
-  getEntrada(urlEntrada): Observable<Entrada> {
-    return this.http.get<Entrada>(this.getEntradaUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
+  getEntrada(urlEntrada): Observable<FichaEntrada> {
+    return this.http.get<FichaEntrada>(this.getEntradaUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
     .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerEntradaDeRespuesta(res: Entrada) {
+  private obtenerEntradaDeRespuesta(res: FichaEntrada) {
     return res;
   }
 

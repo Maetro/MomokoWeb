@@ -1,0 +1,242 @@
+#book {
+  width: 292px;
+  margin: 0 auto;
+  position: relative;
+  -webkit-transition-duration: .5s;
+  -moz-transition-duration: .5s;
+  -ms-transition-duration: .5s;
+  -o-transition-duration: .5s;
+  transition-duration: .5s;
+  -webkit-perspective: 2000px;
+  -moz-perspective: 2000px;
+  -ms-perspective: 2000px;
+  -o-perspective: 2000px;
+  perspective: 2000px;
+}
+
+.main {
+  width: 292px;
+  height: 400px;
+  color: #92684F;
+  position: relative;
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  -ms-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  -webkit-transition-duration: .5s;
+  -moz-transition-duration: .5s;
+  -ms-transition-duration: .5s;
+  -o-transition-duration: .5s;
+  transition-duration: .5s;
+}
+
+/* = Book Font
+-------------------------------------------------------------- */
+.book-font{
+  width:292px; height:400px;
+  position:absolute; top:0; bottom:0;
+  font-size:15px; text-align:center;
+  text-shadow:0 2px 0 rgba(30,35,45,1);
+  box-shadow:inset 3px 0 10px rgba(0,0,0,0.1);
+  z-index:10;
+  -webkit-transform-style:preserve-3d;
+  -moz-transform-style:preserve-3d;
+  -ms-transform-style:preserve-3d;
+  -o-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+
+  -webkit-transform-origin:0% 50%;
+  -moz-transform-origin:0% 50%;
+  -ms-transform-origin:0% 50%;
+  -o-transform-origin:0% 50%;
+  transform-origin:0% 50%;
+
+  -webkit-transition-duration:.5s;
+  -moz-transition-duration:.5s;
+  -ms-transition-duration:.5s;
+  -o-transition-duration:.5s;
+  transition-duration:.5s;
+
+  -webkit-transform:translate3d(0,0,25px);
+  -moz-transform:translate3d(0,0,25px);
+  -ms-transform:translate3d(0,0,25px);
+  -o-transform:translate3d(0,0,25px);
+  transform:translate3d(0,0,25px);
+}
+.book-cover{
+  width: 292px;
+  height: 400px;
+  overflow:hidden;
+  position:absolute; top:0; bottom:0;
+  background:#29303A;
+  -webkit-transform-style:preserve-3d;
+  -moz-transform-style:preserve-3d;
+  -ms-transform-style:preserve-3d;
+  -o-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+
+  -webkit-backface-visibility:hidden;
+  -moz-backface-visibility:hidden;
+  -ms-backface-visibility:hidden;
+  -o-backface-visibility:hidden;
+  backface-visibility:hidden;
+  box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
+}
+.book-cover-back{
+  width: 292px;
+  height: 400px;
+  position:absolute; top:0; bottom:0;
+  background:#29303A;
+  -webkit-transform-style:preserve-3d;
+  -moz-transform-style:preserve-3d;
+  -ms-transform-style:preserve-3d;
+  -o-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+
+  -webkit-backface-visibility:hidden;
+  -moz-backface-visibility:hidden;
+  -ms-backface-visibility:hidden;
+  -o-backface-visibility:hidden;
+  backface-visibility:hidden;
+
+  -webkit-transform:rotate3d(0,1,0,-180deg);
+  -moz-transform:rotate3d(0,1,0,-180deg);
+  -ms-transform:rotate3d(0,1,0,-180deg);
+  -o-transform:rotate3d(0,1,0,-180deg);
+  transform:rotate3d(0,1,0,-180deg);
+}
+
+/* = Book Back
+-------------------------------------------------------------- */
+.book-back{
+  width:292px;
+  background:#29303A;
+  position:absolute; top:0; bottom:0;
+  color:white;
+  -webkit-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
+  -moz-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
+  -ms-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
+  -o-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
+  transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
+  z-index:8;
+}
+
+/* = Book Bone
+-------------------------------------------------------------- */
+.book-bone{
+  width:50px;
+  background:#29303A;
+  box-shadow:1px 0 0 #29303A,-1px 0 0 #29303A;
+  position:absolute;
+  top:0; bottom:0; left:-25px;
+  -webkit-transform:rotate3d(0,1,0,-90deg);
+  -moz-transform:rotate3d(0,1,0,-90deg);
+  -ms-transform:rotate3d(0,1,0,-90deg);
+  -o-transform:rotate3d(0,1,0,-90deg);
+  transform:rotate3d(0,1,0,-90deg);
+}
+.book-bone h2{
+  width: 400px;
+  height:50px; line-height:50px;
+  font-size:14px; text-align:right;
+  padding:0 15px;
+  -webkit-transform-origin:0 0;
+  -moz-transform-origin:0 0;
+  -ms-transform-origin:0 0;
+  -o-transform-origin:0 0;
+  transform-origin:0 0;
+
+  -webkit-transform:rotate(90deg) translateY(-50px);
+  -moz-transform:rotate(90deg) translateY(-50px);
+  -ms-transform:rotate(90deg) translateY(-50px);
+  -o-transform:rotate(90deg) translateY(-50px);
+  transform:rotate(90deg) translateY(-50px);
+}
+.book-bone span{ font-size:14px; padding-right:20px;}
+
+/* = Order
+-------------------------------------------------------------- */
+.book-cover:after,.book-back:after{ /*  */
+  content:"";
+  width:3px;
+  position:absolute; top:0; left:10px; bottom:0;
+  background:rgba(0,0,0,0.06);
+  box-shadow:1px 0 3px rgba(255, 255, 255, 0.1);
+}
+.book-page,.book-top,.book-right,.book-bottom{
+  background:#EEEFE9;
+}
+.book-right{
+  width:50px; height:395px;
+  position:absolute; top:5px; right:-20px;
+  box-shadow:0 1px 0 #EEEFE9,0 -1px 0 #EEEFE9;
+  -webkit-transform:rotate3d(0,1,0,90deg);
+  -moz-transform:rotate3d(0,1,0,90deg);
+  -ms-transform:rotate3d(0,1,0,90deg);
+  -o-transform:rotate3d(0,1,0,90deg);
+  transform:rotate3d(0,1,0,90deg);
+  box-shadow: 0px 0px 0px #333;
+  transition: box-shadow 0.3s ease-in-out;
+  background-color: white;
+  background-color: #f3f3f3;
+  background-image: -webkit-repeating-linear-gradient(left, white 0%, #ebebeb 1.3%, white 2%, #e2e2e2 3.2%);
+  background-image: repeating-linear-gradient(to right, white 0%, #ebebeb 1.3%, white 2%, #e2e2e2 3.2%);
+  background-image: -ms-repeating-linear-gradient(left, white 0%, #ebebeb 1.3%, white 2%, #e2e2e2 3.2%);
+}
+
+#book:hover .book-right{
+  box-shadow: 15px 5px 20px #333;
+}
+
+.book-top{
+  width:292px; height:50px;
+  position:absolute; top:-20px; left:0;
+  -webkit-transform:rotate3d(1,0,0,90deg);
+  -moz-transform:rotate3d(1,0,0,90deg);
+  -ms-transform:rotate3d(1,0,0,90deg);
+  -o-transform:rotate3d(1,0,0,90deg);
+  transform:rotate3d(1,0,0,90deg);
+  box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
+}
+
+.book-bottom{
+  width:292px; height:50px;
+  position:absolute; bottom:-20px; left:0;
+  -webkit-transform:rotate3d(1,0,0,-90deg) translate3d(0,0,0);
+  -moz-transform:rotate3d(1,0,0,-90deg) translate3d(0,0,0);
+  -ms-transform:rotate3d(1,0,0,-90deg) translate3d(0,0,0);
+  -o-transform:rotate3d(1,0,0,-90deg) translate3d(0,0,0);
+  transform:rotate3d(1,0,0,-90deg) translate3d(0,0,0);
+  box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
+}
+
+.book-right,.book-top,.book-bottom{
+  -webkit-backface-visibility:hidden;
+  -moz-backface-visibility:hidden;
+  -ms-backface-visibility:hidden;
+  -o-backface-visibility:hidden;
+  backface-visibility:hidden;
+}
+
+/* = Flip
+-------------------------------------------------------------- */
+/* Cover */
+.view-cover:hover .main{
+  -webkit-transform:rotate3d(0,1,0,-40deg);
+  -moz-transform:rotate3d(0,1,0,-40deg);
+  -ms-transform:rotate3d(0,1,0,-40deg);
+  -o-transform:rotate3d(0,1,0,-40deg);
+  transform:rotate3d(0,1,0,-40deg);
+}
+
+/* = Opt
+-------------------------------------------------------------- */
+#opt{
+  width:150px;
+  line-height:30px;
+  text-align:center;
+  padding:10px 10px 5px 10px;
+  background:rgba(255,255,255,0.4);
+  position:fixed; top:10%; right:6%;
+  z-index:100px;
+}

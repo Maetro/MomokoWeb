@@ -80,6 +80,7 @@ public final class EntityToDTOAdapter {
         libroDTO.setAnoPublicacion(libroEntity.getAnoPublicacion());
         libroDTO.setNumeroPaginas(libroEntity.getNumeroPaginas());
         libroDTO.setTituloOriginal(libroEntity.getTituloOriginal());
+        libroDTO.setUrlLibro(libroEntity.getUrlLibro());
         return libroDTO;
     }
 
@@ -97,7 +98,7 @@ public final class EntityToDTOAdapter {
         entradaDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(entradaEntity.getEntradaAutor()));
         entradaDTO.setEstadoEntrada(entradaEntity.getEstadoEntrada());
         if (entradaEntity.getLibroEntrada() != null) {
-            entradaDTO.setLibroEntrada(entradaEntity.getLibroEntrada().getTitulo());
+            entradaDTO.setLibroEntrada(adaptarLibro(entradaEntity.getLibroEntrada()));
         }
         entradaDTO.setNumeroComentarios(entradaEntity.getNumeroComentarios());
         entradaDTO.setOrden(entradaEntity.getOrden());
@@ -110,6 +111,8 @@ public final class EntityToDTOAdapter {
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
         entradaDTO.setEtiquetas(adaptarEtiquetas(entradaEntity.getEtiquetas()));
         entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
+        entradaDTO.setTituloLibroEntrada(
+                entradaEntity.getLibroEntrada() != null ? entradaEntity.getLibroEntrada().getTitulo() : null);
         return entradaDTO;
     }
 
@@ -281,6 +284,5 @@ public final class EntityToDTOAdapter {
         puntuacionDTO.setValor(puntuacionEntity.getValor());
         return puntuacionDTO;
     }
-
 
 }

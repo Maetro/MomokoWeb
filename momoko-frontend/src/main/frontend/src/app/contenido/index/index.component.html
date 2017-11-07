@@ -77,7 +77,7 @@
         <div class="sidebox widget">
           <h3 class="widget-title section-title">¿Quieres colaborar con nosotros?</h3>
           <figure>
-            <img src="assets/style/images/art/about.jpg" class="img-auto" alt=""> </figure>
+            <!--<img src="assets/style/images/art/about.jpg" class="img-auto" alt=""> --> </figure>
           <div class="divide10"></div>
           <p>¿Eres una editorial o un autor y quieres que hagamos una reseña de tu libro? ¿Eres redactor de contenidos y te
             apetece escribir en Momoko? ¡Ponte en contacto!
@@ -87,18 +87,7 @@
           <div class="clearfix"></div>
         </div>
 
-
-
-        <!-- /.widget -->
-        <div class="sidebox widget">
-          <h3 class="widget-title section-title">Nuestro Instagram </h3>
-          <div class="tiles instagram">
-            <div id="instafeed-widget" class="items row row-offset-0">
-
-            </div>
-          </div>
-          <!--/.tiles -->
-        </div>
+        <app-sidebar-instagram></app-sidebar-instagram>
 
       </aside>
       <!-- /column .sidebar -->
@@ -147,52 +136,8 @@
       </div>
     </div>
     <div class="col-sm-12 col-md-3" style="margin-top:-70px">
-      <div id="book" class="view-cover">
-        <div class="main">
-          <div class="book-font">
-            <div class="book-cover">
-              <img src="assets/style/images/art/b1.jpg">
-            </div>
-            <div class="book-cover-back"></div>
-          </div>
-          <div class="book-page">
-            <div id="page-1" class="page">
-              <h3>1 Mr Lockwood visits Wuthering Heights</h3>
-              <p>1801 I have just returned from a visit to my landlord—the solitary neighbour that I shall be troubled with.
-                This is certainly a beautiful country! In all England, I do not believe that I could have fixed on a situation
-                so completely removed from the stir of society. A perfect misanthropist’s heaven; and Mr. Heathcliff and
-                I are such a suitable pair to divide the desolation between us. A capital fellow! He little imagined how
-                my heart warmed towards him when I beheld his black eyes withdraw so suspiciously under their brows, as I
-                rode up, and when his fingers sheltered themselves, with a jealous resolution, still further in his waistcoat,
-                as I announced my name.</p>
-              <p>“Mr. Heathcliff!” I said.</p>
-              <p>A nod was the answer.</p>
-              <p>“Mr. Lockwood, your new tenant, sir. I do myself the honour of calling as soon as possible after my arrival,
-                to express the hope that I have not inconvenienced you by my perseverance in soliciting the occupation of
-                Thrushcross Grange”</p>
-            </div>
-            <div class="page-number">- 1 -</div>
-          </div>
-          <div class="book-back">
-
-          </div>
-          <div class="book-bone">
-            <h2>Emily Bronte　Wuthering Heights</h2>
-          </div>
-          <div class="book-top"></div>
-          <div class="book-right"></div>
-          <div class="book-bottom"></div>
-        </div>
-      </div>
+        <app-libro3d [portada]="portada"></app-libro3d>
     </div>
-  </div>
-</div>
-<div class="row no-gutter">
-  <div class="col-md-6">
-    <div id="instafeed" class="items row row-offset-0"></div>
-  </div>
-  <div class="col-md-6">
-    <div id="instafeed2" class="items row row-offset-0"></div>
   </div>
 </div>
 

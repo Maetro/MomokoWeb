@@ -21,10 +21,18 @@ public class MomokoConfiguracion {
 
     private final Map<String, Configuracion> momokoConfiguracion = new HashMap<String, Configuracion>();
 
+    /**
+     * Instantiates a new momoko configuracion.
+     */
     public MomokoConfiguracion() {
         System.out.println("Creando la configuracion");
     }
 
+    /**
+     * Gets the momoko configuracion.
+     *
+     * @return the momoko configuracion
+     */
     public Map<String, Configuracion> getMomokoConfiguracion() {
         return this.momokoConfiguracion;
     }
@@ -34,21 +42,68 @@ public class MomokoConfiguracion {
      */
     public static class Configuracion {
 
+        /** The url files. */
         private String urlFiles;
+
+        /** The url images. */
+        private String urlImages;
+
+        /** The test. */
         private String test;
 
+        /**
+         * Gets the url files.
+         *
+         * @return the url files
+         */
         public String getUrlFiles() {
             return this.urlFiles;
         }
 
+        /**
+         * Sets the url files.
+         *
+         * @param urlFiles
+         *            the new url files
+         */
         public void setUrlFiles(final String urlFiles) {
             this.urlFiles = urlFiles;
         }
 
+        /**
+         * Gets the url images.
+         *
+         * @return the url images
+         */
+        public String getUrlImages() {
+            return this.urlImages;
+        }
+
+        /**
+         * Sets the url images.
+         *
+         * @param urlImages
+         *            the new url images
+         */
+        public void setUrlImages(final String urlImages) {
+            this.urlImages = urlImages;
+        }
+
+        /**
+         * Gets the test.
+         *
+         * @return the test
+         */
         public String getTest() {
             return this.test;
         }
 
+        /**
+         * Sets the test.
+         *
+         * @param test
+         *            the new test
+         */
         public void setTest(final String test) {
             this.test = test;
         }

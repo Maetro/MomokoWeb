@@ -6,7 +6,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/momokobd
+    url: jdbc:mysql://localhost:3306/momokobd2
     username: root
   http:
     multipart:
@@ -85,4 +85,5 @@ logging:
 momokoConfiguracion:
   directorios:
     urlFiles: D:/XAMPP/htdocs/images
+    urlImages: http://localhost/images/
     test: hola

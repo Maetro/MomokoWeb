@@ -6,26 +6,39 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.AnchuraAlturaDTO;
+import com.momoko.es.api.dto.DatoEntradaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.response.ObtenerFichaLibroResponse;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
+import com.momoko.es.backend.model.entity.EntradaEntity;
+import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.repository.AutorRepository;
 import com.momoko.es.backend.model.repository.EditorialRepository;
+import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.service.LibroService;
+import com.momoko.es.backend.model.service.StorageService;
+import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
@@ -39,10 +52,16 @@ public class LibroServiceImpl implements LibroService {
     private LibroRepository libroRepository;
 
     @Autowired(required = false)
+    private EntradaRepository entradaRepository;
+
+    @Autowired(required = false)
     private AutorRepository autorRepository;
 
     @Autowired(required = false)
     private EditorialRepository editorialRepository;
+
+    @Autowired(required = false)
+    private StorageService almacenImagenes;
 
     @Override
     public List<LibroDTO> recuperarLibros() {
@@ -164,5 +183,55 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public List<String> obtenerListaTitulosLibros() {
         return this.libroRepository.findAllTitulosLibros();
+    }
+
+    @Override
+    public ObtenerFichaLibroResponse obtenerLibro(final String urlLibro) {
+        final ObtenerFichaLibroResponse respuesta = new ObtenerFichaLibroResponse();
+        final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
+        final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findByLibroEntrada(libroEntity);
+        Collections.sort(entradasRelacionadas);
+        final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas);
+        // generar miniaturas de 304 x 221
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasBasicas) {
+            try {
+                entradaSimpleDTO.setImagenEntrada(
+                        this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 304, 221));
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        respuesta.setTresUltimasEntradas(entradasBasicas);
+
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+            for (final EntradaEntity entradaEntity : entradasRelacionadas) {
+                final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                datoEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
+                datoEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
+                listaDatosEntradas.add(datoEntrada);
+            }
+        }
+
+        final LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libroEntity);
+        try {
+            final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes.getImageDimensions(libroEntity.getUrlImagen());
+            libroDTO.setPortadaHeight(alturaAnchura.getAltura());
+            libroDTO.setPortadaWidth(alturaAnchura.getAnchura());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+        libroDTO.setEntradasLibro(listaDatosEntradas);
+        respuesta.setLibro(libroDTO);
+        return respuesta;
+    }
+
+    @Override
+    public List<LibroSimpleDTO> obtenerLibrosParecidos(final LibroDTO libro, final int numeroLibros) {
+        final Set<GeneroEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
+        final List<LibroEntity> listaLibrosParecidos = this.libroRepository
+                .findLibroByGeneros(new ArrayList<GeneroEntity>(generos), new PageRequest(0, numeroLibros));
+        return ConversionUtils.obtenerLibrosBasicos(listaLibrosParecidos);
     }
 }

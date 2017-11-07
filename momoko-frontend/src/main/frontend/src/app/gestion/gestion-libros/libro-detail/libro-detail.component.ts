@@ -10,6 +10,7 @@ import { Message } from 'primeng/components/common/api';
 import { GrowlModule } from 'primeng/primeng';
 import { SelectItem } from 'primeng/primeng';
 import { CompleterService, CompleterData } from 'ng2-completer';
+import { UtilService } from 'app/services/util.service';
 
 @Component({
   selector: 'app-libro-detail',
@@ -43,8 +44,10 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
   nombresAutores: string[];
 
+  customURL = false;
+
   constructor(private libroService: LibroService, private generalDataService: GeneralDataService,
-    private fileUploadService: FileUploadService) {
+    private fileUploadService: FileUploadService, private util: UtilService) {
     this.generos = [];
   }
 
@@ -145,6 +148,16 @@ export class LibroDetailComponent implements OnInit, OnChanges {
         // Log errors if any
         console.log(err);
       });
+  }
+
+  urlChange(newValue: string) {
+    this.customURL = true;
+  }
+
+  cambioTitulo(newValue: string) {
+    if (!this.customURL) {
+      this.libro.urlLibro = encodeURIComponent(this.util.convertToSlug(newValue));
+    }
   }
 
 }

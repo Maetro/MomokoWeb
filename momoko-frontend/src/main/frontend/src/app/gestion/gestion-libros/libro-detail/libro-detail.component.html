@@ -12,7 +12,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="libro.titulo" placeholder="Escribe aquí el título del libro"/>
+                <input type="text" [(ngModel)]="libro.titulo" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título del libro"/>
               </label>
             </div>
             <!--/.form-field -->
@@ -35,6 +35,22 @@
           </div>
 
           <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> URL: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <label>
+                  <input type="text" [(ngModel)]="libro.urlLibro" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url del libro" />
+                </label>
+              </div>
+              <!--/.form-field -->
+            </div>
+
+            <div class="divide10"></div>
 
           <div class="col-sm-12 lp10">
             <h4> Autor de la obra <a href="#"> <i class="ion-plus"></i> </a> </h4>

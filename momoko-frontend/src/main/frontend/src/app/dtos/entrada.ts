@@ -1,5 +1,6 @@
 import { User } from './user';
 import { Etiqueta } from './etiqueta';
+import { Libro } from 'app/dtos/libro';
 
 export class Entrada {
   entradaId: number;
@@ -12,9 +13,10 @@ export class Entrada {
   estadoEntrada: number;
   permitirComentarios: boolean;
   padreEntrada: Entrada;
-  libroEntrada: string;
+  libroEntrada: Libro;
   numeroComentarios: number;
   etiquetas: Etiqueta[];
   orden: number;
   imagenDestacada: string;
+  tituloLibroEntrada: string;
 }

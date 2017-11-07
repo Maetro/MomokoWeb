@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.response.ObtenerEntradaResponse;
 
 /**
  * The Interface EntradaService.
@@ -40,8 +41,8 @@ public interface EntradaService {
      *
      * @param urlEntrada
      *            the url entrada
-     * @return the entrada dto
+     * @return the obtener entrada response
      */
-    public EntradaDTO obtenerEntrada(String urlEntrada);
+    public ObtenerEntradaResponse obtenerEntrada(String urlEntrada);
 
 }

@@ -1,3 +1,4 @@
+import { UtilService } from 'app/services/util.service';
 import { SimpleTinyComponent } from './editores-texto/simple-tiny.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -32,7 +33,7 @@ import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-ga
   declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent,
     AnadirGaleriaComponent, AnadirGaleriaDirective, GaleriaFormImplComponent],
   providers: [
-    EntradaService, FileUploadService
+    EntradaService, FileUploadService, UtilService
   ],
   entryComponents: [ListaEntradasComponent, GaleriaFormImplComponent]
 })

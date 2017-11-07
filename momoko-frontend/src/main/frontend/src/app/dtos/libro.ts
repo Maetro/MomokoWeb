@@ -1,6 +1,7 @@
 import { Genero } from './genero';
 import { Editorial } from './editorial';
 import { Autor } from './autor';
+import { DatoEntrada } from 'app/dtos/datoEntrada';
 
 
 export class Libro {
@@ -20,4 +21,8 @@ export class Libro {
   autores: Autor[];
   autoresString: string;
   generosString: string;
+  urlLibro: string;
+  entradasLibro: DatoEntrada[];
+  portadaWidth: number;
+  portadaHeight: number;
 }

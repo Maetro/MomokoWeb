@@ -7,6 +7,7 @@
 package com.momoko.es.api.dto;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -63,6 +64,18 @@ public class LibroDTO implements Serializable {
     /** The url imagen. */
     private String urlImagen;
 
+    /** The url libro. */
+    private String urlLibro;
+
+    /** The entradas. */
+    private List<DatoEntradaDTO> entradasLibro;
+
+    /** The portada width. */
+    private Integer portadaWidth;
+
+    /** The portada height. */
+    private Integer portadaHeight;
+
     /**
      * Gets the libro id.
      *
@@ -113,8 +126,8 @@ public class LibroDTO implements Serializable {
     /**
      * Sets the saga id.
      *
-     * @param sagaId
-     *            the new saga id
+     * @param saga
+     *            the new saga
      */
     public void setSaga(final SagaDTO saga) {
         this.saga = saga;
@@ -329,6 +342,87 @@ public class LibroDTO implements Serializable {
         this.urlImagen = urlImagen;
     }
 
+    /**
+     * Gets the url libro.
+     *
+     * @return the url libro
+     */
+    public String getUrlLibro() {
+        return this.urlLibro;
+    }
+
+    /**
+     * Sets the url libro.
+     *
+     * @param urlLibro
+     *            the new url libro
+     */
+    public void setUrlLibro(final String urlLibro) {
+        this.urlLibro = urlLibro;
+    }
+
+    /**
+     * Gets the entradas libro.
+     *
+     * @return the entradas libro
+     */
+    public List<DatoEntradaDTO> getEntradasLibro() {
+        return this.entradasLibro;
+    }
+
+    /**
+     * Sets the entradas libro.
+     *
+     * @param entradasLibro
+     *            the new entradas libro
+     */
+    public void setEntradasLibro(final List<DatoEntradaDTO> entradasLibro) {
+        this.entradasLibro = entradasLibro;
+    }
+
+    /**
+     * Gets the portada height.
+     *
+     * @return the portada height
+     */
+    public Integer getPortadaHeight() {
+        return this.portadaHeight;
+    }
+
+    /**
+     * Sets the portada height.
+     *
+     * @param portadaHeight
+     *            the new portada height
+     */
+    public void setPortadaHeight(final Integer portadaHeight) {
+        this.portadaHeight = portadaHeight;
+    }
+
+    /**
+     * Gets the portada width.
+     *
+     * @return the portada width
+     */
+    public Integer getPortadaWidth() {
+        return this.portadaWidth;
+    }
+
+    /**
+     * Sets the portada width.
+     *
+     * @param portadaWidth
+     *            the new portada width
+     */
+    public void setPortadaWidth(final Integer portadaWidth) {
+        this.portadaWidth = portadaWidth;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof LibroDTO)) {
@@ -345,14 +439,24 @@ public class LibroDTO implements Serializable {
                 .append(this.urlImagen, castOther.urlImagen).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.saga)
-                .append(this.editorial).append(this.generos).append(this.titulo).append(this.tituloOriginal)
-                .append(this.anoEdicion).append(this.anoPublicacion).append(this.numeroPaginas).append(this.citaLibro)
-                .append(this.resumen).append(this.enlaceAmazon).append(this.urlImagen).toHashCode();
+        return new HashCodeBuilder().append(this.libroId).append(this.autores).append(this.saga).append(this.editorial)
+                .append(this.generos).append(this.titulo).append(this.tituloOriginal).append(this.anoEdicion)
+                .append(this.anoPublicacion).append(this.numeroPaginas).append(this.citaLibro).append(this.resumen)
+                .append(this.enlaceAmazon).append(this.urlImagen).toHashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)

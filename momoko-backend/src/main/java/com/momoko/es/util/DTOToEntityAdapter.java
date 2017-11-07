@@ -81,6 +81,7 @@ public final class DTOToEntityAdapter {
         libroEntity.setAnoPublicacion(libroDTO.getAnoPublicacion());
         libroEntity.setNumeroPaginas(libroDTO.getNumeroPaginas());
         libroEntity.setTituloOriginal(libroDTO.getTituloOriginal());
+        libroEntity.setUrlLibro(libroDTO.getUrlLibro());
         return libroEntity;
     }
 
@@ -92,7 +93,7 @@ public final class DTOToEntityAdapter {
      * @return the entrada entity
      */
     public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final LibroDTO libroEntrada,
-        final UsuarioEntity autor) {
+            final UsuarioEntity autor) {
         final EntradaEntity entradaEntity = new EntradaEntity();
         entradaEntity.setEntradaId(entradaDTO.getEntradaId());
         entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
@@ -128,8 +129,8 @@ public final class DTOToEntityAdapter {
     }
 
     /**
-     * Adaptar editorial.
-     *thr
+     * Adaptar editorial. thr
+     * 
      * @param editorial
      *            the editorial
      * @return the editorial entity
@@ -258,8 +259,8 @@ public final class DTOToEntityAdapter {
      * @return the comentario entity
      */
     public static ComentarioEntity adaptarComentario(final ComentarioDTO comentarioDTO, final EntradaEntity entrada,
-        final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
-        ComentarioEntity comentario = new ComentarioEntity();
+            final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
+        final ComentarioEntity comentario = new ComentarioEntity();
         comentario.setAutor(autor);
         comentario.setEntrada(entrada);
         comentario.setComentarioReferenciaEntity(comentarioReferenciaEntity);
@@ -281,8 +282,9 @@ public final class DTOToEntityAdapter {
      *            libro
      * @return the puntuacion entity
      */
-    public static PuntuacionEntity adaptarPuntuacion(final PuntuacionDTO puntuacionDTO,final UsuarioEntity autor, final LibroEntity libro) {
-        PuntuacionEntity puntuacionEntity = new PuntuacionEntity();
+    public static PuntuacionEntity adaptarPuntuacion(final PuntuacionDTO puntuacionDTO, final UsuarioEntity autor,
+            final LibroEntity libro) {
+        final PuntuacionEntity puntuacionEntity = new PuntuacionEntity();
         puntuacionEntity.setAutor(autor);
         puntuacionEntity.setComentario(puntuacionEntity.getComentario());
         puntuacionEntity.setLibro(libro);

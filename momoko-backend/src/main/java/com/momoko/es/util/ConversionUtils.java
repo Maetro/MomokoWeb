@@ -159,6 +159,7 @@ public class ConversionUtils {
         libroSimpleDTO.setNota(0);
         libroSimpleDTO.setPortada(libro.getUrlImagen());
         libroSimpleDTO.setTitulo(libro.getTitulo());
+        libroSimpleDTO.setUrlLibro(libro.getUrlLibro());
         return libroSimpleDTO;
     }
 

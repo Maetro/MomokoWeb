@@ -14,6 +14,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.momoko.es.backend.model.entity.EntradaEntity;
+import com.momoko.es.backend.model.entity.LibroEntity;
 
 /**
  * The Interface EntradaRepository.
@@ -41,5 +42,14 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     @Query("select e from EntradaEntity e ORDER by e.fechaAlta DESC")
     List<EntradaEntity> findUltimasEntradas(Pageable pageable);
+
+    /**
+     * Find by libro entrada.
+     *
+     * @param libro
+     *            the libro
+     * @return the list
+     */
+    List<EntradaEntity> findByLibroEntrada(LibroEntity libro);
 
 }

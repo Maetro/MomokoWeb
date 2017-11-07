@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -32,7 +33,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
-@Table(name = "libro")
+@Table(name = "libro", indexes = { @Index(name = "urlLibro", columnList = "urlLibro", unique = true) })
 public class LibroEntity extends AuditoriaBasica {
 
     /** The libro id. */
@@ -60,6 +61,8 @@ public class LibroEntity extends AuditoriaBasica {
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "genero_id", referencedColumnName = "genero_id"))
     private Set<GeneroEntity> generos;
+
+    private String urlLibro;
 
     /** The titulo. */
     private String titulo;
@@ -402,6 +405,25 @@ public class LibroEntity extends AuditoriaBasica {
      */
     public Integer getVisitas() {
         return this.visitas;
+    }
+
+    /**
+     * Gets the url libro.
+     *
+     * @return the url libro
+     */
+    public String getUrlLibro() {
+        return this.urlLibro;
+    }
+
+    /**
+     * Sets the url libro.
+     *
+     * @param urlLibro
+     *            the new url libro
+     */
+    public void setUrlLibro(final String urlLibro) {
+        this.urlLibro = urlLibro;
     }
 
     @Override
