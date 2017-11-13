@@ -1,0 +1,41 @@
+.separatop25 {
+  margin-top: 25px;
+}
+
+.bordeizquierdadashed {
+  border-left: 1px dashed #e3e3e3;
+  padding-left: 45px;
+}
+
+.separalados {
+  margin-right: 25px;
+  margin-left: 25px;
+}
+
+.required {
+  color: red;
+  font-weight: bold;
+  border: 0;
+  font-size: 17px;
+}
+
+.derecha {
+  text-align: right;
+  float: right;
+}
+
+.separatop {
+  margin-top: 16px;
+}
+
+.separatop15 {
+  margin-top: 15px;
+}
+
+.separatop35 {
+  margin-top: 35px;
+}
+
+.iconomono {
+  color: #BDBDBD;
+}
