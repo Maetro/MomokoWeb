@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -26,16 +28,18 @@ import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.repository.AutorRepository;
 import com.momoko.es.backend.model.repository.EditorialRepository;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
+import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
@@ -62,6 +66,9 @@ public class LibroServiceImpl implements LibroService {
 
     @Autowired(required = false)
     private StorageService almacenImagenes;
+
+    @Autowired(required = false)
+    private PuntuacionRepository puntuacionRepository;
 
     @Override
     public List<LibroDTO> recuperarLibros() {
@@ -90,6 +97,9 @@ public class LibroServiceImpl implements LibroService {
             final EditorialEntity editorialObra = obtenerOGuardarEditorialObra(libroEntity);
             libroEntity.setEditorial(editorialObra);
             // libroEntity.
+            if (libroEntity.getUrlImagen() != null) {
+                libroEntity.setUrlImagen(soloNombreImagenAPortadas(libroEntity.getUrlImagen()));
+            }
             final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             final String currentPrincipalName = authentication.getName();
             if (libroEntity.getLibroId() != null) {
@@ -108,6 +118,12 @@ public class LibroServiceImpl implements LibroService {
             throw new Exception("El titulo del libro ya se esta utilizando");
         }
 
+    }
+
+    private String soloNombreImagenAPortadas(final String urlImagen) {
+        final String[] lista = urlImagen.split("/");
+        final int elementos = lista.length;
+        return "portadas/" + lista[elementos - 1];
     }
 
     /**
@@ -196,7 +212,7 @@ public class LibroServiceImpl implements LibroService {
         for (final EntradaSimpleDTO entradaSimpleDTO : entradasBasicas) {
             try {
                 entradaSimpleDTO.setImagenEntrada(
-                        this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 304, 221));
+                        this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 304, 221, true));
             } catch (final IOException e) {
                 e.printStackTrace();
             }
@@ -219,8 +235,17 @@ public class LibroServiceImpl implements LibroService {
             final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes.getImageDimensions(libroEntity.getUrlImagen());
             libroDTO.setPortadaHeight(alturaAnchura.getAltura());
             libroDTO.setPortadaWidth(alturaAnchura.getAnchura());
+            final String url = this.almacenImagenes.getUrlImageServer();
+            libroDTO.setUrlImagen(url + libroEntity.getUrlImagen());
         } catch (final IOException e) {
             e.printStackTrace();
+        }
+        // Nota Momoko del libro
+        final PuntuacionEntity puntuacionEntity = this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibro(true,
+                libroEntity);
+        if (puntuacionEntity != null) {
+            libroDTO.setNotaMomoko(puntuacionEntity.getValor());
+            libroDTO.setComentarioNotaMomoko(puntuacionEntity.getComentario());
         }
         libroDTO.setEntradasLibro(listaDatosEntradas);
         respuesta.setLibro(libroDTO);
@@ -232,6 +257,21 @@ public class LibroServiceImpl implements LibroService {
         final Set<GeneroEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
         final List<LibroEntity> listaLibrosParecidos = this.libroRepository
                 .findLibroByGeneros(new ArrayList<GeneroEntity>(generos), new PageRequest(0, numeroLibros));
-        return ConversionUtils.obtenerLibrosBasicos(listaLibrosParecidos);
+        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+        for (final LibroEntity libroEntity : listaLibrosParecidos) {
+            listaLibrosIds.add(libroEntity.getLibroId());
+            final String url = this.almacenImagenes.getUrlImageServer();
+            libroEntity.setUrlImagen(url + libroEntity.getUrlImagen());
+        }
+        final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
+                .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        if (CollectionUtils.isNotEmpty(listaLibrosParecidos)) {
+            for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
+                mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);
+            }
+
+        }
+        return ConversionUtils.obtenerLibrosBasicos(listaLibrosParecidos, mapaPuntacionMomokoPorLibro);
     }
 }

@@ -71,6 +71,7 @@ logging:
     org:
       springframework:
         security: ERROR
+    root: ERROR
     
 #momoko properties
 momokoConfiguracion:

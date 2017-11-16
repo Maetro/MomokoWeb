@@ -14,6 +14,8 @@ spring:
       max-request-size: 10MB
       
 security:
+  basic:
+    enabled: false
   oauth2:
     client:
       clientId: 1932678757049258
@@ -79,8 +81,8 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
-    
+        security: INFO
+
 #momoko properties
 momokoConfiguracion:
   directorios:

@@ -7,6 +7,7 @@
 package com.momoko.es.api.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 /**
  * The Class LibroSimpleDTO.
@@ -23,7 +24,7 @@ public class LibroSimpleDTO implements Serializable {
     private String nombreAutor;
 
     /** The nota. */
-    private Integer nota;
+    private BigDecimal nota;
 
     /** The portada. */
     private String portada;
@@ -74,7 +75,7 @@ public class LibroSimpleDTO implements Serializable {
      *
      * @return the nota
      */
-    public Integer getNota() {
+    public BigDecimal getNota() {
         return this.nota;
     }
 
@@ -84,7 +85,7 @@ public class LibroSimpleDTO implements Serializable {
      * @param nota
      *            the new nota
      */
-    public void setNota(final Integer nota) {
+    public void setNota(final BigDecimal nota) {
         this.nota = nota;
     }
 

@@ -9,6 +9,8 @@ package com.momoko.es.util;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EditorialDTO;
@@ -19,7 +21,9 @@ import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.ComentarioEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
@@ -106,7 +110,20 @@ public final class EntityToDTOAdapter {
                 entradaEntity.getPadreEntrada() != null ? adaptarEntrada(entradaEntity.getPadreEntrada()) : null);
         entradaDTO.setPermitirComentarios(entradaEntity.getPermitirComentarios());
         entradaDTO.setResumenEntrada(entradaEntity.getResumenEntrada());
+        if (StringUtils.isNotBlank(entradaEntity.getFraseDescriptiva())) {
+            entradaDTO.setFraseDescriptiva(entradaEntity.getFraseDescriptiva());
+        } else if (StringUtils.isNotBlank(entradaEntity.getResumenEntrada())) {
+            entradaDTO
+                    .setFraseDescriptiva(ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getResumenEntrada(), 200));
+        } else {
+            entradaDTO
+                    .setResumenEntrada(ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getContenidoEntrada(), 500));
+            entradaDTO.setFraseDescriptiva(
+                    ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getContenidoEntrada(), 200));
+        }
+
         entradaDTO.setTipoEntrada(entradaEntity.getTipoEntrada());
+        entradaDTO.setTipoEntradaString(TipoEntrada.obtenerTipoEntrada(entradaEntity.getTipoEntrada()).getNombre());
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
         entradaDTO.setEtiquetas(adaptarEtiquetas(entradaEntity.getEtiquetas()));
@@ -254,9 +271,10 @@ public final class EntityToDTOAdapter {
      *            comentario entity
      * @return the comentario DTO
      */
-    public static ComentarioDTO adaptarComentario(final ComentarioEntity comentarioEntity) {
+    public static ComentarioDTO adaptarComentario(final ComentarioEntity comentarioEntity,
+            final UsuarioBasicoDTO usarioBasico) {
         final ComentarioDTO comentarioDTO = new ComentarioDTO();
-        comentarioDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(comentarioEntity.getAutor()));
+        comentarioDTO.setAutor(usarioBasico);
         comentarioDTO.setVotosPositivos(ConversionUtils.divide(comentarioEntity.getVotosPositivos()).size());
         comentarioDTO.setVotosNegativos(ConversionUtils.divide(comentarioEntity.getVotosNegativos()).size());
         comentarioDTO.setTextoComentario(comentarioEntity.getTextoComentario());
@@ -264,7 +282,10 @@ public final class EntityToDTOAdapter {
         comentarioDTO.setEsSpoiler(comentarioEntity.isEsSpoiler());
         comentarioDTO.setComentarioId(comentarioEntity.getComentarioId());
         comentarioDTO.setEntradaId(comentarioEntity.getEntrada().getEntradaId());
-        comentarioDTO.setComentarioReferencia(comentarioEntity.getComentarioReferenciaEntity().getComentarioId());
+        comentarioDTO.setFecha(comentarioEntity.getFechaAlta());
+        if (comentarioEntity.getComentarioReferenciaEntity() != null) {
+            comentarioDTO.setComentarioReferencia(comentarioEntity.getComentarioReferenciaEntity().getComentarioId());
+        }
         return comentarioDTO;
     }
 

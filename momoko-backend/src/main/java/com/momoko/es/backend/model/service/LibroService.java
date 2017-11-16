@@ -10,7 +10,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 
 /**
  * The Interface LibroService.

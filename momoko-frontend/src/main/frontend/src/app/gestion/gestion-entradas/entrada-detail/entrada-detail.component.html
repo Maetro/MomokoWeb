@@ -29,7 +29,8 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="entrada.urlEntrada" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url de la entrada" />
+                <input type="text" [(ngModel)]="entrada.urlEntrada" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url de la entrada"
+                />
               </label>
             </div>
             <!--/.form-field -->
@@ -60,26 +61,36 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-              <label>
                 <p-dropdown [options]="tiposEntrada" [(ngModel)]="entrada.tipoEntrada" [style]="{'width':'400px'}"></p-dropdown>
-              </label>
             </div>
             <!--/.form-field -->
           </div>
 
+          <div class="bloqueTipoVideo" *ngIf="esTipoVideo()">
+            <div class="marginTop10 col-sm-12 rp10">
+              <div class="form-field">
+                <h4> URL Vídeo: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <label>
+                  <input type="text" [(ngModel)]="entrada.urlVideo" placeholder="https://youtu.be/D8JE8FANjkE" />
+                </label>
+              </div>
+              <!--/.form-field -->
+            </div>
 
-          <div class="divide10"></div>
+          </div>
 
-          <div class="col-sm-12 rp10">
+          <div class="marginTop10 col-sm-12 rp10">
             <div class="form-field">
               <h4> Libro asociado: </h4>
             </div>
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-              <label>
                 <p-dropdown [options]="titulosLibros" [(ngModel)]="entrada.tituloLibroEntrada" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
-              </label>
             </div>
             <!--/.form-field -->
           </div>
@@ -110,21 +121,34 @@
             <h4> Resumen </h4>
             <app-resumen-editor [elementId]="'editor-resumen'" initialContent="{{entrada.resumenEntrada}}" (onEditorKeyup)="actualizarResumen($event)"></app-resumen-editor>
           </div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> frase descriptiva: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="entrada.fraseDescriptiva" placeholder="Escribe aquí una frase que resuma el contenido" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
           <div class="divide10"></div>
 
-            <div class="col-sm-12 rp10">
-              <div class="form-field">
-                <h4> Estado Entrada: </h4>
-              </div>
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Estado Entrada: </h4>
             </div>
-            <div class="col-sm-12 lp10">
-              <div class="form-field">
-                <label>
-                  <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
-                </label>
-              </div>
-              <!--/.form-field -->
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+                <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
             </div>
+            <!--/.form-field -->
+          </div>
 
           <div class="marginTop10">
             <div class="col-md-12">
@@ -145,15 +169,16 @@
     <aside class="col-sm-3 sidebar">
       <div class="sidebox widget">
 
-        <img src="{{entrada.imagenDestacada}}" alt="Imagen destacada - {{entrada.tituloEntrada}}"/>
+        <img src="{{entrada.imagenDestacada}}" alt="Imagen destacada - {{entrada.tituloEntrada}}" />
 
         <div class="divide10"></div>
         <h2 class="section-title widget-title margen_superior">Imagen destacada </h2>
 
-        <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
+        <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen"
+          auto="auto" maxFileSize="1000000">
 
           <ng-template pTemplate="content">
-              <div>Arrastra aquí la imagen que quieras subir.</div>
+            <div>Arrastra aquí la imagen que quieras subir.</div>
           </ng-template>
         </p-fileUpload>
 

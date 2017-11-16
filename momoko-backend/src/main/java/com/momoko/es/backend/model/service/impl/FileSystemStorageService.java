@@ -67,9 +67,9 @@ public class FileSystemStorageService implements StorageService {
                         "Cannot store file with relative path outside current directory " + filename);
             }
             final Path location = getFileLocation(tipoAlmacenamiento).resolve(filename);
-            Files.copy(file.getInputStream(), location, StandardCopyOption.REPLACE_EXISTING);
-
-            crearMiniatura(file.getInputStream(), tipoAlmacenamiento, filename);
+            if (!Files.exists(location)) {
+                Files.copy(file.getInputStream(), location, StandardCopyOption.REPLACE_EXISTING);
+            }
 
         } catch (final IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
@@ -89,11 +89,12 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public String obtenerMiniatura(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer width,
-            final Integer height) throws IOException {
+            final Integer height, final boolean recortar) throws IOException {
 
         final String[] trozos = fileNameOriginal.split("\\.")[0].split("/");
         String fileName = trozos[trozos.length - 1];
-        final String fileNameNuevo = fileName + "_thumbnail_" + width + "px_" + height + "px" + ".png";
+        final String fileNameNuevo = fileName + "_thumbnail_" + (recortar ? "1_" : "") + width + "px_" + height + "px"
+                + ".png";
         fileName += "." + fileNameOriginal.split("\\.")[1];
         final Path locationMiniatura = getFileLocation(tipoAlmacenamiento).resolve(fileNameNuevo);
         final Path locationOriginal = getFileLocation(tipoAlmacenamiento).resolve(fileName);
@@ -108,7 +109,7 @@ public class FileSystemStorageService implements StorageService {
             BufferedImage scaledImg = Scalr.resize(imageToScale, Method.ULTRA_QUALITY, resizeMode, width, height,
                     Scalr.OP_ANTIALIAS);
 
-            if (((scaledImg.getWidth() - width) >= 0) && ((scaledImg.getHeight() - height) >= 0)) {
+            if (recortar && ((scaledImg.getWidth() - width) >= 0) && ((scaledImg.getHeight() - height) >= 0)) {
                 scaledImg = Scalr.crop(scaledImg, (scaledImg.getWidth() - width) / 2,
                         (scaledImg.getHeight() - height) / 2, width, height);
             }
@@ -184,11 +185,11 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public String obtenerMiniatura(final String urlImagen, final Integer width, final Integer height)
-            throws IOException {
+    public String obtenerMiniatura(final String urlImagen, final Integer width, final Integer height,
+            final boolean recortar) throws IOException {
         final String[] lista = urlImagen.split("/");
         final int elementos = lista.length;
-        return obtenerMiniatura(lista[elementos - 2], lista[elementos - 1], width, height);
+        return obtenerMiniatura(lista[elementos - 2], lista[elementos - 1], width, height, recortar);
     }
 
     @Override
@@ -196,6 +197,11 @@ public class FileSystemStorageService implements StorageService {
         final String[] lista = urlImagen.split("/");
         final int elementos = lista.length;
         return getImageDimensions(lista[elementos - 1], lista[elementos - 2]);
+    }
+
+    @Override
+    public String getUrlImageServer() {
+        return this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlImages();
     }
 
 }

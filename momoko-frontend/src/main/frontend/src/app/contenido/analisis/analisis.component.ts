@@ -1,3 +1,4 @@
+import { Comentario } from 'app/dtos/comentario';
 import { Router } from '@angular/router';
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
@@ -21,13 +22,13 @@ export class AnalisisComponent implements OnInit, OnDestroy {
 
     entrada: Entrada;
 
-    nota = 9;
-
     autores: string
 
     @Input() titulo: string;
 
     librosParecidos: LibroSimple[];
+
+    comentarios: Comentario[];
 
     constructor(private entradaService: EntradaService, private route: ActivatedRoute, private router: Router) { }
 
@@ -40,6 +41,7 @@ export class AnalisisComponent implements OnInit, OnDestroy {
         this.route.data.subscribe((data: { fichaEntrada: FichaEntrada }) => {
           this.entrada = data.fichaEntrada.entrada;
           this.librosParecidos = data.fichaEntrada.cincoLibrosParecidos;
+          this.comentarios = data.fichaEntrada.comentarios;
           this.entrada.libroEntrada.autores.forEach(autor => {
             this.autores += autor.nombre + ', ';
           });

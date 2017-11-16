@@ -7,4 +7,6 @@ export class EntradaSimple {
   fechaAlta: Date;
   categoria: string;
   resumen: string;
+  fraseDescriptiva: string;
+  tipoEntradaString: string;
 }

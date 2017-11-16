@@ -20,6 +20,7 @@ import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.service.PuntuacionService;
+import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
@@ -41,23 +42,35 @@ public class PuntuacionServiceImpl implements PuntuacionService {
     private PuntuacionRepository puntuacionRepository;
 
     @Override
-    public PuntuacionDTO guardarPuntuacion(PuntuacionDTO puntuacionDTO) throws Exception {
+    public PuntuacionDTO guardarPuntuacion(final PuntuacionDTO puntuacionDTO) throws Exception {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
 
-        LibroEntity libro = this.libroRepository.findOne(puntuacionDTO.getLibroId());
-        UsuarioEntity autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+        final LibroEntity libro = this.libroRepository.findOne(puntuacionDTO.getLibroId());
+        final UsuarioEntity autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+        puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(autor));
+        final PuntuacionEntity viejaPuntuacion = this.puntuacionRepository.findOnePuntuacionEntityByLibroAndAutor(libro,
+                autor);
+        PuntuacionEntity respuesta = null;
+        if (viejaPuntuacion == null) {
+            // Nueva puntuacion
+            final PuntuacionEntity puntuacionEntity = DTOToEntityAdapter.adaptarPuntuacion(puntuacionDTO, autor, libro);
 
-        PuntuacionEntity puntuacionEntity = DTOToEntityAdapter.adaptarPuntuacion(puntuacionDTO, autor, libro);
+            if (puntuacionEntity.getPuntuacionId() != null) {
+                throw new URLEntradaYaExisteException("La puntuacion ya esta creada");
+            }
 
-        if (puntuacionEntity.getPuntuacionId() != null) {
-            throw new URLEntradaYaExisteException("La puntuacion ya esta creada");
+            puntuacionEntity.setFechaAlta(Calendar.getInstance().getTime());
+            puntuacionEntity.setUsuarioAlta(currentPrincipalName);
+            respuesta = this.puntuacionRepository.save(puntuacionEntity);
+        } else {
+            // Actualizar puntuacion
+            viejaPuntuacion.setUsuarioModificacion(currentPrincipalName);
+            viejaPuntuacion.setFechaModificacion(Calendar.getInstance().getTime());
+            viejaPuntuacion.setComentario(puntuacionDTO.getComentario());
+            viejaPuntuacion.setValor(puntuacionDTO.getValor());
+            respuesta = this.puntuacionRepository.save(viejaPuntuacion);
         }
-
-        puntuacionEntity.setFechaAlta(Calendar.getInstance().getTime());
-        puntuacionEntity.setUsuarioAlta(currentPrincipalName);
-
-        PuntuacionEntity respuesta = this.puntuacionRepository.save(puntuacionEntity);
 
         return EntityToDTOAdapter.adaptarPuntuacion(respuesta);
     }

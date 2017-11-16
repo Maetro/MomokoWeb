@@ -66,10 +66,13 @@ public interface StorageService {
      *            the width
      * @param height
      *            the height
+     * @param recortar
+     *            the recortar
      * @return the string
      * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
-    String obtenerMiniatura(String urlImagen, Integer width, Integer height) throws IOException;
+    String obtenerMiniatura(String urlImagen, Integer width, Integer height, boolean recortar) throws IOException;
 
     /**
      * Obtener miniatura.
@@ -82,11 +85,12 @@ public interface StorageService {
      *            the width
      * @param height
      *            the height
+     * @param recortar
      * @return the string
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    String obtenerMiniatura(String tipoAlmacenamiento, String filename, Integer width, Integer height)
+    String obtenerMiniatura(String tipoAlmacenamiento, String filename, Integer width, Integer height, boolean recortar)
             throws IOException;
 
     /**
@@ -114,5 +118,12 @@ public interface StorageService {
      *             Signals that an I/O exception has occurred.
      */
     AnchuraAlturaDTO getImageDimensions(String urlImagen) throws IOException;
+
+    /**
+     * Gets the url image server.
+     *
+     * @return the url image server
+     */
+    String getUrlImageServer();
 
 }

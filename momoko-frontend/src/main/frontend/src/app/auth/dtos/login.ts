@@ -9,6 +9,7 @@ export class NewUser {
   public role = 0;
   public usuarioEmail = '';
   public usuarioContrasena = '';
+  public usuarioRepiteContrasena = '';
   public usuarioLogin = '';
   constructor() {}
 }

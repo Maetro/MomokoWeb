@@ -45,6 +45,8 @@ export class EntradaDetailComponent implements OnInit {
     this.tiposEntrada = [];
     this.tiposEntrada.push({ label: 'Noticia', value: 1 });
     this.tiposEntrada.push({ label: 'Análisis', value: 2 });
+    this.tiposEntrada.push({ label: 'Misceláneos', value: 3 });
+    this.tiposEntrada.push({ label: 'Vídeo', value: 4 })
     this.estadosEntrada = [];
     this.estadosEntrada.push({ label: 'Borrador', value: 1 });
     this.estadosEntrada.push({ label: 'Publicada', value: 2 });
@@ -133,6 +135,10 @@ export class EntradaDetailComponent implements OnInit {
     const galerias = new GaleriaItem(GaleriaFormImplComponent, {headline: 'Openings in all departments',
       body: 'Apply today'});
     this.anadirGaleriaComponent.loadComponent(galerias);
+  }
+
+  esTipoVideo(): boolean {
+    return this.entrada.tipoEntrada === 4;
   }
 
 }

@@ -2,7 +2,7 @@
  * PublicarComentarioResponse.java 02-nov-2017
  *
  */
-package com.momoko.es.api.response;
+package com.momoko.es.api.dto.response;
 
 import java.io.Serializable;
 import java.util.List;

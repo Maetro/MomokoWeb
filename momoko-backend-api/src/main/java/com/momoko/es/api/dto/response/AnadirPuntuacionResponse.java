@@ -4,7 +4,7 @@
  * Copyright 2017 INDITEX.
  * Departamento de Sistemas
  */
-package com.momoko.es.api.response;
+package com.momoko.es.api.dto.response;
 
 import java.util.List;
 

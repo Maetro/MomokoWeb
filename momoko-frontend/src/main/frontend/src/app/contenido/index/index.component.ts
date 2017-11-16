@@ -9,6 +9,8 @@ import { AnadirEntradaComponent } from 'app/contenido/index/entrada-portada/anad
 import { AnadirEntrada2Component} from 'app/contenido/index/entrada-portada/anadir-entrada2.component';
 import { LibroSimple } from 'app/dtos/libroSimple';
 import { LibrosHorizontalComponent } from 'app/contenido/index/libros-horizontal/libros-horizontal.component';
+import { YoutubeService } from 'app/services/youtube.service';
+import { VideoYoutube } from 'app/services/youtube-api/youtube';
 
 
 @Component({
@@ -23,8 +25,9 @@ export class IndexComponent implements OnInit {
   entradasPortada: EntradaItem[];
   librosMasLeidosMes: LibroSimple[];
   librosUltimosAnalisis: LibroSimple[];
+  ultimos3Videos: VideoYoutube[];
 
-  portada = "http://elmiedodelosesclavos.com/wp-content/uploads/2017/01/El-miedo-de-los-esclavos-2-345x520.jpg";
+  portada = 'http://elmiedodelosesclavos.com/wp-content/uploads/2017/01/El-miedo-de-los-esclavos-2-345x520.jpg';
 
   tituloUltimosAnalisis = 'Últimos análisis';
 
@@ -33,7 +36,7 @@ export class IndexComponent implements OnInit {
   @ViewChild(Fila3entradasfondonegroComponent) fila3entradasfondonegroComponent: Fila3entradasfondonegroComponent;
   @ViewChild(LibrosHorizontalComponent) librosHorizontalComponent: LibrosHorizontalComponent;
 
-  constructor(private indexDataService: IndexDataService) { }
+  constructor(private indexDataService: IndexDataService, private youtubeService: YoutubeService) { }
 
   ngOnInit() {
     this.indexDataService.getIndexData().subscribe(datos => {
@@ -46,6 +49,10 @@ export class IndexComponent implements OnInit {
       error => {
         console.log('Error al recuperar los datos generales ', error);
       });
+
+       this.youtubeService.getMomokoFeed(3).subscribe(datos => {
+         this.ultimos3Videos = datos.items;
+       })
 
   }
 

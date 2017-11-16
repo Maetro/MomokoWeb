@@ -115,6 +115,7 @@ public final class DTOToEntityAdapter {
         entradaEntity.setUrlEntrada(entradaDTO.getUrlEntrada());
         entradaEntity.setImagenDestacada(entradaDTO.getImagenDestacada());
         entradaEntity.setEtiquetas(adaptarEtiquetas(entradaDTO.getEtiquetas()));
+        entradaEntity.setFraseDescriptiva(entradaDTO.getFraseDescriptiva());
         return entradaEntity;
     }
 
@@ -130,7 +131,7 @@ public final class DTOToEntityAdapter {
 
     /**
      * Adaptar editorial. thr
-     * 
+     *
      * @param editorial
      *            the editorial
      * @return the editorial entity
@@ -261,7 +262,9 @@ public final class DTOToEntityAdapter {
     public static ComentarioEntity adaptarComentario(final ComentarioDTO comentarioDTO, final EntradaEntity entrada,
             final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
         final ComentarioEntity comentario = new ComentarioEntity();
-        comentario.setAutor(autor);
+        comentario.setEmailComentario(autor.getUsuarioEmail());
+        comentario.setNombreComentario(autor.getUsuarioLogin());
+        comentario.setPaginaWebComentario(autor.getPaginaWeb());
         comentario.setEntrada(entrada);
         comentario.setComentarioReferenciaEntity(comentarioReferenciaEntity);
         comentario.setTextoComentario(comentarioDTO.getTextoComentario());
@@ -286,10 +289,10 @@ public final class DTOToEntityAdapter {
             final LibroEntity libro) {
         final PuntuacionEntity puntuacionEntity = new PuntuacionEntity();
         puntuacionEntity.setAutor(autor);
-        puntuacionEntity.setComentario(puntuacionEntity.getComentario());
+        puntuacionEntity.setComentario(puntuacionDTO.getComentario());
         puntuacionEntity.setLibro(libro);
-        puntuacionEntity.setValor(puntuacionEntity.getValor());
-        puntuacionEntity.setEsPuntuacionMomoko(puntuacionEntity.isEsPuntuacionMomoko());
+        puntuacionEntity.setValor(puntuacionDTO.getValor());
+        puntuacionEntity.setEsPuntuacionMomoko(puntuacionDTO.isEsPuntuacionMomoko());
         return puntuacionEntity;
     }
 }

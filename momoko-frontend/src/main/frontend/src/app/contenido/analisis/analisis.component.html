@@ -9,9 +9,19 @@
       <div class="col-md-4">
         <div class="dark-wrapper bloqueInfoLibro">
           <div class="bloqueNota">
-            <app-nota-circular [nota]="nota"></app-nota-circular>
+            <app-nota-circular [nota]="entrada.libroEntrada.notaMomoko"></app-nota-circular>
           </div>
           <div class="bloqueDatos">
+            <div class="datos autor">
+              <b>Título:
+                <span class="info">{{entrada.libroEntrada.titulo}}</span>
+              </b>
+            </div>
+            <div class="datos autor">
+              <b>Título original:
+                <span class="info">{{entrada.libroEntrada.tituloOriginal}}</span>
+              </b>
+            </div>
             <div class="datos autor">
               <b>Autor:
                 <span class="info">{{autores}}</span>
@@ -27,6 +37,11 @@
                 <span class="info">{{entrada.libroEntrada.anoPublicacion}}</span>
               </b>
             </div>
+            <div class="datos autor">
+              <b>Año de edición:
+                <span class="info">{{entrada.libroEntrada.anoEdicion}}</span>
+              </b>
+            </div>
           </div>
           <div class="bloqueBotones">
             <a class="amazon" href="{{entrada.libroEntrada.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
@@ -37,12 +52,36 @@
       </div>
       <div class="blog row">
         <div class="col-md-8">
-          <div class="tituloEntrada">
-            {{entrada.tituloEntrada}}
-          </div>
-          <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada">
+          <div class="contenidoEntrada">
+            <div class="tituloEntrada">
+              <h1>{{entrada.tituloEntrada}}</h1>
+            </div>
+            <div class="infoEntrada">
+              Análisis de
+              <span class="autorEntrada">
+                <a routerLink="/editor/{{entrada.autor.nombre}}">{{entrada.autor.nombre}}</a>
+              </span>
+              <span class="generosText">Género
+                <span *ngFor="let genero of entrada.libroEntrada.generos, let last = last;">
+                  <a routerLink="/genero/{{genero.nombre}}">{{genero.nombre}}</a>
+                  <span [hidden]="last">, </span>
+                </span>
+              </span>
+            </div>
+            <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada">
+            </div>
+            <div class="infoEntrada">
 
+              <span class="lineaHorizontalCorta"></span>
+              <span class="etiquetasText">Etiquetas
+                <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+                  <a routerLink="/etiqueta/{{etiqueta.nombreEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                  <span [hidden]="last">, </span>
+                </span>
+              </span>
+            </div>
           </div>
+          <app-crear-comentario [comentarios]="comentarios" [entrada]="entrada"></app-crear-comentario>
         </div>
         <aside class="col-sm-4 sidebar">
           <div class="sidebox widget">
@@ -53,13 +92,22 @@
             <!-- /.post-list -->
           </div>
           <div class="sidebox widget">
-              <h3 class="widget-title section-title">Nuestro Instagram </h3>
-              <div class="tiles instagram">
-                <div id="instafeed-widget" class="items row row-offset-0">
-                </div>
+            <h3 class="widget-title section-title">Nuestro Instagram </h3>
+            <div class="tiles instagram">
+              <div id="instafeed-widget" class="items row row-offset-0">
               </div>
             </div>
+          </div>
         </aside>
+
+        <h3 class="widget-title">¿Quieres colaborar con nosotros?</h3>
+        <div class="textwidget">
+          <img src="http://momoko.es/wp-content/uploads/2017/01/blog-de-libros-1.jpg"/> ¿Eres una editorial y quieres que tu libro sea reseñado? ¿Eres redactor de contenidos y te apetece escribir en
+          Momoko? ¡Ponte en contacto!
+
+          <a href="mailto:info@momoko.es"> info@momoko.es </a>
+        </div>
+
       </div>
     </div>
   </div>

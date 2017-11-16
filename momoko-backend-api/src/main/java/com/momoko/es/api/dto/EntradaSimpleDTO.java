@@ -22,6 +22,8 @@ public class EntradaSimpleDTO implements Serializable {
     private Integer numeroComentarios;
     private Date fechaAlta;
     private String resumen;
+    private String fraseDescriptiva;
+    private String tipoEntrada;
     private String categoria;
 
     /**
@@ -174,6 +176,44 @@ public class EntradaSimpleDTO implements Serializable {
      */
     public void setResumen(final String resumen) {
         this.resumen = resumen;
+    }
+
+    /**
+     * Gets the frase descriptiva.
+     *
+     * @return the frase descriptiva
+     */
+    public String getFraseDescriptiva() {
+        return this.fraseDescriptiva;
+    }
+
+    /**
+     * Sets the frase descriptiva.
+     *
+     * @param fraseDescriptiva
+     *            the new frase descriptiva
+     */
+    public void setFraseDescriptiva(final String fraseDescriptiva) {
+        this.fraseDescriptiva = fraseDescriptiva;
+    }
+
+    /**
+     * Gets the tipo entrada.
+     *
+     * @return the tipo entrada
+     */
+    public String getTipoEntrada() {
+        return this.tipoEntrada;
+    }
+
+    /**
+     * Sets the tipo entrada.
+     *
+     * @param tipoEntrada
+     *            the new tipo entrada
+     */
+    public void setTipoEntrada(final String tipoEntrada) {
+        this.tipoEntrada = tipoEntrada;
     }
 
 }

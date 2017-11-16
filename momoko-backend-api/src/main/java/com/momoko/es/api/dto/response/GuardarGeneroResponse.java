@@ -1,10 +1,10 @@
 /**
- * RegistrarUsuarioRespoonse.java 19-ago-2017
+ * GuardarGeneroResponse.java 26-sep-2017
  *
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.response;
+package com.momoko.es.api.dto.response;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,33 +13,30 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.api.dto.UsuarioDTO;
-import com.momoko.es.api.enums.ErrorCreacionUsuario;
+import com.momoko.es.api.dto.GeneroDTO;
+import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 
-/**
- * The Class RegistrarUsuarioRespoonse.
- */
-public class RegistrarUsuarioResponse implements Serializable {
+public class GuardarGeneroResponse implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6138141949532723854L;
 
     /** The lista errores validacion. */
-    List<ErrorCreacionUsuario> listaErroresValidacion;
+    List<ErrorCreacionGenero> listaErroresValidacion;
 
     /** The estado guardado. */
     EstadoGuardadoEnum estadoGuardado;
 
     /** The libro dto. */
-    UsuarioDTO usuarioDTO;
+    GeneroDTO generoDTO;
 
     /**
      * Gets the lista errores validacion.
      *
      * @return the lista errores validacion
      */
-    public List<ErrorCreacionUsuario> getListaErroresValidacion() {
+    public List<ErrorCreacionGenero> getListaErroresValidacion() {
         return this.listaErroresValidacion;
     }
 
@@ -49,7 +46,7 @@ public class RegistrarUsuarioResponse implements Serializable {
      * @param listaErroresValidacion
      *            the new lista errores validacion
      */
-    public void setListaErroresValidacion(final List<ErrorCreacionUsuario> listaErroresValidacion) {
+    public void setListaErroresValidacion(final List<ErrorCreacionGenero> listaErroresValidacion) {
         this.listaErroresValidacion = listaErroresValidacion;
     }
 
@@ -73,59 +70,44 @@ public class RegistrarUsuarioResponse implements Serializable {
     }
 
     /**
-     * Gets the usuario dto.
+     * Gets the genero dto.
      *
-     * @return the usuario dto
+     * @return the genero dto
      */
-    public UsuarioDTO getUsuarioDTO() {
-        return this.usuarioDTO;
+    public GeneroDTO getGeneroDTO() {
+        return this.generoDTO;
     }
 
     /**
-     * Sets the usuario dto.
+     * Sets the genero dto.
      *
-     * @param usuarioDTO
-     *            the new usuario dto
+     * @param generoDTO
+     *            the new genero dto
      */
-    public void setUsuarioDTO(final UsuarioDTO usuarioDTO) {
-        this.usuarioDTO = usuarioDTO;
+    public void setGeneroDTO(final GeneroDTO generoDTO) {
+        this.generoDTO = generoDTO;
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GuardarLibroResponse)) {
+        if (!(other instanceof GuardarGeneroResponse)) {
             return false;
         }
-        final RegistrarUsuarioResponse castOther = (RegistrarUsuarioResponse) other;
+        final GuardarGeneroResponse castOther = (GuardarGeneroResponse) other;
         return new EqualsBuilder().append(this.listaErroresValidacion, castOther.listaErroresValidacion)
-                .append(this.estadoGuardado, castOther.estadoGuardado).append(this.usuarioDTO, castOther.usuarioDTO)
+                .append(this.estadoGuardado, castOther.estadoGuardado).append(this.generoDTO, castOther.generoDTO)
                 .isEquals();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.listaErroresValidacion).append(this.estadoGuardado)
-                .append(this.usuarioDTO).toHashCode();
+                .append(this.generoDTO).toHashCode();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("listaErroresValidacion", this.listaErroresValidacion)
-                .append("estadoGuardado", this.estadoGuardado).append("usuarioDTO", this.usuarioDTO).toString();
+                .append("estadoGuardado", this.estadoGuardado).append("generoDTO", this.generoDTO).toString();
     }
 }

@@ -6,19 +6,31 @@
  */
 package com.momoko.es.util;
 
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
+import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 
 /**
@@ -119,6 +131,17 @@ public class ConversionUtils {
         entradaSimpleDTO.setFechaAlta(entrada.getFechaAlta());
         entradaSimpleDTO.setCategoria(obtenerCategoriaDeEntrada(entrada));
         entradaSimpleDTO.setResumen(entrada.getResumenEntrada());
+        entradaSimpleDTO.setTipoEntrada(TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre());
+        if (StringUtils.isNotBlank(entrada.getFraseDescriptiva())) {
+            entradaSimpleDTO.setFraseDescriptiva(entrada.getFraseDescriptiva());
+        } else if (StringUtils.isNotBlank(entrada.getResumenEntrada())) {
+            entradaSimpleDTO
+                    .setFraseDescriptiva(ConversionUtils.limpiarHTMLyRecortar(entrada.getResumenEntrada(), 200));
+        } else {
+            entradaSimpleDTO.setResumen(ConversionUtils.limpiarHTMLyRecortar(entrada.getContenidoEntrada(), 500));
+            entradaSimpleDTO
+                    .setFraseDescriptiva(ConversionUtils.limpiarHTMLyRecortar(entrada.getContenidoEntrada(), 200));
+        }
         return entradaSimpleDTO;
     }
 
@@ -132,13 +155,15 @@ public class ConversionUtils {
      *
      * @param listaLibros
      *            the lista libros
+     * @param mapaPuntacionMomokoPorLibro
      * @return the list
      */
-    public static List<LibroSimpleDTO> obtenerLibrosBasicos(final List<LibroEntity> listaLibros) {
+    public static List<LibroSimpleDTO> obtenerLibrosBasicos(final List<LibroEntity> listaLibros,
+            final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro) {
         final List<LibroSimpleDTO> liborsSimples = new ArrayList<LibroSimpleDTO>();
         if (CollectionUtils.isNotEmpty(listaLibros)) {
             for (final LibroEntity libro : listaLibros) {
-                final LibroSimpleDTO libroSimple = obtenerLibroSimpleDTO(libro);
+                final LibroSimpleDTO libroSimple = obtenerLibroSimpleDTO(libro, mapaPuntacionMomokoPorLibro.get(libro));
                 liborsSimples.add(libroSimple);
             }
         }
@@ -152,15 +177,97 @@ public class ConversionUtils {
      *            the libro
      * @return the libro simple dto
      */
-    private static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro) {
+    private static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro,
+            final PuntuacionEntity puntuacionEntity) {
         final LibroSimpleDTO libroSimpleDTO = new LibroSimpleDTO();
         libroSimpleDTO.setNombreAutor(libro.getAutores().iterator().next().getNombre());
-        // TODO: RAMON implementar
-        libroSimpleDTO.setNota(0);
+        if (puntuacionEntity != null) {
+            libroSimpleDTO.setNota(puntuacionEntity.getValor());
+        }
         libroSimpleDTO.setPortada(libro.getUrlImagen());
         libroSimpleDTO.setTitulo(libro.getTitulo());
         libroSimpleDTO.setUrlLibro(libro.getUrlLibro());
         return libroSimpleDTO;
+    }
+
+    /**
+     * Limpiar htm ly recortar.
+     *
+     * @param resumenEntrada
+     *            the resumen entrada
+     * @param size
+     *            the size
+     * @return the string
+     */
+    public static String limpiarHTMLyRecortar(final String resumenEntrada, final int size) {
+        String textoSinHtml = Jsoup.parse(resumenEntrada).text();
+        if (textoSinHtml.length() > size) {
+            textoSinHtml = textoSinHtml.substring(0, size);
+            final int ultimoEspacio = textoSinHtml.lastIndexOf(' ');
+            textoSinHtml = textoSinHtml.substring(0, ultimoEspacio) + " ...";
+        }
+        return textoSinHtml;
+    }
+
+    public static String hex(final byte[] array) {
+        final StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < array.length; ++i) {
+            sb.append(Integer.toHexString((array[i] & 0xFF) | 0x100).substring(1, 3));
+        }
+        return sb.toString();
+    }
+
+    public static String md5Hex(final String message) {
+        try {
+            final MessageDigest md = MessageDigest.getInstance("MD5");
+            return hex(md.digest(message.getBytes("CP1252")));
+        } catch (final NoSuchAlgorithmException e) {
+        } catch (final UnsupportedEncodingException e) {
+        }
+        return null;
+    }
+
+    /**
+     * Crear mapa de lista por valor.
+     *
+     * @param <T>
+     *            the generic type
+     * @param <P>
+     *            the generic type
+     * @param lista
+     *            the lista
+     * @param campo
+     *            the campo
+     * @param keyClass
+     *            the key class
+     * @param objectClass
+     *            the object class
+     * @return the map
+     */
+    @SuppressWarnings("unchecked")
+    public static <T, P> Map<P, T> crearMapaDeListaPorValor(final List<T> lista, final String campo,
+            final Class<P> keyClass, final Class<T> objectClass) {
+        final Map<P, T> mapa = new HashMap<P, T>();
+        if (CollectionUtils.isNotEmpty(lista)) {
+            for (final T t : lista) {
+                try {
+                    for (final PropertyDescriptor pd : Introspector.getBeanInfo(objectClass).getPropertyDescriptors()) {
+                        if ((pd.getReadMethod() != null) && pd.getName().equals(campo)) {
+                            mapa.put((P) pd.getReadMethod().invoke(t), t);
+                        }
+                    }
+                } catch (final IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (final IllegalArgumentException e) {
+                    e.printStackTrace();
+                } catch (final InvocationTargetException e) {
+                    e.printStackTrace();
+                } catch (final IntrospectionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return mapa;
     }
 
 }

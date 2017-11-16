@@ -6,6 +6,8 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
@@ -43,5 +45,14 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
      */
     @Query("SELECT usuarioContrasena from UsuarioEntity u where u.usuarioEmail = ?1")
     String findEncodedPasswordByEmail(String usuarioEmail);
+
+    /**
+     * Find all by usuario email in.
+     *
+     * @param emails
+     *            the emails
+     * @return the list
+     */
+    List<UsuarioEntity> findAllByUsuarioEmailIn(List<String> emails);
 
 }

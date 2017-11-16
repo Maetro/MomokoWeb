@@ -30,13 +30,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
-import com.momoko.es.api.dto.StringResponseDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.dto.response.RegistrarUsuarioResponse;
+import com.momoko.es.api.dto.response.StringResponseDTO;
 import com.momoko.es.api.enums.ErrorCreacionUsuario;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
-import com.momoko.es.api.response.RegistrarUsuarioResponse;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 

@@ -47,6 +47,9 @@ public class UsuarioEntity extends AuditoriaBasica {
     @Column(name = "usuario_email")
     private String usuarioEmail;
 
+    /** The pagina web. */
+    private String paginaWeb;
+
     /** The usuario url. */
     private String usuarioUrl;
 
@@ -71,8 +74,149 @@ public class UsuarioEntity extends AuditoriaBasica {
     /** The cargo. */
     private String cargo;
 
-    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ComentarioEntity> comentarios;
+    /** The usuario alta. */
+    private String usuarioAlta;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
+
+    /** The usuario alta. */
+    private String usuarioModificacion;
+
+    /** The fecha alta. */
+    private Date fechaModificacion;
+
+    /** The usuario alta. */
+    private String usuarioBaja;
+
+    /** The fecha alta. */
+    private Date fechaBaja;
+
+    /**
+     * Gets the usuario alta.
+     *
+     * @return the usuario alta
+     */
+    @Override
+    public String getUsuarioAlta() {
+        return this.usuarioAlta;
+    }
+
+    /**
+     * Sets the usuario alta.
+     *
+     * @param usuarioAlta
+     *            the new usuario alta
+     */
+    @Override
+    public void setUsuarioAlta(final String usuarioAlta) {
+        this.usuarioAlta = usuarioAlta;
+    }
+
+    /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
+    @Override
+    public Date getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
+    @Override
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Gets the usuario modificacion.
+     *
+     * @return the usuario modificacion
+     */
+    @Override
+    public String getUsuarioModificacion() {
+        return this.usuarioModificacion;
+    }
+
+    /**
+     * Sets the usuario modificacion.
+     *
+     * @param usuarioModificacion
+     *            the new usuario modificacion
+     */
+    @Override
+    public void setUsuarioModificacion(final String usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    /**
+     * Gets the fecha modificacion.
+     *
+     * @return the fecha modificacion
+     */
+    @Override
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+
+    /**
+     * Sets the fecha modificacion.
+     *
+     * @param fechaModificacion
+     *            the new fecha modificacion
+     */
+    @Override
+    public void setFechaModificacion(final Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Gets the usuario baja.
+     *
+     * @return the usuario baja
+     */
+    @Override
+    public String getUsuarioBaja() {
+        return this.usuarioBaja;
+    }
+
+    /**
+     * Sets the usuario baja.
+     *
+     * @param usuarioBaja
+     *            the new usuario baja
+     */
+    @Override
+    public void setUsuarioBaja(final String usuarioBaja) {
+        this.usuarioBaja = usuarioBaja;
+    }
+
+    /**
+     * Gets the fecha baja.
+     *
+     * @return the fecha baja
+     */
+    @Override
+    public Date getFechaBaja() {
+        return this.fechaBaja;
+    }
+
+    /**
+     * Sets the fecha baja.
+     *
+     * @param fechaBaja
+     *            the new fecha baja
+     */
+    @Override
+    public void setFechaBaja(final Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
 
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PuntuacionEntity> puntuaciones;
@@ -83,7 +227,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario id
      */
     public Integer getUsuarioId() {
-        return usuarioId;
+        return this.usuarioId;
     }
 
     /**
@@ -92,7 +236,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioId
      *            nuevo usuario id
      */
-    public void setUsuarioId(Integer usuarioId) {
+    public void setUsuarioId(final Integer usuarioId) {
         this.usuarioId = usuarioId;
     }
 
@@ -102,7 +246,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario login
      */
     public String getUsuarioLogin() {
-        return usuarioLogin;
+        return this.usuarioLogin;
     }
 
     /**
@@ -111,7 +255,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioLogin
      *            nuevo usuario login
      */
-    public void setUsuarioLogin(String usuarioLogin) {
+    public void setUsuarioLogin(final String usuarioLogin) {
         this.usuarioLogin = usuarioLogin;
     }
 
@@ -121,7 +265,15 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario contrasena
      */
     public String getUsuarioContrasena() {
-        return usuarioContrasena;
+        return this.usuarioContrasena;
+    }
+
+    public String getPaginaWeb() {
+        return this.paginaWeb;
+    }
+
+    public void setPaginaWeb(final String paginaWeb) {
+        this.paginaWeb = paginaWeb;
     }
 
     /**
@@ -130,7 +282,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioContrasena
      *            nuevo usuario contrasena
      */
-    public void setUsuarioContrasena(String usuarioContrasena) {
+    public void setUsuarioContrasena(final String usuarioContrasena) {
         this.usuarioContrasena = usuarioContrasena;
     }
 
@@ -140,7 +292,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario nick
      */
     public String getUsuarioNick() {
-        return usuarioNick;
+        return this.usuarioNick;
     }
 
     /**
@@ -149,7 +301,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioNick
      *            nuevo usuario nick
      */
-    public void setUsuarioNick(String usuarioNick) {
+    public void setUsuarioNick(final String usuarioNick) {
         this.usuarioNick = usuarioNick;
     }
 
@@ -159,7 +311,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario email
      */
     public String getUsuarioEmail() {
-        return usuarioEmail;
+        return this.usuarioEmail;
     }
 
     /**
@@ -168,7 +320,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioEmail
      *            nuevo usuario email
      */
-    public void setUsuarioEmail(String usuarioEmail) {
+    public void setUsuarioEmail(final String usuarioEmail) {
         this.usuarioEmail = usuarioEmail;
     }
 
@@ -178,7 +330,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario url
      */
     public String getUsuarioUrl() {
-        return usuarioUrl;
+        return this.usuarioUrl;
     }
 
     /**
@@ -187,7 +339,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioUrl
      *            nuevo usuario url
      */
-    public void setUsuarioUrl(String usuarioUrl) {
+    public void setUsuarioUrl(final String usuarioUrl) {
         this.usuarioUrl = usuarioUrl;
     }
 
@@ -197,7 +349,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario fecha registro
      */
     public Date getUsuarioFechaRegistro() {
-        return usuarioFechaRegistro;
+        return this.usuarioFechaRegistro;
     }
 
     /**
@@ -206,7 +358,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioFechaRegistro
      *            nuevo usuario fecha registro
      */
-    public void setUsuarioFechaRegistro(Date usuarioFechaRegistro) {
+    public void setUsuarioFechaRegistro(final Date usuarioFechaRegistro) {
         this.usuarioFechaRegistro = usuarioFechaRegistro;
     }
 
@@ -216,7 +368,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario clave activacion
      */
     public String getUsuarioClaveActivacion() {
-        return usuarioClaveActivacion;
+        return this.usuarioClaveActivacion;
     }
 
     /**
@@ -225,7 +377,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioClaveActivacion
      *            nuevo usuario clave activacion
      */
-    public void setUsuarioClaveActivacion(String usuarioClaveActivacion) {
+    public void setUsuarioClaveActivacion(final String usuarioClaveActivacion) {
         this.usuarioClaveActivacion = usuarioClaveActivacion;
     }
 
@@ -235,7 +387,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario status
      */
     public Integer getUsuarioStatus() {
-        return usuarioStatus;
+        return this.usuarioStatus;
     }
 
     /**
@@ -244,7 +396,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioStatus
      *            nuevo usuario status
      */
-    public void setUsuarioStatus(Integer usuarioStatus) {
+    public void setUsuarioStatus(final Integer usuarioStatus) {
         this.usuarioStatus = usuarioStatus;
     }
 
@@ -254,7 +406,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario nombre visible
      */
     public String getUsuarioNombreVisible() {
-        return usuarioNombreVisible;
+        return this.usuarioNombreVisible;
     }
 
     /**
@@ -263,7 +415,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioNombreVisible
      *            nuevo usuario nombre visible
      */
-    public void setUsuarioNombreVisible(String usuarioNombreVisible) {
+    public void setUsuarioNombreVisible(final String usuarioNombreVisible) {
         this.usuarioNombreVisible = usuarioNombreVisible;
     }
 
@@ -273,7 +425,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return usuario rol id
      */
     public Integer getUsuarioRolId() {
-        return usuarioRolId;
+        return this.usuarioRolId;
     }
 
     /**
@@ -282,27 +434,8 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioRolId
      *            nuevo usuario rol id
      */
-    public void setUsuarioRolId(Integer usuarioRolId) {
+    public void setUsuarioRolId(final Integer usuarioRolId) {
         this.usuarioRolId = usuarioRolId;
-    }
-
-    /**
-     * Obtiene comentarios.
-     *
-     * @return comentarios
-     */
-    public List<ComentarioEntity> getComentarios() {
-        return comentarios;
-    }
-
-    /**
-     * Establece comentarios.
-     *
-     * @param comentarios
-     *            nuevo comentarios
-     */
-    public void setComentarios(List<ComentarioEntity> comentarios) {
-        this.comentarios = comentarios;
     }
 
     /**
@@ -311,7 +444,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return puntuaciones
      */
     public List<PuntuacionEntity> getPuntuaciones() {
-        return puntuaciones;
+        return this.puntuaciones;
     }
 
     /**
@@ -320,7 +453,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param puntuaciones
      *            nuevo puntuaciones
      */
-    public void setPuntuaciones(List<PuntuacionEntity> puntuaciones) {
+    public void setPuntuaciones(final List<PuntuacionEntity> puntuaciones) {
         this.puntuaciones = puntuaciones;
     }
 
@@ -330,7 +463,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return avatar url
      */
     public String getAvatarUrl() {
-        return avatarUrl;
+        return this.avatarUrl;
     }
 
     /**
@@ -339,7 +472,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param avatarUrl
      *            nuevo avatar url
      */
-    public void setAvatarUrl(String avatarUrl) {
+    public void setAvatarUrl(final String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
 
@@ -349,7 +482,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @return cargo
      */
     public String getCargo() {
-        return cargo;
+        return this.cargo;
     }
 
     /**
@@ -358,7 +491,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param cargo
      *            nuevo cargo
      */
-    public void setCargo(String cargo) {
+    public void setCargo(final String cargo) {
         this.cargo = cargo;
     }
 
@@ -367,17 +500,20 @@ public class UsuarioEntity extends AuditoriaBasica {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof UsuarioEntity))
+        if (!(other instanceof UsuarioEntity)) {
             return false;
-        UsuarioEntity castOther = (UsuarioEntity) other;
-        return new EqualsBuilder().append(usuarioId, castOther.usuarioId).append(usuarioLogin, castOther.usuarioLogin)
-                .append(usuarioContrasena, castOther.usuarioContrasena).append(usuarioNick, castOther.usuarioNick)
-                .append(usuarioEmail, castOther.usuarioEmail).append(usuarioUrl, castOther.usuarioUrl)
-                .append(usuarioFechaRegistro, castOther.usuarioFechaRegistro)
-                .append(usuarioClaveActivacion, castOther.usuarioClaveActivacion)
-                .append(usuarioStatus, castOther.usuarioStatus)
-                .append(usuarioNombreVisible, castOther.usuarioNombreVisible)
-                .append(usuarioRolId, castOther.usuarioRolId).isEquals();
+        }
+        final UsuarioEntity castOther = (UsuarioEntity) other;
+        return new EqualsBuilder().append(this.usuarioId, castOther.usuarioId)
+                .append(this.usuarioLogin, castOther.usuarioLogin)
+                .append(this.usuarioContrasena, castOther.usuarioContrasena)
+                .append(this.usuarioNick, castOther.usuarioNick).append(this.usuarioEmail, castOther.usuarioEmail)
+                .append(this.usuarioUrl, castOther.usuarioUrl)
+                .append(this.usuarioFechaRegistro, castOther.usuarioFechaRegistro)
+                .append(this.usuarioClaveActivacion, castOther.usuarioClaveActivacion)
+                .append(this.usuarioStatus, castOther.usuarioStatus)
+                .append(this.usuarioNombreVisible, castOther.usuarioNombreVisible)
+                .append(this.usuarioRolId, castOther.usuarioRolId).isEquals();
     }
 
     /**
@@ -385,10 +521,10 @@ public class UsuarioEntity extends AuditoriaBasica {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(usuarioId).append(usuarioLogin).append(usuarioContrasena)
-                .append(usuarioNick).append(usuarioEmail).append(usuarioUrl).append(usuarioFechaRegistro)
-                .append(usuarioClaveActivacion).append(usuarioStatus).append(usuarioNombreVisible).append(usuarioRolId)
-                .toHashCode();
+        return new HashCodeBuilder().append(this.usuarioId).append(this.usuarioLogin).append(this.usuarioContrasena)
+                .append(this.usuarioNick).append(this.usuarioEmail).append(this.usuarioUrl)
+                .append(this.usuarioFechaRegistro).append(this.usuarioClaveActivacion).append(this.usuarioStatus)
+                .append(this.usuarioNombreVisible).append(this.usuarioRolId).toHashCode();
     }
 
     /**
@@ -396,12 +532,13 @@ public class UsuarioEntity extends AuditoriaBasica {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("usuarioId", usuarioId).append("usuarioLogin", usuarioLogin)
-                .append("usuarioContrasena", usuarioContrasena).append("usuarioNick", usuarioNick)
-                .append("usuarioEmail", usuarioEmail).append("usuarioUrl", usuarioUrl)
-                .append("usuarioFechaRegistro", usuarioFechaRegistro)
-                .append("usuarioClaveActivacion", usuarioClaveActivacion).append("usuarioStatus", usuarioStatus)
-                .append("usuarioNombreVisible", usuarioNombreVisible).append("usuarioRolId", usuarioRolId).toString();
+        return new ToStringBuilder(this).append("usuarioId", this.usuarioId).append("usuarioLogin", this.usuarioLogin)
+                .append("usuarioContrasena", this.usuarioContrasena).append("usuarioNick", this.usuarioNick)
+                .append("usuarioEmail", this.usuarioEmail).append("usuarioUrl", this.usuarioUrl)
+                .append("usuarioFechaRegistro", this.usuarioFechaRegistro)
+                .append("usuarioClaveActivacion", this.usuarioClaveActivacion)
+                .append("usuarioStatus", this.usuarioStatus).append("usuarioNombreVisible", this.usuarioNombreVisible)
+                .append("usuarioRolId", this.usuarioRolId).toString();
     }
 
 }

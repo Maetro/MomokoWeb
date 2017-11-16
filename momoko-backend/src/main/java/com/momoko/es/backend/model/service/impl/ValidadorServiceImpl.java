@@ -21,11 +21,15 @@ import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.ErrorPublicarComentario;
+import com.momoko.es.api.enums.EstadoEntradaEnum;
+import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 /**
@@ -92,7 +96,33 @@ public class ValidadorServiceImpl implements ValidadorService {
         if (entradaDTO.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
+        if (estaPublicada(entradaDTO) && !esTipoMiscelanea(entradaDTO)
+                && StringUtils.isEmpty(entradaDTO.getTituloLibroEntrada())) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
+        }
         return listaErrores;
+    }
+
+    /**
+     * Es tipo miscelanea.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     * @return true, if successful
+     */
+    public boolean esTipoMiscelanea(final EntradaDTO entradaDTO) {
+        return TipoEntrada.MISCELANEOS.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()));
+    }
+
+    /**
+     * Esta publicada.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     * @return true, if successful
+     */
+    public boolean estaPublicada(final EntradaDTO entradaDTO) {
+        return EstadoEntradaEnum.PUBLICADA.equals(EstadoEntradaEnum.obtenerTipoEntrada(entradaDTO.getEstadoEntrada()));
     }
 
     @Override
@@ -111,11 +141,29 @@ public class ValidadorServiceImpl implements ValidadorService {
     public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(final PuntuacionDTO puntuacionDTO) {
         final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<ErrorAnadirPuntuacionEnum>();
         if ((puntuacionDTO.getValor() == null)
-                || ((puntuacionDTO.getValor() >= 0) && (puntuacionDTO.getValor() <= 100))) {
+                || ((puntuacionDTO.getValor().intValue() >= 0) && (puntuacionDTO.getValor().intValue() <= 10))) {
             listaErrores.add(ErrorAnadirPuntuacionEnum.PUNTUACION_INCORRECTA);
         }
         if (puntuacionDTO.getLibroId() == null) {
             listaErrores.add(ErrorAnadirPuntuacionEnum.FALTA_LIBRO);
+        }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorCreacionComentario> validarComentario(final NuevoComentarioRequest comentario) {
+        final List<ErrorCreacionComentario> listaErrores = new ArrayList<ErrorCreacionComentario>();
+        if (StringUtils.isEmpty(comentario.getNombre())) {
+            listaErrores.add(ErrorCreacionComentario.FALTA_NOMBRE);
+        }
+        if (StringUtils.isEmpty(comentario.getEmail())) {
+            listaErrores.add(ErrorCreacionComentario.FALTA_EMAIL);
+        }
+        if (StringUtils.isEmpty(comentario.getContenido())) {
+            listaErrores.add(ErrorCreacionComentario.COMENTARIO_VACIO);
+        }
+        if (comentario.getEntradaId() == null) {
+            listaErrores.add(ErrorCreacionComentario.NO_SE_ENCUENTRA_ENTRADA);
         }
         return listaErrores;
     }

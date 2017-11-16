@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class PuntuacionEntity {
     private @Id @GeneratedValue Integer puntuacionId;
 
     /** The valor. */
-    private Integer valor; // Del 0 al 100
+    private BigDecimal valor; // Del 0 al 100
 
     /** The autor. */
     @ManyToOne(fetch = FetchType.LAZY)
@@ -80,7 +81,7 @@ public class PuntuacionEntity {
      * @return puntuacion id
      */
     public Integer getPuntuacionId() {
-        return puntuacionId;
+        return this.puntuacionId;
     }
 
     /**
@@ -89,7 +90,7 @@ public class PuntuacionEntity {
      * @param puntuacionId
      *            nuevo puntuacion id
      */
-    public void setPuntuacionId(Integer puntuacionId) {
+    public void setPuntuacionId(final Integer puntuacionId) {
         this.puntuacionId = puntuacionId;
     }
 
@@ -98,8 +99,8 @@ public class PuntuacionEntity {
      *
      * @return valor
      */
-    public Integer getValor() {
-        return valor;
+    public BigDecimal getValor() {
+        return this.valor;
     }
 
     /**
@@ -108,7 +109,7 @@ public class PuntuacionEntity {
      * @param valor
      *            nuevo valor
      */
-    public void setValor(Integer valor) {
+    public void setValor(final BigDecimal valor) {
         this.valor = valor;
     }
 
@@ -118,7 +119,7 @@ public class PuntuacionEntity {
      * @return autor
      */
     public UsuarioEntity getAutor() {
-        return autor;
+        return this.autor;
     }
 
     /**
@@ -127,7 +128,7 @@ public class PuntuacionEntity {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(UsuarioEntity autor) {
+    public void setAutor(final UsuarioEntity autor) {
         this.autor = autor;
     }
 
@@ -137,7 +138,7 @@ public class PuntuacionEntity {
      * @return comentario
      */
     public String getComentario() {
-        return comentario;
+        return this.comentario;
     }
 
     /**
@@ -146,7 +147,7 @@ public class PuntuacionEntity {
      * @param comentario
      *            nuevo comentario
      */
-    public void setComentario(String comentario) {
+    public void setComentario(final String comentario) {
         this.comentario = comentario;
     }
 
@@ -156,7 +157,7 @@ public class PuntuacionEntity {
      * @return true, si es puntuacion momoko
      */
     public boolean isEsPuntuacionMomoko() {
-        return esPuntuacionMomoko;
+        return this.esPuntuacionMomoko;
     }
 
     /**
@@ -165,7 +166,7 @@ public class PuntuacionEntity {
      * @param esPuntuacionMomoko
      *            nuevo es puntuacion momoko
      */
-    public void setEsPuntuacionMomoko(boolean esPuntuacionMomoko) {
+    public void setEsPuntuacionMomoko(final boolean esPuntuacionMomoko) {
         this.esPuntuacionMomoko = esPuntuacionMomoko;
     }
 
@@ -175,7 +176,7 @@ public class PuntuacionEntity {
      * @return libro
      */
     public LibroEntity getLibro() {
-        return libro;
+        return this.libro;
     }
 
     /**
@@ -184,7 +185,7 @@ public class PuntuacionEntity {
      * @param libro
      *            nuevo libro
      */
-    public void setLibro(LibroEntity libro) {
+    public void setLibro(final LibroEntity libro) {
         this.libro = libro;
     }
 
@@ -194,7 +195,7 @@ public class PuntuacionEntity {
      * @return usuario alta
      */
     public String getUsuarioAlta() {
-        return usuarioAlta;
+        return this.usuarioAlta;
     }
 
     /**
@@ -203,7 +204,7 @@ public class PuntuacionEntity {
      * @param usuarioAlta
      *            nuevo usuario alta
      */
-    public void setUsuarioAlta(String usuarioAlta) {
+    public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
     }
 
@@ -213,7 +214,7 @@ public class PuntuacionEntity {
      * @return fecha alta
      */
     public Date getFechaAlta() {
-        return fechaAlta;
+        return this.fechaAlta;
     }
 
     /**
@@ -222,7 +223,7 @@ public class PuntuacionEntity {
      * @param fechaAlta
      *            nuevo fecha alta
      */
-    public void setFechaAlta(Date fechaAlta) {
+    public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
@@ -232,7 +233,7 @@ public class PuntuacionEntity {
      * @return usuario modificacion
      */
     public String getUsuarioModificacion() {
-        return usuarioModificacion;
+        return this.usuarioModificacion;
     }
 
     /**
@@ -241,7 +242,7 @@ public class PuntuacionEntity {
      * @param usuarioModificacion
      *            nuevo usuario modificacion
      */
-    public void setUsuarioModificacion(String usuarioModificacion) {
+    public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
     }
 
@@ -251,7 +252,7 @@ public class PuntuacionEntity {
      * @return fecha modificacion
      */
     public Date getFechaModificacion() {
-        return fechaModificacion;
+        return this.fechaModificacion;
     }
 
     /**
@@ -260,7 +261,7 @@ public class PuntuacionEntity {
      * @param fechaModificacion
      *            nuevo fecha modificacion
      */
-    public void setFechaModificacion(Date fechaModificacion) {
+    public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 
@@ -270,7 +271,7 @@ public class PuntuacionEntity {
      * @return usuario baja
      */
     public String getUsuarioBaja() {
-        return usuarioBaja;
+        return this.usuarioBaja;
     }
 
     /**
@@ -279,7 +280,7 @@ public class PuntuacionEntity {
      * @param usuarioBaja
      *            nuevo usuario baja
      */
-    public void setUsuarioBaja(String usuarioBaja) {
+    public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
     }
 
@@ -289,7 +290,7 @@ public class PuntuacionEntity {
      * @return fecha baja
      */
     public Date getFechaBaja() {
-        return fechaBaja;
+        return this.fechaBaja;
     }
 
     /**
@@ -298,7 +299,7 @@ public class PuntuacionEntity {
      * @param fechaBaja
      *            nuevo fecha baja
      */
-    public void setFechaBaja(Date fechaBaja) {
+    public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
 
@@ -307,12 +308,14 @@ public class PuntuacionEntity {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof PuntuacionEntity))
+        if (!(other instanceof PuntuacionEntity)) {
             return false;
-        PuntuacionEntity castOther = (PuntuacionEntity) other;
-        return new EqualsBuilder().append(puntuacionId, castOther.puntuacionId).append(valor, castOther.valor)
-                .append(autor, castOther.autor).append(comentario, castOther.comentario).append(libro, castOther.libro)
-                .append(esPuntuacionMomoko, castOther.esPuntuacionMomoko).isEquals();
+        }
+        final PuntuacionEntity castOther = (PuntuacionEntity) other;
+        return new EqualsBuilder().append(this.puntuacionId, castOther.puntuacionId).append(this.valor, castOther.valor)
+                .append(this.autor, castOther.autor).append(this.comentario, castOther.comentario)
+                .append(this.libro, castOther.libro).append(this.esPuntuacionMomoko, castOther.esPuntuacionMomoko)
+                .isEquals();
     }
 
     /**
@@ -320,8 +323,8 @@ public class PuntuacionEntity {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(puntuacionId).append(valor).append(autor).append(comentario).append(libro)
-                .append(esPuntuacionMomoko).toHashCode();
+        return new HashCodeBuilder().append(this.puntuacionId).append(this.valor).append(this.autor)
+                .append(this.comentario).append(this.libro).append(this.esPuntuacionMomoko).toHashCode();
     }
 
     /**
@@ -329,9 +332,9 @@ public class PuntuacionEntity {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("puntuacionId", puntuacionId).append("valor", valor)
-                .append("autor", autor).append("comentario", comentario).append("libro", libro)
-                .append("esPuntuacionMomoko", esPuntuacionMomoko).toString();
+        return new ToStringBuilder(this).append("puntuacionId", this.puntuacionId).append("valor", this.valor)
+                .append("autor", this.autor).append("comentario", this.comentario).append("libro", this.libro)
+                .append("esPuntuacionMomoko", this.esPuntuacionMomoko).toString();
     }
 
 }

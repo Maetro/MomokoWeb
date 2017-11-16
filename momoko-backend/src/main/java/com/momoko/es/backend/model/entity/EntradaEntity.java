@@ -56,6 +56,9 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     /** The resumen entrada. */
     private String resumenEntrada;
 
+    /** The frase descriptiva. */
+    private String fraseDescriptiva;
+
     /** The estado entrada. */
     private Integer estadoEntrada;
 
@@ -404,6 +407,25 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      */
     public List<ComentarioEntity> getComentarios() {
         return this.comentarios;
+    }
+
+    /**
+     * Gets the frase descriptiva.
+     *
+     * @return the frase descriptiva
+     */
+    public String getFraseDescriptiva() {
+        return this.fraseDescriptiva;
+    }
+
+    /**
+     * Sets the frase descriptiva.
+     *
+     * @param fraseDescriptiva
+     *            the new frase descriptiva
+     */
+    public void setFraseDescriptiva(final String fraseDescriptiva) {
+        this.fraseDescriptiva = fraseDescriptiva;
     }
 
     /**

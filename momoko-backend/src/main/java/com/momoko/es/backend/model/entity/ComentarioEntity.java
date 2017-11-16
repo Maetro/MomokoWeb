@@ -28,10 +28,14 @@ public class ComentarioEntity {
 
     private @Id @GeneratedValue Integer comentarioId;
 
-    /** The autor. */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
-    private UsuarioEntity autor;
+    /** The pagina web comentario. */
+    private String paginaWebComentario;
+
+    /** The nombre comentario. */
+    private String nombreComentario;
+
+    /** The email comentario. */
+    private String emailComentario;
 
     /** The votos positivos. */
     private String votosPositivos;
@@ -74,13 +78,56 @@ public class ComentarioEntity {
     /** The fecha alta. */
     private Date fechaBaja;
 
+    public String getEmailComentario() {
+        return this.emailComentario;
+    }
+
     /**
-     * Obtiene autor.
+     * Sets the email comentario.
      *
-     * @return autor
+     * @param emailComentario
+     *            the new email comentario
      */
-    public UsuarioEntity getAutor() {
-        return this.autor;
+    public void setEmailComentario(final String emailComentario) {
+        this.emailComentario = emailComentario;
+    }
+
+    /**
+     * Gets the nombre comentario.
+     *
+     * @return the nombre comentario
+     */
+    public String getNombreComentario() {
+        return this.nombreComentario;
+    }
+
+    /**
+     * Sets the nombre comentario.
+     *
+     * @param nombreComentario
+     *            the new nombre comentario
+     */
+    public void setNombreComentario(final String nombreComentario) {
+        this.nombreComentario = nombreComentario;
+    }
+
+    /**
+     * Gets the pagina web comentario.
+     *
+     * @return the pagina web comentario
+     */
+    public String getPaginaWebComentario() {
+        return this.paginaWebComentario;
+    }
+
+    /**
+     * Sets the pagina web comentario.
+     *
+     * @param paginaWebComentario
+     *            the new pagina web comentario
+     */
+    public void setPaginaWebComentario(final String paginaWebComentario) {
+        this.paginaWebComentario = paginaWebComentario;
     }
 
     /**
@@ -100,16 +147,6 @@ public class ComentarioEntity {
      */
     public void setComentarioId(final Integer comentarioId) {
         this.comentarioId = comentarioId;
-    }
-
-    /**
-     * Establece autor.
-     *
-     * @param autor
-     *            nuevo autor
-     */
-    public void setAutor(final UsuarioEntity autor) {
-        this.autor = autor;
     }
 
     /**
@@ -232,7 +269,7 @@ public class ComentarioEntity {
      * @return comentario referencia entity
      */
     public ComentarioEntity getComentarioReferenciaEntity() {
-        return comentarioReferenciaEntity;
+        return this.comentarioReferenciaEntity;
     }
 
     /**
@@ -241,7 +278,7 @@ public class ComentarioEntity {
      * @param comentarioReferenciaEntity
      *            nuevo comentario referencia entity
      */
-    public void setComentarioReferenciaEntity(ComentarioEntity comentarioReferenciaEntity) {
+    public void setComentarioReferenciaEntity(final ComentarioEntity comentarioReferenciaEntity) {
         this.comentarioReferenciaEntity = comentarioReferenciaEntity;
     }
 
@@ -251,7 +288,7 @@ public class ComentarioEntity {
      * @return usuario alta
      */
     public String getUsuarioAlta() {
-        return usuarioAlta;
+        return this.usuarioAlta;
     }
 
     /**
@@ -260,7 +297,7 @@ public class ComentarioEntity {
      * @param usuarioAlta
      *            nuevo usuario alta
      */
-    public void setUsuarioAlta(String usuarioAlta) {
+    public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
     }
 
@@ -270,7 +307,7 @@ public class ComentarioEntity {
      * @return fecha alta
      */
     public Date getFechaAlta() {
-        return fechaAlta;
+        return this.fechaAlta;
     }
 
     /**
@@ -279,7 +316,7 @@ public class ComentarioEntity {
      * @param fechaAlta
      *            nuevo fecha alta
      */
-    public void setFechaAlta(Date fechaAlta) {
+    public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
@@ -289,7 +326,7 @@ public class ComentarioEntity {
      * @return usuario modificacion
      */
     public String getUsuarioModificacion() {
-        return usuarioModificacion;
+        return this.usuarioModificacion;
     }
 
     /**
@@ -298,7 +335,7 @@ public class ComentarioEntity {
      * @param usuarioModificacion
      *            nuevo usuario modificacion
      */
-    public void setUsuarioModificacion(String usuarioModificacion) {
+    public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
     }
 
@@ -308,7 +345,7 @@ public class ComentarioEntity {
      * @return fecha modificacion
      */
     public Date getFechaModificacion() {
-        return fechaModificacion;
+        return this.fechaModificacion;
     }
 
     /**
@@ -317,7 +354,7 @@ public class ComentarioEntity {
      * @param fechaModificacion
      *            nuevo fecha modificacion
      */
-    public void setFechaModificacion(Date fechaModificacion) {
+    public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 
@@ -327,7 +364,7 @@ public class ComentarioEntity {
      * @return usuario baja
      */
     public String getUsuarioBaja() {
-        return usuarioBaja;
+        return this.usuarioBaja;
     }
 
     /**
@@ -336,7 +373,7 @@ public class ComentarioEntity {
      * @param usuarioBaja
      *            nuevo usuario baja
      */
-    public void setUsuarioBaja(String usuarioBaja) {
+    public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
     }
 
@@ -346,7 +383,7 @@ public class ComentarioEntity {
      * @return fecha baja
      */
     public Date getFechaBaja() {
-        return fechaBaja;
+        return this.fechaBaja;
     }
 
     /**
@@ -355,7 +392,7 @@ public class ComentarioEntity {
      * @param fechaBaja
      *            nuevo fecha baja
      */
-    public void setFechaBaja(Date fechaBaja) {
+    public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
 
@@ -368,7 +405,7 @@ public class ComentarioEntity {
             return false;
         }
         final ComentarioEntity castOther = (ComentarioEntity) other;
-        return new EqualsBuilder().append(this.autor, castOther.autor)
+        return new EqualsBuilder().append(this.emailComentario, castOther.emailComentario)
                 .append(this.votosPositivos, castOther.votosPositivos)
                 .append(this.votosNegativos, castOther.votosNegativos)
                 .append(this.textoComentario, castOther.textoComentario).append(this.entrada, castOther.entrada)
@@ -380,9 +417,8 @@ public class ComentarioEntity {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.autor).append(this.votosPositivos).append(this.votosNegativos)
-                .append(this.textoComentario).append(this.entrada).toHashCode();
+        return new HashCodeBuilder().append(this.emailComentario).append(this.votosPositivos)
+                .append(this.votosNegativos).append(this.textoComentario).append(this.entrada).toHashCode();
     }
-
 
 }

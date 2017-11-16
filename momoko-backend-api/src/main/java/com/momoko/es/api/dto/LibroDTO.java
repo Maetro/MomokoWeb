@@ -7,6 +7,7 @@
 package com.momoko.es.api.dto;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
 
@@ -75,6 +76,15 @@ public class LibroDTO implements Serializable {
 
     /** The portada height. */
     private Integer portadaHeight;
+
+    /** The puntuaciones. */
+    private Integer mediaPuntuacion;
+
+    /** The nota momoko. */
+    private BigDecimal notaMomoko;
+
+    /** The comentario nota momoko. */
+    private String comentarioNotaMomoko;
 
     /**
      * Gets the libro id.
@@ -416,6 +426,44 @@ public class LibroDTO implements Serializable {
      */
     public void setPortadaWidth(final Integer portadaWidth) {
         this.portadaWidth = portadaWidth;
+    }
+
+    /**
+     * Gets the nota momoko.
+     *
+     * @return the nota momoko
+     */
+    public BigDecimal getNotaMomoko() {
+        return this.notaMomoko;
+    }
+
+    /**
+     * Sets the nota momoko.
+     *
+     * @param notaMomoko
+     *            the new nota momoko
+     */
+    public void setNotaMomoko(final BigDecimal notaMomoko) {
+        this.notaMomoko = notaMomoko;
+    }
+
+    /**
+     * Gets the comentario nota momoko.
+     *
+     * @return the comentario nota momoko
+     */
+    public String getComentarioNotaMomoko() {
+        return this.comentarioNotaMomoko;
+    }
+
+    /**
+     * Sets the comentario nota momoko.
+     *
+     * @param comentarioNotaMomoko
+     *            the new comentario nota momoko
+     */
+    public void setComentarioNotaMomoko(final String comentarioNotaMomoko) {
+        this.comentarioNotaMomoko = comentarioNotaMomoko;
     }
 
     /*

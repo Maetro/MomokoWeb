@@ -1,45 +1,33 @@
-/**
- * GuardarLibroResponse.java 15-jul-2017
- *
- * Copyright 2017 RAMON CASARES.
- * @author Ramon.Casares.Porto@gmail.com
- */
-package com.momoko.es.api.response;
 
-import java.io.Serializable;
+package com.momoko.es.api.dto.response;
+
 import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.enums.ErrorCreacionLibro;
+import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 
-/**
- * The Class GuardarLibroResponse.
- */
-public class GuardarLibroResponse implements Serializable {
-
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 6138141949532723854L;
+public class GuardarEntradaResponse {
 
     /** The lista errores validacion. */
-    List<ErrorCreacionLibro> listaErroresValidacion;
+    List<ErrorCreacionEntrada> listaErroresValidacion;
 
     /** The estado guardado. */
     EstadoGuardadoEnum estadoGuardado;
 
-    /** The libro dto. */
-    LibroDTO libroDTO;
+    /** The entrada DTO. */
+    EntradaDTO entradaDTO;
 
     /**
      * Gets the lista errores validacion.
      *
      * @return the lista errores validacion
      */
-    public List<ErrorCreacionLibro> getListaErroresValidacion() {
+    public List<ErrorCreacionEntrada> getListaErroresValidacion() {
         return this.listaErroresValidacion;
     }
 
@@ -49,7 +37,7 @@ public class GuardarLibroResponse implements Serializable {
      * @param listaErroresValidacion
      *            the new lista errores validacion
      */
-    public void setListaErroresValidacion(final List<ErrorCreacionLibro> listaErroresValidacion) {
+    public void setListaErroresValidacion(final List<ErrorCreacionEntrada> listaErroresValidacion) {
         this.listaErroresValidacion = listaErroresValidacion;
     }
 
@@ -73,45 +61,45 @@ public class GuardarLibroResponse implements Serializable {
     }
 
     /**
-     * Gets the libro dto.
+     * Obtiene entrada DTO.
      *
-     * @return the libro dto
+     * @return entrada DTO
      */
-    public LibroDTO getLibroDTO() {
-        return this.libroDTO;
+    public EntradaDTO getEntradaDTO() {
+        return entradaDTO;
     }
 
     /**
-     * Sets the libro dto.
+     * Establece entrada DTO.
      *
-     * @param libroDTO
-     *            the new libro dto
+     * @param entradaDTO
+     *            nuevo entrada DTO
      */
-    public void setLibroDTO(final LibroDTO libroDTO) {
-        this.libroDTO = libroDTO;
+    public void setEntradaDTO(EntradaDTO entradaDTO) {
+        this.entradaDTO = entradaDTO;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GuardarLibroResponse)) {
+        if (!(other instanceof GuardarEntradaResponse)) {
             return false;
         }
-        final GuardarLibroResponse castOther = (GuardarLibroResponse) other;
+        final GuardarEntradaResponse castOther = (GuardarEntradaResponse) other;
         return new EqualsBuilder().append(this.listaErroresValidacion, castOther.listaErroresValidacion)
-                .append(this.estadoGuardado, castOther.estadoGuardado).append(this.libroDTO, castOther.libroDTO)
+                .append(this.estadoGuardado, castOther.estadoGuardado).append(this.entradaDTO, castOther.entradaDTO)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.listaErroresValidacion).append(this.estadoGuardado)
-                .append(this.libroDTO).toHashCode();
+                .append(this.entradaDTO).toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("listaErroresValidacion", this.listaErroresValidacion)
-                .append("estadoGuardado", this.estadoGuardado).append("libroDTO", this.libroDTO).toString();
+                .append("estadoGuardado", this.estadoGuardado).append("entradaDTO", this.entradaDTO).toString();
     }
 
 }

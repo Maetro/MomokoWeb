@@ -122,12 +122,14 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
   guardarLibro(): void {
     this.libroService.guardarLibro(this.libro)
-      .then(res => {
-
-        this.showSuccess('Libro guardado correctamente');
-        this.onLibroGuardado.emit(this.libro);
+      .subscribe(res => {
+        if (res.estadoGuardado === 'CORRECTO') {
+          this.showSuccess('Libro guardado correctamente');
+          this.onLibroGuardado.emit(this.libro);
+        } else {
+          this.showError(res.listaErroresValidacion);
+        }
       })
-      .catch();
   }
 
   showSuccess(mensaje: string) {
@@ -136,8 +138,19 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
   }
 
+  showError(mensaje: string[]) {
+    this.msgs = [];
+    console.log(mensaje);
+    let mensajeTotal = '';
+    mensaje.forEach(element => {
+      mensajeTotal += element + '<br/>';
+    });
+    console.log(mensajeTotal);
+    this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
+  }
+
   fileChange($event): void {
-    this.fileUploadService.fileChange($event, 'portada').subscribe
+    this.fileUploadService.fileChange($event, 'portadas').subscribe
       (urlImagenNueva => {
         // Emit list event
         console.log(urlImagenNueva);

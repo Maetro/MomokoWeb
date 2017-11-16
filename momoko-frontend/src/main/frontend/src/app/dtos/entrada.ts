@@ -7,6 +7,7 @@ export class Entrada {
   autor: User;
   urlEntrada: string;
   tipoEntrada: number;
+  tipoEntradaString: string;
   tituloEntrada: string;
   contenidoEntrada: string;
   resumenEntrada: string;
@@ -19,4 +20,6 @@ export class Entrada {
   orden: number;
   imagenDestacada: string;
   tituloLibroEntrada: string;
+  fraseDescriptiva: string;
+  urlVideo: string;
 }

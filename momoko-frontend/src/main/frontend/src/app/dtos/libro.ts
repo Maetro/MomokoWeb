@@ -25,4 +25,5 @@ export class Libro {
   entradasLibro: DatoEntrada[];
   portadaWidth: number;
   portadaHeight: number;
+  notaMomoko: number;
 }

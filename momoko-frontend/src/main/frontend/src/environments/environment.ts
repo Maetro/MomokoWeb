@@ -22,5 +22,6 @@ export const environment = {
   accountTokenUrl: 'http://localhost:8080/account/token',
   getEntradaUrl: 'http://localhost:8080/public/entrada/',
   indexDataUrl: 'http://localhost:8080/public/indexData',
-  obtenerLibroUrl: 'http://localhost:8080/public/libro/'
+  obtenerLibroUrl: 'http://localhost:8080/public/libro/',
+  addComentarioUrl: 'http://localhost:8080/public/comentario/add',
 };

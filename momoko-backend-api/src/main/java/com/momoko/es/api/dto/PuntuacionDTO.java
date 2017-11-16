@@ -4,6 +4,8 @@
  */
 package com.momoko.es.api.dto;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -19,7 +21,7 @@ public class PuntuacionDTO {
     private Integer puntuacionId;
 
     /** The valor. */
-    private Integer valor; // Del 0 al 100
+    private BigDecimal valor;
 
     /** The autor. */
     private UsuarioBasicoDTO autor;
@@ -39,7 +41,7 @@ public class PuntuacionDTO {
      * @return puntuacion id
      */
     public Integer getPuntuacionId() {
-        return puntuacionId;
+        return this.puntuacionId;
     }
 
     /**
@@ -48,7 +50,7 @@ public class PuntuacionDTO {
      * @param puntuacionId
      *            nuevo puntuacion id
      */
-    public void setPuntuacionId(Integer puntuacionId) {
+    public void setPuntuacionId(final Integer puntuacionId) {
         this.puntuacionId = puntuacionId;
     }
 
@@ -57,8 +59,8 @@ public class PuntuacionDTO {
      *
      * @return valor
      */
-    public Integer getValor() {
-        return valor;
+    public BigDecimal getValor() {
+        return this.valor;
     }
 
     /**
@@ -67,7 +69,7 @@ public class PuntuacionDTO {
      * @param valor
      *            nuevo valor
      */
-    public void setValor(Integer valor) {
+    public void setValor(final BigDecimal valor) {
         this.valor = valor;
     }
 
@@ -77,7 +79,7 @@ public class PuntuacionDTO {
      * @return autor
      */
     public UsuarioBasicoDTO getAutor() {
-        return autor;
+        return this.autor;
     }
 
     /**
@@ -86,7 +88,7 @@ public class PuntuacionDTO {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(UsuarioBasicoDTO autor) {
+    public void setAutor(final UsuarioBasicoDTO autor) {
         this.autor = autor;
     }
 
@@ -96,7 +98,7 @@ public class PuntuacionDTO {
      * @return comentario
      */
     public String getComentario() {
-        return comentario;
+        return this.comentario;
     }
 
     /**
@@ -105,7 +107,7 @@ public class PuntuacionDTO {
      * @param comentario
      *            nuevo comentario
      */
-    public void setComentario(String comentario) {
+    public void setComentario(final String comentario) {
         this.comentario = comentario;
     }
 
@@ -115,7 +117,7 @@ public class PuntuacionDTO {
      * @return libro id
      */
     public Integer getLibroId() {
-        return libroId;
+        return this.libroId;
     }
 
     /**
@@ -124,7 +126,7 @@ public class PuntuacionDTO {
      * @param libroId
      *            nuevo libro id
      */
-    public void setLibroId(Integer libroId) {
+    public void setLibroId(final Integer libroId) {
         this.libroId = libroId;
     }
 
@@ -134,7 +136,7 @@ public class PuntuacionDTO {
      * @return true, si es puntuacion momoko
      */
     public boolean isEsPuntuacionMomoko() {
-        return esPuntuacionMomoko;
+        return this.esPuntuacionMomoko;
     }
 
     /**
@@ -143,7 +145,7 @@ public class PuntuacionDTO {
      * @param esPuntuacionMomoko
      *            nuevo es puntuacion momoko
      */
-    public void setEsPuntuacionMomoko(boolean esPuntuacionMomoko) {
+    public void setEsPuntuacionMomoko(final boolean esPuntuacionMomoko) {
         this.esPuntuacionMomoko = esPuntuacionMomoko;
     }
 
@@ -152,12 +154,14 @@ public class PuntuacionDTO {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof PuntuacionDTO))
+        if (!(other instanceof PuntuacionDTO)) {
             return false;
-        PuntuacionDTO castOther = (PuntuacionDTO) other;
-        return new EqualsBuilder().append(puntuacionId, castOther.puntuacionId).append(valor, castOther.valor)
-                .append(autor, castOther.autor).append(comentario, castOther.comentario)
-                .append(libroId, castOther.libroId).append(esPuntuacionMomoko, castOther.esPuntuacionMomoko).isEquals();
+        }
+        final PuntuacionDTO castOther = (PuntuacionDTO) other;
+        return new EqualsBuilder().append(this.puntuacionId, castOther.puntuacionId).append(this.valor, castOther.valor)
+                .append(this.autor, castOther.autor).append(this.comentario, castOther.comentario)
+                .append(this.libroId, castOther.libroId).append(this.esPuntuacionMomoko, castOther.esPuntuacionMomoko)
+                .isEquals();
     }
 
     /**
@@ -165,8 +169,8 @@ public class PuntuacionDTO {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(puntuacionId).append(valor).append(autor).append(comentario).append(libroId)
-                .append(esPuntuacionMomoko).toHashCode();
+        return new HashCodeBuilder().append(this.puntuacionId).append(this.valor).append(this.autor)
+                .append(this.comentario).append(this.libroId).append(this.esPuntuacionMomoko).toHashCode();
     }
 
     /**
@@ -174,9 +178,9 @@ public class PuntuacionDTO {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("puntuacionId", puntuacionId).append("valor", valor)
-                .append("autor", autor).append("comentario", comentario).append("libroId", libroId)
-                .append("esPuntuacionMomoko", esPuntuacionMomoko).toString();
+        return new ToStringBuilder(this).append("puntuacionId", this.puntuacionId).append("valor", this.valor)
+                .append("autor", this.autor).append("comentario", this.comentario).append("libroId", this.libroId)
+                .append("esPuntuacionMomoko", this.esPuntuacionMomoko).toString();
     }
 
 }

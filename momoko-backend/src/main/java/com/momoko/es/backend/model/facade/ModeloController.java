@@ -22,24 +22,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
+import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
+import com.momoko.es.api.dto.response.GuardarEntradaResponse;
+import com.momoko.es.api.dto.response.GuardarGeneroResponse;
+import com.momoko.es.api.dto.response.GuardarLibroResponse;
+import com.momoko.es.api.dto.response.InformacionGeneralResponse;
+import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
-import com.momoko.es.api.enums.ErrorPublicarComentario;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.response.AnadirPuntuacionResponse;
-import com.momoko.es.api.response.GuardarEntradaResponse;
-import com.momoko.es.api.response.GuardarGeneroResponse;
-import com.momoko.es.api.response.GuardarLibroResponse;
-import com.momoko.es.api.response.InformacionGeneralResponse;
-import com.momoko.es.api.response.ObtenerEntradaResponse;
-import com.momoko.es.api.response.PublicarComentarioResponse;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.GeneroService;
@@ -96,6 +93,19 @@ public class ModeloController {
             } catch (final Exception e) {
                 e.printStackTrace();
                 listaErrores.add(ErrorCreacionLibro.TITULO_YA_EXISTE);
+            }
+        }
+
+        if (libroDTO.getNotaMomoko() != null) {
+            final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
+            puntuacionDTO.setValor(libroDTO.getNotaMomoko());
+            puntuacionDTO.setComentario(libroDTO.getComentarioNotaMomoko());
+            puntuacionDTO.setEsPuntuacionMomoko(true);
+            puntuacionDTO.setLibroId(libro.getLibroId());
+            try {
+                final PuntuacionDTO puntuacion = this.puntuacionService.guardarPuntuacion(puntuacionDTO);
+            } catch (final Exception e) {
+                listaErrores.add(ErrorCreacionLibro.PUNTUACION_YA_EXISTE);
             }
         }
 
@@ -205,31 +215,6 @@ public class ModeloController {
 
         return new ResponseEntity<GuardarEntradaResponse>(respuesta, status);
 
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_USER')")
-    @RequestMapping(method = RequestMethod.POST, path = "/comentarios/add")
-    ResponseEntity<PublicarComentarioResponse> publicarComentario(@RequestBody final ComentarioDTO comentarioDTO) {
-
-        final PublicarComentarioResponse respuesta = new PublicarComentarioResponse();
-        HttpStatus status = HttpStatus.OK;
-        final List<ErrorPublicarComentario> listaErrores = this.validadorService.validarComentario(comentarioDTO);
-        ComentarioDTO comentario = null;
-        if (CollectionUtils.isEmpty(listaErrores)) {
-            try {
-                comentario = this.comentarioService.guardarComentario(comentarioDTO);
-            } catch (final Exception e) {
-                listaErrores.add(ErrorPublicarComentario.ERROR_EN_GUARDADO);
-            }
-        }
-        respuesta.setComentariooDTO(comentario);
-        if ((comentario != null) && CollectionUtils.isEmpty(listaErrores)) {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
-        } else {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
-            status = HttpStatus.BAD_REQUEST;
-        }
-        return new ResponseEntity<PublicarComentarioResponse>(respuesta, status);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")

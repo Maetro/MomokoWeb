@@ -1,10 +1,10 @@
 /**
- * GuardarGeneroResponse.java 26-sep-2017
+ * GuardarLibroResponse.java 15-jul-2017
  *
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.response;
+package com.momoko.es.api.dto.response;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,30 +13,33 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.api.dto.GeneroDTO;
-import com.momoko.es.api.enums.ErrorCreacionGenero;
+import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 
-public class GuardarGeneroResponse implements Serializable {
+/**
+ * The Class GuardarLibroResponse.
+ */
+public class GuardarLibroResponse implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 6138141949532723854L;
 
     /** The lista errores validacion. */
-    List<ErrorCreacionGenero> listaErroresValidacion;
+    List<ErrorCreacionLibro> listaErroresValidacion;
 
     /** The estado guardado. */
     EstadoGuardadoEnum estadoGuardado;
 
     /** The libro dto. */
-    GeneroDTO generoDTO;
+    LibroDTO libroDTO;
 
     /**
      * Gets the lista errores validacion.
      *
      * @return the lista errores validacion
      */
-    public List<ErrorCreacionGenero> getListaErroresValidacion() {
+    public List<ErrorCreacionLibro> getListaErroresValidacion() {
         return this.listaErroresValidacion;
     }
 
@@ -46,7 +49,7 @@ public class GuardarGeneroResponse implements Serializable {
      * @param listaErroresValidacion
      *            the new lista errores validacion
      */
-    public void setListaErroresValidacion(final List<ErrorCreacionGenero> listaErroresValidacion) {
+    public void setListaErroresValidacion(final List<ErrorCreacionLibro> listaErroresValidacion) {
         this.listaErroresValidacion = listaErroresValidacion;
     }
 
@@ -70,44 +73,45 @@ public class GuardarGeneroResponse implements Serializable {
     }
 
     /**
-     * Gets the genero dto.
+     * Gets the libro dto.
      *
-     * @return the genero dto
+     * @return the libro dto
      */
-    public GeneroDTO getGeneroDTO() {
-        return this.generoDTO;
+    public LibroDTO getLibroDTO() {
+        return this.libroDTO;
     }
 
     /**
-     * Sets the genero dto.
+     * Sets the libro dto.
      *
-     * @param generoDTO
-     *            the new genero dto
+     * @param libroDTO
+     *            the new libro dto
      */
-    public void setGeneroDTO(final GeneroDTO generoDTO) {
-        this.generoDTO = generoDTO;
+    public void setLibroDTO(final LibroDTO libroDTO) {
+        this.libroDTO = libroDTO;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GuardarGeneroResponse)) {
+        if (!(other instanceof GuardarLibroResponse)) {
             return false;
         }
-        final GuardarGeneroResponse castOther = (GuardarGeneroResponse) other;
+        final GuardarLibroResponse castOther = (GuardarLibroResponse) other;
         return new EqualsBuilder().append(this.listaErroresValidacion, castOther.listaErroresValidacion)
-                .append(this.estadoGuardado, castOther.estadoGuardado).append(this.generoDTO, castOther.generoDTO)
+                .append(this.estadoGuardado, castOther.estadoGuardado).append(this.libroDTO, castOther.libroDTO)
                 .isEquals();
     }
 
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.listaErroresValidacion).append(this.estadoGuardado)
-                .append(this.generoDTO).toHashCode();
+                .append(this.libroDTO).toHashCode();
     }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("listaErroresValidacion", this.listaErroresValidacion)
-                .append("estadoGuardado", this.estadoGuardado).append("generoDTO", this.generoDTO).toString();
+                .append("estadoGuardado", this.estadoGuardado).append("libroDTO", this.libroDTO).toString();
     }
+
 }

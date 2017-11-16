@@ -99,7 +99,11 @@
 			<version>${parent.version}</version>
 		</dependency>
 
-
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.8.3</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -113,11 +117,18 @@
 		    <version>4.2</version>
 		</dependency>
 
+		
+
 		<!-- END BORRAME -->
 		<dependency>
 			<groupId>org.scala-lang</groupId>
 			<artifactId>scala-library</artifactId>
 			<version>2.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-core</artifactId>
+			<version>1.0.0</version>
 		</dependency>
 	</dependencies>
 

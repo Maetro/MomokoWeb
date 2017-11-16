@@ -4,7 +4,10 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.util.List;
+
 import com.momoko.es.api.dto.ComentarioDTO;
+import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 
 /**
  * The Interface ComentarioService.
@@ -22,6 +25,15 @@ public interface ComentarioService {
      * @throws Exception
      *             de exception
      */
-    public ComentarioDTO guardarComentario(ComentarioDTO comentario) throws Exception;
+    public ComentarioDTO guardarComentario(NuevoComentarioRequest comentario) throws Exception;
+
+    /**
+     * Obtener comentarios entrada.
+     *
+     * @param entradaId
+     *            the entrada id
+     * @return the list
+     */
+    public List<ComentarioDTO> obtenerComentariosEntrada(Integer entradaId);
 
 }

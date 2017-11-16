@@ -1,8 +1,9 @@
+import { NewUser } from './../../dtos/login';
 import { Component, OnInit } from '@angular/core';
 
 
 import { Router} from '@angular/router';
-import { LoginStatus, Login } from 'app/auth/dtos/login';
+import { LoginStatus, Login, SignupStatus } from 'app/auth/dtos/login';
 import { AuthService } from 'app/auth/services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
@@ -11,13 +12,17 @@ import { StringInfo } from 'app/dtos/string';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
   alertStyle = '';
   loginStatus = new LoginStatus('', '');
   model = new Login('', '');
+
+  nuevoUsuario = new NewUser();
+  signupStatus = new SignupStatus();
 
   user: string;
   authenticated = false;
@@ -66,5 +71,17 @@ export class LoginComponent implements OnInit {
     this.alertStyle = '';
     this.loginStatus.code = '';
     this.loginStatus.message = '';
+  }
+
+  onRegister() {
+    this.authService.signup(this.nuevoUsuario)
+      .then((status: SignupStatus) => {
+        this.signupStatus.code = status.code;
+        this.signupStatus.message = status.message;
+        if (this.signupStatus.code === 'USER_ACCOUNT_EXISTS') {
+          this.alertStyle = 'alert alert-danger';
+        }
+      });
+    this.alertStyle = 'alert alert-success';
   }
 }

@@ -16,6 +16,9 @@ export class AnadirEntradaComponent {
 
   loadComponent(entradaItem: EntradaItem) {
 
+
+    console.log('Cargando entrada');
+
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(entradaItem.component);
 
     const viewContainerRef = this.anadirEntradaHost.viewContainerRef;

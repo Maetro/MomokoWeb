@@ -7,6 +7,8 @@
 package com.momoko.es.api.dto;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -27,6 +29,9 @@ public class ComentarioDTO implements Serializable {
     /** The autor. */
     private UsuarioBasicoDTO autor;
 
+    /** The fecha. */
+    private Date fecha;
+
     /** The votos positivos. */
     private Integer votosPositivos;
 
@@ -40,7 +45,10 @@ public class ComentarioDTO implements Serializable {
     private Integer entradaId;
 
     /** The comentario referencia. */
-    private Integer comentarioReferencia;
+    private List<ComentarioDTO> comentariosHijo;
+
+    /** The comentario padre id. */
+    private Integer comentarioPadreId;
 
     /** The es spoiler. */
     private boolean esSpoiler;
@@ -54,7 +62,7 @@ public class ComentarioDTO implements Serializable {
      * @return comentario id
      */
     public Integer getComentarioId() {
-        return comentarioId;
+        return this.comentarioId;
     }
 
     /**
@@ -63,7 +71,7 @@ public class ComentarioDTO implements Serializable {
      * @param comentarioId
      *            nuevo comentario id
      */
-    public void setComentarioId(Integer comentarioId) {
+    public void setComentarioId(final Integer comentarioId) {
         this.comentarioId = comentarioId;
     }
 
@@ -73,7 +81,7 @@ public class ComentarioDTO implements Serializable {
      * @return autor
      */
     public UsuarioBasicoDTO getAutor() {
-        return autor;
+        return this.autor;
     }
 
     /**
@@ -82,7 +90,7 @@ public class ComentarioDTO implements Serializable {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(UsuarioBasicoDTO autor) {
+    public void setAutor(final UsuarioBasicoDTO autor) {
         this.autor = autor;
     }
 
@@ -92,7 +100,7 @@ public class ComentarioDTO implements Serializable {
      * @return votos positivos
      */
     public Integer getVotosPositivos() {
-        return votosPositivos;
+        return this.votosPositivos;
     }
 
     /**
@@ -101,7 +109,7 @@ public class ComentarioDTO implements Serializable {
      * @param votosPositivos
      *            nuevo votos positivos
      */
-    public void setVotosPositivos(Integer votosPositivos) {
+    public void setVotosPositivos(final Integer votosPositivos) {
         this.votosPositivos = votosPositivos;
     }
 
@@ -111,7 +119,7 @@ public class ComentarioDTO implements Serializable {
      * @return votos negativos
      */
     public Integer getVotosNegativos() {
-        return votosNegativos;
+        return this.votosNegativos;
     }
 
     /**
@@ -120,7 +128,7 @@ public class ComentarioDTO implements Serializable {
      * @param votosNegativos
      *            nuevo votos negativos
      */
-    public void setVotosNegativos(Integer votosNegativos) {
+    public void setVotosNegativos(final Integer votosNegativos) {
         this.votosNegativos = votosNegativos;
     }
 
@@ -130,7 +138,7 @@ public class ComentarioDTO implements Serializable {
      * @return texto comentario
      */
     public String getTextoComentario() {
-        return textoComentario;
+        return this.textoComentario;
     }
 
     /**
@@ -139,7 +147,7 @@ public class ComentarioDTO implements Serializable {
      * @param textoComentario
      *            nuevo texto comentario
      */
-    public void setTextoComentario(String textoComentario) {
+    public void setTextoComentario(final String textoComentario) {
         this.textoComentario = textoComentario;
     }
 
@@ -149,7 +157,7 @@ public class ComentarioDTO implements Serializable {
      * @return true, si es spoiler
      */
     public boolean isEsSpoiler() {
-        return esSpoiler;
+        return this.esSpoiler;
     }
 
     /**
@@ -158,7 +166,7 @@ public class ComentarioDTO implements Serializable {
      * @param esSpoiler
      *            nuevo es spoiler
      */
-    public void setEsSpoiler(boolean esSpoiler) {
+    public void setEsSpoiler(final boolean esSpoiler) {
         this.esSpoiler = esSpoiler;
     }
 
@@ -168,7 +176,7 @@ public class ComentarioDTO implements Serializable {
      * @return true, si es ban
      */
     public boolean isEsBan() {
-        return esBan;
+        return this.esBan;
     }
 
     /**
@@ -177,7 +185,7 @@ public class ComentarioDTO implements Serializable {
      * @param esBan
      *            nuevo es ban
      */
-    public void setEsBan(boolean esBan) {
+    public void setEsBan(final boolean esBan) {
         this.esBan = esBan;
     }
 
@@ -187,7 +195,7 @@ public class ComentarioDTO implements Serializable {
      * @return entrada id
      */
     public Integer getEntradaId() {
-        return entradaId;
+        return this.entradaId;
     }
 
     /**
@@ -196,7 +204,7 @@ public class ComentarioDTO implements Serializable {
      * @param entradaId
      *            nuevo entrada id
      */
-    public void setEntradaId(Integer entradaId) {
+    public void setEntradaId(final Integer entradaId) {
         this.entradaId = entradaId;
     }
 
@@ -205,8 +213,8 @@ public class ComentarioDTO implements Serializable {
      *
      * @return comentario referencia
      */
-    public Integer getComentarioReferencia() {
-        return comentarioReferencia;
+    public List<ComentarioDTO> getComentariosHijo() {
+        return this.comentariosHijo;
     }
 
     /**
@@ -215,8 +223,46 @@ public class ComentarioDTO implements Serializable {
      * @param comentarioReferencia
      *            nuevo comentario referencia
      */
-    public void setComentarioReferencia(Integer comentarioReferencia) {
-        this.comentarioReferencia = comentarioReferencia;
+    public void setComentarioReferencia(final List<ComentarioDTO> comentariosHijo) {
+        this.comentariosHijo = comentariosHijo;
+    }
+
+    /**
+     * Sets the comentario referencia.
+     *
+     * @param comentarioPadreId
+     *            the new comentario referencia
+     */
+    public void setComentarioReferencia(final Integer comentarioPadreId) {
+        this.comentarioPadreId = comentarioPadreId;
+    }
+
+    /**
+     * Gets the comentario padre id.
+     *
+     * @return the comentario padre id
+     */
+    public Integer getComentarioPadreId() {
+        return this.comentarioPadreId;
+    }
+
+    /**
+     * Gets the fecha.
+     *
+     * @return the fecha
+     */
+    public Date getFecha() {
+        return this.fecha;
+    }
+
+    /**
+     * Sets the fecha.
+     *
+     * @param fecha
+     *            the new fecha
+     */
+    public void setFecha(final Date fecha) {
+        this.fecha = fecha;
     }
 
     /**
@@ -224,13 +270,15 @@ public class ComentarioDTO implements Serializable {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof ComentarioDTO))
+        if (!(other instanceof ComentarioDTO)) {
             return false;
-        ComentarioDTO castOther = (ComentarioDTO) other;
-        return new EqualsBuilder().append(comentarioId, castOther.comentarioId).append(autor, castOther.autor)
-                .append(votosPositivos, castOther.votosPositivos).append(votosNegativos, castOther.votosNegativos)
-                .append(textoComentario, castOther.textoComentario).append(esSpoiler, castOther.esSpoiler)
-                .append(esBan, castOther.esBan).isEquals();
+        }
+        final ComentarioDTO castOther = (ComentarioDTO) other;
+        return new EqualsBuilder().append(this.comentarioId, castOther.comentarioId).append(this.autor, castOther.autor)
+                .append(this.votosPositivos, castOther.votosPositivos)
+                .append(this.votosNegativos, castOther.votosNegativos)
+                .append(this.textoComentario, castOther.textoComentario).append(this.esSpoiler, castOther.esSpoiler)
+                .append(this.esBan, castOther.esBan).isEquals();
     }
 
     /**
@@ -238,8 +286,9 @@ public class ComentarioDTO implements Serializable {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(comentarioId).append(autor).append(votosPositivos).append(votosNegativos)
-                .append(textoComentario).append(esSpoiler).append(esBan).toHashCode();
+        return new HashCodeBuilder().append(this.comentarioId).append(this.autor).append(this.votosPositivos)
+                .append(this.votosNegativos).append(this.textoComentario).append(this.esSpoiler).append(this.esBan)
+                .toHashCode();
     }
 
     /**
@@ -247,10 +296,10 @@ public class ComentarioDTO implements Serializable {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("comentarioId", comentarioId).append("autor", autor)
-                .append("votosPositivos", votosPositivos).append("votosNegativos", votosNegativos)
-                .append("textoComentario", textoComentario).append("esSpoiler", esSpoiler).append("esBan", esBan)
-                .toString();
+        return new ToStringBuilder(this).append("comentarioId", this.comentarioId).append("autor", this.autor)
+                .append("votosPositivos", this.votosPositivos).append("votosNegativos", this.votosNegativos)
+                .append("textoComentario", this.textoComentario).append("esSpoiler", this.esSpoiler)
+                .append("esBan", this.esBan).toString();
     }
 
 }

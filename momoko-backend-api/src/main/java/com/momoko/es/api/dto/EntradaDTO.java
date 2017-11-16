@@ -31,6 +31,9 @@ public class EntradaDTO {
     /** The tipo entrada. */
     private Integer tipoEntrada;
 
+    /** The tipo entrada string. */
+    private String tipoEntradaString;
+
     /** The titulo entrada. */
     private String tituloEntrada;
 
@@ -66,6 +69,12 @@ public class EntradaDTO {
 
     /** The orden. */
     private Integer orden;
+
+    /** The frase descriptiva. */
+    private String fraseDescriptiva;
+
+    /** The url video. */
+    private String urlVideo;
 
     /**
      * Instancia un nuevo entrada DTO.
@@ -375,6 +384,44 @@ public class EntradaDTO {
      */
     public void setTituloLibroEntrada(final String tituloLibroEntrada) {
         this.tituloLibroEntrada = tituloLibroEntrada;
+    }
+
+    /**
+     * Gets the frase descriptiva.
+     *
+     * @return the frase descriptiva
+     */
+    public String getFraseDescriptiva() {
+        return this.fraseDescriptiva;
+    }
+
+    /**
+     * Sets the frase descriptiva.
+     *
+     * @param fraseDescriptiva
+     *            the new frase descriptiva
+     */
+    public void setFraseDescriptiva(final String fraseDescriptiva) {
+        this.fraseDescriptiva = fraseDescriptiva;
+    }
+
+    /**
+     * Gets the tipo entrada string.
+     *
+     * @return the tipo entrada string
+     */
+    public String getTipoEntradaString() {
+        return this.tipoEntradaString;
+    }
+
+    /**
+     * Sets the tipo entrada string.
+     *
+     * @param tipoEntradaString
+     *            the new tipo entrada string
+     */
+    public void setTipoEntradaString(final String tipoEntradaString) {
+        this.tipoEntradaString = tipoEntradaString;
     }
 
     /**

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.momoko.es.api.dto.StringResponseDTO;
+import com.momoko.es.api.dto.response.StringResponseDTO;
 import com.momoko.es.api.exceptions.StorageFileNotFoundException;
 import com.momoko.es.api.facade.FileUploadFacade;
 import com.momoko.es.backend.model.service.StorageService;

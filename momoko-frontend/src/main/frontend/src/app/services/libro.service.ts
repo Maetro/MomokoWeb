@@ -15,6 +15,7 @@ import { Cookie } from 'ng2-cookies';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { FichaLibro } from 'app/dtos/fichaLibro';
+import { GuardarLibroResponse } from 'app/dtos/response/guardarLibroResponse';
 
 @Injectable()
 export class LibroService {
@@ -58,14 +59,19 @@ export class LibroService {
     return res;
   }
 
-  guardarLibro(libro: Libro): Promise<any> {
+  guardarLibro(libro: Libro): Observable<GuardarLibroResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
       });
     return this.http
-      .post(this.addLibroUrl, JSON.stringify(libro), {headers: headers})
-      .toPromise();
+      .post<GuardarLibroResponse>(this.addLibroUrl, JSON.stringify(libro), {headers: headers})
+      .map(this.extractGuardarLibroResponse)
+      .catch(error => Observable.throw(error || 'Server error'));
+  }
+
+  private extractGuardarLibroResponse(res: GuardarLibroResponse) {
+    return res;
   }
 
   guardarGenero(genero: Genero): Promise<any> {

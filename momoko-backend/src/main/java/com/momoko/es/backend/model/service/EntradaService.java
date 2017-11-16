@@ -9,7 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.response.ObtenerEntradaResponse;
+import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 
 /**
  * The Interface EntradaService.

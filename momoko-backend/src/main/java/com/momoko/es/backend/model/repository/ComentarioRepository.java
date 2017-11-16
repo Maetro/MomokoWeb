@@ -4,6 +4,8 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,13 @@ import com.momoko.es.backend.model.entity.ComentarioEntity;
 @Repository
 public interface ComentarioRepository extends CrudRepository<ComentarioEntity, Integer> {
 
-
+    /**
+     * Find by entrada entrada id.
+     *
+     * @param entradaId
+     *            the entrada id
+     * @return the list
+     */
+    List<ComentarioEntity> findByEntradaEntradaId(Integer entradaId);
 
 }

@@ -12,7 +12,8 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="libro.titulo" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título del libro"/>
+                <input type="text" [(ngModel)]="libro.titulo" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título del libro"
+                />
               </label>
             </div>
             <!--/.form-field -->
@@ -28,7 +29,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="libro.tituloOriginal" placeholder="Escribe aquí el título original del libro"/>
+                <input type="text" [(ngModel)]="libro.tituloOriginal" placeholder="Escribe aquí el título original del libro" />
               </label>
             </div>
             <!--/.form-field -->
@@ -37,31 +38,35 @@
           <div class="divide10"></div>
 
           <div class="col-sm-12 rp10">
-              <div class="form-field">
-                <h4> URL: </h4>
-              </div>
+            <div class="form-field">
+              <h4> URL: </h4>
             </div>
-            <div class="col-sm-12 lp10">
-              <div class="form-field">
-                <label>
-                  <input type="text" [(ngModel)]="libro.urlLibro" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url del libro" />
-                </label>
-              </div>
-              <!--/.form-field -->
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="libro.urlLibro" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url del libro"
+                />
+              </label>
             </div>
+            <!--/.form-field -->
+          </div>
 
-            <div class="divide10"></div>
+          <div class="divide10"></div>
 
           <div class="col-sm-12 lp10">
-            <h4> Autor de la obra <a href="#"> <i class="ion-plus"></i> </a> </h4>
+            <h4> Autor de la obra
+              <a href="#">
+                <i class="ion-plus"></i>
+              </a>
+            </h4>
           </div>
           <div *ngFor="let autor of libro.autores">
             <div class="col-sm-12 lp10">
               <div class="form-field">
                 <label>
-                    <ng2-completer placeholder="Escribe aquí al autor de la obra" [(ngModel)]="autor.nombre"
-                    [datasource]="nombresAutores" [minSearchLength]="3"></ng2-completer>
-                  </label>
+                  <ng2-completer placeholder="Escribe aquí al autor de la obra" [(ngModel)]="autor.nombre" [datasource]="nombresAutores" [minSearchLength]="3"></ng2-completer>
+                </label>
               </div>
             </div>
           </div>
@@ -74,8 +79,8 @@
           <div class="col-sm-9 lp10">
             <div class="form-field">
               <label>
-                <ng2-completer placeholder="Nombre de la editorial" [(ngModel)]="libro.editorial.nombreEditorial"
-                [datasource]="nombresEditoriales" [minSearchLength]="3"></ng2-completer>
+                <ng2-completer placeholder="Nombre de la editorial" [(ngModel)]="libro.editorial.nombreEditorial" [datasource]="nombresEditoriales"
+                  [minSearchLength]="3"></ng2-completer>
               </label>
             </div>
           </div>
@@ -150,9 +155,9 @@
                 data-success="Thank you!">
             </div>
             <div [hidden]="esLibroNuevo">
-                <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
-                  data-success="Thank you!">
-              </div>
+              <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
             <footer class="notification-box"></footer>
           </div>
         </div>
@@ -162,15 +167,16 @@
     <aside class="col-sm-4 sidebar">
       <div class="sidebox widget">
 
-        <img src="{{libro.urlImagen}}" alt="Portada libro - {{libro.titulo}}"/>
+        <img src="{{libro.urlImagen}}" alt="Portada libro - {{libro.titulo}}" />
 
         <div class="divide10"></div>
         <h2 class="section-title widget-title margen_superior">Imagen del libro </h2>
 
-        <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
+        <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen"
+          auto="auto" maxFileSize="1000000">
 
           <ng-template pTemplate="content">
-              <div>Arrastra aquí la imagen que quieras subir.</div>
+            <div>Arrastra aquí la imagen que quieras subir.</div>
           </ng-template>
         </p-fileUpload>
 
@@ -186,6 +192,38 @@
           <label>
             <input type="email" [(ngModel)]="libro.enlaceAmazon" placeholder="Enlace de amazon">
           </label>
+        </div>
+
+        <div class="divide10"></div>
+
+        <div class="col-sm-12 rp10">
+          <div class="form-field">
+            <h4> Nota: </h4>
+          </div>
+        </div>
+        <div class="col-sm-12 lp10">
+          <div class="form-field">
+            <label>
+              <input type="number" [(ngModel)]="libro.notaMomoko" placeholder="Nota" />
+            </label>
+          </div>
+          <!--/.form-field -->
+        </div>
+
+        <div class="divide10"></div>
+
+        <div class="col-sm-12 rp10">
+          <div class="form-field">
+            <h4> Comentario para nota: </h4>
+          </div>
+        </div>
+        <div class="col-sm-12 lp10">
+          <div class="form-field">
+            <label>
+              <textarea type="text" [(ngModel)]="libro.comentarioNotaMomoko" placeholder="(Opcional) Algún comentario sobre la nota"></textarea>
+            </label>
+          </div>
+          <!--/.form-field -->
         </div>
 
       </div>

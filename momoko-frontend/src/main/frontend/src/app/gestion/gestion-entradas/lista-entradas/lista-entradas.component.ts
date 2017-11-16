@@ -87,4 +87,5 @@ export class ListaEntradasComponent implements OnInit {
         this.getEntradas();
         console.log(entrada);
       }
+
 }

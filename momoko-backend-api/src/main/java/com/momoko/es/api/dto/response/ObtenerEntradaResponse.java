@@ -4,10 +4,11 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.response;
+package com.momoko.es.api.dto.response;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 
@@ -21,6 +22,9 @@ public class ObtenerEntradaResponse {
 
     /** The cinco libros parecidos. */
     private List<LibroSimpleDTO> cincoLibrosParecidos;
+
+    /** The comentarios. */
+    private List<ComentarioDTO> comentarios;
 
     /**
      * Gets the entrada.
@@ -58,6 +62,25 @@ public class ObtenerEntradaResponse {
      */
     public void setCincoLibrosParecidos(final List<LibroSimpleDTO> cincoLibrosParecidos) {
         this.cincoLibrosParecidos = cincoLibrosParecidos;
+    }
+
+    /**
+     * Gets the comentarios.
+     *
+     * @return the comentarios
+     */
+    public List<ComentarioDTO> getComentarios() {
+        return this.comentarios;
+    }
+
+    /**
+     * Sets the comentarios.
+     *
+     * @param comentarios
+     *            the new comentarios
+     */
+    public void setComentarios(final List<ComentarioDTO> comentarios) {
+        this.comentarios = comentarios;
     }
 
 }
