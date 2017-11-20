@@ -16,8 +16,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
+import com.momoko.es.backend.model.entity.CategoriaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.repository.CategoriaRepository;
 import com.momoko.es.backend.model.repository.GeneroRepository;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.util.DTOToEntityAdapter;
@@ -32,6 +35,9 @@ public class GeneroServiceImpl implements GeneroService {
     @Autowired
     private GeneroRepository generoRepository;
 
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
     @Override
     public List<GeneroDTO> obtenerTodosGeneros() {
         final List<GeneroDTO> listaGeneros = new ArrayList<GeneroDTO>();
@@ -44,7 +50,8 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Override
     public GeneroDTO guardarGenero(final GeneroDTO generoDTO) throws Exception {
-        final GeneroEntity generoEntity = DTOToEntityAdapter.adaptarGenero(generoDTO);
+
+        GeneroEntity generoEntity = DTOToEntityAdapter.adaptarGenero(generoDTO);
         // Comprobamos si el autor existe.
         final List<GeneroEntity> coincidencias = this.generoRepository.findByNombre(generoDTO.getNombre());
         if ((CollectionUtils.isEmpty(coincidencias)) || ((generoDTO.getGeneroId() != null))) {
@@ -60,18 +67,37 @@ public class GeneroServiceImpl implements GeneroService {
 
             if (generoEntity.getGenero_id() != null) {
                 final GeneroEntity generoBD = this.generoRepository.findOne(generoEntity.getGenero_id());
-                generoEntity.setFechaAlta(generoBD.getFechaAlta());
-                generoEntity.setUsuarioAlta(generoBD.getUsuarioAlta());
+                generoEntity = generoBD;
                 generoEntity.setUsuarioModificacion(currentPrincipalName);
                 generoEntity.setFechaModificacion(Calendar.getInstance().getTime());
             } else {
                 generoEntity.setUsuarioAlta(currentPrincipalName);
                 generoEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
+            generoEntity.setImagenCabeceraGenero(generoDTO.getImagenCabeceraGenero());
+            generoEntity.setImagenIconoGenero(generoDTO.getIconoGenero());
+            generoEntity.setCategoria(DTOToEntityAdapter.adaptarCategoria(generoDTO.getCategoria()));
             return EntityToDTOAdapter.adaptarGenero(this.generoRepository.save(generoEntity));
         } else {
             throw new Exception("El nombre del genero ya se esta utilizando");
         }
+    }
+
+    @Override
+    public CategoriaDTO obtenerCategoriaPorUrl(final String urlCategoria) {
+        final CategoriaEntity categoriaEntity = this.categoriaRepository.findOneByUrlCategoria(urlCategoria);
+        return EntityToDTOAdapter.adaptarCategoria(categoriaEntity);
+    }
+
+    @Override
+    public GeneroDTO obtenerGeneroPorUrl(final String urlGenero) {
+        final GeneroEntity generoEntity = this.generoRepository.findOneByUrlGeneroAndFechaBajaIsNull(urlGenero);
+        return EntityToDTOAdapter.adaptarGenero(generoEntity);
+    }
+
+    @Override
+    public List<CategoriaDTO> obtenerListaCategorias() {
+        return EntityToDTOAdapter.adaptarCategorias(this.categoriaRepository.findAll());
     }
 
 }

@@ -1,3 +1,5 @@
+import { ListaGeneroComponent } from 'app/contenido/clasificador/lista-genero/lista-genero.component';
+import { VideoService } from 'app/services/video.service';
 import { YoutubeService } from './../services/youtube.service';
 import { ComentariosService } from 'app/services/comentarios.service';
 import { ObtenerLibroResolverService } from './../services/resolvers/obtener-libro-resolver.service';
@@ -30,6 +32,7 @@ import { ScrollToModule } from 'ng2-scroll-to-el';
 import { CrearComentarioComponent } from 'app/contenido/analisis/crear-comentario/crear-comentario.component';
 import { PlantillaComentarioComponent } from 'app/contenido/analisis/plantilla-comentario/plantilla-comentario.component';
 import { VideosHorizontalComponent } from 'app/contenido/index/videos-horizontal/videos-horizontal.component';
+import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-video-resolver.service';
 
 @NgModule({
   imports: [
@@ -44,9 +47,9 @@ import { VideosHorizontalComponent } from 'app/contenido/index/videos-horizontal
     AnadirEntradaComponent, AnadirEntrada2Component, LibrosMesSidebarComponent, Fila3entradasfondonegroComponent,
     LibrosHorizontalComponent, Libro3dComponent, FichaLibroComponent, SidebarInstagramComponent,
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
-    CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent],
-  providers: [IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService, ComentariosService,
-    YoutubeService],
+    CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent],
+  providers: [IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService, ObtenerVideoResolverService,
+     ComentariosService, YoutubeService, VideoService],
   exports: [RouterModule],
   entryComponents: [EntradaPortadaNormalImplComponent]
 })

@@ -52,4 +52,13 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     List<EntradaEntity> findByLibroEntrada(LibroEntity libro);
 
+    /**
+     * Find by libro entrada not null order by libro entrada visitas desc.
+     *
+     * @param pageable
+     *            the pageable
+     * @return the list
+     */
+    List<EntradaEntity> findByLibroEntradaNotNullOrderByLibroEntradaVisitasDesc(Pageable pageable);
+
 }

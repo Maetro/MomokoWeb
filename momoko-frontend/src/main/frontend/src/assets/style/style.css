@@ -4661,3 +4661,7 @@ html body.kc-css-system .kc_tabs_nav~.kc_tab:not(.ui-tabs-body-active) {
   float: left;
 
 }
+
+.ui-chips>ul.ui-inputtext {
+  height: auto;
+}

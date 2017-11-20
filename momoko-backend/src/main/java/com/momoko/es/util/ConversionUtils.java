@@ -13,12 +13,16 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.Normalizer;
+import java.text.Normalizer.Form;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -160,14 +164,15 @@ public class ConversionUtils {
      */
     public static List<LibroSimpleDTO> obtenerLibrosBasicos(final List<LibroEntity> listaLibros,
             final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro) {
-        final List<LibroSimpleDTO> liborsSimples = new ArrayList<LibroSimpleDTO>();
+        final List<LibroSimpleDTO> librosSimples = new ArrayList<LibroSimpleDTO>();
         if (CollectionUtils.isNotEmpty(listaLibros)) {
             for (final LibroEntity libro : listaLibros) {
-                final LibroSimpleDTO libroSimple = obtenerLibroSimpleDTO(libro, mapaPuntacionMomokoPorLibro.get(libro));
-                liborsSimples.add(libroSimple);
+                final LibroSimpleDTO libroSimple = obtenerLibroSimpleDTO(libro,
+                        mapaPuntacionMomokoPorLibro != null ? mapaPuntacionMomokoPorLibro.get(libro) : null);
+                librosSimples.add(libroSimple);
             }
         }
-        return liborsSimples;
+        return librosSimples;
     }
 
     /**
@@ -268,6 +273,31 @@ public class ConversionUtils {
             }
         }
         return mapa;
+    }
+
+    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
+    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+
+    public static String toSlug(final String input) {
+        final String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
+        final String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
+        final String slug = NONLATIN.matcher(normalized).replaceAll("");
+        final String urlSlug = eliminarEspaciosSeguidos(slug);
+        return urlSlug.toLowerCase(Locale.ENGLISH);
+    }
+
+    /**
+     * Eliminar espacios seguidos.
+     *
+     * @param slug
+     *            the slug
+     * @return the string
+     */
+    private static String eliminarEspaciosSeguidos(String slug) {
+        while (slug.contains("--")) {
+            slug = slug.replace("--", "-");
+        }
+        return slug;
     }
 
 }

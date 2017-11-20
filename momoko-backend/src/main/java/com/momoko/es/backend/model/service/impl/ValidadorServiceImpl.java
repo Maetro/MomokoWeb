@@ -83,6 +83,21 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionGenero.FALTA_GENERO);
 
         }
+        if (StringUtils.isEmpty(generoDTO.getUrlGenero())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_URL);
+
+        }
+        if (StringUtils.isEmpty(generoDTO.getImagenCabeceraGenero())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_IMAGEN_CABECERA);
+
+        }
+        if (StringUtils.isEmpty(generoDTO.getIconoGenero())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_ICONO);
+        }
+
+        if (generoDTO.getCategoria() == null) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_CATEGORIA);
+        }
 
         return listaErrores;
     }

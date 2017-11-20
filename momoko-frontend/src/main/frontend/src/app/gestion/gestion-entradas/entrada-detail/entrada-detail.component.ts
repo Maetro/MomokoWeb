@@ -17,7 +17,8 @@ import { Libro } from 'app/dtos/libro';
 
 @Component({
   selector: 'app-entrada-detail',
-  templateUrl: './entrada-detail.component.html'
+  templateUrl: './entrada-detail.component.html',
+  styleUrls: ['./entrada-detail.component.css']
 })
 export class EntradaDetailComponent implements OnInit {
 
@@ -95,6 +96,17 @@ export class EntradaDetailComponent implements OnInit {
     this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
   }
 
+  showError(mensaje: string[]) {
+    this.msgs = [];
+    console.log(mensaje);
+    let mensajeTotal = '';
+    mensaje.forEach(element => {
+      mensajeTotal += element + '<br/>';
+    });
+    console.log(mensajeTotal);
+    this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
+  }
+
   fileChange($event): void {
     this.fileUploadService.fileChange($event, 'imagenes-destacadas').subscribe
       (urlImagenNueva => {
@@ -111,11 +123,13 @@ export class EntradaDetailComponent implements OnInit {
 
   guardarEntrada(): void {
     this.entrada.etiquetas = [];
-    this.etiquetas.forEach(etiqueta => {
-     const et = new Etiqueta();
-     et.nombreEtiqueta = etiqueta;
-     this.entrada.etiquetas.push(et);
-    });
+    if (this.etiquetas != null) {
+      this.etiquetas.forEach(etiqueta => {
+        const et = new Etiqueta();
+        et.nombreEtiqueta = etiqueta;
+        this.entrada.etiquetas.push(et);
+      });
+    }
     if (this.entrada.tipoEntrada == null) {
       this.entrada.tipoEntrada = 1;
     }
@@ -124,16 +138,21 @@ export class EntradaDetailComponent implements OnInit {
     }
 
     this.entradaService.guardarEntrada(this.entrada)
-      .then(res => {
-        this.showSuccess('Entrada guardada correctamente');
-        // this.onEntradaGuardada.emit(this.entrada);
-      })
-      .catch();
+      .subscribe(res => {
+        if (res.estadoGuardado === 'CORRECTO') {
+          this.showSuccess('Entrada guardada correctamente');
+          this.onEntradaGuardada.emit(this.entrada);
+        } else {
+          this.showError(res.listaErroresValidacion);
+        }
+      });
   }
 
   anadirGaleria(): void {
-    const galerias = new GaleriaItem(GaleriaFormImplComponent, {headline: 'Openings in all departments',
-      body: 'Apply today'});
+    const galerias = new GaleriaItem(GaleriaFormImplComponent, {
+      headline: 'Openings in all departments',
+      body: 'Apply today'
+    });
     this.anadirGaleriaComponent.loadComponent(galerias);
   }
 

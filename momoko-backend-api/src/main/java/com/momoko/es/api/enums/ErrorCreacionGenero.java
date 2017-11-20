@@ -7,5 +7,17 @@
 package com.momoko.es.api.enums;
 
 public enum ErrorCreacionGenero {
-    OK, FALTA_GENERO, GENERO_YA_EXISTE,
+    OK("OK"), FALTA_GENERO("Falta el nombre del genero"), GENERO_YA_EXISTE("El genero nuevo ya existe"), FALTA_URL(
+            "Falta la URL del genero"), FALTA_IMAGEN_CABECERA("Falta la imagen de la cabecera"), FALTA_ICONO(
+                    "Falta el icono del genero"), FALTA_CATEGORIA("Falta seleccionar la categoria del genero");
+
+    private final String texto;
+
+    ErrorCreacionGenero(final String texto) {
+        this.texto = texto;
+    }
+
+    public String getTexto() {
+        return this.texto;
+    }
 }

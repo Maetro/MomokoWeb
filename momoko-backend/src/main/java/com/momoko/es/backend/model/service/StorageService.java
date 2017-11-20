@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.stream.Stream;
@@ -36,6 +37,16 @@ public interface StorageService {
      *            the tipo almacenamineto
      */
     void store(MultipartFile file, String tipoAlmacenamineto);
+
+    /**
+     * Store.
+     *
+     * @param file
+     *            the file
+     * @param tipoAlmacenamineto
+     *            the tipo almacenamineto
+     */
+    void store(BufferedImage image, String tipoAlmacenamineto, final String name);
 
     /**
      * Load all.

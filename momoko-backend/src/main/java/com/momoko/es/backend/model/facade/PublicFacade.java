@@ -6,11 +6,8 @@
  */
 package com.momoko.es.backend.model.facade;
 
-import java.text.Normalizer;
-import java.text.Normalizer.Form;
+import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +23,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.IndexDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
+import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
+import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.backend.model.service.ValidadorService;
+import com.momoko.es.util.ConversionUtils;
 
 @Controller
 @CrossOrigin(origins = "http://localhost:4200")
@@ -63,6 +67,12 @@ public class PublicFacade {
 
     @Autowired
     private ValidadorService validadorService;
+
+    @Autowired(required = false)
+    private GeneroService generoService;
+
+    @Autowired(required = false)
+    private StorageService almacenImagenes;
 
     @GetMapping(path = "/indexData")
     public @ResponseBody IndexDataDTO getInfoIndex() {
@@ -96,6 +106,14 @@ public class PublicFacade {
         return respuesta;
     }
 
+    @GetMapping(path = "/video/{url-video}")
+    public @ResponseBody ObtenerEntradaResponse obtenerVideo(@PathVariable("url-video") final String urlVideo) {
+        System.out.println("Obtener libro: " + urlVideo);
+        final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntradaVideo(urlVideo);
+        // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
+        return respuesta;
+    }
+
     @RequestMapping(method = RequestMethod.POST, path = "/comentario/add")
     ResponseEntity<GuardarComentarioResponse> addComentario(@RequestBody final NuevoComentarioRequest comentario) {
 
@@ -124,6 +142,41 @@ public class PublicFacade {
         }
 
         return new ResponseEntity<GuardarComentarioResponse>(respuesta, HttpStatus.OK);
+
+    }
+
+    @GetMapping(path = "/genero/{url-genero}")
+    public @ResponseBody ObtenerPaginaGeneroResponse obtenerGenero(@PathVariable("url-genero") final String urlGenero,
+            @RequestBody(required = false) ObtenerPaginaGeneroRequest request) {
+        final ObtenerPaginaGeneroResponse generoResponse = new ObtenerPaginaGeneroResponse();
+        if (request == null) {
+            request = new ObtenerPaginaGeneroRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlGenero(urlGenero);
+        }
+        final GeneroDTO generoDTO = this.generoService.obtenerGeneroPorUrl(urlGenero);
+        final List<LibroSimpleDTO> librosGenero = this.libroService.obtenerLibrosGeneroPorFecha(generoDTO, 9,
+                request.getNumeroPagina() - 1);
+        for (final LibroSimpleDTO libroSimpleDTO : librosGenero) {
+            if (libroSimpleDTO.getPortada() != null) {
+                try {
+                    libroSimpleDTO.setPortada(
+                            this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, false));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        final List<EntradaSimpleDTO> tresUltimasEntradasConLibro = this.entradaService
+                .obtenerTresUltimasEntradasPopularesConLibro();
+
+        generoResponse.setGenero(generoDTO);
+
+        generoResponse.setNueveLibrosGenero(librosGenero);
+        generoResponse.setTresUltimasEntradasConLibro(tresUltimasEntradasConLibro);
+        return generoResponse;
 
     }
 
@@ -170,21 +223,35 @@ public class PublicFacade {
         final List<LibroDTO> libros = this.libroService.recuperarLibros();
         for (final LibroDTO libroDTO : libros) {
             if (StringUtils.isBlank(libroDTO.getUrlLibro())) {
-                final String urlLibro = toSlug(libroDTO.getTitulo());
+                final String urlLibro = ConversionUtils.toSlug(libroDTO.getTitulo());
                 libroDTO.setUrlLibro(urlLibro);
                 this.libroService.guardarLibro(libroDTO);
             }
         }
     }
 
-    private static final Pattern NONLATIN = Pattern.compile("[^\\w-]");
-    private static final Pattern WHITESPACE = Pattern.compile("[\\s]");
+    @RequestMapping(method = RequestMethod.GET, path = "/generarURLsGeneros")
+    void generarURLsGeneros() throws Exception {
+        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        for (final GeneroDTO generoDTO : generos) {
+            if (StringUtils.isBlank(generoDTO.getUrlGenero())) {
+                final String urlGenero = ConversionUtils.toSlug(generoDTO.getNombre());
+                generoDTO.setUrlGenero(urlGenero);
+                this.generoService.guardarGenero(generoDTO);
+            }
+        }
+    }
 
-    public static String toSlug(final String input) {
-        final String nowhitespace = WHITESPACE.matcher(input).replaceAll("-");
-        final String normalized = Normalizer.normalize(nowhitespace, Form.NFD);
-        final String slug = NONLATIN.matcher(normalized).replaceAll("");
-        return slug.toLowerCase(Locale.ENGLISH);
+    @RequestMapping(method = RequestMethod.GET, path = "/asociarACategoriaNovela")
+    void asociarACategoriaNovela() throws Exception {
+        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        for (final GeneroDTO generoDTO : generos) {
+            if (generoDTO.getCategoria() == null) {
+                final CategoriaDTO categoria = this.generoService.obtenerCategoriaPorUrl("novelas");
+                generoDTO.setCategoria(categoria);
+                this.generoService.guardarGenero(generoDTO);
+            }
+        }
     }
 
 }

@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.service;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
@@ -73,5 +74,18 @@ public interface LibroService {
      *            the i
      */
     public List<LibroSimpleDTO> obtenerLibrosParecidos(LibroDTO libro, int i);
+
+    /**
+     * Obtener libros genero por fecha.
+     *
+     * @param genero
+     *            the genero
+     * @param numeroLibros
+     *            the numero libros
+     * @param pagina
+     *            the pagina
+     * @return the list
+     */
+    List<LibroSimpleDTO> obtenerLibrosGeneroPorFecha(GeneroDTO genero, int numeroLibros, int pagina);
 
 }

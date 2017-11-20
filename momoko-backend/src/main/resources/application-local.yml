@@ -82,6 +82,7 @@ logging:
     org:
       springframework:
         security: INFO
+    root: INFO
 
 #momoko properties
 momokoConfiguracion:

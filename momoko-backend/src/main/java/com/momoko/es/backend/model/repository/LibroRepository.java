@@ -54,12 +54,15 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
     List<LibroEntity> findLibrosMasVistos(Pageable pageable);
 
     /**
-     * Find libro by generos.
+     * Find libro by generos and fecha baja is null order by fecha alta desc.
      *
-     * @param genero
-     *            the genero
+     * @param generos
+     *            the generos
+     * @param pageable
+     *            the pageable
      * @return the list
      */
-    List<LibroEntity> findLibroByGeneros(List<GeneroEntity> generos, Pageable pageable);
+    List<LibroEntity> findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(List<GeneroEntity> generos,
+            Pageable pageable);
 
 }

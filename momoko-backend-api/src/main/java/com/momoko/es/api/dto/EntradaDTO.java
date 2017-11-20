@@ -425,6 +425,25 @@ public class EntradaDTO {
     }
 
     /**
+     * Gets the url video.
+     *
+     * @return the url video
+     */
+    public String getUrlVideo() {
+        return this.urlVideo;
+    }
+
+    /**
+     * Sets the url video.
+     *
+     * @param urlVideo
+     *            the new url video
+     */
+    public void setUrlVideo(final String urlVideo) {
+        this.urlVideo = urlVideo;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override

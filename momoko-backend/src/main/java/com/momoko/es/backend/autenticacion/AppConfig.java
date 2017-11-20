@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:application-local.yml")
+@PropertySource("classpath:application-server.yml")
 public class AppConfig {
 
     @Bean(name = "sessionFactory")

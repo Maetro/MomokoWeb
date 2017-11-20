@@ -10,6 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.momoko.es.api.dto.AutorDTO;
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
@@ -21,6 +22,7 @@ import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.backend.model.entity.AutorEntity;
+import com.momoko.es.backend.model.entity.CategoriaEntity;
 import com.momoko.es.backend.model.entity.ComentarioEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
@@ -198,6 +200,10 @@ public final class DTOToEntityAdapter {
         final GeneroEntity entity = new GeneroEntity();
         entity.setGenero_id(generoDTO.getGeneroId());
         entity.setNombre(generoDTO.getNombre());
+        entity.setUrlGenero(generoDTO.getUrlGenero());
+        if (generoDTO.getCategoria() != null) {
+            entity.setCategoria(adaptarCategoria(generoDTO.getCategoria()));
+        }
         return entity;
     }
 
@@ -294,5 +300,22 @@ public final class DTOToEntityAdapter {
         puntuacionEntity.setValor(puntuacionDTO.getValor());
         puntuacionEntity.setEsPuntuacionMomoko(puntuacionDTO.isEsPuntuacionMomoko());
         return puntuacionEntity;
+    }
+
+    /**
+     * Adaptar categoria.
+     *
+     * @param categoria
+     *            the categoria entity
+     * @return the categoria dto
+     */
+    public static CategoriaEntity adaptarCategoria(final CategoriaDTO categoria) {
+        final CategoriaEntity categoriaEntity = new CategoriaEntity();
+        categoriaEntity.setCategoria_id(categoria.getCategoriaId());
+        categoriaEntity.setForegroundColor(categoria.getForegroundColor());
+        categoriaEntity.setBackgroundColor(categoria.getBackgroundColor());
+        categoriaEntity.setUrlCategoria(categoria.getUrlCategoria());
+        return categoriaEntity;
+
     }
 }

@@ -98,7 +98,7 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   }
 
   getGeneros(): void {
-    this.libroService.getGeneros().then(generos => {
+    this.libroService.getGeneros().subscribe(generos => {
       this.listaGeneros = generos;
       generos.forEach(genero => {
         this.generos.push({ label: ' ' + genero.nombre, value: genero.generoId });

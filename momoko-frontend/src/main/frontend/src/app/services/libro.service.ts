@@ -84,24 +84,17 @@ export class LibroService {
       .toPromise();
   }
 
-  getGeneros(): Promise<Genero[]> {
+  getGeneros(): Observable<Genero[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
       });
-    return this.http.get(this.generosUrl, {headers: headers}).toPromise().then((resp: Response) => {
-      for (const numGenero of Object.keys(resp)) {
-        const g = new Genero();
-        const json = resp[numGenero];
-        g.generoId = json.generoId;
-        g.nombre = json.nombre;
-        // console.log(g);
-        this.allGenerosList.push(g);
-      }
+    return this.http.get<Genero[]>(this.generosUrl, {headers: headers}).map(this.extractGeneros)
+    .catch(error => Observable.throw(error || 'Server error'));
+  }
 
-      return this.allGenerosList;
-
-    });
+  private extractGeneros(res: Genero[]) {
+    return res;
   }
 
   private handleError(error: any): Promise<any> {

@@ -76,6 +76,24 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.momoko.es.backend.model.service.StorageService#store(org.springframework.web.multipart.MultipartFile,
+     * java.lang.String)
+     */
+    @Override
+    public void store(final BufferedImage image, final String tipoAlmacenamiento, final String name) {
+
+        final File outputfile = new File(getFileLocation(tipoAlmacenamiento).resolve(name).toString() + ".png");
+        try {
+            Files.createFile(getFileLocation(tipoAlmacenamiento).resolve(name + ".png"));
+            ImageIO.write(image, "png", outputfile);
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void crearMiniatura(final InputStream fileInputStream, final String tipoAlmacenamiento,
             final String filename) throws IOException {
         final BufferedImage imageToScale = ImageIO.read(fileInputStream);

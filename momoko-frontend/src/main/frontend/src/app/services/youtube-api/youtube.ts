@@ -47,6 +47,7 @@ export interface VideoYoutube {
   etag: string;
   id: Id;
   snippet: Snippet;
+  urlMomoko: string;
 }
 
 export interface VideosYoutube {

@@ -1,5 +1,6 @@
+import { GeneroDetailComponent } from './../genero-detail/genero-detail.component';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { LibroService } from 'app/services/libro.service';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { Genero } from 'app/dtos/genero';
@@ -18,6 +19,8 @@ export class ListaGenerosComponent implements OnInit {
     generos: Genero[];
     selectedGenero: Genero;
 
+    @ViewChild(GeneroDetailComponent) generoDetailComponent: GeneroDetailComponent;
+
     constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
       this.generos = [];
 
@@ -25,7 +28,7 @@ export class ListaGenerosComponent implements OnInit {
 
     getGeneros(): void {
       console.log('service -> getGeneros()')
-      this.libroService.getGeneros().then(generos => {
+      this.libroService.getGeneros().subscribe(generos => {
         generos.forEach(genero => {
           this.generos =  [ ...this.generos, genero ];
         });
@@ -36,7 +39,7 @@ export class ListaGenerosComponent implements OnInit {
     ngOnInit(): void {
       console.log('ngOnInit Lista generos')
       this.loading = true;
-      this.libroService.getGeneros().then(generosP => {
+      this.libroService.getGeneros().subscribe(generosP => {
         const generosList = generosP
         generosList.forEach(element => {
           this.generos =  [ ...this.generos, element ];
@@ -47,12 +50,15 @@ export class ListaGenerosComponent implements OnInit {
 
     selectLibro(genero: Genero) {
       console.log(genero);
+      console.log('selectLibro');
+      this.generoDetailComponent.idCategoriaSeleccionada = genero.generoId;
       this.selectedGenero = genero;
     }
 
     nuevoGenero(): void {
       this.selectedGenero = null;
       const genero = new Genero;
+      this.generoDetailComponent.idCategoriaSeleccionada = null;
       this.selectedGenero = genero;
     }
 
@@ -62,9 +68,16 @@ export class ListaGenerosComponent implements OnInit {
 
     actualizarOAnadirGenero(genero: Genero): void {
       this.selectedGenero = null;
+      console.log('actualizarOAnadirGenero');
+      this.generoDetailComponent.idCategoriaSeleccionada = genero.generoId;
       this.generos = [];
       this.getGeneros();
       console.log(genero);
     }
+
+    onRowSelect(event) {
+      console.log('Row Select');
+      this.generoDetailComponent.idCategoriaSeleccionada = event.data.categoria.categoriaId;
+  }
 
   }

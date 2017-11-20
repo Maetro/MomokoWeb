@@ -9,6 +9,8 @@ package com.momoko.es.api.dto.response;
 import java.io.Serializable;
 import java.util.List;
 
+import com.momoko.es.api.dto.CategoriaDTO;
+
 /**
  * The Class InformacionGeneralResponse.
  */
@@ -22,6 +24,8 @@ public class InformacionGeneralResponse implements Serializable {
     private List<String> nombresAutores;
 
     private List<String> titulosLibros;
+
+    private List<CategoriaDTO> categorias;
 
     /**
      * Gets the nombres editoriales.
@@ -78,6 +82,25 @@ public class InformacionGeneralResponse implements Serializable {
      */
     public void setTitulosLibros(final List<String> titulosLibros) {
         this.titulosLibros = titulosLibros;
+    }
+
+    /**
+     * Gets the categorias.
+     *
+     * @return the categorias
+     */
+    public List<CategoriaDTO> getCategorias() {
+        return this.categorias;
+    }
+
+    /**
+     * Sets the categorias.
+     *
+     * @param categorias
+     *            the new categorias
+     */
+    public void setCategorias(final List<CategoriaDTO> categorias) {
+        this.categorias = categorias;
     }
 
 }

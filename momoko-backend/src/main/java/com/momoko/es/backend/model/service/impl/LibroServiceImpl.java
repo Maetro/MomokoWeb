@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
@@ -256,7 +258,8 @@ public class LibroServiceImpl implements LibroService {
     public List<LibroSimpleDTO> obtenerLibrosParecidos(final LibroDTO libro, final int numeroLibros) {
         final Set<GeneroEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
         final List<LibroEntity> listaLibrosParecidos = this.libroRepository
-                .findLibroByGeneros(new ArrayList<GeneroEntity>(generos), new PageRequest(0, numeroLibros));
+                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(new ArrayList<GeneroEntity>(generos),
+                        new PageRequest(0, numeroLibros));
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();
         for (final LibroEntity libroEntity : listaLibrosParecidos) {
             listaLibrosIds.add(libroEntity.getLibroId());
@@ -273,5 +276,16 @@ public class LibroServiceImpl implements LibroService {
 
         }
         return ConversionUtils.obtenerLibrosBasicos(listaLibrosParecidos, mapaPuntacionMomokoPorLibro);
+    }
+
+    @Override
+    public List<LibroSimpleDTO> obtenerLibrosGeneroPorFecha(final GeneroDTO genero, final int numeroLibros,
+            final int pagina) {
+
+        final List<LibroEntity> listaLibrosGenero = this.libroRepository
+                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+                        Arrays.asList(DTOToEntityAdapter.adaptarGenero(genero)), new PageRequest(pagina, numeroLibros));
+
+        return ConversionUtils.obtenerLibrosBasicos(listaLibrosGenero, null);
     }
 }

@@ -9,7 +9,8 @@ import { LibroDetailComponent } from './libro-detail/libro-detail.component';
 import { ListaLibrosComponent } from './lista-libros/lista-libros.component';
 import { ListaGenerosComponent } from './lista-generos/lista-generos.component';
 
-import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule, SharedModule } from 'primeng/primeng';
+import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule,
+  SharedModule, DropdownModule } from 'primeng/primeng';
 
 import { LibroService } from './../../services/libro.service';
 import { FileUploadService } from './../../services/fileUpload.service';
@@ -23,6 +24,7 @@ import { JsonAdapterService } from 'app/util/json-adapter.service';
     MultiSelectModule,
     GrowlModule,
     FormsModule,
+    DropdownModule,
     FileUploadModule,
     DataTableModule,
     SharedModule,

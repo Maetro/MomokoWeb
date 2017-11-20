@@ -28,9 +28,18 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see org.springframework.data.repository.CrudRepository#findOne(java.io.Serializable)
      */
     GeneroEntity findOne(Integer genero_id);
+
+    /**
+     * Find one by url genero and fecha baja is null order by fecha alta desc.
+     *
+     * @param urlGenero
+     *            the url genero
+     * @return the genero entity
+     */
+    GeneroEntity findOneByUrlGeneroAndFechaBajaIsNull(String urlGenero);
 
 }

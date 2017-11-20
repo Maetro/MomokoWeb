@@ -6,6 +6,7 @@ import { Cookie } from 'ng2-cookies';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
 import { FichaEntrada } from 'app/dtos/fichaEntrada';
+import { GuardarEntradaResponse } from 'app/dtos/response/guardarEntradaResponse';
 
 @Injectable()
 export class EntradaService {
@@ -66,23 +67,26 @@ export class EntradaService {
       'Authorization': 'Bearer ' + Cookie.get('access_token')
     });
     return this.http.get<Entrada[]>(this.entradasUrl, {headers: headers}).map(this.obtenerEntradasDeRespuesta)
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    .catch(error => Observable.throw(error || 'Server error'));
   }
 
   private obtenerEntradasDeRespuesta(res: Entrada[]) {
     return res;
   }
 
-  guardarEntrada(entrada: Entrada): Promise<any> {
+  guardarEntrada(entrada: Entrada): Observable<GuardarEntradaResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
     });
 
-    console.log(JSON.stringify(entrada));
     return this.http
       .post(this.addEntradaUrl, JSON.stringify(entrada), { headers: headers })
-      .toPromise();
+      .map(this.obtenerRespuestaGuardadoEntrada)
+      .catch(error => Observable.throw(error || 'Server error'));
   }
 
+  private obtenerRespuestaGuardadoEntrada(res: GuardarEntradaResponse) {
+    return res;
+  }
 }

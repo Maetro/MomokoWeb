@@ -6,12 +6,16 @@
  */
 package com.momoko.es.util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.momoko.es.api.dto.AutorDTO;
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
@@ -25,6 +29,7 @@ import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.AutorEntity;
+import com.momoko.es.backend.model.entity.CategoriaEntity;
 import com.momoko.es.backend.model.entity.ComentarioEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
@@ -216,6 +221,12 @@ public final class EntityToDTOAdapter {
         final GeneroDTO generoDTO = new GeneroDTO();
         generoDTO.setGeneroId(generoEntity.getGenero_id());
         generoDTO.setNombre(generoEntity.getNombre());
+        generoDTO.setUrlGenero(generoEntity.getUrlGenero());
+        generoDTO.setImagenCabeceraGenero(generoEntity.getImagenCabeceraGenero());
+        generoDTO.setIconoGenero(generoEntity.getImagenIconoGenero());
+        if (generoEntity.getCategoria() != null) {
+            generoDTO.setCategoria(adaptarCategoria(generoEntity.getCategoria()));
+        }
         return generoDTO;
     }
 
@@ -304,6 +315,42 @@ public final class EntityToDTOAdapter {
         puntuacionDTO.setLibroId(puntuacionEntity.getLibro().getLibroId());
         puntuacionDTO.setValor(puntuacionEntity.getValor());
         return puntuacionDTO;
+    }
+
+    /**
+     * Adaptar categoria.
+     *
+     * @param categoriaEntity
+     *            the categoria entity
+     * @return the categoria dto
+     */
+    public static CategoriaDTO adaptarCategoria(final CategoriaEntity categoriaEntity) {
+        final CategoriaDTO categoriaDTO = new CategoriaDTO();
+        categoriaDTO.setCategoriaId(categoriaEntity.getCategoria_id());
+        categoriaDTO.setForegroundColor(categoriaEntity.getForegroundColor());
+        categoriaDTO.setNombreCategoria(categoriaEntity.getNombreCategoria());
+        categoriaDTO.setBackgroundColor(categoriaEntity.getBackgroundColor());
+        categoriaDTO.setUrlCategoria(categoriaEntity.getUrlCategoria());
+        return categoriaDTO;
+
+    }
+
+    /**
+     * Adaptar categorias.
+     *
+     * @param categorias
+     *            the categorias
+     * @return the list
+     */
+    public static List<CategoriaDTO> adaptarCategorias(final List<CategoriaEntity> categorias) {
+        final List<CategoriaDTO> listaDTO = new ArrayList<CategoriaDTO>();
+        if (CollectionUtils.isNotEmpty(categorias)) {
+            for (final CategoriaEntity categoriaEntity : categorias) {
+                final CategoriaDTO categoriaDTO = adaptarCategoria(categoriaEntity);
+                listaDTO.add(categoriaDTO);
+            }
+        }
+        return listaDTO;
     }
 
 }

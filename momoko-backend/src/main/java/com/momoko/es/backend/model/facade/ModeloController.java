@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
@@ -137,6 +138,7 @@ public class ModeloController {
             try {
                 genero = this.generoService.guardarGenero(generoDTO);
             } catch (final Exception e) {
+                e.printStackTrace();
                 listaErrores.add(ErrorCreacionGenero.GENERO_YA_EXISTE);
             }
         }
@@ -164,9 +166,11 @@ public class ModeloController {
         final List<String> autores = this.libroService.obtenerListaNombresAutores();
         final List<String> editoriales = this.libroService.obtenerListaNombresEditoriales();
         final List<String> libros = this.libroService.obtenerListaTitulosLibros();
+        final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
         respuesta.setNombresAutores(autores);
         respuesta.setNombresEditoriales(editoriales);
         respuesta.setTitulosLibros(libros);
+        respuesta.setCategorias(categorias);
         return new ResponseEntity<InformacionGeneralResponse>(respuesta, HttpStatus.OK);
 
     }
@@ -210,7 +214,7 @@ public class ModeloController {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
         } else {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
-            status = HttpStatus.BAD_REQUEST;
+            status = HttpStatus.OK;
         }
 
         return new ResponseEntity<GuardarEntradaResponse>(respuesta, status);

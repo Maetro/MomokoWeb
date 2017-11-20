@@ -21,7 +21,6 @@ export class GeneralDataService {
 
   constructor(private http: HttpClient) { }
 
-
   getInformacionGeneral(): Observable<GeneralDataResponse> {
     console.log('getInformacionGeneral()');
     const headers = new HttpHeaders({

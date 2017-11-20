@@ -5,6 +5,9 @@ import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entra
 import { FichaLibroComponent } from 'app/contenido/ficha-libro/ficha-libro.component';
 import { AnalisisComponent } from 'app/contenido/analisis/analisis.component';
 import { ObtenerAnalisisResolverService } from 'app/services/resolvers/obtener-analisis-resolver.service';
+import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-video-resolver.service';
+import { ListaGeneroComponent } from 'app/contenido/clasificador/lista-genero/lista-genero.component';
+import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtener-lista-genero-resolver.service';
 
 const fichaRoutes: Routes = [
   {
@@ -19,6 +22,20 @@ const fichaRoutes: Routes = [
     component: AnalisisComponent,
     resolve: {
       fichaEntrada: ObtenerAnalisisResolverService
+    }
+  },
+  {
+    path: 'videos/:url',
+    component: AnalisisComponent,
+    resolve: {
+      fichaEntrada: ObtenerVideoResolverService
+    }
+  },
+  {
+    path: 'genero/:url_genero',
+    component: ListaGeneroComponent,
+    resolve: {
+      paginaGeneroResponse: ObtenerListaGeneroResolverService
     }
   }
   /*{

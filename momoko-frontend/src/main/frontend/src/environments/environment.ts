@@ -7,6 +7,7 @@ export const environment = {
   production: false,
 
   //URLS app
+  momokoUrl: 'http://localhost:4200/',
   serverUrl : 'http://localhost:8080/',
   uploadUrl : 'http://localhost:8080/upload',
   urlFiles : 'http://localhost/images/',
@@ -24,4 +25,7 @@ export const environment = {
   indexDataUrl: 'http://localhost:8080/public/indexData',
   obtenerLibroUrl: 'http://localhost:8080/public/libro/',
   addComentarioUrl: 'http://localhost:8080/public/comentario/add',
+  obtenerVideoUrl: 'http://localhost:8080/public/video/',
+  getGeneroUrl: 'http://localhost:8080/public/genero/',
+
 };

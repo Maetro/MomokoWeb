@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 
 /**
@@ -23,7 +24,7 @@ public interface EntradaService {
      *
      * @return the list
      */
-    public List<EntradaDTO> recuperarEntradas();
+    List<EntradaDTO> recuperarEntradas();
 
     /**
      * Guardar entrada.
@@ -34,7 +35,7 @@ public interface EntradaService {
      * @throws Exception
      *             de exception
      */
-    public EntradaDTO guardarEntrada(EntradaDTO entradaAGuardar) throws Exception;
+    EntradaDTO guardarEntrada(EntradaDTO entradaAGuardar) throws Exception;
 
     /**
      * Obtener entrada.
@@ -43,6 +44,22 @@ public interface EntradaService {
      *            the url entrada
      * @return the obtener entrada response
      */
-    public ObtenerEntradaResponse obtenerEntrada(String urlEntrada);
+    ObtenerEntradaResponse obtenerEntrada(String urlEntrada);
+
+    /**
+     * Obtener entrada video.
+     *
+     * @param urlVideo
+     *            the url video
+     * @return the obtener ficha libro response
+     */
+    ObtenerEntradaResponse obtenerEntradaVideo(String urlVideo);
+
+    /**
+     * Obtener tres ultimas entradas populares con libro.
+     *
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerTresUltimasEntradasPopularesConLibro();
 
 }

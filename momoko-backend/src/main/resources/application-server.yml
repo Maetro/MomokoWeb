@@ -6,7 +6,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/momokoBD2
+    url: jdbc:mysql://localhost:3306/momokoBD
     username: root
     password: ${momoko.spring.datasource.password}
   http:
@@ -70,12 +70,12 @@ logging:
   level:
     org:
       springframework:
-        security: ERROR
-    root: ERROR
+        security: INFO
+    root: INFO
     
 #momoko properties
 momokoConfiguracion:
   directorios:
     urlFiles: /var/www/html/images
-    urlImages: http://ec2-52-211-56-44.eu-west-1.compute.amazonaws.com/images/
+    urlImages: http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com/images/
     test: hola
