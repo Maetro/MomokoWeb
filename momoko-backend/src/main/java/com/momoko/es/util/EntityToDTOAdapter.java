@@ -331,6 +331,8 @@ public final class EntityToDTOAdapter {
         categoriaDTO.setNombreCategoria(categoriaEntity.getNombreCategoria());
         categoriaDTO.setBackgroundColor(categoriaEntity.getBackgroundColor());
         categoriaDTO.setUrlCategoria(categoriaEntity.getUrlCategoria());
+        categoriaDTO.setNombreCategoria(categoriaEntity.getNombreCategoria());
+        categoriaDTO.setOrden(categoriaEntity.getOrden());
         return categoriaDTO;
 
     }

@@ -31,6 +31,7 @@ import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.IndexDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
@@ -79,7 +80,10 @@ public class PublicFacade {
         System.out.println("Llamada a los datos para dibujar el index");
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
+        final List<MenuDTO> menu = this.indexService.obtenerMenu();
+
         final IndexDataDTO indexDataDTO = new IndexDataDTO();
+        indexDataDTO.setMenu(menu);
         indexDataDTO.setUltimasEntradas(ultimasEntradas);
         indexDataDTO.setLibrosMasVistos(librosMasVistos);
         return indexDataDTO;

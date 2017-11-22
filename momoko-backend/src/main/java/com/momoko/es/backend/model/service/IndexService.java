@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.MenuDTO;
 
 /**
  * The Interface IndexService.
@@ -29,5 +30,12 @@ public interface IndexService {
      * @return the list
      */
     List<LibroSimpleDTO> obtenerLibrosMasVistos();
+
+    /**
+     * Obtener menu.
+     *
+     * @return the list
+     */
+    List<MenuDTO> obtenerMenu();
 
 }

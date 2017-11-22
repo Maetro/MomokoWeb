@@ -18,7 +18,7 @@ export class IndexDataService {
 
     this.resultados = this.http.get(this.indexDataUrl)
     .map(this.extractIndexData)
-    .catch(error => Observable.throw(error || 'Server error'));
+    .catch(error => Observable.throw(error || 'Server error').share());
     return this.resultados;
 
   }

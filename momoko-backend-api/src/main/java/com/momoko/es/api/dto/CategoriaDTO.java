@@ -8,6 +8,7 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -15,7 +16,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class CategoriaDTO.
  */
-public class CategoriaDTO implements Serializable {
+public class CategoriaDTO implements Serializable, Comparable<CategoriaDTO> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 5910577190726650825L;
@@ -34,6 +35,9 @@ public class CategoriaDTO implements Serializable {
 
     /** The foreground color. */
     private String foregroundColor;
+
+    /** The orden. */
+    private Integer orden;
 
     /**
      * Gets the categoria id.
@@ -130,6 +134,25 @@ public class CategoriaDTO implements Serializable {
         this.foregroundColor = foregroundColor;
     }
 
+    /**
+     * Gets the orden.
+     *
+     * @return the orden
+     */
+    public Integer getOrden() {
+        return this.orden;
+    }
+
+    /**
+     * Sets the orden.
+     *
+     * @param orden
+     *            the new orden
+     */
+    public void setOrden(final Integer orden) {
+        this.orden = orden;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof CategoriaDTO)) {
@@ -155,6 +178,10 @@ public class CategoriaDTO implements Serializable {
                 .append("nombreCategoria", this.nombreCategoria).append("urlCategoria", this.urlCategoria)
                 .append("backgroundColor", this.backgroundColor).append("foregroundColor", this.foregroundColor)
                 .toString();
+    }
+
+    public int compareTo(final CategoriaDTO other) {
+        return new CompareToBuilder().append(this.orden, other.orden).toComparison();
     }
 
 }

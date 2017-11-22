@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +18,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
+import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
@@ -46,6 +51,9 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired(required = false)
     private StorageService storageService;
+
+    @Autowired(required = false)
+    private GeneroService generoService;
 
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
@@ -100,6 +108,30 @@ public class IndexServiceImpl implements IndexService {
             }
         }
         return listaLibrosSimples;
+    }
+
+    @Override
+    public List<MenuDTO> obtenerMenu() {
+        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
+        Collections.sort(categorias);
+        final List<MenuDTO> menu = new ArrayList<MenuDTO>();
+        for (final CategoriaDTO categoria : categorias) {
+            final MenuDTO menuPart = new MenuDTO();
+            menuPart.setNombre(categoria.getNombreCategoria());
+            menuPart.setUrl(categoria.getUrlCategoria());
+            menuPart.setOrden(categoria.getOrden());
+            final List<GeneroDTO> generosCategoria = new ArrayList<GeneroDTO>();
+            for (final GeneroDTO generoDTO : generos) {
+                if (generoDTO.getCategoria().equals(categoria)) {
+                    generosCategoria.add(generoDTO);
+                }
+            }
+            Collections.sort(generosCategoria);
+            menuPart.setGeneros(generosCategoria);
+            menu.add(menuPart);
+        }
+        return menu;
     }
 
 }

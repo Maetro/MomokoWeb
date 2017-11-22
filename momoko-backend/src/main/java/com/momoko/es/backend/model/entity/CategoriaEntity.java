@@ -40,6 +40,9 @@ public class CategoriaEntity {
     /** The foreground color. */
     private String foregroundColor;
 
+    /** The orden. */
+    private Integer orden;
+
     /** The usuario alta. */
     private String usuarioAlta;
 
@@ -151,6 +154,25 @@ public class CategoriaEntity {
      */
     public void setForegroundColor(final String foregroundColor) {
         this.foregroundColor = foregroundColor;
+    }
+
+    /**
+     * Gets the orden.
+     *
+     * @return the orden
+     */
+    public Integer getOrden() {
+        return this.orden;
+    }
+
+    /**
+     * Sets the orden.
+     *
+     * @param orden
+     *            the new orden
+     */
+    public void setOrden(final Integer orden) {
+        this.orden = orden;
     }
 
     /**
@@ -267,6 +289,11 @@ public class CategoriaEntity {
         this.fechaBaja = fechaBaja;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof CategoriaEntity)) {
@@ -283,6 +310,11 @@ public class CategoriaEntity {
                 .append(this.usuarioBaja, castOther.usuarioBaja).append(this.fechaBaja, castOther.fechaBaja).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.categoria_id).append(this.urlCategoria).append(this.backgroundColor)
@@ -291,6 +323,11 @@ public class CategoriaEntity {
                 .append(this.fechaBaja).toHashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("categoria_id", this.categoria_id)

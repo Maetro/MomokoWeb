@@ -12,6 +12,8 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class GeneroServiceImpl implements GeneroService {
     private CategoriaRepository categoriaRepository;
 
     @Override
+    @Cacheable("generos")
     public List<GeneroDTO> obtenerTodosGeneros() {
         final List<GeneroDTO> listaGeneros = new ArrayList<GeneroDTO>();
         final Iterable<GeneroEntity> generoEntityIterable = this.generoRepository.findAll();
@@ -49,6 +52,7 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
+    @CachePut(cacheNames = "generos", key = "#generoDTO")
     public GeneroDTO guardarGenero(final GeneroDTO generoDTO) throws Exception {
 
         GeneroEntity generoEntity = DTOToEntityAdapter.adaptarGenero(generoDTO);
@@ -96,6 +100,7 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
+    @Cacheable("categorias")
     public List<CategoriaDTO> obtenerListaCategorias() {
         return EntityToDTOAdapter.adaptarCategorias(this.categoriaRepository.findAll());
     }

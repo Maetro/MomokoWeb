@@ -32,7 +32,7 @@ const fichaRoutes: Routes = [
     }
   },
   {
-    path: 'genero/:url_genero',
+    path: ':url_categoria/:url_genero',
     component: ListaGeneroComponent,
     resolve: {
       paginaGeneroResponse: ObtenerListaGeneroResolverService

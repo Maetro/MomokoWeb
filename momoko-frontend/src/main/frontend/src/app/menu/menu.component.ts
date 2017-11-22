@@ -2,6 +2,8 @@ import { AuthService } from 'app/auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
+import { IndexDataService } from 'app/services/index-data.service';
+import { Menu } from 'app/dtos/menu';
 
 @Component({
   selector: 'app-menu',
@@ -12,7 +14,9 @@ export class MenuComponent implements OnInit {
 
   isLoggedIn = false;
 
-  constructor(private authService: AuthService, private router: Router) { }
+  menu: Menu[];
+
+  constructor(private indexDataService: IndexDataService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.authService.checkLoginStatus();
@@ -21,6 +25,13 @@ export class MenuComponent implements OnInit {
     this.authService.isLoggedIn.subscribe(loginStatus => {
       this.isLoggedIn = loginStatus
     });
+    this.indexDataService.getIndexData().subscribe(datos => {
+      console.log('Init index');
+      this.menu = datos.menu;
+    },
+      error => {
+        console.log('Error al recuperar los datos generales ', error);
+      });
   }
 
   myHome() {

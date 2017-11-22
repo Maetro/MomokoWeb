@@ -33,6 +33,8 @@ import { CrearComentarioComponent } from 'app/contenido/analisis/crear-comentari
 import { PlantillaComentarioComponent } from 'app/contenido/analisis/plantilla-comentario/plantilla-comentario.component';
 import { VideosHorizontalComponent } from 'app/contenido/index/videos-horizontal/videos-horizontal.component';
 import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-video-resolver.service';
+import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtener-lista-genero-resolver.service';
+import { ClasificadorService } from 'app/services/clasificador.service';
 
 @NgModule({
   imports: [
@@ -49,7 +51,7 @@ import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-vide
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
     CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent],
   providers: [IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService, ObtenerVideoResolverService,
-     ComentariosService, YoutubeService, VideoService],
+     ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService, ClasificadorService],
   exports: [RouterModule],
   entryComponents: [EntradaPortadaNormalImplComponent]
 })

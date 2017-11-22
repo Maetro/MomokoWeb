@@ -201,6 +201,8 @@ public final class DTOToEntityAdapter {
         entity.setGenero_id(generoDTO.getGeneroId());
         entity.setNombre(generoDTO.getNombre());
         entity.setUrlGenero(generoDTO.getUrlGenero());
+        entity.setImagenCabeceraGenero(generoDTO.getImagenCabeceraGenero());
+        entity.setImagenIconoGenero(generoDTO.getIconoGenero());
         if (generoDTO.getCategoria() != null) {
             entity.setCategoria(adaptarCategoria(generoDTO.getCategoria()));
         }
@@ -315,6 +317,8 @@ public final class DTOToEntityAdapter {
         categoriaEntity.setForegroundColor(categoria.getForegroundColor());
         categoriaEntity.setBackgroundColor(categoria.getBackgroundColor());
         categoriaEntity.setUrlCategoria(categoria.getUrlCategoria());
+        categoriaEntity.setOrden(categoria.getOrden());
+        categoriaEntity.setNombreCategoria(categoria.getNombreCategoria());
         return categoriaEntity;
 
     }

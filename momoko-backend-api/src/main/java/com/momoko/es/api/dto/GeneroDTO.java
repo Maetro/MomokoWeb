@@ -8,6 +8,7 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -15,7 +16,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 /**
  * The Class GeneroDTO.
  */
-public class GeneroDTO implements Serializable {
+public class GeneroDTO implements Serializable, Comparable<GeneroDTO> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6734916350484920824L;
@@ -185,6 +186,10 @@ public class GeneroDTO implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("generoId", this.generoId).append("nombre", this.nombre).toString();
+    }
+
+    public int compareTo(final GeneroDTO other) {
+        return new CompareToBuilder().append(this.nombre, other.nombre).toComparison();
     }
 
 }
