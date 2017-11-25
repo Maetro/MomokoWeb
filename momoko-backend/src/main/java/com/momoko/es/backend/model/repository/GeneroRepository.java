@@ -42,4 +42,13 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      */
     GeneroEntity findOneByUrlGeneroAndFechaBajaIsNull(String urlGenero);
 
+    /**
+     * Find one by nombre.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the list
+     */
+    GeneroEntity findOneByNombreAndFechaBajaIsNull(String nombre);
+
 }

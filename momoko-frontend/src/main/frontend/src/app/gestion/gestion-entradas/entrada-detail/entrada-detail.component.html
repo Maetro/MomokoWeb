@@ -83,12 +83,12 @@
 
           <div class="marginTop10 col-sm-12 rp10">
             <div class="form-field">
-              <h4> Libro asociado: </h4>
+              <h4> Libros asociados: </h4>
             </div>
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-                <p-dropdown [options]="titulosLibros" [(ngModel)]="entrada.tituloLibroEntrada" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
+              <p-multiSelect [options]="titulosLibros" [defaultLabel]="fraseLibrosEscoger" [(ngModel)]="entrada.titulosLibrosEntrada" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-multiSelect>
             </div>
             <!--/.form-field -->
           </div>

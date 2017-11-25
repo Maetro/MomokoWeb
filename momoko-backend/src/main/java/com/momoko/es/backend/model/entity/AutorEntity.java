@@ -230,7 +230,7 @@ public class AutorEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -239,22 +239,23 @@ public class AutorEntity {
             return false;
         }
         final AutorEntity castOther = (AutorEntity) other;
-        return new EqualsBuilder().append(this.autorId, castOther.autorId).isEquals();
+        return new EqualsBuilder().append(this.autorId, castOther.autorId).append(this.nombre, castOther.nombre)
+                .isEquals();
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.autorId).toHashCode();
+        return new HashCodeBuilder().append(this.autorId).append(this.nombre).toHashCode();
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

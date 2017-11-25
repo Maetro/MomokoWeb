@@ -11,6 +11,7 @@ import { GrowlModule } from 'primeng/primeng';
 import { SelectItem } from 'primeng/primeng';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { UtilService } from 'app/services/util.service';
+import { Autor } from 'app/dtos/autor';
 
 @Component({
   selector: 'app-libro-detail',
@@ -43,6 +44,8 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   nombresEditoriales: string[];
 
   nombresAutores: string[];
+
+  numeroAutores = 1;
 
   customURL = false;
 
@@ -171,6 +174,11 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     if (!this.customURL) {
       this.libro.urlLibro = encodeURIComponent(this.util.convertToSlug(newValue));
     }
+  }
+
+  crearAutor() {
+    const autor = new Autor;
+    this.libro.autores.push(autor);
   }
 
 }

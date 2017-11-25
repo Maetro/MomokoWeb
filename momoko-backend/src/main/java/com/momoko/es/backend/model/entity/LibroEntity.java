@@ -98,6 +98,9 @@ public class LibroEntity {
     @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PuntuacionEntity> puntuaciones = new ArrayList<PuntuacionEntity>();
 
+    @ManyToMany(mappedBy = "librosEntrada")
+    private List<EntradaEntity> entradas;
+
     /** The usuario alta. */
     private String usuarioAlta;
 
@@ -443,6 +446,25 @@ public class LibroEntity {
      */
     public void setUrlLibro(final String urlLibro) {
         this.urlLibro = urlLibro;
+    }
+
+    /**
+     * Gets the entradas.
+     *
+     * @return the entradas
+     */
+    public List<EntradaEntity> getEntradas() {
+        return this.entradas;
+    }
+
+    /**
+     * Sets the entradas.
+     *
+     * @param entradas
+     *            the new entradas
+     */
+    public void setEntradas(final List<EntradaEntity> entradas) {
+        this.entradas = entradas;
     }
 
     /**

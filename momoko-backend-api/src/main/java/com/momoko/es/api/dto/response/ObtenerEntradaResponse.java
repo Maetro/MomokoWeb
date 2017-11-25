@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 
 /**
@@ -25,6 +26,12 @@ public class ObtenerEntradaResponse {
 
     /** The comentarios. */
     private List<ComentarioDTO> comentarios;
+
+    /** The obtener entrada anterior y siguiente. */
+    private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente;
+
+    /** The cuatro post pequenos con imagen. */
+    private List<EntradaSimpleDTO> cuatroPostPequenosConImagen;
 
     /**
      * Gets the entrada.
@@ -81,6 +88,45 @@ public class ObtenerEntradaResponse {
      */
     public void setComentarios(final List<ComentarioDTO> comentarios) {
         this.comentarios = comentarios;
+    }
+
+    /**
+     * Gets the obtener entrada anterior y siguiente.
+     *
+     * @return the obtener entrada anterior y siguiente
+     */
+    public List<EntradaSimpleDTO> getObtenerEntradaAnteriorYSiguiente() {
+        return this.obtenerEntradaAnteriorYSiguiente;
+    }
+
+    /**
+     * Sets the entrada anterior y siguiente.
+     *
+     * @param obtenerEntradaAnteriorYSiguiente
+     *            the new entrada anterior y siguiente
+     */
+    public void setEntradaAnteriorYSiguiente(final List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente) {
+        this.obtenerEntradaAnteriorYSiguiente = obtenerEntradaAnteriorYSiguiente;
+
+    }
+
+    /**
+     * Gets the cuatro post pequenos con imagen.
+     *
+     * @return the cuatro post pequenos con imagen
+     */
+    public List<EntradaSimpleDTO> getCuatroPostPequenosConImagen() {
+        return this.cuatroPostPequenosConImagen;
+    }
+
+    /**
+     * Sets the cuatro post pequenos con imagen.
+     *
+     * @param cuatroPostPequenosConImagen
+     *            the new cuatro post pequenos con imagen
+     */
+    public void setCuatroPostPequenosConImagen(final List<EntradaSimpleDTO> cuatroPostPequenosConImagen) {
+        this.cuatroPostPequenosConImagen = cuatroPostPequenosConImagen;
     }
 
 }

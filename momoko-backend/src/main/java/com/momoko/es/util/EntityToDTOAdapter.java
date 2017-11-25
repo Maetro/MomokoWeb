@@ -106,8 +106,8 @@ public final class EntityToDTOAdapter {
         entradaDTO.setContenidoEntrada(entradaEntity.getContenidoEntrada());
         entradaDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(entradaEntity.getEntradaAutor()));
         entradaDTO.setEstadoEntrada(entradaEntity.getEstadoEntrada());
-        if (entradaEntity.getLibroEntrada() != null) {
-            entradaDTO.setLibroEntrada(adaptarLibro(entradaEntity.getLibroEntrada()));
+        if (entradaEntity.getLibrosEntrada() != null) {
+            entradaDTO.setLibrosEntrada(adaptarLibros(entradaEntity.getLibrosEntrada()));
         }
         entradaDTO.setNumeroComentarios(entradaEntity.getNumeroComentarios());
         entradaDTO.setOrden(entradaEntity.getOrden());
@@ -132,10 +132,33 @@ public final class EntityToDTOAdapter {
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
         entradaDTO.setEtiquetas(adaptarEtiquetas(entradaEntity.getEtiquetas()));
+        entradaDTO.setFechaAlta(entradaEntity.getFechaAlta());
         entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
-        entradaDTO.setTituloLibroEntrada(
-                entradaEntity.getLibroEntrada() != null ? entradaEntity.getLibroEntrada().getTitulo() : null);
+        if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
+            final List<String> titulos = new ArrayList<String>();
+            for (final LibroEntity libroEntity : entradaEntity.getLibrosEntrada()) {
+                titulos.add(libroEntity.getTitulo());
+            }
+            entradaDTO.setTitulosLibrosEntrada(titulos);
+        }
         return entradaDTO;
+    }
+
+    /**
+     * Adaptar libros.
+     *
+     * @param librosEntrada
+     *            the libros entrada
+     * @return the list
+     */
+    private static List<LibroDTO> adaptarLibros(final List<LibroEntity> librosEntrada) {
+        final List<LibroDTO> librosDTO = new ArrayList<LibroDTO>();
+        if (CollectionUtils.isNotEmpty(librosEntrada)) {
+            for (final LibroEntity libroEntity : librosEntrada) {
+                librosDTO.add(adaptarLibro(libroEntity));
+            }
+        }
+        return librosDTO;
     }
 
     /**

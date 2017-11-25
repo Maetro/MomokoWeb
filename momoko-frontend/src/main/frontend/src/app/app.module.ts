@@ -1,6 +1,6 @@
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
@@ -20,6 +20,7 @@ import { ListaGenerosComponent } from './gestion/gestion-libros/lista-generos/li
 import { GestionEntradasModule } from 'app/gestion/gestion-entradas/gestion-entradas.module';
 import { ListaLibrosComponent } from 'app/gestion/gestion-libros/lista-libros/lista-libros.component';
 import { ContenidoModule } from 'app/contenido/contenido.module';
+import { AppLoadModule } from 'app/app-load/app-load.module';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { ContenidoModule } from 'app/contenido/contenido.module';
     GestionLibrosModule,
     GestionEntradasModule,
     ContenidoModule,
-    routing
+    routing,
+    AppLoadModule
   ],
   providers: [],
   bootstrap: [AppComponent],

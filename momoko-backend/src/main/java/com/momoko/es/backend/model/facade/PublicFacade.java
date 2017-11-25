@@ -29,6 +29,7 @@ import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.IndexDataDTO;
+import com.momoko.es.api.dto.InitDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
@@ -75,15 +76,23 @@ public class PublicFacade {
     @Autowired(required = false)
     private StorageService almacenImagenes;
 
+    @GetMapping(path = "/initData")
+    public @ResponseBody InitDataDTO getInitData() {
+        System.out.println("Llamada al init");
+        final List<MenuDTO> menu = this.indexService.obtenerMenu();
+
+        final InitDataDTO initDataDTO = new InitDataDTO();
+        initDataDTO.setMenu(menu);
+        return initDataDTO;
+    }
+
     @GetMapping(path = "/indexData")
     public @ResponseBody IndexDataDTO getInfoIndex() {
         System.out.println("Llamada a los datos para dibujar el index");
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
-        final List<MenuDTO> menu = this.indexService.obtenerMenu();
 
         final IndexDataDTO indexDataDTO = new IndexDataDTO();
-        indexDataDTO.setMenu(menu);
         indexDataDTO.setUltimasEntradas(ultimasEntradas);
         indexDataDTO.setLibrosMasVistos(librosMasVistos);
         return indexDataDTO;

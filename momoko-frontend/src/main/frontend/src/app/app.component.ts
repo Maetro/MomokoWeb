@@ -1,8 +1,8 @@
-import { GeneralDataService } from './services/general-data.service';
+import { GeneralDataService } from 'app/services/general-data.service';
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, APP_INITIALIZER } from '@angular/core';
 
 import { Libro } from './dtos/libro';
 import { LibroService } from './services/libro.service';

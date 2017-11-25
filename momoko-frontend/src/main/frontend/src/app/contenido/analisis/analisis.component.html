@@ -1,4 +1,4 @@
-<app-menu-interno-libro [libro]="entrada.libroEntrada"></app-menu-interno-libro>
+<app-menu-interno-libro [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>
 <div class="light-wrapper">
   <div class="container inner">
     <div class="blog row">
@@ -9,17 +9,17 @@
       <div class="col-md-4">
         <div class="dark-wrapper bloqueInfoLibro">
           <div class="bloqueNota">
-            <app-nota-circular [nota]="entrada.libroEntrada.notaMomoko"></app-nota-circular>
+            <app-nota-circular [nota]="entrada.librosEntrada[0].notaMomoko"></app-nota-circular>
           </div>
           <div class="bloqueDatos">
             <div class="datos autor">
               <b>Título:
-                <span class="info">{{entrada.libroEntrada.titulo}}</span>
+                <span class="info">{{entrada.librosEntrada[0].titulo}}</span>
               </b>
             </div>
             <div class="datos autor">
               <b>Título original:
-                <span class="info">{{entrada.libroEntrada.tituloOriginal}}</span>
+                <span class="info">{{entrada.librosEntrada[0].tituloOriginal}}</span>
               </b>
             </div>
             <div class="datos autor">
@@ -29,22 +29,22 @@
             </div>
             <div class="datos numPaginas">
               <b>Nº de páginas:
-                <span class="info">{{entrada.libroEntrada.numeroPaginas}}</span>
+                <span class="info">{{entrada.librosEntrada[0].numeroPaginas}}</span>
               </b>
             </div>
             <div class="datos autor">
               <b>Año de publicación:
-                <span class="info">{{entrada.libroEntrada.anoPublicacion}}</span>
+                <span class="info">{{entrada.librosEntrada[0].anoPublicacion}}</span>
               </b>
             </div>
             <div class="datos autor">
               <b>Año de edición:
-                <span class="info">{{entrada.libroEntrada.anoEdicion}}</span>
+                <span class="info">{{entrada.librosEntrada[0].anoEdicion}}</span>
               </b>
             </div>
           </div>
           <div class="bloqueBotones">
-            <a class="amazon" href="{{entrada.libroEntrada.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
+            <a class="amazon" href="{{entrada.librosEntrada[0].enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
               <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">
             </a>
           </div>
@@ -62,7 +62,7 @@
                 <a routerLink="/editor/{{entrada.autor.nombre}}">{{entrada.autor.nombre}}</a>
               </span>
               <span class="generosText">Género
-                <span *ngFor="let genero of entrada.libroEntrada.generos, let last = last;">
+                <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
                   <a routerLink="/genero/{{genero.nombre}}">{{genero.nombre}}</a>
                   <span [hidden]="last">, </span>
                 </span>

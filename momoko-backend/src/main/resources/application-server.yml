@@ -70,8 +70,8 @@ logging:
   level:
     org:
       springframework:
-        security: INFO
-    root: INFO
+        security: WARN
+    root: WARN
     
 #momoko properties
 momokoConfiguracion:

@@ -1,3 +1,4 @@
+import { MiscelaneosComponent } from './main-content/miscelaneos/miscelaneos.component';
 import { ListaGeneroComponent } from 'app/contenido/clasificador/lista-genero/lista-genero.component';
 import { VideoService } from 'app/services/video.service';
 import { YoutubeService } from './../services/youtube.service';
@@ -35,6 +36,9 @@ import { VideosHorizontalComponent } from 'app/contenido/index/videos-horizontal
 import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-video-resolver.service';
 import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtener-lista-genero-resolver.service';
 import { ClasificadorService } from 'app/services/clasificador.service';
+import { ObtenerDatosGeneralesResolverService } from 'app/services/resolvers/obtener-datos-generales-resolver.service';
+import { MainContentComponent } from 'app/contenido/main-content/main-content.component';
+
 
 @NgModule({
   imports: [
@@ -49,9 +53,11 @@ import { ClasificadorService } from 'app/services/clasificador.service';
     AnadirEntradaComponent, AnadirEntrada2Component, LibrosMesSidebarComponent, Fila3entradasfondonegroComponent,
     LibrosHorizontalComponent, Libro3dComponent, FichaLibroComponent, SidebarInstagramComponent,
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
-    CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent],
+    CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
+     MiscelaneosComponent],
   providers: [IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService, ObtenerVideoResolverService,
-     ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService, ClasificadorService],
+     ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService, ClasificadorService,
+     ObtenerDatosGeneralesResolverService],
   exports: [RouterModule],
   entryComponents: [EntradaPortadaNormalImplComponent]
 })

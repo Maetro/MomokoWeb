@@ -30,7 +30,6 @@
         <module>momoko-frontend</module>
         <module>momoko-backend-api</module>
         <module>momoko-backend</module>
-        <module>momoko-oauth-server</module>
     </modules>
 	
 	

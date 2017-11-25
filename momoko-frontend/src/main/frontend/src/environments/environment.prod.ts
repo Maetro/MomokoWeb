@@ -21,5 +21,6 @@ export const environment = {
     obtenerLibroUrl: 'http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com:8080/public/libro/',
     addComentarioUrl: 'http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com:8080/public/comentario/add',
     obtenerVideoUrl: 'http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com:8080/public/videos',
-    getGeneroUrl: 'http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com:8080/public/genero/'
+    getGeneroUrl: 'http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com:8080/public/genero/',
+    initDataUrl: 'http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com:8080/public/initData/'
 };

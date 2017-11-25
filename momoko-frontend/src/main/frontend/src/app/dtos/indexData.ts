@@ -5,5 +5,4 @@ import { Menu } from 'app/dtos/menu';
 export class IndexData {
   ultimasEntradas: EntradaSimple[];
   librosMasVistos: LibroSimple[];
-  menu: Menu[];
 }

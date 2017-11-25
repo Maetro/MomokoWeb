@@ -8,6 +8,7 @@ import { ObtenerAnalisisResolverService } from 'app/services/resolvers/obtener-a
 import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-video-resolver.service';
 import { ListaGeneroComponent } from 'app/contenido/clasificador/lista-genero/lista-genero.component';
 import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtener-lista-genero-resolver.service';
+import { MainContentComponent } from 'app/contenido/main-content/main-content.component';
 
 const fichaRoutes: Routes = [
   {
@@ -19,20 +20,27 @@ const fichaRoutes: Routes = [
   },
   {
     path: ':url',
-    component: AnalisisComponent,
+    component: MainContentComponent,
     resolve: {
-      fichaEntrada: ObtenerAnalisisResolverService
+      obtenerEntradaResponse: ObtenerAnalisisResolverService
     }
   },
   {
     path: 'videos/:url',
     component: AnalisisComponent,
     resolve: {
-      fichaEntrada: ObtenerVideoResolverService
+      obtenerEntradaResponse: ObtenerVideoResolverService
     }
   },
   {
-    path: ':url_categoria/:url_genero',
+    path: 'genero/:url_genero',
+    component: ListaGeneroComponent,
+    resolve: {
+      paginaGeneroResponse: ObtenerListaGeneroResolverService
+    }
+  },
+  {
+    path: 'categoria/:url_genero',
     component: ListaGeneroComponent,
     resolve: {
       paginaGeneroResponse: ObtenerListaGeneroResolverService

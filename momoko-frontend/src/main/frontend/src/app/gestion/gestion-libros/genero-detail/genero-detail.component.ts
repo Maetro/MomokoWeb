@@ -55,15 +55,14 @@ export class GeneroDetailComponent implements OnInit {
         }
       });
       this.libroService.guardarGenero(this.genero)
-        .then(res => {
+        .subscribe(res => {
           if (res.estadoGuardado === 'CORRECTO') {
-            this.showSuccess('Libro guardado correctamente');
+            this.showSuccess('Género guardado correctamente');
             this.onGeneroGuardado.emit(this.genero);
           } else {
             this.showError(res.listaErroresValidacion);
           }
-        })
-        .catch();
+        });
     }
 
     showSuccess(mensaje: string) {

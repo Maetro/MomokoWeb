@@ -6,11 +6,14 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.momoko.es.backend.model.entity.EntradaEntity;
@@ -44,21 +47,55 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     List<EntradaEntity> findUltimasEntradas(Pageable pageable);
 
     /**
-     * Find by libro entrada.
-     *
-     * @param libro
-     *            the libro
-     * @return the list
-     */
-    List<EntradaEntity> findByLibroEntrada(LibroEntity libro);
-
-    /**
      * Find by libro entrada not null order by libro entrada visitas desc.
      *
      * @param pageable
      *            the pageable
      * @return the list
      */
-    List<EntradaEntity> findByLibroEntradaNotNullOrderByLibroEntradaVisitasDesc(Pageable pageable);
+    List<EntradaEntity> findTop3ByLibrosEntradaIsNotNullOrderByLibrosEntradaVisitasDesc();
+
+    /**
+     * Find by libro entrada.
+     *
+     * @param libroEntrada
+     *            the libro entrada
+     * @return the list
+     */
+    List<EntradaEntity> findByLibrosEntradaIn(List<LibroEntity> librosEntrada);
+
+    /**
+     * Find entrada miscelaneos anterior a fecha.
+     *
+     * @param fechaAlta
+     *            the fecha alta
+     * @return the entrada entity
+     */
+    @Query("select e from EntradaEntity e where e.tipoEntrada = 3 and e.fechaAlta < :fechaAlta and e.fechaBaja IS NULL ORDER by e.fechaAlta DESC")
+    Page<EntradaEntity> findEntradaMiscelaneosAnteriorAFecha(@Param("fechaAlta") Date fechaAlta, Pageable limit);
+
+    /**
+     * Find entrada miscelaneos posterior a fecha.
+     *
+     * @param fechaAlta
+     *            the fecha alta
+     * @param limit
+     *            the limit
+     * @return the entrada entity
+     */
+    @Query("select e from EntradaEntity e where e.tipoEntrada = 3 and e.fechaAlta > :fechaAlta and e.fechaBaja IS NULL ORDER by e.fechaAlta DESC")
+    Page<EntradaEntity> findEntradaMiscelaneosPosteriorAFecha(@Param("fechaAlta") Date fechaAlta, Pageable limit);
+
+    /**
+     * Seleccionar entradas aleatorias.
+     *
+     * @param entradaId
+     *            the entrada id
+     * @param pageRequest
+     *            the page request
+     * @return the list
+     */
+    @Query("SELECT e from EntradaEntity e where e.entradaId <> :entradaId and e.fechaBaja IS NULL ORDER BY rand()")
+    Page<EntradaEntity> seleccionarEntradasAleatorias(@Param("entradaId") Integer entradaId, Pageable pageRequest);
 
 }

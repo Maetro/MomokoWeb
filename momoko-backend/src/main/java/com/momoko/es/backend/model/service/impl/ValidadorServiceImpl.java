@@ -112,7 +112,7 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
         if (estaPublicada(entradaDTO) && !esTipoMiscelanea(entradaDTO)
-                && StringUtils.isEmpty(entradaDTO.getTituloLibroEntrada())) {
+                && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
         return listaErrores;

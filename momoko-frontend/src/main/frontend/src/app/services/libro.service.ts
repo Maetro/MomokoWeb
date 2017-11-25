@@ -1,3 +1,4 @@
+import { GuardarGeneroResponse } from './../dtos/response/guardarGeneroResponse';
 import { JsonAdapterService } from './../util/json-adapter.service';
 import { Editorial } from './../dtos/editorial';
 import { Injectable } from '@angular/core';
@@ -74,14 +75,19 @@ export class LibroService {
     return res;
   }
 
-  guardarGenero(genero: Genero): Promise<any> {
+  guardarGenero(genero: Genero): Observable<GuardarGeneroResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
       });
     return this.http
       .post(this.addGeneroUrl, JSON.stringify(genero), { headers: headers })
-      .toPromise();
+      .map(this.extractGuardarGeneroResponse)
+      .catch(error => Observable.throw(error || 'Server error'));
+  }
+
+  private extractGuardarGeneroResponse(res: GuardarGeneroResponse) {
+    return res;
   }
 
   getGeneros(): Observable<Genero[]> {

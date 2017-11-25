@@ -6,7 +6,6 @@ import { EntradaService } from 'app/services/entrada.service';
 import { ActivatedRoute } from '@angular/router';
 import { Libro } from 'app/dtos/libro';
 import { LibroSimple } from 'app/dtos/libroSimple';
-import { FichaEntrada } from 'app/dtos/fichaEntrada';
 
 @Component({
   selector: 'app-analisis',
@@ -14,50 +13,31 @@ import { FichaEntrada } from 'app/dtos/fichaEntrada';
   styleUrls: ['./analisis.component.css']
 })
 
-export class AnalisisComponent implements OnInit, OnDestroy {
+export class AnalisisComponent implements OnInit {
 
-  private url: string;
 
-    suscriptor: any;
+    @Input() entrada: Entrada;
 
-    entrada: Entrada;
-
-    autores: string
+    @Input() autores: string
 
     @Input() titulo: string;
 
-    librosParecidos: LibroSimple[];
+    @Input() librosParecidos: LibroSimple[];
 
-    comentarios: Comentario[];
+    @Input() comentarios: Comentario[];
 
-    constructor(private entradaService: EntradaService, private route: ActivatedRoute, private router: Router) { }
+    constructor() { }
 
-    ngOnInit() {
-      console.log('Creando pagina de la entrada')
-      this.suscriptor = this.route.params.subscribe(params => {
-        this.url = params['url']; // (+) converts string 'id' to a number
-        console.log(this.url);
+    ngOnInit(): void {
+        console.log('Generando pagina analisis');
         this.autores = '';
-        this.route.data.subscribe((data: { fichaEntrada: FichaEntrada }) => {
-          this.entrada = data.fichaEntrada.entrada;
-          this.librosParecidos = data.fichaEntrada.cincoLibrosParecidos;
-          this.comentarios = data.fichaEntrada.comentarios;
-          this.entrada.libroEntrada.autores.forEach(autor => {
+        this.entrada.librosEntrada.forEach(libro => {
+          libro.autores.forEach(autor => {
             this.autores += autor.nombre + ', ';
           });
-          this.autores = this.autores.substring(0, this.autores.length - 2);
         });
-        // In a real app: dispatch action to load the details here.
-     });
+        this.autores = this.autores.substring(0, this.autores.length - 2);
     }
 
-    ngOnDestroy() {
-      this.suscriptor.unsubscribe();
-    }
-
-    isActive(instruction: any[]): boolean {
-      // Set the second parameter to true if you want to require an exact match.
-      return this.router.isActive(this.router.createUrlTree(instruction), false);
-    }
 
 }

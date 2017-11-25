@@ -6,6 +6,8 @@
  */
 package com.momoko.es.api.dto;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -53,7 +55,7 @@ public class EntradaDTO {
     private EntradaDTO padreEntrada;
 
     /** The libro entrada. */
-    private LibroDTO libroEntrada;
+    private List<LibroDTO> librosEntrada;
 
     /** The etiquetas. */
     private Set<EtiquetaDTO> etiquetas;
@@ -65,7 +67,7 @@ public class EntradaDTO {
     private Integer numeroComentarios;
 
     /** The titulo libro entrada. */
-    private String tituloLibroEntrada;
+    private List<String> titulosLibrosEntrada;
 
     /** The orden. */
     private Integer orden;
@@ -75,6 +77,9 @@ public class EntradaDTO {
 
     /** The url video. */
     private String urlVideo;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
 
     /**
      * Instancia un nuevo entrada DTO.
@@ -277,8 +282,8 @@ public class EntradaDTO {
      *
      * @return libro entrada id
      */
-    public LibroDTO getLibroEntrada() {
-        return this.libroEntrada;
+    public List<LibroDTO> getLibrosEntrada() {
+        return this.librosEntrada;
     }
 
     /**
@@ -287,8 +292,8 @@ public class EntradaDTO {
      * @param libroEntrada
      *            nuevo libro entrada
      */
-    public void setLibroEntrada(final LibroDTO libroEntrada) {
-        this.libroEntrada = libroEntrada;
+    public void setLibrosEntrada(final List<LibroDTO> librosEntrada) {
+        this.librosEntrada = librosEntrada;
     }
 
     /**
@@ -372,8 +377,8 @@ public class EntradaDTO {
      *
      * @return the titulo libro entrada
      */
-    public String getTituloLibroEntrada() {
-        return this.tituloLibroEntrada;
+    public List<String> getTitulosLibrosEntrada() {
+        return this.titulosLibrosEntrada;
     }
 
     /**
@@ -382,8 +387,8 @@ public class EntradaDTO {
      * @param tituloLibroEntrada
      *            the new titulo libro entrada
      */
-    public void setTituloLibroEntrada(final String tituloLibroEntrada) {
-        this.tituloLibroEntrada = tituloLibroEntrada;
+    public void setTitulosLibrosEntrada(final List<String> titulosLibrosEntrada) {
+        this.titulosLibrosEntrada = titulosLibrosEntrada;
     }
 
     /**
@@ -444,6 +449,25 @@ public class EntradaDTO {
     }
 
     /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
+    public Date getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -459,7 +483,7 @@ public class EntradaDTO {
                 .append(this.resumenEntrada, castOther.resumenEntrada)
                 .append(this.estadoEntrada, castOther.estadoEntrada)
                 .append(this.permitirComentarios, castOther.permitirComentarios)
-                .append(this.padreEntrada, castOther.padreEntrada).append(this.libroEntrada, castOther.libroEntrada)
+                .append(this.padreEntrada, castOther.padreEntrada).append(this.librosEntrada, castOther.librosEntrada)
                 .append(this.etiquetas, castOther.etiquetas).append(this.imagenDestacada, castOther.imagenDestacada)
                 .append(this.numeroComentarios, castOther.numeroComentarios).append(this.orden, castOther.orden)
                 .isEquals();
@@ -473,8 +497,8 @@ public class EntradaDTO {
         return new HashCodeBuilder().append(this.entradaId).append(this.autor).append(this.urlEntrada)
                 .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
                 .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
-                .append(this.padreEntrada).append(this.libroEntrada).append(this.etiquetas).append(this.imagenDestacada)
-                .append(this.numeroComentarios).append(this.orden).toHashCode();
+                .append(this.padreEntrada).append(this.librosEntrada).append(this.etiquetas)
+                .append(this.imagenDestacada).append(this.numeroComentarios).append(this.orden).toHashCode();
     }
 
     /**
@@ -487,7 +511,7 @@ public class EntradaDTO {
                 .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
                 .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)
                 .append("permitirComentarios", this.permitirComentarios).append("padreEntrada", this.padreEntrada)
-                .append("libroEntrada", this.libroEntrada).append("etiquetas", this.etiquetas)
+                .append("libroEntrada", this.librosEntrada).append("etiquetas", this.etiquetas)
                 .append("imagenDestacada", this.imagenDestacada).append("numeroComentarios", this.numeroComentarios)
                 .append("orden", this.orden).toString();
     }

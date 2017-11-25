@@ -37,10 +37,10 @@
     <div class="nav-wrapper">
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li *ngFor="let menuPart of menu"><a routerLink="/{{menuPart.url}}" routerLinkActive="active"><b>{{menuPart.nombre}}</b>  <span class="caret"></span></a>
+          <li *ngFor="let menuPart of menu"><a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active"><b>{{menuPart.nombre}}</b>  <span class="caret"></span></a>
 
-            <ul class="dropdown-menu" *ngIf="menuPart.generos">
-              <li *ngFor="let genero of menuPart.generos"><a routerLink="/{{menuPart.url}}/{{genero.urlGenero}}" routerLinkActive="active"><img class="iconosmenu" src="{{genero.iconoGenero}}"/> {{genero.nombre}} </a></li>
+            <ul class="dropdown-menu" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
+              <li *ngFor="let genero of menuPart.generos"><a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active"><img class="iconosmenu" src="{{genero.iconoGenero}}"/> {{genero.nombre}} </a></li>
             </ul>
 
           </li>

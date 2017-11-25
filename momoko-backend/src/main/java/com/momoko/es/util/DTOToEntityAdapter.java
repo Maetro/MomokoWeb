@@ -6,8 +6,12 @@
  */
 package com.momoko.es.util;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.apache.commons.collections.CollectionUtils;
 
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
@@ -94,7 +98,7 @@ public final class DTOToEntityAdapter {
      *            entrada DTO
      * @return the entrada entity
      */
-    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final LibroDTO libroEntrada,
+    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final List<LibroDTO> librosEntrada,
             final UsuarioEntity autor) {
         final EntradaEntity entradaEntity = new EntradaEntity();
         entradaEntity.setEntradaId(entradaDTO.getEntradaId());
@@ -103,8 +107,8 @@ public final class DTOToEntityAdapter {
             entradaEntity.setEntradaAutor(autor);
         }
         entradaEntity.setEstadoEntrada(entradaDTO.getEstadoEntrada());
-        if (libroEntrada != null) {
-            entradaEntity.setLibroEntrada(adaptarLibro(libroEntrada));
+        if (librosEntrada != null) {
+            entradaEntity.setLibrosEntrada(adaptarLibros(librosEntrada));
         }
         entradaEntity.setNumeroComentarios(entradaDTO.getNumeroComentarios());
         entradaEntity.setOrden(entradaDTO.getOrden());
@@ -118,7 +122,27 @@ public final class DTOToEntityAdapter {
         entradaEntity.setImagenDestacada(entradaDTO.getImagenDestacada());
         entradaEntity.setEtiquetas(adaptarEtiquetas(entradaDTO.getEtiquetas()));
         entradaEntity.setFraseDescriptiva(entradaDTO.getFraseDescriptiva());
+        entradaEntity.setFechaAlta(entradaDTO.getFechaAlta());
         return entradaEntity;
+    }
+
+    /**
+     * Adaptar libros.
+     *
+     * @param librosEntrada
+     *            the libros entrada
+     * @return the list
+     */
+    private static List<LibroEntity> adaptarLibros(final List<LibroDTO> librosEntrada) {
+
+        final List<LibroEntity> librosEntity = new ArrayList<LibroEntity>();
+        if (CollectionUtils.isNotEmpty(librosEntrada)) {
+            for (final LibroDTO libroDTO : librosEntrada) {
+                librosEntity.add(adaptarLibro(libroDTO));
+            }
+        }
+        return librosEntity;
+
     }
 
     private static SagaEntity adpatarSaga(final SagaDTO saga) {

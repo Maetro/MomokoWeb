@@ -22,6 +22,7 @@ export class ListaGenerosComponent implements OnInit {
     @ViewChild(GeneroDetailComponent) generoDetailComponent: GeneroDetailComponent;
 
     constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
+      console.log('Builder ListaGenerosComponent');
       this.generos = [];
 
     }
@@ -49,13 +50,13 @@ export class ListaGenerosComponent implements OnInit {
     }
 
     selectLibro(genero: Genero) {
-      console.log(genero);
       console.log('selectLibro');
       this.generoDetailComponent.idCategoriaSeleccionada = genero.generoId;
       this.selectedGenero = genero;
     }
 
     nuevoGenero(): void {
+      console.log('nuevoGenero');
       this.selectedGenero = null;
       const genero = new Genero;
       this.generoDetailComponent.idCategoriaSeleccionada = null;
@@ -63,20 +64,28 @@ export class ListaGenerosComponent implements OnInit {
     }
 
     volver(): void {
+      console.log('volver');
       this.selectedGenero = null;
     }
 
     actualizarOAnadirGenero(genero: Genero): void {
+      console.log('actualizarOAnadirGenero ' + genero);
       this.selectedGenero = null;
-      console.log('actualizarOAnadirGenero');
-      this.generoDetailComponent.idCategoriaSeleccionada = genero.generoId;
-      this.generos = [];
-      this.getGeneros();
-      console.log(genero);
+      let encontrado = false;
+      this.generos.forEach(gen => {
+        if (gen.urlGenero === genero.urlGenero) {
+          gen = genero;
+          encontrado = true;
+        }
+      });
+      if (!encontrado) {
+        this.generos = [ ...this.generos, genero ];
+      }
+      this.generoDetailComponent.idCategoriaSeleccionada = null;
     }
 
     onRowSelect(event) {
-      console.log('Row Select');
+      console.log('onRowSelect');
       this.generoDetailComponent.idCategoriaSeleccionada = event.data.categoria.categoriaId;
   }
 

@@ -12,8 +12,6 @@ import java.util.List;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,8 +23,10 @@ import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.repository.CategoriaRepository;
 import com.momoko.es.backend.model.repository.GeneroRepository;
 import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.MomokoUtils;
 
 /**
  * The Class GeneroServiceImpl.
@@ -40,19 +40,26 @@ public class GeneroServiceImpl implements GeneroService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    @Autowired
+    private StorageService almacenImagenes;
+
     @Override
-    @Cacheable("generos")
     public List<GeneroDTO> obtenerTodosGeneros() {
         final List<GeneroDTO> listaGeneros = new ArrayList<GeneroDTO>();
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
         final Iterable<GeneroEntity> generoEntityIterable = this.generoRepository.findAll();
         for (final GeneroEntity generoEntity : generoEntityIterable) {
-            listaGeneros.add(EntityToDTOAdapter.adaptarGenero(generoEntity));
+            final GeneroDTO generoDTO = EntityToDTOAdapter.adaptarGenero(generoEntity);
+            generoDTO.setImagenCabeceraGenero(imageServer + generoDTO.getImagenCabeceraGenero());
+            generoDTO.setIconoGenero(imageServer + generoDTO.getIconoGenero());
+            listaGeneros.add(generoDTO);
+
         }
+
         return listaGeneros;
     }
 
     @Override
-    @CachePut(cacheNames = "generos", key = "#generoDTO")
     public GeneroDTO guardarGenero(final GeneroDTO generoDTO) throws Exception {
 
         GeneroEntity generoEntity = DTOToEntityAdapter.adaptarGenero(generoDTO);
@@ -78,8 +85,10 @@ public class GeneroServiceImpl implements GeneroService {
                 generoEntity.setUsuarioAlta(currentPrincipalName);
                 generoEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
-            generoEntity.setImagenCabeceraGenero(generoDTO.getImagenCabeceraGenero());
-            generoEntity.setImagenIconoGenero(generoDTO.getIconoGenero());
+            generoEntity.setNombre(generoDTO.getNombre());
+            generoEntity.setUrlGenero(generoDTO.getUrlGenero());
+            generoEntity.setImagenCabeceraGenero(MomokoUtils.soloNombreYCarpeta(generoDTO.getImagenCabeceraGenero()));
+            generoEntity.setImagenIconoGenero(MomokoUtils.soloNombreYCarpeta(generoDTO.getIconoGenero()));
             generoEntity.setCategoria(DTOToEntityAdapter.adaptarCategoria(generoDTO.getCategoria()));
             return EntityToDTOAdapter.adaptarGenero(this.generoRepository.save(generoEntity));
         } else {
@@ -96,11 +105,14 @@ public class GeneroServiceImpl implements GeneroService {
     @Override
     public GeneroDTO obtenerGeneroPorUrl(final String urlGenero) {
         final GeneroEntity generoEntity = this.generoRepository.findOneByUrlGeneroAndFechaBajaIsNull(urlGenero);
-        return EntityToDTOAdapter.adaptarGenero(generoEntity);
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
+        final GeneroDTO generoDTO = EntityToDTOAdapter.adaptarGenero(generoEntity);
+        generoDTO.setImagenCabeceraGenero(imageServer + generoDTO.getImagenCabeceraGenero());
+        generoDTO.setIconoGenero(imageServer + generoDTO.getIconoGenero());
+        return generoDTO;
     }
 
     @Override
-    @Cacheable("categorias")
     public List<CategoriaDTO> obtenerListaCategorias() {
         return EntityToDTOAdapter.adaptarCategorias(this.categoriaRepository.findAll());
     }

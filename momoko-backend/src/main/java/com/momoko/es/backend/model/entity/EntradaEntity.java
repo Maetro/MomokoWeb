@@ -71,9 +71,9 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     private EntradaEntity padreEntrada;
 
     /** The libro entrada. */
-    @ManyToOne
-    @JoinColumn(name = "libro_entrada")
-    private LibroEntity libroEntrada;
+    @ManyToMany
+    @JoinTable(name = "entrada_libro", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"))
+    private List<LibroEntity> librosEntrada;
 
     @OneToMany(mappedBy = "entrada", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComentarioEntity> comentarios;
@@ -310,8 +310,8 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      *
      * @return libro entrada
      */
-    public LibroEntity getLibroEntrada() {
-        return this.libroEntrada;
+    public List<LibroEntity> getLibrosEntrada() {
+        return this.librosEntrada;
     }
 
     /**
@@ -320,8 +320,8 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      * @param libroEntrada
      *            nuevo libro entrada
      */
-    public void setLibroEntrada(final LibroEntity libroEntrada) {
-        this.libroEntrada = libroEntrada;
+    public void setLibrosEntrada(final List<LibroEntity> librosEntrada) {
+        this.librosEntrada = librosEntrada;
     }
 
     /**
@@ -486,6 +486,16 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
         this.fechaBaja = fechaBaja;
     }
 
+    public void addLibro(final LibroEntity libro) {
+        this.librosEntrada.add(libro);
+        libro.getEntradas().add(this);
+    }
+
+    public void removeLibro(final LibroEntity libro) {
+        this.librosEntrada.remove(libro);
+        libro.getEntradas().remove(this);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -496,7 +506,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
                 .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
                 .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)
                 .append("permitirComentarios", this.permitirComentarios).append("padreEntrada", this.padreEntrada)
-                .append("libroEntrada", this.libroEntrada).append("numeroComentarios", this.numeroComentarios)
+                .append("librosEntrada", this.librosEntrada).append("numeroComentarios", this.numeroComentarios)
                 .append("orden", this.orden).toString();
     }
 

@@ -1,3 +1,4 @@
+import { APP_DATA } from './../app-load/app-data';
 import { AuthService } from 'app/auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,7 +17,7 @@ export class MenuComponent implements OnInit {
 
   menu: Menu[];
 
-  constructor(private indexDataService: IndexDataService, private authService: AuthService, private router: Router) { }
+  constructor( private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.authService.checkLoginStatus();
@@ -25,13 +26,7 @@ export class MenuComponent implements OnInit {
     this.authService.isLoggedIn.subscribe(loginStatus => {
       this.isLoggedIn = loginStatus
     });
-    this.indexDataService.getIndexData().subscribe(datos => {
-      console.log('Init index');
-      this.menu = datos.menu;
-    },
-      error => {
-        console.log('Error al recuperar los datos generales ', error);
-      });
+    this.menu = APP_DATA.menu;
   }
 
   myHome() {

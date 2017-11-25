@@ -14,12 +14,13 @@ export class Entrada {
   estadoEntrada: number;
   permitirComentarios: boolean;
   padreEntrada: Entrada;
-  libroEntrada: Libro;
+  librosEntrada: Libro[];
   numeroComentarios: number;
   etiquetas: Etiqueta[];
   orden: number;
   imagenDestacada: string;
-  tituloLibroEntrada: string;
+  titulosLibrosEntrada: string[];
   fraseDescriptiva: string;
+  fechaAlta: Date;
   urlVideo: string;
 }

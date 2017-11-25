@@ -11,8 +11,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -104,7 +106,7 @@ public class EntradaServiceImpl implements EntradaService {
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
-
+        final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
         try {
             entradaEntity.setImagenDestacada(
                     this.almacenImagenes.obtenerMiniatura(entradaEntity.getImagenDestacada(), 770, 432, true));
@@ -112,33 +114,52 @@ public class EntradaServiceImpl implements EntradaService {
             e.printStackTrace();
         }
         final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
-        final LibroEntity libroEntrada = entradaEntity.getLibroEntrada();
-        if (libroEntrada != null) {
-            final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findByLibroEntrada(libroEntrada);
+        if (!entradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
+            final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
+            if (CollectionUtils.isNotEmpty(librosEntrada)) {
+                for (final LibroEntity libroEntrada : librosEntrada) {
 
-            Collections.sort(entradasRelacionadas);
-            if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
-                    final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                    datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
-                    datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
-                    listaDatosEntradas.add(datoEntrada);
+                    final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                            .findByLibrosEntradaIn(Arrays.asList(libroEntrada));
+
+                    Collections.sort(entradasRelacionadas);
+                    if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+                        for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
+                            final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                            datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                            datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                            listaDatosEntradas.add(datoEntrada);
+                        }
+                    }
+
+                    if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+                        for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                            libroDTO.setEntradasLibro(listaDatosEntradas);
+                            librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
+                            final PuntuacionEntity puntuacion = this.puntuacionRepository
+                                    .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
+                            if (puntuacion != null) {
+                                libroDTO.setNotaMomoko(puntuacion.getValor());
+                            }
+                        }
+                    }
+                    respuesta.setCincoLibrosParecidos(
+                            librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
                 }
             }
-
-            if (entradaDTO.getLibroEntrada() != null) {
-                entradaDTO.getLibroEntrada().setEntradasLibro(listaDatosEntradas);
+        } else {
+            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getFechaAlta()));
+            final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
+                    entradaEntity.getEntradaId());
+            for (final EntradaSimpleDTO entradaSimpleDTO : cuatroPostPequenosConImagen) {
+                try {
+                    entradaSimpleDTO.setImagenEntrada(
+                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 137, 100, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
             }
-            final List<LibroSimpleDTO> librosParecidos = this.libroService
-                    .obtenerLibrosParecidos(entradaDTO.getLibroEntrada(), 5);
-
-            final PuntuacionEntity puntuacion = this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibro(true,
-                    libroEntrada);
-            if (puntuacion != null) {
-                entradaDTO.getLibroEntrada().setNotaMomoko(puntuacion.getValor());
-            }
-            respuesta.setCincoLibrosParecidos(librosParecidos);
-
+            respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
         }
         // Si es tipo video anadimos su URL
         if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
@@ -183,6 +204,43 @@ public class EntradaServiceImpl implements EntradaService {
         return respuesta;
     }
 
+    /**
+     * Obtener4 post pequenos con imagen.
+     *
+     * @param entradaId
+     *            the entrada id
+     * @return the list
+     */
+    private List<EntradaSimpleDTO> obtener4PostPequenosConImagen(final Integer entradaId) {
+        final List<EntradaEntity> listaEntities = this.entradaRepository
+                .seleccionarEntradasAleatorias(entradaId, new PageRequest(0, 4)).getContent();
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+    }
+
+    /**
+     * Obtener entrada anterior y siguiente.
+     *
+     * @param fechaAlta
+     *            the fecha alta
+     * @return the list
+     */
+    private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente(final Date fechaAlta) {
+        final List<EntradaEntity> entradaAnterior = this.entradaRepository
+                .findEntradaMiscelaneosAnteriorAFecha(fechaAlta, new PageRequest(0, 1)).getContent();
+
+        final List<EntradaEntity> entradaPosterior = this.entradaRepository
+                .findEntradaMiscelaneosPosteriorAFecha(fechaAlta, new PageRequest(0, 1)).getContent();
+
+        final List<EntradaEntity> listaEntities = new ArrayList<EntradaEntity>();
+        if (CollectionUtils.isNotEmpty(entradaAnterior)) {
+            listaEntities.add(entradaAnterior.iterator().next());
+        }
+        if (CollectionUtils.isNotEmpty(entradaPosterior)) {
+            listaEntities.add(entradaPosterior.iterator().next());
+        }
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+    }
+
     @Override
     public List<EntradaDTO> recuperarEntradas() {
         final List<EntradaDTO> entradasDTO = new ArrayList<EntradaDTO>();
@@ -199,19 +257,20 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     @Transactional
     public EntradaDTO guardarEntrada(final EntradaDTO entradaAGuardar) throws Exception {
-        LibroDTO libroEntrada = null;
+        final List<LibroDTO> librosEntrada = new ArrayList<LibroDTO>();
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        if (StringUtils.isNotBlank(entradaAGuardar.getTituloLibroEntrada())) {
-            libroEntrada = EntityToDTOAdapter
-                    .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getTituloLibroEntrada()));
+        if (CollectionUtils.isNotEmpty(entradaAGuardar.getTitulosLibrosEntrada())) {
+            for (final String titulo : entradaAGuardar.getTitulosLibrosEntrada()) {
+                librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));
+            }
         }
         UsuarioEntity autor = null;
         if (entradaAGuardar.getEntradaId() == null) {
             autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
         }
 
-        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada, autor);
+        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
             final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
@@ -272,10 +331,10 @@ public class EntradaServiceImpl implements EntradaService {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
 
-        if (entradaEntity.getLibroEntrada() != null) {
-            viejaEntrada.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
+        if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
+            viejaEntrada.setLibrosEntrada(obtenerLibrosEntrada(entradaEntity.getLibrosEntrada()));
         } else {
-            viejaEntrada.setLibroEntrada(null);
+            viejaEntrada.setLibrosEntrada(null);
         }
 
         viejaEntrada.setUsuarioModificacion(currentPrincipalName);
@@ -310,8 +369,8 @@ public class EntradaServiceImpl implements EntradaService {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
 
-        if (entradaEntity.getLibroEntrada() != null) {
-            entradaEntity.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
+        if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
+            entradaEntity.setLibrosEntrada(obtenerLibrosEntrada(entradaEntity.getLibrosEntrada()));
         }
         entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
         entradaEntity.setUsuarioAlta(currentPrincipalName);
@@ -330,13 +389,17 @@ public class EntradaServiceImpl implements EntradaService {
         return entradaEntity;
     }
 
-    private LibroEntity obtenerLibroEntrada(final LibroEntity libroABuscar) {
+    private List<LibroEntity> obtenerLibrosEntrada(final List<LibroEntity> librosABuscar) {
 
-        LibroEntity libroEncontrado = null;
-        if (libroABuscar != null) {
-            libroEncontrado = this.libroRepository.findOne(libroABuscar.getLibroId());
+        List<LibroEntity> librosEncontrado = null;
+        if (CollectionUtils.isNotEmpty(librosABuscar)) {
+            final List<Integer> librosIds = new ArrayList<Integer>();
+            for (final LibroEntity libroEntity : librosABuscar) {
+                librosIds.add(libroEntity.getLibroId());
+            }
+            librosEncontrado = this.libroRepository.findByLibroIdIn(librosIds);
         }
-        return libroEncontrado;
+        return librosEncontrado;
 
     }
 
@@ -420,10 +483,10 @@ public class EntradaServiceImpl implements EntradaService {
                 e.printStackTrace();
             }
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(videoEntityBD.getEntrada());
-            final LibroEntity libroEntrada = videoEntityBD.getEntrada().getLibroEntrada();
-            if (libroEntrada != null) {
+            final List<LibroEntity> librosEntrada = videoEntityBD.getEntrada().getLibrosEntrada();
+            if (CollectionUtils.isNotEmpty(librosEntrada)) {
                 final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                        .findByLibroEntrada(libroEntrada);
+                        .findByLibrosEntradaIn(librosEntrada);
 
                 Collections.sort(entradasRelacionadas);
                 if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
@@ -435,18 +498,11 @@ public class EntradaServiceImpl implements EntradaService {
                     }
                 }
 
-                if (entradaDTO.getLibroEntrada() != null) {
-                    entradaDTO.getLibroEntrada().setEntradasLibro(listaDatosEntradas);
+                if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+                    for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                        libroDTO.setEntradasLibro(listaDatosEntradas);
+                    }
                 }
-                final List<LibroSimpleDTO> librosParecidos = this.libroService
-                        .obtenerLibrosParecidos(entradaDTO.getLibroEntrada(), 5);
-
-                final PuntuacionEntity puntuacion = this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibro(true,
-                        libroEntrada);
-                if (puntuacion != null) {
-                    entradaDTO.getLibroEntrada().setNotaMomoko(puntuacion.getValor());
-                }
-                respuesta.setCincoLibrosParecidos(librosParecidos);
 
             }
             final List<ComentarioDTO> comentarios = this.comentarioService
@@ -486,14 +542,15 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     private EntradaEntity obtenerEntradaEntityParaVideo(final EntradaDTO entradaAGuardar) {
-        LibroDTO libroEntrada = null;
-        if (StringUtils.isNotBlank(entradaAGuardar.getTituloLibroEntrada())) {
-            libroEntrada = EntityToDTOAdapter
-                    .adaptarLibro(this.libroRepository.findOneByTitulo(entradaAGuardar.getTituloLibroEntrada()));
+        final List<LibroDTO> librosEntrada = null;
+        if (CollectionUtils.isNotEmpty(entradaAGuardar.getTitulosLibrosEntrada())) {
+            for (final String titulo : entradaAGuardar.getTitulosLibrosEntrada()) {
+                librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));
+            }
         }
         final UsuarioEntity autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getAutor().getNombre());
 
-        final EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, libroEntrada, autor);
+        final EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
             final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
@@ -522,8 +579,8 @@ public class EntradaServiceImpl implements EntradaService {
         entradaEntity.setImagenDestacada(soloNombreImagenADestacadas(entradaEntity.getImagenDestacada()));
         final boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
 
-        if (entradaEntity.getLibroEntrada() != null) {
-            entradaEntity.setLibroEntrada(obtenerLibroEntrada(entradaEntity.getLibroEntrada()));
+        if (entradaEntity.getLibrosEntrada() != null) {
+            entradaEntity.setLibrosEntrada(obtenerLibrosEntrada(entradaEntity.getLibrosEntrada()));
         }
         entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
         entradaEntity.setUsuarioAlta(autor.getUsuarioEmail());
@@ -544,7 +601,7 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public List<EntradaSimpleDTO> obtenerTresUltimasEntradasPopularesConLibro() {
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .findByLibroEntradaNotNullOrderByLibroEntradaVisitasDesc(new PageRequest(0, 3));
+                .findTop3ByLibrosEntradaIsNotNullOrderByLibrosEntradaVisitasDesc();
         return ConversionUtils.obtenerEntradasBasicas(listaEntities);
     }
 

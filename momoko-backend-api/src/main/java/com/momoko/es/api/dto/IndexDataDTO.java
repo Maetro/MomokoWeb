@@ -26,9 +26,6 @@ public class IndexDataDTO implements Serializable {
     /** The libros mas vistos. */
     private List<LibroSimpleDTO> librosMasVistos;
 
-    /** The menu. */
-    private List<MenuDTO> menu;
-
     /**
      * Gets the ultimas entradas.
      *
@@ -65,25 +62,6 @@ public class IndexDataDTO implements Serializable {
      */
     public void setLibrosMasVistos(final List<LibroSimpleDTO> librosMasVistos) {
         this.librosMasVistos = librosMasVistos;
-    }
-
-    /**
-     * Gets the menu.
-     *
-     * @return the menu
-     */
-    public List<MenuDTO> getMenu() {
-        return this.menu;
-    }
-
-    /**
-     * Sets the menu.
-     *
-     * @param menu
-     *            the new menu
-     */
-    public void setMenu(final List<MenuDTO> menu) {
-        this.menu = menu;
     }
 
     /*

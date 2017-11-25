@@ -9,6 +9,7 @@ import { EntradaService } from 'app/services/entrada.service';
 import { Message } from 'primeng/primeng';
 import { GeneralDataService } from 'app/services/general-data.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
+
 import { AnadirGaleriaComponent } from '../anadir-galeria/anadir-galeria.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-galeria/galeria-form-impl.component';
@@ -39,7 +40,7 @@ export class EntradaDetailComponent implements OnInit {
 
   etiquetas: string[];
 
-
+  fraseLibrosEscoger = 'Escoge libros';
 
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
     private fileUploadService: FileUploadService, private util: UtilService) {
@@ -60,7 +61,6 @@ export class EntradaDetailComponent implements OnInit {
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
       console.log('Init info general');
       const libros = datos.titulosLibros;
-      this.titulosLibros.push({ label: ' ' + 'No asociar', value: null });
       libros.forEach((libro: string) => {
         this.titulosLibros.push({ label: ' ' + libro, value: libro });
       });

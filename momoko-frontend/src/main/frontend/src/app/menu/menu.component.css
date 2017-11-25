@@ -1,0 +1,7 @@
+ul.double{
+  max-width: 40em !important;
+}
+
+.double li  {
+  width:50%;
+}

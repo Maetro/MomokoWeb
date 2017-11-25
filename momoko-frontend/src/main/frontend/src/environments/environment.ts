@@ -27,5 +27,5 @@ export const environment = {
   addComentarioUrl: 'http://localhost:8080/public/comentario/add',
   obtenerVideoUrl: 'http://localhost:8080/public/video/',
   getGeneroUrl: 'http://localhost:8080/public/genero/',
-
+  initDataUrl: 'http://localhost:8080/public/initData',
 };

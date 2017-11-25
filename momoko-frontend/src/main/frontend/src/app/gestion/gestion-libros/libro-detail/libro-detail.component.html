@@ -56,12 +56,12 @@
 
           <div class="col-sm-12 lp10">
             <h4> Autor de la obra
-              <a href="#">
+              <a (click)="crearAutor()">
                 <i class="ion-plus"></i>
               </a>
             </h4>
           </div>
-          <div *ngFor="let autor of libro.autores">
+          <div *ngFor="let autor of libro.autores; let i = index">
             <div class="col-sm-12 lp10">
               <div class="form-field">
                 <label>

@@ -1,8 +1,8 @@
 import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { FichaEntrada } from 'app/dtos/fichaEntrada';
 import { HttpClient } from '@angular/common/http';
+import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
 
 @Injectable()
 export class VideoService {
@@ -11,12 +11,12 @@ export class VideoService {
 
   constructor(private http: HttpClient) { }
 
-  getEntrada(urlEntrada): Observable<FichaEntrada> {
-    return this.http.get<FichaEntrada>(this.getVideoUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
+  getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
+    return this.http.get<ObtenerEntradaResponse>(this.getVideoUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
     .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerEntradaDeRespuesta(res: FichaEntrada) {
+  private obtenerEntradaDeRespuesta(res: ObtenerEntradaResponse) {
     return res;
   }
 
