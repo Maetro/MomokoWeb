@@ -2,7 +2,7 @@
   <div class="swiper-container-wrapper image-blog-wide-wrapper blog-carousel-wrapper blog-carousel-wrap">
     <div class="swiper-container image-blog-wide blog-carousel">
       <div class="swiper-wrapper">
-        <div class="swiper-slide" *ngFor="let entradaSimple of ultimasEntradas">
+        <div class="swiper-slide" *ngFor="let entradaSimple of entradas1a5">
           <figure>
             <div class="caption">
               <div class="info">
@@ -128,15 +128,14 @@
       <div class="col-sm-12 col-md-9 marginTop40">
         <h3> Último cómic analizado </h3>
         <div class="divider_inner divider_line1" style="border-color:#EFC66E;border-style: solid;width: 50px;border-width: 2px;"></div>
-        <h2 class="separatop"> La senda de los druidas, análisis </h2>
-        <p> Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nibh enim, fermentum a odio in, luctus finibus diam.
-          Quisque ac vestibulum dolor, sit amet ultricies risus. Maecenas iaculis egestas eros vel volutpat. Praesent efficitur
-          et magna vel egestas. </p>
-        <a href="https://www.instagram.com/urbanshots/" class="btn">Ver cómic </a>
+        <h2 class="separatop"> {{ultimoComicAnalizado.entrada.tituloEntrada}}</h2>
+        <p [innerHTML]="ultimoComicAnalizado.entrada.resumen"> </p>
+
+        <a routerLink="/{{ultimoComicAnalizado.entrada.urlEntrada}}" class="btn">Ver cómic </a>
       </div>
     </div>
     <div class="col-sm-12 col-md-3" style="margin-top:-70px">
-        <app-libro3d [anchura]="292" [anchuraPortada]="292" [alturaPortada]="400" [portada]="portada"></app-libro3d>
+        <app-libro3d [anchura]="292" [anchuraPortada]="292" [alturaPortada]="400" [portada]="ultimoComicAnalizado.libro.portada"></app-libro3d>
     </div>
   </div>
 </div>

@@ -21,6 +21,7 @@ import { GestionEntradasModule } from 'app/gestion/gestion-entradas/gestion-entr
 import { ListaLibrosComponent } from 'app/gestion/gestion-libros/lista-libros/lista-libros.component';
 import { ContenidoModule } from 'app/contenido/contenido.module';
 import { AppLoadModule } from 'app/app-load/app-load.module';
+import { GestionGaleriasModule } from 'app/gestion/gestion-galerias/gestion-galerias.module';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { AppLoadModule } from 'app/app-load/app-load.module';
     HeaderComponent,
     FooterComponent,
     AdminComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,6 +39,7 @@ import { AppLoadModule } from 'app/app-load/app-load.module';
     HttpModule,
     GestionLibrosModule,
     GestionEntradasModule,
+    GestionGaleriasModule,
     ContenidoModule,
     routing,
     AppLoadModule

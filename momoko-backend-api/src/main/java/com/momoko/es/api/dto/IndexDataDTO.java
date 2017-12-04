@@ -26,6 +26,9 @@ public class IndexDataDTO implements Serializable {
     /** The libros mas vistos. */
     private List<LibroSimpleDTO> librosMasVistos;
 
+    /** The ultimo comic analizado. */
+    private LibroEntradaSimpleDTO ultimoComicAnalizado;
+
     /**
      * Gets the ultimas entradas.
      *
@@ -62,6 +65,25 @@ public class IndexDataDTO implements Serializable {
      */
     public void setLibrosMasVistos(final List<LibroSimpleDTO> librosMasVistos) {
         this.librosMasVistos = librosMasVistos;
+    }
+
+    /**
+     * Gets the ultimo comic analizado.
+     *
+     * @return the ultimo comic analizado
+     */
+    public LibroEntradaSimpleDTO getUltimoComicAnalizado() {
+        return this.ultimoComicAnalizado;
+    }
+
+    /**
+     * Sets the ultimo comic analizado.
+     *
+     * @param ultimoComicAnalizado2
+     *            the new ultimo comic analizado
+     */
+    public void setUltimoComicAnalizado(final LibroEntradaSimpleDTO ultimoComicAnalizado2) {
+        this.ultimoComicAnalizado = ultimoComicAnalizado2;
     }
 
     /*

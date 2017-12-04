@@ -6,17 +6,17 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.io.Serializable;
+import java.util.Date;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Index;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Class GaleriaEntity.
@@ -24,124 +24,277 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Entity
-@Table(name = "galeria")
-public class GaleriaEntity extends AuditoriaBasica {
+@Table(name = "galeria", indexes = { @Index(name = "urlGaleria", columnList = "urlGaleria", unique = true) })
+public class GaleriaEntity implements Serializable {
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 8893566872732185597L;
 
     /** The galeria id. */
     private @Id @GeneratedValue Integer galeriaId;
 
     /** The fotografias. */
-    private String fotografias;
+    private String imagenes;
 
     /** The columnas. */
     private Integer columnas;
 
-    /** The entrada. */
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "entrada_id")
-    private EntradaEntity entrada;
+    /** The nombre galeria. */
+    private String nombreGaleria;
+
+    /** The url galeria. */
+    private String urlGaleria;
+
+    /** The usuario alta. */
+    private String usuarioAlta;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
+
+    /** The usuario alta. */
+    private String usuarioModificacion;
+
+    /** The fecha alta. */
+    private Date fechaModificacion;
+
+    /** The usuario alta. */
+    private String usuarioBaja;
+
+    /** The fecha alta. */
+    private Date fechaBaja;
 
     /**
-     * Instancia un nuevo galeria entity.
-     */
-    public GaleriaEntity() {
-    }
-
-    /**
-     * Obtiene galeria id.
+     * Gets the galeria id.
      *
-     * @return galeria id
+     * @return the galeria id
      */
     public Integer getGaleriaId() {
-        return galeriaId;
+        return this.galeriaId;
     }
 
     /**
-     * Establece galeria id.
+     * Sets the galeria id.
      *
      * @param galeriaId
-     *            nuevo galeria id
+     *            the new galeria id
      */
-    public void setGaleriaId(Integer galeriaId) {
+    public void setGaleriaId(final Integer galeriaId) {
         this.galeriaId = galeriaId;
     }
 
     /**
-     * Obtiene fotografias.
+     * Gets the imagenes.
      *
-     * @return fotografias
+     * @return the imagenes
      */
-    public String getFotografias() {
-        return fotografias;
+    public String getImagenes() {
+        return this.imagenes;
     }
 
     /**
-     * Establece fotografias.
+     * Sets the imagenes.
      *
-     * @param fotografias
-     *            nuevo fotografias
+     * @param imagenes
+     *            the new imagenes
      */
-    public void setFotografias(String fotografias) {
-        this.fotografias = fotografias;
+    public void setImagenes(final String imagenes) {
+        this.imagenes = imagenes;
     }
 
     /**
-     * Obtiene columnas.
+     * Gets the columnas.
      *
-     * @return columnas
+     * @return the columnas
      */
     public Integer getColumnas() {
-        return columnas;
+        return this.columnas;
     }
 
     /**
-     * Establece columnas.
+     * Sets the columnas.
      *
      * @param columnas
-     *            nuevo columnas
+     *            the new columnas
      */
-    public void setColumnas(Integer columnas) {
+    public void setColumnas(final Integer columnas) {
         this.columnas = columnas;
     }
 
     /**
-     * Obtiene entrada.
+     * Gets the nombre galeria.
      *
-     * @return entrada
+     * @return the nombre galeria
      */
-    public EntradaEntity getEntrada() {
-        return entrada;
+    public String getNombreGaleria() {
+        return this.nombreGaleria;
     }
 
     /**
-     * Establece entrada.
+     * Sets the nombre galeria.
      *
-     * @param entrada
-     *            nuevo entrada
+     * @param nombreGaleria
+     *            the new nombre galeria
      */
-    public void setEntrada(EntradaEntity entrada) {
-        this.entrada = entrada;
+    public void setNombreGaleria(final String nombreGaleria) {
+        this.nombreGaleria = nombreGaleria;
     }
 
+    /**
+     * Gets the url galeria.
+     *
+     * @return the url galeria
+     */
+    public String getUrlGaleria() {
+        return this.urlGaleria;
+    }
+
+    /**
+     * Sets the url galeria.
+     *
+     * @param urlGaleria
+     *            the new url galeria
+     */
+    public void setUrlGaleria(final String urlGaleria) {
+        this.urlGaleria = urlGaleria;
+    }
+
+    /**
+     * Gets the usuario alta.
+     *
+     * @return the usuario alta
+     */
+    public String getUsuarioAlta() {
+        return this.usuarioAlta;
+    }
+
+    /**
+     * Sets the usuario alta.
+     *
+     * @param usuarioAlta
+     *            the new usuario alta
+     */
+    public void setUsuarioAlta(final String usuarioAlta) {
+        this.usuarioAlta = usuarioAlta;
+    }
+
+    /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
+    public Date getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Gets the usuario modificacion.
+     *
+     * @return the usuario modificacion
+     */
+    public String getUsuarioModificacion() {
+        return this.usuarioModificacion;
+    }
+
+    /**
+     * Sets the usuario modificacion.
+     *
+     * @param usuarioModificacion
+     *            the new usuario modificacion
+     */
+    public void setUsuarioModificacion(final String usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    /**
+     * Gets the fecha modificacion.
+     *
+     * @return the fecha modificacion
+     */
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+
+    /**
+     * Sets the fecha modificacion.
+     *
+     * @param fechaModificacion
+     *            the new fecha modificacion
+     */
+    public void setFechaModificacion(final Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Gets the usuario baja.
+     *
+     * @return the usuario baja
+     */
+    public String getUsuarioBaja() {
+        return this.usuarioBaja;
+    }
+
+    /**
+     * Sets the usuario baja.
+     *
+     * @param usuarioBaja
+     *            the new usuario baja
+     */
+    public void setUsuarioBaja(final String usuarioBaja) {
+        this.usuarioBaja = usuarioBaja;
+    }
+
+    /**
+     * Gets the fecha baja.
+     *
+     * @return the fecha baja
+     */
+    public Date getFechaBaja() {
+        return this.fechaBaja;
+    }
+
+    /**
+     * Sets the fecha baja.
+     *
+     * @param fechaBaja
+     *            the new fecha baja
+     */
+    public void setFechaBaja(final Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GaleriaEntity))
+        if (!(other instanceof GaleriaEntity)) {
             return false;
-        GaleriaEntity castOther = (GaleriaEntity) other;
-        return new EqualsBuilder().append(galeriaId, castOther.galeriaId).append(fotografias, castOther.fotografias)
-                .append(columnas, castOther.columnas).append(entrada, castOther.entrada).isEquals();
+        }
+        final GaleriaEntity castOther = (GaleriaEntity) other;
+        return new EqualsBuilder().append(this.galeriaId, castOther.galeriaId)
+                .append(this.urlGaleria, castOther.urlGaleria).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(galeriaId).append(fotografias).append(columnas).append(entrada)
-                .toHashCode();
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("galeriaId", galeriaId).append("fotografias", fotografias)
-                .append("columnas", columnas).append("entrada", entrada).toString();
+        return new HashCodeBuilder().append(this.galeriaId).append(this.urlGaleria).toHashCode();
     }
 
 }

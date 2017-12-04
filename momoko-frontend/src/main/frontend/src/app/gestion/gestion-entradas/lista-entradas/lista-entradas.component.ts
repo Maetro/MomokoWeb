@@ -75,6 +75,8 @@ export class ListaEntradasComponent implements OnInit {
         this.selectedEntrada = null;
         const entrada = new Entrada;
         entrada.etiquetas = [];
+        entrada.contenidoEntrada = '';
+        entrada.permitirComentarios = true;
         this.selectedEntrada = entrada;
       }
 

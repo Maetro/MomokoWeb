@@ -8,8 +8,10 @@ package com.momoko.es.backend.model.service;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.request.ObtenerPaginaCategoriaRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 
 /**
@@ -44,7 +46,7 @@ public interface EntradaService {
      *            the url entrada
      * @return the obtener entrada response
      */
-    ObtenerEntradaResponse obtenerEntrada(String urlEntrada);
+    ObtenerEntradaResponse obtenerEntrada(String urlEntrada, boolean transformarGalerias);
 
     /**
      * Obtener entrada video.
@@ -61,5 +63,27 @@ public interface EntradaService {
      * @return the list
      */
     List<EntradaSimpleDTO> obtenerTresUltimasEntradasPopularesConLibro();
+
+    /**
+     * Obtener entradas categoria por fecha.
+     *
+     * @param categoriaDTO
+     *            the categoria dto
+     * @param numeroEntradas
+     *            the numero entradas
+     * @param pagina
+     *            the pagina
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(CategoriaDTO categoriaDTO, int numeroEntradas, int pagina);
+
+    /**
+     * Obtener noticias.
+     *
+     * @param request
+     *            the request
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerNoticias(ObtenerPaginaCategoriaRequest request);
 
 }

@@ -7,6 +7,7 @@
 package com.momoko.es.backend.model.facade;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -28,16 +29,19 @@ import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.GeneroDTO;
-import com.momoko.es.api.dto.IndexDataDTO;
 import com.momoko.es.api.dto.InitDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaCategoriaRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
+import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
@@ -87,15 +91,18 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/indexData")
-    public @ResponseBody IndexDataDTO getInfoIndex() {
+    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex() {
         System.out.println("Llamada a los datos para dibujar el index");
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
-
-        final IndexDataDTO indexDataDTO = new IndexDataDTO();
-        indexDataDTO.setUltimasEntradas(ultimasEntradas);
-        indexDataDTO.setLibrosMasVistos(librosMasVistos);
-        return indexDataDTO;
+        final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimosAnalisis();
+        final LibroEntradaSimpleDTO ultimoComicAnalizado = this.indexService.obtenerUltimoComicAnalizado();
+        final ObtenerIndexDataReponseDTO obtenerIndexDataResponseDTO = new ObtenerIndexDataReponseDTO();
+        obtenerIndexDataResponseDTO.setUltimasEntradas(ultimasEntradas);
+        obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
+        obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
+        obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
+        return obtenerIndexDataResponseDTO;
     }
 
     @GetMapping(path = "/entradas")
@@ -107,7 +114,7 @@ public class PublicFacade {
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
         System.out.println("Obtener entrada: " + urlEntrada);
-        final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntrada(urlEntrada);
+        final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
         return respuesta;
     }
 
@@ -169,8 +176,9 @@ public class PublicFacade {
             request.setUrlGenero(urlGenero);
         }
         final GeneroDTO generoDTO = this.generoService.obtenerGeneroPorUrl(urlGenero);
-        final List<LibroSimpleDTO> librosGenero = this.libroService.obtenerLibrosGeneroPorFecha(generoDTO, 9,
+        final List<LibroSimpleDTO> librosGenero = this.libroService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO, 9,
                 request.getNumeroPagina() - 1);
+        final Integer numeroLibros = this.libroService.obtenerNumeroLibrosConAnalisisGenero(generoDTO);
         for (final LibroSimpleDTO libroSimpleDTO : librosGenero) {
             if (libroSimpleDTO.getPortada() != null) {
                 try {
@@ -186,10 +194,45 @@ public class PublicFacade {
                 .obtenerTresUltimasEntradasPopularesConLibro();
 
         generoResponse.setGenero(generoDTO);
-
+        generoResponse.setNumeroLibros(numeroLibros);
         generoResponse.setNueveLibrosGenero(librosGenero);
         generoResponse.setTresUltimasEntradasConLibro(tresUltimasEntradasConLibro);
         return generoResponse;
+
+    }
+
+    @GetMapping(path = "/categoria/{url-categoria}")
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
+            @PathVariable("url-categoria") final String urlCategoria,
+            @RequestBody(required = false) ObtenerPaginaCategoriaRequest request) {
+        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaCategoriaRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlGenero(urlCategoria);
+        }
+        final CategoriaDTO categoriaDTO = this.generoService.obtenerCategoriaPorUrl(urlCategoria);
+        if (urlCategoria.equals("noticias")) {
+            entradasCategoria.addAll(this.entradaService.obtenerNoticias(request));
+        } else {
+            entradasCategoria.addAll(this.entradaService.obtenerEntradasCategoriaPorFecha(categoriaDTO, 9,
+                    request.getNumeroPagina() - 1));
+        }
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasCategoria) {
+            if (entradaSimpleDTO.getImagenEntrada() != null) {
+                try {
+                    entradaSimpleDTO.setImagenEntrada(
+                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 240, 135, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        categoriaResponse.setEntradasCategoria(entradasCategoria);
+        categoriaResponse.setCategoria(categoriaDTO);
+        return categoriaResponse;
 
     }
 

@@ -1,8 +1,10 @@
 import { EntradaSimple } from 'app/dtos/entradaSimple';
 import { LibroSimple } from 'app/dtos/libroSimple';
 import { Menu } from 'app/dtos/menu';
+import { LibroEntradaSimple } from 'app/dtos/simples/libroEntradaSimple';
 
 export class IndexData {
   ultimasEntradas: EntradaSimple[];
   librosMasVistos: LibroSimple[];
+  ultimoComicAnalizado: LibroEntradaSimple;
 }

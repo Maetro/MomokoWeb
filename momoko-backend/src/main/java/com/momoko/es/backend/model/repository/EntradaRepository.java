@@ -43,7 +43,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      *            the num
      * @return the list
      */
-    @Query("select e from EntradaEntity e ORDER by e.fechaAlta DESC")
+    @Query("select e from EntradaEntity e ORDER by e.entradaId DESC")
     List<EntradaEntity> findUltimasEntradas(Pageable pageable);
 
     /**
@@ -97,5 +97,22 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     @Query("SELECT e from EntradaEntity e where e.entradaId <> :entradaId and e.fechaBaja IS NULL ORDER BY rand()")
     Page<EntradaEntity> seleccionarEntradasAleatorias(@Param("entradaId") Integer entradaId, Pageable pageRequest);
+
+    /**
+     * Find by tipo entrada and fecha baja is null.
+     *
+     * @param tipoEntrada
+     *            the tipo entrada
+     * @return the list
+     */
+    List<EntradaEntity> findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(Integer tipoEntrada, Pageable limit);
+
+    @Query("select distinct e from EntradaEntity e join e.librosEntrada l join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
+    List<EntradaEntity> findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+            @Param("generoIds") List<Integer> generoIds, Pageable pageable);
+
+    @Query("select COUNT(e) from EntradaEntity e join e.librosEntrada l join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL")
+    Long findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+            @Param("generoIds") List<Integer> generoIds);
 
 }

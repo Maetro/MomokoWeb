@@ -28,4 +28,7 @@ export const environment = {
   obtenerVideoUrl: 'http://localhost:8080/public/video/',
   getGeneroUrl: 'http://localhost:8080/public/genero/',
   initDataUrl: 'http://localhost:8080/public/initData',
+  addGaleriaUrl: 'http://localhost:8080/modelo/galerias/add',
+  galeriasUrl: 'http://localhost:8080/modelo/galerias',
+  getCategoriaUrl: 'http://localhost:8080/public/categoria/',
 };

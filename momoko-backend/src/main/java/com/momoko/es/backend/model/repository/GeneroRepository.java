@@ -51,4 +51,13 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      */
     GeneroEntity findOneByNombreAndFechaBajaIsNull(String nombre);
 
+    /**
+     * Find by categoria.
+     *
+     * @param categoria
+     *            the categoria
+     * @return the list
+     */
+    List<GeneroEntity> findByCategoriaUrlCategoriaAndFechaBajaIsNull(String urlCategoria);
+
 }

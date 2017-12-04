@@ -234,6 +234,21 @@ public final class EntityToDTOAdapter {
     }
 
     /**
+     * Adaptar generos.
+     *
+     * @param generos
+     *            the generos
+     * @return the establece
+     */
+    public static List<GeneroDTO> adaptarGeneros(final List<GeneroEntity> generos) {
+        final List<GeneroDTO> generosEntities = new ArrayList<GeneroDTO>();
+        for (final GeneroEntity generoEntity : generos) {
+            generosEntities.add(adaptarGenero(generoEntity));
+        }
+        return generosEntities;
+    }
+
+    /**
      * Adaptar genero.
      *
      * @param generoEntity
@@ -242,7 +257,7 @@ public final class EntityToDTOAdapter {
      */
     public static GeneroDTO adaptarGenero(final GeneroEntity generoEntity) {
         final GeneroDTO generoDTO = new GeneroDTO();
-        generoDTO.setGeneroId(generoEntity.getGenero_id());
+        generoDTO.setGeneroId(generoEntity.getGeneroId());
         generoDTO.setNombre(generoEntity.getNombre());
         generoDTO.setUrlGenero(generoEntity.getUrlGenero());
         generoDTO.setImagenCabeceraGenero(generoEntity.getImagenCabeceraGenero());
@@ -292,9 +307,11 @@ public final class EntityToDTOAdapter {
     public static GaleriaDTO adaptarGaleria(final GaleriaEntity galeriaEntity) {
         final GaleriaDTO galeriaDTO = new GaleriaDTO();
         galeriaDTO.setGaleriaId(galeriaEntity.getGaleriaId());
-        galeriaDTO.setEntrada(galeriaEntity.getEntrada().getUrlEntrada());
-        galeriaDTO.setFotografias(ConversionUtils.divide(galeriaEntity.getFotografias()));
         galeriaDTO.setColumnas(galeriaEntity.getColumnas());
+        galeriaDTO.setImagenes(ConversionUtils.divide(galeriaEntity.getImagenes(), ";"));
+        galeriaDTO.setUrlGaleria(galeriaEntity.getUrlGaleria());
+        galeriaDTO.setNombreGaleria(galeriaEntity.getNombreGaleria());
+
         return galeriaDTO;
     }
 
@@ -373,6 +390,24 @@ public final class EntityToDTOAdapter {
             for (final CategoriaEntity categoriaEntity : categorias) {
                 final CategoriaDTO categoriaDTO = adaptarCategoria(categoriaEntity);
                 listaDTO.add(categoriaDTO);
+            }
+        }
+        return listaDTO;
+    }
+
+    /**
+     * Adaptar galerias.
+     *
+     * @param galerias
+     *            the galerias
+     * @return the list
+     */
+    public static List<GaleriaDTO> adaptarGalerias(final List<GaleriaEntity> galerias) {
+        final List<GaleriaDTO> listaDTO = new ArrayList<GaleriaDTO>();
+        if (CollectionUtils.isNotEmpty(galerias)) {
+            for (final GaleriaEntity galeriaEntity : galerias) {
+                final GaleriaDTO galeriaDTO = adaptarGaleria(galeriaEntity);
+                listaDTO.add(galeriaDTO);
             }
         }
         return listaDTO;

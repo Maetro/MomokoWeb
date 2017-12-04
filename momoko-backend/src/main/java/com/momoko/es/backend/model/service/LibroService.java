@@ -86,6 +86,15 @@ public interface LibroService {
      *            the pagina
      * @return the list
      */
-    List<LibroSimpleDTO> obtenerLibrosGeneroPorFecha(GeneroDTO genero, int numeroLibros, int pagina);
+    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GeneroDTO genero, int numeroLibros, int pagina);
+
+    /**
+     * Obtener numero libros con analisis genero.
+     *
+     * @param generoDTO
+     *            the genero dto
+     * @return the integer
+     */
+    public Integer obtenerNumeroLibrosConAnalisisGenero(GeneroDTO generoDTO);
 
 }

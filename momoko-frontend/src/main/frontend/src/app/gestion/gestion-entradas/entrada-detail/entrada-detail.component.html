@@ -45,7 +45,7 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-                <p-chips [(ngModel)]="etiquetas"></p-chips>
+              <p-chips [(ngModel)]="etiquetas"></p-chips>
             </div>
             <!--/.form-field -->
           </div>
@@ -59,7 +59,7 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-                <p-dropdown [options]="tiposEntrada" [(ngModel)]="entrada.tipoEntrada" [style]="{'width':'400px'}"></p-dropdown>
+              <p-dropdown [options]="tiposEntrada" [(ngModel)]="entrada.tipoEntrada" [style]="{'width':'400px'}"></p-dropdown>
             </div>
             <!--/.form-field -->
           </div>
@@ -88,7 +88,8 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-              <p-multiSelect [options]="titulosLibros" [defaultLabel]="fraseLibrosEscoger" [(ngModel)]="entrada.titulosLibrosEntrada" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-multiSelect>
+              <p-multiSelect [options]="titulosLibros" [defaultLabel]="fraseLibrosEscoger" [(ngModel)]="entrada.titulosLibrosEntrada" [filter]="true"
+                filterBy="label" [style]="{'width':'400px'}"></p-multiSelect>
             </div>
             <!--/.form-field -->
           </div>
@@ -107,6 +108,21 @@
             <!--/.form-field -->
           </div>
 
+      <!--    <div *ngIf="galerias">
+            <div class="col-sm-4 rp10 marginTop10">
+              <div class="form-field">
+                <h4> Mostrar Galeria en Portada: </h4>
+              </div>
+            </div>
+            <div class="col-sm-8 lp10 marginTop8">
+              <div class="form-field">
+                <label>
+                  <p-checkbox binary="true" [(ngModel)]="entrada.mostrarGaleria"></p-checkbox>
+                </label>
+              </div>
+
+            </div>
+          </div> -->
 
           <div class="col-md-12">
 
@@ -143,7 +159,7 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-                <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
+              <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
             </div>
             <!--/.form-field -->
           </div>
@@ -184,11 +200,26 @@
         <div class="col-md-12">
 
           <h2> Galerías </h2>
-          <button type="button" (click)="anadirGaleria()" class="btn btn-outline-primary">Añadir Galeria</button>
-          <app-anadir-galeria [galerias]="galerias"></app-anadir-galeria>
+          <button type="button" (click)="buscarGalerias()" class="btn btn-outline-primary">Añadir Galeria</button>
+
         </div>
 
+        <div class="divide10"></div>
 
+        <div *ngIf="galerias">
+          <div class="marginTop10 col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Galerias: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <p-multiSelect [options]="nombresGalerias" [defaultLabel]="fraseGalerias" [(ngModel)]="selectedGaleria" [filter]="true" filterBy="label"
+                [style]="{'width':'100%'}" resetFilterOnHide=true (onChange)="insertarGaleria($event)"></p-multiSelect>
+            </div>
+            <!--/.form-field -->
+          </div>
+        </div>
         <!-- <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp"> -->
 
 

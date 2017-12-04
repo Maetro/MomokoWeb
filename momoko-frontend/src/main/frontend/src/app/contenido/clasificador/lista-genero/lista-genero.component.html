@@ -1,6 +1,6 @@
 <div class="light-wrapper">
 
-  <div class="parallax page-title inverse-wrapper parallax2">
+  <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + genero.imagenCabeceraGenero + ')'}">
     <div class="container inner">
       <h1 class="text-center">Género: {{genero.nombre}} </h1>
     </div>
@@ -40,9 +40,9 @@
                 <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
                 <div class="col-sm-4">
                   <div class="portadaContainer">
-                    <img src="{{libro.portada}}">
+                    <a routerLink="/libro/{{libro.urlLibro}}"><img src="{{libro.portada}}"></a>
                   </div>
-                  <h3 class="titulo_libro"> {{libro.titulo}} </h3>
+                  <h3 class="titulo_libro"><a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a></h3>
                   <span class="autor_libro"> {{libro.nombreAutor}} </span>
 
                 </div>

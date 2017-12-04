@@ -11,9 +11,6 @@ import { EntradaDetailComponent } from 'app/gestion/gestion-entradas/entrada-det
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ResumenEditorComponent } from 'app/gestion/gestion-entradas/editores-texto/resumen-editor.component';
-import { AnadirGaleriaDirective } from './anadir-galeria/anadir-galeria.directive';
-import { AnadirGaleriaComponent } from 'app/gestion/gestion-entradas/anadir-galeria/anadir-galeria.component';
-import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-galeria/galeria-form-impl.component';
 
 
 @NgModule({
@@ -30,11 +27,10 @@ import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-ga
     CheckboxModule,
     BrowserAnimationsModule
   ],
-  declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent,
-    AnadirGaleriaComponent, AnadirGaleriaDirective, GaleriaFormImplComponent],
+  declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent],
   providers: [
     EntradaService, FileUploadService, UtilService
   ],
-  entryComponents: [ListaEntradasComponent, GaleriaFormImplComponent]
+  entryComponents: [ListaEntradasComponent]
 })
 export class GestionEntradasModule { }

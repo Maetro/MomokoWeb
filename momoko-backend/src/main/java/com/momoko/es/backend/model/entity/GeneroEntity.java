@@ -32,7 +32,8 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class GeneroEntity {
 
     /** The autor id. */
-    private @Id @GeneratedValue Integer genero_id;
+    @JoinColumn(name = "genero_id")
+    private @Id @GeneratedValue Integer generoId;
 
     /** The nombre. */
     private String nombre;
@@ -78,8 +79,8 @@ public class GeneroEntity {
      *
      * @return the genero_id
      */
-    public Integer getGenero_id() {
-        return this.genero_id;
+    public Integer getGeneroId() {
+        return this.generoId;
     }
 
     /**
@@ -88,8 +89,8 @@ public class GeneroEntity {
      * @param genero_id
      *            the new genero_id
      */
-    public void setGenero_id(final Integer genero_id) {
-        this.genero_id = genero_id;
+    public void setGeneroId(final Integer genero_id) {
+        this.generoId = genero_id;
     }
 
     /**
@@ -331,7 +332,7 @@ public class GeneroEntity {
             return false;
         }
         final GeneroEntity castOther = (GeneroEntity) other;
-        return new EqualsBuilder().append(this.genero_id, castOther.genero_id).isEquals();
+        return new EqualsBuilder().append(this.generoId, castOther.generoId).isEquals();
     }
 
     /*
@@ -341,7 +342,7 @@ public class GeneroEntity {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.genero_id).toHashCode();
+        return new HashCodeBuilder().append(this.generoId).toHashCode();
     }
 
     /*
@@ -351,7 +352,7 @@ public class GeneroEntity {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("genero_id", this.genero_id).append("nombre", this.nombre).toString();
+        return new ToStringBuilder(this).append("generoId", this.generoId).append("nombre", this.nombre).toString();
     }
 
 }

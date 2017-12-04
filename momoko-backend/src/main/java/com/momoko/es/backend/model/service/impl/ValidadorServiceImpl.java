@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
@@ -24,6 +25,7 @@ import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.ErrorCreacionGaleria;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.ErrorPublicarComentario;
@@ -179,6 +181,24 @@ public class ValidadorServiceImpl implements ValidadorService {
         }
         if (comentario.getEntradaId() == null) {
             listaErrores.add(ErrorCreacionComentario.NO_SE_ENCUENTRA_ENTRADA);
+        }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorCreacionGaleria> validarGaleria(final GaleriaDTO galeriaDTO) {
+        final List<ErrorCreacionGaleria> listaErrores = new ArrayList<ErrorCreacionGaleria>();
+        if (StringUtils.isEmpty(galeriaDTO.getNombreGaleria())) {
+            listaErrores.add(ErrorCreacionGaleria.FALTA_NOMBRE);
+        }
+        if (StringUtils.isEmpty(galeriaDTO.getUrlGaleria())) {
+            listaErrores.add(ErrorCreacionGaleria.FALTA_URL);
+        }
+        if (galeriaDTO.getColumnas() == null) {
+            listaErrores.add(ErrorCreacionGaleria.FALTA_NUMERO_COLUMNAS);
+        }
+        if (CollectionUtils.isEmpty(galeriaDTO.getImagenes())) {
+            listaErrores.add(ErrorCreacionGaleria.FALTAN_IMAGENES);
         }
         return listaErrores;
     }

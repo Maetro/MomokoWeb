@@ -214,6 +214,21 @@ public final class DTOToEntityAdapter {
     }
 
     /**
+     * Adaptar generos.
+     *
+     * @param generos
+     *            the generos
+     * @return the list
+     */
+    public static List<GeneroEntity> adaptarGeneros(final List<GeneroDTO> generos) {
+        final List<GeneroEntity> generosEntities = new ArrayList<GeneroEntity>();
+        for (final GeneroDTO generoDTO : generos) {
+            generosEntities.add(adaptarGenero(generoDTO));
+        }
+        return generosEntities;
+    }
+
+    /**
      * Adaptar genero.
      *
      * @param generoDTO
@@ -222,7 +237,7 @@ public final class DTOToEntityAdapter {
      */
     public static GeneroEntity adaptarGenero(final GeneroDTO generoDTO) {
         final GeneroEntity entity = new GeneroEntity();
-        entity.setGenero_id(generoDTO.getGeneroId());
+        entity.setGeneroId(generoDTO.getGeneroId());
         entity.setNombre(generoDTO.getNombre());
         entity.setUrlGenero(generoDTO.getUrlGenero());
         entity.setImagenCabeceraGenero(generoDTO.getImagenCabeceraGenero());
@@ -263,19 +278,20 @@ public final class DTOToEntityAdapter {
     }
 
     /**
-     * Adaptar etiqueta.
+     * Adaptar galeria.
      *
-     * @param etiquetaEntity
-     *            etiqueta entity
-     * @return the etiqueta DTO
+     * @param galeriaEntity
+     *            the galeria entity
+     * @return the galeria dto
      */
-    public static GaleriaDTO adaptarGaleria(final GaleriaEntity galeriaEntity) {
-        final GaleriaDTO galeriaDTO = new GaleriaDTO();
-        galeriaDTO.setGaleriaId(galeriaEntity.getGaleriaId());
-        galeriaDTO.setEntrada(galeriaEntity.getEntrada().getUrlEntrada());
-        galeriaDTO.setFotografias(ConversionUtils.divide(galeriaEntity.getFotografias()));
-        galeriaDTO.setColumnas(galeriaEntity.getColumnas());
-        return galeriaDTO;
+    public static GaleriaEntity adaptarGaleria(final GaleriaDTO galeriaDTO) {
+        final GaleriaEntity galeriaEntity = new GaleriaEntity();
+        galeriaEntity.setGaleriaId(galeriaDTO.getGaleriaId());
+        galeriaEntity.setColumnas(galeriaDTO.getColumnas());
+        galeriaEntity.setImagenes(ConversionUtils.join(galeriaDTO.getImagenes()));
+        galeriaEntity.setNombreGaleria(galeriaDTO.getNombreGaleria());
+        galeriaEntity.setUrlGaleria(galeriaDTO.getUrlGaleria());
+        return galeriaEntity;
     }
 
     /**
@@ -346,4 +362,5 @@ public final class DTOToEntityAdapter {
         return categoriaEntity;
 
     }
+
 }

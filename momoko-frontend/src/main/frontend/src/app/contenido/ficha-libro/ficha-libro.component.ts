@@ -29,8 +29,6 @@ export class FichaLibroComponent implements OnInit {
 
   tresUltimasEntradas: EntradaSimple[];
 
-  nota = 9;
-
   constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {

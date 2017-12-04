@@ -67,17 +67,17 @@ public class GeneroServiceImpl implements GeneroService {
         final List<GeneroEntity> coincidencias = this.generoRepository.findByNombre(generoDTO.getNombre());
         if ((CollectionUtils.isEmpty(coincidencias)) || ((generoDTO.getGeneroId() != null))) {
 
-            if ((generoEntity.getGenero_id() != null) && CollectionUtils.isNotEmpty(coincidencias)) {
+            if ((generoEntity.getGeneroId() != null) && CollectionUtils.isNotEmpty(coincidencias)) {
                 if ((coincidencias.size() > 1)
-                        || (!generoEntity.getGenero_id().equals(coincidencias.get(0).getGenero_id()))) {
+                        || (!generoEntity.getGeneroId().equals(coincidencias.get(0).getGeneroId()))) {
                     throw new Exception("El nombre del genero ya se esta utilizando");
                 }
             }
             final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             final String currentPrincipalName = authentication.getName();
 
-            if (generoEntity.getGenero_id() != null) {
-                final GeneroEntity generoBD = this.generoRepository.findOne(generoEntity.getGenero_id());
+            if (generoEntity.getGeneroId() != null) {
+                final GeneroEntity generoBD = this.generoRepository.findOne(generoEntity.getGeneroId());
                 generoEntity = generoBD;
                 generoEntity.setUsuarioModificacion(currentPrincipalName);
                 generoEntity.setFechaModificacion(Calendar.getInstance().getTime());
@@ -115,6 +115,13 @@ public class GeneroServiceImpl implements GeneroService {
     @Override
     public List<CategoriaDTO> obtenerListaCategorias() {
         return EntityToDTOAdapter.adaptarCategorias(this.categoriaRepository.findAll());
+    }
+
+    @Override
+    public List<GeneroDTO> obtenerGenerosCategoria(final CategoriaDTO categoriaDTO) {
+        final List<GeneroEntity> generos = this.generoRepository
+                .findByCategoriaUrlCategoriaAndFechaBajaIsNull(categoriaDTO.getUrlCategoria());
+        return EntityToDTOAdapter.adaptarGeneros(generos);
     }
 
 }

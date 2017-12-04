@@ -4665,3 +4665,20 @@ html body.kc-css-system .kc_tabs_nav~.kc_tab:not(.ui-tabs-body-active) {
 .ui-chips>ul.ui-inputtext {
   height: auto;
 }
+
+
+.sub-arrow{
+  display: none;
+}
+
+.ui-fileupload-row img {
+  width: 40px;
+}
+
+button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
+  display: none;
+}
+
+.imagenGaleria {
+  margin-top: 27px;
+}

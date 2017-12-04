@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,27 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
 import com.momoko.es.api.dto.response.GuardarEntradaResponse;
+import com.momoko.es.api.dto.response.GuardarGaleriaResponse;
 import com.momoko.es.api.dto.response.GuardarGeneroResponse;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
 import com.momoko.es.api.dto.response.InformacionGeneralResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.ErrorCreacionGaleria;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
+import com.momoko.es.backend.model.service.GaleriaService;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.PuntuacionService;
@@ -68,6 +74,9 @@ public class ModeloController {
     @Autowired(required = false)
     private PuntuacionService puntuacionService;
 
+    @Autowired(required = false)
+    private GaleriaService galeriaService;
+
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
         System.out.println("LLamada a la lista de libros");
@@ -77,6 +86,11 @@ public class ModeloController {
     @GetMapping(path = "/generos")
     public @ResponseBody Iterable<GeneroDTO> getAllGeneros() {
         return this.generoService.obtenerTodosGeneros();
+    }
+
+    @GetMapping(path = "/galerias")
+    public @ResponseBody Iterable<GaleriaDTO> getAllGalerias() {
+        return this.galeriaService.obtenerTodasGalerias();
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -158,6 +172,46 @@ public class ModeloController {
 
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, path = "/galerias/add")
+    ResponseEntity<GuardarGaleriaResponse> addGaleria(@RequestBody final GaleriaDTO galeriaDTO) {
+
+        // Validar
+        final List<ErrorCreacionGaleria> listaErrores = this.validadorService.validarGaleria(galeriaDTO);
+        final List<String> mensajeError = new ArrayList<String>();
+        // Guardar
+        GaleriaDTO galeria = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                galeria = this.galeriaService.guardarGaleria(galeriaDTO);
+            } catch (final ErrorEnGuardadoReconocidoException e) {
+
+                listaErrores.add(ErrorCreacionGaleria.ERROR_EN_GUARDADO);
+                mensajeError.add(e.getMessage());
+                e.printStackTrace();
+
+            } catch (final Exception e) {
+
+                e.printStackTrace();
+                listaErrores.add(ErrorCreacionGaleria.ERROR_EN_GUARDADO);
+            }
+        }
+
+        // Responder
+        final GuardarGaleriaResponse respuesta = new GuardarGaleriaResponse();
+        respuesta.setGaleria(galeria);
+        respuesta.setListaErroresValidacion(listaErrores);
+        respuesta.setMensajeError(mensajeError);
+        if ((galeria != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+
+        return new ResponseEntity<GuardarGaleriaResponse>(respuesta, HttpStatus.OK);
+
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/informacionGeneral")
     ResponseEntity<InformacionGeneralResponse> getInformacionGeneral() {
 
@@ -184,7 +238,7 @@ public class ModeloController {
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody EntradaDTO getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
         System.out.println("Obtener entrada: " + urlEntrada);
-        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntrada(urlEntrada);
+        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntrada(urlEntrada, false);
         return entrada.getEntrada();
     }
 

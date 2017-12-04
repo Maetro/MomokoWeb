@@ -11,8 +11,8 @@ import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
-import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 
 /**
@@ -62,8 +62,9 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      *            the pageable
      * @return the list
      */
-    List<LibroEntity> findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(List<GeneroEntity> generos,
-            Pageable pageable);
+    @Query("select distinct l from LibroEntity l join l.entradas e join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL ORDER BY l.fechaAlta DESC")
+    List<LibroEntity> findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+            @Param("generoIds") List<Integer> generoIds, Pageable pageable);
 
     /**
      * Find by libro id in.
@@ -73,4 +74,13 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      * @return the list
      */
     List<LibroEntity> findByLibroIdIn(List<Integer> librosId);
+
+    /**
+     * Find ultimos analisis.
+     *
+     * @return the list
+     */
+    @Query("select distinct l from LibroEntity l join l.entradas e WHERE e.tipoEntrada = 2 ORDER BY e.entradaId DESC")
+    List<LibroEntity> findUltimosAnalisis(Pageable pageable);
+
 }

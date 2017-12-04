@@ -3,17 +3,18 @@ import { Observable } from 'rxjs/Observable';
 import { IndexData } from 'app/dtos/indexData';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
+import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResponse';
 
 @Injectable()
 export class IndexDataService {
 
   private indexDataUrl = environment.indexDataUrl;
 
-  resultados: Observable<IndexData>;
+  resultados: Observable<ObtenerIndexDataResponse>;
 
   constructor(private http: HttpClient) { }
 
-  getIndexData(): Observable<IndexData> {
+  getIndexData(): Observable<ObtenerIndexDataResponse> {
     console.log('getIndexData()');
 
     this.resultados = this.http.get(this.indexDataUrl)

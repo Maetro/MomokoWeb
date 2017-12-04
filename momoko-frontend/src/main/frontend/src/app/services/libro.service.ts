@@ -35,6 +35,7 @@ export class LibroService {
   constructor(private http: HttpClient, private jsonAdapter: JsonAdapterService) { }
 
   getLibros(): Promise<Libro[]> {
+    console.log('access_token: ' + Cookie.get('access_token'));
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')

@@ -1,17 +1,19 @@
 import { APP_DATA } from './../app-load/app-data';
 import { AuthService } from 'app/auth/services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
 import { IndexDataService } from 'app/services/index-data.service';
 import { Menu } from 'app/dtos/menu';
+
+declare var $: any;
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, AfterViewInit {
 
   isLoggedIn = false;
 
@@ -27,6 +29,11 @@ export class MenuComponent implements OnInit {
       this.isLoggedIn = loginStatus
     });
     this.menu = APP_DATA.menu;
+  }
+
+  ngAfterViewInit(): void {
+    console.log('Ejecutando JQuery');
+    $('#main-menu').smartmenus();
   }
 
   myHome() {

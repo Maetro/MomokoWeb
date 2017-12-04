@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 
@@ -37,5 +38,19 @@ public interface IndexService {
      * @return the list
      */
     List<MenuDTO> obtenerMenu();
+
+    /**
+     * Obtener ultimo comic analizado.
+     *
+     * @return the libro simple dto
+     */
+    LibroEntradaSimpleDTO obtenerUltimoComicAnalizado();
+
+    /**
+     * Obtener ultimos analisis.
+     *
+     * @return the list
+     */
+    List<LibroSimpleDTO> obtenerUltimosAnalisis();
 
 }

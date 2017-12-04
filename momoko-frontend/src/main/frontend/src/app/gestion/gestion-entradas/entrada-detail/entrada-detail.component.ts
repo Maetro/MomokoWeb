@@ -1,19 +1,19 @@
+import { GaleriaService } from './../../../services/galeria.service';
 import { UtilService } from './../../../services/util.service';
 
-import { GaleriaItem } from './../anadir-galeria/galeria-item';
 import { Etiqueta } from 'app/dtos/etiqueta';
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaService } from 'app/services/entrada.service';
 
-import { Message } from 'primeng/primeng';
+import { Message, Dropdown } from 'primeng/primeng';
 import { GeneralDataService } from 'app/services/general-data.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
 
-import { AnadirGaleriaComponent } from '../anadir-galeria/anadir-galeria.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
-import { GaleriaFormImplComponent } from 'app/gestion/gestion-entradas/anadir-galeria/galeria-form-impl.component';
 import { Libro } from 'app/dtos/libro';
+import { Galeria } from 'app/dtos/galeria';
+import { SimpleTinyComponent } from 'app/gestion/gestion-entradas/editores-texto/simple-tiny.component';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class EntradaDetailComponent implements OnInit {
 
   @Output() onEntradaGuardada: EventEmitter<Entrada> = new EventEmitter<Entrada>();
 
-  @ViewChild(AnadirGaleriaComponent) anadirGaleriaComponent: AnadirGaleriaComponent;
+  @ViewChild(SimpleTinyComponent) simpleTinyComponent: SimpleTinyComponent;
 
   msgs: Message[] = [];
   customURL = false;
@@ -37,13 +37,19 @@ export class EntradaDetailComponent implements OnInit {
   titulosLibros: SelectItem[];
   tiposEntrada: SelectItem[];
   estadosEntrada: SelectItem[];
+  nombresGalerias: SelectItem[];
+
+  galerias: Galeria[];
 
   etiquetas: string[];
 
   fraseLibrosEscoger = 'Escoge libros';
+  fraseGalerias= 'Escoge galería';
+
+  selectedGaleria: string;
 
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
-    private fileUploadService: FileUploadService, private util: UtilService) {
+    private fileUploadService: FileUploadService, private util: UtilService, private galeriaService: GaleriaService) {
     this.tiposEntrada = [];
     this.tiposEntrada.push({ label: 'Noticia', value: 1 });
     this.tiposEntrada.push({ label: 'Análisis', value: 2 });
@@ -57,7 +63,7 @@ export class EntradaDetailComponent implements OnInit {
 
   ngOnInit() {
     this.titulosLibros = [];
-
+    this.nombresGalerias = [];
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
       console.log('Init info general');
       const libros = datos.titulosLibros;
@@ -148,16 +154,30 @@ export class EntradaDetailComponent implements OnInit {
       });
   }
 
-  anadirGaleria(): void {
-    const galerias = new GaleriaItem(GaleriaFormImplComponent, {
-      headline: 'Openings in all departments',
-      body: 'Apply today'
-    });
-    this.anadirGaleriaComponent.loadComponent(galerias);
+  buscarGalerias(): void {
+
+    this.galeriaService.getGalerias().subscribe(galerias => {
+      this.galerias = galerias;
+      galerias.forEach(galeria => {
+        this.nombresGalerias.push({ label: ' ' + galeria.nombreGaleria, value: galeria.urlGaleria });
+      });
+    })
   }
 
   esTipoVideo(): boolean {
     return this.entrada.tipoEntrada === 4;
+  }
+
+  insertarGaleria($event) {
+    console.log('Insertando galeria');
+    this.galerias.forEach(galeria => {
+      if (galeria.urlGaleria === $event.value[0]) {
+        console.log(galeria);
+        const tag = '[momoko-galeria-' + galeria.urlGaleria + ']';
+        this.entrada.contenidoEntrada = this.entrada.contenidoEntrada + tag;
+        this.simpleTinyComponent.writeValue(this.entrada.contenidoEntrada);
+      }
+    });
   }
 
 }

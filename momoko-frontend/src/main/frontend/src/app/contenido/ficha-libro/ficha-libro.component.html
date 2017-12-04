@@ -47,7 +47,7 @@
             <div class="autor_libro" *ngFor="let autor of libro.autores"> {{autor.nombre}} </div>
           </div>
           <div class="col-md-3">
-            <app-nota-circular [nota]="nota"></app-nota-circular>
+            <app-nota-circular [nota]="libro.notaMomoko"></app-nota-circular>
           </div>
           <div class="col-md-12">
             <p> {{libro.resumen}} </p>

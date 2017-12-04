@@ -75,13 +75,24 @@ public class ConversionUtils {
      *            data
      * @return the list
      */
-    public static List<String> divide(final String data) {
+    public static List<String> divide(final String data, final String separator) {
         List<String> resultado = new ArrayList<String>();
         if (StringUtils.isNotBlank(data)) {
-            final String[] separated = StringUtils.split(data, ",");
+            final String[] separated = StringUtils.split(data, separator);
             resultado = new ArrayList<String>(Arrays.asList(separated));
         }
         return resultado;
+    }
+
+    /**
+     * Divide.
+     *
+     * @param data
+     *            data
+     * @return the list
+     */
+    public static List<String> divide(final String data) {
+        return divide(data, ",");
     }
 
     /**
@@ -125,7 +136,7 @@ public class ConversionUtils {
      *            the entrada
      * @return the entrada simple dto
      */
-    private static EntradaSimpleDTO obtenerEntradaSimpleDTO(final EntradaEntity entrada) {
+    public static EntradaSimpleDTO obtenerEntradaSimpleDTO(final EntradaEntity entrada) {
         final EntradaSimpleDTO entradaSimpleDTO = new EntradaSimpleDTO();
         entradaSimpleDTO.setTituloEntrada(entrada.getTituloEntrada());
         entradaSimpleDTO.setNombreAutor(entrada.getEntradaAutor().getUsuarioNick());
@@ -182,7 +193,7 @@ public class ConversionUtils {
      *            the libro
      * @return the libro simple dto
      */
-    private static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro,
+    public static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro,
             final PuntuacionEntity puntuacionEntity) {
         final LibroSimpleDTO libroSimpleDTO = new LibroSimpleDTO();
         libroSimpleDTO.setNombreAutor(libro.getAutores().iterator().next().getNombre());

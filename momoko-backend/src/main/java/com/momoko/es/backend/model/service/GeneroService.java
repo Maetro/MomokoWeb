@@ -54,4 +54,13 @@ public interface GeneroService {
      */
     List<CategoriaDTO> obtenerListaCategorias();
 
+    /**
+     * Obtener generos categoria.
+     *
+     * @param categoriaDTO
+     *            the categoria dto
+     * @return the list
+     */
+    List<GeneroDTO> obtenerGenerosCategoria(CategoriaDTO categoriaDTO);
+
 }

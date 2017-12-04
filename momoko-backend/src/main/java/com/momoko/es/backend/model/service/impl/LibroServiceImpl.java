@@ -283,9 +283,13 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public List<LibroSimpleDTO> obtenerLibrosParecidos(final LibroDTO libro, final int numeroLibros) {
         final Set<GeneroEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
+        final List<Integer> idsGeneros = new ArrayList<Integer>();
+        for (final GeneroEntity generoEntity : generos) {
+            idsGeneros.add(generoEntity.getGeneroId());
+        }
+
         final List<LibroEntity> listaLibrosParecidos = this.libroRepository
-                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(new ArrayList<GeneroEntity>(generos),
-                        new PageRequest(0, numeroLibros));
+                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros, new PageRequest(0, numeroLibros));
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();
         for (final LibroEntity libroEntity : listaLibrosParecidos) {
             listaLibrosIds.add(libroEntity.getLibroId());
@@ -305,13 +309,25 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public List<LibroSimpleDTO> obtenerLibrosGeneroPorFecha(final GeneroDTO genero, final int numeroLibros,
+    public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GeneroDTO genero, final int numeroLibros,
             final int pagina) {
 
+        final List<Integer> idsGeneros = new ArrayList<Integer>();
+
+        idsGeneros.add(genero.getGeneroId());
+
         final List<LibroEntity> listaLibrosGenero = this.libroRepository
-                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
-                        Arrays.asList(DTOToEntityAdapter.adaptarGenero(genero)), new PageRequest(pagina, numeroLibros));
+                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
+                        new PageRequest(pagina, numeroLibros));
 
         return ConversionUtils.obtenerLibrosBasicos(listaLibrosGenero, null);
+    }
+
+    @Override
+    public Integer obtenerNumeroLibrosConAnalisisGenero(final GeneroDTO generoDTO) {
+        final Long numeroResultados = this.entradaRepository
+                .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+                        Arrays.asList(generoDTO.getGeneroId()));
+        return numeroResultados.intValue();
     }
 }

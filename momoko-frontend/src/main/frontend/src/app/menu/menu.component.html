@@ -36,7 +36,7 @@
 
     <div class="nav-wrapper">
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+        <ul id="main-menu" class="nav navbar-nav">
           <li *ngFor="let menuPart of menu"><a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active"><b>{{menuPart.nombre}}</b>  <span class="caret"></span></a>
 
             <ul class="dropdown-menu" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
@@ -58,6 +58,7 @@
                 <a routerLink="/admin/lista-entradas" routerLinkActive="active">Entradas</a>
                 <a routerLink="/admin/lista-libros" routerLinkActive="active">Libros</a>
                 <a routerLink="/admin/lista-generos" routerLinkActive="active">Géneros</a>
+                <a routerLink="/admin/lista-galerias" routerLinkActive="active">Galerias</a>
               </li>
             </ul>
           </li>

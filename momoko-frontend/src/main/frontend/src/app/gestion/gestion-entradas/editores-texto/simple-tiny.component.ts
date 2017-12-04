@@ -18,6 +18,8 @@ export class SimpleTinyComponent implements AfterViewInit, OnDestroy {
 
   editor;
 
+  value: string;
+
   ngAfterViewInit() {
 
     tinymce.init({
@@ -71,6 +73,19 @@ export class SimpleTinyComponent implements AfterViewInit, OnDestroy {
         editor && this.initialContent && this.editor.setContent(this.initialContent)
       }
     });
+    if (this.value) {
+      tinymce.activeEditor.setContent(this.value, { format: 'raw' });
+    }
+  }
+
+  writeValue(value) {
+    console.log('HOLA');
+    if (value) {
+      this.value = value;
+      if (tinymce.activeEditor) {
+        tinymce.activeEditor.setContent(this.value, { format: 'raw' });
+      }
+    }
   }
 
   ngOnDestroy() {

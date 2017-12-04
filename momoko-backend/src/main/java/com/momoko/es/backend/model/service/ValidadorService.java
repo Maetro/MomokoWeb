@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
@@ -17,6 +18,7 @@ import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.ErrorCreacionGaleria;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.ErrorPublicarComentario;
@@ -89,5 +91,14 @@ public interface ValidadorService {
      * @return the list
      */
     List<ErrorCreacionComentario> validarComentario(NuevoComentarioRequest comentario);
+
+    /**
+     * Validar galeria.
+     *
+     * @param galeriaDTO
+     *            the galeria dto
+     * @return the list
+     */
+    List<ErrorCreacionGaleria> validarGaleria(GaleriaDTO galeriaDTO);
 
 }

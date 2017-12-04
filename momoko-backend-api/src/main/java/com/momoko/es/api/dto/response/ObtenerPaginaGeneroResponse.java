@@ -30,6 +30,8 @@ public class ObtenerPaginaGeneroResponse implements Serializable {
     /** The nueve libros genero. */
     private List<LibroSimpleDTO> nueveLibrosGenero;
 
+    private Integer numeroLibros;
+
     /**
      * Gets the genero.
      *
@@ -87,4 +89,22 @@ public class ObtenerPaginaGeneroResponse implements Serializable {
         this.nueveLibrosGenero = nueveLibrosGenero;
     }
 
+    /**
+     * Gets the numero libros.
+     *
+     * @return the numero libros
+     */
+    public Integer getNumeroLibros() {
+        return this.numeroLibros;
+    }
+
+    /**
+     * Sets the numero libros.
+     *
+     * @param numeroLibros
+     *            the new numero libros
+     */
+    public void setNumeroLibros(final Integer numeroLibros) {
+        this.numeroLibros = numeroLibros;
+    }
 }

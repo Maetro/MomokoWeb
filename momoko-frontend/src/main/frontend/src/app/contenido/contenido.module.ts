@@ -38,6 +38,11 @@ import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtene
 import { ClasificadorService } from 'app/services/clasificador.service';
 import { ObtenerDatosGeneralesResolverService } from 'app/services/resolvers/obtener-datos-generales-resolver.service';
 import { MainContentComponent } from 'app/contenido/main-content/main-content.component';
+import { ListaCategoriaComponent } from 'app/contenido/clasificador/lista-categoria/lista-categoria.component';
+import { ObtenerListaCategoriaResolverService } from 'app/services/resolvers/obtener-lista-categoria-resolver.service';
+import { NoticiaComponent } from 'app/contenido/main-content/noticia/noticia.component';
+import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-index-data-resolver.service';
+
 
 
 @NgModule({
@@ -54,10 +59,10 @@ import { MainContentComponent } from 'app/contenido/main-content/main-content.co
     LibrosHorizontalComponent, Libro3dComponent, FichaLibroComponent, SidebarInstagramComponent,
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
     CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
-     MiscelaneosComponent],
-  providers: [IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService, ObtenerVideoResolverService,
-     ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService, ClasificadorService,
-     ObtenerDatosGeneralesResolverService],
+     MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent],
+   providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService,
+    ObtenerVideoResolverService, ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService,
+    ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService],
   exports: [RouterModule],
   entryComponents: [EntradaPortadaNormalImplComponent]
 })

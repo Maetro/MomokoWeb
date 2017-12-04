@@ -9,6 +9,8 @@ import { ObtenerVideoResolverService } from 'app/services/resolvers/obtener-vide
 import { ListaGeneroComponent } from 'app/contenido/clasificador/lista-genero/lista-genero.component';
 import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtener-lista-genero-resolver.service';
 import { MainContentComponent } from 'app/contenido/main-content/main-content.component';
+import { ObtenerListaCategoriaResolverService } from 'app/services/resolvers/obtener-lista-categoria-resolver.service';
+import { ListaCategoriaComponent } from 'app/contenido/clasificador/lista-categoria/lista-categoria.component';
 
 const fichaRoutes: Routes = [
   {
@@ -40,10 +42,10 @@ const fichaRoutes: Routes = [
     }
   },
   {
-    path: 'categoria/:url_genero',
-    component: ListaGeneroComponent,
+    path: 'categoria/:url_categoria',
+    component: ListaCategoriaComponent,
     resolve: {
-      paginaGeneroResponse: ObtenerListaGeneroResolverService
+      paginaCategoriaResponse: ObtenerListaCategoriaResolverService
     }
   }
   /*{

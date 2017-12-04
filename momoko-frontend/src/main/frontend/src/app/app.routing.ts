@@ -9,6 +9,8 @@ import { ListaLibrosComponent } from './gestion/gestion-libros/lista-libros/list
 import { ListaGenerosComponent } from './gestion/gestion-libros/lista-generos/lista-generos.component';
 import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entradas/lista-entradas.component';
 import { IndexComponent } from 'app/contenido/index/index.component';
+import { ListaGaleriasComponent } from 'app/gestion/gestion-galerias/lista-galerias/lista-galerias.component';
+import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-index-data-resolver.service';
 
 const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
@@ -26,12 +28,19 @@ const appRoutes: Routes = [
           {
             path: 'lista-generos',
             component: ListaGenerosComponent
+          },
+          {
+            path: 'lista-galerias',
+            component: ListaGaleriasComponent
           }
         ],
   },
   {
     path: '',
-    component: IndexComponent
+    component: IndexComponent,
+    resolve: {
+      obtenerIndexDataResponse: ObtenerIndexDataResolverService
+    }
   },
   { path: '**', component: PageNotFoundComponent },
 ];

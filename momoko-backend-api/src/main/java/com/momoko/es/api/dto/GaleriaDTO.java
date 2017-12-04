@@ -27,109 +27,132 @@ public class GaleriaDTO implements Serializable {
     private Integer galeriaId;
 
     /** The fotografias. */
-    private List<String> fotografias;
+    private List<String> imagenes;
 
     /** The columnas. */
     private Integer columnas;
 
     /** The entrada. */
-    private String entrada;
+    private String urlGaleria;
+
+    /** The nombre galeria. */
+    private String nombreGaleria;
 
     /**
-     * Obtiene galeria id.
+     * Gets the galeria id.
      *
-     * @return galeria id
+     * @return the galeria id
      */
     public Integer getGaleriaId() {
-        return galeriaId;
+        return this.galeriaId;
     }
 
     /**
-     * Establece galeria id.
+     * Sets the galeria id.
      *
      * @param galeriaId
-     *            nuevo galeria id
+     *            the new galeria id
      */
-    public void setGaleriaId(Integer galeriaId) {
+    public void setGaleriaId(final Integer galeriaId) {
         this.galeriaId = galeriaId;
     }
 
     /**
-     * Obtiene fotografias.
+     * Gets the imagenes.
      *
-     * @return fotografias
+     * @return the imagenes
      */
-    public List<String> getFotografias() {
-        return fotografias;
+    public List<String> getImagenes() {
+        return this.imagenes;
     }
 
     /**
-     * Establece fotografias.
+     * Sets the imagenes.
      *
-     * @param fotografias
-     *            nuevo fotografias
+     * @param imagenes
+     *            the new imagenes
      */
-    public void setFotografias(List<String> fotografias) {
-        this.fotografias = fotografias;
+    public void setImagenes(final List<String> imagenes) {
+        this.imagenes = imagenes;
     }
 
     /**
-     * Obtiene columnas.
+     * Gets the columnas.
      *
-     * @return columnas
+     * @return the columnas
      */
     public Integer getColumnas() {
-        return columnas;
+        return this.columnas;
     }
 
     /**
-     * Establece columnas.
+     * Sets the columnas.
      *
      * @param columnas
-     *            nuevo columnas
+     *            the new columnas
      */
-    public void setColumnas(Integer columnas) {
+    public void setColumnas(final Integer columnas) {
         this.columnas = columnas;
     }
 
     /**
-     * Obtiene entrada.
+     * Gets the url galeria.
      *
-     * @return entrada
+     * @return the url galeria
      */
-    public String getEntrada() {
-        return entrada;
+    public String getUrlGaleria() {
+        return this.urlGaleria;
     }
 
     /**
-     * Establece entrada.
+     * Sets the url galeria.
      *
-     * @param entrada
-     *            nuevo entrada
+     * @param urlGaleria
+     *            the new url galeria
      */
-    public void setEntrada(String entrada) {
-        this.entrada = entrada;
+    public void setUrlGaleria(final String urlGaleria) {
+        this.urlGaleria = urlGaleria;
+    }
+
+    /**
+     * Gets the nombre galeria.
+     *
+     * @return the nombre galeria
+     */
+    public String getNombreGaleria() {
+        return this.nombreGaleria;
+    }
+
+    /**
+     * Sets the nombre galeria.
+     *
+     * @param nombreGaleria
+     *            the new nombre galeria
+     */
+    public void setNombreGaleria(final String nombreGaleria) {
+        this.nombreGaleria = nombreGaleria;
     }
 
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GaleriaDTO))
+        if (!(other instanceof GaleriaDTO)) {
             return false;
-        GaleriaDTO castOther = (GaleriaDTO) other;
-        return new EqualsBuilder().append(galeriaId, castOther.galeriaId).append(fotografias, castOther.fotografias)
-                .append(columnas, castOther.columnas).append(entrada, castOther.entrada).isEquals();
+        }
+        final GaleriaDTO castOther = (GaleriaDTO) other;
+        return new EqualsBuilder().append(this.galeriaId, castOther.galeriaId)
+                .append(this.urlGaleria, castOther.urlGaleria).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(galeriaId).append(fotografias).append(columnas).append(entrada)
-                .toHashCode();
+        return new HashCodeBuilder().append(this.galeriaId).append(this.urlGaleria).toHashCode();
     }
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("galeriaId", galeriaId).append("fotografias", fotografias)
-                .append("columnas", columnas).append("entrada", entrada).toString();
+        return new ToStringBuilder(this).append("galeriaId", this.galeriaId).append("imagenes", this.imagenes)
+                .append("columnas", this.columnas).append("urlGaleria", this.urlGaleria)
+                .append("nombreGaleria", this.nombreGaleria).toString();
     }
 
 }

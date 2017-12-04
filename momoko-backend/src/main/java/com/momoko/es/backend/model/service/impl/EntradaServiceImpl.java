@@ -33,13 +33,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
+import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.request.ObtenerPaginaCategoriaRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
@@ -50,23 +53,27 @@ import com.momoko.es.api.youtube.video.Item;
 import com.momoko.es.api.youtube.video.VideoYoutube;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
+import com.momoko.es.backend.model.entity.GaleriaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 import com.momoko.es.backend.model.entity.VideoEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.EtiquetaRepository;
+import com.momoko.es.backend.model.repository.GaleriaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.repository.VideoRepository;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
+import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.MomokoUtils;
 
 /**
  * The Class EntradaServiceImpl.
@@ -95,14 +102,20 @@ public class EntradaServiceImpl implements EntradaService {
     @Autowired
     private PuntuacionRepository puntuacionRepository;
 
+    @Autowired(required = false)
+    private GaleriaRepository galeriaRepository;
+
     @Autowired
     private StorageService almacenImagenes;
 
     @Autowired
     private ComentarioService comentarioService;
 
+    @Autowired
+    private GeneroService generoService;
+
     @Override
-    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada) {
+    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) {
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
@@ -199,9 +212,42 @@ public class EntradaServiceImpl implements EntradaService {
             }
         }
         entradaDTO.setNumeroComentarios(comentarios.size());
+        if (transformarGalerias) {
+            if (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
+                final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(),
+                        "[momoko-galeria-", "]");
+                final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
+                final String code = generarCodigoGaleria(galeria);
+                entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
+                        "[momoko-galeria-" + urlGaleria + "]", code));
+            }
+        }
         respuesta.setEntrada(entradaDTO);
         respuesta.setComentarios(comentariosOrdenados);
         return respuesta;
+    }
+
+    private String generarCodigoGaleria(final GaleriaEntity galeria) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<div class='row'><div class='galeria'>");
+        final List<String> imagenes = ConversionUtils.divide(galeria.getImagenes(), ";");
+        final Integer columnas = galeria.getColumnas();
+        final String classColumn = MomokoUtils.obtenerColumnaGaleria(columnas);
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
+        int columna = 0;
+        for (final String imagen : imagenes) {
+            if ((columna != 0) && ((columna % columnas) == 0)) {
+                stringBuilder.append("<div class=\"clearfix\"></div>");
+            }
+
+            stringBuilder.append("<div class=\" imagenGaleria " + classColumn + "\">");
+            stringBuilder.append("<img src=\"" + imageServer + imagen + "\" />");
+            stringBuilder.append("</div>");
+            columna++;
+        }
+
+        stringBuilder.append("</div></div>");
+        return stringBuilder.toString();
     }
 
     /**
@@ -603,6 +649,24 @@ public class EntradaServiceImpl implements EntradaService {
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findTop3ByLibrosEntradaIsNotNullOrderByLibrosEntradaVisitasDesc();
         return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+    }
+
+    @Override
+    public List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(final CategoriaDTO categoriaDTO,
+            final int numeroEntradas, final int pagina) {
+        final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
+
+        final List<EntradaEntity> listaEntities = this.entradaRepository
+                .findTop3ByLibrosEntradaIsNotNullOrderByLibrosEntradaVisitasDesc();
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+    }
+
+    @Override
+    public List<EntradaSimpleDTO> obtenerNoticias(final ObtenerPaginaCategoriaRequest request) {
+        final List<EntradaEntity> listaNoticias = this.entradaRepository
+                .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.NOTICIA.getValue(),
+                        new PageRequest(request.getNumeroPagina() - 1, 10));
+        return ConversionUtils.obtenerEntradasBasicas(listaNoticias);
     }
 
 }

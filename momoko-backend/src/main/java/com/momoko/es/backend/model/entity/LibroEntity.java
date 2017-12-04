@@ -60,7 +60,7 @@ public class LibroEntity {
 
     /** The genero id. */
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "genero_id", referencedColumnName = "genero_id"))
+    @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "generoId", referencedColumnName = "generoId"))
     private Set<GeneroEntity> generos;
 
     private String urlLibro;
