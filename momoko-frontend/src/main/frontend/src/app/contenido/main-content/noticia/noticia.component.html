@@ -1,0 +1,349 @@
+<div class="light-wrapper">
+
+      <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
+        <div class="container inner">
+          <h1 class="text-center">Misceláneos</h1>
+        </div>
+        <!-- /.container -->
+
+      </div>
+
+
+      <div class="container inner tp0">
+
+        <div class="divide60"></div>
+        <div class="blog row">
+          <div class="col-sm-8">
+            <div class="blog-content classic-view">
+              <div class="blog-posts">
+                <div class="post">
+                  <div class="post-content">
+                    <figure>
+                      <img src="{{entrada.imagenDestacada}}" alt="">
+                    </figure>
+                    <div class="text-center">
+                      <span class="category">
+                        <em class="rose">
+                          <a href="#">Noticia </a>
+                        </em>
+                      </span>
+                    </div>
+                    <h1 class="post-title text-center">{{entrada.tituloEntrada}}</h1>
+                    <div class="meta text-center">
+                      <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
+                      <span class="author">By
+                        <a routerLink="/editor/{{entrada.autor.nombre}}">{{entrada.autor.nombre}}</a>
+                      </span>
+                      <span class="comments">
+                        <a href="#">{{entrada.numeroComentarios}} Comentarios</a>
+                      </span>
+                    </div>
+
+                    <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada"></div>
+
+                    <hr>
+                    <div class="post-nav-wrapper">
+                      <div class="post-nav prev">
+                        <div class="meta">
+                          <i class="ion-android-arrow-back"></i> Artículo anterior </div>
+                        <h3 class="post-title">
+                          <a href="#">Cursus Quam Ullamcorper Cras Ornare Dolor Mollis Nullam</a>
+                        </h3>
+                      </div>
+                      <div class="post-nav next">
+                        <div class="meta">Artículo siguiente
+                          <i class="ion-android-arrow-forward"></i>
+                        </div>
+                        <h3 class="post-title">
+                          <a href="#">Fringilla Ligula Consectetur Ridiculus Fermentum Cras Dapibus</a>
+                        </h3>
+                      </div>
+                    </div>
+                    <!-- /.post-nav -->
+
+                    <hr>
+                    <h2 class="section-title">Sobre la autora </h2>
+                    <div class="about-author text-left">
+                      <div class="author-image">
+                        <a href="#">
+                          <img alt="" class="avatar" src="{{entrada.autor.avatar}}"> </a>
+                      </div>
+                      <h3> {{entrada.autor.nombre}} </h3>
+
+                      <p>{{entrada.autor.cargo}}</p>
+                      <ul class="social">
+                        <li>
+                          <a href="#">
+                            <i class="ion-social-facebook"></i>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <i class="ion-social-twitter"></i>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <i class="ion-social-instagram"></i>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <i class="ion-social-vimeo"></i>
+                          </a>
+                        </li>
+                        <li>
+                          <a href="#">
+                            <i class="ion-social-linkedin"></i>
+                          </a>
+                        </li>
+                      </ul>
+                      <div class="clearfix"></div>
+                    </div>
+                    <!-- .about-author -->
+
+                    <hr>
+                    <h2 class="section-title">Otros posts que te gustarán :) </h2>
+                    <div class="blog list-view row">
+                      <div *ngFor="let post of cuatroPostPequenosConImagen, let i = index, let first = first">
+                        <div class="clearfix" *ngIf="i % 2 == 0 && !first"></div>
+                        <div class="col-sm-6">
+                          <div class="post row">
+                            <div class="col-md-5">
+                              <figure class="overlay small">
+                                <a href="#">
+                                  <span class="over">
+                                    <span></span>
+                                  </span>
+                                  <img src="{{post.imagenEntrada}}" alt="">
+                                </a>
+                              </figure>
+                            </div>
+                            <!-- /column -->
+                            <div class="col-md-7">
+                              <div class="post-content">
+                                <h4 class="post-title">
+                                  <a href="blog-post.html">{{post.tituloEntrada}}</a>
+                                </h4>
+                                <div class="meta">
+                                  <span class="date">{{post.fechaAlta | date:'dd MMM yyyy'}}</span>
+                                  <span class="comments">
+                                    <a href="#">
+                                      <i class="ion-chatbubbles"></i> {{post.numeroComentarios}}</a>
+                                  </span>
+                                </div>
+                              </div>
+                              <!-- /.post-content -->
+                            </div>
+                            <!-- /column -->
+
+                          </div>
+                          <!-- /.post -->
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.comment-form-wrapper -->
+
+                  </div>
+                  <!-- /.post-content -->
+
+                </div>
+                <!-- /.post -->
+
+              </div>
+              <!-- /.blog-posts -->
+
+            </div>
+            <!-- /.classic-view -->
+
+          </div>
+          <!-- /.blog-content -->
+
+          <aside class="col-sm-4 sidebar">
+            <div class="sidebox widget">
+              <h3 class="widget-title section-title">About Us</h3>
+              <figure>
+                <img src="style/images/art/about.jpg" class="img-auto" alt="" /> </figure>
+              <div class="divide10"></div>
+              <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum.</p>
+              <ul class="social">
+                <li>
+                  <a href="#">
+                    <i class="ion-social-rss"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="ion-social-facebook"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="ion-social-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="ion-social-instagram"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="ion-social-vimeo"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="ion-social-whatsapp"></i>
+                  </a>
+                </li>
+              </ul>
+              <div class="clearfix"></div>
+            </div>
+            <!-- /.widget -->
+
+            <div class="sidebox widget">
+              <h3 class="widget-title section-title">Popular Posts</h3>
+              <ul class="post-list">
+                <li>
+                  <figure class="overlay small">
+                    <a href="blog-post.html">
+                      <img src="style/images/art/a1.jpg" alt="" /> </a>
+                  </figure>
+                  <div class="post-content">
+                    <h4 class="post-title">
+                      <a href="blog-post.html">Magna Mollis Ultricies Mauris</a>
+                    </h4>
+                    <div class="meta">
+                      <span class="date">12 Nov 2014</span>
+                      <span class="comments">
+                        <a href="#">
+                          <i class="ion-chatbubbles"></i> 3</a>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <figure class="overlay small">
+                    <a href="blog-post.html">
+                      <img src="style/images/art/a2.jpg" alt="" /> </a>
+                  </figure>
+                  <div class="post-content">
+                    <h4 class="post-title">
+                      <a href="blog-post.html">Ornare Nullam Risus Cursus</a>
+                    </h4>
+                    <div class="meta">
+                      <span class="date">12 Nov 2014</span>
+                      <span class="comments">
+                        <a href="#">
+                          <i class="ion-chatbubbles"></i> 5</a>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <figure class="overlay small">
+                    <a href="blog-post.html">
+                      <img src="style/images/art/a3.jpg" alt="" /> </a>
+                  </figure>
+                  <div class="post-content">
+                    <h4 class="post-title">
+                      <a href="blog-post.html">Euismod Nullam Fusce Dapibus</a>
+                    </h4>
+                    <div class="meta">
+                      <span class="date">12 Nov 2014</span>
+                      <span class="comments">
+                        <a href="#">
+                          <i class="ion-chatbubbles"></i> 7</a>
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+              <!-- /.post-list -->
+            </div>
+            <!-- /.widget -->
+
+            <div class="sidebox widget">
+              <h3 class="widget-title section-title">Categories</h3>
+              <ul class="list circled">
+                <li>
+                  <a href="#">Lifestyle (21)</a>
+                </li>
+                <li>
+                  <a href="#">Photography (19)</a>
+                </li>
+                <li>
+                  <a href="#">Journal (16)</a>
+                </li>
+                <li>
+                  <a href="#">Works (7)</a>
+                </li>
+                <li>
+                  <a href="#">Conceptual (12)</a>
+                </li>
+                <li>
+                  <a href="#">Videography</a>
+                </li>
+              </ul>
+            </div>
+            <!-- /.widget -->
+
+            <div class="sidebox widget">
+              <h3 class="widget-title section-title">Tags</h3>
+              <ul class="tag-list">
+                <li>
+                  <a href="#" class="btn">Still Life</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Urban</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Journal</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Nature</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Landscape</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Macro</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Workshop</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Photography</a>
+                </li>
+                <li>
+                  <a href="#" class="btn">Wedding</a>
+                </li>
+              </ul>
+            </div>
+            <!-- /.widget -->
+            <div class="sidebox widget">
+              <h3 class="widget-title section-title">Instagram</h3>
+              <div class="tiles instagram">
+                <div id="instafeed-widget" class="items row row-offset-0"></div>
+              </div>
+              <!--/.tiles -->
+            </div>
+            <!-- /.widget -->
+            <div class="sidebox widget">
+              <h4 class="widget-title">Search</h4>
+              <form class="searchform" method="get">
+                <input type="text" id="s1" name="s" value="Search something" onfocus="this.value=''" onblur="this.value='Search something'">
+              </form>
+            </div>
+            <!-- /.widget -->
+          </aside>
+          <!-- /column .sidebar -->
+
+        </div>
+        <!-- /.blog -->
+
+      </div>
+      <!-- /.container -->
+    </div>
+    <!-- /.light-wrapper -->

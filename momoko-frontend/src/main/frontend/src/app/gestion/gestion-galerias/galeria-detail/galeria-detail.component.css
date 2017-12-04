@@ -1,0 +1,17 @@
+img{
+  margin-bottom: 10px;
+}
+
+img.imagen-icono{
+  width: 16px;
+  height: 16px;
+}
+
+.margen_superior {
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.col-sm-12.rp10.botonInferior {
+  margin-top: 30px;
+}

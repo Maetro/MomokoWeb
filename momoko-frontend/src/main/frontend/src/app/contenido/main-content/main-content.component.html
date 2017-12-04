@@ -1,0 +1,13 @@
+<div *ngIf="tipoEntrada == 1">
+    <app-noticia [entrada]="entrada" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente" [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen"></app-noticia>
+</div>
+<div *ngIf="tipoEntrada == 2">
+  <app-analisis [entrada]="entrada" [autores]="autores" [titulo]="titulo" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis>
+</div>
+<div *ngIf="tipoEntrada == 3">
+  <app-miscelaneos [entrada]="entrada" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente" [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen"></app-miscelaneos>
+  MISCELANEOS
+</div>
+<div *ngIf="tipoEntrada == 4">
+  VIDEO
+</div>

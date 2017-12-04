@@ -1,0 +1,196 @@
+<div class="light-wrapper">
+
+  <div class="parallax page-title inverse-wrapper parallax2">
+    <div class="container inner">
+      <h1 class="text-center">Categoría: {{categoria.nombreCategoria}} </h1>
+    </div>
+    <!-- /.container -->
+
+  </div>
+  <div class="container inner tp0">
+    <div class="divide60"></div>
+    <div class="blog row">
+      <div class="col-sm-8 blog-content list-view">
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="product-layout-view active">
+              <a class="active" href="#" title="Grid Layout">
+                <i class="fa fa-th" aria-hidden="true"></i>
+              </a>
+              <a class="iconomono" href="#" title="List Layout">
+                <i class="fa fa-list-ul" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <select class="ui-paginator-rpp-options ui-widget ui-state-default" (change)="onChangeOrder($event)">
+              <!---->
+              <option value="1">Orden por fecha </option>
+              <option value="2">Popularidad</option>
+            </select>
+            <br />
+            <br />
+          </div>
+        </div>
+
+        <div class="blog-content">
+          <div class="blog-post">
+            <div class="row">
+              <div class="libroGenero" *ngFor="let entrada of entradasCategoria, let i = index; let first = first">
+                <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
+                <div class="col-sm-4">
+                  <div class="portadaContainer">
+                    <a routerLink="/{{entrada.urlEntrada}}">
+                      <img src="{{entrada.imagenEntrada}}">
+                    </a>
+                  </div>
+                  <a routerLink="/{{entrada.urlEntrada}}"><h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3></a>
+                  <span class="autor_libro"> {{entrada.nombreAutor}} </span>
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+
+
+
+
+          <nav class="paginas-pagination">
+            <ul class="page-numbers">
+              <li>
+                <span class="page-numbers current">1</span>
+              </li>
+              <li>
+                <a class="page-numbers" href="#">2</a>
+              </li>
+              <li>
+                <a class="page-numbers" href="#">3</a>
+              </li>
+              <li>
+                <a class="next page-numbers" href="#">→</a>
+              </li>
+            </ul>
+          </nav>
+
+
+
+
+          <!-- /.page-navi -->
+          <div class="clearfix"></div>
+        </div>
+        <!-- /.blog-content -->
+      </div>
+      <aside class="col-sm-4 sidebar">
+        <div class="sidebox widget">
+          <h3 class="widget-title section-title">About Us</h3>
+          <figure>
+            <img src="style/images/art/about.jpg" class="img-auto" alt="" /> </figure>
+          <div class="divide10"></div>
+          <p>Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum.</p>
+          <ul class="social">
+            <li>
+              <a href="#">
+                <i class="ion-social-rss"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ion-social-facebook"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ion-social-twitter"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ion-social-instagram"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ion-social-vimeo"></i>
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="ion-social-whatsapp"></i>
+              </a>
+            </li>
+          </ul>
+          <div class="clearfix"></div>
+        </div>
+        <!-- /.widget -->
+
+        <div class="sidebox widget">
+          <h3 class="widget-title section-title">Popular Posts</h3>
+          <ul class="post-list">
+            <li>
+              <figure class="overlay small">
+                <a href="blog-post.html">
+                  <img src="style/images/art/a1.jpg" alt="" /> </a>
+              </figure>
+              <div class="post-content">
+                <h4 class="post-title">
+                  <a href="blog-post.html">Magna Mollis Ultricies Mauris</a>
+                </h4>
+                <div class="meta">
+                  <span class="date">12 Nov 2014</span>
+                  <span class="comments">
+                    <a href="#">
+                      <i class="ion-chatbubbles"></i> 3</a>
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <figure class="overlay small">
+                <a href="blog-post.html">
+                  <img src="style/images/art/a2.jpg" alt="" /> </a>
+              </figure>
+              <div class="post-content">
+                <h4 class="post-title">
+                  <a href="blog-post.html">Ornare Nullam Risus Cursus</a>
+                </h4>
+                <div class="meta">
+                  <span class="date">12 Nov 2014</span>
+                  <span class="comments">
+                    <a href="#">
+                      <i class="ion-chatbubbles"></i> 5</a>
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <figure class="overlay small">
+                <a href="blog-post.html">
+                  <img src="style/images/art/a3.jpg" alt="" /> </a>
+              </figure>
+              <div class="post-content">
+                <h4 class="post-title">
+                  <a href="blog-post.html">Euismod Nullam Fusce Dapibus</a>
+                </h4>
+                <div class="meta">
+                  <span class="date">12 Nov 2014</span>
+                  <span class="comments">
+                    <a href="#">
+                      <i class="ion-chatbubbles"></i> 7</a>
+                  </span>
+                </div>
+              </div>
+            </li>
+          </ul>
+          <!-- /.post-list -->
+        </div>
+      </aside>
+      <!-- /column .sidebar -->
+
+    </div>
+    <!-- /.blog -->
+
+  </div>
+</div>
