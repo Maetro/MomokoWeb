@@ -25,6 +25,8 @@ public class EntradaSimpleDTO implements Serializable {
     private String fraseDescriptiva;
     private String tipoEntrada;
     private String categoria;
+    private String videoUrl;
+    private String titulosLibros;
 
     /**
      * Gets the titulo entrada.
@@ -214,6 +216,44 @@ public class EntradaSimpleDTO implements Serializable {
      */
     public void setTipoEntrada(final String tipoEntrada) {
         this.tipoEntrada = tipoEntrada;
+    }
+
+    /**
+     * Gets the video url.
+     *
+     * @return the video url
+     */
+    public String getVideoUrl() {
+        return this.videoUrl;
+    }
+
+    /**
+     * Sets the url video.
+     *
+     * @param videoUrl
+     *            the new url video
+     */
+    public void setUrlVideo(final String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    /**
+     * Gets the titulos libros.
+     *
+     * @return the titulos libros
+     */
+    public String getTitulosLibros() {
+        return this.titulosLibros;
+    }
+
+    /**
+     * Sets the titulos libros.
+     *
+     * @param titulosLibros
+     *            the new titulos libros
+     */
+    public void setTitulosLibros(final String titulosLibros) {
+        this.titulosLibros = titulosLibros;
     }
 
 }

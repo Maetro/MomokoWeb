@@ -20,11 +20,14 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
 
     categoria: Categoria;
 
+    enLista: boolean;
+
     constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router) { }
 
     ngOnInit() {
 
       console.log('Creando pagina del genero')
+      this.enLista = false;
       this.suscriptor = this.route.params.subscribe(params => {
         this.url = params['url']; // (+) converts string 'id' to a number
         console.log(this.url);
@@ -43,5 +46,13 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
 
     onChangeOrder(event) {
       console.log(event);
+    }
+
+    activarEnLista() {
+      this.enLista = true;
+    }
+
+    desactivarEnLista() {
+      this.enLista = false;
     }
   }

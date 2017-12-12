@@ -81,6 +81,12 @@ public class EntradaDTO {
     /** The fecha alta. */
     private Date fechaAlta;
 
+    /** The tiene galeria. */
+    private boolean tieneGaleria;
+
+    /** The editor nombre. */
+    private String editorNombre;
+
     /**
      * Instancia un nuevo entrada DTO.
      */
@@ -468,6 +474,44 @@ public class EntradaDTO {
     }
 
     /**
+     * Checks if is tiene galeria.
+     *
+     * @return true, if is tiene galeria
+     */
+    public boolean isTieneGaleria() {
+        return this.tieneGaleria;
+    }
+
+    /**
+     * Sets the tiene galeria.
+     *
+     * @param tieneGaleria
+     *            the new tiene galeria
+     */
+    public void setTieneGaleria(final boolean tieneGaleria) {
+        this.tieneGaleria = tieneGaleria;
+    }
+
+    /**
+     * Gets the editor nombre.
+     *
+     * @return the editor nombre
+     */
+    public String getEditorNombre() {
+        return this.editorNombre;
+    }
+
+    /**
+     * Sets the editor nombre.
+     *
+     * @param editorNombre
+     *            the new editor nombre
+     */
+    public void setEditorNombre(final String editorNombre) {
+        this.editorNombre = editorNombre;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -486,7 +530,7 @@ public class EntradaDTO {
                 .append(this.padreEntrada, castOther.padreEntrada).append(this.librosEntrada, castOther.librosEntrada)
                 .append(this.etiquetas, castOther.etiquetas).append(this.imagenDestacada, castOther.imagenDestacada)
                 .append(this.numeroComentarios, castOther.numeroComentarios).append(this.orden, castOther.orden)
-                .isEquals();
+                .append(this.editorNombre, castOther.editorNombre).isEquals();
     }
 
     /**
@@ -498,7 +542,8 @@ public class EntradaDTO {
                 .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
                 .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
                 .append(this.padreEntrada).append(this.librosEntrada).append(this.etiquetas)
-                .append(this.imagenDestacada).append(this.numeroComentarios).append(this.orden).toHashCode();
+                .append(this.imagenDestacada).append(this.numeroComentarios).append(this.orden)
+                .append(this.editorNombre).toHashCode();
     }
 
     /**

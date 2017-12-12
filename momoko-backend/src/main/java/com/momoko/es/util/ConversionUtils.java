@@ -118,12 +118,25 @@ public class ConversionUtils {
      *            the lista entities
      * @return the list
      */
-    public static List<EntradaSimpleDTO> obtenerEntradasBasicas(final List<EntradaEntity> listaEntities) {
+    public static List<EntradaSimpleDTO> obtenerEntradasBasicas(final List<EntradaEntity> listaEntities,
+            final boolean obtenerComentarios) {
         final List<EntradaSimpleDTO> entradasSimples = new ArrayList<EntradaSimpleDTO>();
         if (CollectionUtils.isNotEmpty(listaEntities)) {
-            for (final EntradaEntity entradas : listaEntities) {
-                final EntradaSimpleDTO entradaSimple = obtenerEntradaSimpleDTO(entradas);
+            for (final EntradaEntity entrada : listaEntities) {
+                final EntradaSimpleDTO entradaSimple = obtenerEntradaSimpleDTO(entrada, obtenerComentarios);
                 entradasSimples.add(entradaSimple);
+                if (CollectionUtils.isNotEmpty(entrada.getLibrosEntrada())) {
+                    final StringBuilder titulosLibros = new StringBuilder();
+                    final Iterator<LibroEntity> ite = entrada.getLibrosEntrada().iterator();
+                    while (ite.hasNext()) {
+                        final LibroEntity libro = ite.next();
+                        titulosLibros.append(libro.getTitulo());
+                        if (ite.hasNext()) {
+                            titulosLibros.append(", ");
+                        }
+                    }
+                    entradaSimple.setTitulosLibros(titulosLibros.toString());
+                }
             }
         }
         return entradasSimples;
@@ -136,17 +149,23 @@ public class ConversionUtils {
      *            the entrada
      * @return the entrada simple dto
      */
-    public static EntradaSimpleDTO obtenerEntradaSimpleDTO(final EntradaEntity entrada) {
+    public static EntradaSimpleDTO obtenerEntradaSimpleDTO(final EntradaEntity entrada,
+            final boolean obtenerComentarios) {
         final EntradaSimpleDTO entradaSimpleDTO = new EntradaSimpleDTO();
         entradaSimpleDTO.setTituloEntrada(entrada.getTituloEntrada());
         entradaSimpleDTO.setNombreAutor(entrada.getEntradaAutor().getUsuarioNick());
-        entradaSimpleDTO.setNumeroComentarios(entrada.getComentarios().size());
+        if (obtenerComentarios) {
+            entradaSimpleDTO.setNumeroComentarios(entrada.getComentarios().size());
+        }
         entradaSimpleDTO.setUrlEntrada(entrada.getUrlEntrada());
         entradaSimpleDTO.setImagenEntrada(entrada.getImagenDestacada());
         entradaSimpleDTO.setFechaAlta(entrada.getFechaAlta());
-        entradaSimpleDTO.setCategoria(obtenerCategoriaDeEntrada(entrada));
+        if (obtenerComentarios) {
+            entradaSimpleDTO.setCategoria(obtenerCategoriaDeEntrada(entrada));
+        }
         entradaSimpleDTO.setResumen(entrada.getResumenEntrada());
         entradaSimpleDTO.setTipoEntrada(TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre());
+
         if (StringUtils.isNotBlank(entrada.getFraseDescriptiva())) {
             entradaSimpleDTO.setFraseDescriptiva(entrada.getFraseDescriptiva());
         } else if (StringUtils.isNotBlank(entrada.getResumenEntrada())) {
@@ -161,8 +180,8 @@ public class ConversionUtils {
     }
 
     private static String obtenerCategoriaDeEntrada(final EntradaEntity entrada) {
-        // TODO: RAMON Implementar
-        return "MISCELÁNEOS";
+        entrada.getTipoEntrada();
+        return TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre();
     }
 
     /**

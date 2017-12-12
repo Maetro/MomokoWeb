@@ -85,12 +85,12 @@ logging:
   level:
     org:
       springframework:
-        security: INFO
+        security: DEBUG
     root: INFO
 
 #momoko properties
 momokoConfiguracion:
   directorios:
-    urlFiles: D:/XAMPP/htdocs/images
-    urlImages: http://localhost/images/
+    urlFiles: D:/XAMPP/htdocs/momoko/images
+    urlImages: http://192.168.43.117/images/
     test: hola

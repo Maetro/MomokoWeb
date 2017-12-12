@@ -16,9 +16,15 @@
 
 .fichaEntrada {
   background-color: white;
-  padding-bottom: 15px;
+  padding-bottom: 30px;
 }
 
 .post-content{
   padding:10px 30px;
+}
+
+.zonablanca{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }

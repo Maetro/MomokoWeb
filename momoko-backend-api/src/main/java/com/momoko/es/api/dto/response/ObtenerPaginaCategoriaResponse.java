@@ -23,6 +23,9 @@ public class ObtenerPaginaCategoriaResponse implements Serializable {
     /** The tres ultimas entradas. */
     private List<EntradaSimpleDTO> entradasCategoria;
 
+    /** The numero entradas. */
+    private Integer numeroEntradas;
+
     /**
      * Gets the genero.
      *
@@ -60,6 +63,25 @@ public class ObtenerPaginaCategoriaResponse implements Serializable {
     public void setEntradasCategoria(final List<EntradaSimpleDTO> entradasCategoria) {
         this.entradasCategoria = entradasCategoria;
 
+    }
+
+    /**
+     * Gets the numero entradas.
+     *
+     * @return the numero entradas
+     */
+    public Integer getNumeroEntradas() {
+        return this.numeroEntradas;
+    }
+
+    /**
+     * Sets the numero entradas.
+     *
+     * @param numeroEntradas
+     *            the new numero entradas
+     */
+    public void setNumeroEntradas(final Integer numeroEntradas) {
+        this.numeroEntradas = numeroEntradas;
     }
 
 }

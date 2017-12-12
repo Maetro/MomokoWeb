@@ -62,4 +62,11 @@ public interface UserService {
      */
     public String getUserEncodedPassword(String email);
 
+    /**
+     * Gets the nombres editores.
+     *
+     * @return the nombres editores
+     */
+    public List<String> getNombresEditores();
+
 }

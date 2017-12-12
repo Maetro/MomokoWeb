@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public String getUserEncodedPassword(final String email) {
         return this.usuarioRepository.findEncodedPasswordByEmail(email);
+    }
+
+    @Override
+    public List<String> getNombresEditores() {
+        final List<String> nombresEditores = new ArrayList<>();
+        final List<UsuarioEntity> usuariosEditores = this.usuarioRepository.findAllByUsuarioRolIdIs(1);
+        for (final UsuarioEntity usuarioEntity : usuariosEditores) {
+            nombresEditores.add(usuarioEntity.getUsuarioNick());
+        }
+        return nombresEditores;
     }
 
 }

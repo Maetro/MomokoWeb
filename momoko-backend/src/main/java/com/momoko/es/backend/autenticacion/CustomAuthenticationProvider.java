@@ -18,8 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -66,8 +64,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         } else {
             authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         }
-        final UserDetails principal = new org.springframework.security.core.userdetails.User(username, password,
-                authorities);
+        final UsuarioAutenticado principal = new UsuarioAutenticado(username, password, authorities,
+                user.getUsuarioLogin());
+
         return new UsernamePasswordAuthenticationToken(principal, password, authorities);
     }
 

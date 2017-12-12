@@ -222,4 +222,9 @@ public class FileSystemStorageService implements StorageService {
         return this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlImages();
     }
 
+    @Override
+    public String obtenerImagenOriginal(final String imagenDestacada) {
+        return getUrlImageServer() + imagenDestacada;
+    }
+
 }

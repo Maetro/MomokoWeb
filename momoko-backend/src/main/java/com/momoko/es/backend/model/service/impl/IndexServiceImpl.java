@@ -25,12 +25,15 @@ import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
+import com.momoko.es.backend.model.entity.VideoEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
+import com.momoko.es.backend.model.repository.VideoRepository;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.StorageService;
@@ -55,12 +58,15 @@ public class IndexServiceImpl implements IndexService {
     private StorageService storageService;
 
     @Autowired(required = false)
+    private VideoRepository videoRepository;
+
+    @Autowired(required = false)
     private GeneroService generoService;
 
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
         final List<EntradaEntity> listaEntities = this.entradaRepository.findUltimasEntradas(new PageRequest(0, 10));
-        final List<EntradaSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerEntradasBasicas(listaEntities);
+        final List<EntradaSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
 
         for (int i = 0; i < 5; i++) {
             final EntradaSimpleDTO entradaSimpleDTO = listaEntradasSimples.get(i);
@@ -88,6 +94,14 @@ public class IndexServiceImpl implements IndexService {
                 } catch (final IOException e) {
                     e.printStackTrace();
                 }
+            }
+            if (entradaSimpleDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+                // Si es tipo video anadimos su URL
+                final VideoEntity videoEntity = this.videoRepository
+                        .findFirstByEntradaUrlEntrada(entradaSimpleDTO.getUrlEntrada());
+                final String videoUrl = videoEntity.getUrlVideo();
+                entradaSimpleDTO.setUrlVideo(videoUrl);
+
             }
         }
         for (int i = 7; i < 10; i++) {
@@ -200,7 +214,8 @@ public class IndexServiceImpl implements IndexService {
                 e.printStackTrace();
             }
         }
-        libroEntradaSimpleDTO.setEntrada(ConversionUtils.obtenerEntradaSimpleDTO(ultimoComicAnalisis));
+        libroEntradaSimpleDTO.setEntrada(ConversionUtils.obtenerEntradaSimpleDTO(ultimoComicAnalisis, true));
+
         libroEntradaSimpleDTO.setLibro(libroSimpleDTO);
         return libroEntradaSimpleDTO;
     }
@@ -208,6 +223,40 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public List<LibroSimpleDTO> obtenerUltimosAnalisis() {
         final List<LibroEntity> listaLibros = this.libroRepository.findUltimosAnalisis(new PageRequest(0, 5));
+        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+        for (final LibroEntity libroEntity : listaLibros) {
+            listaLibrosIds.add(libroEntity.getLibroId());
+        }
+        final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
+                .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        if (CollectionUtils.isNotEmpty(listaPuntuaciones)) {
+            for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
+                mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);
+            }
+        }
+        final List<LibroSimpleDTO> listaLibrosSimples = ConversionUtils.obtenerLibrosBasicos(listaLibros,
+                mapaPuntacionMomokoPorLibro);
+
+        for (final LibroSimpleDTO libroSimpleDTO : listaLibrosSimples) {
+            if (libroSimpleDTO.getPortada() != null) {
+                try {
+
+                    final String thumbnail = this.storageService.obtenerMiniatura("portadas",
+                            libroSimpleDTO.getPortada(), 170, 250, false);
+                    libroSimpleDTO.setPortada(thumbnail);
+
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return listaLibrosSimples;
+    }
+
+    @Override
+    public List<LibroSimpleDTO> obtenerUltimasFichas() {
+        final List<LibroEntity> listaLibros = this.libroRepository.findUltimasFichas(new PageRequest(0, 5));
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();
         for (final LibroEntity libroEntity : listaLibros) {
             listaLibrosIds.add(libroEntity.getLibroId());

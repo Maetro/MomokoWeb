@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.momoko.es.api.dto.CategoriaDTO;
@@ -78,6 +79,15 @@ public interface EntradaService {
     List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(CategoriaDTO categoriaDTO, int numeroEntradas, int pagina);
 
     /**
+     * Obtener numero entradas categoria.
+     *
+     * @param categoriaDTO
+     *            the categoria dto
+     * @return the integer
+     */
+    Integer obtenerNumeroEntradasCategoria(CategoriaDTO categoriaDTO);
+
+    /**
      * Obtener noticias.
      *
      * @param request
@@ -85,5 +95,60 @@ public interface EntradaService {
      * @return the list
      */
     List<EntradaSimpleDTO> obtenerNoticias(ObtenerPaginaCategoriaRequest request);
+
+    /**
+     * Obtener numero noticias.
+     *
+     * @return the integer
+     */
+    Integer obtenerNumeroNoticias();
+
+    /**
+     * Recuperar entradas simples.
+     *
+     * @return the list
+     */
+    List<EntradaSimpleDTO> recuperarEntradasSimples();
+
+    /**
+     * Obtener miscelaneos.
+     *
+     * @param request
+     *            the request
+     * @return the collection<? extends entrada simple dt o>
+     */
+    Collection<EntradaSimpleDTO> obtenerMiscelaneos(ObtenerPaginaCategoriaRequest request);
+
+    /**
+     * Obtener numero miscelaneos.
+     *
+     * @return the integer
+     */
+    Integer obtenerNumeroMiscelaneos();
+
+    /**
+     * Obtener videos.
+     *
+     * @param request
+     *            the request
+     * @return the collection
+     */
+    Collection<EntradaSimpleDTO> obtenerVideos(ObtenerPaginaCategoriaRequest request);
+
+    /**
+     * Obtener numero videos.
+     *
+     * @return the integer
+     */
+    Integer obtenerNumeroVideos();
+
+    /**
+     * Obtener entrada para gestion.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @return the obtener entrada response
+     */
+    ObtenerEntradaResponse obtenerEntradaParaGestion(String urlEntrada);
 
 }

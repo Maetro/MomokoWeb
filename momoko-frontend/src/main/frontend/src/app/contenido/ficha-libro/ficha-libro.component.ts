@@ -14,9 +14,6 @@ import { EntradaSimple } from 'app/dtos/entradaSimple';
 })
 export class FichaLibroComponent implements OnInit {
 
-
-
-
   anchura: number;
 
   url: string;

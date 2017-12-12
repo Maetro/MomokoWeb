@@ -117,6 +117,9 @@ public class ValidadorServiceImpl implements ValidadorService {
                 && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
+        if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_EDITOR_POST);
+        }
         return listaErrores;
     }
 

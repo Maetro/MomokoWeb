@@ -130,6 +130,7 @@ public final class EntityToDTOAdapter {
         entradaDTO.setTipoEntrada(entradaEntity.getTipoEntrada());
         entradaDTO.setTipoEntradaString(TipoEntrada.obtenerTipoEntrada(entradaEntity.getTipoEntrada()).getNombre());
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
+        entradaDTO.setEditorNombre(entradaEntity.getEntradaAutor().getUsuarioNick());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
         entradaDTO.setEtiquetas(adaptarEtiquetas(entradaEntity.getEtiquetas()));
         entradaDTO.setFechaAlta(entradaEntity.getFechaAlta());

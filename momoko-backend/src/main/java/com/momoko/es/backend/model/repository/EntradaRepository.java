@@ -27,6 +27,13 @@ import com.momoko.es.backend.model.entity.LibroEntity;
 @Repository
 public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer> {
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.springframework.data.repository.CrudRepository#findAll()
+     */
+    List<EntradaEntity> findAll();
+
     /**
      * Find first by url entrada.
      *
@@ -43,7 +50,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      *            the num
      * @return the list
      */
-    @Query("select e from EntradaEntity e ORDER by e.entradaId DESC")
+    @Query("select e from EntradaEntity e ORDER by e.fechaAlta DESC")
     List<EntradaEntity> findUltimasEntradas(Pageable pageable);
 
     /**
@@ -107,10 +114,35 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     List<EntradaEntity> findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(Integer tipoEntrada, Pageable limit);
 
+    /**
+     * Count by tipo entrada and fecha baja is null.
+     *
+     * @param tipoEntrada
+     *            the tipo entrada
+     * @return the long
+     */
+    Long countByTipoEntradaAndFechaBajaIsNull(Integer tipoEntrada);
+
+    /**
+     * Find entrada analisis libro by generos and fecha baja is null order by fecha alta desc.
+     *
+     * @param generoIds
+     *            the genero ids
+     * @param pageable
+     *            the pageable
+     * @return the list
+     */
     @Query("select distinct e from EntradaEntity e join e.librosEntrada l join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
     List<EntradaEntity> findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
             @Param("generoIds") List<Integer> generoIds, Pageable pageable);
 
+    /**
+     * Find number entrada analisis libro by generos and fecha baja is null order by fecha alta desc.
+     *
+     * @param generoIds
+     *            the genero ids
+     * @return the long
+     */
     @Query("select COUNT(e) from EntradaEntity e join e.librosEntrada l join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL")
     Long findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
             @Param("generoIds") List<Integer> generoIds);

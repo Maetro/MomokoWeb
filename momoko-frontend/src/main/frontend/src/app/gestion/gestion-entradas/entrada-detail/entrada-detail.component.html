@@ -94,6 +94,19 @@
             <!--/.form-field -->
           </div>
 
+          <div class="marginTop10 col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Autor post: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <p-dropdown [options]="nicksEditores" [(ngModel)]="entrada.editorNombre" [filter]="true"
+                filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
+            </div>
+            <!--/.form-field -->
+          </div>
+
           <div class="col-sm-3 rp10 marginTop10">
             <div class="form-field">
               <h4> Permitir comentarios: </h4>
@@ -107,22 +120,6 @@
             </div>
             <!--/.form-field -->
           </div>
-
-      <!--    <div *ngIf="galerias">
-            <div class="col-sm-4 rp10 marginTop10">
-              <div class="form-field">
-                <h4> Mostrar Galeria en Portada: </h4>
-              </div>
-            </div>
-            <div class="col-sm-8 lp10 marginTop8">
-              <div class="form-field">
-                <label>
-                  <p-checkbox binary="true" [(ngModel)]="entrada.mostrarGaleria"></p-checkbox>
-                </label>
-              </div>
-
-            </div>
-          </div> -->
 
           <div class="col-md-12">
 

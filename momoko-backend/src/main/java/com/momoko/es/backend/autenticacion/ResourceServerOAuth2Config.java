@@ -30,7 +30,8 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
     public void configure(final HttpSecurity http) throws Exception {
         http.requestMatchers()
                 .antMatchers("/", "/upload", "/public/**", "/modelo/**", "/rx/**", "/assets/**", "/account/**",
-                        "/style/**", "/**.js", "/**.js.map", "/**.woff2", "/**.woff", "/**.ttf", "/favicon.ico")
+                        "/auth/**", "/style/**", "/**.js", "/**.js.map", "/**.woff2", "/**.woff", "/**.ttf",
+                        "/favicon.ico")
                 .and().authorizeRequests().antMatchers(HttpMethod.GET, "/modelo/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.POST, "/modelo/**")
@@ -40,8 +41,8 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
                 .antMatchers(HttpMethod.POST, "/upload")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
-                .antMatchers("/", "/account/**", "/public/**", "/assets/**", "/**.js", "/style/**", "/**.js.map",
-                        "/**.woff2", "/**.woff", "/**.ttf", "/favicon.ico")
+                .antMatchers("/", "/auth/**", "/account/**", "/public/**", "/assets/**", "/**.js", "/style/**",
+                        "/**.js.map", "/**.woff2", "/**.woff", "/**.ttf", "/favicon.ico")
                 .permitAll().and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()).and().csrf()
                 .disable();
 
@@ -56,7 +57,7 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
     }
 
     private AuthenticationEntryPoint authenticationEntryPoint() {
-        return new LoginUrlAuthenticationEntryPoint("/account/login");
+        return new LoginUrlAuthenticationEntryPoint("/auth/login");
     }
 
 }

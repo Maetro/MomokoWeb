@@ -4191,7 +4191,7 @@ div.mce-edit-area {
 }
 
 .container img {
-  width: 100%;
+  max-width: 100%;
 }
 
 section.kc-elm.kc-css-313498.kc_row.fen-bg-overlay {
@@ -4681,4 +4681,12 @@ button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
 
 .imagenGaleria {
   margin-top: 27px;
+}
+
+.alignleft{
+  float:left;
+}
+
+.alignright{
+  float:right;
 }

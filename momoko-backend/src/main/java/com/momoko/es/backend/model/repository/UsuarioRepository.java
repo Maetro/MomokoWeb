@@ -55,4 +55,13 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
      */
     List<UsuarioEntity> findAllByUsuarioEmailIn(List<String> emails);
 
+    /**
+     * Find all by usuario rol id is.
+     *
+     * @param rolId
+     *            the rol id
+     * @return the list
+     */
+    List<UsuarioEntity> findAllByUsuarioRolIdIs(Integer rolId);
+
 }

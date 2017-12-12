@@ -14,6 +14,7 @@ import { VideoYoutube } from 'app/services/youtube-api/youtube';
 import { LibroEntradaSimple } from 'app/dtos/simples/libroEntradaSimple';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResponse';
+import { EntradaPortadaVideoComponent } from 'app/contenido/index/entrada-portada/entrada-portada-video/entrada-portada-video.component';
 
 declare var $: any;
 declare var Instafeed: any;
@@ -37,7 +38,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   portada = 'http://elmiedodelosesclavos.com/wp-content/uploads/2017/01/El-miedo-de-los-esclavos-2-345x520.jpg';
 
-  tituloUltimosAnalisis = 'Últimos análisis';
+  tituloUltimosAnalisis = 'Últimas fichas añadidas';
 
   @ViewChild(AnadirEntradaComponent) anadirEntradaComponent: AnadirEntradaComponent;
   @ViewChild(AnadirEntrada2Component) anadirEntrada2Component: AnadirEntrada2Component;
@@ -104,18 +105,22 @@ export class IndexComponent implements OnInit, AfterViewInit {
     $('#instafeed-widget').each(function () {
       instagramFeed.run();
     });
+
   }
 
   obtenerEntradasPortada(entradas: EntradaSimple[]) {
     this.entradasPortada = [];
     let entradasBD: EntradaItem[];
     entradasBD = [];
+    console.log('Obtener entradas portada');
     for (let i = 5; i < 7; i++) {
       const entradaSimple = entradas[i];
       let e: EntradaItem;
-      // if (entradaSimple.categoria === 'MISCELANEOS') {
-      e = new EntradaItem(EntradaPortadaNormalImplComponent, entradaSimple);
-      // }
+      if (entradaSimple.tipoEntrada === 'Vídeo') {
+        e = new EntradaItem(EntradaPortadaVideoComponent, entradaSimple);
+       } else {
+        e = new EntradaItem(EntradaPortadaNormalImplComponent, entradaSimple);
+       }
       entradasBD.push(e);
     }
 
