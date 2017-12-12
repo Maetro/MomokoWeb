@@ -26,6 +26,9 @@ public class EtiquetaDTO implements Serializable {
     /** The nombre. */
     private String nombreEtiqueta;
 
+    /** The url etiqueta. */
+    private String urlEtiqueta;
+
     public Integer getEtiquetaId() {
         return this.etiquetaId;
     }
@@ -42,6 +45,25 @@ public class EtiquetaDTO implements Serializable {
         this.nombreEtiqueta = nombreEtiqueta;
     }
 
+    /**
+     * Gets the url etiqueta.
+     *
+     * @return the url etiqueta
+     */
+    public String getUrlEtiqueta() {
+        return this.urlEtiqueta;
+    }
+
+    /**
+     * Sets the url etiqueta.
+     *
+     * @param urlEtiqueta
+     *            the new url etiqueta
+     */
+    public void setUrlEtiqueta(final String urlEtiqueta) {
+        this.urlEtiqueta = urlEtiqueta;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EtiquetaDTO)) {
@@ -49,12 +71,14 @@ public class EtiquetaDTO implements Serializable {
         }
         final EtiquetaDTO castOther = (EtiquetaDTO) other;
         return new EqualsBuilder().append(this.etiquetaId, castOther.etiquetaId)
-                .append(this.nombreEtiqueta, castOther.nombreEtiqueta).isEquals();
+                .append(this.nombreEtiqueta, castOther.nombreEtiqueta).append(this.urlEtiqueta, castOther.urlEtiqueta)
+                .isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.etiquetaId).append(this.nombreEtiqueta).toHashCode();
+        return new HashCodeBuilder().append(this.etiquetaId).append(this.nombreEtiqueta).append(this.urlEtiqueta)
+                .toHashCode();
     }
 
     @Override

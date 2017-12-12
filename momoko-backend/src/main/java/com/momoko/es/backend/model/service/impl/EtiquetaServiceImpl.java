@@ -1,3 +1,9 @@
+/**
+ * EtiquetaServiceImpl.java 08-dic-2017
+ *
+ * Copyright 2017 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 package com.momoko.es.backend.model.service.impl;
 
 import java.util.ArrayList;
@@ -8,14 +14,17 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.repository.EtiquetaRepository;
 import com.momoko.es.backend.model.service.EtiquetaService;
+import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
+@Service
 public class EtiquetaServiceImpl implements EtiquetaService {
 
     @Autowired
@@ -58,11 +67,17 @@ public class EtiquetaServiceImpl implements EtiquetaService {
                 etiquetaEntity.setUsuarioAlta(currentPrincipalName);
                 etiquetaEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
+            etiquetaEntity.setNombre(etiquetaDTO.getNombreEtiqueta());
+            if (etiquetaEntity.getEtiquetaUrl() == null) {
+                final String urlEtiqueta = ConversionUtils.toSlug(etiquetaDTO.getNombreEtiqueta());
+                etiquetaEntity.setEtiquetaUrl(urlEtiqueta);
+            } else {
+                etiquetaEntity.setEtiquetaUrl(etiquetaDTO.getUrlEtiqueta());
+            }
             return EntityToDTOAdapter.adaptarEtiqueta(this.etiquetaRepository.save(etiquetaEntity));
         } else {
             throw new Exception("El nombre del etiqueta ya se esta utilizando");
         }
     }
-
 
 }

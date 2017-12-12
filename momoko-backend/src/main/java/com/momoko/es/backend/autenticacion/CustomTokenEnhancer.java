@@ -26,6 +26,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         final SimpleGrantedAuthority sga = (SimpleGrantedAuthority) ga[0];
         final String role = sga.getAuthority();
         additionalInfo.put("role", role);
+        additionalInfo.put("user_login", authentication.getPrincipal());
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;
     }

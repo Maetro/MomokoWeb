@@ -53,4 +53,11 @@ public interface IndexService {
      */
     List<LibroSimpleDTO> obtenerUltimosAnalisis();
 
+    /**
+     * Obtener ultimas fichas.
+     *
+     * @return the list
+     */
+    List<LibroSimpleDTO> obtenerUltimasFichas();
+
 }

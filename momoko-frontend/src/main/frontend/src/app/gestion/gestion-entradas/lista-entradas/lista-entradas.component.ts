@@ -5,6 +5,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { EntradaService } from 'app/services/entrada.service';
 import { FileUploadService } from 'app/services/fileUpload.service';
+import { EntradaSimple } from 'app/dtos/entradaSimple';
 
 
 @Component({
@@ -17,7 +18,7 @@ export class ListaEntradasComponent implements OnInit {
       loading: boolean;
 
       title = 'Libros';
-      entradas: Entrada[];
+      entradas: EntradaSimple[];
       selectedEntrada: Entrada;
 
       @ViewChild(EntradaDetailComponent) entradaDetailComponent: EntradaDetailComponent;
@@ -56,10 +57,10 @@ export class ListaEntradasComponent implements OnInit {
         let entrada: Entrada;
         entrada = event.data;
         this.entradaDetailComponent.etiquetas = [];
-        this.entradasService.getEntrada(entrada.urlEntrada).subscribe(entradaCompleta => {
+        this.entradasService.getEntradaAdmin(entrada.urlEntrada).subscribe(entradaCompleta => {
           console.log(entradaCompleta);
-          this.selectedEntrada = entradaCompleta.entrada;
-          entradaCompleta.entrada.etiquetas.forEach((etiqueta: Etiqueta) => {
+          this.selectedEntrada = entradaCompleta;
+          entradaCompleta.etiquetas.forEach((etiqueta: Etiqueta) => {
             this.entradaDetailComponent.etiquetas.push(etiqueta.nombreEtiqueta);
           });
         });
@@ -77,6 +78,7 @@ export class ListaEntradasComponent implements OnInit {
         entrada.etiquetas = [];
         entrada.contenidoEntrada = '';
         entrada.permitirComentarios = true;
+        entrada.editorNombre = 'La Insomne';
         this.selectedEntrada = entrada;
       }
 

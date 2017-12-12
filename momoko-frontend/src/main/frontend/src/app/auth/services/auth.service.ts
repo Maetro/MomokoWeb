@@ -49,6 +49,7 @@ export class AuthService {
 
   login(login: Login): Observable<LoginStatus> {
     const params = new URLSearchParams();
+    console.log('Login');
     params.append('username', login.usuarioEmail);
     params.append('password', login.usuarioContrasena);
     params.append('grant_type', 'password');
@@ -68,7 +69,9 @@ export class AuthService {
   }
 
   saveToken(token: any) {
-    const expireDate = new Date().getTime() + (1000 * token.expires_in);
+    console.log('Obteniendo token de autenticacion');
+    console.log(token.expires_in);
+    const expireDate = new Date().getTime() + (24000 * token.expires_in);
     Cookie.set('access_token', token.access_token, expireDate);
     Cookie.set('role', token.role);
     this.changeLoginStatus(true);
@@ -93,6 +96,7 @@ export class AuthService {
   }
 
   token(): void {
+    console.log('token');
     const options       = new RequestOptions({ headers: this.headers, withCredentials: true });
 
     this.http.get(this.accountTokenUrl, options)

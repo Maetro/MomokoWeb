@@ -234,7 +234,7 @@ $(document).ready(function() {
     $('#instafeed-widget').each(function() {
         instagramFeed.run();
     });
-    var instagramFeed2 = new Instafeed({
+    /*var instagramFeed2 = new Instafeed({
         target: 'instafeed',
         get: 'user',
         limit: 8,
@@ -249,7 +249,7 @@ $(document).ready(function() {
     });
     $('#instafeed').each(function() {
         instagramFeed2.run();
-    });
+    });*/
 
     /*-----------------------------------------------------------------------------------*/
     /*	COUNTER UP

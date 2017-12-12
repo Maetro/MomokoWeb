@@ -11,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -24,7 +25,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  * @author <a href="RMaetro@gmail.com">Ramón Casares</a>
  */
 @Entity
-@Table(name = "etiqueta")
+@Table(name = "etiqueta", indexes = { @Index(name = "etiquetaUrl", columnList = "etiquetaUrl", unique = true) })
 public class EtiquetaEntity extends AuditoriaBasica {
     /** The autor id. */
     private @Id @GeneratedValue Integer etiqueta_id;
@@ -35,6 +36,9 @@ public class EtiquetaEntity extends AuditoriaBasica {
     /** The libros autor. */
     @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "etiquetas", fetch = FetchType.LAZY)
     private Set<EntradaEntity> etiquetasEntrada;
+
+    /** The etiqueta url. */
+    private String etiquetaUrl;
 
     /**
      * Obtiene etiqueta id.
@@ -91,6 +95,25 @@ public class EtiquetaEntity extends AuditoriaBasica {
      */
     public void setEtiquetasEntrada(final Set<EntradaEntity> etiquetasEntrada) {
         this.etiquetasEntrada = etiquetasEntrada;
+    }
+
+    /**
+     * Gets the etiqueta url.
+     *
+     * @return the etiqueta url
+     */
+    public String getEtiquetaUrl() {
+        return this.etiquetaUrl;
+    }
+
+    /**
+     * Sets the etiqueta url.
+     *
+     * @param etiquetaUrl
+     *            the new etiqueta url
+     */
+    public void setEtiquetaUrl(final String etiquetaUrl) {
+        this.etiquetaUrl = etiquetaUrl;
     }
 
     @Override

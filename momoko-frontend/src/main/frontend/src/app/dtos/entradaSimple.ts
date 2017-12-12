@@ -8,5 +8,6 @@ export class EntradaSimple {
   categoria: string;
   resumen: string;
   fraseDescriptiva: string;
-  tipoEntradaString: string;
+  tipoEntrada: string;
+  titulosLibros: string;
 }

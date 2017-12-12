@@ -38,6 +38,7 @@ export class EntradaDetailComponent implements OnInit {
   tiposEntrada: SelectItem[];
   estadosEntrada: SelectItem[];
   nombresGalerias: SelectItem[];
+  nicksEditores: SelectItem[];
 
   galerias: Galeria[];
 
@@ -45,7 +46,7 @@ export class EntradaDetailComponent implements OnInit {
 
   fraseLibrosEscoger = 'Escoge libros';
   fraseGalerias= 'Escoge galería';
-
+  fraseEditorEscoger = 'Escoge autor de la entrada';
   selectedGaleria: string;
 
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
@@ -64,11 +65,16 @@ export class EntradaDetailComponent implements OnInit {
   ngOnInit() {
     this.titulosLibros = [];
     this.nombresGalerias = [];
+    this.nicksEditores = [];
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
       console.log('Init info general');
       const libros = datos.titulosLibros;
       libros.forEach((libro: string) => {
         this.titulosLibros.push({ label: ' ' + libro, value: libro });
+      });
+      const editores = datos.nicksEditores;
+      editores.forEach((editor: string) => {
+        this.nicksEditores.push({ label: ' ' + editor, value: editor });
       });
     },
       error => {

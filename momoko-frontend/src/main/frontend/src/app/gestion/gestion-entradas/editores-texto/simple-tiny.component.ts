@@ -61,7 +61,7 @@ export class SimpleTinyComponent implements AfterViewInit, OnDestroy {
         version: 4,
         includeJQuery: true
       },
-      jsplus_uploader_url: 'http://localhost/images/uploader.php',
+      jsplus_uploader_url: 'http://192.168.43.117/images/uploader.php',
       setup: editor => {
         this.editor = editor;
         editor.on('keyup', () => {

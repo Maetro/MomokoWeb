@@ -19,8 +19,10 @@ export class Entrada {
   etiquetas: Etiqueta[];
   orden: number;
   imagenDestacada: string;
-  titulosLibrosEntrada: string[];
+  titulosLibrosEntrada: string;
   fraseDescriptiva: string;
   fechaAlta: Date;
   urlVideo: string;
+  tieneGaleria: boolean;
+  editorNombre: string;
 }

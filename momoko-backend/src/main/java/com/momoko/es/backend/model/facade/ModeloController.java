@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
@@ -49,10 +50,11 @@ import com.momoko.es.backend.model.service.GaleriaService;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.PuntuacionService;
+import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://192.168.43.117:4200")
 @RequestMapping(path = "/modelo")
 public class ModeloController {
 
@@ -76,6 +78,9 @@ public class ModeloController {
 
     @Autowired(required = false)
     private GaleriaService galeriaService;
+
+    @Autowired(required = false)
+    private UserService userService;
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
@@ -221,24 +226,31 @@ public class ModeloController {
         final List<String> editoriales = this.libroService.obtenerListaNombresEditoriales();
         final List<String> libros = this.libroService.obtenerListaTitulosLibros();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
-        respuesta.setNombresAutores(autores);
+        final List<String> nicksEditores = this.userService.getNombresEditores();
         respuesta.setNombresEditoriales(editoriales);
         respuesta.setTitulosLibros(libros);
         respuesta.setCategorias(categorias);
+        respuesta.setNombresAutores(autores);
+        respuesta.setNicksEditores(nicksEditores);
         return new ResponseEntity<InformacionGeneralResponse>(respuesta, HttpStatus.OK);
 
     }
 
     @GetMapping(path = "/entradas")
-    public @ResponseBody List<EntradaDTO> getAllEntradas() {
+    public @ResponseBody List<EntradaSimpleDTO> getAllEntradas() {
         System.out.println("LLamada a la lista de entradas");
-        return this.entradaService.recuperarEntradas();
+        return this.entradaService.recuperarEntradasSimples();
+    }
+
+    public @ResponseBody List<EntradaSimpleDTO> getAllEntradasSimples() {
+        System.out.println("LLamada a la lista de entradas simples");
+        return this.entradaService.recuperarEntradasSimples();
     }
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody EntradaDTO getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
         System.out.println("Obtener entrada: " + urlEntrada);
-        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntrada(urlEntrada, false);
+        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntradaParaGestion(urlEntrada);
         return entrada.getEntrada();
     }
 

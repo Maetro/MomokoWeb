@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -33,6 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
@@ -113,6 +115,34 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Autowired
     private GeneroService generoService;
+
+    /**
+     * Obtener entrada para gestion.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @return the entrada dto
+     */
+    @Override
+    public ObtenerEntradaResponse obtenerEntradaParaGestion(final String urlEntrada) {
+        final ObtenerEntradaResponse response = new ObtenerEntradaResponse();
+        final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
+
+        entradaEntity
+                .setImagenDestacada(this.almacenImagenes.obtenerImagenOriginal(entradaEntity.getImagenDestacada()));
+        final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+        // Si es tipo video anadimos su URL
+        if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+            final VideoEntity videoEntity = this.videoRepository
+                    .findFirstByEntradaUrlEntrada(entradaDTO.getUrlEntrada());
+            if (videoEntity != null) {
+                final String videoUrl = videoEntity.getUrlVideo();
+                entradaDTO.setUrlVideo(videoUrl);
+            }
+        }
+        response.setEntrada(entradaDTO);
+        return response;
+    }
 
     @Override
     public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) {
@@ -229,24 +259,33 @@ public class EntradaServiceImpl implements EntradaService {
 
     private String generarCodigoGaleria(final GaleriaEntity galeria) {
         final StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("<div class='row'><div class='galeria'>");
+        stringBuilder.append(
+                "<div class=\"light-wrapper\"><div class=\"container-fluid inner2 tp0\"><div class=\"collage-wrapper\"><div id=\"collage-large\" class=\"collage effect-parent light-gallery\">");
         final List<String> imagenes = ConversionUtils.divide(galeria.getImagenes(), ";");
         final Integer columnas = galeria.getColumnas();
         final String classColumn = MomokoUtils.obtenerColumnaGaleria(columnas);
+
         final String imageServer = this.almacenImagenes.getUrlImageServer();
         int columna = 0;
         for (final String imagen : imagenes) {
             if ((columna != 0) && ((columna % columnas) == 0)) {
-                stringBuilder.append("<div class=\"clearfix\"></div>");
+                // stringBuilder.append("<div class=\"clearfix\"></div>");
             }
-
-            stringBuilder.append("<div class=\" imagenGaleria " + classColumn + "\">");
-            stringBuilder.append("<img src=\"" + imageServer + imagen + "\" />");
-            stringBuilder.append("</div>");
+            AnchuraAlturaDTO anchuraAltura = null;
+            try {
+                anchuraAltura = this.almacenImagenes.getImageDimensions(imageServer + imagen);
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+            stringBuilder.append("<div class=\"collage-image-wrapper\"><div class=\"overlay\">");
+            stringBuilder.append("<a href=\"" + imageServer + imagen + "\" class=\"lgitem\" data-sub-html=\"#caption"
+                    + columna + "\"><img src=\"" + imageServer + imagen + "\" style=\"width:"
+                    + anchuraAltura.getAnchura() + "px; height:" + anchuraAltura.getAltura() + "px;\" /></a>");
+            stringBuilder.append("</div></div>");
             columna++;
         }
 
-        stringBuilder.append("</div></div>");
+        stringBuilder.append("</div></div></div></div>");
         return stringBuilder.toString();
     }
 
@@ -260,7 +299,7 @@ public class EntradaServiceImpl implements EntradaService {
     private List<EntradaSimpleDTO> obtener4PostPequenosConImagen(final Integer entradaId) {
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .seleccionarEntradasAleatorias(entradaId, new PageRequest(0, 4)).getContent();
-        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
     /**
@@ -284,7 +323,7 @@ public class EntradaServiceImpl implements EntradaService {
         if (CollectionUtils.isNotEmpty(entradaPosterior)) {
             listaEntities.add(entradaPosterior.iterator().next());
         }
-        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, false);
     }
 
     @Override
@@ -295,9 +334,38 @@ public class EntradaServiceImpl implements EntradaService {
         for (final EntradaEntity entradaEntity : entradasEntity) {
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
             entradaDTO.setImagenDestacada(imageServer + entradaDTO.getImagenDestacada());
+
+            entradaDTO.setTitulosLibrosEntrada(obtenerTitulosLibrosEntrada(entradaEntity));
+            entradaEntity.getLibrosEntrada();
             entradasDTO.add(entradaDTO);
         }
         return entradasDTO;
+    }
+
+    @Override
+    public List<EntradaSimpleDTO> recuperarEntradasSimples() {
+        final List<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
+        final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasEntity, false);
+        return entradasBasicas;
+    }
+
+    /**
+     * Obtener titulos libros entrada.
+     *
+     * @param entradaEntity
+     *            the entrada entity
+     * @param entradaDTO
+     *            the entrada dto
+     * @return
+     */
+    public List<String> obtenerTitulosLibrosEntrada(final EntradaEntity entradaEntity) {
+        final List<String> titulosLibros = new ArrayList<String>();
+        if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
+            for (final LibroEntity libro : entradaEntity.getLibrosEntrada()) {
+                titulosLibros.add(libro.getTitulo());
+            }
+        }
+        return titulosLibros;
     }
 
     @Override
@@ -306,15 +374,13 @@ public class EntradaServiceImpl implements EntradaService {
         final List<LibroDTO> librosEntrada = new ArrayList<LibroDTO>();
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        if (CollectionUtils.isNotEmpty(entradaAGuardar.getTitulosLibrosEntrada())) {
-            for (final String titulo : entradaAGuardar.getTitulosLibrosEntrada()) {
+        final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
+        if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
+            for (final String titulo : titulosLibrosEntrada) {
                 librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));
             }
         }
-        UsuarioEntity autor = null;
-        if (entradaAGuardar.getEntradaId() == null) {
-            autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
-        }
+        final UsuarioEntity autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getEditorNombre());
 
         EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, autor);
 
@@ -407,6 +473,7 @@ public class EntradaServiceImpl implements EntradaService {
         viejaEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
         viejaEntrada.setEtiquetas(entradaEntity.getEtiquetas());
         viejaEntrada.setImagenDestacada(entradaEntity.getImagenDestacada());
+        viejaEntrada.setEntradaAutor(entradaEntity.getEntradaAutor());
         this.entradaRepository.save(viejaEntrada);
         return viejaEntrada;
     }
@@ -503,6 +570,7 @@ public class EntradaServiceImpl implements EntradaService {
                     nuevaEntradaVideo.setUrlEntrada(urlVideoRemote);
                     nuevaEntradaVideo.setTipoEntrada(4);
                     nuevaEntradaVideo.setTituloEntrada(video.getSnippet().getTitle());
+                    nuevaEntradaVideo.setEditorNombre("La insomne");
                     nuevaEntradaVideo.setImagenDestacada("imagenes-destacadas/" + urlVideo + ".png");
                     final EntradaEntity entradaVideoEntity = obtenerEntradaEntityParaVideo(nuevaEntradaVideo);
                     final VideoEntity videoEntity = new VideoEntity();
@@ -588,9 +656,10 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     private EntradaEntity obtenerEntradaEntityParaVideo(final EntradaDTO entradaAGuardar) {
-        final List<LibroDTO> librosEntrada = null;
-        if (CollectionUtils.isNotEmpty(entradaAGuardar.getTitulosLibrosEntrada())) {
-            for (final String titulo : entradaAGuardar.getTitulosLibrosEntrada()) {
+        final List<LibroDTO> librosEntrada = new ArrayList<LibroDTO>();
+        final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
+        if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
+            for (final String titulo : titulosLibrosEntrada) {
                 librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));
             }
         }
@@ -648,25 +717,73 @@ public class EntradaServiceImpl implements EntradaService {
     public List<EntradaSimpleDTO> obtenerTresUltimasEntradasPopularesConLibro() {
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findTop3ByLibrosEntradaIsNotNullOrderByLibrosEntradaVisitasDesc();
-        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
     @Override
     public List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(final CategoriaDTO categoriaDTO,
             final int numeroEntradas, final int pagina) {
         final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
-
+        final List<Integer> generosIds = new ArrayList<Integer>();
+        for (final GeneroDTO generoDTO : listaGeneros) {
+            generosIds.add(generoDTO.getGeneroId());
+        }
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .findTop3ByLibrosEntradaIsNotNullOrderByLibrosEntradaVisitasDesc();
-        return ConversionUtils.obtenerEntradasBasicas(listaEntities);
+                .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds,
+                        new PageRequest(pagina - 1, 9));
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+    }
+
+    @Override
+    public Integer obtenerNumeroEntradasCategoria(final CategoriaDTO categoriaDTO) {
+        final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
+        final List<Integer> generosIds = new ArrayList<Integer>();
+        for (final GeneroDTO generoDTO : listaGeneros) {
+            generosIds.add(generoDTO.getGeneroId());
+        }
+        final Long numeroEntradas = this.entradaRepository
+                .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds);
+        return numeroEntradas.intValue();
     }
 
     @Override
     public List<EntradaSimpleDTO> obtenerNoticias(final ObtenerPaginaCategoriaRequest request) {
         final List<EntradaEntity> listaNoticias = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.NOTICIA.getValue(),
-                        new PageRequest(request.getNumeroPagina() - 1, 10));
-        return ConversionUtils.obtenerEntradasBasicas(listaNoticias);
+                        new PageRequest(request.getNumeroPagina() - 1, 9));
+        return ConversionUtils.obtenerEntradasBasicas(listaNoticias, true);
+    }
+
+    @Override
+    public Integer obtenerNumeroNoticias() {
+        return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.NOTICIA.getValue()).intValue();
+    }
+
+    @Override
+    public Collection<EntradaSimpleDTO> obtenerMiscelaneos(final ObtenerPaginaCategoriaRequest request) {
+        final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
+                .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.MISCELANEOS.getValue(),
+                        new PageRequest(request.getNumeroPagina() - 1, 9));
+        return ConversionUtils.obtenerEntradasBasicas(listaMiscelaneos, true);
+    }
+
+    @Override
+    public Integer obtenerNumeroMiscelaneos() {
+        return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.MISCELANEOS.getValue())
+                .intValue();
+    }
+
+    @Override
+    public Collection<EntradaSimpleDTO> obtenerVideos(final ObtenerPaginaCategoriaRequest request) {
+        final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
+                .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.VIDEO.getValue(),
+                        new PageRequest(request.getNumeroPagina() - 1, 9));
+        return ConversionUtils.obtenerEntradasBasicas(listaMiscelaneos, true);
+    }
+
+    @Override
+    public Integer obtenerNumeroVideos() {
+        return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.VIDEO.getValue()).intValue();
     }
 
 }

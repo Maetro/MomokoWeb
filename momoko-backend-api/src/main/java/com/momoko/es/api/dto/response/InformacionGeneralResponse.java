@@ -19,12 +19,19 @@ public class InformacionGeneralResponse implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 779166290418781622L;
 
+    /** The nombres editoriales. */
     private List<String> nombresEditoriales;
 
+    /** The nombres autores. */
     private List<String> nombresAutores;
 
+    /** The titulos libros. */
     private List<String> titulosLibros;
 
+    /** The nicks autores. */
+    private List<String> nicksEditores;
+
+    /** The categorias. */
     private List<CategoriaDTO> categorias;
 
     /**
@@ -101,6 +108,25 @@ public class InformacionGeneralResponse implements Serializable {
      */
     public void setCategorias(final List<CategoriaDTO> categorias) {
         this.categorias = categorias;
+    }
+
+    /**
+     * Gets the nicks autores.
+     *
+     * @return the nicks autores
+     */
+    public List<String> getNicksEditores() {
+        return this.nicksEditores;
+    }
+
+    /**
+     * Sets the nicks autores.
+     *
+     * @param nicksAutores
+     *            the new nicks autores
+     */
+    public void setNicksEditores(final List<String> nicksEditores) {
+        this.nicksEditores = nicksEditores;
     }
 
 }

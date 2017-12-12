@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.facade;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +25,7 @@ import com.momoko.es.api.facade.FileUploadFacade;
 import com.momoko.es.backend.model.service.StorageService;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://192.168.43.117:4200")
 public class FileUploadFacadeImpl implements FileUploadFacade {
 
     private final StorageService storageService;
@@ -36,12 +37,18 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/upload")
-    public @ResponseBody StringResponseDTO handleFileUpload(@RequestParam("uploadFile") final MultipartFile file,
+    public @ResponseBody StringResponseDTO handleFileUpload(@RequestParam("uploadFile") final MultipartFile[] files,
             @RequestParam("tipoSubida") final String tipoSubida, final RedirectAttributes redirectAttributes) {
-        this.storageService.init(tipoSubida);
-        this.storageService.store(file, tipoSubida);
-        final StringResponseDTO response = new StringResponseDTO(
-                "You successfully uploaded " + file.getOriginalFilename());
+        final StringBuilder buider = new StringBuilder();
+        if (!ArrayUtils.isEmpty(files)) {
+            for (final MultipartFile multipartFile : files) {
+                this.storageService.init(tipoSubida);
+                this.storageService.store(multipartFile, tipoSubida);
+                buider.append("You successfully uploaded " + multipartFile.getOriginalFilename() + " \n");
+            }
+        }
+        final StringResponseDTO response = new StringResponseDTO(buider.toString());
+
         return response;
     }
 

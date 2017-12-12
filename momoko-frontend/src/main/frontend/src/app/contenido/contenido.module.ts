@@ -42,6 +42,7 @@ import { ListaCategoriaComponent } from 'app/contenido/clasificador/lista-catego
 import { ObtenerListaCategoriaResolverService } from 'app/services/resolvers/obtener-lista-categoria-resolver.service';
 import { NoticiaComponent } from 'app/contenido/main-content/noticia/noticia.component';
 import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-index-data-resolver.service';
+import { EntradaPortadaVideoComponent } from 'app/contenido/index/entrada-portada/entrada-portada-video/entrada-portada-video.component';
 
 
 
@@ -59,11 +60,11 @@ import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-
     LibrosHorizontalComponent, Libro3dComponent, FichaLibroComponent, SidebarInstagramComponent,
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
     CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
-     MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent],
+     MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent, EntradaPortadaVideoComponent],
    providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService,
     ObtenerVideoResolverService, ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService,
     ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService],
   exports: [RouterModule],
-  entryComponents: [EntradaPortadaNormalImplComponent]
+  entryComponents: [EntradaPortadaNormalImplComponent, EntradaPortadaVideoComponent]
 })
 export class ContenidoModule { }

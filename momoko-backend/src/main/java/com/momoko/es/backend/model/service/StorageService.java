@@ -137,4 +137,13 @@ public interface StorageService {
      */
     String getUrlImageServer();
 
+    /**
+     * Obtener imagen original.
+     *
+     * @param imagenDestacada
+     *            the imagen destacada
+     * @return the string
+     */
+    String obtenerImagenOriginal(String imagenDestacada);
+
 }

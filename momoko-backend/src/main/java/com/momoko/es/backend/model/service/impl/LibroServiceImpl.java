@@ -235,7 +235,8 @@ public class LibroServiceImpl implements LibroService {
         final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
                 .findByLibrosEntradaIn(Arrays.asList(libroEntity));
         Collections.sort(entradasRelacionadas);
-        final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas);
+        final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
+                true);
         // generar miniaturas de 304 x 221
         for (final EntradaSimpleDTO entradaSimpleDTO : entradasBasicas) {
             try {
@@ -289,7 +290,8 @@ public class LibroServiceImpl implements LibroService {
         }
 
         final List<LibroEntity> listaLibrosParecidos = this.libroRepository
-                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros, new PageRequest(0, numeroLibros));
+                .findLibrosParecidosByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros, libro.getLibroId(),
+                        new PageRequest(0, numeroLibros));
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();
         for (final LibroEntity libroEntity : listaLibrosParecidos) {
             listaLibrosIds.add(libroEntity.getLibroId());
