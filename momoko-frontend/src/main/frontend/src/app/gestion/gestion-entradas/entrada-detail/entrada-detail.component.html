@@ -101,8 +101,7 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-              <p-dropdown [options]="nicksEditores" [(ngModel)]="entrada.editorNombre" [filter]="true"
-                filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
+              <p-dropdown [options]="nicksEditores" [(ngModel)]="entrada.editorNombre" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
             </div>
             <!--/.form-field -->
           </div>
@@ -124,13 +123,62 @@
           <div class="col-md-12">
 
             <h4> Contenido </h4>
-            <app-simple-tiny [elementId]="'editor-contenido'" initialContent="{{entrada.contenidoEntrada}}" (onEditorKeyup)="actualizarContenido($event)"></app-simple-tiny>
+
+            <div id="standalone-container">
+              <div id="toolbar-container">
+                <span class="ql-formats">
+                  <select class="ql-font"></select>
+                  <select class="ql-size"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-bold"></button>
+                  <button class="ql-italic"></button>
+                  <button class="ql-underline"></button>
+                  <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                  <select class="ql-color"></select>
+                  <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-script" value="sub"></button>
+                  <button class="ql-script" value="super"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-header" value="1"></button>
+                  <button class="ql-header" value="2"></button>
+                  <button class="ql-blockquote"></button>
+                  <button class="ql-code-block"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-list" value="ordered"></button>
+                  <button class="ql-list" value="bullet"></button>
+                  <button class="ql-indent" value="-1"></button>
+                  <button class="ql-indent" value="+1"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-direction" value="rtl"></button>
+                  <select class="ql-align"></select>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-link"></button>
+                  <button class="ql-image"></button>
+                  <button class="ql-video"></button>
+                  <button class="ql-formula"></button>
+                </span>
+                <span class="ql-formats">
+                  <button class="ql-clean"></button>
+                </span>
+              </div>
+              <div id="editor"></div>
+            </div>
           </div>
+
 
           <div class="col-md-12 marginTop10 marginBottom10">
 
             <h4> Resumen </h4>
-            <app-resumen-editor [elementId]="'editor-resumen'" initialContent="{{entrada.resumenEntrada}}" (onEditorKeyup)="actualizarResumen($event)"></app-resumen-editor>
+            <textarea [(ngModel)]="entrada.resumenEntrada" [style]="{'height':'300px'}"></textarea>
           </div>
 
           <div class="col-sm-12 rp10">

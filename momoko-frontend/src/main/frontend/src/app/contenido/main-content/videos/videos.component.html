@@ -2,7 +2,7 @@
 
       <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
         <div class="container inner">
-          <h1 class="text-center">Misceláneos</h1>
+          <h1 class="text-center">Vídeos</h1>
         </div>
         <!-- /.container -->
 
@@ -19,12 +19,12 @@
                 <div class="post">
                   <div class="post-content">
                     <figure>
-                      <img src="{{entrada.imagenDestacada}}" alt="">
+                        <iframe width="770" height="432" [src]="safeURL" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
                     </figure>
                     <div class="text-center">
                       <span class="category">
                         <em class="rose">
-                          <a href="#">Noticia </a>
+                          <a href="#">Misceláneos </a>
                         </em>
                       </span>
                     </div>
@@ -42,6 +42,7 @@
                     <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml"></div>
 
                     <hr>
+
                     <div class="post-nav-wrapper">
                       <div class="post-nav prev">
                         <div class="meta">

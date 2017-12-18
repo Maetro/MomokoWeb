@@ -39,7 +39,7 @@
                   </span>
                 </div>
 
-                <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada"></div>
+                <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml"></div>
 
                 <hr>
 

@@ -9,6 +9,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { JsonAdapterService } from 'app/util/json-adapter.service';
 import { GaleriaService } from 'app/services/galeria.service';
+import { NgUploaderModule } from 'ngx-uploader';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { GaleriaService } from 'app/services/galeria.service';
     DataTableModule,
     SharedModule,
     Ng2CompleterModule,
+    NgUploaderModule
   ],
   declarations: [ListaGaleriasComponent, GaleriaDetailComponent],
   providers: [GaleriaService, FileUploadService, JsonAdapterService],

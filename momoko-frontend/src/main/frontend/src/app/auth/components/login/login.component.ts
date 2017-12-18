@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
       });
-    this.http.get('http://192.168.43.117:8080/account/me', {headers: headers}).subscribe(
+    this.http.get('http://localhost:8080/account/me', {headers: headers}).subscribe(
       (data: StringInfo) => {
         console.log(data);
       // Read the result field from the JSON response.

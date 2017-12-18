@@ -5,4 +5,6 @@ export class LibroSimple {
     portada: string;
     urlAnalisis: string;
     urlLibro: string;
+    portadaWidth: number;
+    portadaHeight: number;
 }

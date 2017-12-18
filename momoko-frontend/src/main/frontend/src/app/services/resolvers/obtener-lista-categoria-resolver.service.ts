@@ -8,12 +8,22 @@ import { ObtenerPaginaCategoriaResponse } from 'app/dtos/response/obtenerPaginaC
 @Injectable()
 export class ObtenerListaCategoriaResolverService implements Resolve<ObtenerPaginaCategoriaResponse> {
 
-    constructor(private clasificadorService: ClasificadorService, private router: Router) { }
+  constructor(private clasificadorService: ClasificadorService, private router: Router) { }
 
-    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaCategoriaResponse> {
-      console.log('Obteniendo lista Categoria');
-      const url = route.paramMap.get('url_categoria');
-
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaCategoriaResponse> {
+    console.log('Obteniendo lista Categoria');
+    const url = route.paramMap.get('url_categoria');
+    const numeroPagina = route.paramMap.get('numero_pagina');
+    if (numeroPagina) {
+      return this.clasificadorService.getCategoriaPage(url, numeroPagina).take(1).map(categoria => {
+        if (categoria) {
+          return categoria;
+        } else { // url not found
+          this.router.navigate(['/']);
+          return null;
+        }
+      });
+    } else {
       return this.clasificadorService.getCategoria(url).take(1).map(categoria => {
         if (categoria) {
           return categoria;
@@ -23,6 +33,7 @@ export class ObtenerListaCategoriaResolverService implements Resolve<ObtenerPagi
         }
       });
     }
+  }
 
 
 }

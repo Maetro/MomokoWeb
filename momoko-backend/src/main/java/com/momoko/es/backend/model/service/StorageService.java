@@ -146,4 +146,13 @@ public interface StorageService {
      */
     String obtenerImagenOriginal(String imagenDestacada);
 
+    /**
+     * Crear carpeta si noexiste.
+     *
+     * @param carpeta
+     *            the carpeta
+     * @return true, if successful
+     */
+    boolean crearCarpetaSiNoexiste(String carpeta);
+
 }

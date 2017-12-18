@@ -13,21 +13,22 @@ import { SelectItem } from 'primeng/components/common/selectitem';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { Libro } from 'app/dtos/libro';
 import { Galeria } from 'app/dtos/galeria';
-import { SimpleTinyComponent } from 'app/gestion/gestion-entradas/editores-texto/simple-tiny.component';
+import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
+declare var $: any;
 
 @Component({
   selector: 'app-entrada-detail',
   templateUrl: './entrada-detail.component.html',
   styleUrls: ['./entrada-detail.component.css']
 })
-export class EntradaDetailComponent implements OnInit {
+
+export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   @Input() entrada: Entrada;
 
   @Output() onEntradaGuardada: EventEmitter<Entrada> = new EventEmitter<Entrada>();
 
-  @ViewChild(SimpleTinyComponent) simpleTinyComponent: SimpleTinyComponent;
 
   msgs: Message[] = [];
   customURL = false;
@@ -82,6 +83,10 @@ export class EntradaDetailComponent implements OnInit {
       });
   }
 
+  ngAfterViewInit(): void {
+      }
+
+
   cambioTitulo(newValue: string) {
     if (!this.customURL) {
       this.entrada.urlEntrada = encodeURIComponent(this.util.convertToSlug(newValue));
@@ -135,6 +140,9 @@ export class EntradaDetailComponent implements OnInit {
 
   guardarEntrada(): void {
     this.entrada.etiquetas = [];
+    const contain = <HTMLElement> document.getElementById('editor').firstChild;
+    this.entrada.contenidoEntrada = contain.innerHTML;
+    console.log(this.entrada.contenidoEntrada);
     if (this.etiquetas != null) {
       this.etiquetas.forEach(etiqueta => {
         const et = new Etiqueta();
@@ -180,8 +188,24 @@ export class EntradaDetailComponent implements OnInit {
       if (galeria.urlGaleria === $event.value[0]) {
         console.log(galeria);
         const tag = '[momoko-galeria-' + galeria.urlGaleria + ']';
-        this.entrada.contenidoEntrada = this.entrada.contenidoEntrada + tag;
-        this.simpleTinyComponent.writeValue(this.entrada.contenidoEntrada);
+        const editor = $('#editor').data('quill');
+
+        const range = editor.getSelection();
+        let puntoAInsertar: number;
+        if (range) {
+          if (range.length === 0) {
+            console.log('User cursor is at index', range.index);
+            puntoAInsertar = range.index;
+          } else {
+            const text = editor.getText(range.index, range.length);
+            console.log('User has highlighted: ', text);
+            puntoAInsertar = range.index;
+          }
+        } else {
+          console.log('User cursor is not in editor');
+          puntoAInsertar = editor.getLength();
+        }
+        editor.insertText(puntoAInsertar, '\n' + tag);
       }
     });
   }

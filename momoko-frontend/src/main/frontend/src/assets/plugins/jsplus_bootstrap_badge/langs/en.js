@@ -1,1 +1,0 @@
-window['jsplus_bootstrap_badge_i18n'] =   {    title: 'Insert badge',    option_title: 'Title',    preview: 'Preview',    btn_ok: "OK",    btn_cancel: "Cancel"};

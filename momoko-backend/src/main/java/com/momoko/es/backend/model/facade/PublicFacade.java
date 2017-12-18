@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EntradaDTO;
@@ -57,7 +58,7 @@ import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
 
 @Controller
-@CrossOrigin(origins = "http://192.168.43.117:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "/public")
 public class PublicFacade {
 
@@ -189,6 +190,12 @@ public class PublicFacade {
                 try {
                     libroSimpleDTO.setPortada(
                             this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, false));
+
+                    final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
+                            .getImageDimensions(libroSimpleDTO.getPortada());
+                    libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
+                    libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
+
                 } catch (final IOException e) {
                     e.printStackTrace();
                 }
@@ -206,6 +213,23 @@ public class PublicFacade {
 
     }
 
+    @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
+            @PathVariable("url-categoria") final String urlCategoria,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaCategoriaRequest request) {
+        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaCategoriaRequest();
+            request.setNumeroPagina(numeroPagina);
+            request.setOrdenarPor("fecha");
+            request.setUrlGenero(urlCategoria);
+        }
+        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+
+    }
+
     @GetMapping(path = "/categoria/{url-categoria}")
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
             @PathVariable("url-categoria") final String urlCategoria,
@@ -218,6 +242,26 @@ public class PublicFacade {
             request.setOrdenarPor("fecha");
             request.setUrlGenero(urlCategoria);
         }
+        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+
+    }
+
+    /**
+     * Obtener categoria response.
+     *
+     * @param urlCategoria
+     *            the url categoria
+     * @param request
+     *            the request
+     * @param categoriaResponse
+     *            the categoria response
+     * @param entradasCategoria
+     *            the entradas categoria
+     * @return the obtener pagina categoria response
+     */
+    private ObtenerPaginaCategoriaResponse obtenerCategoriaResponse(final String urlCategoria,
+            final ObtenerPaginaCategoriaRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
+            final List<EntradaSimpleDTO> entradasCategoria) {
         final CategoriaDTO categoriaDTO = this.generoService.obtenerCategoriaPorUrl(urlCategoria);
         if (urlCategoria.equals("noticias")) {
             entradasCategoria.addAll(this.entradaService.obtenerNoticias(request));
@@ -225,9 +269,12 @@ public class PublicFacade {
         } else if (urlCategoria.equals("miscelaneos")) {
             entradasCategoria.addAll(this.entradaService.obtenerMiscelaneos(request));
             categoriaResponse.setNumeroEntradas(this.entradaService.obtenerNumeroMiscelaneos());
+        } else if (urlCategoria.equals("videos")) {
+            entradasCategoria.addAll(this.entradaService.obtenerVideos(request));
+            categoriaResponse.setNumeroEntradas(this.entradaService.obtenerNumeroVideos());
         } else {
-            entradasCategoria.addAll(this.entradaService.obtenerEntradasCategoriaPorFecha(categoriaDTO, 9,
-                    request.getNumeroPagina() - 1));
+            entradasCategoria.addAll(
+                    this.entradaService.obtenerEntradasCategoriaPorFecha(categoriaDTO, 9, request.getNumeroPagina()));
             categoriaResponse.setNumeroEntradas(this.entradaService.obtenerNumeroEntradasCategoria(categoriaDTO));
         }
         for (final EntradaSimpleDTO entradaSimpleDTO : entradasCategoria) {
@@ -243,7 +290,6 @@ public class PublicFacade {
         categoriaResponse.setEntradasCategoria(entradasCategoria);
         categoriaResponse.setCategoria(categoriaDTO);
         return categoriaResponse;
-
     }
 
     // TODO: BORRAME

@@ -266,6 +266,12 @@ public class LibroServiceImpl implements LibroService {
             libroDTO.setPortadaWidth(alturaAnchura.getAnchura());
             final String url = this.almacenImagenes.getUrlImageServer();
             libroDTO.setUrlImagen(url + libroEntity.getUrlImagen());
+            final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
+            for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
+                generosImagenes.add(generoDTO);
+            }
+            libroDTO.setGeneros(generosImagenes);
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -277,6 +283,7 @@ public class LibroServiceImpl implements LibroService {
             libroDTO.setComentarioNotaMomoko(puntuacionEntity.getComentario());
         }
         libroDTO.setEntradasLibro(listaDatosEntradas);
+
         respuesta.setLibro(libroDTO);
         return respuesta;
     }

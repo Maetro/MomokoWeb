@@ -92,5 +92,5 @@ logging:
 momokoConfiguracion:
   directorios:
     urlFiles: D:/XAMPP/htdocs/momoko/images
-    urlImages: http://192.168.43.117/images/
+    urlImages: http://localhost/images/
     test: hola

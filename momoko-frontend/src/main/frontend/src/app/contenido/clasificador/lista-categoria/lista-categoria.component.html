@@ -39,16 +39,33 @@
               <div class="libroGenero" *ngFor="let entrada of entradasCategoria, let i = index; let first = first">
                 <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
                 <div class="col-sm-4">
-                  <div class="portadaContainer">
-                    <a routerLink="/{{entrada.urlEntrada}}">
-                      <img src="{{entrada.imagenEntrada}}">
-                    </a>
+                  <div class="entrada">
+                    <figure class="entrada__image">
+                      <a routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                        <span>
+                          <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                            alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                        </span>
+                      </a>
+                      <div class="entrada__action">
+                        <a routerLink="/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}" class="button buy-now" style="
+                        font-size:11px;">
+                          <span>Ver más información</span>
+                        </a>
+                      </div>
+                    </figure>
+                    <div class="entrada__detail">
+                      <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
+                        <a routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                      </h3>
+                      <h4 class="entrada__autor">
+                          {{entrada.nombreAutor}}
+                      </h4>
+                      <a routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
+                        Leer más
+                      </a>
+                    </div>
                   </div>
-                  <a routerLink="/{{entrada.urlEntrada}}">
-                    <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
-                  </a>
-                  <span class="autor_libro"> {{entrada.nombreAutor}} </span>
-
                 </div>
 
               </div>
@@ -76,20 +93,12 @@
 
             </div>
 
-
-
-
-
             <nav class="paginas-pagination">
               <ul class="page-numbers">
-                <li>
-                  <span class="page-numbers current">1</span>
-                </li>
-                <li>
-                  <a class="page-numbers" href="#">2</a>
-                </li>
-                <li>
-                  <a class="page-numbers" href="#">3</a>
+                <li *ngFor="let number of numbers">
+                  <a>
+                    <span class="page-numbers" (click)="loadPage(number)">{{number}}</span>
+                  </a>
                 </li>
                 <li>
                   <a class="next page-numbers" href="#">→</a>

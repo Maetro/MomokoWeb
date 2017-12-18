@@ -25,7 +25,7 @@ import com.momoko.es.api.facade.FileUploadFacade;
 import com.momoko.es.backend.model.service.StorageService;
 
 @Controller
-@CrossOrigin(origins = "http://192.168.43.117:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 public class FileUploadFacadeImpl implements FileUploadFacade {
 
     private final StorageService storageService;

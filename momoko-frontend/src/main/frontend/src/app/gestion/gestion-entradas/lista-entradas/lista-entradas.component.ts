@@ -7,6 +7,20 @@ import { EntradaService } from 'app/services/entrada.service';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
 
+declare var Quill: any;
+declare var $: any;
+
+import { ImageResize } from 'quill-image-resize-module';
+const Parchment = Quill.import('parchment');
+Quill.register('imageResize', ImageResize);
+
+Quill.register(new Parchment.Attributor.Style('display', 'display', {
+  whitelist: ['inline']
+}));
+Quill.register(new Parchment.Attributor.Style('float', 'float', {
+  whitelist: ['left', 'right', 'center']
+}));
+Quill.register(new Parchment.Attributor.Style('margin', 'margin', {}));
 
 @Component({
   selector: 'app-lista-entradas',
@@ -55,14 +69,49 @@ export class ListaEntradasComponent implements OnInit {
       handleRowSelect(event: any) {
         console.log('Seleccionando entrada');
         let entrada: Entrada;
+
         entrada = event.data;
         this.entradaDetailComponent.etiquetas = [];
         this.entradasService.getEntradaAdmin(entrada.urlEntrada).subscribe(entradaCompleta => {
           console.log(entradaCompleta);
           this.selectedEntrada = entradaCompleta;
+          console.log('Quill');
+          const container = document.getElementById('editor');
+          const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            [ 'link', 'image', 'video', 'formula' ]
+            ['clean']                                         // remove formatting button
+          ];
+
+          const editor = new Quill(container, {
+            theme: 'snow',
+            modules: {
+              toolbar: '#toolbar-container',
+              imageResize: {}
+          }
+          });
+          editor.pasteHTML(this.selectedEntrada.contenidoEntrada);
+          editor.on('text-change', function(delta, oldDelta, source) {
+            console.log(editor.getContents());
+          });
           entradaCompleta.etiquetas.forEach((etiqueta: Etiqueta) => {
             this.entradaDetailComponent.etiquetas.push(etiqueta.nombreEtiqueta);
           });
+          $(container).data('quill', editor);
         });
         console.log(entrada);
       }
@@ -73,6 +122,7 @@ export class ListaEntradasComponent implements OnInit {
       }
 
       nuevaEntrada(): void {
+        console.log('Nueva entrada');
         this.selectedEntrada = null;
         const entrada = new Entrada;
         entrada.etiquetas = [];
@@ -80,6 +130,42 @@ export class ListaEntradasComponent implements OnInit {
         entrada.permitirComentarios = true;
         entrada.editorNombre = 'La Insomne';
         this.selectedEntrada = entrada;
+        setTimeout(function() {
+          console.log('Quill');
+          const container = document.getElementById('editor');
+          const toolbarOptions = [
+            ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+            [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
+            [{ 'direction': 'rtl' }],                         // text direction
+
+            [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+            [{ 'font': [] }],
+            [{ 'align': [] }],
+            [ 'link', 'image', 'video', 'formula' ]
+            ['clean']                                         // remove formatting button
+          ];
+
+          const editor = new Quill(container, {
+            theme: 'snow',
+            modules: {
+              toolbar: '#toolbar-container',
+              imageResize: {}
+          }
+          });
+          editor.pasteHTML(this.selectedEntrada.contenidoEntrada);
+          editor.on('text-change', function(delta, oldDelta, source) {
+            console.log(editor.getContents());
+          });
+          $(container).data('quill', editor);
+        }, 1000);
       }
 
       volver(): void {

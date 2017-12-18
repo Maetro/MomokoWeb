@@ -43,6 +43,7 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+      console.log('Ejecutando JQuery');
       $('.light-gallery').lightGallery({
         thumbnail: false,
         selector: '.lgitem',
@@ -57,7 +58,34 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
         hash: false,
         videoMaxWidth: '1000px'
     });
+    setTimeout(() => this.crearCollage(), 2000);
     }
+
+    crearCollage() {
+      $('.collage').attr('id', 'collage-large');
+      console.log('COLLAGE');
+      this.collage();
+      $('.collage .collage-image-wrapper').css('opacity', 0);
+      $('.overlay a').prepend('<span class="over"><span></span></span>');
+    }
+
+    collage() {
+      $('#collage-large').removeWhitespace().collagePlus({
+          'fadeSpeed': 5000,
+          'targetHeight': 400,
+          'effect': 'effect-2',
+          'direction': 'vertical',
+          'allowPartialLastRow': true
+      });
+      $('#collage-medium').removeWhitespace().collagePlus({
+          'fadeSpeed': 5000,
+          'targetHeight': 300,
+          'effect': 'effect-2',
+          'direction': 'vertical',
+          'allowPartialLastRow': true
+      });
+    };
+
 
 
 }

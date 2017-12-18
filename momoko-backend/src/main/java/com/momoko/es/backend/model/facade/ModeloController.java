@@ -54,7 +54,7 @@ import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
-@CrossOrigin(origins = "http://192.168.43.117:4200")
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping(path = "/modelo")
 public class ModeloController {
 

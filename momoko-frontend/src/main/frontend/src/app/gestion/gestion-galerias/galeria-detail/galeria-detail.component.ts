@@ -93,21 +93,36 @@ export class GaleriaDetailComponent implements OnInit {
   }
 
   multipleFileChangeCabecera($event): void {
+
+
     console.log('Subiendo bloque');
+    let num = 0;
+    $event.files.forEach(file => {
+      const temp = {
+        files: []
+      }
+      temp.files.push(file);
+      console.log(file);
+      this.fileChangeCabecera(temp, num);
+      num++
+    });
+    console.log('Actualizando imagenes');
+    this.anadirImagenesSubidasEnBloque($event);
 
-    this.fileUploadService.fileChange($event, 'cabeceras-galerias').subscribe
-      (urlImagenNueva => {
-        // Emit list event
-        console.log(urlImagenNueva);
-        this.showSuccess('Imagen guardada correctamente');
-        this.anadirImagenesSubidasEnBloque($event);
-
-      },
-      err => {
-        // Log errors if any
-        console.log(err);
-      });
   }
+  //   this.fileUploadService.fileChange($event, 'cabeceras-galerias').subscribe
+  //     (urlImagenNueva => {
+  //       // Emit list event
+  //       console.log(urlImagenNueva);
+  //       this.showSuccess('Imagen guardada correctamente');
+  //       this.anadirImagenesSubidasEnBloque($event);
+
+  //     },
+  //     err => {
+  //       // Log errors if any
+  //       console.log(err);
+  //     });
+  // }
 
   anadirImagenesSubidasEnBloque($event) {
     const numeroFicheros = $event.files.length;

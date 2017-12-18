@@ -42,6 +42,13 @@ const fichaRoutes: Routes = [
     }
   },
   {
+    path: 'categoria/:url_categoria/:numero_pagina',
+    component: ListaCategoriaComponent,
+    resolve: {
+      paginaCategoriaResponse: ObtenerListaCategoriaResolverService
+    }
+  },
+  {
     path: 'categoria/:url_categoria',
     component: ListaCategoriaComponent,
     resolve: {

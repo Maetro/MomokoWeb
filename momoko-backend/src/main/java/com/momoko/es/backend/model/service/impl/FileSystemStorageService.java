@@ -227,4 +227,18 @@ public class FileSystemStorageService implements StorageService {
         return getUrlImageServer() + imagenDestacada;
     }
 
+    @Override
+    public boolean crearCarpetaSiNoexiste(final String carpeta) {
+
+        final Path location = getFileLocation(carpeta);
+        try {
+            Files.createDirectory(location);
+        } catch (final IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
+    }
+
 }

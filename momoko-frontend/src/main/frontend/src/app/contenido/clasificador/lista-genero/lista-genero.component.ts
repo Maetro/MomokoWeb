@@ -16,6 +16,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   private url: string;
 
+  anchura: number;
+
   suscriptor: any;
 
   librosGenero: LibroSimple[];
@@ -38,6 +40,13 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
         this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
         this.entradasPopulares = data.paginaGeneroResponse.tresUltimasEntradasConLibro;
       });
+
+      // const columna = document.getElementById('mirarAnchura0');
+      // const width = columna.offsetWidth;
+      // const style = window.getComputedStyle(columna);
+      // // tslint:disable-next-line:radix
+      // const margin = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
+      // this.anchura = width - margin;
       // In a real app: dispatch action to load the details here.
     });
   }
@@ -48,6 +57,10 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   onChangeOrder(event) {
     console.log(event);
+  }
+
+  mirarAnchura(): number {
+    return 236;
   }
 
 }

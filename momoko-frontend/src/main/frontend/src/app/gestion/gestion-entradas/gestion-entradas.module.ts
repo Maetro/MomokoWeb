@@ -1,5 +1,4 @@
 import { UtilService } from 'app/services/util.service';
-import { SimpleTinyComponent } from './editores-texto/simple-tiny.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule, MultiSelectModule, GrowlModule,  FileUploadModule, DropdownModule,
@@ -7,10 +6,10 @@ import { InputTextModule, MultiSelectModule, GrowlModule,  FileUploadModule, Dro
 import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entradas/lista-entradas.component';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { EntradaService } from 'app/services/entrada.service';
+import { QuillModule } from 'ngx-quill'
 import { EntradaDetailComponent } from 'app/gestion/gestion-entradas/entrada-detail/entrada-detail.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ResumenEditorComponent } from 'app/gestion/gestion-entradas/editores-texto/resumen-editor.component';
 
 
 @NgModule({
@@ -19,6 +18,7 @@ import { ResumenEditorComponent } from 'app/gestion/gestion-entradas/editores-te
     InputTextModule,
     FormsModule,
     GrowlModule,
+    QuillModule,
     ChipsModule,
     DropdownModule,
     FileUploadModule,
@@ -27,7 +27,7 @@ import { ResumenEditorComponent } from 'app/gestion/gestion-entradas/editores-te
     CheckboxModule,
     BrowserAnimationsModule
   ],
-  declarations: [ListaEntradasComponent, EntradaDetailComponent, SimpleTinyComponent, ResumenEditorComponent],
+  declarations: [ListaEntradasComponent, EntradaDetailComponent],
   providers: [
     EntradaService, FileUploadService, UtilService
   ],

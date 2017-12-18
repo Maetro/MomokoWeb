@@ -37,10 +37,12 @@ export class EntradaService {
   }
 
   private obtenerEntradaDeRespuesta(res: ObtenerEntradaResponse) {
+    res.entrada.contenidoEntrada = res.entrada.contenidoEntrada.replace(/\r\n|\n|\r/g, '<br />');
     return res;
   }
 
   private obtenerEntrada(res: Entrada) {
+    res.contenidoEntrada = res.contenidoEntrada.replace(/\r\n|\n|\r/g, '<br />');
     return res;
   }
 
@@ -70,6 +72,9 @@ export class EntradaService {
   }
 
   private obtenerRespuestaGuardadoEntrada(res: GuardarEntradaResponse) {
+    if (res.entrada != null) {
+      res.entrada.contenidoEntrada = res.entrada.contenidoEntrada.replace(/\r\n|\n|\r/g, '<br />');
+    }
     return res;
   }
 }

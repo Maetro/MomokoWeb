@@ -7,6 +7,7 @@
 package com.momoko.es.backend.model.service.impl;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -24,6 +25,7 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
+import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -252,6 +254,33 @@ public class EntradaServiceImpl implements EntradaService {
                         "[momoko-galeria-" + urlGaleria + "]", code));
             }
         }
+        if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
+            final StringBuilder builder = new StringBuilder();
+            final String[] partes = entradaDTO.getContenidoEntrada().split("contenido-entrada/");
+            final String imageServer = this.almacenImagenes.getUrlImageServer();
+            int numParte = 0;
+            for (final String parte : partes) {
+                builder.append(parte);
+                if (partes.length != (numParte + 1)) {
+                    builder.append(imageServer + "contenido-entrada/");
+                }
+                numParte++;
+            }
+            entradaDTO.setContenidoEntrada(builder.toString());
+        }
+
+        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+            for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                final String url = this.almacenImagenes.getUrlImageServer();
+                final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
+                for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                    generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
+                    generosImagenes.add(generoDTO);
+                }
+                libroDTO.setGeneros(generosImagenes);
+            }
+        }
+
         respuesta.setEntrada(entradaDTO);
         respuesta.setComentarios(comentariosOrdenados);
         return respuesta;
@@ -375,6 +404,31 @@ public class EntradaServiceImpl implements EntradaService {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
         final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
+        int cont = 0;
+        while (entradaAGuardar.getContenidoEntrada().contains("data:image/png;base64,")
+                || entradaAGuardar.getContenidoEntrada().contains("data:image/jpeg;base64,")) {
+            // Hay imagenes en base 64
+            int comienzo = entradaAGuardar.getContenidoEntrada().indexOf("data:image/png;base64,");
+            if (comienzo == -1) {
+                comienzo = entradaAGuardar.getContenidoEntrada().indexOf("data:image/jpeg;base64,");
+            }
+            final int fin = entradaAGuardar.getContenidoEntrada().indexOf("\"", comienzo);
+            final String imagenBase64 = entradaAGuardar.getContenidoEntrada().substring(comienzo, fin);
+            // entradaAGuardar.getContenidoEntrada().replaceFirst(regex, replacement);
+            System.out.println(imagenBase64);
+            // tokenize the data
+            final byte[] imageBytes = DatatypeConverter.parseBase64Binary(imagenBase64.substring(22));
+            final BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
+
+            final String carpeta = "contenido-entrada/" + entradaAGuardar.getUrlEntrada();
+            this.almacenImagenes.crearCarpetaSiNoexiste(carpeta);
+            final String nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
+            this.almacenImagenes.store(img, carpeta, nombreImagen);
+
+            entradaAGuardar.setContenidoEntrada(
+                    entradaAGuardar.getContenidoEntrada().replace(imagenBase64, carpeta + "/" + nombreImagen + ".png"));
+            cont++;
+        }
         if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
             for (final String titulo : titulosLibrosEntrada) {
                 librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));

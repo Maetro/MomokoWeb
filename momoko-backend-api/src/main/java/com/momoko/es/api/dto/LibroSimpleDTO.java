@@ -32,6 +32,12 @@ public class LibroSimpleDTO implements Serializable {
     /** The url libro. */
     private String urlLibro;
 
+    /** The portada width. */
+    private Integer portadaWidth;
+
+    /** The portada height. */
+    private Integer portadaHeight;
+
     /**
      * Gets the titulo.
      *
@@ -125,6 +131,44 @@ public class LibroSimpleDTO implements Serializable {
      */
     public void setUrlLibro(final String urlLibro) {
         this.urlLibro = urlLibro;
+    }
+
+    /**
+     * Gets the portada height.
+     *
+     * @return the portada height
+     */
+    public Integer getPortadaHeight() {
+        return this.portadaHeight;
+    }
+
+    /**
+     * Gets the portada width.
+     *
+     * @return the portada width
+     */
+    public Integer getPortadaWidth() {
+        return this.portadaWidth;
+    }
+
+    /**
+     * Sets the portada height.
+     *
+     * @param portadaHeight
+     *            the new portada height
+     */
+    public void setPortadaHeight(final Integer portadaHeight) {
+        this.portadaHeight = portadaHeight;
+    }
+
+    /**
+     * Sets the portada width.
+     *
+     * @param portadaWidth
+     *            the new portada width
+     */
+    public void setPortadaWidth(final Integer portadaWidth) {
+        this.portadaWidth = portadaWidth;
     }
 
 }

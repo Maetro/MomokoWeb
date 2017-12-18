@@ -19,7 +19,7 @@ import com.momoko.es.backend.model.service.properties.StorageProperties;
 
 @SpringBootApplication
 @EnableCaching
-@CrossOrigin(origins = "http://192.168.43.117:4200", maxAge = 3600)
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 @EnableAutoConfiguration
 @EnableOAuth2Client
 @EnableConfigurationProperties(StorageProperties.class)

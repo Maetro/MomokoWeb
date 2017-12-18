@@ -43,6 +43,9 @@ import { ObtenerListaCategoriaResolverService } from 'app/services/resolvers/obt
 import { NoticiaComponent } from 'app/contenido/main-content/noticia/noticia.component';
 import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-index-data-resolver.service';
 import { EntradaPortadaVideoComponent } from 'app/contenido/index/entrada-portada/entrada-portada-video/entrada-portada-video.component';
+import { SatinizeHtmlPipe } from './pipes/satinize-html.pipe';
+import { VideosComponent } from 'app/contenido/main-content/videos/videos.component';
+
 
 
 
@@ -60,10 +63,10 @@ import { EntradaPortadaVideoComponent } from 'app/contenido/index/entrada-portad
     LibrosHorizontalComponent, Libro3dComponent, FichaLibroComponent, SidebarInstagramComponent,
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
     CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
-     MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent, EntradaPortadaVideoComponent],
+     MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent, EntradaPortadaVideoComponent, SatinizeHtmlPipe, VideosComponent],
    providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService,
     ObtenerVideoResolverService, ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService,
-    ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService],
+    ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService, SatinizeHtmlPipe],
   exports: [RouterModule],
   entryComponents: [EntradaPortadaNormalImplComponent, EntradaPortadaVideoComponent]
 })

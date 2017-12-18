@@ -22,6 +22,7 @@ import { ListaLibrosComponent } from 'app/gestion/gestion-libros/lista-libros/li
 import { ContenidoModule } from 'app/contenido/contenido.module';
 import { AppLoadModule } from 'app/app-load/app-load.module';
 import { GestionGaleriasModule } from 'app/gestion/gestion-galerias/gestion-galerias.module';
+import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { GestionGaleriasModule } from 'app/gestion/gestion-galerias/gestion-gale
     HeaderComponent,
     FooterComponent,
     AdminComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
