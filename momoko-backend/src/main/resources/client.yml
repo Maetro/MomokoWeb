@@ -17,7 +17,7 @@ spring:
 #    client:
 #      client-id: acme
 #      client-secret: secret
-#      access-token-uri: http://localhost:8080/oauth/token
-#      user-authorization-uri: http://localhost:8080/oauth/authorize
+#      access-token-uri: http://localhost:5000/oauth/token
+#      user-authorization-uri: http://localhost:5000/oauth/authorize
 #    resource:
-#      user-info-uri: http://localhost:8080/me
+#      user-info-uri: http://localhost:5000/me

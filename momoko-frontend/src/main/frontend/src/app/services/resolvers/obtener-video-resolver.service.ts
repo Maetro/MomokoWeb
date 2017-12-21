@@ -17,7 +17,7 @@ export class ObtenerVideoResolverService implements Resolve<ObtenerEntradaRespon
 
     return this.videoService.getEntrada(url).take(1).map(entrada => {
       if (entrada) {
-        return entrada;
+        this.router.navigate(['/' + url]);
       } else { // url not found
         this.router.navigate(['/']);
         return null;

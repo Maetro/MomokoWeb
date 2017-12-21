@@ -62,9 +62,9 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      *            the pageable
      * @return the list
      */
-    @Query("select distinct l from LibroEntity l join l.entradas e join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL ORDER BY l.fechaAlta DESC")
-    List<LibroEntity> findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
-            @Param("generoIds") List<Integer> generoIds, Pageable pageable);
+    @Query("select distinct l from LibroEntity l join l.entradas e join l.generos g join l.entradas e WHERE e.tipoEntrada = 2 AND g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL ORDER BY l.fechaAlta DESC")
+    List<LibroEntity> obtenerLibrosConAnalisisGeneroPorFecha(@Param("generoIds") List<Integer> generoIds,
+            Pageable pageable);
 
     /**
      * Find libro by generos and fecha baja is null order by fecha alta desc.

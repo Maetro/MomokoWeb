@@ -8,7 +8,7 @@ package com.momoko.es.api.dto.request;
 
 import java.io.Serializable;
 
-public class ObtenerPaginaCategoriaRequest implements Serializable {
+public class ObtenerPaginaElementoRequest implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -7419242802857600919L;
@@ -56,7 +56,7 @@ public class ObtenerPaginaCategoriaRequest implements Serializable {
      * @param urlGenero
      *            the new url genero
      */
-    public void setUrlGenero(final String urlCategoria) {
+    public void setUrlElemento(final String urlCategoria) {
         this.urlCategoria = urlCategoria;
     }
 

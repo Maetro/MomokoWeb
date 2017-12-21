@@ -326,8 +326,7 @@ public class LibroServiceImpl implements LibroService {
         idsGeneros.add(genero.getGeneroId());
 
         final List<LibroEntity> listaLibrosGenero = this.libroRepository
-                .findLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
-                        new PageRequest(pagina, numeroLibros));
+                .obtenerLibrosConAnalisisGeneroPorFecha(idsGeneros, new PageRequest(pagina, numeroLibros));
 
         return ConversionUtils.obtenerLibrosBasicos(listaLibrosGenero, null);
     }
@@ -338,5 +337,11 @@ public class LibroServiceImpl implements LibroService {
                 .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
                         Arrays.asList(generoDTO.getGeneroId()));
         return numeroResultados.intValue();
+    }
+
+    @Override
+    public LibroDTO obtenerLibroDTO(final String urlLibro) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

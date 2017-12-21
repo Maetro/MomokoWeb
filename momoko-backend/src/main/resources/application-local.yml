@@ -30,6 +30,7 @@ security:
       filter-order: 3
 
 server:
+  port: 5000
   session:
     timeout: 28800
    
@@ -87,6 +88,7 @@ logging:
       springframework:
         security: DEBUG
     root: INFO
+
 
 #momoko properties
 momokoConfiguracion:

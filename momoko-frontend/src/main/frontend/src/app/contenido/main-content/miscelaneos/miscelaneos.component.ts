@@ -1,6 +1,7 @@
 import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { LibroSimple } from 'app/dtos/libroSimple';
 
 declare var $: any;
 
@@ -17,7 +18,11 @@ export class MiscelaneosComponent implements OnInit, AfterViewInit {
 
   @Input() cuatroPostPequenosConImagen: EntradaSimple[];
 
+  @Input() librosParecidos: LibroSimple[];
+
   backgroundImage = '/assets/style/images/art/parallax2.jpg';
+
+  tituloSeccionLibros = 'Otros libros parecidos';
 
   constructor() { }
 

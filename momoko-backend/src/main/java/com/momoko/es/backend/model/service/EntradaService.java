@@ -12,7 +12,7 @@ import java.util.List;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.request.ObtenerPaginaCategoriaRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 
 /**
@@ -94,7 +94,7 @@ public interface EntradaService {
      *            the request
      * @return the list
      */
-    List<EntradaSimpleDTO> obtenerNoticias(ObtenerPaginaCategoriaRequest request);
+    List<EntradaSimpleDTO> obtenerNoticias(ObtenerPaginaElementoRequest request);
 
     /**
      * Obtener numero noticias.
@@ -117,7 +117,7 @@ public interface EntradaService {
      *            the request
      * @return the collection<? extends entrada simple dt o>
      */
-    Collection<EntradaSimpleDTO> obtenerMiscelaneos(ObtenerPaginaCategoriaRequest request);
+    Collection<EntradaSimpleDTO> obtenerMiscelaneos(ObtenerPaginaElementoRequest request);
 
     /**
      * Obtener numero miscelaneos.
@@ -133,7 +133,7 @@ public interface EntradaService {
      *            the request
      * @return the collection
      */
-    Collection<EntradaSimpleDTO> obtenerVideos(ObtenerPaginaCategoriaRequest request);
+    Collection<EntradaSimpleDTO> obtenerVideos(ObtenerPaginaElementoRequest request);
 
     /**
      * Obtener numero videos.
@@ -150,5 +150,14 @@ public interface EntradaService {
      * @return the obtener entrada response
      */
     ObtenerEntradaResponse obtenerEntradaParaGestion(String urlEntrada);
+
+    /**
+     * Obtener entrada simple.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @return the entrada simple dto
+     */
+    EntradaSimpleDTO obtenerEntradaSimple(String urlEntrada);
 
 }

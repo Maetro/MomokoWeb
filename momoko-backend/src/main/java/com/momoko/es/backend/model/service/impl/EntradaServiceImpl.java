@@ -46,7 +46,7 @@ import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.request.ObtenerPaginaCategoriaRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
@@ -193,7 +193,7 @@ public class EntradaServiceImpl implements EntradaService {
                 }
             }
         } else {
-            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getFechaAlta()));
+
             final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
                     entradaEntity.getEntradaId());
             for (final EntradaSimpleDTO entradaSimpleDTO : cuatroPostPequenosConImagen) {
@@ -206,12 +206,16 @@ public class EntradaServiceImpl implements EntradaService {
             }
             respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
         }
+
+        respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getFechaAlta()));
         // Si es tipo video anadimos su URL
         if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
             final VideoEntity videoEntity = this.videoRepository
                     .findFirstByEntradaUrlEntrada(entradaDTO.getUrlEntrada());
-            final String videoUrl = videoEntity.getUrlVideo();
-            entradaDTO.setUrlVideo(videoUrl);
+            if (videoEntity != null) {
+                final String videoUrl = videoEntity.getUrlVideo();
+                entradaDTO.setUrlVideo(videoUrl);
+            }
         }
 
         final List<ComentarioDTO> comentarios = this.comentarioService
@@ -483,6 +487,21 @@ public class EntradaServiceImpl implements EntradaService {
         } else {
             entradaEntity = actualizarEntrada(entradaEntity, coincidencia);
         }
+        if (entradaEntity.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+            VideoEntity videoEntity = this.videoRepository.findOne(entradaEntity.getEntradaId());
+            if (videoEntity == null) {
+                videoEntity = new VideoEntity();
+                videoEntity.setTitulo(entradaEntity.getTituloEntrada());
+                videoEntity.setEntrada(entradaEntity);
+                videoEntity.setDescripcion(entradaEntity.getResumenEntrada());
+                videoEntity.setUrlVideo(entradaAGuardar.getUrlVideo());
+                videoEntity.setFechaAlta(Calendar.getInstance().getTime());
+                videoEntity.setUsuarioAlta(entradaEntity.getEntradaAutor().getUsuarioNick());
+            } else {
+                videoEntity.setUrlVideo(entradaAGuardar.getUrlVideo());
+            }
+            this.videoRepository.save(videoEntity);
+        }
         return EntityToDTOAdapter.adaptarEntrada(entradaEntity);
     }
 
@@ -638,75 +657,8 @@ public class EntradaServiceImpl implements EntradaService {
                     videoEntityBD = videoEntitySaved;
                 }
             }
-            System.out.println(videosCanalMomoko);
         }
-
-        if (videoEntityBD != null) {
-            final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
-
-            try {
-                videoEntityBD.getEntrada().setImagenDestacada(this.almacenImagenes
-                        .obtenerMiniatura(videoEntityBD.getEntrada().getImagenDestacada(), 770, 432, true));
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
-            final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(videoEntityBD.getEntrada());
-            final List<LibroEntity> librosEntrada = videoEntityBD.getEntrada().getLibrosEntrada();
-            if (CollectionUtils.isNotEmpty(librosEntrada)) {
-                final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                        .findByLibrosEntradaIn(librosEntrada);
-
-                Collections.sort(entradasRelacionadas);
-                if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                    for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
-                        final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                        datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
-                        datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
-                        listaDatosEntradas.add(datoEntrada);
-                    }
-                }
-
-                if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
-                    for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
-                        libroDTO.setEntradasLibro(listaDatosEntradas);
-                    }
-                }
-
-            }
-            final List<ComentarioDTO> comentarios = this.comentarioService
-                    .obtenerComentariosEntrada(entradaDTO.getEntradaId());
-
-            final List<ComentarioDTO> comentariosOrdenados = new ArrayList<ComentarioDTO>();
-            final Map<Integer, ComentarioDTO> mapaComentarios = new HashMap<Integer, ComentarioDTO>();
-            for (final ComentarioDTO comentarioDTO : comentarios) {
-                if (comentarioDTO.getComentarioPadreId() == null) {
-                    mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
-                } else {
-                    final ComentarioDTO comentarioPadre = mapaComentarios.get(comentarioDTO.getComentarioPadreId());
-                    if (comentarioPadre != null) {
-                        List<ComentarioDTO> respuestas = comentarioPadre.getComentariosHijo();
-                        if (CollectionUtils.isEmpty(respuestas)) {
-                            respuestas = new ArrayList<ComentarioDTO>();
-                        }
-                        respuestas.add(comentarioDTO);
-                        comentarioPadre.setComentarioReferencia(respuestas);
-                        mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
-                    } else {
-                        System.out.println("WOLA");
-                    }
-                }
-            }
-
-            for (final ComentarioDTO comentarioDTO : mapaComentarios.values()) {
-                if (comentarioDTO.getComentarioPadreId() == null) {
-                    comentariosOrdenados.add(comentarioDTO);
-                }
-            }
-            entradaDTO.setNumeroComentarios(comentarios.size());
-            respuesta.setEntrada(entradaDTO);
-            respuesta.setComentarios(comentariosOrdenados);
-        }
-        return respuesta;
+        return obtenerEntrada(urlVideo, true);
     }
 
     private EntradaEntity obtenerEntradaEntityParaVideo(final EntradaDTO entradaAGuardar) {
@@ -801,7 +753,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public List<EntradaSimpleDTO> obtenerNoticias(final ObtenerPaginaCategoriaRequest request) {
+    public List<EntradaSimpleDTO> obtenerNoticias(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaNoticias = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.NOTICIA.getValue(),
                         new PageRequest(request.getNumeroPagina() - 1, 9));
@@ -814,7 +766,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public Collection<EntradaSimpleDTO> obtenerMiscelaneos(final ObtenerPaginaCategoriaRequest request) {
+    public Collection<EntradaSimpleDTO> obtenerMiscelaneos(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.MISCELANEOS.getValue(),
                         new PageRequest(request.getNumeroPagina() - 1, 9));
@@ -828,7 +780,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public Collection<EntradaSimpleDTO> obtenerVideos(final ObtenerPaginaCategoriaRequest request) {
+    public Collection<EntradaSimpleDTO> obtenerVideos(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.VIDEO.getValue(),
                         new PageRequest(request.getNumeroPagina() - 1, 9));
@@ -838,6 +790,12 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public Integer obtenerNumeroVideos() {
         return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.VIDEO.getValue()).intValue();
+    }
+
+    @Override
+    public EntradaSimpleDTO obtenerEntradaSimple(final String urlEntrada) {
+        final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
+        return ConversionUtils.obtenerEntradaSimpleDTO(entradaEntity, true);
     }
 
 }

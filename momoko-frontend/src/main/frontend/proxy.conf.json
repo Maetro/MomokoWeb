@@ -1,6 +1,6 @@
 {
   "/modelo": {
-    "target": "http://192.168.43.117:8080",
+    "target": "http://192.168.43.117:5000",
     "secure": false
   }
 }

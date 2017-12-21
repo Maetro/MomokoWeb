@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
+import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
@@ -37,7 +38,7 @@ import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
-import com.momoko.es.api.dto.request.ObtenerPaginaCategoriaRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
@@ -45,7 +46,9 @@ import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
@@ -217,14 +220,14 @@ public class PublicFacade {
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
             @PathVariable("url-categoria") final String urlCategoria,
             @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaCategoriaRequest request) {
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
-            request = new ObtenerPaginaCategoriaRequest();
+            request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(numeroPagina);
             request.setOrdenarPor("fecha");
-            request.setUrlGenero(urlCategoria);
+            request.setUrlElemento(urlCategoria);
         }
         return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
 
@@ -233,14 +236,14 @@ public class PublicFacade {
     @GetMapping(path = "/categoria/{url-categoria}")
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
             @PathVariable("url-categoria") final String urlCategoria,
-            @RequestBody(required = false) ObtenerPaginaCategoriaRequest request) {
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
-            request = new ObtenerPaginaCategoriaRequest();
+            request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(1);
             request.setOrdenarPor("fecha");
-            request.setUrlGenero(urlCategoria);
+            request.setUrlElemento(urlCategoria);
         }
         return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
 
@@ -260,7 +263,7 @@ public class PublicFacade {
      * @return the obtener pagina categoria response
      */
     private ObtenerPaginaCategoriaResponse obtenerCategoriaResponse(final String urlCategoria,
-            final ObtenerPaginaCategoriaRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
+            final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
             final List<EntradaSimpleDTO> entradasCategoria) {
         final CategoriaDTO categoriaDTO = this.generoService.obtenerCategoriaPorUrl(urlCategoria);
         if (urlCategoria.equals("noticias")) {
@@ -290,6 +293,71 @@ public class PublicFacade {
         categoriaResponse.setEntradasCategoria(entradasCategoria);
         categoriaResponse.setCategoria(categoriaDTO);
         return categoriaResponse;
+    }
+
+    @GetMapping(path = "/noticias-libro/{url-libro}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibroPagina(
+            @PathVariable("url-libro") final String urlCategoria,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
+        final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(numeroPagina);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlCategoria);
+        }
+        return obtenerPaginaLibroNoticiasResponse(urlCategoria, request, paginaLibroNoticiasResponse, noticias);
+
+    }
+
+    @GetMapping(path = "/noticias-libro/{url-libro}")
+    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibro(
+            @PathVariable("url-libro") final String urlLibro,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
+        final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlLibro);
+        }
+        return obtenerPaginaLibroNoticiasResponse(urlLibro, request, paginaLibroNoticiasResponse, noticias);
+
+    }
+
+    private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroNoticiasResponse(final String urlLibro,
+            final ObtenerPaginaElementoRequest request,
+            final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
+            final List<EntradaSimpleDTO> noticias) {
+        final LibroDTO libro = this.libroService.obtenerLibro(urlLibro).getLibro();
+        final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
+        int numeroEntradas = 0;
+
+        for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
+            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.NOTICIA.getValue())) {
+                final EntradaSimpleDTO entradaSimple = this.entradaService
+                        .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
+                if (entradaSimple.getImagenEntrada() != null) {
+                    try {
+                        entradaSimple.setImagenEntrada(this.almacenImagenes
+                                .obtenerMiniatura(entradaSimple.getImagenEntrada(), 370, 208, true));
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                noticias.add(entradaSimple);
+
+                numeroEntradas++;
+            }
+        }
+        paginaLibroNoticiasResponse.setLibro(libro);
+        paginaLibroNoticiasResponse.setNoticias(noticias);
+        paginaLibroNoticiasResponse.setNumeroEntradas(numeroEntradas);
+        return paginaLibroNoticiasResponse;
     }
 
     // TODO: BORRAME

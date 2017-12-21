@@ -11,8 +11,18 @@ import { ObtenerListaGeneroResolverService } from 'app/services/resolvers/obtene
 import { MainContentComponent } from 'app/contenido/main-content/main-content.component';
 import { ObtenerListaCategoriaResolverService } from 'app/services/resolvers/obtener-lista-categoria-resolver.service';
 import { ListaCategoriaComponent } from 'app/contenido/clasificador/lista-categoria/lista-categoria.component';
+import { ObtenerLibroNoticiasResolverService } from 'app/services/resolvers/obtener-libro-noticias-resolver.service';
+import { ListaNoticiasLibroComponent } from 'app/contenido/lista-noticias-libro/lista-noticias-libro.component';
+import { VideosComponent } from 'app/contenido/main-content/videos/videos.component';
 
 const fichaRoutes: Routes = [
+  {
+    path: 'libro/noticias/:url',
+    component: ListaNoticiasLibroComponent,
+    resolve: {
+      noticiasLibro: ObtenerLibroNoticiasResolverService
+    }
+  },
   {
     path: 'libro/:url',
     component: FichaLibroComponent,
@@ -29,7 +39,7 @@ const fichaRoutes: Routes = [
   },
   {
     path: 'videos/:url',
-    component: AnalisisComponent,
+    component: MainContentComponent,
     resolve: {
       obtenerEntradaResponse: ObtenerVideoResolverService
     }

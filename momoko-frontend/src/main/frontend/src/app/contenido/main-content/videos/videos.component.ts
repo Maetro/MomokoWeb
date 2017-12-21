@@ -2,6 +2,7 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
 import { DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import { LibroSimple } from 'app/dtos/libroSimple';
 
 declare var $: any;
 
@@ -17,6 +18,10 @@ export class VideosComponent implements OnInit, AfterViewInit {
   @Input() entradaAnteriorYSiguiente: EntradaSimple[];
 
   @Input() cuatroPostPequenosConImagen: EntradaSimple[];
+
+  @Input() librosParecidos: LibroSimple[];
+
+  tituloSeccionLibros = 'Otros libros parecidos';
 
   backgroundImage = '/assets/style/images/art/parallax2.jpg';
 

@@ -17,13 +17,15 @@ import {
   NavigationError
 } from '@angular/router'
 
+declare var $: any;
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   providers: [LibroService, FileUploadService, GeneralDataService]
 })
-export class AppComponent{
+export class AppComponent {
 
   // Sets initial value to true to show loading spinner on first load
   loading = true
@@ -39,7 +41,14 @@ export class AppComponent{
       this.loading = true
     }
     if (event instanceof NavigationEnd) {
-      this.loading = false
+      this.loading = false;
+      const distanciaTop = $(document).scrollTop();
+      console.log('Distancia top: ' + distanciaTop);
+      if (distanciaTop > 500) {
+        $('body,html').animate({
+          scrollTop: 0
+        }, 800);
+      }
     }
 
     // Set loading state to false in both of the below events to hide the spinner in case a request fails
@@ -52,4 +61,4 @@ export class AppComponent{
   }
 }
 
-export const API_URL = 'http://192.168.43.117:8080/api';
+export const API_URL = 'http://192.168.43.117:5000/api';

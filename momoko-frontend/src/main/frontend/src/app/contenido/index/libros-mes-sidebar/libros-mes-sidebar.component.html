@@ -1,6 +1,6 @@
 <li *ngFor="let libro of libros">
     <figure class="overlay small">
-      <a routerLink="/libro/{{libro.titulo}}">
+      <a routerLink="/libro/{{libro.urlLibro}}">
         <span class="over">
           <span></span>
         </span>
@@ -8,12 +8,12 @@
     </figure>
     <div class="post-content">
       <h4 class="post-title">
-        <a routerLink="/libro/{{libro.titulo}}">{{libro.titulo}}</a>
+        <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
       </h4>
       <div class="meta">
         <span class="date">{{libro.nombreAutor}} </span>
-        <span class="autorygenero">
-          <a href="#"> NOTA: {{libro.nota}}  </a>
+        <span class="autorygenero" *ngIf="libro.nota">
+          <a routerLink="/libro/{{libro.urlLibro}}"> NOTA: {{libro.nota}}  </a>
         </span>
       </div>
     </div>

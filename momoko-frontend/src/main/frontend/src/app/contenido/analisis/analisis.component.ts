@@ -29,6 +29,8 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
 
     @Input() comentarios: Comentario[];
 
+    tituloSeccionLibros = 'Otros libros parecidos';
+
     constructor() { }
 
     ngOnInit(): void {

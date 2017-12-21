@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { Libro } from 'app/dtos/libro';
 import { LibroService } from 'app/services/libro.service';
@@ -7,12 +7,15 @@ import { LibroSimple } from 'app/dtos/libroSimple';
 import { FichaLibro } from 'app/dtos/fichaLibro';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
 
+declare var $: any;
+
 @Component({
   selector: 'app-ficha-libro',
   templateUrl: './ficha-libro.component.html',
   styleUrls: ['./ficha-libro.component.css']
 })
-export class FichaLibroComponent implements OnInit {
+export class FichaLibroComponent implements OnInit, AfterViewInit {
+
 
   anchura: number;
 
@@ -41,8 +44,15 @@ export class FichaLibroComponent implements OnInit {
       this.librosParecidos = data.fichaLibro.cincoLibrosParecidos;
       this.tresUltimasEntradas = data.fichaLibro.tresUltimasEntradas;
     });
+
   }
 
+  ngAfterViewInit(): void {
+    console.log('Animar hacia arriba')
+    $('body,html').animate({
+      scrollTop: 0
+  }, 800);
+  }
 
   mirarAnchura(): number {
     return this.anchura;

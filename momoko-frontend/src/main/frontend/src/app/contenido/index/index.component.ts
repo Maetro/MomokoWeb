@@ -17,7 +17,6 @@ import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResp
 import { EntradaPortadaVideoComponent } from 'app/contenido/index/entrada-portada/entrada-portada-video/entrada-portada-video.component';
 
 declare var $: any;
-declare var Instafeed: any;
 
 @Component({
   selector: 'app-index',
@@ -35,6 +34,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
   ultimoComicAnalizado: LibroEntradaSimple;
   librosUltimosAnalisis: LibroSimple[];
   ultimos3Videos: VideoYoutube[];
+
+  tituloSeccionLibros = 'Lo más leído este mes...';
 
   portada = 'http://elmiedodelosesclavos.com/wp-content/uploads/2017/01/El-miedo-de-los-esclavos-2-345x520.jpg';
 
@@ -87,23 +88,6 @@ export class IndexComponent implements OnInit, AfterViewInit {
         grabCursor: true
       });
       const $swipers = $(this);
-    });
-    const instagramFeed = new Instafeed({
-      target: 'instafeed-widget',
-      get: 'user',
-      limit: 12,
-      userId: 3260305017,
-      accessToken: '3260305017.b4c416e.5f99e592a4bd49afa1b256faa597146c',
-      resolution: 'low_resolution',
-      clientId: 'b4c416e8ab3f424d915b5601f5d3dd88',
-      // tslint:disable-next-line:max-line-length
-      template: '<div class="item col-xs-4 col-sm-6 col-md-4"><figure class="overlay small"><a href="{{link}}" target="_blank"><img src="{{image}}" /></a></figure></div>',
-      after: function () {
-        $('#instafeed-widget figure.overlay a').prepend('<span class="over"><span></span></span>');
-      }
-    });
-    $('#instafeed-widget').each(function () {
-      instagramFeed.run();
     });
 
   }
