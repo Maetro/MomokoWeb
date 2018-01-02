@@ -86,7 +86,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
 
     /** The genero id. */
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-    @JoinTable(name = "entrada_etiqueta", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "etiqueta_id", referencedColumnName = "etiqueta_id"))
+    @JoinTable(name = "entrada_etiqueta", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "etiqueta_id", referencedColumnName = "etiquetaId"))
     private Set<EtiquetaEntity> etiquetas;
 
     private String imagenDestacada;

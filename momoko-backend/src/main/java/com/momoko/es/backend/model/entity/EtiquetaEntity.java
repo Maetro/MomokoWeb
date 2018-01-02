@@ -4,6 +4,7 @@
  */
 package com.momoko.es.backend.model.entity;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -26,9 +27,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "etiqueta", indexes = { @Index(name = "etiquetaUrl", columnList = "etiquetaUrl", unique = true) })
-public class EtiquetaEntity extends AuditoriaBasica {
+public class EtiquetaEntity {
     /** The autor id. */
-    private @Id @GeneratedValue Integer etiqueta_id;
+    private @Id @GeneratedValue Integer etiquetaId;
 
     /** The nombre. */
     private String nombre;
@@ -40,13 +41,31 @@ public class EtiquetaEntity extends AuditoriaBasica {
     /** The etiqueta url. */
     private String etiquetaUrl;
 
+    /** The usuario alta. */
+    private String usuarioAlta;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
+
+    /** The usuario alta. */
+    private String usuarioModificacion;
+
+    /** The fecha alta. */
+    private Date fechaModificacion;
+
+    /** The usuario alta. */
+    private String usuarioBaja;
+
+    /** The fecha alta. */
+    private Date fechaBaja;
+
     /**
      * Obtiene etiqueta id.
      *
      * @return etiqueta id
      */
-    public Integer getEtiqueta_id() {
-        return this.etiqueta_id;
+    public Integer getEtiquetaId() {
+        return this.etiquetaId;
     }
 
     /**
@@ -55,8 +74,8 @@ public class EtiquetaEntity extends AuditoriaBasica {
      * @param etiqueta_id
      *            nuevo etiqueta id
      */
-    public void setEtiqueta_id(final Integer etiqueta_id) {
-        this.etiqueta_id = etiqueta_id;
+    public void setEtiquetaId(final Integer etiquetaId) {
+        this.etiquetaId = etiquetaId;
     }
 
     /**
@@ -116,25 +135,154 @@ public class EtiquetaEntity extends AuditoriaBasica {
         this.etiquetaUrl = etiquetaUrl;
     }
 
+    /**
+     * Gets the usuario alta.
+     *
+     * @return the usuario alta
+     */
+    public String getUsuarioAlta() {
+        return this.usuarioAlta;
+    }
+
+    /**
+     * Sets the usuario alta.
+     *
+     * @param usuarioAlta
+     *            the new usuario alta
+     */
+    public void setUsuarioAlta(final String usuarioAlta) {
+        this.usuarioAlta = usuarioAlta;
+    }
+
+    /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
+    public Date getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Gets the usuario modificacion.
+     *
+     * @return the usuario modificacion
+     */
+    public String getUsuarioModificacion() {
+        return this.usuarioModificacion;
+    }
+
+    /**
+     * Sets the usuario modificacion.
+     *
+     * @param usuarioModificacion
+     *            the new usuario modificacion
+     */
+    public void setUsuarioModificacion(final String usuarioModificacion) {
+        this.usuarioModificacion = usuarioModificacion;
+    }
+
+    /**
+     * Gets the fecha modificacion.
+     *
+     * @return the fecha modificacion
+     */
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+
+    /**
+     * Sets the fecha modificacion.
+     *
+     * @param fechaModificacion
+     *            the new fecha modificacion
+     */
+    public void setFechaModificacion(final Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Gets the usuario baja.
+     *
+     * @return the usuario baja
+     */
+    public String getUsuarioBaja() {
+        return this.usuarioBaja;
+    }
+
+    /**
+     * Sets the usuario baja.
+     *
+     * @param usuarioBaja
+     *            the new usuario baja
+     */
+    public void setUsuarioBaja(final String usuarioBaja) {
+        this.usuarioBaja = usuarioBaja;
+    }
+
+    /**
+     * Gets the fecha baja.
+     *
+     * @return the fecha baja
+     */
+    public Date getFechaBaja() {
+        return this.fechaBaja;
+    }
+
+    /**
+     * Sets the fecha baja.
+     *
+     * @param fechaBaja
+     *            the new fecha baja
+     */
+    public void setFechaBaja(final Date fechaBaja) {
+        this.fechaBaja = fechaBaja;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EtiquetaEntity)) {
             return false;
         }
         final EtiquetaEntity castOther = (EtiquetaEntity) other;
-        return new EqualsBuilder().append(this.etiqueta_id, castOther.etiqueta_id).append(this.nombre, castOther.nombre)
+        return new EqualsBuilder().append(this.etiquetaId, castOther.etiquetaId).append(this.nombre, castOther.nombre)
                 .append(this.etiquetasEntrada, castOther.etiquetasEntrada).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.etiqueta_id).append(this.nombre).append(this.etiquetasEntrada)
+        return new HashCodeBuilder().append(this.etiquetaId).append(this.nombre).append(this.etiquetasEntrada)
                 .toHashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("etiqueta_id", this.etiqueta_id).append("nombre", this.nombre)
+        return new ToStringBuilder(this).append("etiquetaId", this.etiquetaId).append("nombre", this.nombre)
                 .append("etiquetasEntrada", this.etiquetasEntrada).toString();
     }
 

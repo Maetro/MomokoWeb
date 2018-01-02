@@ -15,6 +15,8 @@ import { ObtenerLibroNoticiasResolverService } from 'app/services/resolvers/obte
 import { ListaNoticiasLibroComponent } from 'app/contenido/lista-noticias-libro/lista-noticias-libro.component';
 import { VideosComponent } from 'app/contenido/main-content/videos/videos.component';
 import { PageNotFoundComponent } from 'app/error/page-not-found/page-not-found.component';
+import { ObtenerListaEtiquetaResolverService } from 'app/services/resolvers/obtener-etiqueta-resolver.service';
+import { ListaEtiquetaComponent } from 'app/contenido/clasificador/lista-etiqueta/lista-etiqueta.component';
 
 const fichaRoutes: Routes = [
   {
@@ -66,7 +68,21 @@ const fichaRoutes: Routes = [
     resolve: {
       paginaCategoriaResponse: ObtenerListaCategoriaResolverService
     }
-  }
+  },
+  {
+    path: 'tag/:url_etiqueta',
+    component: ListaEtiquetaComponent,
+    resolve: {
+      paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
+    }
+  },
+  {
+    path: 'tag/:url_etiqueta/:numero_pagina',
+    component: ListaEtiquetaComponent,
+    resolve: {
+      paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
+    }
+  },
   /*{
     path: 'patient',
     component: EntradaComponent,

@@ -34,6 +34,7 @@ export const environment = {
   addGaleriaUrl: 'http://localhost:5000/modelo/galerias/add',
   galeriasUrl: 'http://localhost:5000/modelo/galerias',
   getCategoriaUrl: 'http://localhost:5000/public/categoria/',
+  getEtiquetaUrl: 'http://localhost:5000/public/etiqueta/',
   getNoticiasLibroUrl: 'http://localhost:5000/public/noticias-libro/',
   suscripcionUrl: 'http://localhost:5000/public/suscribirse/'
 };

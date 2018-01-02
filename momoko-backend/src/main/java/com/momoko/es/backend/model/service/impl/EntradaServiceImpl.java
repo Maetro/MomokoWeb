@@ -839,4 +839,21 @@ public class EntradaServiceImpl implements EntradaService {
         return ConversionUtils.obtenerEntradaSimpleDTO(entradaEntity, true);
     }
 
+    @Override
+    public List<EntradaSimpleDTO> obtenerEntradasEtiquetaPorFecha(final EtiquetaDTO etiquetaDTO,
+            final int numeroEntradas, final Integer numeroPagina) {
+
+        final List<EntradaEntity> listaEntities = this.entradaRepository
+                .findEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(etiquetaDTO.getEtiquetaId(),
+                        new PageRequest(numeroPagina - 1, numeroEntradas));
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+    }
+
+    @Override
+    public Integer obtenerNumeroEntradasEtiqueta(final EtiquetaDTO etiquetaDTO) {
+        final Long numeroEntradas = this.entradaRepository
+                .findNumberEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(etiquetaDTO.getEtiquetaId());
+        return numeroEntradas.intValue();
+    }
+
 }

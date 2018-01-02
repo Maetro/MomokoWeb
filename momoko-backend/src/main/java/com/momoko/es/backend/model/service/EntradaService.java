@@ -12,6 +12,7 @@ import java.util.List;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 
@@ -159,5 +160,28 @@ public interface EntradaService {
      * @return the entrada simple dto
      */
     EntradaSimpleDTO obtenerEntradaSimple(String urlEntrada);
+
+    /**
+     * Obtener entradas etiqueta por fecha.
+     *
+     * @param etiquetaDTO
+     *            the etiqueta dto
+     * @param numeroEntradas
+     *            the numero entradas
+     * @param numeroPagina
+     *            the numero pagina
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerEntradasEtiquetaPorFecha(EtiquetaDTO etiquetaDTO, int numeroEntradas,
+            Integer numeroPagina);
+
+    /**
+     * Obtener numero entradas etiqueta.
+     *
+     * @param etiquetaDTO
+     *            the etiqueta dto
+     * @return the integer
+     */
+    Integer obtenerNumeroEntradasEtiqueta(EtiquetaDTO etiquetaDTO);
 
 }

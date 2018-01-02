@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -42,42 +41,47 @@ public class EtiquetaServiceImpl implements EtiquetaService {
 
     @Override
     public EtiquetaDTO guardarEtiqueta(final EtiquetaDTO etiquetaDTO) throws Exception {
-        final EtiquetaEntity etiquetaEntity = DTOToEntityAdapter.adaptarEtiqueta(etiquetaDTO);
-        // Comprobamos si el autor existe.
-        final List<EtiquetaEntity> coincidencias = this.etiquetaRepository
-                .findByNombre(etiquetaDTO.getNombreEtiqueta());
-        if ((CollectionUtils.isEmpty(coincidencias)) || ((etiquetaDTO.getEtiquetaId() != null))) {
+        EtiquetaEntity etiquetaBD = null;
 
-            if ((etiquetaEntity.getEtiqueta_id() != null) && CollectionUtils.isNotEmpty(coincidencias)) {
-                if ((coincidencias.size() > 1)
-                        || (!etiquetaEntity.getEtiqueta_id().equals(coincidencias.get(0).getEtiqueta_id()))) {
-                    throw new Exception("El nombre de la etiqueta ya se esta utilizando");
-                }
-            }
-            final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            final String currentPrincipalName = authentication.getName();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
 
-            if (etiquetaEntity.getEtiqueta_id() != null) {
-                final EtiquetaEntity etiquetaBD = this.etiquetaRepository.findOne(etiquetaEntity.getEtiqueta_id());
-                etiquetaEntity.setFechaAlta(etiquetaBD.getFechaAlta());
-                etiquetaEntity.setUsuarioAlta(etiquetaBD.getUsuarioAlta());
-                etiquetaEntity.setUsuarioModificacion(currentPrincipalName);
-                etiquetaEntity.setFechaModificacion(Calendar.getInstance().getTime());
-            } else {
-                etiquetaEntity.setUsuarioAlta(currentPrincipalName);
-                etiquetaEntity.setFechaAlta(Calendar.getInstance().getTime());
-            }
-            etiquetaEntity.setNombre(etiquetaDTO.getNombreEtiqueta());
-            if (etiquetaEntity.getEtiquetaUrl() == null) {
-                final String urlEtiqueta = ConversionUtils.toSlug(etiquetaDTO.getNombreEtiqueta());
-                etiquetaEntity.setEtiquetaUrl(urlEtiqueta);
-            } else {
-                etiquetaEntity.setEtiquetaUrl(etiquetaDTO.getUrlEtiqueta());
-            }
-            return EntityToDTOAdapter.adaptarEtiqueta(this.etiquetaRepository.save(etiquetaEntity));
+        if (etiquetaDTO.getEtiquetaId() != null) {
+            etiquetaBD = this.etiquetaRepository.findOne(etiquetaDTO.getEtiquetaId());
+            etiquetaBD.setUsuarioModificacion(currentPrincipalName);
+            etiquetaBD.setFechaModificacion(Calendar.getInstance().getTime());
+        } else if (etiquetaDTO.getUrlEtiqueta() != null) {
+            etiquetaBD = this.etiquetaRepository.findOneByEtiquetaUrl(etiquetaDTO.getUrlEtiqueta());
+            etiquetaBD.setUsuarioModificacion(currentPrincipalName);
+            etiquetaBD.setFechaModificacion(Calendar.getInstance().getTime());
+        } else if (etiquetaDTO.getNombreEtiqueta() != null) {
+            final String urlEtiqueta = ConversionUtils.toSlug(etiquetaDTO.getNombreEtiqueta());
+            etiquetaBD = this.etiquetaRepository.findOneByEtiquetaUrl(urlEtiqueta);
+            etiquetaBD.setUsuarioModificacion(currentPrincipalName);
+            etiquetaBD.setFechaModificacion(Calendar.getInstance().getTime());
         } else {
-            throw new Exception("El nombre del etiqueta ya se esta utilizando");
+            etiquetaBD = DTOToEntityAdapter.adaptarEtiqueta(etiquetaDTO);
+            etiquetaBD.setUsuarioAlta(currentPrincipalName);
+            etiquetaBD.setFechaAlta(Calendar.getInstance().getTime());
         }
+
+        // Comprobamos si el autor existe.
+
+        etiquetaBD.setNombre(etiquetaDTO.getNombreEtiqueta());
+        if (etiquetaBD.getEtiquetaUrl() == null) {
+            final String urlEtiqueta = ConversionUtils.toSlug(etiquetaDTO.getNombreEtiqueta());
+            etiquetaBD.setEtiquetaUrl(urlEtiqueta);
+        } else {
+            etiquetaBD.setEtiquetaUrl(etiquetaDTO.getUrlEtiqueta());
+        }
+        return EntityToDTOAdapter.adaptarEtiqueta(this.etiquetaRepository.save(etiquetaBD));
+
+    }
+
+    @Override
+    public EtiquetaDTO obtenerEtiquetaPorUrl(final String urlEtiqueta) {
+        final EtiquetaEntity etiquetaEntity = this.etiquetaRepository.findOneByEtiquetaUrl(urlEtiqueta);
+        return EntityToDTOAdapter.adaptarEtiqueta(etiquetaEntity);
     }
 
 }

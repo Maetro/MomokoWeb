@@ -32,6 +32,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   librosParecidos: LibroSimple[];
 
+  tituloSeccionLibros = 'Otros libros parecidos';
+
   constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
     private titleService: Title) { }
 

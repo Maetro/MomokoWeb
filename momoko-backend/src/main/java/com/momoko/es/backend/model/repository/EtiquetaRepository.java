@@ -39,4 +39,13 @@ public interface EtiquetaRepository extends CrudRepository<EtiquetaEntity, Integ
      */
     EtiquetaEntity findOne(Integer etiqueta_id);
 
+    /**
+     * Find one by url categoria.
+     *
+     * @param urlCategoria
+     *            the url categoria
+     * @return the categoria entity
+     */
+    EtiquetaEntity findOneByEtiquetaUrl(String urlEtiqueta);
+
 }

@@ -29,6 +29,7 @@ export const environment = {
     addGaleriaUrl: 'http://momoko.eu-west-1.elasticbeanstalk.com/modelo/galerias/add',
     galeriasUrl: 'http://momoko.eu-west-1.elasticbeanstalk.com/modelo/galerias',
     getCategoriaUrl: 'http://momoko.eu-west-1.elasticbeanstalk.com/public/categoria/',
+    getEtiquetaUrl: 'http://momoko.eu-west-1.elasticbeanstalk.com/public/etiqueta/',
     getNoticiasLibroUrl: 'http://momoko.eu-west-1.elasticbeanstalk.com/public/noticias-libro/',
     suscripcionUrl: 'http://momoko.eu-west-1.elasticbeanstalk.com/public/suscribirse/'
 };

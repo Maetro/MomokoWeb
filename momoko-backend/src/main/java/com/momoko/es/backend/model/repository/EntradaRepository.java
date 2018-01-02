@@ -147,4 +147,27 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     Long findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
             @Param("generoIds") List<Integer> generoIds);
 
+    /**
+     * Find entradas by etiqueta and fecha baja is null order by fecha alta desc.
+     *
+     * @param etiquetaId
+     *            the etiqueta id
+     * @param pageable
+     *            the pageable
+     * @return the list
+     */
+    @Query("select distinct e from EntradaEntity e join e.etiquetas et WHERE et.etiquetaId = :etiquetaId AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
+    List<EntradaEntity> findEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(
+            @Param("etiquetaId") Integer etiquetaId, Pageable pageable);
+
+    /**
+     * Find number entrada analisis libro by generos and fecha baja is null order by fecha alta desc.
+     *
+     * @param etiquetaId
+     *            the etiqueta id
+     * @return the long
+     */
+    @Query("select COUNT(e) from EntradaEntity e join e.etiquetas et WHERE et.etiquetaId = :etiquetaId AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
+    Long findNumberEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(@Param("etiquetaId") Integer etiquetaId);
+
 }

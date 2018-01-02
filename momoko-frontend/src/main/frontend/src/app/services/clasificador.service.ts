@@ -5,6 +5,7 @@ import { ObtenerPaginaGeneroResponse } from 'app/dtos/response/obtenerPaginaGene
 import { environment } from 'environments/environment';
 import { ObtenerPaginaCategoriaResponse } from 'app/dtos/response/obtenerPaginaCategoriaResponse';
 import { ObtenerPaginaLibroNoticiasResponse } from 'app/dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { ObtenerPaginaEtiquetaResponse } from 'app/dtos/response/obtenerPaginaEtiquetaResponse';
 
 @Injectable()
 export class ClasificadorService {
@@ -13,7 +14,9 @@ export class ClasificadorService {
 
   getGeneroUrl = environment.getGeneroUrl;
   getCategoriaUrl = environment.getCategoriaUrl;
+  getEtiquetaUrl = environment.getEtiquetaUrl;
   getNoticiasLibroUrl = environment.getNoticiasLibroUrl;
+
 
   constructor(private http: HttpClient) { }
 
@@ -45,6 +48,27 @@ export class ClasificadorService {
     return this.http.get<ObtenerPaginaCategoriaResponse>(this.getCategoriaUrl + urlCategoria + '/' + numeroPagina)
       .map(this.obtenergetCategoriaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getEtiqueta(urlEtiqueta): Observable<ObtenerPaginaEtiquetaResponse> {
+    if (this.log) {
+      console.log(urlEtiqueta);
+    }
+    return this.http.get<ObtenerPaginaEtiquetaResponse>(this.getEtiquetaUrl + urlEtiqueta).map(this.obtenerEtiquetaDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getEtiquetaPage(urlEtiqueta, numeroPagina): Observable<ObtenerPaginaEtiquetaResponse> {
+    if (this.log) {
+      console.log(urlEtiqueta);
+    }
+    return this.http.get<ObtenerPaginaEtiquetaResponse>(this.getEtiquetaUrl + urlEtiqueta + '/' + numeroPagina)
+      .map(this.obtenerEtiquetaDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerEtiquetaDeRespuesta(res: ObtenerPaginaEtiquetaResponse) {
+    return res;
   }
 
   private obtenergetCategoriaDeRespuesta(res: ObtenerPaginaCategoriaResponse) {

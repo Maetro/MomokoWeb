@@ -53,6 +53,9 @@ import { SidebarComponent } from 'app/contenido/sidebar/sidebar.component';
 import { SidebarInstagramComponent } from 'app/contenido/sidebar-instagram/sidebar-instagram.component';
 import { TagCategoriaComponent } from 'app/contenido/tag-categoria/tag-categoria.component';
 import { SobreAutorComponent } from 'app/contenido/sobre-autor/sobre-autor.component';
+import { ListaEtiquetaComponent } from 'app/contenido/clasificador/lista-etiqueta/lista-etiqueta.component';
+import { ObtenerListaEtiquetaResolverService } from 'app/services/resolvers/obtener-etiqueta-resolver.service';
+
 
 
 
@@ -72,10 +75,11 @@ import { SobreAutorComponent } from 'app/contenido/sobre-autor/sobre-autor.compo
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
     CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
      MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent, EntradaPortadaVideoComponent, SatinizeHtmlPipe, VideosComponent,
-      ListaNoticiasLibroComponent, SidebarComponent, SidebarInstagramComponent, TagCategoriaComponent, SobreAutorComponent],
+      ListaNoticiasLibroComponent, SidebarComponent, SidebarInstagramComponent, TagCategoriaComponent, SobreAutorComponent,
+      ListaEtiquetaComponent],
    providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService,
     ObtenerVideoResolverService, ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService,
-    ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService,
+    ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService, ObtenerListaEtiquetaResolverService,
     ObtenerLibroNoticiasResolverService, SatinizeHtmlPipe],
   exports: [RouterModule],
   entryComponents: [EntradaPortadaNormalImplComponent, EntradaPortadaVideoComponent]

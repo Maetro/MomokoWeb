@@ -87,7 +87,7 @@
               <span class="lineaHorizontalCorta"></span>
               <span class="etiquetasText">Etiquetas
                 <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
-                  <a routerLink="/etiqueta/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                  <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
                   <span [hidden]="last">, </span>
                 </span>
               </span>
@@ -125,7 +125,7 @@
               <span class="lineaHorizontalCorta"></span>
               <span class="etiquetasText">Etiquetas
                 <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
-                  <a routerLink="/etiqueta/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                  <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
                   <span [hidden]="last">, </span>
                 </span>
               </span>

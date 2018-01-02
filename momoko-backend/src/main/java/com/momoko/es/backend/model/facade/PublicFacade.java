@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,6 +44,7 @@ import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
@@ -370,88 +370,89 @@ public class PublicFacade {
         return paginaLibroNoticiasResponse;
     }
 
-    // TODO: BORRAME
+    @GetMapping(path = "/etiqueta/{url-etiqueta}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
+            @PathVariable("url-etiqueta") final String urlEtiqueta,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
+        final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(numeroPagina);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlEtiqueta);
+        }
+        return obtenerEtiquetaResponse(urlEtiqueta, request, etiquetaResponse, entradasEtiqueta);
 
-    @RequestMapping(method = RequestMethod.GET, path = "/limpiarImagenesLibros")
-    void limpiarImagenesLibrosYEntradas() throws Exception {
-        final List<LibroDTO> libros = this.libroService.recuperarLibros();
-        for (final LibroDTO libroDTO : libros) {
-            if (!StringUtils.isBlank(libroDTO.getUrlImagen())) {
-                final String urlImagen = aPortadas(libroDTO.getUrlImagen());
-                libroDTO.setUrlImagen(urlImagen);
-                this.libroService.guardarLibro(libroDTO);
+    }
+
+    @GetMapping(path = "/etiqueta/{url-etiqueta}")
+    public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
+            @PathVariable("url-etiqueta") final String urlEtiqueta,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
+        final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlEtiqueta);
+        }
+        return obtenerEtiquetaResponse(urlEtiqueta, request, etiquetaResponse, entradasEtiqueta);
+
+    }
+
+    /**
+     * Obtener categoria response.
+     *
+     * @param urlCategoria
+     *            the url categoria
+     * @param request
+     *            the request
+     * @param etiquetaResponse
+     *            the categoria response
+     * @param entradasCategoria
+     *            the entradas categoria
+     * @return the obtener pagina categoria response
+     */
+    private ObtenerPaginaEtiquetaResponse obtenerEtiquetaResponse(final String urlEtiqueta,
+            final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
+            final List<EntradaSimpleDTO> entradasEtiqueta) {
+        final EtiquetaDTO etiquetaDTO = this.etiquetaService.obtenerEtiquetaPorUrl(urlEtiqueta);
+
+        entradasEtiqueta
+                .addAll(this.entradaService.obtenerEntradasEtiquetaPorFecha(etiquetaDTO, 9, request.getNumeroPagina()));
+        etiquetaResponse.setNumeroEntradas(this.entradaService.obtenerNumeroEntradasEtiqueta(etiquetaDTO));
+
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasEtiqueta) {
+            if (entradaSimpleDTO.getImagenEntrada() != null) {
+                try {
+                    entradaSimpleDTO.setImagenEntrada(
+                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 370, 208, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
-    }
+        etiquetaResponse.setEntradasEtiqueta(entradasEtiqueta);
+        etiquetaResponse.setEtiqueta(etiquetaDTO);
 
-    @RequestMapping(method = RequestMethod.GET, path = "/limpiarImagenesEntradas")
-    void limpiarImagenesEntradas() throws Exception {
-        final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
-        for (final EntradaDTO entrada : entradas) {
-            if (!StringUtils.isBlank(entrada.getImagenDestacada())) {
-                final String urlImagen = soloNombreImagen(entrada.getImagenDestacada());
-                entrada.setImagenDestacada(urlImagen);
-                this.entradaService.guardarEntrada(entrada);
-            }
-        }
-    }
-
-    private String soloNombreImagen(final String urlImagen) {
-        final String[] lista = urlImagen.split("/");
-        final int elementos = lista.length;
-        return lista[elementos - 2] + "/" + lista[elementos - 1];
-    }
-
-    private String aPortadas(final String urlImagen) {
-        final String[] lista = urlImagen.split("/");
-        final int elementos = lista.length;
-        return "portadas" + "/" + lista[elementos - 1];
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/generarURLsLibros")
-    void generarURLsLibros() throws Exception {
-        final List<LibroDTO> libros = this.libroService.recuperarLibros();
-        for (final LibroDTO libroDTO : libros) {
-            if (StringUtils.isBlank(libroDTO.getUrlLibro())) {
-                final String urlLibro = ConversionUtils.toSlug(libroDTO.getTitulo());
-                libroDTO.setUrlLibro(urlLibro);
-                this.libroService.guardarLibro(libroDTO);
-            }
-        }
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/generarURLsGeneros")
-    void generarURLsGeneros() throws Exception {
-        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
-        for (final GeneroDTO generoDTO : generos) {
-            if (StringUtils.isBlank(generoDTO.getUrlGenero())) {
-                final String urlGenero = ConversionUtils.toSlug(generoDTO.getNombre());
-                generoDTO.setUrlGenero(urlGenero);
-                this.generoService.guardarGenero(generoDTO);
-            }
-        }
+        return etiquetaResponse;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarURLsEtiquetas")
     void generarURLsEtiquetas() throws Exception {
         final List<EtiquetaDTO> etiquetas = this.etiquetaService.obtenerTodasEtiquetas();
         for (final EtiquetaDTO etiquetaDTO : etiquetas) {
-            if (StringUtils.isNotBlank(etiquetaDTO.getNombreEtiqueta())) {
+            if (etiquetaDTO.getUrlEtiqueta() == null) {
                 final String urlEtiqueta = ConversionUtils.toSlug(etiquetaDTO.getNombreEtiqueta());
                 etiquetaDTO.setUrlEtiqueta(urlEtiqueta);
-                this.etiquetaService.guardarEtiqueta(etiquetaDTO);
-            }
-        }
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/asociarACategoriaNovela")
-    void asociarACategoriaNovela() throws Exception {
-        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
-        for (final GeneroDTO generoDTO : generos) {
-            if (generoDTO.getCategoria() == null) {
-                final CategoriaDTO categoria = this.generoService.obtenerCategoriaPorUrl("novelas");
-                generoDTO.setCategoria(categoria);
-                this.generoService.guardarGenero(generoDTO);
+                try {
+                    this.etiquetaService.guardarEtiqueta(etiquetaDTO);
+                } catch (final Exception e) {
+                    System.out.println(urlEtiqueta);
+                }
             }
         }
     }

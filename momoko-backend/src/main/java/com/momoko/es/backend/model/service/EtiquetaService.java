@@ -1,3 +1,9 @@
+/**
+ * EtiquetaService.java 02-ene-2018
+ *
+ * Copyright 2018 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 package com.momoko.es.backend.model.service;
 
 import java.util.List;
@@ -22,5 +28,14 @@ public interface EtiquetaService {
      * @throws Exception
      */
     EtiquetaDTO guardarEtiqueta(EtiquetaDTO etiquetaDTO) throws Exception;
+
+    /**
+     * Obtener etiqueta por url.
+     *
+     * @param urlEtiqueta
+     *            the url etiqueta
+     * @return the etiqueta dto
+     */
+    EtiquetaDTO obtenerEtiquetaPorUrl(String urlEtiqueta);
 
 }

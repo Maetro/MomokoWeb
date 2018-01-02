@@ -272,8 +272,9 @@ public final class DTOToEntityAdapter {
      */
     public static EtiquetaEntity adaptarEtiqueta(final EtiquetaDTO etiquetaDTO) {
         final EtiquetaEntity etiquetaEntity = new EtiquetaEntity();
-        etiquetaEntity.setEtiqueta_id(etiquetaDTO.getEtiquetaId());
+        etiquetaEntity.setEtiquetaId(etiquetaDTO.getEtiquetaId());
         etiquetaEntity.setNombre(etiquetaDTO.getNombreEtiqueta());
+        etiquetaEntity.setEtiquetaUrl(etiquetaDTO.getUrlEtiqueta());
         return etiquetaEntity;
     }
 
