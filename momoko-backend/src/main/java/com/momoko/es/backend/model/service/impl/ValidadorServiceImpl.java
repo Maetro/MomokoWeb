@@ -113,7 +113,7 @@ public class ValidadorServiceImpl implements ValidadorService {
         if (entradaDTO.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
-        if (estaPublicada(entradaDTO) && !esTipoMiscelanea(entradaDTO)
+        if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideo(entradaDTO)
                 && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
@@ -130,8 +130,9 @@ public class ValidadorServiceImpl implements ValidadorService {
      *            the entrada dto
      * @return true, if successful
      */
-    public boolean esTipoMiscelanea(final EntradaDTO entradaDTO) {
-        return TipoEntrada.MISCELANEOS.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()));
+    public boolean esTipoMiscelaneaOVideo(final EntradaDTO entradaDTO) {
+        return TipoEntrada.MISCELANEOS.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()))
+                || TipoEntrada.VIDEO.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()));
     }
 
     /**

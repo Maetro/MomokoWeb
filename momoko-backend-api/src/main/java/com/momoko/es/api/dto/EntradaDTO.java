@@ -82,7 +82,7 @@ public class EntradaDTO {
     private Date fechaAlta;
 
     /** The tiene galeria. */
-    private boolean tieneGaleria;
+    private boolean tieneGaleria = false;
 
     /** The editor nombre. */
     private String editorNombre;

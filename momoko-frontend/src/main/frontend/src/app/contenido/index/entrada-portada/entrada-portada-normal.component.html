@@ -5,13 +5,8 @@
            <img src="{{data.imagenEntrada}}" alt="">
         </a>
       </figure>
-      <div class="text-center">
-        <span class="category">
-          <em class="purple">
-            <a routerLink="/categoria/{{data.categoria}}">{{data.categoria}} </a>
-          </em>
-        </span>
-      </div>
+      <app-tag-categoria [urlEntrada]="data.urlEntrada" [nombreCategoria]="data.categoria"></app-tag-categoria>
+
       <h2 class="post-title text-center">
         <a routerLink="/{{data.urlEntrada}}">{{data.tituloEntrada}} </a>
       </h2>

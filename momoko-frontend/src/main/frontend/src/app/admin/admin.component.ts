@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-admin',
@@ -7,9 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminComponent implements OnInit {
 
+  private log = environment.log;
+
   constructor() { }
 
   ngOnInit() {
+    if (this.log) {
+      console.log('Iniciando Admin Component');
+    }
+
   }
 
 }

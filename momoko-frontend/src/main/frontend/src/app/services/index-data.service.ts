@@ -8,6 +8,8 @@ import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResp
 @Injectable()
 export class IndexDataService {
 
+  private log = environment.log;
+
   private indexDataUrl = environment.indexDataUrl;
 
   resultados: Observable<ObtenerIndexDataResponse>;
@@ -15,11 +17,13 @@ export class IndexDataService {
   constructor(private http: HttpClient) { }
 
   getIndexData(): Observable<ObtenerIndexDataResponse> {
-    console.log('getIndexData()');
+    if (this.log) {
+      console.log('getIndexData()');
+    }
 
     this.resultados = this.http.get(this.indexDataUrl)
-    .map(this.extractIndexData)
-    .catch(error => Observable.throw(error || 'Server error').share());
+      .map(this.extractIndexData)
+      .catch(error => Observable.throw(error || 'Server error').share());
     return this.resultados;
 
   }

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
 import { IndexDataService } from 'app/services/index-data.service';
 import { Menu } from 'app/dtos/menu';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -15,24 +16,32 @@ declare var $: any;
 })
 export class MenuComponent implements OnInit, AfterViewInit {
 
+  private log = environment.log;
+
   isLoggedIn = false;
 
   menu: Menu[];
 
-  constructor( private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.authService.checkLoginStatus();
     // this.authService.checkCredentials();
     // this.isLoggedIn = true;
     this.authService.isLoggedIn.subscribe(loginStatus => {
-      this.isLoggedIn = loginStatus
+      if (this.log) {
+        console.log('is logged In?');
+      }
+      this.isLoggedIn = loginStatus;
+      $('#main-menu').smartmenus();
     });
     this.menu = APP_DATA.menu;
   }
 
   ngAfterViewInit(): void {
-    console.log('Ejecutando JQuery');
+    if (this.log) {
+      console.log('Ejecutando JQuery');
+    }
     $('#main-menu').smartmenus();
   }
 

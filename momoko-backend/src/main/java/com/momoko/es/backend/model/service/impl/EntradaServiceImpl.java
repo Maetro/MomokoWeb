@@ -46,6 +46,7 @@ import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
@@ -142,122 +143,6 @@ public class EntradaServiceImpl implements EntradaService {
                 entradaDTO.setUrlVideo(videoUrl);
             }
         }
-        response.setEntrada(entradaDTO);
-        return response;
-    }
-
-    @Override
-    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) {
-        final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
-        final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
-        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
-        final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
-        try {
-            entradaEntity.setImagenDestacada(
-                    this.almacenImagenes.obtenerMiniatura(entradaEntity.getImagenDestacada(), 770, 432, true));
-        } catch (final IOException e) {
-            e.printStackTrace();
-        }
-        final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
-        if (!entradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
-            final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
-            if (CollectionUtils.isNotEmpty(librosEntrada)) {
-                for (final LibroEntity libroEntrada : librosEntrada) {
-
-                    final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                            .findByLibrosEntradaIn(Arrays.asList(libroEntrada));
-
-                    Collections.sort(entradasRelacionadas);
-                    if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                        for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
-                            final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                            datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
-                            datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
-                            listaDatosEntradas.add(datoEntrada);
-                        }
-                    }
-
-                    if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
-                        for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
-                            libroDTO.setEntradasLibro(listaDatosEntradas);
-                            librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
-                            final PuntuacionEntity puntuacion = this.puntuacionRepository
-                                    .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
-                            if (puntuacion != null) {
-                                libroDTO.setNotaMomoko(puntuacion.getValor());
-                            }
-                        }
-                    }
-                    respuesta.setCincoLibrosParecidos(
-                            librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
-                }
-            }
-        } else {
-
-            final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
-                    entradaEntity.getEntradaId());
-            for (final EntradaSimpleDTO entradaSimpleDTO : cuatroPostPequenosConImagen) {
-                try {
-                    entradaSimpleDTO.setImagenEntrada(
-                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 137, 100, true));
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
-        }
-
-        respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getFechaAlta()));
-        // Si es tipo video anadimos su URL
-        if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
-            final VideoEntity videoEntity = this.videoRepository
-                    .findFirstByEntradaUrlEntrada(entradaDTO.getUrlEntrada());
-            if (videoEntity != null) {
-                final String videoUrl = videoEntity.getUrlVideo();
-                entradaDTO.setUrlVideo(videoUrl);
-            }
-        }
-
-        final List<ComentarioDTO> comentarios = this.comentarioService
-                .obtenerComentariosEntrada(entradaDTO.getEntradaId());
-
-        final List<ComentarioDTO> comentariosOrdenados = new ArrayList<ComentarioDTO>();
-        final Map<Integer, ComentarioDTO> mapaComentarios = new HashMap<Integer, ComentarioDTO>();
-        for (final ComentarioDTO comentarioDTO : comentarios) {
-            if (comentarioDTO.getComentarioPadreId() == null) {
-                mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
-            } else {
-                final ComentarioDTO comentarioPadre = mapaComentarios.get(comentarioDTO.getComentarioPadreId());
-                if (comentarioPadre != null) {
-                    List<ComentarioDTO> respuestas = comentarioPadre.getComentariosHijo();
-                    if (CollectionUtils.isEmpty(respuestas)) {
-                        respuestas = new ArrayList<ComentarioDTO>();
-                    }
-                    respuestas.add(comentarioDTO);
-                    comentarioPadre.setComentarioReferencia(respuestas);
-                    mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
-                } else {
-                    System.out.println("WOLA");
-                }
-            }
-        }
-
-        for (final ComentarioDTO comentarioDTO : mapaComentarios.values()) {
-            if (comentarioDTO.getComentarioPadreId() == null) {
-                comentariosOrdenados.add(comentarioDTO);
-            }
-        }
-        entradaDTO.setNumeroComentarios(comentarios.size());
-        if (transformarGalerias) {
-            if (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
-                final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(),
-                        "[momoko-galeria-", "]");
-                final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
-                final String code = generarCodigoGaleria(galeria);
-                entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
-                        "[momoko-galeria-" + urlGaleria + "]", code));
-            }
-        }
         if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
             final StringBuilder builder = new StringBuilder();
             final String[] partes = entradaDTO.getContenidoEntrada().split("contenido-entrada/");
@@ -272,21 +157,161 @@ public class EntradaServiceImpl implements EntradaService {
             }
             entradaDTO.setContenidoEntrada(builder.toString());
         }
+        response.setEntrada(entradaDTO);
+        return response;
+    }
 
-        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
-            for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
-                final String url = this.almacenImagenes.getUrlImageServer();
-                final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
-                for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
-                    generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
-                    generosImagenes.add(generoDTO);
-                }
-                libroDTO.setGeneros(generosImagenes);
+    @Override
+    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) {
+        final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
+        final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
+        if (entradaEntity != null) {
+            final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+            final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
+            try {
+                entradaEntity.setImagenDestacada(
+                        this.almacenImagenes.obtenerMiniatura(entradaEntity.getImagenDestacada(), 770, 432, true));
+            } catch (final IOException e) {
+                e.printStackTrace();
             }
-        }
+            final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+            if (!entradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
+                final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
+                if (CollectionUtils.isNotEmpty(librosEntrada)) {
+                    for (final LibroEntity libroEntrada : librosEntrada) {
 
-        respuesta.setEntrada(entradaDTO);
-        respuesta.setComentarios(comentariosOrdenados);
+                        final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                                .findByLibrosEntradaIn(Arrays.asList(libroEntrada));
+
+                        Collections.sort(entradasRelacionadas);
+                        if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+                            for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
+                                final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                                datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                                datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                                listaDatosEntradas.add(datoEntrada);
+                            }
+                        }
+
+                        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+                            for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                                libroDTO.setEntradasLibro(listaDatosEntradas);
+                                librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
+                                final PuntuacionEntity puntuacion = this.puntuacionRepository
+                                        .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
+                                if (puntuacion != null) {
+                                    libroDTO.setNotaMomoko(puntuacion.getValor());
+                                }
+                            }
+                        }
+                        respuesta.setCincoLibrosParecidos(
+                                librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
+                    }
+                }
+            } else {
+
+                final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
+                        entradaEntity.getEntradaId());
+                for (final EntradaSimpleDTO entradaSimpleDTO : cuatroPostPequenosConImagen) {
+                    try {
+                        entradaSimpleDTO.setImagenEntrada(this.almacenImagenes
+                                .obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 137, 100, true));
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
+            }
+
+            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getFechaAlta()));
+            // Si es tipo video anadimos su URL
+            if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+                final VideoEntity videoEntity = this.videoRepository
+                        .findFirstByEntradaUrlEntrada(entradaDTO.getUrlEntrada());
+                if (videoEntity != null) {
+                    final String videoUrl = videoEntity.getUrlVideo();
+                    entradaDTO.setUrlVideo(videoUrl);
+                }
+            }
+
+            final List<ComentarioDTO> comentarios = this.comentarioService
+                    .obtenerComentariosEntrada(entradaDTO.getEntradaId());
+
+            final List<ComentarioDTO> comentariosOrdenados = new ArrayList<ComentarioDTO>();
+            final Map<Integer, ComentarioDTO> mapaComentarios = new HashMap<Integer, ComentarioDTO>();
+            for (final ComentarioDTO comentarioDTO : comentarios) {
+                if (comentarioDTO.getComentarioPadreId() == null) {
+                    mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
+                } else {
+                    final ComentarioDTO comentarioPadre = mapaComentarios.get(comentarioDTO.getComentarioPadreId());
+                    if (comentarioPadre != null) {
+                        List<ComentarioDTO> respuestas = comentarioPadre.getComentariosHijo();
+                        if (CollectionUtils.isEmpty(respuestas)) {
+                            respuestas = new ArrayList<ComentarioDTO>();
+                        }
+                        respuestas.add(comentarioDTO);
+                        comentarioPadre.setComentarioReferencia(respuestas);
+                        mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
+                    } else {
+                        System.out.println("WOLA");
+                    }
+                }
+            }
+
+            for (final ComentarioDTO comentarioDTO : mapaComentarios.values()) {
+                if (comentarioDTO.getComentarioPadreId() == null) {
+                    comentariosOrdenados.add(comentarioDTO);
+                }
+            }
+            entradaDTO.setNumeroComentarios(comentarios.size());
+            if (transformarGalerias) {
+                if (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
+                    entradaDTO.setTieneGaleria(true);
+                    final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(),
+                            "[momoko-galeria-", "]");
+                    final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
+                    final String code = generarCodigoGaleria(galeria);
+                    entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
+                            "[momoko-galeria-" + urlGaleria + "]", code));
+                }
+            }
+            if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
+                final StringBuilder builder = new StringBuilder();
+                final String[] partes = entradaDTO.getContenidoEntrada().split("contenido-entrada/");
+                final String imageServer = this.almacenImagenes.getUrlImageServer();
+                int numParte = 0;
+                for (final String parte : partes) {
+                    builder.append(parte);
+                    if (partes.length != (numParte + 1)) {
+                        builder.append(imageServer + "contenido-entrada/");
+                    }
+                    numParte++;
+                }
+                entradaDTO.setContenidoEntrada(builder.toString());
+            }
+
+            if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+                for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                    final String url = this.almacenImagenes.getUrlImageServer();
+                    final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
+                    for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                        generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
+                        generosImagenes.add(generoDTO);
+                    }
+                    libroDTO.setGeneros(generosImagenes);
+                }
+            }
+
+            if (entradaDTO.getAutor() != null) {
+                final UsuarioBasicoDTO autor = entradaDTO.getAutor();
+                autor.setAvatar(ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                autor.setCargo(entradaEntity.getEntradaAutor().getCargo());
+                entradaDTO.setAutor(autor);
+            }
+
+            respuesta.setEntrada(entradaDTO);
+            respuesta.setComentarios(comentariosOrdenados);
+        }
         return respuesta;
     }
 
@@ -409,6 +434,7 @@ public class EntradaServiceImpl implements EntradaService {
         final String currentPrincipalName = authentication.getName();
         final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
         int cont = 0;
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
         while (entradaAGuardar.getContenidoEntrada().contains("data:image/png;base64,")
                 || entradaAGuardar.getContenidoEntrada().contains("data:image/jpeg;base64,")) {
             // Hay imagenes en base 64
@@ -419,20 +445,31 @@ public class EntradaServiceImpl implements EntradaService {
             final int fin = entradaAGuardar.getContenidoEntrada().indexOf("\"", comienzo);
             final String imagenBase64 = entradaAGuardar.getContenidoEntrada().substring(comienzo, fin);
             // entradaAGuardar.getContenidoEntrada().replaceFirst(regex, replacement);
-            System.out.println(imagenBase64);
             // tokenize the data
             final byte[] imageBytes = DatatypeConverter.parseBase64Binary(imagenBase64.substring(22));
             final BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageBytes));
 
             final String carpeta = "contenido-entrada/" + entradaAGuardar.getUrlEntrada();
-            this.almacenImagenes.crearCarpetaSiNoexiste(carpeta);
-            final String nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
+            String nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
+
+            String url = imageServer + carpeta + "/" + nombreImagen + ".png";
+            while (FileSystemStorageService.exists(url)) {
+                cont++;
+                nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
+                url = imageServer + carpeta + "/" + nombreImagen + ".png";
+            }
+
             this.almacenImagenes.store(img, carpeta, nombreImagen);
 
             entradaAGuardar.setContenidoEntrada(
                     entradaAGuardar.getContenidoEntrada().replace(imagenBase64, carpeta + "/" + nombreImagen + ".png"));
             cont++;
         }
+
+        while (entradaAGuardar.getContenidoEntrada().contains(imageServer)) {
+            entradaAGuardar.setContenidoEntrada(entradaAGuardar.getContenidoEntrada().replace(imageServer, ""));
+        }
+
         if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
             for (final String titulo : titulosLibrosEntrada) {
                 librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));
@@ -547,6 +584,7 @@ public class EntradaServiceImpl implements EntradaService {
         viejaEntrada.setEtiquetas(entradaEntity.getEtiquetas());
         viejaEntrada.setImagenDestacada(entradaEntity.getImagenDestacada());
         viejaEntrada.setEntradaAutor(entradaEntity.getEntradaAutor());
+        viejaEntrada.setFechaAlta(entradaEntity.getFechaAlta());
         this.entradaRepository.save(viejaEntrada);
         return viejaEntrada;
     }
@@ -558,7 +596,10 @@ public class EntradaServiceImpl implements EntradaService {
         if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
             entradaEntity.setLibrosEntrada(obtenerLibrosEntrada(entradaEntity.getLibrosEntrada()));
         }
-        entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
+        if (entradaEntity.getFechaAlta() == null) {
+            entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
+        }
+
         entradaEntity.setUsuarioAlta(currentPrincipalName);
 
         if (entradaEntity.getPadreEntrada() != null) {

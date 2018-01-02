@@ -2,12 +2,13 @@
 
       <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
         <div class="container inner">
-          <h1 class="text-center">Misceláneos</h1>
+          <h1 class="text-center">Noticias</h1>
         </div>
         <!-- /.container -->
 
       </div>
 
+      <app-menu-interno-libro *ngIf="entrada.librosEntrada?.length > 0" [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>
 
       <div class="container inner tp0">
 
@@ -42,69 +43,29 @@
                     <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml"></div>
 
                     <hr>
-                    <div class="post-nav-wrapper">
-                      <div class="post-nav prev">
-                        <div class="meta">
-                          <i class="ion-android-arrow-back"></i> Artículo anterior </div>
-                        <h3 class="post-title">
-                          <a href="#">Cursus Quam Ullamcorper Cras Ornare Dolor Mollis Nullam</a>
-                        </h3>
-                      </div>
-                      <div class="post-nav next">
-                        <div class="meta">Artículo siguiente
-                          <i class="ion-android-arrow-forward"></i>
+                    <div class="post-nav-wrapper" *ngIf="entradaAnteriorYSiguiente">
+                        <div class="post-nav prev" *ngIf="entradaAnteriorYSiguiente[0]">
+                          <div class="meta">
+                            <i class="ion-android-arrow-back"></i> Artículo anterior </div>
+                          <h3 class="post-title">
+                            <a routerLink="/{{entradaAnteriorYSiguiente[0].urlEntrada}}">{{entradaAnteriorYSiguiente[0].tituloEntrada}}</a>
+                          </h3>
                         </div>
-                        <h3 class="post-title">
-                          <a href="#">Fringilla Ligula Consectetur Ridiculus Fermentum Cras Dapibus</a>
-                        </h3>
+                        <div class="post-nav next" *ngIf="entradaAnteriorYSiguiente[1]">
+                          <div class="meta">Artículo siguiente
+                            <i class="ion-android-arrow-forward"></i>
+                          </div>
+                          <h3 class="post-title">
+                            <a routerLink="/{{entradaAnteriorYSiguiente[1].urlEntrada}}">{{entradaAnteriorYSiguiente[1].tituloEntrada}}</a>
+                          </h3>
+                        </div>
                       </div>
-                    </div>
                     <!-- /.post-nav -->
 
-                    <hr>
-                    <h2 class="section-title">Sobre la autora </h2>
-                    <div class="about-author text-left">
-                      <div class="author-image">
-                        <a href="#">
-                          <img alt="" class="avatar" src="{{entrada.autor.avatar}}"> </a>
-                      </div>
-                      <h3> {{entrada.autor.nombre}} </h3>
+                    <app-sobre-autor [autor]="entrada.autor"></app-sobre-autor>
 
-                      <p>{{entrada.autor.cargo}}</p>
-                      <ul class="social">
-                        <li>
-                          <a href="#">
-                            <i class="ion-social-facebook"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="ion-social-twitter"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="ion-social-instagram"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="ion-social-vimeo"></i>
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <i class="ion-social-linkedin"></i>
-                          </a>
-                        </li>
-                      </ul>
-                      <div class="clearfix"></div>
-                    </div>
-                    <!-- .about-author -->
-
-                    <hr>
-                    <h2 class="section-title">Otros posts que te gustarán :) </h2>
-                    <div class="blog list-view row">
+                    <h2 class="section-title" *ngIf="cuatroPostPequenosConImagen">Otros posts que te gustarán :) </h2>
+                    <div class="blog list-view row" *ngIf="cuatroPostPequenosConImagen">
                       <div *ngFor="let post of cuatroPostPequenosConImagen, let i = index, let first = first">
                         <div class="clearfix" *ngIf="i % 2 == 0 && !first"></div>
                         <div class="col-sm-6">

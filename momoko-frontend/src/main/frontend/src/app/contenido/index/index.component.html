@@ -7,13 +7,8 @@
             <div class="caption">
               <div class="info">
                 <div class="text">
-                  <div class="text-center">
-                    <span class="category">
-                      <em class="blue">
-                        <a routerLink="/{{entradaSimple.urlEntrada}}">{{entradaSimple.categoria}}</a>
-                      </em>
-                    </span>
-                  </div>
+                    <app-tag-categoria [urlEntrada]="entradaSimple.urlEntrada" [nombreCategoria]="entradaSimple.categoria"></app-tag-categoria>
+
                   <h2 class="post-title text-center">
                     <a routerLink="/{{entradaSimple.urlEntrada}}">{{entradaSimple.tituloEntrada}}</a>
                   </h2>

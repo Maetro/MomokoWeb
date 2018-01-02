@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 
 import { NewUser, SignupStatus } from 'app/auth/dtos/login';
 import { AuthService } from 'app/auth/services/auth.service';
+import { environment } from 'environments/environment';
 
 
 @Component({
@@ -9,6 +10,9 @@ import { AuthService } from 'app/auth/services/auth.service';
   templateUrl: './user-registration.component.html'
 })
 export class UserRegistrationComponent {
+
+  private log = environment.log;
+
   alertStyle = 'alert alert-success';
   signupStatus = new SignupStatus();
   model = new NewUser();

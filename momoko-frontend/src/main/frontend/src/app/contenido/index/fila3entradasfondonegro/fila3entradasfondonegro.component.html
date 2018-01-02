@@ -12,13 +12,7 @@
             </figure>
             <div class="zonablanca post-content">
               <div>
-                <div class="text-center">
-                  <span class="category">
-                    <em class="rose">
-                      <a href="#">{{entrada.categoria}}</a>
-                    </em>
-                  </span>
-                </div>
+                  <app-tag-categoria [urlEntrada]="entrada.urlEntrada" [nombreCategoria]="entrada.categoria"></app-tag-categoria>
                 <h3 class="post-title">
                   <a routerLink="/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
                 </h3>

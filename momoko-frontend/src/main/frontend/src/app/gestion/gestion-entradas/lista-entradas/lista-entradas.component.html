@@ -18,11 +18,16 @@
       </div>
       <p-dataTable [value]="entradas" [rows]="10" [paginator]="true" [globalFilter]="gb" resizableColumns="true" [pageLinks]="3"
         [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedEntrada" (onRowSelect)="handleRowSelect($event)">
-        <p-column field="tipoEntrada" header="Tipo" [sortable]="true" [style]="{'width':'13%'}"></p-column>
+        <p-column field="tipoEntrada" header="Tipo" [sortable]="true" [style]="{'width':'7%'}"></p-column>
         <p-column field="tituloEntrada" header="Titulo" [sortable]="true" [style]="{'width':'25%'}"></p-column>
         <p-column field="titulosLibros" header="Libro Asociado" [sortable]="true" [style]="{'width':'25%'}"></p-column>
         <p-column field="urlEntrada" header="URL" [sortable]="true" [style]="{'width':'25%'}"></p-column>
-        <p-column field="nombreAutor" header="Autor" [sortable]="true" [style]="{'width':'12%'}"></p-column>
+        <p-column field="nombreAutor" header="Autor" [sortable]="true" [style]="{'width':'7%'}"></p-column>
+        <p-column field="fechaAlta" header="Fecha publicación" [sortable]="true" [style]="{'width':'11%'}">
+            <ng-template let-col let-entrada="rowData" pTemplate="body">
+                {{entrada[col.field]| date:'dd MMM yyyy' }}
+            </ng-template>
+        </p-column>
       </p-dataTable>
     </div>
   </div>

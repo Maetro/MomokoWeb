@@ -5,4 +5,6 @@ import {Component} from '@angular/core';
   <div>You have just logged out!</div>
   `
 })
-export class LogoutComponent{}
+export class LogoutComponent {
+
+}

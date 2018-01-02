@@ -8,6 +8,7 @@ import { LibroService } from './../../../services/libro.service';
 import { FileUploadService } from './../../../services/fileUpload.service';
 
 import { DataTableModule, SharedModule } from 'primeng/primeng';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-lista-libros',
@@ -16,6 +17,8 @@ import { DataTableModule, SharedModule } from 'primeng/primeng';
 
 })
 export class ListaLibrosComponent implements OnInit {
+
+  private log = environment.log;
 
   loading: boolean;
 
@@ -32,7 +35,7 @@ export class ListaLibrosComponent implements OnInit {
   getLibros(): void {
     this.libroService.getLibros().then(libros => {
       libros.forEach(element => {
-        this.libros =  [ ...this.libros, element ];
+        this.libros = [...this.libros, element];
       });
 
     });
@@ -43,14 +46,16 @@ export class ListaLibrosComponent implements OnInit {
     this.libroService.getLibros().then(librosP => {
       const librosList = librosP
       librosList.forEach(element => {
-        this.libros =  [ ...this.libros, element ];
+        this.libros = [...this.libros, element];
       });
       this.loading = false;
     });
   }
 
   selectLibro(libro: Libro) {
-    console.log(libro);
+    if (this.log) {
+      console.log(libro);
+    }
     this.selectedLibro = libro;
   }
 
@@ -73,14 +78,16 @@ export class ListaLibrosComponent implements OnInit {
     this.selectedLibro = null;
     this.libros = [];
     this.getLibros();
-    console.log(libro);
+    if (this.log) {
+      console.log(libro);
+    }
   }
 
   obtenerLibros(): void {
     this.libroService.getLibros().then(librosP => {
       const librosList = librosP
       librosList.forEach(element => {
-        this.libros =  [ ...this.libros, element ];
+        this.libros = [...this.libros, element];
       });
       this.loading = false;
     });

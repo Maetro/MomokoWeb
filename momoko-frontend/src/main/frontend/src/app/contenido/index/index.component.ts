@@ -15,6 +15,7 @@ import { LibroEntradaSimple } from 'app/dtos/simples/libroEntradaSimple';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResponse';
 import { EntradaPortadaVideoComponent } from 'app/contenido/index/entrada-portada/entrada-portada-video/entrada-portada-video.component';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -24,6 +25,8 @@ declare var $: any;
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit, AfterViewInit {
+
+  private log = environment.log;
 
   ultimasEntradas: EntradaSimple[] = [];
   ultimas3Entradas: EntradaSimple[] = [];
@@ -50,14 +53,18 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.route.data.subscribe((data: { obtenerIndexDataResponse: ObtenerIndexDataResponse }) => {
-      console.log('Init index');
+      if (this.log) {
+        console.log('Init index');
+      }
       this.ultimasEntradas = data.obtenerIndexDataResponse.ultimasEntradas;
       this.obtenerEntradasPortada(data.obtenerIndexDataResponse.ultimasEntradas);
       this.librosMasLeidosMes = data.obtenerIndexDataResponse.librosMasVistos;
       this.librosUltimosAnalisis = data.obtenerIndexDataResponse.ultimosAnalisis;
       this.ultimoComicAnalizado = data.obtenerIndexDataResponse.ultimoComicAnalizado;
     }, error => {
-      console.log('Error al recuperar los datos generales ', error);
+      if (this.log) {
+        console.log('Error al recuperar los datos generales ', error);
+      }
     });
 
     this.youtubeService.getMomokoFeed(3).subscribe(datos => {
@@ -67,7 +74,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log('Ejecutando JQuery');
+    if (this.log) {
+      console.log('Ejecutando JQuery');
+    }
     $('.swiper-container.image-blog-wide').each(function () {
       $(this).swiper({
         pagination: '.image-blog-wide-wrapper .swiper-pagination',
@@ -96,15 +105,17 @@ export class IndexComponent implements OnInit, AfterViewInit {
     this.entradasPortada = [];
     let entradasBD: EntradaItem[];
     entradasBD = [];
-    console.log('Obtener entradas portada');
+    if (this.log) {
+      console.log('Obtener entradas portada');
+    }
     for (let i = 5; i < 7; i++) {
       const entradaSimple = entradas[i];
       let e: EntradaItem;
       if (entradaSimple.tipoEntrada === 'Vídeo') {
         e = new EntradaItem(EntradaPortadaVideoComponent, entradaSimple);
-       } else {
+      } else {
         e = new EntradaItem(EntradaPortadaNormalImplComponent, entradaSimple);
-       }
+      }
       entradasBD.push(e);
     }
 

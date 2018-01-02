@@ -12,20 +12,25 @@ export class AppLoadService {
 
   private initDataUrl = environment.initDataUrl;
 
+  private log = environment.log;
+
   constructor(private httpClient: HttpClient) { }
 
   getDatosGenerales(): Promise<InitData> {
-    console.log(`getSettings:: before http.get call`);
+    if (this.log) {
+      console.log(`getSettings:: before http.get call`);
+    }
 
     const promise = this.httpClient.get<InitData>(this.initDataUrl)
       .toPromise<InitData>()
       .then(initData => {
-        console.log(`Settings from API: `, initData);
-
+        if (this.log) {
+          console.log(`Settings from API: `, initData);
+        }
         APP_DATA.menu = initData.menu;
-
-        console.log(`APP_DATA: `, APP_DATA);
-
+        if (this.log) {
+          console.log(`APP_DATA: `, APP_DATA);
+        }
         return initData;
       });
 

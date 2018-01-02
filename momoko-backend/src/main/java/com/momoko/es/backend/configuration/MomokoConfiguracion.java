@@ -48,6 +48,9 @@ public class MomokoConfiguracion {
         /** The url images. */
         private String urlImages;
 
+        /** The url upload. */
+        private String urlUpload;
+
         /** The test. */
         private String test;
 
@@ -87,6 +90,25 @@ public class MomokoConfiguracion {
          */
         public void setUrlImages(final String urlImages) {
             this.urlImages = urlImages;
+        }
+
+        /**
+         * Gets the url upload.
+         *
+         * @return the url upload
+         */
+        public String getUrlUpload() {
+            return this.urlUpload;
+        }
+
+        /**
+         * Sets the url upload.
+         *
+         * @param urlUpload
+         *            the new url upload
+         */
+        public void setUrlUpload(final String urlUpload) {
+            this.urlUpload = urlUpload;
         }
 
         /**

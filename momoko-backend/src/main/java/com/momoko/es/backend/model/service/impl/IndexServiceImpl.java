@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
@@ -29,13 +31,16 @@ import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
+import com.momoko.es.backend.model.entity.SuscripcionEntity;
 import com.momoko.es.backend.model.entity.VideoEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
+import com.momoko.es.backend.model.repository.SuscripcionRepository;
 import com.momoko.es.backend.model.repository.VideoRepository;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.IndexService;
+import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 
@@ -63,9 +68,16 @@ public class IndexServiceImpl implements IndexService {
     @Autowired(required = false)
     private GeneroService generoService;
 
+    @Autowired(required = false)
+    private LibroService libroService;
+
+    @Autowired(required = false)
+    private SuscripcionRepository suscripcionRepository;
+
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
-        final List<EntradaEntity> listaEntities = this.entradaRepository.findUltimasEntradas(new PageRequest(0, 10));
+        final List<EntradaEntity> listaEntities = this.entradaRepository
+                .findUltimasEntradas(Calendar.getInstance().getTime(), new PageRequest(0, 10));
         final List<EntradaSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
 
         for (int i = 0; i < 5; i++) {
@@ -157,6 +169,7 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
+    @Cacheable("menu")
     public List<MenuDTO> obtenerMenu() {
         final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
@@ -170,7 +183,10 @@ public class IndexServiceImpl implements IndexService {
             final List<GeneroDTO> generosCategoria = new ArrayList<GeneroDTO>();
             for (final GeneroDTO generoDTO : generos) {
                 if (generoDTO.getCategoria().equals(categoria)) {
-                    generosCategoria.add(generoDTO);
+                    final Integer numeroLibros = this.libroService.obtenerNumeroLibrosConAnalisisGenero(generoDTO);
+                    if (numeroLibros > 0) {
+                        generosCategoria.add(generoDTO);
+                    }
                 }
             }
             Collections.sort(generosCategoria);
@@ -286,6 +302,16 @@ public class IndexServiceImpl implements IndexService {
             }
         }
         return listaLibrosSimples;
+    }
+
+    @Override
+    public void suscribirse(final String email) {
+        if (this.suscripcionRepository.findOneByEmail(email) == null) {
+            final SuscripcionEntity nuevaSuscripcion = new SuscripcionEntity();
+            nuevaSuscripcion.setEmail(email);
+            this.suscripcionRepository.save(nuevaSuscripcion);
+        }
+
     }
 
 }

@@ -12,6 +12,8 @@ import { EntradaSimple } from 'app/dtos/entradaSimple';
 @Injectable()
 export class EntradaService {
 
+  private log = environment.log;
+
   private entradasUrl = environment.entradasUrl;
   private addEntradaUrl = environment.addEntradaUrl;
   private getEntradaUrl = environment.getEntradaUrl;
@@ -23,7 +25,7 @@ export class EntradaService {
 
   getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
     return this.http.get<ObtenerEntradaResponse>(this.getEntradaUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   getEntradaAdmin(urlEntrada): Observable<Entrada> {
@@ -31,13 +33,15 @@ export class EntradaService {
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
     });
-    return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, {headers: headers})
-    .map(this.obtenerEntrada)
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, { headers: headers })
+      .map(this.obtenerEntrada)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   private obtenerEntradaDeRespuesta(res: ObtenerEntradaResponse) {
-    res.entrada.contenidoEntrada = res.entrada.contenidoEntrada.replace(/\r\n|\n|\r/g, '<br />');
+    if (res.entrada != null) {
+      res.entrada.contenidoEntrada = res.entrada.contenidoEntrada.replace(/\r\n|\n|\r/g, '<br />');
+    }
     return res;
   }
 
@@ -51,8 +55,11 @@ export class EntradaService {
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
     });
-    return this.http.get<EntradaSimple[]>(this.entradasUrl, {headers: headers}).map(this.obtenerEntradasDeRespuesta)
-    .catch(error => Observable.throw(error || 'Server error'));
+    if (this.log) {
+      console.log(Cookie.get('access_token'));
+    }
+    return this.http.get<EntradaSimple[]>(this.entradasUrl, { headers: headers }).map(this.obtenerEntradasDeRespuesta)
+      .catch(error => Observable.throw(error || 'Server error'));
   }
 
   private obtenerEntradasDeRespuesta(res: EntradaSimple[]) {

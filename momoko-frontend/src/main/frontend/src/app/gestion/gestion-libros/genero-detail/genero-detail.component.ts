@@ -8,6 +8,7 @@ import { FileUploadService } from 'app/services/fileUpload.service';
 import { GrowlModule, SelectItem } from 'primeng/primeng';
 
 import { UtilService } from 'app/services/util.service';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-genero-detail',
@@ -16,108 +17,128 @@ import { UtilService } from 'app/services/util.service';
 })
 export class GeneroDetailComponent implements OnInit {
 
-    @Input() genero: Genero;
+  private log = environment.log;
 
-    @Output() onGeneroGuardado: EventEmitter<Genero> = new EventEmitter<Genero>();
+  @Input() genero: Genero;
 
-    changeLog: string[] = [];
+  @Output() onGeneroGuardado: EventEmitter<Genero> = new EventEmitter<Genero>();
 
-    esGeneroNuevo = false;
+  changeLog: string[] = [];
 
-    msgs: Message[] = [];
+  esGeneroNuevo = false;
 
-    categorias: Categoria[];
+  msgs: Message[] = [];
 
-    idCategoriaSeleccionada: number;
+  categorias: Categoria[];
 
-    customURL = false;
+  idCategoriaSeleccionada: number;
 
-    constructor(private libroService: LibroService, private fileUploadService: FileUploadService,
-      private generalDataService: GeneralDataService, private util: UtilService) {
-    }
+  customURL = false;
 
-    ngOnInit(): void {
-      this.generalDataService.getInformacionGeneral().subscribe(datos => {
+  constructor(private libroService: LibroService, private fileUploadService: FileUploadService,
+    private generalDataService: GeneralDataService, private util: UtilService) {
+  }
+
+  ngOnInit(): void {
+    this.generalDataService.getInformacionGeneral().subscribe(datos => {
+      if (this.log) {
         console.log('Init info general');
-        this.categorias = datos.categorias;
-      },
-        error =>  {
+      }
+      this.categorias = datos.categorias;
+    },
+      error => {
+        if (this.log) {
           console.log('Error al recuperar los datos generales ', error);
-        });
-    }
-
-
-    guardarGenero(): void {
-      this.categorias.forEach(categoria => {
-        const idCategoria = +this.idCategoriaSeleccionada;
-        if (categoria.categoriaId === idCategoria) {
-          this.genero.categoria = categoria;
         }
       });
-      this.libroService.guardarGenero(this.genero)
-        .subscribe(res => {
-          if (res.estadoGuardado === 'CORRECTO') {
-            this.showSuccess('Género guardado correctamente');
-            this.onGeneroGuardado.emit(this.genero);
-          } else {
-            this.showError(res.listaErroresValidacion);
-          }
-        });
-    }
+  }
 
-    showSuccess(mensaje: string) {
-      this.msgs = [];
-      console.log(mensaje);
-      this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
-    }
 
-    fileChangeCabecera($event): void {
-      this.fileUploadService.fileChange($event, 'cabeceras-generos').subscribe
-        (urlImagenNueva => {
-          // Emit list event
-          console.log(urlImagenNueva);
-          this.showSuccess('Imagen guardada correctamente');
-          this.genero.imagenCabeceraGenero = urlImagenNueva;
-        },
-        err => {
-          // Log errors if any
-          console.log(err);
-        });
-    }
-
-    fileChangeIcono($event): void {
-      this.fileUploadService.fileChange($event, 'iconos-generos').subscribe
-        (urlImagenNueva => {
-          // Emit list event
-          console.log(urlImagenNueva);
-          this.showSuccess('Imagen guardada correctamente');
-          this.genero.iconoGenero = urlImagenNueva;
-        },
-        err => {
-          // Log errors if any
-          console.log(err);
-        });
-    }
-
-    showError(mensaje: string[]) {
-      this.msgs = [];
-      console.log(mensaje);
-      let mensajeTotal = '';
-      mensaje.forEach(element => {
-        mensajeTotal += element + '<br/>';
-      });
-      console.log(mensajeTotal);
-      this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
-    }
-
-    urlChange(newValue: string) {
-      this.customURL = true;
-    }
-
-    cambioNombre(newValue: string) {
-      if (!this.customURL) {
-        this.genero.urlGenero = encodeURIComponent(this.util.convertToSlug(newValue));
+  guardarGenero(): void {
+    this.categorias.forEach(categoria => {
+      const idCategoria = +this.idCategoriaSeleccionada;
+      if (categoria.categoriaId === idCategoria) {
+        this.genero.categoria = categoria;
       }
+    });
+    this.libroService.guardarGenero(this.genero)
+      .subscribe(res => {
+        if (res.estadoGuardado === 'CORRECTO') {
+          this.showSuccess('Género guardado correctamente');
+          this.onGeneroGuardado.emit(this.genero);
+        } else {
+          this.showError(res.listaErroresValidacion);
+        }
+      });
+  }
+
+  showSuccess(mensaje: string) {
+    this.msgs = [];
+    if (this.log) {
+      console.log(mensaje);
     }
+    this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
+  }
+
+  fileChangeCabecera($event): void {
+    this.fileUploadService.fileChange($event, 'cabeceras-generos').subscribe
+      (urlImagenNueva => {
+        // Emit list event
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        this.showSuccess('Imagen guardada correctamente');
+        this.genero.imagenCabeceraGenero = urlImagenNueva;
+      },
+      err => {
+        // Log errors if any
+        if (this.log) {
+          console.log(err);
+        }
+      });
+  }
+
+  fileChangeIcono($event): void {
+    this.fileUploadService.fileChange($event, 'iconos-generos').subscribe
+      (urlImagenNueva => {
+        // Emit list event
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        this.showSuccess('Imagen guardada correctamente');
+        this.genero.iconoGenero = urlImagenNueva;
+      },
+      err => {
+        // Log errors if any
+        if (this.log) {
+          console.log(err);
+        }
+      });
+  }
+
+  showError(mensaje: string[]) {
+    this.msgs = [];
+    if (this.log) {
+      console.log(mensaje);
+    }
+    let mensajeTotal = '';
+    mensaje.forEach(element => {
+      mensajeTotal += element + '<br/>';
+    });
+    if (this.log) {
+      console.log(mensajeTotal);
+    }
+    this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
+  }
+
+  urlChange(newValue: string) {
+    this.customURL = true;
+  }
+
+  cambioNombre(newValue: string) {
+    if (!this.customURL) {
+      this.genero.urlGenero = encodeURIComponent(this.util.convertToSlug(newValue));
+    }
+  }
 
 }

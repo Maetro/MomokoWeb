@@ -14,6 +14,7 @@ import { FileUploadService } from 'app/services/fileUpload.service';
 import { Libro } from 'app/dtos/libro';
 import { Galeria } from 'app/dtos/galeria';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -24,6 +25,8 @@ declare var $: any;
 })
 
 export class EntradaDetailComponent implements OnInit, AfterViewInit {
+
+  private log = environment.log;
 
   @Input() entrada: Entrada;
 
@@ -45,10 +48,15 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   etiquetas: string[];
 
+  date = new Date();
+
   fraseLibrosEscoger = 'Escoge libros';
-  fraseGalerias= 'Escoge galería';
+  fraseGalerias = 'Escoge galería';
   fraseEditorEscoger = 'Escoge autor de la entrada';
   selectedGaleria: string;
+  es: any;
+
+  urlImageServer = environment.urlFiles;
 
   constructor(private entradaService: EntradaService, private generalDataService: GeneralDataService,
     private fileUploadService: FileUploadService, private util: UtilService, private galeriaService: GaleriaService) {
@@ -68,7 +76,9 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     this.nombresGalerias = [];
     this.nicksEditores = [];
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
-      console.log('Init info general');
+      if (this.log) {
+        console.log('Init info general');
+      }
       const libros = datos.titulosLibros;
       libros.forEach((libro: string) => {
         this.titulosLibros.push({ label: ' ' + libro, value: libro });
@@ -79,12 +89,35 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
       });
     },
       error => {
-        console.log('Error al recuperar los datos generales ', error);
+        if (this.log) {
+          console.log('Error al recuperar los datos generales ', error);
+        }
       });
+    this.es = {
+      firstDayOfWeek: 1,
+      dayNames: ['domingo', 'lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado'],
+      dayNamesShort: ['dom', 'lun', 'mar', 'mié', 'jue', 'vie', 'sáb'],
+      dayNamesMin: ['D', 'L', 'M', 'X', 'J', 'V', 'S'],
+      monthNames: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre',
+        'noviembre', 'diciembre'],
+      monthNamesShort: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'],
+      today: 'Hoy',
+      clear: 'Borrar'
+    }
+
+
+    const today = new Date();
+    const month = today.getMonth();
+    const year = today.getFullYear();
+    const prevMonth = (month === 0) ? 11 : month - 1;
+    const prevYear = (prevMonth === 11) ? year - 1 : year;
+    const nextMonth = (month === 11) ? 0 : month + 1;
+    const nextYear = (nextMonth === 0) ? year + 1 : year;
+
   }
 
   ngAfterViewInit(): void {
-      }
+  }
 
 
   cambioTitulo(newValue: string) {
@@ -109,18 +142,24 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   showSuccess(mensaje: string) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
   }
 
   showError(mensaje: string[]) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     let mensajeTotal = '';
     mensaje.forEach(element => {
       mensajeTotal += element + '<br/>';
     });
-    console.log(mensajeTotal);
+    if (this.log) {
+      console.log(mensajeTotal);
+    }
     this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
   }
 
@@ -128,21 +167,31 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     this.fileUploadService.fileChange($event, 'imagenes-destacadas').subscribe
       (urlImagenNueva => {
         // Emit list event
-        console.log(urlImagenNueva);
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        const partesURL = urlImagenNueva.split('/');
+        const partes = partesURL[partesURL.length - 1].split('.');
+        const urlImagen = this.urlImageServer + 'imagenes-destacadas/' + this.util.convertToSlug(partes[0]) + '.' + partes[1];
+
         this.showSuccess('Imagen guardada correctamente');
-        this.entrada.imagenDestacada = urlImagenNueva;
+        this.entrada.imagenDestacada = urlImagen;
       },
       err => {
         // Log errors if any
-        console.log(err);
+        if (this.log) {
+          console.log(err);
+        }
       });
   }
 
   guardarEntrada(): void {
     this.entrada.etiquetas = [];
-    const contain = <HTMLElement> document.getElementById('editor').firstChild;
+    const contain = <HTMLElement>document.getElementById('editor').firstChild;
     this.entrada.contenidoEntrada = contain.innerHTML;
-    console.log(this.entrada.contenidoEntrada);
+    if (this.log) {
+      console.log(this.entrada.contenidoEntrada);
+    }
     if (this.etiquetas != null) {
       this.etiquetas.forEach(etiqueta => {
         const et = new Etiqueta();
@@ -156,7 +205,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     if (this.entrada.estadoEntrada == null) {
       this.entrada.estadoEntrada = 1;
     }
-
+    this.entrada.fechaAlta = this.date;
     this.entradaService.guardarEntrada(this.entrada)
       .subscribe(res => {
         if (res.estadoGuardado === 'CORRECTO') {
@@ -183,10 +232,14 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
   }
 
   insertarGaleria($event) {
-    console.log('Insertando galeria');
+    if (this.log) {
+      console.log('Insertando galeria');
+    }
     this.galerias.forEach(galeria => {
       if (galeria.urlGaleria === $event.value[0]) {
-        console.log(galeria);
+        if (this.log) {
+          console.log(galeria);
+        }
         const tag = '[momoko-galeria-' + galeria.urlGaleria + ']';
         const editor = $('#editor').data('quill');
 
@@ -194,15 +247,21 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
         let puntoAInsertar: number;
         if (range) {
           if (range.length === 0) {
-            console.log('User cursor is at index', range.index);
+            if (this.log) {
+              console.log('User cursor is at index', range.index);
+            }
             puntoAInsertar = range.index;
           } else {
             const text = editor.getText(range.index, range.length);
-            console.log('User has highlighted: ', text);
+            if (this.log) {
+              console.log('User has highlighted: ', text);
+            }
             puntoAInsertar = range.index;
           }
         } else {
-          console.log('User cursor is not in editor');
+          if (this.log) {
+            console.log('User cursor is not in editor');
+          }
           puntoAInsertar = editor.getLength();
         }
         editor.insertText(puntoAInsertar, '\n' + tag);

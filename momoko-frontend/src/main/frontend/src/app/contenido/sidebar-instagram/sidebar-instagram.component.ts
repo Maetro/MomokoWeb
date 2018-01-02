@@ -1,4 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 declare var Instafeed: any;
@@ -10,13 +11,17 @@ declare var Instafeed: any;
 })
 export class SidebarInstagramComponent implements OnInit, AfterViewInit {
 
+  private log = environment.log;
+
   constructor() { }
 
   ngOnInit() {
   }
 
   ngAfterViewInit(): void {
-    console.log('Ejecutando JQuery Instagram');
+    if (this.log) {
+      console.log('Ejecutando JQuery Instagram');
+    }
     const instagramFeed = new Instafeed({
       target: 'instafeed-widget',
       get: 'user',

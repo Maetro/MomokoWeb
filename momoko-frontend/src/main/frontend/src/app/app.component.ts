@@ -16,6 +16,8 @@ import {
   NavigationCancel,
   NavigationError
 } from '@angular/router'
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -27,10 +29,12 @@ declare var $: any;
 })
 export class AppComponent {
 
+  private log = environment.log;
+
   // Sets initial value to true to show loading spinner on first load
   loading = true
 
-  constructor(private router: Router) {
+  constructor(private router: Router, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event)
     })
@@ -43,7 +47,9 @@ export class AppComponent {
     if (event instanceof NavigationEnd) {
       this.loading = false;
       const distanciaTop = $(document).scrollTop();
-      console.log('Distancia top: ' + distanciaTop);
+      if (this.log) {
+        console.log('Distancia top: ' + distanciaTop);
+      }
       if (distanciaTop > 500) {
         $('body,html').animate({
           scrollTop: 0

@@ -15,6 +15,8 @@ import { Cookie } from 'ng2-cookies';
 @Injectable()
 export class GeneralDataService {
 
+  private log = environment.log;
+
   private informacionGeneralUrl: string = environment.informacionGeneralUrl;
 
   resultados: Observable<GeneralDataResponse>;
@@ -22,14 +24,16 @@ export class GeneralDataService {
   constructor(private http: HttpClient) { }
 
   getInformacionGeneral(): Observable<GeneralDataResponse> {
-    console.log('getInformacionGeneral()');
+    if (this.log) {
+      console.log('getInformacionGeneral()');
+    }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
-    this.resultados = this.http.get(this.informacionGeneralUrl, {headers: headers})
-    .map(this.extractData)
-    .catch(error => Observable.throw(error || 'Server error'));
+    });
+    this.resultados = this.http.get(this.informacionGeneralUrl, { headers: headers })
+      .map(this.extractData)
+      .catch(error => Observable.throw(error || 'Server error'));
     return this.resultados;
 
   }

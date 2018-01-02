@@ -45,4 +45,4 @@ const appRoutes: Routes = [
   { path: '**', component: PageNotFoundComponent },
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, { enableTracing: true }) // <-- debugging purposes only);
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes) // <-- debugging purposes only);

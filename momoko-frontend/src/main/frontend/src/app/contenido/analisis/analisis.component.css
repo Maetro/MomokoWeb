@@ -8,13 +8,8 @@
 }
 
 .bloqueDatos{
-  padding: 15px 25px;
+  padding: 15px 25px 5px;
   font-size: 15px;
-}
-
-.bloqueBotones img {
-  width: 140px;
-  padding: 15px 25px;
 }
 
 span.info {
@@ -55,4 +50,38 @@ span.generosText {
 .etiquetasText{
   color: #d0d0d0;
   font-size: 13px;
+}
+
+.amazon.abajo {
+  position: absolute;
+  bottom: 90px;
+  right: 0;
+}
+
+.amazon {
+  text-align: right;
+}
+
+.amazon img {
+  width: 96px;
+  margin-top: -1px;
+}
+
+.amazon img,
+.amazon span {
+  display: block;
+  float: left;
+  margin-left: 10px;
+}
+
+.btnComprarAmazon {
+  background: #231F20;
+  padding: 8px 25px;
+  margin-right: 10px;
+  color: #FFF;
+  border-radius: 6px;
+}
+
+.btnComprarAmazon:hover {
+  background: #DBAE27;
 }

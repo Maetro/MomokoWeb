@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -11,6 +12,7 @@ declare var $: any;
 })
 export class Fila3entradasfondonegroComponent implements OnInit, AfterViewInit {
 
+  private log = environment.log;
 
   entradas: EntradaSimple[];
 
@@ -21,16 +23,18 @@ export class Fila3entradasfondonegroComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-     let maxHeight = 0;
-     $('.zonablanca').each(function( index ) {
+    let maxHeight = 0;
+    $('.zonablanca').each(function (index) {
 
-       if (maxHeight < $(this).height()) {
-         maxHeight = $(this).height();
-       }
-     });
-     console.log(maxHeight);
-     $('.zonablanca').css('height', maxHeight + 15);
-   }
+      if (maxHeight < $(this).height()) {
+        maxHeight = $(this).height();
+      }
+    });
+    if (this.log) {
+      console.log(maxHeight);
+    }
+    $('.zonablanca').css('height', maxHeight + 15);
+  }
 
   loadEntradas(entradasSimples: EntradaSimple[]) {
     this.entradas = entradasSimples;

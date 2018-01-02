@@ -6,10 +6,12 @@
 export const environment = {
   production: false,
 
+  log: true,
+
   //URLS app
   momokoUrl: 'http://localhost:4200/',
   serverUrl : 'http://localhost:5000/',
-  uploadUrl : 'http://localhost:5000/upload',
+  uploadUrl : 'http://localhost/upload.php',
   urlFiles : 'http://localhost/images/',
   entradasUrl: 'http://localhost:5000/modelo/entradas',
   librosUrl :  'http://localhost:5000/modelo/libros',
@@ -33,4 +35,5 @@ export const environment = {
   galeriasUrl: 'http://localhost:5000/modelo/galerias',
   getCategoriaUrl: 'http://localhost:5000/public/categoria/',
   getNoticiasLibroUrl: 'http://localhost:5000/public/noticias-libro/',
+  suscripcionUrl: 'http://localhost:5000/public/suscribirse/'
 };

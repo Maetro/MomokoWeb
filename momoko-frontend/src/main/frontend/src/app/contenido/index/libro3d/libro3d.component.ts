@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-libro3d',
@@ -6,6 +7,8 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./libro3d.component.css']
 })
 export class Libro3dComponent implements OnInit {
+
+  private log = environment.log;
 
   @Input() portada: string;
 
@@ -22,7 +25,6 @@ export class Libro3dComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('HOla')
     if (this.anchuraPortada > this.anchura) {
         // Hay que adaptar la imagen a la anchura disponible
         this.altura = (this.alturaPortada * this.anchura) / this.anchuraPortada;

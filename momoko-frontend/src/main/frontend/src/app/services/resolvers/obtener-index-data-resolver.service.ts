@@ -7,20 +7,25 @@ import { Observable } from 'rxjs/Observable';
 import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
 import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResponse';
 import { IndexDataService } from 'app/services/index-data.service';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class ObtenerIndexDataResolverService implements Resolve<ObtenerIndexDataResponse> {
 
+  private log = environment.log;
+
   constructor(private indexDataService: IndexDataService, private router: Router) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerIndexDataResponse> {
-    console.log('Obteniendo index data');
+    if (this.log) {
+      console.log('Obteniendo index data');
+    }
 
     return this.indexDataService.getIndexData().take(1).map(indexData => {
-      if (indexData) {
+      if (indexData.librosMasVistos != null) {
         return indexData;
       } else { // url not found
-        this.router.navigate(['/']);
+        this.router.navigate(['/not-found']);
         return null;
       }
     });

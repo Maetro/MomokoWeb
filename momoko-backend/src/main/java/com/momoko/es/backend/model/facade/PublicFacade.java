@@ -61,7 +61,7 @@ import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
 
 @Controller
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "http://www.momoko.es", "http://momoko.es" })
 @RequestMapping(path = "/public")
 public class PublicFacade {
 
@@ -127,11 +127,21 @@ public class PublicFacade {
         return respuesta;
     }
 
+    @GetMapping(path = "/suscribirse/{email}")
+    public @ResponseBody ObtenerEntradaResponse suscribirse(@PathVariable("email") final String email) {
+        System.out.println("Suscribirse: " + email);
+        this.indexService.suscribirse(email);
+        final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
+        return respuesta;
+    }
+
     @GetMapping(path = "/libro/{url-libro}")
     public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro) {
         System.out.println("Obtener libro: " + urlLibro);
         final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerLibro(urlLibro);
-        respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
+        if (respuesta.getLibro() != null) {
+            respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
+        }
         return respuesta;
     }
 

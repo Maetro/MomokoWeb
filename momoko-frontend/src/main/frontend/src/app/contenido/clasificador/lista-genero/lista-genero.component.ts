@@ -6,6 +6,8 @@ import { Genero } from 'app/dtos/genero';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerPaginaGeneroResponse } from 'app/dtos/response/obtenerPaginaGeneroResponse';
 import { ClasificadorService } from 'app/services/clasificador.service';
+import { environment } from 'environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lista-genero',
@@ -13,6 +15,8 @@ import { ClasificadorService } from 'app/services/clasificador.service';
   styleUrls: ['./lista-genero.component.css']
 })
 export class ListaGeneroComponent implements OnInit, OnDestroy {
+
+  private log = environment.log;
 
   private url: string;
 
@@ -26,19 +30,27 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   genero: Genero;
 
-  constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router) { }
+  librosParecidos: LibroSimple[];
+
+  constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
+    private titleService: Title) { }
 
   ngOnInit() {
-
-    console.log('Creando pagina del genero')
+    if (this.log) {
+      console.log('Creando pagina del genero');
+    }
     this.suscriptor = this.route.params.subscribe(params => {
       this.url = params['url']; // (+) converts string 'id' to a number
-      console.log(this.url);
-
+      if (this.log) {
+        console.log(this.url);
+      }
       this.route.data.subscribe((data: { paginaGeneroResponse: ObtenerPaginaGeneroResponse }) => {
         this.genero = data.paginaGeneroResponse.genero;
         this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
         this.entradasPopulares = data.paginaGeneroResponse.tresUltimasEntradasConLibro;
+        const metatituloPagina = 'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros del género ' + this.genero.nombre +
+          ' en momoko';
+        this.titleService.setTitle(metatituloPagina);
       });
 
       // const columna = document.getElementById('mirarAnchura0');
@@ -56,7 +68,9 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
   }
 
   onChangeOrder(event) {
-    console.log(event);
+    if (this.log) {
+      console.log(event);
+    }
   }
 
   mirarAnchura(): number {

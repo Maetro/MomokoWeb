@@ -9,3 +9,5 @@ ul.double{
 a.active b {
   color: #dbae27;
 }
+
+[hidden] { display: none !important;}

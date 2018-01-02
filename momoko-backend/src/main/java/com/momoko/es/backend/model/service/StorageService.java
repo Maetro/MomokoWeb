@@ -21,14 +21,6 @@ import com.momoko.es.api.dto.AnchuraAlturaDTO;
 public interface StorageService {
 
     /**
-     * Inicializa.
-     *
-     * @param tipoAlmacenamineto
-     *            the tipo almacenamineto
-     */
-    void init(String tipoAlmacenamineto);
-
-    /**
      * Store.
      *
      * @param file

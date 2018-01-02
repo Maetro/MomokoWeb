@@ -209,6 +209,22 @@
             <!--/.form-field -->
           </div>
 
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Fecha publicación: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+                <p-calendar [(ngModel)]="date" [locale]="es" [showTime]="true" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" showButtonBar="true"></p-calendar>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
           <div class="marginTop10">
             <div class="col-md-12">
               <div [hidden]="entrada.entradaId">
@@ -234,7 +250,7 @@
         <h2 class="section-title widget-title margen_superior">Imagen destacada </h2>
 
         <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen"
-          auto="auto" maxFileSize="1000000">
+          auto="auto" maxFileSize="20000000">
 
           <ng-template pTemplate="content">
             <div>Arrastra aquí la imagen que quieras subir.</div>

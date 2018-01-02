@@ -330,4 +330,16 @@ public class ConversionUtils {
         return slug;
     }
 
+    /**
+     * Obtener gravatar.
+     *
+     * @param emailComentario
+     *            the email comentario
+     * @return the string
+     */
+    public static String obtenerGravatar(final String emailComentario) {
+        final String hash = ConversionUtils.md5Hex(emailComentario.toLowerCase());
+        return "https://www.gravatar.com/avatar/" + hash;
+    }
+
 }

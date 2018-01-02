@@ -2,6 +2,7 @@ import { Component, AfterViewInit, OnDestroy, Input, ViewChild, ComponentFactory
 import { EntradaItem } from 'app/contenido/index/entrada-portada/entrada-item';
 import { AnadirEntradaDirective } from 'app/contenido/index/entrada-portada/anadir-entrada.directive';
 import { EntradaPortada } from 'app/contenido/index/entrada-portada/entrada-portada.model';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-anadir-entrada',
@@ -10,14 +11,17 @@ import { EntradaPortada } from 'app/contenido/index/entrada-portada/entrada-port
 
 export class AnadirEntradaComponent {
 
+  private log = environment.log;
+
   @ViewChild(AnadirEntradaDirective) anadirEntradaHost: AnadirEntradaDirective;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
 
   loadComponent(entradaItem: EntradaItem) {
 
-
-    console.log('Cargando entrada');
+    if (this.log) {
+      console.log('Cargando entrada');
+    }
 
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(entradaItem.component);
 

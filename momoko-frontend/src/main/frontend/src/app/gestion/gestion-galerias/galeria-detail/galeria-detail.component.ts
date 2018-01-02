@@ -16,6 +16,8 @@ const NUM = 12;
 })
 export class GaleriaDetailComponent implements OnInit {
 
+  private log = environment.log;
+
   galeria: Galeria;
 
   @Input() set _galeria(value: Galeria) {
@@ -52,10 +54,14 @@ export class GaleriaDetailComponent implements OnInit {
   ngOnInit(): void {
 
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
-      console.log('Init info general');
+      if (this.log) {
+        console.log('Init info general');
+      }
     },
       error => {
-        console.log('Error al recuperar los datos generales ', error);
+        if (this.log) {
+          console.log('Error al recuperar los datos generales ', error);
+        }
       });
   }
 
@@ -74,7 +80,9 @@ export class GaleriaDetailComponent implements OnInit {
 
   showSuccess(mensaje: string) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
   }
 
@@ -82,31 +90,43 @@ export class GaleriaDetailComponent implements OnInit {
     this.fileUploadService.fileChange($event, 'cabeceras-galerias').subscribe
       (urlImagenNueva => {
         // Emit list event
-        console.log(urlImagenNueva);
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        const partesURL = urlImagenNueva.split('/');
+        const partes = partesURL[partesURL.length - 1].split('.');
+        const urlImagen = this.urlImageServer + 'cabeceras-galerias/' + this.util.convertToSlug(partes[0]) + '.' + partes[1];
         this.showSuccess('Imagen guardada correctamente');
-        this.galeria.imagenes[$i] = urlImagenNueva;
+        this.galeria.imagenes[$i] = urlImagen;
       },
       err => {
         // Log errors if any
-        console.log(err);
+        if (this.log) {
+          console.log(err);
+        }
       });
   }
 
   multipleFileChangeCabecera($event): void {
 
-
-    console.log('Subiendo bloque');
+    if (this.log) {
+      console.log('Subiendo bloque');
+    }
     let num = 0;
     $event.files.forEach(file => {
       const temp = {
         files: []
       }
       temp.files.push(file);
-      console.log(file);
+      if (this.log) {
+        console.log(file);
+      }
       this.fileChangeCabecera(temp, num);
       num++
     });
-    console.log('Actualizando imagenes');
+    if (this.log) {
+      console.log('Actualizando imagenes');
+    }
     this.anadirImagenesSubidasEnBloque($event);
 
   }
@@ -131,13 +151,17 @@ export class GaleriaDetailComponent implements OnInit {
     if (numeroHuecos < numeroFicheros) {
       let $numeroFilas = this.numeroFilas;
 
-      while (($numeroFilas * this.galeria.columnas) <  numeroFicheros) {
+      while (($numeroFilas * this.galeria.columnas) < numeroFicheros) {
         $numeroFilas++;
       }
       this.numeroFilas = $numeroFilas;
     }
     $event.files.forEach(fichero => {
-      const urlImagen = this.urlImageServer + 'cabeceras-galerias/' + fichero.name;
+
+      if (this.log) { console.log('Divididiendo'); }
+      const partes = fichero.name.split('.');
+
+      const urlImagen = this.urlImageServer + 'cabeceras-galerias/' + this.util.convertToSlug(partes[0]) + '.' + partes[1];
       if (this.galeria.imagenes[$i] == null || this.galeria.imagenes[$i] === '') {
         this.galeria.imagenes[$i] = urlImagen;
       }
@@ -158,12 +182,16 @@ export class GaleriaDetailComponent implements OnInit {
 
   showError(mensaje: string[]) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     let mensajeTotal = '';
     mensaje.forEach(element => {
       mensajeTotal += element + '<br/>';
     });
-    console.log(mensajeTotal);
+    if (this.log) {
+      console.log(mensajeTotal);
+    }
     this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
   }
 
@@ -178,7 +206,9 @@ export class GaleriaDetailComponent implements OnInit {
   }
 
   pintarColumnas() {
-    console.log('Pintar columnas');
+    if (this.log) {
+      console.log('Pintar columnas');
+    }
     switch (this.galeria.columnas) {
       case 1:
         this.bootstrapcolumn = 'col-sm-12';

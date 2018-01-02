@@ -2,7 +2,7 @@
 
   <!-- /.widget -->
 
-  <div class="sidebox widget">
+  <div class="sidebox widget" *ngIf="libros">
     <h3 class="widget-title section-title">{{tituloSeccionLibros}}</h3>
     <ul class="post-list">
       <app-libros-mes-sidebar [libros]="libros"></app-libros-mes-sidebar>

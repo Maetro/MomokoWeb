@@ -61,49 +61,8 @@
                   </div>
                 </div>
                 <!-- /.post-nav -->
+                <app-sobre-autor *ngIf="entrada.autor"  [autor]="entrada.autor"></app-sobre-autor>
 
-                <hr>
-                <h2 class="section-title">Sobre la autora </h2>
-                <div class="about-author text-left">
-                  <div class="author-image">
-                    <a href="#">
-                      <img alt="" class="avatar" src="{{entrada.autor.avatar}}"> </a>
-                  </div>
-                  <h3> {{entrada.autor.nombre}} </h3>
-
-                  <p>{{entrada.autor.cargo}}</p>
-                  <ul class="social">
-                    <li>
-                      <a href="#">
-                        <i class="ion-social-facebook"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="ion-social-twitter"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="ion-social-instagram"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="ion-social-vimeo"></i>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">
-                        <i class="ion-social-linkedin"></i>
-                      </a>
-                    </li>
-                  </ul>
-                  <div class="clearfix"></div>
-                </div>
-                <!-- .about-author -->
-
-                <hr>
                 <h2 class="section-title">Otros posts que te gustarán :) </h2>
                 <div class="blog list-view row">
                   <div *ngFor="let post of cuatroPostPequenosConImagen, let i = index, let first = first">

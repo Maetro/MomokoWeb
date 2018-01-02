@@ -12,6 +12,7 @@ import { SelectItem } from 'primeng/primeng';
 import { CompleterService, CompleterData } from 'ng2-completer';
 import { UtilService } from 'app/services/util.service';
 import { Autor } from 'app/dtos/autor';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-libro-detail',
@@ -24,6 +25,8 @@ import { Autor } from 'app/dtos/autor';
   ]
 })
 export class LibroDetailComponent implements OnInit, OnChanges {
+
+  private log = environment.log;
 
   @Input() libro: Libro;
 
@@ -49,6 +52,8 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
   customURL = false;
 
+  urlImageServer = environment.urlFiles;
+
   constructor(private libroService: LibroService, private generalDataService: GeneralDataService,
     private fileUploadService: FileUploadService, private util: UtilService) {
     this.generos = [];
@@ -57,12 +62,16 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.getGeneros();
     this.generalDataService.getInformacionGeneral().subscribe(datos => {
-      console.log('Init info general');
+      if (this.log) {
+        console.log('Init info general');
+      }
       this.nombresAutores = datos.nombresAutores;
       this.nombresEditoriales = datos.nombresEditoriales;
     },
-      error =>  {
-        console.log('Error al recuperar los datos generales ', error);
+      error => {
+        if (this.log) {
+          console.log('Error al recuperar los datos generales ', error);
+        }
       });
   }
 
@@ -112,7 +121,9 @@ export class LibroDetailComponent implements OnInit, OnChanges {
   }
 
   onChange(event: any) {
-    console.log(event);
+    if (this.log) {
+      console.log(event);
+    }
     this.libro.generos = [];
     event.value.forEach(generoSeleccionadoId => {
       this.listaGeneros.forEach(genero => {
@@ -137,18 +148,24 @@ export class LibroDetailComponent implements OnInit, OnChanges {
 
   showSuccess(mensaje: string) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
   }
 
   showError(mensaje: string[]) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     let mensajeTotal = '';
     mensaje.forEach(element => {
       mensajeTotal += element + '<br/>';
     });
-    console.log(mensajeTotal);
+    if (this.log) {
+      console.log(mensajeTotal);
+    }
     this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
   }
 
@@ -156,13 +173,21 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     this.fileUploadService.fileChange($event, 'portadas').subscribe
       (urlImagenNueva => {
         // Emit list event
-        console.log(urlImagenNueva);
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        const partesURL = urlImagenNueva.split('/');
+        const partes = partesURL[partesURL.length - 1].split('.');
+        const urlImagen = this.urlImageServer + 'portadas/' + this.util.convertToSlug(partes[0]) + '.' + partes[1];
+
         this.showSuccess('Imagen guardada correctamente');
-        this.libro.urlImagen = urlImagenNueva;
+        this.libro.urlImagen = urlImagen;
       },
       err => {
         // Log errors if any
-        console.log(err);
+        if (this.log) {
+          console.log(err);
+        }
       });
   }
 

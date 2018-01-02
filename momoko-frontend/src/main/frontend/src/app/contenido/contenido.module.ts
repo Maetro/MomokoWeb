@@ -23,6 +23,7 @@ import { EntradaRoutingModule } from 'app/contenido/entrada-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
+
 import { EntradaSimpleHorizontalComponent } from 'app/contenido/entrada-simple-horizontal/entrada-simple-horizontal.component';
 import { AnalisisComponent } from 'app/contenido/analisis/analisis.component';
 import { ObtenerAnalisisResolverService } from 'app/services/resolvers/obtener-analisis-resolver.service';
@@ -50,6 +51,9 @@ import { ListaNoticiasLibroComponent } from 'app/contenido/lista-noticias-libro/
 import { ObtenerLibroNoticiasResolverService } from 'app/services/resolvers/obtener-libro-noticias-resolver.service';
 import { SidebarComponent } from 'app/contenido/sidebar/sidebar.component';
 import { SidebarInstagramComponent } from 'app/contenido/sidebar-instagram/sidebar-instagram.component';
+import { TagCategoriaComponent } from 'app/contenido/tag-categoria/tag-categoria.component';
+import { SobreAutorComponent } from 'app/contenido/sobre-autor/sobre-autor.component';
+
 
 
 
@@ -68,7 +72,7 @@ import { SidebarInstagramComponent } from 'app/contenido/sidebar-instagram/sideb
     EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
     CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
      MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent, EntradaPortadaVideoComponent, SatinizeHtmlPipe, VideosComponent,
-      ListaNoticiasLibroComponent, SidebarComponent, SidebarInstagramComponent],
+      ListaNoticiasLibroComponent, SidebarComponent, SidebarInstagramComponent, TagCategoriaComponent, SobreAutorComponent],
    providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService,
     ObtenerVideoResolverService, ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService,
     ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService,

@@ -3,18 +3,18 @@
     <div class="navbar-header">
       <div class="header-left">
         <ul class="social">
-          <li> <a href="#"><i class="ion-social-facebook"></i></a> </li>
-          <li> <a href="#"><i class="ion-social-twitter"></i></a> </li>
-          <li> <a href="#"><i class="ion-social-instagram"></i></a> </li>
-          <li> <a href="#"><i class="ion-social-youtube"></i></a> </li>
-          <li> <a href="#"><i class="ion-social-pinterest"></i></a> </li>
+            <li> <a href="https://www.facebook.com/Momoko.blog/" target="_blank"><i class="ion-social-facebook"></i></a> </li>
+            <li> <a href="https://twitter.com/momoko_blog" target="_blank"><i class="ion-social-twitter"></i></a> </li>
+            <li> <a href="https://www.instagram.com/momoko_blog/" target="_blank"><i class="ion-social-instagram"></i></a> </li>
+            <li> <a href="https://www.youtube.com/momoko_blog" target="_blank"><i class="ion-social-youtube"></i></a> </li>
+            <li> <a href="https://www.pinterest.es/momoko_blog/" target="_blank"><i class="ion-social-pinterest"></i></a> </li>
 
 
 
         </ul>
       </div>
       <!-- /.header-left -->
-      <div class="header-right">
+     <!-- <div class="header-right">
         <div class="search-form">
           <form action="#">
             <fieldset>
@@ -22,7 +22,7 @@
             </fieldset>
           </form>
         </div>
-      </div>
+      </div> -->
       <!-- /.header-right -->
       <div class="nav-bars-wrapper">
         <div class="nav-bars-inner">
@@ -47,12 +47,12 @@
 
           <li><a href="contact.html" class="btnColaborar"> COLABORA </a></li>
 
-          <li><a routerLink="/auth/login" routerLinkActive="active"  *ngIf="isLoggedIn === false">Login</a></li>
-          <li><a routerLink="/auth/register" routerLinkActive="active" *ngIf="isLoggedIn === false">Signup</a></li>
-          <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li>
-          <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li>
+          <!-- <li><a routerLink="/auth/login" routerLinkActive="active"  *ngIf="isLoggedIn === false">Login</a></li> -->
+          <!-- <li><a routerLink="/auth/register" routerLinkActive="active" *ngIf="isLoggedIn === false">Signup</a></li>
+          <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
+          <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
 
-          <li><a routerLink="/gestion" routerLinkActive="active">Administrar</a>
+          <li><a routerLink="/gestion" routerLinkActive="active" [hidden]="isLoggedIn !== true">Administrar</a>
             <ul class="dropdown-menu">
               <li>
                 <a routerLink="/admin/lista-entradas" routerLinkActive="active">Entradas</a>

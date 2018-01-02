@@ -6,9 +6,8 @@ spring:
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/momokoBD
+    url: jdbc:mysql://aa8pgb0srwjwcv.cd3zhdzz8wuz.eu-west-1.rds.amazonaws.com:3306/momokoBD
     username: root
-    password: ${momoko.spring.datasource.password}
   http:
     multipart:
       max-file-size: 10MB
@@ -29,6 +28,7 @@ security:
       filter-order: 3 
 
 server:
+  port: 5000
   session:
     timeout: 28800  
   
@@ -74,12 +74,13 @@ logging:
   level:
     org:
       springframework:
-        security: WARN
-    root: WARN
+        security: DEBUG
+    root: DEBUG
     
 #momoko properties
 momokoConfiguracion:
   directorios:
-    urlFiles: /var/www/html/images
-    urlImages: http://ec2-34-252-159-225.eu-west-1.compute.amazonaws.com/images/
+    urlFiles: http://www.momoko.es/images
+    urlImages: http://www.momoko.es/images/
+    urlUpload: http://www.momoko.es/
     test: hola

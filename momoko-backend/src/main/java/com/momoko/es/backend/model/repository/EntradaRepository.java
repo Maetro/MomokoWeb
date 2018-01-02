@@ -50,8 +50,8 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      *            the num
      * @return the list
      */
-    @Query("select e from EntradaEntity e ORDER by e.fechaAlta DESC")
-    List<EntradaEntity> findUltimasEntradas(Pageable pageable);
+    @Query("select e from EntradaEntity e WHERE e.fechaAlta < :ahora ORDER by e.fechaAlta DESC")
+    List<EntradaEntity> findUltimasEntradas(@Param("ahora") Date ahora, Pageable pageable);
 
     /**
      * Find by libro entrada not null order by libro entrada visitas desc.

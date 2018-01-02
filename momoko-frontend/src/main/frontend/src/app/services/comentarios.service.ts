@@ -9,6 +9,8 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class ComentariosService {
 
+  private log = environment.log;
+
   private addComentarioUrl = environment.addComentarioUrl;
 
   constructor(private http: HttpClient) { }

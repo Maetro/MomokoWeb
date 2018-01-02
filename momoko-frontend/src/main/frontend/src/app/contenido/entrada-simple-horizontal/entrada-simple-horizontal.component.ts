@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-entrada-simple-horizontal',
@@ -7,6 +8,8 @@ import { EntradaSimple } from 'app/dtos/entradaSimple';
   styleUrls: ['./entrada-simple-horizontal.component.css']
 })
 export class EntradaSimpleHorizontalComponent implements OnInit {
+
+  private log = environment.log;
 
   @Input() entradas: EntradaSimple[];
 

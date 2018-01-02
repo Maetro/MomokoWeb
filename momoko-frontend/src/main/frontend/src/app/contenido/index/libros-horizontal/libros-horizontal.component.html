@@ -15,7 +15,7 @@
           <div class="post col-sm-12 col-md-2" *ngFor="let libro of libros; let first = first;">
             <div class="portadaContainer" style="max-width: 100%; margin-bottom: 10px">
               <figure class="overlay vertical">
-                <a routerLink="/{{libro.urlAnalisis}}">
+                <a routerLink="/libro/{{libro.urlLibro}}">
                   <span class="over">
                     <span></span>
                   </span>
@@ -30,10 +30,10 @@
           <div class="post col-sm-12 col-md-2" *ngFor="let libro of libros; let first = first;">
             <div class="post-content">
               <h3 class="post-title">
-                <a routerLink="/{{libro.urlAnalisis}}">{{libro.titulo}}</a>
+                <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
               </h3>
               <div class="text-center">
-                <a routerLink="/{{libro.urlAnalisis}}" class="more">Continuar leyendo</a>
+                <a routerLink="/libro/{{libro.urlLibro}}" class="more">Continuar leyendo</a>
               </div>
             </div>
             <!-- /.post-content -->

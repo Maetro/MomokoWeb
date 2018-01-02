@@ -20,6 +20,9 @@ import { GuardarLibroResponse } from 'app/dtos/response/guardarLibroResponse';
 
 @Injectable()
 export class LibroService {
+
+  private log = environment.log;
+
   private librosUrl = environment.librosUrl;
   private addLibroUrl = environment.addLibroUrl;
   private generosUrl = environment.generosUrl;
@@ -35,13 +38,15 @@ export class LibroService {
   constructor(private http: HttpClient, private jsonAdapter: JsonAdapterService) { }
 
   getLibros(): Promise<Libro[]> {
-    console.log('access_token: ' + Cookie.get('access_token'));
+    if (this.log) {
+      console.log('access_token: ' + Cookie.get('access_token'));
+    }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
+    });
     this.librosList = new Array();
-    return this.http.get(this.librosUrl, {headers: headers}).toPromise().then((resp: Response) => {
+    return this.http.get(this.librosUrl, { headers: headers }).toPromise().then((resp: Response) => {
       for (const numLibro of Object.keys(resp)) {
         const l = this.jsonAdapter.adaptarLibro(resp[numLibro])
         this.librosList.push(l);
@@ -54,7 +59,7 @@ export class LibroService {
 
   getLibro(urlLibro: string): Observable<FichaLibro> {
     return this.http.get<FichaLibro>(this.obtenerLibroUrl + urlLibro).map(this.extractLibro)
-    .catch(error => Observable.throw(error || 'Server error'));
+      .catch(error => Observable.throw(error || 'Server error'));
   }
 
   private extractLibro(res: FichaLibro) {
@@ -65,9 +70,9 @@ export class LibroService {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
+    });
     return this.http
-      .post<GuardarLibroResponse>(this.addLibroUrl, JSON.stringify(libro), {headers: headers})
+      .post<GuardarLibroResponse>(this.addLibroUrl, JSON.stringify(libro), { headers: headers })
       .map(this.extractGuardarLibroResponse)
       .catch(error => Observable.throw(error || 'Server error'));
   }
@@ -80,7 +85,7 @@ export class LibroService {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
+    });
     return this.http
       .post(this.addGeneroUrl, JSON.stringify(genero), { headers: headers })
       .map(this.extractGuardarGeneroResponse)
@@ -95,9 +100,9 @@ export class LibroService {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
-      });
-    return this.http.get<Genero[]>(this.generosUrl, {headers: headers}).map(this.extractGeneros)
-    .catch(error => Observable.throw(error || 'Server error'));
+    });
+    return this.http.get<Genero[]>(this.generosUrl, { headers: headers }).map(this.extractGeneros)
+      .catch(error => Observable.throw(error || 'Server error'));
   }
 
   private extractGeneros(res: Genero[]) {

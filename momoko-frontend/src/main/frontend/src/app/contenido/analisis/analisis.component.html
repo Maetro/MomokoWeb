@@ -1,12 +1,12 @@
 <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
-    <div class="container inner">
-      <h1 class="text-center">
-        <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">{{genero.nombre}}
-          <span [hidden]="last">, </span>
-        </span>
-      </h1>
-    </div>
+  <div class="container inner">
+    <h1 class="text-center">
+      <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">{{genero.nombre}}
+        <span [hidden]="last">, </span>
+      </span>
+    </h1>
   </div>
+</div>
 <app-menu-interno-libro [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>
 <div class="light-wrapper">
   <div class="container inner">
@@ -53,13 +53,16 @@
             </div>
           </div>
           <div class="bloqueBotones">
-            <a class="amazon" href="{{entrada.librosEntrada[0].enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
-              <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">
-            </a>
+            <div class="col-md-12">
+              <a class="amazon" href="{{entrada.librosEntrada[0].enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
+                <span class="btnComprarAmazon">Comprar libro &gt;</span>
+                <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">
+              </a>
+            </div>
           </div>
         </div>
       </div>
-      <div class="blog row">
+      <div class="blog row" *ngIf="!entrada.tieneGaleria">
         <div class="col-md-8">
           <div class="contenidoEntrada">
             <div class="tituloEntrada">
@@ -90,11 +93,50 @@
               </span>
             </div>
           </div>
+
+          <!-- <app-sobre-autor *ngIf="entrada.autor"  [autor]="entrada.autor"></app-sobre-autor> -->
+
           <app-crear-comentario [comentarios]="comentarios" [entrada]="entrada"></app-crear-comentario>
         </div>
         <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
       </div>
+      <div class="blog row" *ngIf="entrada.tieneGaleria">
+        <div class="col-md-12">
+          <div class="contenidoEntrada">
+            <div class="tituloEntrada">
+              <h1>{{entrada.tituloEntrada}}</h1>
+            </div>
+            <div class="infoEntrada">
+              Análisis de
+              <span class="autorEntrada">
+                <a routerLink="/editor/{{entrada.autor.nombre}}">{{entrada.autor.nombre}}</a>
+              </span>
+              <span class="generosText">Género
+                <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
+                  <a routerLink="/genero/{{genero.nombre}}">{{genero.nombre}}</a>
+                  <span [hidden]="last">, </span>
+                </span>
+              </span>
+            </div>
+            <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
+            </div>
+            <div class="infoEntrada">
+
+              <span class="lineaHorizontalCorta"></span>
+              <span class="etiquetasText">Etiquetas
+                <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+                  <a routerLink="/etiqueta/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                  <span [hidden]="last">, </span>
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <!-- <app-sobre-autor *ngIf="entrada.autor"  [autor]="entrada.autor"></app-sobre-autor> -->
+
+          <app-crear-comentario [comentarios]="comentarios" [entrada]="entrada"></app-crear-comentario>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-

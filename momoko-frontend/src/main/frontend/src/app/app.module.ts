@@ -23,6 +23,10 @@ import { ContenidoModule } from 'app/contenido/contenido.module';
 import { AppLoadModule } from 'app/app-load/app-load.module';
 import { GestionGaleriasModule } from 'app/gestion/gestion-galerias/gestion-galerias.module';
 import { Router } from '@angular/router';
+import { SuscripcionService } from 'app/services/suscripcion.service';
+
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 @NgModule({
   declarations: [
@@ -43,9 +47,10 @@ import { Router } from '@angular/router';
     GestionGaleriasModule,
     ContenidoModule,
     routing,
-    AppLoadModule
+    AppLoadModule,
+    Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
-  providers: [],
+  providers: [SuscripcionService],
   bootstrap: [AppComponent],
   entryComponents: [ListaLibrosComponent, ListaGenerosComponent]
 

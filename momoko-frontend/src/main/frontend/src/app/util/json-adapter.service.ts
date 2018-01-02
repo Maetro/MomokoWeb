@@ -3,9 +3,12 @@ import { Libro } from 'app/dtos/libro';
 import { Editorial } from 'app/dtos/editorial';
 import { Autor } from 'app/dtos/autor';
 import { Genero } from 'app/dtos/genero';
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class JsonAdapterService {
+
+  private log = environment.log;
 
   constructor() { }
 

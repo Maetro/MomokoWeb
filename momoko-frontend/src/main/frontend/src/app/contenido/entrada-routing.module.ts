@@ -14,6 +14,7 @@ import { ListaCategoriaComponent } from 'app/contenido/clasificador/lista-catego
 import { ObtenerLibroNoticiasResolverService } from 'app/services/resolvers/obtener-libro-noticias-resolver.service';
 import { ListaNoticiasLibroComponent } from 'app/contenido/lista-noticias-libro/lista-noticias-libro.component';
 import { VideosComponent } from 'app/contenido/main-content/videos/videos.component';
+import { PageNotFoundComponent } from 'app/error/page-not-found/page-not-found.component';
 
 const fichaRoutes: Routes = [
   {
@@ -30,6 +31,7 @@ const fichaRoutes: Routes = [
       fichaLibro: ObtenerLibroResolverService
     }
   },
+  {path: 'not-found', component: PageNotFoundComponent },
   {
     path: ':url',
     component: MainContentComponent,

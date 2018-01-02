@@ -6,6 +6,7 @@ import { Entrada } from 'app/dtos/entrada';
 import { LibroSimple } from 'app/dtos/libroSimple';
 import { Comentario } from 'app/dtos/comentario';
 import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-main-content',
@@ -13,6 +14,8 @@ import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse
   styleUrls: ['./main-content.component.css']
 })
 export class MainContentComponent implements OnInit, OnDestroy {
+
+  private log = environment.log;
 
   private url: string;
 
@@ -33,10 +36,14 @@ export class MainContentComponent implements OnInit, OnDestroy {
   constructor(private entradaService: EntradaService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    console.log('Creando pagina de la entrada')
+    if (this.log) {
+      console.log('Creando pagina de la entrada');
+    }
     this.suscriptor = this.route.params.subscribe(params => {
       this.url = params['url']; // (+) converts string 'id' to a number
-      console.log(this.url);
+      if (this.log) {
+        console.log(this.url);
+      }
       this.route.data.subscribe((data: { obtenerEntradaResponse: ObtenerEntradaResponse }) => {
         this.entrada = data.obtenerEntradaResponse.entrada;
         this.librosParecidos = data.obtenerEntradaResponse.cincoLibrosParecidos;
@@ -52,7 +59,7 @@ export class MainContentComponent implements OnInit, OnDestroy {
         // this.autores = this.autores.substring(0, this.autores.length - 2);
       });
       // In a real app: dispatch action to load the details here.
-   });
+    });
   }
 
   isActive(instruction: any[]): boolean {

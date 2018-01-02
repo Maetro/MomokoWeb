@@ -1,7 +1,7 @@
 import { environment } from 'environments/environment';
 
 import { Injectable } from '@angular/core';
-import {Http, RequestOptions} from '@angular/http';
+import { Http, RequestOptions } from '@angular/http';
 
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
@@ -9,24 +9,27 @@ import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/delay';
 
 
-import {Observer} from 'rxjs/Observer';
-import {Headers} from '@angular/http';
-import {Router} from '@angular/router';
+import { Observer } from 'rxjs/Observer';
+import { Headers } from '@angular/http';
+import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
 import { NewUser, SignupStatus, LoginStatus, Login } from 'app/auth/dtos/login';
 
 
 @Injectable()
 export class AuthService {
+
+  log = environment.log;
+
   isLoggedIn: Observable<boolean>;
   private observer: Observer<boolean>;
 
-  user = {name: 'Guest'};
+  user = { name: 'Guest' };
   redirectUrl: string;
   singUpUrl = environment.singUpURL;
   oauthTokenUrl = environment.oauthTokenUrl;
   accountTokenUrl = environment.accountTokenUrl;
-  headers = new Headers({'Content-Type': 'application/json'});
+  headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private http: Http, private router: Router) {
     this.isLoggedIn = new Observable(observer =>
@@ -39,7 +42,7 @@ export class AuthService {
   }
 
   signup(newUser: NewUser): Promise<SignupStatus> {
-    const options       = new RequestOptions({ headers: this.headers });
+    const options = new RequestOptions({ headers: this.headers });
 
     return this.http.post(this.singUpUrl, newUser, options)
       .toPromise()
@@ -49,13 +52,17 @@ export class AuthService {
 
   login(login: Login): Observable<LoginStatus> {
     const params = new URLSearchParams();
-    console.log('Login');
+    if (this.log) {
+      console.log('Login');
+    }
     params.append('username', login.usuarioEmail);
     params.append('password', login.usuarioContrasena);
     params.append('grant_type', 'password');
     params.append('client_id', 'healthapp');
-    const headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Basic ' +
-    btoa('healthapp:HeAltH@!23')});
+    const headers = new Headers({
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Basic ' +
+        btoa('healthapp:HeAltH@!23')
+    });
     const options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.oauthTokenUrl, params.toString(), options)
@@ -69,8 +76,10 @@ export class AuthService {
   }
 
   saveToken(token: any) {
-    console.log('Obteniendo token de autenticacion');
-    console.log(token.expires_in);
+    if (this.log) {
+      console.log('Obteniendo token de autenticacion');
+      console.log(token.expires_in);
+    }
     const expireDate = new Date().getTime() + (24000 * token.expires_in);
     Cookie.set('access_token', token.access_token, expireDate);
     Cookie.set('role', token.role);
@@ -96,8 +105,10 @@ export class AuthService {
   }
 
   token(): void {
-    console.log('token');
-    const options       = new RequestOptions({ headers: this.headers, withCredentials: true });
+    if (this.log) {
+      console.log('token');
+    }
+    const options = new RequestOptions({ headers: this.headers, withCredentials: true });
 
     this.http.get(this.accountTokenUrl, options)
       .toPromise()
@@ -113,18 +124,23 @@ export class AuthService {
     params.append('password', loginData.usuarioContrasena);
     params.append('grant_type', 'password');
     params.append('client_id', 'healthapp');
-    const headers = new Headers({'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization':
-     'Basic ' + btoa('healthapp:HeAltH@!23')});
+    const headers = new Headers({
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization':
+        'Basic ' + btoa('healthapp:HeAltH@!23')
+    });
     const options = new RequestOptions({ headers: headers });
 
     this.http.post(this.oauthTokenUrl, params.toString(), options)
       .map(res => {
-        console.log('autenticado');
+        if (this.log) {
+          console.log('autenticado');
+        }
         this.saveToken(res.json());
-        return new LoginStatus('SUCCESS', 'Login Successful')})
+        return new LoginStatus('SUCCESS', 'Login Successful')
+      })
       .subscribe(
-        data => console.log(data),
-        err => alert('Invalid Credentials'));
+      data => { if (this.log) { console.log(data); } },
+      err => alert('Invalid Credentials'));
   }
 
   // saveToken(token) {
@@ -134,7 +150,9 @@ export class AuthService {
   // }
 
   checkCredentials() {
-    console.log('checkCredentials')
+    if (this.log) {
+      console.log('checkCredentials');
+    }
     if (!Cookie.check('access_token')) {
       this.router.navigate(['/auth/login']);
     } else {

@@ -60,4 +60,12 @@ public interface IndexService {
      */
     List<LibroSimpleDTO> obtenerUltimasFichas();
 
+    /**
+     * Suscribirse.
+     *
+     * @param email
+     *            the email
+     */
+    void suscribirse(String email);
+
 }

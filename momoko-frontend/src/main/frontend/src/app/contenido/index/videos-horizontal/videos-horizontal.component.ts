@@ -10,6 +10,8 @@ import { environment } from 'environments/environment';
 })
 export class VideosHorizontalComponent implements OnInit, OnChanges {
 
+  private log = environment.log;
+
   @Input() videos: VideoYoutube[];
 
   urlPagina = environment.momokoUrl;
@@ -20,7 +22,9 @@ export class VideosHorizontalComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('Los videos');
+    if (this.log) {
+      console.log('Los videos');
+    }
     if (this.videos != null) {
       this.videos.forEach(video => {
         video.urlMomoko = '/videos/' + this.slugify(video.snippet.title);
@@ -32,8 +36,8 @@ export class VideosHorizontalComponent implements OnInit, OnChanges {
     text = text.replace(/^\s+|\s+$/g, ''); // trim
     text = text.toLowerCase();
     const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç';
-    const to   = 'aaaaaeeeeeiiiiooooouuuunc';
-    for (let i = 0, l = from.length ; i < l ; i++) {
+    const to = 'aaaaaeeeeeiiiiooooouuuunc';
+    for (let i = 0, l = from.length; i < l; i++) {
       text = text.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
     }
 

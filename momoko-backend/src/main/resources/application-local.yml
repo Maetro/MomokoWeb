@@ -93,6 +93,7 @@ logging:
 #momoko properties
 momokoConfiguracion:
   directorios:
-    urlFiles: D:/XAMPP/htdocs/momoko/images
+    urlFiles: http://localhost/images
     urlImages: http://localhost/images/
+    urlUpload: http://localhost/
     test: hola

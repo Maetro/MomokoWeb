@@ -7,6 +7,8 @@ import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse
 @Injectable()
 export class VideoService {
 
+  private log = environment.log;
+
   getVideoUrl = environment.obtenerVideoUrl;
 
   constructor(private http: HttpClient) { }

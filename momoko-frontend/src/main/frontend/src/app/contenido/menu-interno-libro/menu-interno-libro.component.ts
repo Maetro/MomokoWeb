@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Libro } from 'app/dtos/libro';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-menu-interno-libro',
@@ -8,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./menu-interno-libro.component.css']
 })
 export class MenuInternoLibroComponent implements OnInit {
+
+  private log = environment.log;
 
   urlVideo: string;
   urlAnalisis: string;
@@ -22,7 +25,9 @@ export class MenuInternoLibroComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
-    console.log('Iniciando menu')
+    if (this.log) {
+      console.log('Iniciando menu');
+    }
     if (this.libro.entradasLibro.length > 0) {
       this.libro.entradasLibro.forEach(entrada => {
         switch (entrada.tipoEntrada) {

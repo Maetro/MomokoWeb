@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Comentario } from 'app/dtos/comentario';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-plantilla-comentario',
@@ -7,6 +8,8 @@ import { Comentario } from 'app/dtos/comentario';
   styleUrls: ['./plantilla-comentario.component.css']
 })
 export class PlantillaComentarioComponent implements OnInit {
+
+  private log = environment.log;
 
   @Input() comentario: Comentario;
 
@@ -18,12 +21,16 @@ export class PlantillaComentarioComponent implements OnInit {
   }
 
   seleccionarComentario(comentario: Comentario) {
-    console.log(comentario);
+    if (this.log) {
+      console.log(comentario);
+    }
     this.onSelectedComentario.emit(this.comentario);
   }
 
   onSeleccionarComentario(comentario: Comentario) {
-    console.log('Viene de mi hijo');
+    if (this.log) {
+      console.log('Viene de mi hijo');
+    }
     this.onSelectedComentario.emit(comentario);
   }
 

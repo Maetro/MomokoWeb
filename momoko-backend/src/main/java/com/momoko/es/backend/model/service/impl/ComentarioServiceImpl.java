@@ -88,21 +88,16 @@ public class ComentarioServiceImpl implements ComentarioService {
             usuarioBasico = ConversionUtils.obtenerUsuarioBasico(usuarioComentario);
             usuarioBasico.setNombre(respuesta.getNombreComentario());
             if (usuarioBasico.getAvatar() == null) {
-                usuarioBasico.setAvatar(obtenerGravatar(respuesta.getEmailComentario()));
+                usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(respuesta.getEmailComentario()));
             }
         } else {
             usuarioBasico = new UsuarioBasicoDTO();
             usuarioBasico.setCargo("Invitado");
             usuarioBasico.setNombre(respuesta.getNombreComentario());
-            usuarioBasico.setAvatar(obtenerGravatar(respuesta.getEmailComentario()));
+            usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(respuesta.getEmailComentario()));
         }
 
         return EntityToDTOAdapter.adaptarComentario(respuesta, usuarioBasico);
-    }
-
-    private String obtenerGravatar(final String emailComentario) {
-        final String hash = ConversionUtils.md5Hex(emailComentario.toLowerCase());
-        return "https://www.gravatar.com/avatar/" + hash;
     }
 
     @Override
@@ -128,13 +123,13 @@ public class ComentarioServiceImpl implements ComentarioService {
                 usuarioBasico.setCargo("Miembro");
                 usuarioBasico.setNombre(comentarioEntity.getNombreComentario());
                 if (usuarioBasico.getAvatar() == null) {
-                    usuarioBasico.setAvatar(obtenerGravatar(comentarioEntity.getEmailComentario()));
+                    usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(comentarioEntity.getEmailComentario()));
                 }
             } else {
                 usuarioBasico = new UsuarioBasicoDTO();
                 usuarioBasico.setCargo("Invitado");
                 usuarioBasico.setNombre(comentarioEntity.getNombreComentario());
-                usuarioBasico.setAvatar(obtenerGravatar(comentarioEntity.getEmailComentario()));
+                usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(comentarioEntity.getEmailComentario()));
             }
             final ComentarioDTO comentarioDTO = EntityToDTOAdapter.adaptarComentario(comentarioEntity, usuarioBasico);
             comentariosEntrada.add(comentarioDTO);

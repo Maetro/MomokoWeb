@@ -6,6 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LibroSimple } from 'app/dtos/libroSimple';
 import { FichaLibro } from 'app/dtos/fichaLibro';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { environment } from 'environments/environment';
+import { Title, Meta } from '@angular/platform-browser';
 
 declare var $: any;
 
@@ -16,6 +18,7 @@ declare var $: any;
 })
 export class FichaLibroComponent implements OnInit, AfterViewInit {
 
+  private log = environment.log;
 
   anchura: number;
 
@@ -29,10 +32,21 @@ export class FichaLibroComponent implements OnInit, AfterViewInit {
 
   tresUltimasEntradas: EntradaSimple[];
 
-  constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router) { }
+  tituloSeccionLibros = 'Otros libros parecidos';
+
+  constructor(
+    private libroService: LibroService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private titleService: Title,
+    private metaService: Meta) {
+
+    }
 
   ngOnInit() {
-    console.log('Creando pagina de la entrada');
+    if (this.log) {
+      console.log('Creando pagina de la entrada');
+    }
     const columna = document.getElementById('mirarAnchura')
     const width = columna.offsetWidth;
     const style = window.getComputedStyle(columna);
@@ -43,15 +57,31 @@ export class FichaLibroComponent implements OnInit, AfterViewInit {
       this.libro = data.fichaLibro.libro;
       this.librosParecidos = data.fichaLibro.cincoLibrosParecidos;
       this.tresUltimasEntradas = data.fichaLibro.tresUltimasEntradas;
+      let autores = '';
+      this.libro.autores.forEach(autor => {
+        autores = autores + autor.nombre + ', '
+      });
+      autores = autores.substring(0, autores.length - 2);
+      const titulo = 'Ficha de libro ' + this.libro.titulo;
+      const metatituloPagina = 'Encuentra aquí toda la información sobre ' + this.libro.titulo +
+        ' y sobre ' + autores;
+      this.titleService.setTitle(titulo);
+      // Changing meta with name="description"
+      const tag = { name: 'description', content: metatituloPagina };
+      const attributeSelector = 'name="description"';
+      this.metaService.removeTag(attributeSelector);
+      this.metaService.addTag(tag, false);
     });
 
   }
 
   ngAfterViewInit(): void {
-    console.log('Animar hacia arriba')
+    if (this.log) {
+      console.log('Animar hacia arriba');
+    }
     $('body,html').animate({
       scrollTop: 0
-  }, 800);
+    }, 800);
   }
 
   mirarAnchura(): number {

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { Entrada } from 'app/dtos/entrada';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { DomSanitizer, SafeUrl} from '@angular/platform-browser';
+import { DomSanitizer, SafeUrl, Title, Meta } from '@angular/platform-browser';
 import { LibroSimple } from 'app/dtos/libroSimple';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -12,6 +13,8 @@ declare var $: any;
   styleUrls: ['./videos.component.css']
 })
 export class VideosComponent implements OnInit, AfterViewInit {
+
+  private log = environment.log;
 
   @Input() entrada: Entrada;
 
@@ -29,17 +32,28 @@ export class VideosComponent implements OnInit, AfterViewInit {
 
   safeURL: SafeUrl;
 
-  constructor(private domSanitizationService: DomSanitizer ) { }
+  constructor(private domSanitizationService: DomSanitizer, private titleService: Title, private metaService: Meta) { }
 
   ngOnInit() {
-    console.log('Cargando video');
+    if (this.log) {
+      console.log('Cargando video');
+    }
     const partes = this.entrada.urlVideo.split('/');
     const url = 'https://www.youtube.com/embed/' + partes[partes.length - 1];
     this.safeURL = this.domSanitizationService.bypassSecurityTrustResourceUrl(url);
+    const metatituloPagina = this.entrada.tituloEntrada;
+    this.titleService.setTitle(metatituloPagina);
+    // Changing meta with name="description"
+    const tag = { name: 'description', content: this.entrada.fraseDescriptiva };
+    const attributeSelector = 'name="description"';
+    this.metaService.removeTag(attributeSelector);
+    this.metaService.addTag(tag, false);
   }
 
   ngAfterViewInit(): void {
-    console.log('Ejecutando JQuery');
+    if (this.log) {
+      console.log('Ejecutando JQuery');
+    }
     $('.light-gallery').lightGallery({
       thumbnail: false,
       selector: '.lgitem',

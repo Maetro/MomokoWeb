@@ -4,6 +4,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { LibroService } from 'app/services/libro.service';
 import { FileUploadService } from 'app/services/fileUpload.service';
 import { Genero } from 'app/dtos/genero';
+import { environment } from 'environments/environment';
 
 
 @Component({
@@ -13,80 +14,98 @@ import { Genero } from 'app/dtos/genero';
 })
 export class ListaGenerosComponent implements OnInit {
 
-    loading: boolean;
+  private log = environment.log;
 
-    title = 'Libros';
-    generos: Genero[];
-    selectedGenero: Genero;
+  loading: boolean;
 
-    @ViewChild(GeneroDetailComponent) generoDetailComponent: GeneroDetailComponent;
+  title = 'Libros';
+  generos: Genero[];
+  selectedGenero: Genero;
 
-    constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
+  @ViewChild(GeneroDetailComponent) generoDetailComponent: GeneroDetailComponent;
+
+  constructor(private libroService: LibroService, private fileUploadService: FileUploadService) {
+    if (this.log) {
       console.log('Builder ListaGenerosComponent');
-      this.generos = [];
-
     }
+    this.generos = [];
 
-    getGeneros(): void {
-      console.log('service -> getGeneros()')
-      this.libroService.getGeneros().subscribe(generos => {
-        generos.forEach(genero => {
-          this.generos =  [ ...this.generos, genero ];
-        });
+  }
 
+  getGeneros(): void {
+    if (this.log) {
+      console.log('service -> getGeneros()');
+    }
+    this.libroService.getGeneros().subscribe(generos => {
+      generos.forEach(genero => {
+        this.generos = [...this.generos, genero];
       });
-    }
 
-    ngOnInit(): void {
+    });
+  }
+
+  ngOnInit(): void {
+    if (this.log) {
       console.log('ngOnInit Lista generos')
-      this.loading = true;
-      this.libroService.getGeneros().subscribe(generosP => {
-        const generosList = generosP
-        generosList.forEach(element => {
-          this.generos =  [ ...this.generos, element ];
-        });
-        this.loading = false;
-      });
     }
+    this.loading = true;
+    this.libroService.getGeneros().subscribe(generosP => {
+      const generosList = generosP
+      generosList.forEach(element => {
+        this.generos = [...this.generos, element];
+      });
+      this.loading = false;
+    });
+  }
 
-    selectLibro(genero: Genero) {
+  selectLibro(genero: Genero) {
+    if (this.log) {
       console.log('selectLibro');
-      this.generoDetailComponent.idCategoriaSeleccionada = genero.generoId;
-      this.selectedGenero = genero;
     }
+    this.generoDetailComponent.idCategoriaSeleccionada = genero.generoId;
+    this.selectedGenero = genero;
+  }
 
-    nuevoGenero(): void {
+  nuevoGenero(): void {
+    if (this.log) {
       console.log('nuevoGenero');
-      this.selectedGenero = null;
-      const genero = new Genero;
-      this.generoDetailComponent.idCategoriaSeleccionada = null;
-      this.selectedGenero = genero;
     }
+    this.selectedGenero = null;
+    const genero = new Genero;
+    this.generoDetailComponent.idCategoriaSeleccionada = null;
+    this.selectedGenero = genero;
+  }
 
-    volver(): void {
+  volver(): void {
+    if (this.log) {
       console.log('volver');
-      this.selectedGenero = null;
     }
+    this.selectedGenero = null;
+  }
 
-    actualizarOAnadirGenero(genero: Genero): void {
+  actualizarOAnadirGenero(genero: Genero): void {
+    if (this.log) {
       console.log('actualizarOAnadirGenero ' + genero);
-      this.selectedGenero = null;
-      let encontrado = false;
-      this.generos.forEach(gen => {
-        if (gen.urlGenero === genero.urlGenero) {
-          gen = genero;
-          encontrado = true;
-        }
-      });
-      if (!encontrado) {
-        this.generos = [ ...this.generos, genero ];
-      }
-      this.generoDetailComponent.idCategoriaSeleccionada = null;
     }
+    this.selectedGenero = null;
+    let encontrado = false;
+    this.generos.forEach(gen => {
+      if (gen.urlGenero === genero.urlGenero) {
+        gen = genero;
+        encontrado = true;
+      }
+    });
+    if (!encontrado) {
+      this.generos = [...this.generos, genero];
+    }
+    this.generoDetailComponent.idCategoriaSeleccionada = null;
+  }
 
-    onRowSelect(event) {
+  onRowSelect(event) {
+    if (this.log) {
       console.log('onRowSelect');
-      this.generoDetailComponent.idCategoriaSeleccionada = event.data.categoria.categoriaId;
+    }
+    this.generoDetailComponent.idCategoriaSeleccionada = event.data.categoria.categoriaId;
   }
 
-  }
+}

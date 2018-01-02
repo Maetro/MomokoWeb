@@ -4,6 +4,8 @@ import { Component, OnInit } from '@angular/core';
 import { LibroService } from 'app/services/libro.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerPaginaLibroNoticiasResponse } from 'app/dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { environment } from 'environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lista-noticias-libro',
@@ -12,12 +14,15 @@ import { ObtenerPaginaLibroNoticiasResponse } from 'app/dtos/response/obtenerPag
 })
 export class ListaNoticiasLibroComponent implements OnInit {
 
+  private log = environment.log;
+
   libro: Libro;
   noticias: EntradaSimple[];
   numeroEntradas: number;
   anchura: number;
   enLista: boolean;
-  constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router,
+    private titleService: Title) { }
 
   ngOnInit() {
     const columna = document.getElementById('mirarAnchura')
@@ -31,6 +36,14 @@ export class ListaNoticiasLibroComponent implements OnInit {
       this.libro = noticiasLibro.noticiasLibro.libro;
       this.noticias = noticiasLibro.noticiasLibro.noticias;
       this.numeroEntradas = noticiasLibro.noticiasLibro.numeroEntradas;
+      let autores = '';
+      this.libro.autores.forEach(autor => {
+        autores = autores + autor.nombre + ', '
+      });
+      autores = autores.substring(0, autores.length - 2);
+      const metatituloPagina = 'Encuentra aquí las últimas noticias sobre ' + this.libro.titulo +
+      ' de ' + autores ;
+    this.titleService.setTitle(metatituloPagina);
     });
   }
 

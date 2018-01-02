@@ -11,6 +11,8 @@ import { environment } from 'environments/environment';
 @Injectable()
 export class GaleriaService {
 
+  private log = environment.log;
+
   addGaleriaUrl = environment.addGaleriaUrl;
   galeriasUrl = environment.galeriasUrl;
 

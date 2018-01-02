@@ -9,6 +9,8 @@ import { ObtenerPaginaLibroNoticiasResponse } from 'app/dtos/response/obtenerPag
 @Injectable()
 export class ClasificadorService {
 
+  private log = environment.log;
+
   getGeneroUrl = environment.getGeneroUrl;
   getCategoriaUrl = environment.getCategoriaUrl;
   getNoticiasLibroUrl = environment.getNoticiasLibroUrl;
@@ -16,7 +18,9 @@ export class ClasificadorService {
   constructor(private http: HttpClient) { }
 
   getGenero(urlGenero): Observable<ObtenerPaginaGeneroResponse> {
-    console.log(urlGenero);
+    if (this.log) {
+      console.log(urlGenero);
+    }
     return this.http.get<ObtenerPaginaGeneroResponse>(this.getGeneroUrl + urlGenero).map(this.obtenerEntradaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
@@ -27,16 +31,20 @@ export class ClasificadorService {
 
 
   getCategoria(urlCategoria): Observable<ObtenerPaginaCategoriaResponse> {
-    console.log(urlCategoria);
+    if (this.log) {
+      console.log(urlCategoria);
+    }
     return this.http.get<ObtenerPaginaCategoriaResponse>(this.getCategoriaUrl + urlCategoria).map(this.obtenergetCategoriaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   getCategoriaPage(urlCategoria, numeroPagina): Observable<ObtenerPaginaCategoriaResponse> {
-    console.log(urlCategoria);
+    if (this.log) {
+      console.log(urlCategoria);
+    }
     return this.http.get<ObtenerPaginaCategoriaResponse>(this.getCategoriaUrl + urlCategoria + '/' + numeroPagina)
-    .map(this.obtenergetCategoriaDeRespuesta)
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .map(this.obtenergetCategoriaDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   private obtenergetCategoriaDeRespuesta(res: ObtenerPaginaCategoriaResponse) {
@@ -44,16 +52,20 @@ export class ClasificadorService {
   }
 
   getPaginaNoticiasLibro(urlLibro): Observable<ObtenerPaginaLibroNoticiasResponse> {
-    console.log(urlLibro);
+    if (this.log) {
+      console.log(urlLibro);
+    }
     return this.http.get<ObtenerPaginaLibroNoticiasResponse>(this.getNoticiasLibroUrl + urlLibro).map(this.obtenerNoticiasLibroDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   getPaginaNoticiasLibroPage(urlLibro, numeroPagina): Observable<ObtenerPaginaLibroNoticiasResponse> {
-    console.log(urlLibro);
+    if (this.log) {
+      console.log(urlLibro);
+    }
     return this.http.get<ObtenerPaginaLibroNoticiasResponse>(this.getNoticiasLibroUrl + urlLibro + '/' + numeroPagina)
-    .map(this.obtenerNoticiasLibroDeRespuesta)
-    .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .map(this.obtenerNoticiasLibroDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
   private obtenerNoticiasLibroDeRespuesta(res: ObtenerPaginaLibroNoticiasResponse) {

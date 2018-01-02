@@ -25,7 +25,7 @@ import com.momoko.es.api.facade.FileUploadFacade;
 import com.momoko.es.backend.model.service.StorageService;
 
 @Controller
-@CrossOrigin(origins = "http://192.168.43.117:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "http://www.momoko.es" })
 public class FileUploadFacadeImpl implements FileUploadFacade {
 
     private final StorageService storageService;
@@ -42,7 +42,6 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
         final StringBuilder buider = new StringBuilder();
         if (!ArrayUtils.isEmpty(files)) {
             for (final MultipartFile multipartFile : files) {
-                this.storageService.init(tipoSubida);
                 this.storageService.store(multipartFile, tipoSubida);
                 buider.append("You successfully uploaded " + multipartFile.getOriginalFilename() + " \n");
             }

@@ -8,6 +8,7 @@ import { GrowlModule } from 'primeng/primeng';
 import { ComentariosService } from 'app/services/comentarios.service';
 import { Entrada } from 'app/dtos/entrada';
 import { ScrollToService } from 'ng2-scroll-to-el';
+import { environment } from 'environments/environment';
 
 @Component({
   selector: 'app-crear-comentario',
@@ -15,6 +16,8 @@ import { ScrollToService } from 'ng2-scroll-to-el';
   styleUrls: ['./crear-comentario.component.css']
 })
 export class CrearComentarioComponent implements OnInit {
+
+  private log = environment.log;
 
   @Input() entrada: Entrada;
 
@@ -36,10 +39,13 @@ export class CrearComentarioComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   onPublicarComentario() {
-    console.log('Test');
+    if (this.log) {
+      console.log('Test');
+    }
     this.nuevoComentario.entradaId = this.entrada.entradaId;
     this.comentariosService.guardarComentario(this.nuevoComentario).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
@@ -52,24 +58,32 @@ export class CrearComentarioComponent implements OnInit {
 
   showSuccess(mensaje: string) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
   }
 
   showError(mensaje: string[]) {
     this.msgs = [];
-    console.log(mensaje);
+    if (this.log) {
+      console.log(mensaje);
+    }
     let mensajeTotal = '';
     mensaje.forEach(element => {
       mensajeTotal += element + '<br/>';
     });
-    console.log(mensajeTotal);
+    if (this.log) {
+      console.log(mensajeTotal);
+    }
     this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
   }
 
   seleccionarComentario(comentario: Comentario, element) {
-    console.log('Padre');
-    console.log(comentario);
+    if (this.log) {
+      console.log('Padre');
+      console.log(comentario);
+    }
     this.scrollToElement(element);
     this.comentarioSeleccionado = true;
     this.comentarioAResponder = comentario;
