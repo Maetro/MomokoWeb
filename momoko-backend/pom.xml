@@ -130,8 +130,14 @@
 		    <groupId>org.apache.httpcomponents</groupId>
 		    <artifactId>httpmime</artifactId>
 		</dependency>
-		
+		<dependency>
+		    <groupId>com.google.code</groupId>
+		    <artifactId>sitemapgen4j</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
 
+	
+	
 		<!-- END BORRAME -->
 		<dependency>
 			<groupId>org.scala-lang</groupId>

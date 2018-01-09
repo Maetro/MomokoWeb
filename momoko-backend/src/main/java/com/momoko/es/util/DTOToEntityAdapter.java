@@ -88,6 +88,7 @@ public final class DTOToEntityAdapter {
         libroEntity.setNumeroPaginas(libroDTO.getNumeroPaginas());
         libroEntity.setTituloOriginal(libroDTO.getTituloOriginal());
         libroEntity.setUrlLibro(libroDTO.getUrlLibro());
+        libroEntity.setFechaAlta(libroDTO.getFechaAlta());
         return libroEntity;
     }
 

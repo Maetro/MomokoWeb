@@ -1,0 +1,51 @@
+<div class="light-wrapper">
+    <div class="container inner">
+      <div class="grid-view">
+        <span class="tituloBloque">
+          <h2> Últimos vídeos</h2>
+        </span>
+  
+        <div class="row">
+          <div class="col-md-4" *ngFor="let video of videos; let first = first;">
+            <div class="product">
+              <figure class="product__image">
+                <a routerLink="/{{video.urlMomoko}}" title="{{video.snippet.title}}">
+                  <span>
+                    <img width="370" src="{{video.snippet.thumbnails.high.url}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                      alt="Lucky Penny">
+                  </span>
+                </a>
+                <div class="product__action">
+                  <a routerLink="/{{video.urlMomoko}}" title="Ver más información sobre {{video.snippet.title}}" class="button buy-now"
+                    style="font-size:11px;">
+                    <span>Ver más información</span>
+                  </a>
+                </div>
+              </figure>
+              <div class="product__detail" style="text-align:center;">
+                <h3 class="product__title" title="{{video.snippet.title}}">
+                  <a routerLink="/{{video.urlMomoko}}" title="{{video.snippet.title}}">{{video.snippet.title}}</a>
+                </h3>
+                <a routerLink="/{{video.urlMomoko}}" title="{{video.snippet.title}}" class="btn_leer_mas">
+                  Leer más
+                </a>
+              </div>
+            </div>
+          </div>
+  
+  
+        </div>
+        <!-- /.blog-posts -->
+  
+      </div>
+      <!-- /.grid-view -->
+  
+  
+  
+  
+      <!-- /.container -->
+    </div>
+    <!-- /.dark-wrapper -->
+  
+  </div>
+  

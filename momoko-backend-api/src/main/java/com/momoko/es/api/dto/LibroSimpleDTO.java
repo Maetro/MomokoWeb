@@ -8,6 +8,7 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * The Class LibroSimpleDTO.
@@ -37,6 +38,8 @@ public class LibroSimpleDTO implements Serializable {
 
     /** The portada height. */
     private Integer portadaHeight;
+
+    private Date fechaAlta;
 
     /**
      * Gets the titulo.
@@ -169,6 +172,25 @@ public class LibroSimpleDTO implements Serializable {
      */
     public void setPortadaWidth(final Integer portadaWidth) {
         this.portadaWidth = portadaWidth;
+    }
+
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
+    public Date getFechaAlta() {
+        return this.fechaAlta;
     }
 
 }

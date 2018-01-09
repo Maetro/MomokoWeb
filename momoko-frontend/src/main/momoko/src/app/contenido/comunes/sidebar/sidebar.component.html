@@ -1,0 +1,34 @@
+<aside class="col-sm-4 sidebar">
+
+    <!-- /.widget -->
+  
+    <div class="sidebox widget" *ngIf="libros">
+      <h3 class="widget-title section-title">{{tituloSeccionLibros}}</h3>
+      <ul class="post-list">
+        <app-libros-mes-sidebar [libros]="libros"></app-libros-mes-sidebar>
+      </ul>
+      <!-- /.post-list -->
+    </div>
+    <!-- /.widget -->
+  
+  
+  
+  
+    <div class="sidebox widget">
+      <h3 class="widget-title section-title">¿Quieres colaborar con nosotros?</h3>
+      <figure>
+        <!--<img src="assets/style/images/art/about.jpg" class="img-auto" alt=""> -->
+      </figure>
+      <div class="divide10"></div>
+      <p>¿Eres una editorial o un autor y quieres que hagamos una reseña de tu libro? ¿Eres redactor de contenidos y te apetece
+        escribir en Momoko? ¡Ponte en contacto!
+        <a href="mailto:info@momoko.es"> info@momoko.es </a>
+      </p>
+  
+      <div class="clearfix"></div>
+    </div>
+  
+    <app-sidebar-instagram></app-sidebar-instagram>
+  
+  </aside>
+  

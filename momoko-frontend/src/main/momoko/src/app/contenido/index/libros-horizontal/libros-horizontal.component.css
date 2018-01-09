@@ -1,0 +1,11 @@
+div.horizontal {
+    display: flex;
+    justify-content: center;
+  }
+  
+  figure.vertical {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  

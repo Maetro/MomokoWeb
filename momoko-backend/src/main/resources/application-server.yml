@@ -8,6 +8,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://aa8pgb0srwjwcv.cd3zhdzz8wuz.eu-west-1.rds.amazonaws.com:3306/momokoBD
     username: root
+    password: DLlCfAjs1
   http:
     multipart:
       max-file-size: 10MB

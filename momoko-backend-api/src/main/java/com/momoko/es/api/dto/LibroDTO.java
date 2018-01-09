@@ -8,6 +8,7 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -85,6 +86,9 @@ public class LibroDTO implements Serializable {
 
     /** The comentario nota momoko. */
     private String comentarioNotaMomoko;
+
+    /** The fecha alta. */
+    private Date fechaAlta;
 
     /**
      * Gets the libro id.
@@ -464,6 +468,25 @@ public class LibroDTO implements Serializable {
      */
     public void setComentarioNotaMomoko(final String comentarioNotaMomoko) {
         this.comentarioNotaMomoko = comentarioNotaMomoko;
+    }
+
+    /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
+    public Date getFechaAlta() {
+        return this.fechaAlta;
+    }
+
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
+    public void setFechaAlta(final Date fechaAlta) {
+        this.fechaAlta = fechaAlta;
     }
 
     /*

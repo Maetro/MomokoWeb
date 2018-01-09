@@ -6,15 +6,18 @@
  */
 package com.momoko.es.backend.model.facade;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -59,6 +62,9 @@ import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapGenerator;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "http://www.momoko.es", "http://momoko.es" })
@@ -455,6 +461,165 @@ public class PublicFacade {
                 }
             }
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/generarSiteMap")
+    void generarSiteMap() throws Exception {
+
+        final List<EntradaSimpleDTO> entradasSimples = this.entradaService.recuperarEntradasSimples();
+        final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
+        final List<LibroDTO> librosSimples = this.libroService.recuperarLibros();
+        final List<EtiquetaDTO> etiquetas = this.etiquetaService.obtenerTodasEtiquetas();
+        final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
+        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+
+        final Date fechaActualizacionEntradaReciente = obtenerFechaActualizacionMasReciente(ultimasEntradas);
+        final Date obtenerFechaLibroMasReciente = obtenerFechaLibroMasReciente(librosSimples);
+        // number of URLs counted
+        int nrOfURLs = 0;
+        final Date ultimaActualizacion = obtenerFechaMasReciente(fechaActualizacionEntradaReciente,
+                obtenerFechaLibroMasReciente);
+
+        final String sitemapsDirectoryPath = this.almacenImagenes.getUrlImageServer();
+        final String urlPagina = "http://www.momoko.es";
+
+        final File file = new File("D:/XAMPP/htdocs/momoko");
+
+        final WebSitemapGenerator wsg = WebSitemapGenerator.builder("http://www.momoko.es", file)
+                .fileNamePrefix("sitemap") // name
+                // of
+                // the
+                // generated
+                // sitemap
+                .gzip(false) // recommended - as it decreases the file's size significantly
+                .build();
+
+        String url = urlPagina + "/";
+
+        WebSitemapUrl wsmUrl = new WebSitemapUrl.Options(url).lastMod(ultimaActualizacion).priority(1.0)
+                .changeFreq(ChangeFreq.HOURLY).build();
+        wsg.addUrl(wsmUrl);
+        nrOfURLs++;
+
+        for (final CategoriaDTO categoria : categorias) {
+            url = urlPagina + "/categoria/" + categoria.getUrlCategoria();
+            final List<EntradaSimpleDTO> entradas = new ArrayList<EntradaSimpleDTO>();
+            final String urlCategoria = categoria.getUrlCategoria();
+            final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlCategoria);
+            if (urlCategoria.equals("noticias")) {
+                entradas.addAll(this.entradaService.obtenerNoticias(request));
+            } else if (urlCategoria.equals("miscelaneos")) {
+                entradas.addAll(this.entradaService.obtenerMiscelaneos(request));
+            } else if (urlCategoria.equals("videos")) {
+                entradas.addAll(this.entradaService.obtenerVideos(request));
+
+            } else {
+                entradas.addAll(
+                        this.entradaService.obtenerEntradasCategoriaPorFecha(categoria, 9, request.getNumeroPagina()));
+
+            }
+
+            wsmUrl = new WebSitemapUrl.Options(url).lastMod(entradas.get(0).getFechaAlta()).priority(0.8)
+                    .changeFreq(ChangeFreq.DAILY).build();
+            wsg.addUrl(wsmUrl);
+            nrOfURLs++;
+        }
+
+        for (final GeneroDTO genero : generos) {
+            url = urlPagina + "/genero/" + genero.getUrlGenero();
+            final List<LibroSimpleDTO> libros = this.libroService.obtenerLibrosConAnalisisGeneroPorFecha(genero, 9, 1);
+            if (CollectionUtils.isNotEmpty(libros)) {
+
+                wsmUrl = new WebSitemapUrl.Options(url).lastMod(libros.get(0).getFechaAlta()).priority(0.7)
+                        .changeFreq(ChangeFreq.WEEKLY).build();
+                wsg.addUrl(wsmUrl);
+                nrOfURLs++;
+            }
+        }
+
+        for (final EntradaSimpleDTO entrada : entradasSimples) {
+            url = urlPagina + "/" + entrada.getUrlEntrada();
+            if (entrada.getFechaAlta().before(Calendar.getInstance().getTime())) {
+                wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaAlta()).priority(0.5)
+                        .changeFreq(ChangeFreq.MONTHLY).build();
+                wsg.addUrl(wsmUrl);
+                nrOfURLs++;
+            }
+        }
+
+        for (final LibroDTO libro : librosSimples) {
+            url = urlPagina + "/libro/" + libro.getUrlLibro();
+
+            wsmUrl = new WebSitemapUrl.Options(url).lastMod(libro.getFechaAlta()).priority(0.5)
+                    .changeFreq(ChangeFreq.MONTHLY).build();
+            wsg.addUrl(wsmUrl);
+            nrOfURLs++;
+
+        }
+
+        for (final EtiquetaDTO etiqueta : etiquetas) {
+            url = urlPagina + "/tag/" + etiqueta.getUrlEtiqueta();
+
+            wsmUrl = new WebSitemapUrl.Options(url).priority(0.4).changeFreq(ChangeFreq.MONTHLY).build();
+            wsg.addUrl(wsmUrl);
+            nrOfURLs++;
+        }
+
+        // One sitemap can contain a maximum of 50,000 URLs.
+        if (nrOfURLs <= 50000) {
+            wsg.write();
+        } else {
+            // in this case multiple files will be created and sitemap_index.xml file describing the files which will be
+            // ignored
+            // workaround to resolve the issue described at
+            // http://code.google.com/p/sitemapgen4j/issues/attachmentText?id=8&aid=80003000&name=Admit_Single_Sitemap_in_Index.patch&token=p2CFJZ5OOE5utzZV1UuxnVzFJmE%3A1375266156989
+            wsg.write();
+            wsg.writeSitemapsWithIndex();
+        }
+    }
+
+    private Date obtenerFechaLibroMasReciente(final List<LibroDTO> librosSimples) {
+        Date fechaMasReciente = null;
+        for (final LibroDTO libro : librosSimples) {
+            if (libro.getFechaAlta() != null) {
+                fechaMasReciente = obtenerFechaMasReciente(fechaMasReciente, libro.getFechaAlta());
+            }
+        }
+        return fechaMasReciente;
+    }
+
+    /**
+     * Obtener fecha actualizacion mas reciente.
+     *
+     * @param entradasSimples
+     *            the entradas simples
+     * @return the date
+     */
+    private Date obtenerFechaActualizacionMasReciente(final List<EntradaSimpleDTO> entradasSimples) {
+        Date fechaMasReciente = null;
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasSimples) {
+            fechaMasReciente = obtenerFechaMasReciente(fechaMasReciente, entradaSimpleDTO.getFechaAlta());
+        }
+        return fechaMasReciente;
+    }
+
+    /**
+     * Obtener fecha mas reciente.
+     *
+     * @param fechaMasReciente
+     *            the fecha mas reciente
+     * @param candidata
+     *            the candidata
+     * @return the date
+     */
+    public Date obtenerFechaMasReciente(Date fechaMasReciente, final Date candidata) {
+        if ((fechaMasReciente == null) || (candidata.after(fechaMasReciente))) {
+            fechaMasReciente = candidata;
+        }
+        return fechaMasReciente;
     }
 
 }

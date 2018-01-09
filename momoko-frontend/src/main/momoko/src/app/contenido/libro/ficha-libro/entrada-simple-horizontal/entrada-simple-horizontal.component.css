@@ -1,0 +1,9 @@
+h1.post-title, h2.post-title {
+    font-size: 20px;
+  }
+  
+  .contenidoResumen{
+    max-height: 115px;
+    overflow: hidden;
+  }
+  
