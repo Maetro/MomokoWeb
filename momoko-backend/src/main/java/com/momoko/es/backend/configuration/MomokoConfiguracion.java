@@ -14,12 +14,14 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * The Class MomokoConfiguracion.
+ *
+ * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Configuration
 @ConfigurationProperties
 public class MomokoConfiguracion {
 
-    private final Map<String, Configuracion> momokoConfiguracion = new HashMap<String, Configuracion>();
+    private ImageServer momokoConfiguracion;
 
     /**
      * Instantiates a new momoko configuracion.
@@ -33,12 +35,92 @@ public class MomokoConfiguracion {
      *
      * @return the momoko configuracion
      */
-    public Map<String, Configuracion> getMomokoConfiguracion() {
+    public ImageServer getMomokoConfiguracion() {
         return this.momokoConfiguracion;
     }
 
     /**
+     * The Class ImageServer.
+     *
+     * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
+     */
+    public static class ImageServer {
+        private boolean esServidorLocal;
+        private Map<String, Directorios> directorios = new HashMap<String, Directorios>();
+
+        /**
+         * Chequea si es servidor local.
+         *
+         * @return true, si es servidor local
+         */
+        public boolean isEsServidorLocal() {
+            return esServidorLocal;
+        }
+
+        /**
+         * Establece es servidor local.
+         *
+         * @param esServidorLocal
+         *            nuevo es servidor local
+         */
+        public void setEsServidorLocal(boolean esServidorLocal) {
+            this.esServidorLocal = esServidorLocal;
+        }
+
+        /**
+         * Obtiene directorios.
+         *
+         * @return directorios
+         */
+        public Map<String, Directorios> getDirectorios() {
+            return directorios;
+        }
+
+        /**
+         * Establece directorios.
+         *
+         * @param directorios
+         *            directorios
+         */
+        public void setDirectorios(Map<String, Directorios> directorios) {
+            this.directorios = directorios;
+        }
+
+    }
+
+    /**
+     * The Class Directorios.
+     *
+     * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
+     */
+    public static class Directorios {
+        private Configuracion configuracion;
+
+        /**
+         * Obtiene configuracion.
+         *
+         * @return configuracion
+         */
+        public Configuracion getConfiguracion() {
+            return configuracion;
+        }
+
+        /**
+         * Establece configuracion.
+         *
+         * @param configuracion
+         *            nuevo configuracion
+         */
+        public void setConfiguracion(Configuracion configuracion) {
+            this.configuracion = configuracion;
+        }
+
+    }
+
+    /**
      * The Class Configuracion.
+     *
+     * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
      */
     public static class Configuracion {
 
@@ -51,8 +133,6 @@ public class MomokoConfiguracion {
         /** The url upload. */
         private String urlUpload;
 
-        /** The test. */
-        private String test;
 
         /**
          * Gets the url files.
@@ -109,25 +189,6 @@ public class MomokoConfiguracion {
          */
         public void setUrlUpload(final String urlUpload) {
             this.urlUpload = urlUpload;
-        }
-
-        /**
-         * Gets the test.
-         *
-         * @return the test
-         */
-        public String getTest() {
-            return this.test;
-        }
-
-        /**
-         * Sets the test.
-         *
-         * @param test
-         *            the new test
-         */
-        public void setTest(final String test) {
-            this.test = test;
         }
 
     }

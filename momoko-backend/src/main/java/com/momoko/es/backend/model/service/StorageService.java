@@ -28,7 +28,7 @@ public interface StorageService {
      * @param tipoAlmacenamineto
      *            the tipo almacenamineto
      */
-    void store(MultipartFile file, String tipoAlmacenamineto);
+    String store(MultipartFile file, String tipoAlmacenamineto);
 
     /**
      * Store.
@@ -38,7 +38,7 @@ public interface StorageService {
      * @param tipoAlmacenamineto
      *            the tipo almacenamineto
      */
-    void store(BufferedImage image, String tipoAlmacenamineto, final String name);
+    String store(BufferedImage image, String tipoAlmacenamineto, final String name);
 
     /**
      * Load all.

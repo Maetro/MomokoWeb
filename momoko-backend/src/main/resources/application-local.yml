@@ -89,11 +89,15 @@ logging:
         security: DEBUG
     root: INFO
 
-
 #momoko properties
 momokoConfiguracion:
+  esServidorLocal: false
   directorios:
-    urlFiles: http://localhost/images
-    urlImages: http://localhost/images/
-    urlUpload: http://localhost/
-    test: hola
+    remote:
+      urlFiles: http://www.momoko.es/images
+      urlImages: http://www.momoko.es/images/
+      urlUpload: http://www.momoko.es/
+    local:
+      urlFiles: D:/XAMPP/htdocs/momoko/images
+      urlImages: http://www.momoko.es/images/
+      urlUpload: http://www.momoko.es/

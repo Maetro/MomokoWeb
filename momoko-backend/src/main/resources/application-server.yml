@@ -80,8 +80,13 @@ logging:
     
 #momoko properties
 momokoConfiguracion:
+  esServidorLocal: false
   directorios:
-    urlFiles: http://www.momoko.es/images
-    urlImages: http://www.momoko.es/images/
-    urlUpload: http://www.momoko.es/
-    test: hola
+    remote:
+      urlFiles: http://www.momoko.es/images
+      urlImages: http://www.momoko.es/images/
+      urlUpload: http://www.momoko.es/
+    local:
+      urlFiles: /var/www/html/images
+      urlImages: http://www.momoko.es/images/
+      urlUpload: http://www.momoko.es/

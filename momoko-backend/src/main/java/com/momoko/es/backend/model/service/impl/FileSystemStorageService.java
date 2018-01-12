@@ -20,6 +20,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
@@ -68,32 +69,49 @@ public class FileSystemStorageService implements StorageService {
      * java.lang.String)
      */
     @Override
-    public void store(final MultipartFile file, final String tipoAlmacenamiento) {
+    public String store(final MultipartFile file, final String tipoAlmacenamiento) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
+        String nuevoArchivo = "";
         final String[] partes = filename.split("\\.");
         filename = ConversionUtils.toSlug(partes[0]);
-        System.out.println("Subida imagen_: " + filename + "." + partes[1]);
+        if (file.isEmpty()) {
+            throw new StorageException("Failed to store empty file " + filename);
+        }
+        if (filename.contains("..")) {
+            // This is a security check
+            throw new StorageException("Cannot store file with relative path outside current directory " + filename);
+        }
         try {
-            if (file.isEmpty()) {
-                throw new StorageException("Failed to store empty file " + filename);
-            }
-            if (filename.contains("..")) {
-                // This is a security check
-                throw new StorageException(
-                        "Cannot store file with relative path outside current directory " + filename);
-            }
-            final boolean existeImagen = exists(getImageServerLocation(tipoAlmacenamiento) + "/" + filename + ".png");
+            if (esServidorLocal()) {
+                nuevoArchivo = filename + "." + partes[1];
+                Path location = getFileLocation(tipoAlmacenamiento).resolve(nuevoArchivo);
+                int cont = 1;
+                while (Files.exists(location)) {
+                    nuevoArchivo = filename + "_" + cont + "." + partes[1];
+                    location = getFileLocation(tipoAlmacenamiento).resolve(nuevoArchivo);
+                    cont++;
+                }
+                if (!Files.exists(location)) {
+                    Files.copy(file.getInputStream(), location, StandardCopyOption.REPLACE_EXISTING);
+                }
+            } else {
 
-            if (!existeImagen) {
-                final File newName = File.createTempFile(filename, ".tmp");
-                final BufferedImage imageToStore = ImageIO.read(file.getInputStream());
-                ImageIO.write(imageToStore, "png", newName);
-                guardarEnServidorImagenes(tipoAlmacenamiento, newName, filename + ".png");
-            }
+                final boolean existeImagen = exists(
+                        getImageServerLocation(tipoAlmacenamiento) + "/" + filename + "." + partes[1]);
 
+                if (!existeImagen) {
+                    final File newName = File.createTempFile(filename, ".tmp");
+                    final BufferedImage imageToStore = ImageIO.read(file.getInputStream());
+                    ImageIO.write(imageToStore, partes[1], newName);
+                    guardarEnServidorImagenes(tipoAlmacenamiento, newName, filename + "." + partes[1]);
+                }
+
+            }
         } catch (final IOException e) {
             throw new StorageException("Failed to store file " + filename, e);
         }
+
+        return nuevoArchivo;
     }
 
     /*
@@ -103,22 +121,31 @@ public class FileSystemStorageService implements StorageService {
      * java.lang.String)
      */
     @Override
-    public void store(final BufferedImage image, final String tipoAlmacenamiento, final String name) {
+    public String store(final BufferedImage image, final String tipoAlmacenamiento, final String name) {
         File newName;
+        String nuevoArchivo = "";
         try {
-            newName = File.createTempFile(name, ".tmp");
-            ImageIO.write(image, "png", newName);
-            guardarEnServidorImagenes(tipoAlmacenamiento, newName, name + ".png");
+            if (esServidorLocal()) {
+                final File outputfile = new File(getFileLocation(tipoAlmacenamiento).resolve(name).toString() + ".png");
+                Files.createFile(getFileLocation(tipoAlmacenamiento).resolve(name + ".png"));
+                nuevoArchivo = name + ".png";
+                ImageIO.write(image, "png", outputfile);
+            } else {
+                newName = File.createTempFile(name, ".tmp");
+                ImageIO.write(image, "png", newName);
+                guardarEnServidorImagenes(tipoAlmacenamiento, newName, name + ".png");
+            }
         } catch (final IOException e) {
             e.printStackTrace();
         }
-
+        return nuevoArchivo;
     }
 
     private void guardarEnServidorImagenes(final String tipoAlmacenamiento, final File outputfile,
-            final String fileNameNuevo) {
+        final String fileNameNuevo) {
         final CloseableHttpClient client = HttpClients.createDefault();
-        final String urlUpload = this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlUpload();
+        final String urlUpload = this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("remote")
+                .getConfiguracion().getUrlUpload();
         final HttpPost httpPost = new HttpPost(urlUpload + "upload.php");
 
         final MultipartEntityBuilder builder = MultipartEntityBuilder.create();
@@ -140,7 +167,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     public void crearMiniatura(final InputStream fileInputStream, final String tipoAlmacenamiento,
-            final String filename) throws IOException {
+        final String filename) throws IOException {
         final BufferedImage imageToScale = ImageIO.read(fileInputStream);
         final BufferedImage scaledImg = Scalr.resize(imageToScale, Method.ULTRA_QUALITY, 480, 1, Scalr.OP_ANTIALIAS);
         final String[] fileNameSplits = filename.split("\\.");
@@ -148,12 +175,16 @@ public class FileSystemStorageService implements StorageService {
         final File newName = new File(
                 getFileLocation(tipoAlmacenamiento) + "/" + fileNameSplits[0] + "_thumbnail" + ".png");
         ImageIO.write(scaledImg, "png", newName);
-        guardarEnServidorImagenes(tipoAlmacenamiento, newName, newName.getName());
+        if (esServidorLocal()) {
+            ImageIO.write(scaledImg, "png", newName);
+        } else {
+            guardarEnServidorImagenes(tipoAlmacenamiento, newName, newName.getName());
+        }
     }
 
     @Override
     public String obtenerMiniatura(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer width,
-            final Integer height, final boolean recortar) throws IOException {
+        final Integer height, final boolean recortar) throws IOException {
 
         final String[] trozos = fileNameOriginal.split("\\.")[0].split("/");
         String fileName = trozos[trozos.length - 1];
@@ -188,8 +219,8 @@ public class FileSystemStorageService implements StorageService {
                 }
             }
         }
-        return this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlImages() + tipoAlmacenamiento
-                + "/" + fileNameNuevo;
+        return this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("remote").getConfiguracion()
+                .getUrlImages() + tipoAlmacenamiento + "/" + fileNameNuevo;
     }
 
     public boolean existe(final File locationMiniatura) {
@@ -205,46 +236,6 @@ public class FileSystemStorageService implements StorageService {
 
             final URL url = new URL(urlFile);
             inputStream = url.openStream();
-
-            outputStream = new FileOutputStream(tempFile);
-
-            final byte[] buffer = new byte[2048];
-            int length;
-
-            while ((length = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, length);
-            }
-
-        } catch (final MalformedURLException e) {
-            System.out.println("MalformedURLException :- " + e.getMessage());
-
-        } catch (final FileNotFoundException e) {
-            System.out.println("FileNotFoundException :- " + e.getMessage());
-
-        } catch (final IOException e) {
-            System.out.println("IOException :- " + e.getMessage());
-
-        } finally {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-                if (outputStream != null) {
-                    outputStream.close();
-                }
-
-            } catch (final IOException e) {
-                System.out.println("Finally IOException :- " + e.getMessage());
-            }
-        }
-        return tempFile;
-    }
-
-    private File obtenerImagenDeInputStream(final InputStream inputStream, final String name) {
-        OutputStream outputStream = null;
-        File tempFile = null;
-        try {
-            tempFile = File.createTempFile(name, ".tmp");
 
             outputStream = new FileOutputStream(tempFile);
 
@@ -298,19 +289,22 @@ public class FileSystemStorageService implements StorageService {
     }
 
     private Path getFileLocation(final String tipoAlmacenamiento) {
-        return Paths.get(this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlFiles() + "/"
-                + tipoAlmacenamiento);
+        if (esServidorLocal()) {
+            return Paths.get(this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("local")
+                    .getConfiguracion().getUrlFiles() + "/" + tipoAlmacenamiento);
+        } else {
+            return Paths.get(this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("remote")
+                    .getConfiguracion().getUrlFiles() + "/" + tipoAlmacenamiento);
+        }
+    }
+
+    private boolean esServidorLocal() {
+        return this.momokoConfiguracion.getMomokoConfiguracion().isEsServidorLocal();
     }
 
     private String getImageServerLocation(final String tipoAlmacenamiento) {
-        return this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlFiles() + "/"
-                + tipoAlmacenamiento;
-    }
-
-    private File multipartToFile(final MultipartFile multipart) throws IllegalStateException, IOException {
-        final File convFile = new File(multipart.getOriginalFilename());
-        multipart.transferTo(convFile);
-        return convFile;
+        return this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("remote").getConfiguracion()
+                .getUrlFiles() + "/" + tipoAlmacenamiento;
     }
 
     /**
@@ -344,7 +338,7 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public String obtenerMiniatura(final String urlImagen, final Integer width, final Integer height,
-            final boolean recortar) throws IOException {
+        final boolean recortar) throws IOException {
         final String[] lista = urlImagen.split("/");
         final int elementos = lista.length;
         return obtenerMiniatura(lista[elementos - 2], lista[elementos - 1], width, height, recortar);
@@ -359,7 +353,8 @@ public class FileSystemStorageService implements StorageService {
 
     @Override
     public String getUrlImageServer() {
-        return this.momokoConfiguracion.getMomokoConfiguracion().get("directorios").getUrlImages();
+        return this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("remote").getConfiguracion()
+                .getUrlImages();
     }
 
     @Override
