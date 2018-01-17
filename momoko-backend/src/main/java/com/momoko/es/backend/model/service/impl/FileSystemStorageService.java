@@ -293,8 +293,7 @@ public class FileSystemStorageService implements StorageService {
             return Paths.get(this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("local")
                     .getConfiguracion().getUrlFiles() + "/" + tipoAlmacenamiento);
         } else {
-            return Paths.get(this.momokoConfiguracion.getMomokoConfiguracion().getDirectorios().get("remote")
-                    .getConfiguracion().getUrlFiles() + "/" + tipoAlmacenamiento);
+            return Paths.get(getImageServerLocation(tipoAlmacenamiento));
         }
     }
 
