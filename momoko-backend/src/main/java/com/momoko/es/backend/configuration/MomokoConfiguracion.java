@@ -6,9 +6,6 @@
  */
 package com.momoko.es.backend.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -18,74 +15,51 @@ import org.springframework.context.annotation.Configuration;
  * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Configuration
-@ConfigurationProperties
+@ConfigurationProperties("momokoConfiguracion")
 public class MomokoConfiguracion {
 
-    private ImageServer momokoConfiguracion;
+    /** The es servidor local. */
+    private boolean esServidorLocal;
+
+    /** The directorios. */
+    private Directorios directorios = new Directorios();
 
     /**
-     * Instantiates a new momoko configuracion.
+     * Checks if is es servidor local.
+     *
+     * @return true, if is es servidor local
      */
-    public MomokoConfiguracion() {
-        System.out.println("Creando la configuracion");
+    public boolean isEsServidorLocal() {
+        return this.esServidorLocal;
     }
 
     /**
-     * Gets the momoko configuracion.
+     * Sets the es servidor local.
      *
-     * @return the momoko configuracion
+     * @param esServidorLocal
+     *            the new es servidor local
      */
-    public ImageServer getMomokoConfiguracion() {
-        return this.momokoConfiguracion;
+    public void setEsServidorLocal(final boolean esServidorLocal) {
+        this.esServidorLocal = esServidorLocal;
     }
 
     /**
-     * The Class ImageServer.
+     * Gets the directorios.
      *
-     * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
+     * @return the directorios
      */
-    public static class ImageServer {
-        private boolean esServidorLocal;
-        private Map<String, Directorios> directorios = new HashMap<String, Directorios>();
+    public Directorios getDirectorios() {
+        return this.directorios;
+    }
 
-        /**
-         * Chequea si es servidor local.
-         *
-         * @return true, si es servidor local
-         */
-        public boolean isEsServidorLocal() {
-            return esServidorLocal;
-        }
-
-        /**
-         * Establece es servidor local.
-         *
-         * @param esServidorLocal
-         *            nuevo es servidor local
-         */
-        public void setEsServidorLocal(boolean esServidorLocal) {
-            this.esServidorLocal = esServidorLocal;
-        }
-
-        /**
-         * Obtiene directorios.
-         *
-         * @return directorios
-         */
-        public Map<String, Directorios> getDirectorios() {
-            return directorios;
-        }
-
-        /**
-         * Establece directorios.
-         *
-         * @param directorios
-         *            directorios
-         */
-        public void setDirectorios(Map<String, Directorios> directorios) {
-            this.directorios = directorios;
-        }
-
+    /**
+     * Sets the directorios.
+     *
+     * @param directorios
+     *            the new directorios
+     */
+    public void setDirectorios(final Directorios directorios) {
+        this.directorios = directorios;
     }
 
     /**
@@ -94,25 +68,45 @@ public class MomokoConfiguracion {
      * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
      */
     public static class Directorios {
-        private Configuracion configuracion;
+        private Remote remote = new Remote();
+        private Local local = new Local();
 
         /**
-         * Obtiene configuracion.
+         * Gets the local.
          *
-         * @return configuracion
+         * @return the local
          */
-        public Configuracion getConfiguracion() {
-            return configuracion;
+        public Local getLocal() {
+            return this.local;
         }
 
         /**
-         * Establece configuracion.
+         * Sets the local.
          *
-         * @param configuracion
-         *            nuevo configuracion
+         * @param local
+         *            the new local
          */
-        public void setConfiguracion(Configuracion configuracion) {
-            this.configuracion = configuracion;
+        public void setLocal(final Local local) {
+            this.local = local;
+        }
+
+        /**
+         * Gets the remote.
+         *
+         * @return the remote
+         */
+        public Remote getRemote() {
+            return this.remote;
+        }
+
+        /**
+         * Sets the remote.
+         *
+         * @param remote
+         *            the new remote
+         */
+        public void setRemote(final Remote remote) {
+            this.remote = remote;
         }
 
     }
@@ -122,7 +116,7 @@ public class MomokoConfiguracion {
      *
      * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
      */
-    public static class Configuracion {
+    public static class Local {
 
         /** The url files. */
         private String urlFiles;
@@ -133,6 +127,80 @@ public class MomokoConfiguracion {
         /** The url upload. */
         private String urlUpload;
 
+        /**
+         * Gets the url files.
+         *
+         * @return the url files
+         */
+        public String getUrlFiles() {
+            return this.urlFiles;
+        }
+
+        /**
+         * Sets the url files.
+         *
+         * @param urlFiles
+         *            the new url files
+         */
+        public void setUrlFiles(final String urlFiles) {
+            this.urlFiles = urlFiles;
+        }
+
+        /**
+         * Gets the url images.
+         *
+         * @return the url images
+         */
+        public String getUrlImages() {
+            return this.urlImages;
+        }
+
+        /**
+         * Sets the url images.
+         *
+         * @param urlImages
+         *            the new url images
+         */
+        public void setUrlImages(final String urlImages) {
+            this.urlImages = urlImages;
+        }
+
+        /**
+         * Gets the url upload.
+         *
+         * @return the url upload
+         */
+        public String getUrlUpload() {
+            return this.urlUpload;
+        }
+
+        /**
+         * Sets the url upload.
+         *
+         * @param urlUpload
+         *            the new url upload
+         */
+        public void setUrlUpload(final String urlUpload) {
+            this.urlUpload = urlUpload;
+        }
+
+    }
+
+    /**
+     * The Class Configuracion.
+     *
+     * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
+     */
+    public static class Remote {
+
+        /** The url files. */
+        private String urlFiles;
+
+        /** The url images. */
+        private String urlImages;
+
+        /** The url upload. */
+        private String urlUpload;
 
         /**
          * Gets the url files.

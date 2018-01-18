@@ -36,5 +36,6 @@ export const environment = {
   getCategoriaUrl: 'http://localhost:5000/public/categoria/',
   getEtiquetaUrl: 'http://localhost:5000/public/etiqueta/',
   getNoticiasLibroUrl: 'http://localhost:5000/public/noticias-libro/',
-  suscripcionUrl: 'http://localhost:5000/public/suscribirse/'
+  suscripcionUrl: 'http://localhost:5000/public/suscribirse/',
+  getBusquedaUrl: 'http://localhost:5000/public/buscar/'
 };

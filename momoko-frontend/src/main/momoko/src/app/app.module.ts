@@ -26,6 +26,8 @@ import { ScrollToService } from 'ng2-scroll-to-el';
 import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtener-libro-noticias-resolver.service';
 import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
 import { JsonAdapterService } from './services/util/json-adapter.service';
+import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtener-lista-busqueda-resolver.service';
+
 
 @NgModule({
   declarations: [
@@ -82,6 +84,13 @@ import { JsonAdapterService } from './services/util/json-adapter.service';
         }
       },
       {
+        path: 'buscar/:parametros_a_buscar',
+        loadChildren: './contenido/clasificador/lista-busqueda/lista-busqueda.module#ListaBusquedaModule',
+        resolve: {
+          busqueda: ObtenerListaBusquedaResolverService
+        }
+      },
+      {
         path: ':url',
         loadChildren: './contenido/entrada/entrada.module#EntradaModule',
         resolve: {
@@ -101,7 +110,7 @@ import { JsonAdapterService } from './services/util/json-adapter.service';
   providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerListaCategoriaResolverService, ClasificadorService,
     ObtenerListaGeneroResolverService, ObtenerListaEtiquetaResolverService, ComentariosService, ObtenerVideoResolverService, VideoService,
     ObtenerEntradaResolverService, EntradaService, ScrollToService, ObtenerLibroNoticiasResolverService, ObtenerLibroResolverService, LibroService,
-    JsonAdapterService],
+    JsonAdapterService, ObtenerListaBusquedaResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

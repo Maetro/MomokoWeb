@@ -8,6 +8,8 @@ package com.momoko.es.backend.model.facade;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
@@ -39,6 +42,7 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.dto.ResultadoBusquedaDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
@@ -46,6 +50,7 @@ import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
+import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
@@ -53,6 +58,8 @@ import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.google.GoogleSearch;
+import com.momoko.es.api.google.Item;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.EtiquetaService;
@@ -128,8 +135,10 @@ public class PublicFacade {
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
-        System.out.println("Obtener entrada: " + urlEntrada);
-        final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+        ObtenerEntradaResponse respuesta = null;
+        if (!urlEntrada.equals("not-found")) {
+            respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+        }
         return respuesta;
     }
 
@@ -406,6 +415,55 @@ public class PublicFacade {
             request.setUrlElemento(urlEtiqueta);
         }
         return obtenerEtiquetaResponse(urlEtiqueta, request, etiquetaResponse, entradasEtiqueta);
+
+    }
+
+    @GetMapping(path = "/buscar/{parametros-busqueda}")
+    public @ResponseBody ObtenerPaginaBusquedaResponse
+            obtenerBusqueda(@PathVariable("parametros-busqueda") final String parametrosBusqueda) {
+        final ObtenerPaginaBusquedaResponse busquedaResponse = new ObtenerPaginaBusquedaResponse();
+        final List<ResultadoBusquedaDTO> resultados = new ArrayList<ResultadoBusquedaDTO>();
+        System.out.println(parametrosBusqueda);
+
+        final String key = "AIzaSyBnQDrUmjpTtgHSgxTaOnt39u6SXiDvwPE";
+        parametrosBusqueda.replaceAll(" ", "%20");
+        final String qry = parametrosBusqueda;
+        String url;
+        try {
+            url = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=012955512977371834337:gke80zmzrl4&q="
+                    + qry + "&alt=json";
+            final URL urlR = new URL(url);
+            final RestTemplate restTemplate = new RestTemplate();
+            final GoogleSearch googleSearch = restTemplate.getForObject(url, GoogleSearch.class);
+            int numeroItems = 0;
+            if (CollectionUtils.isNotEmpty(googleSearch.getItems())) {
+                for (final Item item : googleSearch.getItems()) {
+                    final ResultadoBusquedaDTO resultado = new ResultadoBusquedaDTO();
+                    resultado.setTitulo(item.getTitle());
+                    resultado.setHtmlDescripcion(item.getHtmlSnippet());
+                    resultado.setHtmlTitulo(item.getHtmlTitle());
+                    if ((item.getPagemap() != null) && CollectionUtils.isNotEmpty(item.getPagemap().getCse_image())) {
+                        resultado.setImagen(item.getPagemap().getCse_image().iterator().next().getSrc());
+                    }
+                    resultado.setDescripcion(item.getSnippet());
+                    resultado.setUrl(resultado.getUrl());
+                    resultados.add(resultado);
+                    numeroItems++;
+                }
+            }
+            busquedaResponse.setNumeroEntradas(numeroItems);
+            busquedaResponse.setParametrosBusqueda(parametrosBusqueda);
+            busquedaResponse.setResultados(resultados);
+
+        } catch (final MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return busquedaResponse;
 
     }
 
