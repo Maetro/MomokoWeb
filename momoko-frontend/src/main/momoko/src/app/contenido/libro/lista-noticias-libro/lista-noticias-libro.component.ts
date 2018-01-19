@@ -4,7 +4,7 @@ import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { Libro } from '../../../dtos/libro';
 import { LibroService } from '../../../services/libro.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { Title, Meta } from '@angular/platform-browser';
 import { ObtenerPaginaLibroNoticiasResponse } from '../../../dtos/response/obtenerPaginaLibroNoticiasResponse';
 
 @Component({
@@ -22,7 +22,7 @@ export class ListaNoticiasLibroComponent implements OnInit {
   anchura: number;
   enLista: boolean;
   constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router,
-    private titleService: Title) { }
+    private titleService: Title, private metaService: Meta) { }
 
   ngOnInit() {
     const columna = document.getElementById('mirarAnchura')
@@ -44,6 +44,13 @@ export class ListaNoticiasLibroComponent implements OnInit {
       const metatituloPagina = 'Encuentra aquí las últimas noticias sobre ' + this.libro.titulo +
       ' de ' + autores ;
     this.titleService.setTitle(metatituloPagina);
+    this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/libro/noticias/'+ this.libro.urlLibro });
+    this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
+    this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
+    this.metaService.addTag({ name: 'og:type', content: 'article' });
+    this.metaService.addTag({ name: 'og:title', content: this.libro.titulo });
+    this.metaService.addTag({ name: 'og:description', content: this.libro.resumen});
+    this.metaService.addTag({ name: 'og:image', content: this.libro.urlImagen });
     });
   }
 

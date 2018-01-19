@@ -38,6 +38,9 @@ export class MenuComponent implements OnInit, AfterViewInit {
     }
     if (isPlatformBrowser(this.platformId)) {
       // Client only code.
+      if (this.log) {
+        console.log('Creando menus');
+      }
       $('#main-menu').smartmenus();
    }
     

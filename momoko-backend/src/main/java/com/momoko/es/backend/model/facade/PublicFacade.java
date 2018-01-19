@@ -446,7 +446,9 @@ public class PublicFacade {
                         resultado.setImagen(item.getPagemap().getCse_image().iterator().next().getSrc());
                     }
                     resultado.setDescripcion(item.getSnippet());
-                    resultado.setUrl(resultado.getUrl());
+
+                    final String urlPart = item.getFormattedUrl().split("momoko.es/")[1];
+                    resultado.setUrl(urlPart);
                     resultados.add(resultado);
                     numeroItems++;
                 }

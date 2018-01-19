@@ -27,6 +27,7 @@ import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtene
 import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
 import { JsonAdapterService } from './services/util/json-adapter.service';
 import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtener-lista-busqueda-resolver.service';
+import { PageNotFoundComponent } from './contenido/page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -90,6 +91,7 @@ import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtene
           busqueda: ObtenerListaBusquedaResolverService
         }
       },
+      {path: 'not-found', component: PageNotFoundComponent },
       {
         path: ':url',
         loadChildren: './contenido/entrada/entrada.module#EntradaModule',
