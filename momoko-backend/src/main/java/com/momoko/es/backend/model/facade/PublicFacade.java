@@ -8,6 +8,8 @@ package com.momoko.es.backend.model.facade;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
@@ -39,6 +42,7 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.dto.ResultadoBusquedaDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
@@ -46,6 +50,7 @@ import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
+import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
@@ -53,6 +58,8 @@ import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.google.GoogleSearch;
+import com.momoko.es.api.google.Item;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.EtiquetaService;
@@ -60,6 +67,7 @@ import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
+import com.momoko.es.backend.model.service.TrackService;
 import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
 import com.redfin.sitemapgenerator.ChangeFreq;
@@ -95,6 +103,9 @@ public class PublicFacade {
     @Autowired(required = false)
     private EtiquetaService etiquetaService;
 
+    @Autowired(required = false)
+    private TrackService trackService;
+
     @GetMapping(path = "/initData")
     public @ResponseBody InitDataDTO getInitData() {
         System.out.println("Llamada al init");
@@ -105,9 +116,8 @@ public class PublicFacade {
         return initDataDTO;
     }
 
-    @GetMapping(path = "/indexData")
-    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex() {
-        System.out.println("Llamada a los datos para dibujar el index");
+    @GetMapping(path = "/indexData/{client-id}")
+    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex(@PathVariable("client-id") final Integer clientId) {
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
         final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
@@ -117,19 +127,40 @@ public class PublicFacade {
         obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
         obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
+        if (clientId != null) {
+            trackService.enviarVisitaAPagina(clientId, "/", "Pagina principal");
+        }
         return obtenerIndexDataResponseDTO;
+    }
+
+    @GetMapping(path = "/indexData")
+    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex() {
+
+        return getInfoIndex(null);
     }
 
     @GetMapping(path = "/entradas")
     public @ResponseBody List<EntradaDTO> getAllEntradas() {
-        System.out.println("LLamada a la lista de entradas");
+
         return this.entradaService.recuperarEntradas();
     }
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
-        System.out.println("Obtener entrada: " + urlEntrada);
-        final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+        return getEntradaByUrl(urlEntrada, null);
+    }
+
+    @GetMapping(path = "/entrada/{url-entrada}/{client-id}")
+    public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
+        @PathVariable("client-id") final Integer clientId) {
+        ObtenerEntradaResponse respuesta = null;
+        if (!urlEntrada.equals("not-found")) {
+            respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+        }
+        if (clientId != null) {
+            String tituloEntrada = respuesta.getEntrada().getTituloEntrada();
+            trackService.enviarVisitaAPagina(clientId, "/" + urlEntrada, tituloEntrada);
+        }
         return respuesta;
     }
 
@@ -192,7 +223,7 @@ public class PublicFacade {
 
     @GetMapping(path = "/genero/{url-genero}")
     public @ResponseBody ObtenerPaginaGeneroResponse obtenerGenero(@PathVariable("url-genero") final String urlGenero,
-            @RequestBody(required = false) ObtenerPaginaGeneroRequest request) {
+        @RequestBody(required = false) ObtenerPaginaGeneroRequest request) {
         final ObtenerPaginaGeneroResponse generoResponse = new ObtenerPaginaGeneroResponse();
         if (request == null) {
             request = new ObtenerPaginaGeneroRequest();
@@ -234,9 +265,9 @@ public class PublicFacade {
 
     @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
-            @PathVariable("url-categoria") final String urlCategoria,
-            @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        @PathVariable("url-categoria") final String urlCategoria,
+        @PathVariable("numero-pagina") final Integer numeroPagina,
+        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -251,8 +282,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/categoria/{url-categoria}")
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
-            @PathVariable("url-categoria") final String urlCategoria,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        @PathVariable("url-categoria") final String urlCategoria,
+        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -279,8 +310,8 @@ public class PublicFacade {
      * @return the obtener pagina categoria response
      */
     private ObtenerPaginaCategoriaResponse obtenerCategoriaResponse(final String urlCategoria,
-            final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
-            final List<EntradaSimpleDTO> entradasCategoria) {
+        final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
+        final List<EntradaSimpleDTO> entradasCategoria) {
         final CategoriaDTO categoriaDTO = this.generoService.obtenerCategoriaPorUrl(urlCategoria);
         if (urlCategoria.equals("noticias")) {
             entradasCategoria.addAll(this.entradaService.obtenerNoticias(request));
@@ -313,9 +344,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/noticias-libro/{url-libro}/{numero-pagina}")
     public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibroPagina(
-            @PathVariable("url-libro") final String urlCategoria,
-            @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        @PathVariable("url-libro") final String urlCategoria, @PathVariable("numero-pagina") final Integer numeroPagina,
+        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -330,8 +360,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/noticias-libro/{url-libro}")
     public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibro(
-            @PathVariable("url-libro") final String urlLibro,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        @PathVariable("url-libro") final String urlLibro,
+        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -345,9 +375,8 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroNoticiasResponse(final String urlLibro,
-            final ObtenerPaginaElementoRequest request,
-            final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
-            final List<EntradaSimpleDTO> noticias) {
+        final ObtenerPaginaElementoRequest request,
+        final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse, final List<EntradaSimpleDTO> noticias) {
         final LibroDTO libro = this.libroService.obtenerLibro(urlLibro).getLibro();
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
         int numeroEntradas = 0;
@@ -378,9 +407,9 @@ public class PublicFacade {
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}/{numero-pagina}")
     public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
-            @PathVariable("url-etiqueta") final String urlEtiqueta,
-            @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        @PathVariable("url-etiqueta") final String urlEtiqueta,
+        @PathVariable("numero-pagina") final Integer numeroPagina,
+        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
         final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -395,8 +424,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}")
     public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
-            @PathVariable("url-etiqueta") final String urlEtiqueta,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+        @PathVariable("url-etiqueta") final String urlEtiqueta,
+        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
         final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -406,6 +435,57 @@ public class PublicFacade {
             request.setUrlElemento(urlEtiqueta);
         }
         return obtenerEtiquetaResponse(urlEtiqueta, request, etiquetaResponse, entradasEtiqueta);
+
+    }
+
+    @GetMapping(path = "/buscar/{parametros-busqueda}")
+    public @ResponseBody ObtenerPaginaBusquedaResponse
+            obtenerBusqueda(@PathVariable("parametros-busqueda") final String parametrosBusqueda) {
+        final ObtenerPaginaBusquedaResponse busquedaResponse = new ObtenerPaginaBusquedaResponse();
+        final List<ResultadoBusquedaDTO> resultados = new ArrayList<ResultadoBusquedaDTO>();
+        System.out.println(parametrosBusqueda);
+
+        final String key = "AIzaSyBnQDrUmjpTtgHSgxTaOnt39u6SXiDvwPE";
+        parametrosBusqueda.replaceAll(" ", "%20");
+        final String qry = parametrosBusqueda;
+        String url;
+        try {
+            url = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=012955512977371834337:gke80zmzrl4&q="
+                    + qry + "&alt=json";
+            final URL urlR = new URL(url);
+            final RestTemplate restTemplate = new RestTemplate();
+            final GoogleSearch googleSearch = restTemplate.getForObject(url, GoogleSearch.class);
+            int numeroItems = 0;
+            if (CollectionUtils.isNotEmpty(googleSearch.getItems())) {
+                for (final Item item : googleSearch.getItems()) {
+                    final ResultadoBusquedaDTO resultado = new ResultadoBusquedaDTO();
+                    resultado.setTitulo(item.getTitle());
+                    resultado.setHtmlDescripcion(item.getHtmlSnippet());
+                    resultado.setHtmlTitulo(item.getHtmlTitle());
+                    if ((item.getPagemap() != null) && CollectionUtils.isNotEmpty(item.getPagemap().getCse_image())) {
+                        resultado.setImagen(item.getPagemap().getCse_image().iterator().next().getSrc());
+                    }
+                    resultado.setDescripcion(item.getSnippet());
+
+                    final String urlPart = item.getFormattedUrl().split("momoko.es/")[1];
+                    resultado.setUrl(urlPart);
+                    resultados.add(resultado);
+                    numeroItems++;
+                }
+            }
+            busquedaResponse.setNumeroEntradas(numeroItems);
+            busquedaResponse.setParametrosBusqueda(parametrosBusqueda);
+            busquedaResponse.setResultados(resultados);
+
+        } catch (final MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (final IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return busquedaResponse;
 
     }
 
@@ -423,8 +503,8 @@ public class PublicFacade {
      * @return the obtener pagina categoria response
      */
     private ObtenerPaginaEtiquetaResponse obtenerEtiquetaResponse(final String urlEtiqueta,
-            final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
-            final List<EntradaSimpleDTO> entradasEtiqueta) {
+        final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
+        final List<EntradaSimpleDTO> entradasEtiqueta) {
         final EtiquetaDTO etiquetaDTO = this.etiquetaService.obtenerEtiquetaPorUrl(urlEtiqueta);
 
         entradasEtiqueta

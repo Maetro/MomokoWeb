@@ -8,8 +8,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.momoko.es.backend.model.service.TrackService;
+
 @Service
-public class TrackServiceImpl {
+public class TrackServiceImpl implements TrackService {
 
     @Async
     public void anotarAccionAnalytics() {
@@ -35,8 +37,36 @@ public class TrackServiceImpl {
             e.printStackTrace();
         }
 
+    }
 
+    // v=1 // Version.
+    // &tid=UA-XXXXX-Y // Tracking ID / Property ID.
+    // &cid=555 // Anonymous Client ID.
+    // &t=pageview // Pageview hit type.
+    // &dh=mydemo.com // Document hostname.
+    // &dp=/home // Page.
+    // &dt=homepage // Title.
+
+    @Override
+    @Async
+    public void enviarVisitaAPagina(Integer anonymousClientId, String url, String title) {
+        final RestTemplate restTemplate = new RestTemplate();
+        String trackingId = "UA-78412537-1";
+        String anonymousUserId = String.valueOf(anonymousClientId);
+        URIBuilder builder = new URIBuilder();
+        builder.setScheme("http").setHost("www.google-analytics.com").setPath("/collect").addParameter("v", "1")
+                .addParameter("tid", trackingId).addParameter("cid", anonymousUserId).addParameter("t", "pageview")
+                .addParameter("dh", "momoko.es").addParameter("dp", url) // Event category.
+                .addParameter("dt", title); // Event action.
+        URI uri = null;
+
+        try {
+            uri = builder.build();
+            URI results = restTemplate.postForLocation(uri.getPath(), String.class);
+            System.out.println(results);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 }
-
