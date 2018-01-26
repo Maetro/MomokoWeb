@@ -28,4 +28,13 @@ public interface CategoriaRepository extends CrudRepository<CategoriaEntity, Int
 
     public List<CategoriaEntity> findAll();
 
+    /**
+     * Find by url categoria in.
+     *
+     * @param categoriasUrls
+     *            the categorias urls
+     * @return the list
+     */
+    public List<CategoriaEntity> findByUrlCategoriaIn(List<String> categoriasUrls);
+
 }

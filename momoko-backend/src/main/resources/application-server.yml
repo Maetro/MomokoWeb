@@ -87,10 +87,12 @@ momokoConfiguracion:
   esServidorLocal: true
   directorios:
     remote:
+      urlSitemap: http://momoko.es
       urlFiles: http://momoko.es/images
       urlImages: http://momoko.es/images/
       urlUpload: http://momoko.es/
     local:
+      urlSitemap: /var/www/html
       urlFiles: /var/www/html/images
       urlImages: http://momoko.es/images/
       urlUpload: http://momoko.es/

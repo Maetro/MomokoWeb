@@ -256,7 +256,7 @@ public final class DTOToEntityAdapter {
      *            etiquetas
      * @return the establece
      */
-    public static Set<EtiquetaEntity> adaptarEtiquetas(final Set<EtiquetaDTO> etiquetas) {
+    public static Set<EtiquetaEntity> adaptarEtiquetas(final List<EtiquetaDTO> etiquetas) {
         final Set<EtiquetaEntity> etiquetasEntities = new HashSet<EtiquetaEntity>();
         for (final EtiquetaDTO etiquetaDTO : etiquetas) {
             etiquetasEntities.add(adaptarEtiqueta(etiquetaDTO));

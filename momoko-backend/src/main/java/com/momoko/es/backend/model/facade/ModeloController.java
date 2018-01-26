@@ -268,6 +268,7 @@ public class ModeloController {
                 entrada = this.entradaService.guardarEntrada(entradaDTO);
             } catch (final Exception e) {
                 listaErrores.add(ErrorCreacionEntrada.ERROR_EN_GUARDADO);
+                e.printStackTrace();
             }
         }
 

@@ -9,11 +9,13 @@ import { Libro3dComponent } from './libro3d/libro3d.component';
 import { MenuInternoLibroComponent } from './menu-interno-libro/menu-interno-libro.component';
 import { SobreAutorComponent } from './sobre-autor/sobre-autor.component';
 import { NotaCircularComponent } from './nota-circular/nota-circular.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
   declarations: [TagCategoriaComponent, SidebarComponent, SidebarInstagramComponent, LibrosMesSidebarComponent, Libro3dComponent, 
     MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent],

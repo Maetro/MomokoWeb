@@ -52,7 +52,7 @@
                 </b>
               </div>
             </div>
-            <div class="bloqueBotones">
+            <div class="bloqueBotones" *ngIf="entrada.librosEntrada[0].enlaceAmazon">
               <div class="col-md-12">
                 <a class="amazon" href="{{entrada.librosEntrada[0].enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
                   <span class="btnComprarAmazon">Comprar libro &gt;</span>

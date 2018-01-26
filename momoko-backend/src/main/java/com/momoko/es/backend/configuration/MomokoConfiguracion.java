@@ -127,6 +127,9 @@ public class MomokoConfiguracion {
         /** The url upload. */
         private String urlUpload;
 
+        /** The url sitemap. */
+        private String urlSitemap;
+
         /**
          * Gets the url files.
          *
@@ -182,6 +185,25 @@ public class MomokoConfiguracion {
          */
         public void setUrlUpload(final String urlUpload) {
             this.urlUpload = urlUpload;
+        }
+
+        /**
+         * Gets the url sitemap.
+         *
+         * @return the url sitemap
+         */
+        public String getUrlSitemap() {
+            return this.urlSitemap;
+        }
+
+        /**
+         * Sets the url sitemap.
+         *
+         * @param urlSitemap
+         *            the new url sitemap
+         */
+        public void setUrlSitemap(final String urlSitemap) {
+            this.urlSitemap = urlSitemap;
         }
 
     }
@@ -202,6 +224,9 @@ public class MomokoConfiguracion {
         /** The url upload. */
         private String urlUpload;
 
+        /** The url sitemap. */
+        private String urlSitemap;
+
         /**
          * Gets the url files.
          *
@@ -257,6 +282,25 @@ public class MomokoConfiguracion {
          */
         public void setUrlUpload(final String urlUpload) {
             this.urlUpload = urlUpload;
+        }
+
+        /**
+         * Gets the url sitemap.
+         *
+         * @return the url sitemap
+         */
+        public String getUrlSitemap() {
+            return this.urlSitemap;
+        }
+
+        /**
+         * Sets the url sitemap.
+         *
+         * @param urlSitemap
+         *            the new url sitemap
+         */
+        public void setUrlSitemap(final String urlSitemap) {
+            this.urlSitemap = urlSitemap;
         }
 
     }

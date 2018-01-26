@@ -145,6 +145,20 @@ public interface StorageService {
      *            the carpeta
      * @return true, if successful
      */
-    boolean crearCarpetaSiNoexiste(String carpeta);
+    boolean crearCarpetaSiNoExiste(String carpeta);
+
+    /**
+     * Gets the image folder.
+     *
+     * @return the image folder
+     */
+    String getImageFolder();
+
+    /**
+     * Gets the url sitemap.
+     *
+     * @return the url sitemap
+     */
+    String getUrlSitemap();
 
 }

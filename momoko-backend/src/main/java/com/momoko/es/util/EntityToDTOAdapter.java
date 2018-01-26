@@ -133,7 +133,7 @@ public final class EntityToDTOAdapter {
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setEditorNombre(entradaEntity.getEntradaAutor().getUsuarioNick());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
-        entradaDTO.setEtiquetas(adaptarEtiquetas(entradaEntity.getEtiquetas()));
+        entradaDTO.setEtiquetas(adaptarEtiquetas(new ArrayList(entradaEntity.getEtiquetas())));
         entradaDTO.setFechaAlta(entradaEntity.getFechaAlta());
         entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
         if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
@@ -153,7 +153,7 @@ public final class EntityToDTOAdapter {
      *            the libros entrada
      * @return the list
      */
-    private static List<LibroDTO> adaptarLibros(final List<LibroEntity> librosEntrada) {
+    public static List<LibroDTO> adaptarLibros(final List<LibroEntity> librosEntrada) {
         final List<LibroDTO> librosDTO = new ArrayList<LibroDTO>();
         if (CollectionUtils.isNotEmpty(librosEntrada)) {
             for (final LibroEntity libroEntity : librosEntrada) {
@@ -277,8 +277,8 @@ public final class EntityToDTOAdapter {
      *            etiquetas
      * @return the establece
      */
-    public static Set<EtiquetaDTO> adaptarEtiquetas(final Set<EtiquetaEntity> etiquetas) {
-        final Set<EtiquetaDTO> etiquetasDTO = new HashSet<EtiquetaDTO>();
+    public static List<EtiquetaDTO> adaptarEtiquetas(final List<EtiquetaEntity> etiquetas) {
+        final List<EtiquetaDTO> etiquetasDTO = new ArrayList<EtiquetaDTO>();
         for (final EtiquetaEntity etiquetaEntity : etiquetas) {
             etiquetasDTO.add(adaptarEtiqueta(etiquetaEntity));
         }

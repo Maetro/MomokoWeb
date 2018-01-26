@@ -54,6 +54,14 @@ export class EntradaComponent implements OnInit, OnDestroy {
         this.entradaAnteriorYSiguiente = data.obtenerEntradaResponse.obtenerEntradaAnteriorYSiguiente;
         this.cuatroPostPequenosConImagen = data.obtenerEntradaResponse.cuatroPostPequenosConImagen;
 
+   
+        this.metaService.removeTag('name="og:url"');
+        this.metaService.removeTag('name="og:type"');
+        this.metaService.removeTag('name="og:title"');
+        this.metaService.removeTag('name="og:description"');
+        this.metaService.removeTag('name="og:image"');
+
+
         this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/'+ this.url });
         this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
         this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
@@ -68,6 +76,11 @@ export class EntradaComponent implements OnInit, OnDestroy {
       // In a real app: dispatch action to load the details here.
     });
   }
+
+ eliminarTag(tag: string){
+  
+  this.metaService.removeTag(tag);
+ }
 
   isActive(instruction: any[]): boolean {
     // Set the second parameter to true if you want to require an exact match.

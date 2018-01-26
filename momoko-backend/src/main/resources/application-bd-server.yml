@@ -8,7 +8,6 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://momoko.es:3306/momokoBD
     username: root
-    password: DLlCfAjs1
   http:
     multipart:
       max-file-size: 10MB
@@ -96,10 +95,12 @@ momokoConfiguracion:
   esServidorLocal: false
   directorios:
     remote:
+      urlSitemap: http://www.momoko.es
       urlFiles: http://www.momoko.es/images
       urlImages: http://www.momoko.es/images/
       urlUpload: http://www.momoko.es/
     local:
+      urlSitemap: http://www.momoko.es
       urlFiles: http://www.momoko.es/images
       urlImages: http://www.momoko.es/images/
       urlUpload: http://www.momoko.es/

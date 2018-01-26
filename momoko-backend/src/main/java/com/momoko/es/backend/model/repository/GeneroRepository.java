@@ -60,4 +60,13 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      */
     List<GeneroEntity> findByCategoriaUrlCategoriaAndFechaBajaIsNull(String urlCategoria);
 
+    /**
+     * Find by url genero in.
+     *
+     * @param generosUrls
+     *            the generos urls
+     * @return the list
+     */
+    List<GeneroEntity> findByUrlGeneroIn(List<String> generosUrls);
+
 }

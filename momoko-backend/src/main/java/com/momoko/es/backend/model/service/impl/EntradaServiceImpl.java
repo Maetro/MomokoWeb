@@ -267,14 +267,19 @@ public class EntradaServiceImpl implements EntradaService {
             if (transformarGalerias) {
                 int numeroGaleria = 0;
                 while (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
-                    entradaDTO.setTieneGaleria(true);
                     final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(),
                             "[momoko-galeria-", "]");
                     final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
-                    final String code = generarCodigoGaleria(galeria, numeroGaleria);
-                    entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
-                            "[momoko-galeria-" + urlGaleria + "]", code));
-                    numeroGaleria++;
+                    if (galeria != null) {
+                        entradaDTO.setTieneGaleria(true);
+
+                        final String code = generarCodigoGaleria(galeria, numeroGaleria);
+                        entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
+                                "[momoko-galeria-" + urlGaleria + "]", code));
+                        numeroGaleria++;
+                    } else {
+                        break;
+                    }
                 }
             }
             if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
@@ -438,6 +443,7 @@ public class EntradaServiceImpl implements EntradaService {
         final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
         int cont = 0;
         final String imageServer = this.almacenImagenes.getUrlImageServer();
+        final String localFolder = this.almacenImagenes.getImageFolder();
         while (entradaAGuardar.getContenidoEntrada().contains("data:image/png;base64,")
                 || entradaAGuardar.getContenidoEntrada().contains("data:image/jpeg;base64,")) {
             // Hay imagenes en base 64
@@ -454,7 +460,7 @@ public class EntradaServiceImpl implements EntradaService {
 
             final String carpeta = "contenido-entrada/" + entradaAGuardar.getUrlEntrada();
             String nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
-
+            this.almacenImagenes.crearCarpetaSiNoExiste("/" + carpeta);
             String url = imageServer + carpeta + "/" + nombreImagen + ".png";
             while (FileSystemStorageService.exists(url)) {
                 cont++;
@@ -663,7 +669,7 @@ public class EntradaServiceImpl implements EntradaService {
                     final EtiquetaDTO etiqueta = new EtiquetaDTO();
 
                     etiqueta.setNombreEtiqueta("Video momoko");
-                    final Set<EtiquetaDTO> setEtiquetas = new HashSet<EtiquetaDTO>();
+                    final List<EtiquetaDTO> setEtiquetas = new ArrayList<EtiquetaDTO>();
                     setEtiquetas.add(etiqueta);
                     for (final String etiquetaString : videoData.getSnippet().getTags()) {
                         final EtiquetaDTO etiquetaS = new EtiquetaDTO();

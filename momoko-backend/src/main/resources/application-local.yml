@@ -95,10 +95,12 @@ momokoConfiguracion:
   esServidorLocal: true
   directorios:
     remote:
+      urlSitemap: http://localhost
       urlFiles: http://localhost/images
       urlImages: http://localhost/images/
       urlUpload: http://localhost/
     local:
+      urlSitemap: D:\XAMPP\htdocs\momoko
       urlFiles: D:\XAMPP\htdocs\momoko\images
       urlImages: http://localhost/images/
       urlUpload: http://localhost/

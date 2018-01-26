@@ -70,7 +70,7 @@
                 <span class="info">{{libro.numeroPaginas}}</span>
               </div>
             </div>
-            <div class="col-md-12 marginTop40">
+            <div class="col-md-12 marginTop40"  *ngIf="libro.enlaceAmazon">
               <a class="amazon" href="{{libro.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
                 <span class="btnComprarAmazon">Comprar libro &gt;</span>
                 <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">

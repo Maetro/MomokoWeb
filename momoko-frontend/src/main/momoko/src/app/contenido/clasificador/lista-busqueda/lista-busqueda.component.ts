@@ -4,6 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { ClasificadorService } from '../../../services/clasificador.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerPaginaBusquedaResponse } from '../../../dtos/response/obtenerPaginaBusquedaResponse';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lista-busqueda',
@@ -30,9 +31,8 @@ export class ListaBusquedaComponent implements OnInit {
 
   numeroPaginas: number;
 
-  numbers
-
   constructor(private clasificadorService: ClasificadorService,  private route: ActivatedRoute,
+    private metaService: Meta, 
     private router: Router) { }
 
   ngOnInit() {

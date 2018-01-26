@@ -107,7 +107,7 @@ public class IndexServiceImpl implements IndexService {
                     e.printStackTrace();
                 }
             }
-            if (entradaSimpleDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+            if (entradaSimpleDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getNombre())) {
                 // Si es tipo video anadimos su URL
                 final VideoEntity videoEntity = this.videoRepository
                         .findFirstByEntradaUrlEntrada(entradaSimpleDTO.getUrlEntrada());

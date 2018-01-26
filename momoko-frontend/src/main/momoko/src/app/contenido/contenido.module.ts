@@ -8,6 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SuscripcionService } from '../services/suscripcion.service';
 import { FormsModule } from '@angular/forms';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PageSolicitudComponent } from './page-solicitud/page-solicitud.component';
 
 
 
@@ -18,7 +19,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RouterModule,
     FormsModule
   ],
-  declarations: [HeaderComponent, MenuComponent, FooterComponent, PageNotFoundComponent],
+  declarations: [HeaderComponent, MenuComponent, FooterComponent, PageNotFoundComponent, PageSolicitudComponent],
   providers: [SuscripcionService],
   exports: [HeaderComponent, MenuComponent, FooterComponent]
 })

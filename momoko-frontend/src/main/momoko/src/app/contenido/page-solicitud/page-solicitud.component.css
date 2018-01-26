@@ -1,0 +1,26 @@
+.normas {
+    padding: 15px;
+}
+
+#container {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.item {
+    color: #000;
+    padding: 0px 0;
+    margin: 1%;
+    border-radius: 2px;
+    flex: 1 250px;
+    height: auto;
+    text-align: center;
+    background: linear-gradient(0deg, #efefef, #ffffff);
+}
+
+.item {
+    position: relative;
+}

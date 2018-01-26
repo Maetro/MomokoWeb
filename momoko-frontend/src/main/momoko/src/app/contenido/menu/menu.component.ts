@@ -51,6 +51,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
       console.log('Buscar: ' + this.busqueda);
     }
     this.router.navigate(['/buscar/' + this.busqueda]);
+    this.busqueda = "";
   }
 
 

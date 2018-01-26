@@ -8,7 +8,6 @@ package com.momoko.es.api.dto;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -58,7 +57,7 @@ public class EntradaDTO {
     private List<LibroDTO> librosEntrada;
 
     /** The etiquetas. */
-    private Set<EtiquetaDTO> etiquetas;
+    private List<EtiquetaDTO> etiquetas;
 
     /** The imagen destacada. */
     private String imagenDestacada;
@@ -345,7 +344,7 @@ public class EntradaDTO {
      *
      * @return etiquetas
      */
-    public Set<EtiquetaDTO> getEtiquetas() {
+    public List<EtiquetaDTO> getEtiquetas() {
         return this.etiquetas;
     }
 
@@ -355,7 +354,7 @@ public class EntradaDTO {
      * @param etiquetas
      *            nuevo etiquetas
      */
-    public void setEtiquetas(final Set<EtiquetaDTO> etiquetas) {
+    public void setEtiquetas(final List<EtiquetaDTO> etiquetas) {
         this.etiquetas = etiquetas;
     }
 

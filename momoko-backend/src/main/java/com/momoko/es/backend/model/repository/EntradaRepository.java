@@ -170,4 +170,13 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     @Query("select COUNT(e) from EntradaEntity e join e.etiquetas et WHERE et.etiquetaId = :etiquetaId AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
     Long findNumberEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(@Param("etiquetaId") Integer etiquetaId);
 
+    /**
+     * Find by url entrada in.
+     *
+     * @param entradasUrls
+     *            the entradas urls
+     * @return the list
+     */
+    List<EntradaEntity> findByUrlEntradaIn(List<String> entradasUrls);
+
 }

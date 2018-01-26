@@ -106,4 +106,13 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
     @Query("select l from LibroEntity l ORDER BY l.fechaAlta DESC")
     List<LibroEntity> findUltimasFichas(Pageable pageable);
 
+    /**
+     * Find by url libro in.
+     *
+     * @param urlLibro
+     *            the url libro
+     * @return the list
+     */
+    List<LibroEntity> findByUrlLibroIn(List<String> urlLibro);
+
 }

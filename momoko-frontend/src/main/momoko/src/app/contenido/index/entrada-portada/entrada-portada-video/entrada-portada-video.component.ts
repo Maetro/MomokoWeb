@@ -23,6 +23,9 @@ export class EntradaPortadaVideoComponent implements OnInit, EntradaPortada {
   ) {}
 
   ngOnInit(): void {
+    if (this.log){
+      console.log('Creando portada video');
+    }
     const partes = this.data.videoUrl.split('/');
     const url = 'https://www.youtube.com/embed/' + partes[partes.length - 1];
     this.safeURL = this.domSanitizationService.bypassSecurityTrustResourceUrl(url);

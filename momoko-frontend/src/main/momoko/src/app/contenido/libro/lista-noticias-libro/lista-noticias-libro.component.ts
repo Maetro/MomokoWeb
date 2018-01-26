@@ -44,6 +44,11 @@ export class ListaNoticiasLibroComponent implements OnInit {
       const metatituloPagina = 'Encuentra aquí las últimas noticias sobre ' + this.libro.titulo +
       ' de ' + autores ;
     this.titleService.setTitle(metatituloPagina);
+    this.metaService.removeTag('name="og:url"');
+    this.metaService.removeTag('name="og:type"');
+    this.metaService.removeTag('name="og:title"');
+    this.metaService.removeTag('name="og:description"');
+    this.metaService.removeTag('name="og:image"');
     this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/libro/noticias/'+ this.libro.urlLibro });
     this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
     this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });

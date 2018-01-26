@@ -392,7 +392,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public boolean crearCarpetaSiNoexiste(final String carpeta) {
+    public boolean crearCarpetaSiNoExiste(final String carpeta) {
 
         final Path location = getFileLocation(carpeta);
         try {
@@ -416,6 +416,24 @@ public class FileSystemStorageService implements StorageService {
         } catch (final Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public String getImageFolder() {
+        if (esServidorLocal()) {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getUrlFiles();
+        } else {
+            return this.momokoConfiguracion.getDirectorios().getRemote().getUrlFiles();
+        }
+    }
+
+    @Override
+    public String getUrlSitemap() {
+        if (esServidorLocal()) {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getUrlSitemap();
+        } else {
+            return this.momokoConfiguracion.getDirectorios().getRemote().getUrlSitemap();
         }
     }
 

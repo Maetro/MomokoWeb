@@ -2,3 +2,16 @@
     margin-top:20px;
   }
   
+  .search-form{
+    float:none;
+  }
+
+.search-form input{
+  width: 100%;
+}
+
+.imagen-buscador{
+    float: left;
+    width: 40px;
+    margin-top: -20px;
+}
