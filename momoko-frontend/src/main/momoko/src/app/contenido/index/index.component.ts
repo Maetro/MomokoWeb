@@ -14,6 +14,7 @@ import { EntradaPortadaNormalComponent } from './entrada-portada/entrada-portada
 import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
 import { YoutubeService } from '../../services/youtube.service';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { Meta } from '@angular/platform-browser';
 
 declare var $: any;
 
@@ -48,6 +49,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute, 
     private router: Router,
     private youtubeService: YoutubeService,
+    private metaService: Meta, 
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -61,6 +63,13 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.librosMasLeidosMes = data.obtenerIndexDataResponse.librosMasVistos;
       this.librosUltimosAnalisis = data.obtenerIndexDataResponse.ultimosAnalisis;
       this.ultimoComicAnalizado = data.obtenerIndexDataResponse.ultimoComicAnalizado;
+      this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es'});
+      this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
+      this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
+      this.metaService.addTag({ name: 'og:type', content: 'article' });
+      this.metaService.addTag({ name: 'og:title', content: 'Momoko - blog de literatura, análisis y noticias de libros'});
+      this.metaService.addTag({ name: 'og:description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'});
+      this.metaService.addTag({ name: 'og:image', content: 'http://momoko.es/assets/style/images/logo.png' });
     }, error => {
       if (this.log) {
         console.log('Error al recuperar los datos generales ', error);

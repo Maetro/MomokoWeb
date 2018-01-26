@@ -69,6 +69,13 @@ export class FichaLibroComponent implements OnInit {
       const attributeSelector = 'name="description"';
       this.metaService.removeTag(attributeSelector);
       this.metaService.addTag(tag, false);
+      this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/libro/'+ this.libro.urlLibro });
+      this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
+      this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
+      this.metaService.addTag({ name: 'og:type', content: 'book' });
+      this.metaService.addTag({ name: 'og:title', content: this.libro.titulo });
+      this.metaService.addTag({ name: 'og:description', content: this.libro.resumen});
+      this.metaService.addTag({ name: 'og:image', content: this.libro.urlImagen });
     });
 
   }

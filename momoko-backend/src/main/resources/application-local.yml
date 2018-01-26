@@ -90,14 +90,15 @@ logging:
     root: INFO
 
 #momoko properties
+
 momokoConfiguracion:
-  esServidorLocal: false
+  esServidorLocal: true
   directorios:
     remote:
-      urlFiles: http://www.momoko.es/images
-      urlImages: http://www.momoko.es/images/
-      urlUpload: http://www.momoko.es/
+      urlFiles: http://localhost/images
+      urlImages: http://localhost/images/
+      urlUpload: http://localhost/
     local:
-      urlFiles: D:/XAMPP/htdocs/momoko/images
-      urlImages: http://www.momoko.es/images/
-      urlUpload: http://www.momoko.es/
+      urlFiles: D:\XAMPP\htdocs\momoko\images
+      urlImages: http://localhost/images/
+      urlUpload: http://localhost/

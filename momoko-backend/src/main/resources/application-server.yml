@@ -74,18 +74,23 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
-    root: DEBUG
+        security: ERROR
+    root: ERROR
+
+log4j:
+  logger:
+    org:
+      hibernate: info
     
 #momoko properties
 momokoConfiguracion:
   esServidorLocal: true
   directorios:
     remote:
-      urlFiles: http://www.momoko.es/images
-      urlImages: http://www.momoko.es/images/
-      urlUpload: http://www.momoko.es/
+      urlFiles: http://momoko.es/images
+      urlImages: http://momoko.es/images/
+      urlUpload: http://momoko.es/
     local:
       urlFiles: /var/www/html/images
-      urlImages: http://www.momoko.es/images/
-      urlUpload: http://www.momoko.es/
+      urlImages: http://momoko.es/images/
+      urlUpload: http://momoko.es/

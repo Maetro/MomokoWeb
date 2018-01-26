@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Cookie } from 'ng2-cookies';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class FileUploadService {
@@ -33,6 +34,7 @@ export class FileUploadService {
   fileChange(event, tipoSubida): Observable<string> {
     const fileList: FileList = event.files;
     let num = 0;
+
     if (fileList.length > 0) {
       event.files.forEach(fichero => {
         if (num !== 0) {
@@ -43,13 +45,13 @@ export class FileUploadService {
           const partesF = fichero.name.split('.');
           const nombreF  = this.util.convertToSlug(partesF[0]) +  '.' + partesF[1];
 
-          formDataF.append('fileToUpload', fichero, nombreF);
-          formDataF.append('carpeta', tipoSubida);
-          // const headersF = new Headers();
-          // headersF.append('Accept', 'application/json');
-          // headersF.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
-          // const optionsF = new RequestOptions({ headers: headersF });
-          this.http.post(this.uploadUrl, formDataF)
+          formDataF.append('uploadFile', fichero, nombreF);
+          formDataF.append('tipoSubida', tipoSubida);
+          const headersF = new Headers();
+          headersF.append('Accept', 'application/json');
+          headersF.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
+          const optionsF = new RequestOptions({ headers: headersF });
+          this.http.post(this.uploadUrl, formDataF, optionsF)
             .map((res: Response) => this.urlFiles + tipoSubida + '/' + nombreF)
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
         }
@@ -63,13 +65,15 @@ export class FileUploadService {
       const partes = file.name.split('.');
       const nombre  = this.util.convertToSlug(partes[0]) +  '.' + partes[1];
 
-      formData.append('fileToUpload', file, nombre);
-      formData.append('carpeta', tipoSubida);
-      // const headers = new Headers();
-      // headers.append('Accept', 'application/json');
-      // headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
-      // const options = new RequestOptions({ headers: headers });
-      return this.http.post(this.uploadUrl, formData)
+
+
+      formData.append('uploadFile', file, nombre);
+      formData.append('tipoSubida', tipoSubida);
+      const headers = new Headers();
+      headers.append('Accept', 'application/json');
+      headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
+      const options = new RequestOptions({ headers: headers });
+      return this.http.post(this.uploadUrl, formData, options)
         .map((res: Response) => this.urlFiles + tipoSubida + '/' + file.name)
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     } else {

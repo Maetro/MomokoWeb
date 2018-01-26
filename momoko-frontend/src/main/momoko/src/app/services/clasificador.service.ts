@@ -6,18 +6,19 @@ import { ObtenerPaginaGeneroResponse } from '../dtos/response/obtenerPaginaGener
 import { ObtenerPaginaCategoriaResponse } from '../dtos/response/obtenerPaginaCategoriaResponse';
 import { ObtenerPaginaEtiquetaResponse } from '../dtos/response/obtenerPaginaEtiquetaResponse';
 import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
 
 
 @Injectable()
 export class ClasificadorService {
-
+ 
   private log = environment.log;
 
   getGeneroUrl = environment.getGeneroUrl;
   getCategoriaUrl = environment.getCategoriaUrl;
   getEtiquetaUrl = environment.getEtiquetaUrl;
   getNoticiasLibroUrl = environment.getNoticiasLibroUrl;
-
+  getBusquedaUrl = environment.getBusquedaUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -68,6 +69,7 @@ export class ClasificadorService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
+  
   private obtenerEtiquetaDeRespuesta(res: ObtenerPaginaEtiquetaResponse) {
     return res;
   }
@@ -96,5 +98,15 @@ export class ClasificadorService {
   private obtenerNoticiasLibroDeRespuesta(res: ObtenerPaginaLibroNoticiasResponse) {
     return res;
   }
+
+  getBusquedaPage(parametrosBusqueda: string): Observable<ObtenerPaginaBusquedaResponse> {
+    if (this.log) {
+      console.log(parametrosBusqueda);
+    }
+    return this.http.get<ObtenerPaginaLibroNoticiasResponse>(this.getBusquedaUrl + parametrosBusqueda)
+      .map(this.obtenerNoticiasLibroDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
 
 }

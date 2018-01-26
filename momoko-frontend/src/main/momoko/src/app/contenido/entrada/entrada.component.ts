@@ -7,6 +7,7 @@ import { EntradaSimple } from '../../dtos/entradaSimple';
 import { EntradaService } from '../../services/entrada.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerEntradaResponse } from '../../dtos/response/obtenerEntradaResponse';
+import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-entrada',
@@ -33,7 +34,8 @@ export class EntradaComponent implements OnInit, OnDestroy {
 
   tipoEntrada: number;
 
-  constructor(private entradaService: EntradaService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private entradaService: EntradaService, private route: ActivatedRoute, private router: Router,
+     private metaService: Meta) { }
 
   ngOnInit() {
     if (this.log) {
@@ -51,6 +53,11 @@ export class EntradaComponent implements OnInit, OnDestroy {
         this.tipoEntrada = data.obtenerEntradaResponse.entrada.tipoEntrada;
         this.entradaAnteriorYSiguiente = data.obtenerEntradaResponse.obtenerEntradaAnteriorYSiguiente;
         this.cuatroPostPequenosConImagen = data.obtenerEntradaResponse.cuatroPostPequenosConImagen;
+
+        this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/'+ this.url });
+        this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
+        this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
+
         // this.entrada.libroEntrada.forEach(libro => {
         //   libro.autores.forEach(autor => {
         //     this.autores += autor.nombre + ', ';

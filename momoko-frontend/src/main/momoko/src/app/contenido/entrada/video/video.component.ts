@@ -52,6 +52,11 @@ export class VideoComponent implements OnInit, AfterViewInit {
     const attributeSelector = 'name="description"';
     this.metaService.removeTag(attributeSelector);
     this.metaService.addTag(tag, false);
+    this.metaService.addTag({ name: 'og:type', content: 'video.other' });
+    this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada });
+    this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva });
+    this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada });
+    this.metaService.addTag({ name: 'og:video', content: url });
   }
 
   ngAfterViewInit(): void {

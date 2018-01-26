@@ -1,9 +1,10 @@
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
 import { APP_DATA } from '../../app-load/app-data';
 import { isPlatformBrowser } from '@angular/common';
+import { FormsModule }   from '@angular/forms';
 
 declare var $: any;
 
@@ -15,6 +16,8 @@ declare var $: any;
 export class MenuComponent implements OnInit, AfterViewInit {
 
   private log = environment.log;
+
+  busqueda = "";
 
   isLoggedIn = false;
 
@@ -35,9 +38,20 @@ export class MenuComponent implements OnInit, AfterViewInit {
     }
     if (isPlatformBrowser(this.platformId)) {
       // Client only code.
+      if (this.log) {
+        console.log('Creando menus');
+      }
       $('#main-menu').smartmenus();
    }
     
   }
+
+  buscarResultados(){
+    if (this.log) {
+      console.log('Buscar: ' + this.busqueda);
+    }
+    this.router.navigate(['/buscar/' + this.busqueda]);
+  }
+
 
 }

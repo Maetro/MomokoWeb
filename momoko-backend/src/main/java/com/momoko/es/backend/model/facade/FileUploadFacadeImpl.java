@@ -14,10 +14,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.momoko.es.api.dto.response.StringResponseDTO;
 import com.momoko.es.api.exceptions.StorageFileNotFoundException;
@@ -26,6 +26,7 @@ import com.momoko.es.backend.model.service.StorageService;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "http://www.momoko.es" })
+@RequestMapping(path = "/modelo")
 public class FileUploadFacadeImpl implements FileUploadFacade {
 
     private final StorageService storageService;
@@ -38,7 +39,7 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping("/upload")
     public @ResponseBody StringResponseDTO handleFileUpload(@RequestParam("uploadFile") final MultipartFile[] files,
-            @RequestParam("tipoSubida") final String tipoSubida, final RedirectAttributes redirectAttributes) {
+            @RequestParam("tipoSubida") final String tipoSubida) {
         final StringBuilder buider = new StringBuilder();
         if (!ArrayUtils.isEmpty(files)) {
             for (final MultipartFile multipartFile : files) {

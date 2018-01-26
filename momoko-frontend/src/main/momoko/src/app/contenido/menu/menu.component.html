@@ -14,15 +14,16 @@
           </ul>
         </div>
         <!-- /.header-left -->
-       <!-- <div class="header-right">
+        <div class="header-right">
+          
           <div class="search-form">
             <form action="#">
               <fieldset>
-                <input id="search" placeholder="Buscar" />
+                <input id="search" [(ngModel)]="busqueda" (keyup.enter)="buscarResultados()"  name="busqueda" placeholder="Buscar" />
               </fieldset>
             </form>
           </div>
-        </div> -->
+        </div> 
         <!-- /.header-right -->
         <div class="nav-bars-wrapper">
           <div class="nav-bars-inner">

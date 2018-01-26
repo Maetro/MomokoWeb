@@ -6,6 +6,8 @@ import { RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { SuscripcionService } from '../services/suscripcion.service';
+import { FormsModule } from '@angular/forms';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
@@ -13,9 +15,10 @@ import { SuscripcionService } from '../services/suscripcion.service';
 @NgModule({
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule,
+    FormsModule
   ],
-  declarations: [HeaderComponent, MenuComponent, FooterComponent],
+  declarations: [HeaderComponent, MenuComponent, FooterComponent, PageNotFoundComponent],
   providers: [SuscripcionService],
   exports: [HeaderComponent, MenuComponent, FooterComponent]
 })

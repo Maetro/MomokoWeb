@@ -265,14 +265,16 @@ public class EntradaServiceImpl implements EntradaService {
             }
             entradaDTO.setNumeroComentarios(comentarios.size());
             if (transformarGalerias) {
-                if (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
+                int numeroGaleria = 0;
+                while (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
                     entradaDTO.setTieneGaleria(true);
                     final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(),
                             "[momoko-galeria-", "]");
                     final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
-                    final String code = generarCodigoGaleria(galeria);
+                    final String code = generarCodigoGaleria(galeria, numeroGaleria);
                     entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
                             "[momoko-galeria-" + urlGaleria + "]", code));
+                    numeroGaleria++;
                 }
             }
             if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
@@ -315,10 +317,11 @@ public class EntradaServiceImpl implements EntradaService {
         return respuesta;
     }
 
-    private String generarCodigoGaleria(final GaleriaEntity galeria) {
+    private String generarCodigoGaleria(final GaleriaEntity galeria, final int numeroGaleria) {
         final StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(
-                "<div class=\"light-wrapper\"><div class=\"container-fluid inner2 tp0\"><div class=\"collage-wrapper\"><div id=\"collage-large\" class=\"collage effect-parent light-gallery\">");
+        stringBuilder
+                .append("<div class=\"light-wrapper\"><div class=\"container-fluid inner2 tp0\"><div class=\"collage-wrapper\"><div id=\"collage-large-"
+                        + numeroGaleria + "\" class=\"collage effect-parent light-gallery\">");
         final List<String> imagenes = ConversionUtils.divide(galeria.getImagenes(), ";");
         final Integer columnas = galeria.getColumnas();
         final String classColumn = MomokoUtils.obtenerColumnaGaleria(columnas);
@@ -493,6 +496,7 @@ public class EntradaServiceImpl implements EntradaService {
                     if (etiquetaBD == null) {
                         final EtiquetaEntity nuevaEtiqueta = new EtiquetaEntity();
                         nuevaEtiqueta.setNombre(nombreEtiqueta.trim());
+                        nuevaEtiqueta.setEtiquetaUrl(ConversionUtils.toSlug(nombreEtiqueta.trim()));
                         nuevaEtiqueta.setFechaAlta(Calendar.getInstance().getTime());
                         nuevaEtiqueta.setUsuarioAlta(currentPrincipalName);
                         etiquetaBD = this.etiquetaRepository.save(nuevaEtiqueta);

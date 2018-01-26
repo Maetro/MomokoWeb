@@ -52,7 +52,13 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     const attributeSelector = 'name="description"';
     this.metaService.removeTag(attributeSelector);
     this.metaService.addTag(tag, false);
-  }
+    this.metaService.addTag({ name: 'og:type', content: 'article' })  
+    this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada })  
+    this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva })  
+    this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada })  
+
+
+  } 
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
