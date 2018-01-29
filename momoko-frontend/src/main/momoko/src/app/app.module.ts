@@ -1,3 +1,4 @@
+import { PageCriteriosComponent } from './contenido/estaticas/page-criterios/page-criterios.component';
 import { LibroService } from './services/libro.service';
 import { VideoService } from './services/video.service';
 import { BrowserModule } from '@angular/platform-browser';
@@ -27,8 +28,11 @@ import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtene
 import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
 import { JsonAdapterService } from './services/util/json-adapter.service';
 import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtener-lista-busqueda-resolver.service';
-import { PageNotFoundComponent } from './contenido/page-not-found/page-not-found.component';
-import { PageSolicitudComponent } from './contenido/page-solicitud/page-solicitud.component';
+import { PageNotFoundComponent } from './contenido/estaticas/page-not-found/page-not-found.component';
+import { PageSolicitudComponent } from './contenido/estaticas/page-solicitud/page-solicitud.component';
+import { EstaticasModule } from './contenido/estaticas/estaticas.module';
+import { makeDecorator } from '@angular/core/src/util/decorators';
+
 
 
 @NgModule({
@@ -41,6 +45,7 @@ import { PageSolicitudComponent } from './contenido/page-solicitud/page-solicitu
     HttpClientModule,
     HttpModule,
     AppLoadModule,
+    EstaticasModule,
     BrowserModule.withServerTransition({ appId: 'momoko-app' }),
     RouterModule.forRoot([
       {
@@ -94,6 +99,7 @@ import { PageSolicitudComponent } from './contenido/page-solicitud/page-solicitu
       },
       {path: 'not-found', component: PageNotFoundComponent },
       {path: 'solicitud', component: PageSolicitudComponent },
+      {path: 'criterios', component: PageCriteriosComponent },
       {
         path: ':url',
         loadChildren: './contenido/entrada/entrada.module#EntradaModule',
@@ -107,7 +113,7 @@ import { PageSolicitudComponent } from './contenido/page-solicitud/page-solicitu
         resolve: {
           obtenerIndexDataResponse: ObtenerIndexDataResolverService
         }
-      }
+      }   
     ]),
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],

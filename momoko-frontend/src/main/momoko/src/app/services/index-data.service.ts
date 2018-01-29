@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/take';
+import { Cookie } from 'ng2-cookies';
 
 @Injectable()
 export class IndexDataService {
@@ -23,8 +24,12 @@ export class IndexDataService {
     if (this.log) {
       console.log('getIndexData()');
     }
-
-    this.resultados = this.http.get(this.indexDataUrl)
+    const _ga = Cookie.get('_ga');
+    let url = this.indexDataUrl;
+    // if (_ga != null){
+    //   url = url +'/'+ _ga;
+    // } 
+    this.resultados = this.http.get(url)
       .map(this.extractIndexData)
       .catch(error => Observable.throw(error || 'Server error').share());
     return this.resultados;

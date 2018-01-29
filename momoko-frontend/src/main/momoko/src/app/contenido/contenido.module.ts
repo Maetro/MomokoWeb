@@ -7,11 +7,10 @@ import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
 import { SuscripcionService } from '../services/suscripcion.service';
 import { FormsModule } from '@angular/forms';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { PageSolicitudComponent } from './page-solicitud/page-solicitud.component';
 
-
-
+import { PageSolicitudComponent } from './estaticas/page-solicitud/page-solicitud.component';
+import { PageNotFoundComponent } from './estaticas/page-not-found/page-not-found.component';
+import { PageCriteriosComponent } from './estaticas/page-criterios/page-criterios.component';
 
 @NgModule({
   imports: [
@@ -19,7 +18,7 @@ import { PageSolicitudComponent } from './page-solicitud/page-solicitud.componen
     RouterModule,
     FormsModule
   ],
-  declarations: [HeaderComponent, MenuComponent, FooterComponent, PageNotFoundComponent, PageSolicitudComponent],
+  declarations: [HeaderComponent, MenuComponent, FooterComponent],
   providers: [SuscripcionService],
   exports: [HeaderComponent, MenuComponent, FooterComponent]
 })

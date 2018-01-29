@@ -8,7 +8,7 @@ import {
   NavigationEnd,
   NavigationCancel,
   NavigationError
-} from '@angular/router'
+} from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { environment } from '../environments/environment';
 import { isPlatformBrowser } from '@angular/common';

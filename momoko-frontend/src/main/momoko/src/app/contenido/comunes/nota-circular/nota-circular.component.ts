@@ -10,11 +10,15 @@ export class NotaCircularComponent implements OnInit {
 
   private log = environment.log;
 
+  notaRedondeada: number
+
   @Input() nota: number;
 
   constructor() { }
 
   ngOnInit() {
+    this.notaRedondeada = Math.round( this.nota) / 10;
+
   }
 
 }

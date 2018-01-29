@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
+import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.GeneroDTO;
@@ -81,8 +83,50 @@ public class LibroServiceImpl implements LibroService {
     public List<LibroDTO> recuperarLibros() {
         final List<LibroDTO> listaLibros = new ArrayList<LibroDTO>();
         final Iterable<LibroEntity> libroEntityIterable = this.libroRepository.findAll();
+        final String urlImageServer = this.almacenImagenes.getUrlImageServer();
         for (final LibroEntity libroEntity : libroEntityIterable) {
-            listaLibros.add(EntityToDTOAdapter.adaptarLibro(libroEntity));
+
+            final LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libroEntity);
+
+            // Nota Momoko del libro
+            final PuntuacionEntity puntuacionEntity = this.puntuacionRepository
+                    .findOneByEsPuntuacionMomokoAndLibro(true, libroEntity);
+            if (puntuacionEntity != null) {
+                libroDTO.setNotaMomoko(puntuacionEntity.getValor());
+                libroDTO.setComentarioNotaMomoko(puntuacionEntity.getComentario());
+            }
+            if (libroDTO.getUrlImagen() != null) {
+                libroDTO.setUrlImagen(urlImageServer + libroDTO.getUrlImagen());
+            }
+            String autoresString = "";
+            if (CollectionUtils.isNotEmpty(libroDTO.getAutores())) {
+                final Iterator<AutorDTO> iterator = libroDTO.getAutores().iterator();
+                while (iterator.hasNext()) {
+                    final AutorDTO autor = iterator.next();
+                    autoresString += autor.getNombre();
+                    if (iterator.hasNext()) {
+                        autoresString += ", ";
+                    }
+                }
+            }
+
+            libroDTO.setAutoresString(autoresString);
+
+            String generosString = "";
+            if (CollectionUtils.isNotEmpty(libroDTO.getGeneros())) {
+                final Iterator<GeneroDTO> iterator = libroDTO.getGeneros().iterator();
+                while (iterator.hasNext()) {
+                    final GeneroDTO autor = iterator.next();
+                    generosString += autor.getNombre();
+                    if (iterator.hasNext()) {
+                        generosString += ", ";
+                    }
+                }
+            }
+
+            libroDTO.setGenerosString(generosString);
+
+            listaLibros.add(libroDTO);
         }
         return listaLibros;
     }
@@ -340,11 +384,5 @@ public class LibroServiceImpl implements LibroService {
                 .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
                         Arrays.asList(generoDTO.getGeneroId()));
         return numeroResultados.intValue();
-    }
-
-    @Override
-    public LibroDTO obtenerLibroDTO(final String urlLibro) {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

@@ -1,0 +1,34 @@
+.container .box img {
+    width: 140px;
+    margin-bottom: 0px;
+}
+
+.row {
+    padding: 15px 0px;
+}
+
+@media (min-width: 767px) {
+    .box {
+        text-align: left;
+        display: flex;
+        justify-content: left;
+        /* align horizontal */
+        align-items: center;
+        /* align vertical */
+    }
+}
+
+@media (max-width: 767px) {
+    .inner {
+        padding-top: 20px;
+        padding-bottom: 20px;
+    }
+}
+
+hr {
+    margin-bottom: 0px;
+}
+
+hr.lineaSeparadora {
+    padding-top: 0px;
+}

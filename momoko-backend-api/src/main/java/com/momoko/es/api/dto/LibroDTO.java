@@ -90,6 +90,12 @@ public class LibroDTO implements Serializable {
     /** The fecha alta. */
     private Date fechaAlta;
 
+    /** The autores string. */
+    private String autoresString;
+
+    /** The generos string. */
+    private String generosString;
+
     /**
      * Gets the libro id.
      *
@@ -487,6 +493,44 @@ public class LibroDTO implements Serializable {
      */
     public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
+    }
+
+    /**
+     * Gets the autores string.
+     *
+     * @return the autores string
+     */
+    public String getAutoresString() {
+        return this.autoresString;
+    }
+
+    /**
+     * Sets the autores string.
+     *
+     * @param autoresString
+     *            the new autores string
+     */
+    public void setAutoresString(final String autoresString) {
+        this.autoresString = autoresString;
+    }
+
+    /**
+     * Gets the generos string.
+     *
+     * @return the generos string
+     */
+    public String getGenerosString() {
+        return this.generosString;
+    }
+
+    /**
+     * Sets the generos string.
+     *
+     * @param generosString
+     *            the new generos string
+     */
+    public void setGenerosString(final String generosString) {
+        this.generosString = generosString;
     }
 
     /*

@@ -97,13 +97,4 @@ public interface LibroService {
      */
     public Integer obtenerNumeroLibrosConAnalisisGenero(GeneroDTO generoDTO);
 
-    /**
-     * Obtener libro dto.
-     *
-     * @param urlLibro
-     *            the url libro
-     * @return the libro dto
-     */
-    public LibroDTO obtenerLibroDTO(String urlLibro);
-
 }

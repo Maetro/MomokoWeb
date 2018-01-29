@@ -1,3 +1,9 @@
+/**
+ * TrackServiceImpl.java 26-ene-2018
+ *
+ * Copyright 2018 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 package com.momoko.es.backend.model.service.impl;
 
 import java.net.URI;
@@ -15,10 +21,10 @@ public class TrackServiceImpl implements TrackService {
 
     @Async
     public void anotarAccionAnalytics() {
-        String trackingId = System.getenv("UA-78412537-1");
+        final String trackingId = System.getenv("UA-78412537-1");
         final RestTemplate restTemplate = new RestTemplate();
 
-        URIBuilder builder = new URIBuilder();
+        final URIBuilder builder = new URIBuilder();
         builder.setScheme("http").setHost("www.google-analytics.com").setPath("/collect").addParameter("v", "1") // API
                                                                                                                  // Version.
                 .addParameter("tid", trackingId) // Tracking ID / Property ID.
@@ -31,9 +37,9 @@ public class TrackServiceImpl implements TrackService {
 
         try {
             uri = builder.build();
-            URI results = restTemplate.postForLocation(uri.getPath(), String.class);
+            final URI results = restTemplate.postForLocation(uri.getPath(), String.class);
             System.out.println(results);
-        } catch (URISyntaxException e) {
+        } catch (final URISyntaxException e) {
             e.printStackTrace();
         }
 
@@ -49,22 +55,21 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     @Async
-    public void enviarVisitaAPagina(Integer anonymousClientId, String url, String title) {
+    public void enviarVisitaAPagina(final String anonymousClientId, final String url, final String title) {
         final RestTemplate restTemplate = new RestTemplate();
-        String trackingId = "UA-78412537-1";
-        String anonymousUserId = String.valueOf(anonymousClientId);
-        URIBuilder builder = new URIBuilder();
+        final String trackingId = "UA-78412537-1";
+        final URIBuilder builder = new URIBuilder();
         builder.setScheme("http").setHost("www.google-analytics.com").setPath("/collect").addParameter("v", "1")
-                .addParameter("tid", trackingId).addParameter("cid", anonymousUserId).addParameter("t", "pageview")
+                .addParameter("tid", trackingId).addParameter("cid", anonymousClientId).addParameter("t", "pageview")
                 .addParameter("dh", "momoko.es").addParameter("dp", url) // Event category.
                 .addParameter("dt", title); // Event action.
         URI uri = null;
 
         try {
             uri = builder.build();
-            URI results = restTemplate.postForLocation(uri.getPath(), String.class);
-            System.out.println(results);
-        } catch (URISyntaxException e) {
+            final URI results = restTemplate.postForLocation(uri, String.class);
+            System.out.println(anonymousClientId);
+        } catch (final URISyntaxException e) {
             e.printStackTrace();
         }
     }

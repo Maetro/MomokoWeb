@@ -5,6 +5,7 @@ import { ObtenerIndexDataResponse } from '../../dtos/response/obtenerIndexDataRe
 import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { IndexDataService } from '../index-data.service';
 import { Observable } from 'rxjs';
+import { Cookie } from 'ng2-cookies';
 
 @Injectable()
 export class ObtenerIndexDataResolverService implements Resolve<ObtenerIndexDataResponse> {
@@ -16,6 +17,7 @@ export class ObtenerIndexDataResolverService implements Resolve<ObtenerIndexData
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerIndexDataResponse> {
     if (this.log) {
       console.log('Obteniendo index data');
+      
     }
 
     return this.indexDataService.getIndexData().take(1).map(indexData => {

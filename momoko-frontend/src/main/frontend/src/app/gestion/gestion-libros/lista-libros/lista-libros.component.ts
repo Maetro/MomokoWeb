@@ -33,7 +33,7 @@ export class ListaLibrosComponent implements OnInit {
   }
 
   getLibros(): void {
-    this.libroService.getLibros().then(libros => {
+    this.libroService.getLibros().subscribe(libros => {
       libros.forEach(element => {
         this.libros = [...this.libros, element];
       });
@@ -43,7 +43,7 @@ export class ListaLibrosComponent implements OnInit {
 
   ngOnInit(): void {
     this.loading = true;
-    this.libroService.getLibros().then(librosP => {
+    this.libroService.getLibros().subscribe(librosP => {
       const librosList = librosP
       librosList.forEach(element => {
         this.libros = [...this.libros, element];
@@ -75,6 +75,7 @@ export class ListaLibrosComponent implements OnInit {
   }
 
   actualizarOAnadirLibro(libro: Libro): void {
+    if (this.log) { console.log(libro); }
     this.selectedLibro = null;
     this.libros = [];
     this.getLibros();
@@ -84,7 +85,8 @@ export class ListaLibrosComponent implements OnInit {
   }
 
   obtenerLibros(): void {
-    this.libroService.getLibros().then(librosP => {
+
+    this.libroService.getLibros().subscribe(librosP => {
       const librosList = librosP
       librosList.forEach(element => {
         this.libros = [...this.libros, element];

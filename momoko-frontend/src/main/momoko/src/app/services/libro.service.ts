@@ -32,6 +32,7 @@ export class LibroService {
   getLibros(): Promise<Libro[]> {
     if (this.log) {
       console.log('access_token: ' + Cookie.get('access_token'));
+      console.log('_ga: '+ Cookie.get('_ga'))
     }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',

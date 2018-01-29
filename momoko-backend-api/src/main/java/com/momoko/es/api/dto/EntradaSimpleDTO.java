@@ -21,6 +21,7 @@ public class EntradaSimpleDTO implements Serializable {
     private String urlEntrada;
     private Integer numeroComentarios;
     private Date fechaAlta;
+    private Date fechaModificacion;
     private String resumen;
     private String fraseDescriptiva;
     private String tipoEntrada;
@@ -254,6 +255,25 @@ public class EntradaSimpleDTO implements Serializable {
      */
     public void setTitulosLibros(final String titulosLibros) {
         this.titulosLibros = titulosLibros;
+    }
+
+    /**
+     * Gets the fecha modificacion.
+     *
+     * @return the fecha modificacion
+     */
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+
+    /**
+     * Sets the fecha modificacion.
+     *
+     * @param fechaModificacion
+     *            the new fecha modificacion
+     */
+    public void setFechaModificacion(final Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
     }
 
 }

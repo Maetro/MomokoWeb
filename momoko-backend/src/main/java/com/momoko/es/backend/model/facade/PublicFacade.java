@@ -121,7 +121,7 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/indexData/{client-id}")
-    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex(@PathVariable("client-id") final Integer clientId) {
+    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex(@PathVariable("client-id") final String clientId) {
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
         final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
@@ -132,7 +132,7 @@ public class PublicFacade {
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
         obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
         if (clientId != null) {
-            trackService.enviarVisitaAPagina(clientId, "/", "Pagina principal");
+            this.trackService.enviarVisitaAPagina(clientId, "/", "Pagina principal");
         }
         return obtenerIndexDataResponseDTO;
     }
@@ -156,14 +156,14 @@ public class PublicFacade {
 
     @GetMapping(path = "/entrada/{url-entrada}/{client-id}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
-        @PathVariable("client-id") final Integer clientId) {
+            @PathVariable("client-id") final String clientId) {
         ObtenerEntradaResponse respuesta = null;
         if (!urlEntrada.equals("not-found")) {
             respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
         }
-        if (clientId != null) {
-            String tituloEntrada = respuesta.getEntrada().getTituloEntrada();
-            trackService.enviarVisitaAPagina(clientId, "/" + urlEntrada, tituloEntrada);
+        if ((clientId != null) && (respuesta.getEntrada() != null)) {
+            final String tituloEntrada = respuesta.getEntrada().getTituloEntrada();
+            this.trackService.enviarVisitaAPagina(clientId, "/" + urlEntrada, tituloEntrada);
         }
         return respuesta;
     }
@@ -227,7 +227,7 @@ public class PublicFacade {
 
     @GetMapping(path = "/genero/{url-genero}")
     public @ResponseBody ObtenerPaginaGeneroResponse obtenerGenero(@PathVariable("url-genero") final String urlGenero,
-        @RequestBody(required = false) ObtenerPaginaGeneroRequest request) {
+            @RequestBody(required = false) ObtenerPaginaGeneroRequest request) {
         final ObtenerPaginaGeneroResponse generoResponse = new ObtenerPaginaGeneroResponse();
         if (request == null) {
             request = new ObtenerPaginaGeneroRequest();
@@ -269,9 +269,9 @@ public class PublicFacade {
 
     @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
-        @PathVariable("url-categoria") final String urlCategoria,
-        @PathVariable("numero-pagina") final Integer numeroPagina,
-        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+            @PathVariable("url-categoria") final String urlCategoria,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -286,8 +286,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/categoria/{url-categoria}")
     public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
-        @PathVariable("url-categoria") final String urlCategoria,
-        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+            @PathVariable("url-categoria") final String urlCategoria,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -314,8 +314,8 @@ public class PublicFacade {
      * @return the obtener pagina categoria response
      */
     private ObtenerPaginaCategoriaResponse obtenerCategoriaResponse(final String urlCategoria,
-        final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
-        final List<EntradaSimpleDTO> entradasCategoria) {
+            final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
+            final List<EntradaSimpleDTO> entradasCategoria) {
         final CategoriaDTO categoriaDTO = this.generoService.obtenerCategoriaPorUrl(urlCategoria);
         if (urlCategoria.equals("noticias")) {
             entradasCategoria.addAll(this.entradaService.obtenerNoticias(request));
@@ -348,8 +348,9 @@ public class PublicFacade {
 
     @GetMapping(path = "/noticias-libro/{url-libro}/{numero-pagina}")
     public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibroPagina(
-        @PathVariable("url-libro") final String urlCategoria, @PathVariable("numero-pagina") final Integer numeroPagina,
-        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+            @PathVariable("url-libro") final String urlCategoria,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -364,8 +365,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/noticias-libro/{url-libro}")
     public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibro(
-        @PathVariable("url-libro") final String urlLibro,
-        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+            @PathVariable("url-libro") final String urlLibro,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -379,8 +380,9 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroNoticiasResponse(final String urlLibro,
-        final ObtenerPaginaElementoRequest request,
-        final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse, final List<EntradaSimpleDTO> noticias) {
+            final ObtenerPaginaElementoRequest request,
+            final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
+            final List<EntradaSimpleDTO> noticias) {
         final LibroDTO libro = this.libroService.obtenerLibro(urlLibro).getLibro();
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
         int numeroEntradas = 0;
@@ -411,9 +413,9 @@ public class PublicFacade {
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}/{numero-pagina}")
     public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
-        @PathVariable("url-etiqueta") final String urlEtiqueta,
-        @PathVariable("numero-pagina") final Integer numeroPagina,
-        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+            @PathVariable("url-etiqueta") final String urlEtiqueta,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
         final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -428,8 +430,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}")
     public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
-        @PathVariable("url-etiqueta") final String urlEtiqueta,
-        @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+            @PathVariable("url-etiqueta") final String urlEtiqueta,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
         final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -625,8 +627,8 @@ public class PublicFacade {
      * @return the obtener pagina categoria response
      */
     private ObtenerPaginaEtiquetaResponse obtenerEtiquetaResponse(final String urlEtiqueta,
-        final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
-        final List<EntradaSimpleDTO> entradasEtiqueta) {
+            final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
+            final List<EntradaSimpleDTO> entradasEtiqueta) {
         final EtiquetaDTO etiquetaDTO = this.etiquetaService.obtenerEtiquetaPorUrl(urlEtiqueta);
 
         entradasEtiqueta
@@ -744,8 +746,13 @@ public class PublicFacade {
         for (final EntradaSimpleDTO entrada : entradasSimples) {
             url = urlPagina + "/" + entrada.getUrlEntrada();
             if (entrada.getFechaAlta().before(Calendar.getInstance().getTime())) {
-                wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaAlta()).priority(0.5)
-                        .changeFreq(ChangeFreq.MONTHLY).build();
+                if (entrada.getFechaModificacion() != null) {
+                    wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaModificacion()).priority(0.5)
+                            .changeFreq(ChangeFreq.MONTHLY).build();
+                } else {
+                    wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaAlta()).priority(0.5)
+                            .changeFreq(ChangeFreq.MONTHLY).build();
+                }
                 wsg.addUrl(wsmUrl);
                 nrOfURLs++;
             }
@@ -762,11 +769,12 @@ public class PublicFacade {
         }
 
         for (final EtiquetaDTO etiqueta : etiquetas) {
-            url = urlPagina + "/tag/" + etiqueta.getUrlEtiqueta();
-
-            wsmUrl = new WebSitemapUrl.Options(url).priority(0.4).changeFreq(ChangeFreq.MONTHLY).build();
-            wsg.addUrl(wsmUrl);
-            nrOfURLs++;
+            if (etiqueta.getUrlEtiqueta() != null) {
+                url = urlPagina + "/tag/" + etiqueta.getUrlEtiqueta();
+                wsmUrl = new WebSitemapUrl.Options(url).priority(0.4).changeFreq(ChangeFreq.MONTHLY).build();
+                wsg.addUrl(wsmUrl);
+                nrOfURLs++;
+            }
         }
 
         // One sitemap can contain a maximum of 50,000 URLs.

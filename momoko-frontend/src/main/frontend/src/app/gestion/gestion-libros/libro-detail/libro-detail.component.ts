@@ -80,6 +80,7 @@ export class LibroDetailComponent implements OnInit, OnChanges {
     for (const propName of Object.keys(changes)) {
       const changedProp = changes[propName];
       const to = JSON.stringify(changedProp.currentValue);
+      console.log('cambio libro');
       if (changedProp.isFirstChange()) {
         log.push(`Initial value of ${propName} set to ${to}`);
       } else {

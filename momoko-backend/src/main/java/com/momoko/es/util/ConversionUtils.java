@@ -160,6 +160,7 @@ public class ConversionUtils {
         entradaSimpleDTO.setUrlEntrada(entrada.getUrlEntrada());
         entradaSimpleDTO.setImagenEntrada(entrada.getImagenDestacada());
         entradaSimpleDTO.setFechaAlta(entrada.getFechaAlta());
+        entradaSimpleDTO.setFechaModificacion(entrada.getFechaModificacion());
         if (obtenerComentarios) {
             entradaSimpleDTO.setCategoria(obtenerCategoriaDeEntrada(entrada));
         }

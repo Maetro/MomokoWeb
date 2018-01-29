@@ -37,24 +37,21 @@ export class LibroService {
 
   constructor(private http: HttpClient, private jsonAdapter: JsonAdapterService) { }
 
-  getLibros(): Promise<Libro[]> {
-    if (this.log) {
-      console.log('access_token: ' + Cookie.get('access_token'));
-    }
+
+  getLibros(): Observable<Libro[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
       'Authorization': 'Bearer ' + Cookie.get('access_token')
     });
-    this.librosList = new Array();
-    return this.http.get(this.librosUrl, { headers: headers }).toPromise().then((resp: Response) => {
-      for (const numLibro of Object.keys(resp)) {
-        const l = this.jsonAdapter.adaptarLibro(resp[numLibro])
-        this.librosList.push(l);
-      }
+    if (this.log) {
+      console.log(Cookie.get('access_token'));
+    }
+    return this.http.get<Libro[]>(this.librosUrl, { headers: headers }).map(this.obtenerLibrosDeRespuesta)
+      .catch(error => Observable.throw(error || 'Server error'));
+  }
 
-      return this.librosList;
-
-    });
+  private obtenerLibrosDeRespuesta(res: Libro[]) {
+    return res;
   }
 
   getLibro(urlLibro: string): Observable<FichaLibro> {

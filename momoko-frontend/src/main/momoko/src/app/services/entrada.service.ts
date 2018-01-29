@@ -23,7 +23,13 @@ export class EntradaService {
   constructor(private http: HttpClient) { }
 
   getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
-    return this.http.get<ObtenerEntradaResponse>(this.getEntradaUrl + urlEntrada).map(this.obtenerEntradaDeRespuesta)
+    const _ga = Cookie.get('_ga');
+    let url = this.getEntradaUrl + urlEntrada;
+    // if (_ga != null){
+    //   url = url +'/'+ _ga;
+    // } 
+
+    return this.http.get<ObtenerEntradaResponse>(url).map(this.obtenerEntradaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
