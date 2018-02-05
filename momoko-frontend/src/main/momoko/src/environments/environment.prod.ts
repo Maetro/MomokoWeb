@@ -3,6 +3,8 @@ export const environment = {
 
   log: false,
 
+  seguimientoJS: 'seguimiento_local.js',
+
     //URLS app
     momokoUrl: 'http://momoko.es/',
     serverUrl : 'http://momoko.es/',

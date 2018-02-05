@@ -8,7 +8,6 @@ package com.momoko.es.backend.model.service.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,6 +20,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.GeneroDTO;
@@ -73,6 +73,9 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired(required = false)
     private SuscripcionRepository suscripcionRepository;
+
+    @Autowired(required = false)
+    private FileSystemStorageService almacenImagenes;
 
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
@@ -213,11 +216,7 @@ public class IndexServiceImpl implements IndexService {
 
         final LibroEntity ultimoComicAnalizado = ultimoComicAnalisis.getLibrosEntrada().iterator().next();
 
-        final PuntuacionEntity puntuacion = this.puntuacionRepository
-                .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, Arrays.asList(ultimoComicAnalizado.getLibroId()))
-                .iterator().next();
-
-        final LibroSimpleDTO libroSimpleDTO = ConversionUtils.obtenerLibroSimpleDTO(ultimoComicAnalizado, puntuacion);
+        final LibroSimpleDTO libroSimpleDTO = ConversionUtils.obtenerLibroSimpleDTO(ultimoComicAnalizado, null);
 
         if (libroSimpleDTO.getPortada() != null) {
             try {
@@ -225,7 +224,10 @@ public class IndexServiceImpl implements IndexService {
                 final String thumbnail = this.storageService.obtenerMiniatura("portadas", libroSimpleDTO.getPortada(),
                         296, 405, false);
                 libroSimpleDTO.setPortada(thumbnail);
-
+                final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
+                        .getImageDimensions(libroSimpleDTO.getPortada());
+                libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
+                libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
             } catch (final IOException e) {
                 e.printStackTrace();
             }

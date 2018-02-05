@@ -1,12 +1,15 @@
+import { IndexDataService } from './../../services/index-data.service';
 import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
 import { APP_DATA } from '../../app-load/app-data';
 import { isPlatformBrowser } from '@angular/common';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 declare var $: any;
+declare var window: any;
+declare var ga: any;
 
 @Component({
   selector: 'app-menu',
@@ -25,6 +28,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
+    private indexDataService: IndexDataService, 
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -41,12 +45,26 @@ export class MenuComponent implements OnInit, AfterViewInit {
       if (this.log) {
         console.log('Creando menus');
       }
+
+      this.indexDataService.testSeguimiento().take(1).map(test => {
+        if (test) {
+          return true;
+        } else { // url not found
+          return false;
+        }
+      });
+      if (window.ga && ga.create) {
+        console.log('Google Analytics is loaded');
+      }
+      else {
+        console.log('Google Analytics is not loaded');
+      }
       $('#main-menu').smartmenus();
-   }
-    
+    }
+
   }
 
-  buscarResultados(){
+  buscarResultados() {
     if (this.log) {
       console.log('Buscar: ' + this.busqueda);
     }

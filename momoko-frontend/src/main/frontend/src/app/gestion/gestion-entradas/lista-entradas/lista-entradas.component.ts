@@ -12,6 +12,8 @@ declare var $: any;
 
 import { ImageResize } from 'quill-image-resize-module';
 import { environment } from 'environments/environment';
+import { Fila } from 'app/gestion/gestion-entradas/fila';
+import { Columna } from 'app/gestion/gestion-entradas/columna';
 const Parchment = Quill.import('parchment');
 Quill.register('imageResize', ImageResize);
 
@@ -82,56 +84,76 @@ export class ListaEntradasComponent implements OnInit {
     entrada = event.data;
     this.entradaDetailComponent.etiquetas = [];
     this.entradasService.getEntradaAdmin(entrada.urlEntrada).subscribe(entradaCompleta => {
+      this.entradaDetailComponent.filas = Array();
       if (this.log) {
         console.log(entradaCompleta);
       }
       this.selectedEntrada = entradaCompleta;
-      if (this.log) {
-        console.log('Quill');
+      const texto = this.selectedEntrada.contenidoEntrada;
+      const filas = $(texto);
+
+      if (filas !== null && filas.length > 0) {
+        for (let i = 0; i < filas.length; i++) {
+          let filaT: Fila;
+          const fila = filas[i];
+          const columnas = $(fila.children);
+          const numeroColumnas = columnas.length;
+          if (columnas !== null && numeroColumnas > 0) {
+            filaT = new Fila(i, $(columnas[0]).html());
+            if (numeroColumnas > 1) {
+              for (let j = 1; j < numeroColumnas; j++) {
+                const columnaT = new Columna(j, $(columnas[j]).html());
+                filaT.columnas.push(columnaT);
+                filaT.numeroColumnas++;
+               }
+            }
+          }
+          this.modificarFilaPorNumeroColumnas(filaT);
+          if (filaT != null) {
+            this.entradaDetailComponent.filas.push(filaT);
+          }
+        }
       }
-      const container = document.getElementById('editor');
-      const toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
 
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
+      const that = this;
 
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      setTimeout(function () {
+        return that.entradaDetailComponent.crearEditoresAsync();
+      }, 100);
 
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-        ['link', 'image', 'video', 'formula']
-        ['clean']                                         // remove formatting button
-      ];
 
-      const editor = new Quill(container, {
-        theme: 'snow',
-        modules: {
-          toolbar: '#toolbar-container',
-          imageResize: {}
-        }
-      });
-      editor.pasteHTML(this.selectedEntrada.contenidoEntrada);
-      editor.on('text-change', function (delta, oldDelta, source) {
-        if (this.log) {
-          console.log(editor.getContents());
-        }
-      });
       entradaCompleta.etiquetas.forEach((etiqueta: Etiqueta) => {
         this.entradaDetailComponent.etiquetas.push(etiqueta.nombreEtiqueta);
       });
       this.entradaDetailComponent.date = new Date(entradaCompleta.fechaAlta);
-
-      $(container).data('quill', editor);
     });
     if (this.log) {
       console.log(entrada);
+    }
+  }
+
+  modificarFilaPorNumeroColumnas(fila: Fila): void {
+    switch (fila.numeroColumnas) {
+      case 1:
+        fila.bootstrapcolumn = 'col-sm-12';
+        break;
+      case 2:
+        fila.bootstrapcolumn = 'col-sm-6';
+        break;
+      case 3:
+        fila.bootstrapcolumn = 'col-sm-4';
+        break;
+      case 4:
+        fila.bootstrapcolumn = 'col-sm-3';
+        break;
+      case 5:
+        fila.bootstrapcolumn = 'col-sm-2';
+        break;
+      case 6:
+        fila.bootstrapcolumn = 'col-sm-2';
+        break;
+      default:
+        fila.bootstrapcolumn = 'col-sm-12';
     }
   }
 
@@ -154,46 +176,12 @@ export class ListaEntradasComponent implements OnInit {
     entrada.editorNombre = 'La Insomne';
     this.selectedEntrada = entrada;
     this.entradaDetailComponent.date = new Date();
-    setTimeout(function () {
-      if (this.log) {
-        console.log('Quill');
-      }
-      const container = document.getElementById('editor');
-      const toolbarOptions = [
-        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-        ['blockquote', 'code-block'],
-
-        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-        [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
-        [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
-        [{ 'direction': 'rtl' }],                         // text direction
-
-        [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
-        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-
-        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-        [{ 'font': [] }],
-        [{ 'align': [] }],
-        ['link', 'image', 'video', 'formula']
-        ['clean']                                         // remove formatting button
-      ];
-
-      const editor = new Quill(container, {
-        theme: 'snow',
-        modules: {
-          toolbar: '#toolbar-container',
-          imageResize: {}
-        }
-      });
-      editor.pasteHTML(this.selectedEntrada.contenidoEntrada);
-      editor.on('text-change', function (delta, oldDelta, source) {
-        if (this.log) {
-          console.log(editor.getContents());
-        }
-      });
-      $(container).data('quill', editor);
-    }, 1000);
+    const filas = new Array();
+    const fila = new Fila(0, '');
+    fila.bootstrapcolumn = 'col-sm-12';
+    filas.push(fila);
+    this.entradaDetailComponent.filas = filas;
+    this.entradaDetailComponent.crearEditorAsync('editor-0-0', this.selectedEntrada.contenidoEntrada, 0, 0);
   }
 
   volver(): void {

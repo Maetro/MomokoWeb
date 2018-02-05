@@ -123,57 +123,51 @@
           <div class="col-md-12">
 
             <h4> Contenido </h4>
-
-            <div id="standalone-container">
-              <div id="toolbar-container">
-                <span class="ql-formats">
-                  <select class="ql-font"></select>
-                  <select class="ql-size"></select>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-bold"></button>
-                  <button class="ql-italic"></button>
-                  <button class="ql-underline"></button>
-                  <button class="ql-strike"></button>
-                </span>
-                <span class="ql-formats">
-                  <select class="ql-color"></select>
-                  <select class="ql-background"></select>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-script" value="sub"></button>
-                  <button class="ql-script" value="super"></button>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-header" value="1"></button>
-                  <button class="ql-header" value="2"></button>
-                  <button class="ql-blockquote"></button>
-                  <button class="ql-code-block"></button>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-list" value="ordered"></button>
-                  <button class="ql-list" value="bullet"></button>
-                  <button class="ql-indent" value="-1"></button>
-                  <button class="ql-indent" value="+1"></button>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-direction" value="rtl"></button>
-                  <select class="ql-align"></select>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-link"></button>
-                  <button class="ql-image"></button>
-                  <button class="ql-video"></button>
-                  <button class="ql-formula"></button>
-                </span>
-                <span class="ql-formats">
-                  <button class="ql-clean"></button>
-                </span>
+            <div *ngFor="let fila of filas; let $i = index">
+              <div class="row marginTop10">
+                <div class="col-sm-1">
+                  <button type="button" (click)="crearEditoresAsync()" class="btn btn-outline-primary">+</button>
+                </div>
+                <div class="col-sm-3 rp10">
+                  <div class="form-field">
+                    <h4> Número de columnas: </h4>
+                  </div>
+                </div>
+                <div class="col-sm-2 lp10">
+                  <div class="form-field">
+                    <label>
+                      <input type="number" [(ngModel)]="fila.numeroColumnas" placeholder="Número de filas" (change)="pintarColumnas(event, fila)" min="1"
+                        max="6">
+                    </label>
+                  </div>
+                  <!--/.form-field -->
+                </div>
+                <div class="col-sm-2 rp10">
+                    <div class="form-field">
+                      <h4> Color de fondo: </h4>
+                    </div>
+                  </div>
+                  <div class="col-sm-2 lp10">
+                    <div class="form-field">
+                      <select>
+                          <option value="mercedes">Negro</option>
+                          <option value="audi">Blanco</option>
+                      </select>
+                    </div>
+                    <!--/.form-field -->
+                  </div>
               </div>
-              <div id="editor"></div>
+
+              <h5> Fila {{$i + 1}}</h5>
+              <div class="row">
+                <div *ngFor="let columna of fila.columnas; let $j = index">
+                  <div class [ngClass]="fila.bootstrapcolumn">
+                    <app-quill-editor [numeroFila]="$i" [numeroColumna]="$j" [columna]="columna"></app-quill-editor>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-
 
           <div class="col-md-12 marginTop10 marginBottom10">
 
@@ -218,7 +212,7 @@
           </div>
           <div class="col-sm-12 lp10">
             <div class="form-field">
-                <p-calendar [(ngModel)]="date" [locale]="es" [showTime]="true" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" showButtonBar="true"></p-calendar>
+              <p-calendar [(ngModel)]="date" [locale]="es" [showTime]="true" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" showButtonBar="true"></p-calendar>
             </div>
             <!--/.form-field -->
           </div>

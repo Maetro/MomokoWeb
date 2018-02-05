@@ -1,3 +1,4 @@
+import { environment } from './../environments/environment';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import {
@@ -10,8 +11,8 @@ import {
   NavigationError
 } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { environment } from '../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 declare var $: any;
 
@@ -20,9 +21,13 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   private log = environment.log;
+
+  private urlSeguimiento = environment.seguimientoJS;
+
+  url_seguimiento : string;
 
   // Sets initial value to true to show loading spinner on first load
   loading = true
@@ -35,6 +40,10 @@ export class AppComponent {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event)
     })
+  }
+
+  ngOnInit(): void {
+    this.url_seguimiento = 'http://momoko.es/files/' + this.urlSeguimiento;
   }
 
   navigationInterceptor(event: RouterEvent): void {

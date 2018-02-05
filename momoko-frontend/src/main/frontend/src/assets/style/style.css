@@ -4192,6 +4192,12 @@ div.mce-edit-area {
 
 .container img {
   max-width: 100%;
+  height: auto;
+}
+
+iframe.ql-video {
+  width: 100%;
+  height: 436px;
 }
 
 section.kc-elm.kc-css-313498.kc_row.fen-bg-overlay {
@@ -4689,4 +4695,8 @@ button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
 
 .alignright{
   float:right;
+}
+
+.ql-editor {
+  height: 400px !important;
 }

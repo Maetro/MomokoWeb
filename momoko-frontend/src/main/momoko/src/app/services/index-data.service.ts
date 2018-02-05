@@ -36,6 +36,27 @@ export class IndexDataService {
 
   }
 
+  testSeguimiento(): Observable<Boolean>{
+    console.log('Test seguimiento');
+    return this.http.get('https://www.google-analytics.com/analytics.js')
+            .map((res: Response) => {
+                return true;
+            }).catch((error: any) => {
+                if (error.status === 500) {
+                    return Observable.throw(new Error(error.status));
+                }
+                else if (error.status === 400) {
+                    return Observable.throw(new Error(error.status));
+                }
+                else if (error.status === 409) {
+                    return Observable.throw(new Error(error.status));
+                }
+                else if (error.status === 406) {
+                    return Observable.throw(new Error(error.status));
+                }
+            });
+  }
+
   private extractIndexData(res: Response) {
     return res;
   }

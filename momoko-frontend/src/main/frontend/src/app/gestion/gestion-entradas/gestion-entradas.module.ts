@@ -10,6 +10,7 @@ import { QuillModule } from 'ngx-quill'
 import { EntradaDetailComponent } from 'app/gestion/gestion-entradas/entrada-detail/entrada-detail.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { QuillEditorComponent } from './entrada-detail/quill-editor/quill-editor.component';
 
 
 @NgModule({
@@ -28,7 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     CalendarModule,
     BrowserAnimationsModule
   ],
-  declarations: [ListaEntradasComponent, EntradaDetailComponent],
+  declarations: [ListaEntradasComponent, EntradaDetailComponent, QuillEditorComponent],
   providers: [
     EntradaService, FileUploadService, UtilService
   ],

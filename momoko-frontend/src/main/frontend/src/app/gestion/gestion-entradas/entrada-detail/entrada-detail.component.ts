@@ -16,7 +16,23 @@ import { Galeria } from 'app/dtos/galeria';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { environment } from 'environments/environment';
 
+declare var Quill: any;
 declare var $: any;
+
+import { ImageResize } from 'quill-image-resize-module';
+import { Fila } from 'app/gestion/gestion-entradas/fila';
+import { Columna } from 'app/gestion/gestion-entradas/columna';
+import { Event } from '@angular/router/src/events';
+const Parchment = Quill.import('parchment');
+Quill.register('imageResize', ImageResize);
+
+Quill.register(new Parchment.Attributor.Style('display', 'display', {
+  whitelist: ['inline']
+}));
+Quill.register(new Parchment.Attributor.Style('float', 'float', {
+  whitelist: ['left', 'right', 'center']
+}));
+Quill.register(new Parchment.Attributor.Style('margin', 'margin', {}));
 
 @Component({
   selector: 'app-entrada-detail',
@@ -25,6 +41,12 @@ declare var $: any;
 })
 
 export class EntradaDetailComponent implements OnInit, AfterViewInit {
+  bootstrapcolumn: string;
+  numeroColumna: number;
+  numeroFila: number;
+  contenidoEntrada: string;
+
+  idEditor: string;
 
   private log = environment.log;
 
@@ -43,6 +65,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
   estadosEntrada: SelectItem[];
   nombresGalerias: SelectItem[];
   nicksEditores: SelectItem[];
+  numeroColumnas = 1;
 
   galerias: Galeria[];
 
@@ -55,6 +78,9 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
   fraseEditorEscoger = 'Escoge autor de la entrada';
   selectedGaleria: string;
   es: any;
+
+  filas: Fila[];
+
 
   urlImageServer = environment.urlFiles;
 
@@ -187,8 +213,25 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   guardarEntrada(): void {
     this.entrada.etiquetas = [];
-    const contain = <HTMLElement>document.getElementById('editor').firstChild;
-    this.entrada.contenidoEntrada = contain.innerHTML;
+    let texto = '';
+    if (this.filas != null && this.filas.length > 0) {
+      this.filas.forEach(fila => {
+        texto += '<div class="row">';
+        if (fila.columnas != null && fila.columnas.length > 0) {
+
+          fila.columnas.forEach(columna => {
+            texto += '<div class="' + fila.bootstrapcolumn + '">';
+            const textoEditor = <HTMLElement>document.getElementById('editor-' + fila.numFila + '-' + columna.numcolumna).firstChild;
+            texto += textoEditor.innerHTML;
+            texto += '</div>';
+          });
+
+        }
+        texto += '</div>';
+      });
+    }
+    console.log('Restructurado');
+    this.entrada.contenidoEntrada = texto;
     if (this.log) {
       console.log(this.entrada.contenidoEntrada);
     }
@@ -267,6 +310,196 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
         editor.insertText(puntoAInsertar, '\n' + tag);
       }
     });
+  }
+
+  anadirFila() {
+    console.log('Anadir Fila');
+    const numFila = this.filas.length;
+    const nuevaFila = new Fila(numFila, '');
+    nuevaFila.bootstrapcolumn = 'col-sm-12';
+    this.filas.push(nuevaFila);
+    this.crearEditorAsync('editor-' + numFila + '-' + 0, '', nuevaFila.numFila, 0);
+  }
+
+  crearEditorAsync(id: string, contenidoEntrada: string, numeroFila: number, numeroColumna: number): void {
+    this.idEditor = id;
+    this.contenidoEntrada = contenidoEntrada;
+    this.numeroFila = numeroFila;
+    this.numeroColumna = numeroColumna;
+    console.log('async');
+    // tslint:disable-next-line:no-shadowed-variable
+    const that = this;
+    setTimeout(function () {
+      return that.crearEditor();
+    }, 100);
+  }
+
+  crearEditor(): void {
+
+    if (this.log) {
+      console.log('Quill');
+    }
+
+    const container = document.getElementById(this.idEditor);
+    const toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['link', 'image', 'video', 'formula']
+      ['clean'],
+      ['omega']                                         // remove formatting button
+    ];
+
+    const editor = new Quill(container, {
+      theme: 'snow',
+      modules: {
+        toolbar: '#toolbar-container-' + this.numeroFila + '-' + this.numeroColumna,
+        imageResize: {}
+      }
+    });
+
+    const toolbar = editor.getModule('toolbar');
+    toolbar.addHandler('omega', function () {
+      console.log('omega')
+    });
+
+
+    const customButton = document.querySelector('.ql-omega');
+    customButton.addEventListener('click', function () {
+      console.log('Add libro');
+      const range = editor.getSelection();
+      if (range) {
+        // tslint:disable-next-line:max-line-length
+        editor.insertText(range.index, '[momoko-libro img="imagen" titulo="" autor="" texto="Texto que acompaña al libro" colorFondo="Negro" posicionLibro="left"]');
+      }
+    });
+
+    editor.pasteHTML(this.contenidoEntrada);
+    editor.on('text-change', function (delta, oldDelta, source) {
+      if (this.log) {
+        console.log(editor.getContents());
+      }
+    });
+    $(container).data('quill', editor);
+  }
+
+  pintarColumnas(event: Event, fila: Fila) {
+    if (this.log) {
+      console.log('Pintar columnas');
+    }
+    this.modificarFilaPorNumeroColumnas(fila);
+
+    const numColumna = fila.numeroColumnas - 1;
+
+    const columna = new Columna(numColumna, '');
+    fila.columnas.push(columna);
+    console.log('Anadir Columna');
+    this.crearEditorAsync('editor-' + fila.numFila + '-' + numColumna, '', fila.numFila, numColumna);
+  }
+
+  modificarFilaPorNumeroColumnas(fila: Fila): void {
+    switch (fila.numeroColumnas) {
+      case 1:
+        fila.bootstrapcolumn = 'col-sm-12';
+        break;
+      case 2:
+        fila.bootstrapcolumn = 'col-sm-6';
+        break;
+      case 3:
+        fila.bootstrapcolumn = 'col-sm-4';
+        break;
+      case 4:
+        fila.bootstrapcolumn = 'col-sm-3';
+        break;
+      case 5:
+        fila.bootstrapcolumn = 'col-sm-2';
+        break;
+      case 6:
+        fila.bootstrapcolumn = 'col-sm-2';
+        break;
+      default:
+        fila.bootstrapcolumn = 'col-sm-12';
+    }
+  }
+
+  crearEditoresAsync(): void {
+    if (this.filas !== null && this.filas.length > 0) {
+      this.filas.forEach(fila => {
+        if (fila.columnas !== null && fila.columnas.length > 0) {
+          fila.columnas.forEach(columna => {
+            this.crearEditorConTexto('editor-' + fila.numFila + '-' + columna.numcolumna,  columna.texto, fila.numFila, columna.numcolumna);
+          });
+        }
+      });
+
+    }
+  }
+
+  crearEditorConTexto(idEditor: string, texto: string, numFila: number, numColumna: number): void {
+
+    if (this.log) {
+      console.log('Quill');
+    }
+
+    const container = document.getElementById(idEditor);
+    const toolbarOptions = [
+      ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+      ['blockquote', 'code-block'],
+
+      [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+      [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      [{ 'script': 'sub' }, { 'script': 'super' }],      // superscript/subscript
+      [{ 'indent': '-1' }, { 'indent': '+1' }],          // outdent/indent
+      [{ 'direction': 'rtl' }],                         // text direction
+
+      [{ 'size': ['small', false, 'large', 'huge'] }],  // custom dropdown
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+
+      [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+      [{ 'font': [] }],
+      [{ 'align': [] }],
+      ['link', 'image', 'video', 'formula']
+      ['clean'],
+      ['omega']                                         // remove formatting button
+    ];
+
+    const editor = new Quill(container, {
+      theme: 'snow',
+      modules: {
+        toolbar: '#toolbar-container-' + numFila + '-' + numColumna,
+        imageResize: {}
+      }
+    });
+
+    const toolbar = editor.getModule('toolbar');
+    toolbar.addHandler('omega', function () {
+      console.log('omega')
+    });
+
+
+    const customButton = document.querySelector('.ql-omega');
+    customButton.addEventListener('click', function () {
+      console.log('Add libro');
+      const range = editor.getSelection();
+      if (range) {
+        // tslint:disable-next-line:max-line-length
+        editor.insertText(range.index, '[momoko-libro img="imagen" titulo="" autor="" texto="Texto que acompaña al libro" colorFondo="Negro" posicionLibro="left"]');
+      }
+    });
+    editor.pasteHTML(texto);
+    $(container).data('quill', editor);
   }
 
 }

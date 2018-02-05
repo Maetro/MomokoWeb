@@ -8,6 +8,8 @@ package com.momoko.es.backend.model.service.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.client.utils.URIBuilder;
 import org.springframework.scheduling.annotation.Async;
@@ -72,6 +74,32 @@ public class TrackServiceImpl implements TrackService {
         } catch (final URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    @Async
+    public void enviarVisitaAPagina(final String urlObjetivo, final Map<String, String> allRequestParams) {
+        final RestTemplate restTemplate = new RestTemplate();
+        final URIBuilder builder = new URIBuilder();
+        builder.setScheme("http").setHost("www.google-analytics.com").setPath(urlObjetivo);
+        for (final Entry<String, String> urlParam : allRequestParams.entrySet()) {
+            builder.addParameter(urlParam.getKey(), urlParam.getValue());
+        }
+        // Event action.
+        URI uri = null;
+
+        try {
+            uri = builder.build();
+            System.out.println(restTemplate.getForEntity(uri, String.class));
+        } catch (final URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void alamacenarVisitaBD() {
+        // TODO Auto-generated method stub
+
     }
 
 }
