@@ -91,28 +91,34 @@ export class ListaEntradasComponent implements OnInit {
       this.selectedEntrada = entradaCompleta;
       const texto = this.selectedEntrada.contenidoEntrada;
       const filas = $(texto);
-
-      if (filas !== null && filas.length > 0) {
-        for (let i = 0; i < filas.length; i++) {
-          let filaT: Fila;
-          const fila = filas[i];
-          const columnas = $(fila.children);
-          const numeroColumnas = columnas.length;
-          if (columnas !== null && numeroColumnas > 0) {
-            filaT = new Fila(i, $(columnas[0]).html());
-            if (numeroColumnas > 1) {
-              for (let j = 1; j < numeroColumnas; j++) {
-                const columnaT = new Columna(j, $(columnas[j]).html());
-                filaT.columnas.push(columnaT);
-                filaT.numeroColumnas++;
-               }
+      if (texto.indexOf('class="row') !== -1) {
+        if (filas !== null && filas.length > 0) {
+          for (let i = 0; i < filas.length; i++) {
+            let filaT: Fila;
+            const fila = filas[i];
+            const columnas = $(fila.children);
+            const numeroColumnas = columnas.length;
+            if (columnas !== null && numeroColumnas > 0) {
+              filaT = new Fila(i, $(columnas[0]).html());
+              if (numeroColumnas > 1) {
+                for (let j = 1; j < numeroColumnas; j++) {
+                  const columnaT = new Columna(j, $(columnas[j]).html());
+                  filaT.columnas.push(columnaT);
+                  filaT.numeroColumnas++;
+                }
+              }
+            }
+            this.modificarFilaPorNumeroColumnas(filaT);
+            if (filaT != null) {
+              this.entradaDetailComponent.filas.push(filaT);
             }
           }
-          this.modificarFilaPorNumeroColumnas(filaT);
-          if (filaT != null) {
-            this.entradaDetailComponent.filas.push(filaT);
-          }
         }
+      } else {
+        let filaT: Fila;
+        filaT = new Fila(0, texto);
+        this.modificarFilaPorNumeroColumnas(filaT);
+        this.entradaDetailComponent.filas.push(filaT);
       }
 
       const that = this;
@@ -135,25 +141,46 @@ export class ListaEntradasComponent implements OnInit {
   modificarFilaPorNumeroColumnas(fila: Fila): void {
     switch (fila.numeroColumnas) {
       case 1:
-        fila.bootstrapcolumn = 'col-sm-12';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 12;
+          columna.bootstrapcolumn = 'col-sm-12';
+        });
         break;
       case 2:
-        fila.bootstrapcolumn = 'col-sm-6';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 6;
+          columna.bootstrapcolumn = 'col-sm-6';
+        });
         break;
       case 3:
-        fila.bootstrapcolumn = 'col-sm-4';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 4;
+          columna.bootstrapcolumn = 'col-sm-4';
+        });
         break;
       case 4:
-        fila.bootstrapcolumn = 'col-sm-3';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 3;
+          columna.bootstrapcolumn = 'col-sm-3';
+        });
         break;
       case 5:
-        fila.bootstrapcolumn = 'col-sm-2';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 2;
+          columna.bootstrapcolumn = 'col-sm-2';
+        });
         break;
       case 6:
-        fila.bootstrapcolumn = 'col-sm-2';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 2;
+          columna.bootstrapcolumn = 'col-sm-2';
+        });
         break;
       default:
-        fila.bootstrapcolumn = 'col-sm-12';
+        fila.columnas.forEach(columna => {
+          columna.anchura = 12;
+          columna.bootstrapcolumn = 'col-sm-12';
+        });
     }
   }
 
@@ -178,7 +205,6 @@ export class ListaEntradasComponent implements OnInit {
     this.entradaDetailComponent.date = new Date();
     const filas = new Array();
     const fila = new Fila(0, '');
-    fila.bootstrapcolumn = 'col-sm-12';
     filas.push(fila);
     this.entradaDetailComponent.filas = filas;
     this.entradaDetailComponent.crearEditorAsync('editor-0-0', this.selectedEntrada.contenidoEntrada, 0, 0);

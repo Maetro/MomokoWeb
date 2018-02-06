@@ -2,7 +2,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driverClassName: com.mysql.jdbc.Driver
@@ -86,8 +86,12 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
+        security: INFO
+      hibernate:
+        type: ERROR
+        SQL: ERROR
     root: INFO
+
 
 #momoko properties
 

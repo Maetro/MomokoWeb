@@ -126,7 +126,7 @@
             <div *ngFor="let fila of filas; let $i = index">
               <div class="row marginTop10">
                 <div class="col-sm-1">
-                  <button type="button" (click)="crearEditoresAsync()" class="btn btn-outline-primary">+</button>
+                  <button type="button" (click)="anadirFila()" class="btn btn-outline-primary">+</button>
                 </div>
                 <div class="col-sm-3 rp10">
                   <div class="form-field">
@@ -136,32 +136,48 @@
                 <div class="col-sm-2 lp10">
                   <div class="form-field">
                     <label>
-                      <input type="number" [(ngModel)]="fila.numeroColumnas" placeholder="Número de filas" (change)="pintarColumnas(event, fila)" min="1"
-                        max="6">
+                      <input type="number" [(ngModel)]="fila.numeroColumnas" placeholder="Número de filas" (change)="pintarColumnas(event, fila)"
+                        min="1" max="6">
                     </label>
                   </div>
                   <!--/.form-field -->
                 </div>
                 <div class="col-sm-2 rp10">
-                    <div class="form-field">
-                      <h4> Color de fondo: </h4>
-                    </div>
+                  <div class="form-field">
+                    <h4> Color de fondo: </h4>
                   </div>
-                  <div class="col-sm-2 lp10">
-                    <div class="form-field">
-                      <select>
-                          <option value="mercedes">Negro</option>
-                          <option value="audi">Blanco</option>
-                      </select>
-                    </div>
-                    <!--/.form-field -->
+                </div>
+                <div class="col-sm-2 lp10">
+                  <div class="form-field">
+                    <select [(ngModel)]="fila.colorFondo">
+                      <option *ngFor="let fondo of fondos" [ngValue]="fondo.id">{{fondo.name}}</option>
+                    </select>
                   </div>
+                  <!--/.form-field -->
+                </div>
               </div>
 
               <h5> Fila {{$i + 1}}</h5>
               <div class="row">
                 <div *ngFor="let columna of fila.columnas; let $j = index">
-                  <div class [ngClass]="fila.bootstrapcolumn">
+
+                  <div [ngClass]="columna.bootstrapcolumn">
+                    <div class="row" *ngIf="fila?.columnas?.length > 1">
+                      <div class="col-sm-6 rp10">
+                        <div class="form-field">
+                          <h4> Anchura: </h4>
+                        </div>
+                      </div>
+                      <div class="col-sm-6 lp10">
+                        <div class="form-field">
+                          <label>
+                            <input type="number" [(ngModel)]="columna.anchura" placeholder="Número de filas"
+                             min="1" max="11" (change)="cambiarAnchura(event, columna)">
+                          </label>
+                        </div>
+                        <!--/.form-field  (change)="cambiarAnchura(event, columna)"-->
+                      </div>
+                    </div>
                     <app-quill-editor [numeroFila]="$i" [numeroColumna]="$j" [columna]="columna"></app-quill-editor>
                   </div>
                 </div>

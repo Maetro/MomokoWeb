@@ -81,6 +81,11 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   filas: Fila[];
 
+  fondos = [
+    { id: 1, name: 'Blanco' },
+    { id: 2, name: 'Negro' }
+  ]
+
 
   urlImageServer = environment.urlFiles;
 
@@ -216,11 +221,20 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     let texto = '';
     if (this.filas != null && this.filas.length > 0) {
       this.filas.forEach(fila => {
-        texto += '<div class="row">';
+
+        let classFondo: string;
+        if (fila.colorFondo === 1) {
+          classFondo = 'light-wrapper';
+        } else {
+          classFondo = 'dark-wrapper';
+        }
+
+        texto += '<div class="row ' + classFondo + ' ">';
+
         if (fila.columnas != null && fila.columnas.length > 0) {
 
           fila.columnas.forEach(columna => {
-            texto += '<div class="' + fila.bootstrapcolumn + '">';
+            texto += '<div class="' + columna.bootstrapcolumn + '">';
             const textoEditor = <HTMLElement>document.getElementById('editor-' + fila.numFila + '-' + columna.numcolumna).firstChild;
             texto += textoEditor.innerHTML;
             texto += '</div>';
@@ -316,7 +330,6 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     console.log('Anadir Fila');
     const numFila = this.filas.length;
     const nuevaFila = new Fila(numFila, '');
-    nuevaFila.bootstrapcolumn = 'col-sm-12';
     this.filas.push(nuevaFila);
     this.crearEditorAsync('editor-' + numFila + '-' + 0, '', nuevaFila.numFila, 0);
   }
@@ -412,26 +425,45 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
   modificarFilaPorNumeroColumnas(fila: Fila): void {
     switch (fila.numeroColumnas) {
       case 1:
-        fila.bootstrapcolumn = 'col-sm-12';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-12';
+        });
         break;
       case 2:
-        fila.bootstrapcolumn = 'col-sm-6';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-6';
+        });
         break;
       case 3:
-        fila.bootstrapcolumn = 'col-sm-4';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-4';
+        });
         break;
       case 4:
-        fila.bootstrapcolumn = 'col-sm-3';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-3';
+        });
         break;
       case 5:
-        fila.bootstrapcolumn = 'col-sm-2';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-2';
+        });
         break;
       case 6:
-        fila.bootstrapcolumn = 'col-sm-2';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-2';
+        });
         break;
       default:
-        fila.bootstrapcolumn = 'col-sm-12';
+        fila.columnas.forEach(columna => {
+          columna.bootstrapcolumn = 'col-sm-12';
+        });
     }
+  }
+
+  cambiarAnchura(event: Event, columna: Columna) {
+    const col = 'col-sm-' + columna.anchura;
+    columna.bootstrapcolumn = col;
   }
 
   crearEditoresAsync(): void {
@@ -439,7 +471,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
       this.filas.forEach(fila => {
         if (fila.columnas !== null && fila.columnas.length > 0) {
           fila.columnas.forEach(columna => {
-            this.crearEditorConTexto('editor-' + fila.numFila + '-' + columna.numcolumna,  columna.texto, fila.numFila, columna.numcolumna);
+            this.crearEditorConTexto('editor-' + fila.numFila + '-' + columna.numcolumna, columna.texto, fila.numFila, columna.numcolumna);
           });
         }
       });

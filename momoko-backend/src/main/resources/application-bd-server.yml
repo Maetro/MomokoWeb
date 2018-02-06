@@ -87,6 +87,8 @@ logging:
     org:
       springframework:
         security: DEBUG
+      hibernate:
+        SQL: ERROR
     root: INFO
 
 
