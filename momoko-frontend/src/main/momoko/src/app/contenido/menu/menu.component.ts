@@ -46,19 +46,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
         console.log('Creando menus');
       }
 
-      this.indexDataService.testSeguimiento().take(1).map(test => {
-        if (test) {
-          return true;
-        } else { // url not found
-          return false;
-        }
-      });
-      if (window.ga && ga.create) {
-        console.log('Google Analytics is loaded');
-      }
-      else {
-        console.log('Google Analytics is not loaded');
-      }
       $('#main-menu').smartmenus();
     }
 

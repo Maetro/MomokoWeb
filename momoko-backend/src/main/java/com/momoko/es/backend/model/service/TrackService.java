@@ -8,6 +8,8 @@ package com.momoko.es.backend.model.service;
 
 import java.util.Map;
 
+import com.momoko.es.api.enums.TipoVisitaEnum;
+
 public interface TrackService {
 
     /**
@@ -32,6 +34,14 @@ public interface TrackService {
      */
     public void enviarVisitaAPagina(String urlObjetivo, Map<String, String> allRequestParams);
 
-    public void alamacenarVisitaBD();
+    /**
+     * Alamacenar visita bd.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @param ip
+     * @param entrada
+     */
+    public void alamacenarVisitaBD(String urlEntrada, TipoVisitaEnum tipoVisita, String ip);
 
 }

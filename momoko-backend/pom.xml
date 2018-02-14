@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.5.2-SNAPSHOT</version>
+		<version>0.6.6-SNAPSHOT</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>
@@ -60,7 +60,7 @@
 		<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
+<!--             <scope>provided</scope> -->
         </dependency>
 
 		<dependency>
@@ -176,4 +176,5 @@
 	</build>
 
 
+<!-- 	<packaging>war</packaging> -->
 </project>

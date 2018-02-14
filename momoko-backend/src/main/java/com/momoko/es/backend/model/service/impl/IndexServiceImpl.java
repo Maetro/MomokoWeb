@@ -28,6 +28,7 @@ import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.TipoVisitaEnum;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
@@ -38,6 +39,7 @@ import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.SuscripcionRepository;
 import com.momoko.es.backend.model.repository.VideoRepository;
+import com.momoko.es.backend.model.repository.VisitaRepository;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
@@ -58,6 +60,9 @@ public class IndexServiceImpl implements IndexService {
 
     @Autowired(required = false)
     private PuntuacionRepository puntuacionRepository;
+
+    @Autowired(required = false)
+    private VisitaRepository visitaRepository;
 
     @Autowired(required = false)
     private StorageService storageService;
@@ -139,7 +144,13 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public List<LibroSimpleDTO> obtenerLibrosMasVistos() {
-        final List<LibroEntity> listaLibros = this.libroRepository.findLibrosMasVistos(new PageRequest(0, 5));
+        final Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -1);
+
+        final List<String> librosMasVisitadosMes = this.visitaRepository.findTipoVisitaMasVistosDesde(new PageRequest(0, 5),
+                TipoVisitaEnum.LIBRO.toString(), c.getTime());
+
+        final List<LibroEntity> listaLibros = this.libroRepository.findByUrlLibroIn(librosMasVisitadosMes);
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();
         for (final LibroEntity libroEntity : listaLibros) {
             listaLibrosIds.add(libroEntity.getLibroId());

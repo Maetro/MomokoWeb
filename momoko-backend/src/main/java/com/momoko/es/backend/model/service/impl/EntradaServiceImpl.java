@@ -143,20 +143,7 @@ public class EntradaServiceImpl implements EntradaService {
                 entradaDTO.setUrlVideo(videoUrl);
             }
         }
-        if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
-            final StringBuilder builder = new StringBuilder();
-            final String[] partes = entradaDTO.getContenidoEntrada().split("contenido-entrada/");
-            final String imageServer = this.almacenImagenes.getUrlImageServer();
-            int numParte = 0;
-            for (final String parte : partes) {
-                builder.append(parte);
-                if (partes.length != (numParte + 1)) {
-                    builder.append(imageServer + "contenido-entrada/");
-                }
-                numParte++;
-            }
-            entradaDTO.setContenidoEntrada(builder.toString());
-        }
+        obtenerImagenesContenidasEntrada(entradaDTO);
         response.setEntrada(entradaDTO);
         return response;
     }
@@ -168,13 +155,15 @@ public class EntradaServiceImpl implements EntradaService {
         if (entradaEntity != null) {
             final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
             final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
+
+            final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
             try {
-                entradaEntity.setImagenDestacada(
-                        this.almacenImagenes.obtenerMiniatura(entradaEntity.getImagenDestacada(), 770, 432, true));
+                entradaDTO.setImagenDestacada(
+                        this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 432, true));
             } catch (final IOException e) {
                 e.printStackTrace();
             }
-            final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+
             if (!entradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
                 final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
                 if (CollectionUtils.isNotEmpty(librosEntrada)) {
@@ -197,15 +186,25 @@ public class EntradaServiceImpl implements EntradaService {
                             for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
                                 libroDTO.setEntradasLibro(listaDatosEntradas);
                                 librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
+
                                 final PuntuacionEntity puntuacion = this.puntuacionRepository
                                         .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
                                 if (puntuacion != null) {
                                     libroDTO.setNotaMomoko(puntuacion.getValor());
                                 }
                             }
+
                         }
-                        respuesta.setCincoLibrosParecidos(
-                                librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
+                    }
+                    respuesta.setCincoLibrosParecidos(
+                            librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
+                    if (CollectionUtils.isNotEmpty(librosParecidos)) {
+                        final String url = this.almacenImagenes.getUrlImageServer();
+                        for (final LibroSimpleDTO libroSimple : librosParecidos) {
+
+                            libroSimple.setPortada(url + libroSimple.getPortada());
+
+                        }
                     }
                 }
             } else {
@@ -265,36 +264,13 @@ public class EntradaServiceImpl implements EntradaService {
             }
             entradaDTO.setNumeroComentarios(comentarios.size());
             if (transformarGalerias) {
-                int numeroGaleria = 0;
-                while (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
-                    final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(),
-                            "[momoko-galeria-", "]");
-                    final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
-                    if (galeria != null) {
-                        entradaDTO.setTieneGaleria(true);
-
-                        final String code = generarCodigoGaleria(galeria, numeroGaleria);
-                        entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
-                                "[momoko-galeria-" + urlGaleria + "]", code));
-                        numeroGaleria++;
-                    } else {
-                        break;
-                    }
-                }
+                obtenerGaleriasEntrada(entradaDTO);
             }
-            if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
-                final StringBuilder builder = new StringBuilder();
-                final String[] partes = entradaDTO.getContenidoEntrada().split("contenido-entrada/");
-                final String imageServer = this.almacenImagenes.getUrlImageServer();
-                int numParte = 0;
-                for (final String parte : partes) {
-                    builder.append(parte);
-                    if (partes.length != (numParte + 1)) {
-                        builder.append(imageServer + "contenido-entrada/");
-                    }
-                    numParte++;
-                }
-                entradaDTO.setContenidoEntrada(builder.toString());
+            obtenerImagenesContenidasEntrada(entradaDTO);
+
+            if (transformarGalerias) {
+                obtenerBloqueslibroEntrada(entradaDTO);
+                obtenerGifs(entradaDTO);
             }
 
             if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
@@ -320,6 +296,124 @@ public class EntradaServiceImpl implements EntradaService {
             respuesta.setComentarios(comentariosOrdenados);
         }
         return respuesta;
+    }
+
+    private void obtenerGifs(final EntradaDTO entradaDTO) {
+
+        while (entradaDTO.getContenidoEntrada().contains("[gif ")) {
+            final String gif = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(), "[gif ", "]");
+            final String url = this.almacenImagenes.getUrlImageServer();
+            final String code = "<img src=\"" + url + "gifs/" + gif.trim() + ".gif\" />";
+            entradaDTO.setContenidoEntrada(
+                    StringUtils.replace(entradaDTO.getContenidoEntrada(), "[gif " + gif + "]", code));
+        }
+    }
+
+    private void obtenerBloqueslibroEntrada(final EntradaDTO entradaDTO) {
+
+        while (entradaDTO.getContenidoEntrada().contains("[momoko-libro ")) {
+            final String bloquelibro = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(), "[momoko-libro ",
+                    "]");
+
+            final String titulo = StringUtils.substringBetween(bloquelibro, "titulo=\"", "\"");
+            final String autor = StringUtils.substringBetween(bloquelibro, "autor=\"", "\"");
+            final String texto = StringUtils.substringBetween(bloquelibro, "texto=\"", "\"");
+            final String colorFondo = StringUtils.substringBetween(bloquelibro, "colorFondo=\"", "\"");
+            final String posicionLibro = StringUtils.substringBetween(bloquelibro, "posicionLibro=\"", "\"");
+            final String img = StringUtils.substringBetween(bloquelibro, "img=\"", "\" ");
+            final String code = generarBloqueLibro(img, titulo, autor, texto, colorFondo, posicionLibro);
+            entradaDTO.setContenidoEntrada(
+                    StringUtils.replace(entradaDTO.getContenidoEntrada(), "[momoko-libro " + bloquelibro + "]", code));
+        }
+    }
+
+    private String generarBloqueLibro(final String imagen, final String titulo, final String autor, final String texto,
+            final String colorFondo, final String posicionLibro) {
+        final StringBuilder stringBuilder = new StringBuilder();
+
+        if (colorFondo.toLowerCase().equals("negro")) {
+            stringBuilder.append("<div class=\"row dark-wrapper\">");
+        } else {
+            stringBuilder.append("<div class=\"row light-wrapper\">");
+        }
+        if (posicionLibro.toLowerCase().equals("right")) {
+            stringBuilder.append("<div class=\"imagenLibro\" style=\"float:right\">");
+            stringBuilder.append(imagen);
+        } else {
+            stringBuilder.append("<div class=\"imagenLibro\" style=\"float:left\">");
+            stringBuilder.append(imagen);
+        }
+        stringBuilder.append("</div>");
+
+        if (StringUtils.isNotEmpty(titulo)) {
+            stringBuilder.append("<div class=\"tituloBloqueLibro\">");
+            stringBuilder.append("<h3>" + titulo + "</h3>");
+            stringBuilder.append("</div>");
+        }
+
+        if (StringUtils.isNotEmpty(autor)) {
+            stringBuilder.append("<div class=\"autorBloqueLibro\">");
+            stringBuilder.append("<h4>" + autor + "</h4>");
+            stringBuilder.append("</div>");
+        }
+
+        if (StringUtils.isNotEmpty(texto)) {
+            stringBuilder.append("<div class=\"textoBloqueLibro\">");
+            stringBuilder.append("<p>" + texto + "</p>");
+            stringBuilder.append("</div>");
+        }
+        stringBuilder.append("</div>");
+
+        return stringBuilder.toString();
+
+    }
+
+    /**
+     * Obtener galerias entrada.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     */
+    public void obtenerGaleriasEntrada(final EntradaDTO entradaDTO) {
+        int numeroGaleria = 0;
+        while (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
+            final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(), "[momoko-galeria-",
+                    "]");
+            final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
+            if (galeria != null) {
+                entradaDTO.setTieneGaleria(true);
+
+                final String code = generarCodigoGaleria(galeria, numeroGaleria);
+                entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
+                        "[momoko-galeria-" + urlGaleria + "]", code));
+                numeroGaleria++;
+            } else {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Obtener imagenes contenidas entrada.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     */
+    public void obtenerImagenesContenidasEntrada(final EntradaDTO entradaDTO) {
+        if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
+            final StringBuilder builder = new StringBuilder();
+            final String[] partes = entradaDTO.getContenidoEntrada().split("contenido-entrada/");
+            final String imageServer = this.almacenImagenes.getUrlImageServer();
+            int numParte = 0;
+            for (final String parte : partes) {
+                builder.append(parte);
+                if (partes.length != (numParte + 1)) {
+                    builder.append(imageServer + "contenido-entrada/");
+                }
+                numParte++;
+            }
+            entradaDTO.setContenidoEntrada(builder.toString());
+        }
     }
 
     private String generarCodigoGaleria(final GaleriaEntity galeria, final int numeroGaleria) {
@@ -445,14 +539,23 @@ public class EntradaServiceImpl implements EntradaService {
         final String imageServer = this.almacenImagenes.getUrlImageServer();
         final String localFolder = this.almacenImagenes.getImageFolder();
         while (entradaAGuardar.getContenidoEntrada().contains("data:image/png;base64,")
-                || entradaAGuardar.getContenidoEntrada().contains("data:image/jpeg;base64,")) {
+                || entradaAGuardar.getContenidoEntrada().contains("data:image/jpeg;base64,")
+                || entradaAGuardar.getContenidoEntrada().contains("data:image/gif;base64,")) {
             // Hay imagenes en base 64
+            String extension = "png";
             int comienzo = entradaAGuardar.getContenidoEntrada().indexOf("data:image/png;base64,");
             if (comienzo == -1) {
                 comienzo = entradaAGuardar.getContenidoEntrada().indexOf("data:image/jpeg;base64,");
+                extension = "jpg";
+            }
+            if (comienzo == -1) {
+                comienzo = entradaAGuardar.getContenidoEntrada().indexOf("data:image/gif;base64,");
+                extension = "gif";
+
             }
             final int fin = entradaAGuardar.getContenidoEntrada().indexOf("\"", comienzo);
             final String imagenBase64 = entradaAGuardar.getContenidoEntrada().substring(comienzo, fin);
+
             // entradaAGuardar.getContenidoEntrada().replaceFirst(regex, replacement);
             // tokenize the data
             final byte[] imageBytes = DatatypeConverter.parseBase64Binary(imagenBase64.substring(22));
@@ -461,17 +564,17 @@ public class EntradaServiceImpl implements EntradaService {
             final String carpeta = "contenido-entrada/" + entradaAGuardar.getUrlEntrada();
             String nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
             this.almacenImagenes.crearCarpetaSiNoExiste("/" + carpeta);
-            String url = imageServer + carpeta + "/" + nombreImagen + ".png";
+            String url = imageServer + carpeta + "/" + nombreImagen + "." + extension;
             while (FileSystemStorageService.exists(url)) {
                 cont++;
                 nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
-                url = imageServer + carpeta + "/" + nombreImagen + ".png";
+                url = imageServer + carpeta + "/" + nombreImagen + "." + extension;
             }
 
-            this.almacenImagenes.store(img, carpeta, nombreImagen);
+            this.almacenImagenes.store(img, carpeta, nombreImagen, extension);
 
-            entradaAGuardar.setContenidoEntrada(
-                    entradaAGuardar.getContenidoEntrada().replace(imagenBase64, carpeta + "/" + nombreImagen + ".png"));
+            entradaAGuardar.setContenidoEntrada(entradaAGuardar.getContenidoEntrada().replace(imagenBase64,
+                    carpeta + "/" + nombreImagen + "." + extension));
             cont++;
         }
 
@@ -684,7 +787,7 @@ public class EntradaServiceImpl implements EntradaService {
                     try {
                         url = new URL(videoData.getSnippet().getThumbnails().getMaxres().getUrl());
                         img = ImageIO.read(url);
-                        this.almacenImagenes.store(img, "imagenes-destacadas", urlVideo);
+                        this.almacenImagenes.store(img, "imagenes-destacadas", urlVideo, "png");
                     } catch (final MalformedURLException e) {
                         e.printStackTrace();
                     } catch (final IOException e) {
@@ -762,7 +865,7 @@ public class EntradaServiceImpl implements EntradaService {
                     .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
             entradaEntity.setPadreEntrada(padre);
         }
-        // TODO: RAMON: Implementar
+
         entradaEntity.setNumeroComentarios(0);
         if (entradaEntity.getPermitirComentarios() == null) {
             entradaEntity.setPermitirComentarios(true);

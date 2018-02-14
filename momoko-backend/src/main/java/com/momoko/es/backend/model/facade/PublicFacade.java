@@ -15,6 +15,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,6 +61,7 @@ import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.TipoVisitaEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.api.google.GoogleSearch;
 import com.momoko.es.api.google.Item;
@@ -114,7 +117,6 @@ public class PublicFacade {
 
     @GetMapping(path = "/initData")
     public @ResponseBody InitDataDTO getInitData() {
-        System.out.println("Llamada al init");
         final List<MenuDTO> menu = this.indexService.obtenerMenu();
 
         final InitDataDTO initDataDTO = new InitDataDTO();
@@ -122,8 +124,8 @@ public class PublicFacade {
         return initDataDTO;
     }
 
-    @GetMapping(path = "/indexData/{client-id}")
-    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex(@PathVariable("client-id") final String clientId) {
+    @GetMapping(path = "/indexData")
+    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex() {
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
         final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
@@ -133,16 +135,8 @@ public class PublicFacade {
         obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
         obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
-        if (clientId != null) {
-            this.trackService.enviarVisitaAPagina(clientId, "/", "Pagina principal");
-        }
+
         return obtenerIndexDataResponseDTO;
-    }
-
-    @GetMapping(path = "/indexData")
-    public @ResponseBody ObtenerIndexDataReponseDTO getInfoIndex() {
-
-        return getInfoIndex(null);
     }
 
     @GetMapping(path = "/entradas")
@@ -152,21 +146,25 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/entrada/{url-entrada}")
-    public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
-        return getEntradaByUrl(urlEntrada, null);
-    }
-
-    @GetMapping(path = "/entrada/{url-entrada}/{client-id}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
-            @PathVariable("client-id") final String clientId) {
+            final HttpServletRequest request) {
         ObtenerEntradaResponse respuesta = null;
         if (!urlEntrada.equals("not-found")) {
             respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+            final String ip = getClientIp(request);
+            if (respuesta.getEntrada() == null) {
+                this.trackService.alamacenarVisitaBD(urlEntrada, TipoVisitaEnum.FALLO, ip);
+            } else {
+                this.trackService.alamacenarVisitaBD(urlEntrada, TipoVisitaEnum.ENTRADA, ip);
+                if (CollectionUtils.isNotEmpty(respuesta.getEntrada().getLibrosEntrada())) {
+                    for (final LibroDTO libroDTO : respuesta.getEntrada().getLibrosEntrada()) {
+                        this.trackService.alamacenarVisitaBD(libroDTO.getUrlLibro(), TipoVisitaEnum.LIBRO, ip);
+                    }
+                }
+            }
+
         }
-        if ((clientId != null) && (respuesta.getEntrada() != null)) {
-            final String tituloEntrada = respuesta.getEntrada().getTituloEntrada();
-            this.trackService.enviarVisitaAPagina(clientId, "/" + urlEntrada, tituloEntrada);
-        }
+
         return respuesta;
     }
 
@@ -179,11 +177,24 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/libro/{url-libro}")
-    public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro) {
+    public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro,
+            final HttpServletRequest request) {
         System.out.println("Obtener libro: " + urlLibro);
         final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerLibro(urlLibro);
+        final String ip = getClientIp(request);
         if (respuesta.getLibro() != null) {
             respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
+            if (CollectionUtils.isNotEmpty(respuesta.getCincoLibrosParecidos())) {
+                final String url = this.almacenImagenes.getUrlImageServer();
+                for (final LibroSimpleDTO libroSimple : respuesta.getCincoLibrosParecidos()) {
+
+                    libroSimple.setPortada(url + libroSimple.getPortada());
+
+                }
+            }
+        }
+        if (respuesta.getLibro() != null) {
+            this.trackService.alamacenarVisitaBD(respuesta.getLibro().getUrlLibro(), TipoVisitaEnum.LIBRO, ip);
         }
         return respuesta;
     }
@@ -480,23 +491,29 @@ public class PublicFacade {
                 if (splitedUrl.length > 0) {
                     urlPart = splitedUrl[1];
                 }
-                if (urlPart.contains("libro/")) {
+                if (urlPart.contains("noticias/")) {
+                    final String libroUrl = urlPart.split("noticias/")[1];
+                    libros.add(libroUrl.trim());
+                    order.add("libro/" + libroUrl);
+                } else if (urlPart.contains("libro/")) {
                     final String libroUrl = urlPart.split("libro/")[1];
-                    libros.add(libroUrl);
-                    order.add(urlPart);
+                    libros.add(libroUrl.trim());
+                    order.add(urlPart.trim());
                 } else if (urlPart.contains("tag/")) {
-                    final String tagUrl = urlPart.split("tag/")[1];
-                    etiquetas.add(tagUrl);
+                    String tagUrl = urlPart.split("tag/")[1];
+                    tagUrl = tagUrl.replaceAll("/", "").trim();
+                    etiquetas.add(tagUrl.trim());
                     order.add(urlPart);
                 } else if (urlPart.contains("categoria/")) {
                     final String categoriaUrl = urlPart.split("categoria/")[1];
-                    categorias.add(categoriaUrl);
+                    categorias.add(categoriaUrl.trim());
                     order.add(urlPart);
                 } else if (urlPart.contains("genero/")) {
                     final String generoUrl = urlPart.split("genero/")[1];
-                    generos.add(generoUrl);
+                    generos.add(generoUrl.trim());
                     order.add(urlPart);
                 } else {
+                    urlPart = urlPart.replaceAll("/", "").trim();
                     entradas.add(urlPart);
                     order.add(urlPart);
                 }
@@ -654,16 +671,19 @@ public class PublicFacade {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/r/collect")
-    void anotarVisita(@RequestParam final Map<String, String> allRequestParams, final ModelMap model) throws Exception {
+    public @ResponseBody String anotarVisita(@RequestParam final Map<String, String> allRequestParams,
+            final ModelMap model) throws Exception {
         System.out.println("Anotando visita para google analytics");
         this.trackService.enviarVisitaAPagina("/r/collect", allRequestParams);
+        return "OK";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/collect")
-    void anotarVisita2(@RequestParam final Map<String, String> allRequestParams, final ModelMap model)
-            throws Exception {
+    public @ResponseBody String anotarVisita2(@RequestParam final Map<String, String> allRequestParams,
+            final ModelMap model) throws Exception {
         System.out.println("Anotando visita para google analytics");
         this.trackService.enviarVisitaAPagina("/collect", allRequestParams);
+        return "OK";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarURLsEtiquetas")
@@ -844,6 +864,20 @@ public class PublicFacade {
             fechaMasReciente = candidata;
         }
         return fechaMasReciente;
+    }
+
+    private static String getClientIp(final HttpServletRequest request) {
+
+        String remoteAddr = "";
+
+        if (request != null) {
+            remoteAddr = request.getHeader("X-FORWARDED-FOR");
+            if ((remoteAddr == null) || "".equals(remoteAddr)) {
+                remoteAddr = request.getRemoteAddr();
+            }
+        }
+
+        return remoteAddr;
     }
 
 }

@@ -75,7 +75,7 @@
                                 <span class="over">
                                   <span></span>
                                 </span>
-                                <img src="{{post.imagenEntrada}}" alt="">
+                                <img src="{{post.imagenEntrada}}" alt="Imagen destacada - {{post.tituloEntrada}}">
                               </a>
                             </figure>
                           </div>
@@ -83,7 +83,7 @@
                           <div class="col-md-7">
                             <div class="post-content">
                               <h4 class="post-title">
-                                <a href="blog-post.html">{{post.tituloEntrada}}</a>
+                                <a routerLink="/{{post.urlEntrada}}">{{post.tituloEntrada}}</a>
                               </h4>
                               <div class="meta">
                                 <span class="date">{{post.fechaAlta | date:'dd MMM yyyy'}}</span>

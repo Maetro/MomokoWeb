@@ -347,11 +347,6 @@ public class LibroServiceImpl implements LibroService {
                 .findLibrosParecidosByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros, libro.getLibroId(),
                         new PageRequest(0, numeroLibros));
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();
-        for (final LibroEntity libroEntity : listaLibrosParecidos) {
-            listaLibrosIds.add(libroEntity.getLibroId());
-            final String url = this.almacenImagenes.getUrlImageServer();
-            libroEntity.setUrlImagen(url + libroEntity.getUrlImagen());
-        }
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
         final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();

@@ -2,12 +2,13 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://momoko.es:3306/momokoBD
     username: root
+    password: DLlCfAjs1
   http:
     multipart:
       max-file-size: 10MB
@@ -86,11 +87,11 @@ logging:
   level:
     org:
       springframework:
-        security: DEBUG
+        security: INFO
       hibernate:
+        type: ERROR
         SQL: ERROR
     root: INFO
-
 
 #momoko properties
 momokoConfiguracion:

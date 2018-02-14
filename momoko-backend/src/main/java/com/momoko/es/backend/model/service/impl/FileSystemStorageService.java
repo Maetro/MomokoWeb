@@ -121,19 +121,21 @@ public class FileSystemStorageService implements StorageService {
      * java.lang.String)
      */
     @Override
-    public String store(final BufferedImage image, final String tipoAlmacenamiento, final String name) {
+    public String store(final BufferedImage image, final String tipoAlmacenamiento, final String name,
+            final String extension) {
         File newName;
         String nuevoArchivo = "";
         try {
             if (esServidorLocal()) {
-                final File outputfile = new File(getFileLocation(tipoAlmacenamiento).resolve(name).toString() + ".png");
-                Files.createFile(getFileLocation(tipoAlmacenamiento).resolve(name + ".png"));
-                nuevoArchivo = name + ".png";
-                ImageIO.write(image, "png", outputfile);
+                final File outputfile = new File(
+                        getFileLocation(tipoAlmacenamiento).resolve(name).toString() + "." + extension);
+                Files.createFile(getFileLocation(tipoAlmacenamiento).resolve(name + "." + extension));
+                nuevoArchivo = name + "." + extension;
+                ImageIO.write(image, extension, outputfile);
             } else {
                 newName = File.createTempFile(name, ".tmp");
-                ImageIO.write(image, "png", newName);
-                guardarEnServidorImagenes(tipoAlmacenamiento, newName, name + ".png");
+                ImageIO.write(image, extension, newName);
+                guardarEnServidorImagenes(tipoAlmacenamiento, newName, name + "." + extension);
             }
         } catch (final IOException e) {
             e.printStackTrace();
@@ -358,10 +360,12 @@ public class FileSystemStorageService implements StorageService {
         if (locationOriginal.exists()) {
             final InputStream imagenOriginalInputStream = new FileInputStream(locationOriginal);
             final BufferedImage imagen = ImageIO.read(imagenOriginalInputStream);
-            final int width = imagen.getWidth();
-            final int height = imagen.getHeight();
-            resultado.setAltura(height);
-            resultado.setAnchura(width);
+            if (imagen != null) {
+                final int width = imagen.getWidth();
+                final int height = imagen.getHeight();
+                resultado.setAltura(height);
+                resultado.setAnchura(width);
+            }
         }
         return resultado;
     }

@@ -4697,3 +4697,21 @@ button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
 .alignright{
   float:right;
 }
+
+.cuerpo .row.dark-wrapper {
+  padding-top: 15px;
+}
+
+.cuerpo .row.light-wrapper {
+  padding-top: 15px;
+}
+
+.cuerpo .imagenLibro {
+  max-width: 200px;
+  padding: 0px 15px;
+}
+
+.cuerpo .row + .row {
+  padding-top: 50px;
+padding-bottom: 28px;
+}

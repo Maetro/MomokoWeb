@@ -38,7 +38,7 @@ public interface StorageService {
      * @param tipoAlmacenamineto
      *            the tipo almacenamineto
      */
-    String store(BufferedImage image, String tipoAlmacenamineto, final String name);
+    String store(BufferedImage image, String tipoAlmacenamineto, String name, String extension);
 
     /**
      * Load all.

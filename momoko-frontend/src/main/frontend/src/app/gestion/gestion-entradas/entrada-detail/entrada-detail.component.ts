@@ -298,7 +298,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
           console.log(galeria);
         }
         const tag = '[momoko-galeria-' + galeria.urlGaleria + ']';
-        const editor = $('#editor').data('quill');
+        const editor = $('#editor-0-0').data('quill');
 
         const range = editor.getSelection();
         let puntoAInsertar: number;
@@ -389,7 +389,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     });
 
 
-    const customButton = document.querySelector('.ql-omega');
+    const customButton = document.querySelector('.ql-omega-' + this.numeroFila + '-' + this.numeroColumna);
     customButton.addEventListener('click', function () {
       console.log('Add libro');
       const range = editor.getSelection();
@@ -412,14 +412,20 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     if (this.log) {
       console.log('Pintar columnas');
     }
-    this.modificarFilaPorNumeroColumnas(fila);
-
     const numColumna = fila.numeroColumnas - 1;
+    const numeroColumnasAntes = fila.columnas.length;
+    if (fila.numeroColumnas < numeroColumnasAntes) {
+      fila.columnas.splice(fila.numeroColumnas);
+      this.modificarFilaPorNumeroColumnas(fila);
+    } else {
+      const columna = new Columna(numColumna, '');
+      fila.columnas.push(columna);
+      console.log('Anadir Columna');
 
-    const columna = new Columna(numColumna, '');
-    fila.columnas.push(columna);
-    console.log('Anadir Columna');
-    this.crearEditorAsync('editor-' + fila.numFila + '-' + numColumna, '', fila.numFila, numColumna);
+      this.modificarFilaPorNumeroColumnas(fila);
+
+      this.crearEditorAsync('editor-' + fila.numFila + '-' + numColumna, '', fila.numFila, numColumna);
+    }
   }
 
   modificarFilaPorNumeroColumnas(fila: Fila): void {
@@ -427,36 +433,43 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
       case 1:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-12';
+          columna.anchura = 12;
         });
         break;
       case 2:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-6';
+          columna.anchura = 6;
         });
         break;
       case 3:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-4';
+          columna.anchura = 4;
         });
         break;
       case 4:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-3';
+          columna.anchura = 3;
         });
         break;
       case 5:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-2';
+          columna.anchura = 2;
         });
         break;
       case 6:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-2';
+          columna.anchura = 2;
         });
         break;
       default:
         fila.columnas.forEach(columna => {
           columna.bootstrapcolumn = 'col-sm-12';
+          columna.anchura = 12;
         });
     }
   }
@@ -521,7 +534,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     });
 
 
-    const customButton = document.querySelector('.ql-omega');
+    const customButton = document.querySelector('.ql-omega-' + numFila + '-' + numColumna);
     customButton.addEventListener('click', function () {
       console.log('Add libro');
       const range = editor.getSelection();

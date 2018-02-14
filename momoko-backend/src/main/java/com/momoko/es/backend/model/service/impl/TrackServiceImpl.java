@@ -8,18 +8,26 @@ package com.momoko.es.backend.model.service.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.http.client.utils.URIBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.momoko.es.api.enums.TipoVisitaEnum;
+import com.momoko.es.backend.model.entity.VisitaEntity;
+import com.momoko.es.backend.model.repository.VisitaRepository;
 import com.momoko.es.backend.model.service.TrackService;
 
 @Service
 public class TrackServiceImpl implements TrackService {
+
+    @Autowired(required = false)
+    private VisitaRepository visitaRepository;
 
     @Async
     public void anotarAccionAnalytics() {
@@ -97,8 +105,13 @@ public class TrackServiceImpl implements TrackService {
     }
 
     @Override
-    public void alamacenarVisitaBD() {
-        // TODO Auto-generated method stub
+    public void alamacenarVisitaBD(final String url, final TipoVisitaEnum tipoVisita, final String ip) {
+        final VisitaEntity visita = new VisitaEntity();
+        visita.setFechaVisita(Calendar.getInstance().getTime());
+        visita.setTipoVisita(tipoVisita.toString());
+        visita.setUrlVisita(url);
+        visita.setUsuarioVisita(ip);
+        this.visitaRepository.save(visita);
 
     }
 

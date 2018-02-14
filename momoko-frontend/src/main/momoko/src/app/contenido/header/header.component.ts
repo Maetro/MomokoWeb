@@ -8,7 +8,7 @@ import { environment } from '../../../environments/environment';
   <div class="col-xs-12 col-md-7">
     <div class="logo">
       <a routerLink="/">
-        <img src="#" srcset="assets/style/images/logo.png 1x, assets/style/images/logo@2x.png 2x" alt="" />
+        <img src="http://momoko.es/images/logo_valentin.png" alt="Logotipo de momoko.es" />
       </a>
     </div>
   </div>

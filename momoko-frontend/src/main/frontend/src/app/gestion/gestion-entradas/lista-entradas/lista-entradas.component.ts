@@ -100,15 +100,26 @@ export class ListaEntradasComponent implements OnInit {
             const numeroColumnas = columnas.length;
             if (columnas !== null && numeroColumnas > 0) {
               filaT = new Fila(i, $(columnas[0]).html());
+              if ($(fila).attr('class').indexOf('light-wrapper') !== -1) {
+                filaT.colorFondo = 1;
+              } else {
+                filaT.colorFondo = 2;
+              }
+              const anchura = $(columnas[0]).attr('class').substring(7);
+              filaT.columnas[0].anchura = anchura;
+              filaT.columnas[0].bootstrapcolumn = 'col-sm-' + anchura;
               if (numeroColumnas > 1) {
                 for (let j = 1; j < numeroColumnas; j++) {
                   const columnaT = new Columna(j, $(columnas[j]).html());
+                  const anchuraColumna = $(columnas[j]).attr('class').substring(7);
+                  columnaT.anchura = anchuraColumna;
+                  columnaT.bootstrapcolumn = 'col-sm-' + anchuraColumna;
                   filaT.columnas.push(columnaT);
                   filaT.numeroColumnas++;
                 }
               }
             }
-            this.modificarFilaPorNumeroColumnas(filaT);
+            // this.modificarFilaPorNumeroColumnas(filaT);
             if (filaT != null) {
               this.entradaDetailComponent.filas.push(filaT);
             }
