@@ -1,3 +1,4 @@
+import { DatoEntrada } from './../../../dtos/datoEntrada';
 import { Component, OnInit, Input } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Libro } from '../../../dtos/libro';
@@ -18,7 +19,7 @@ export class MenuInternoLibroComponent implements OnInit {
   hayAnalisis = false;
   hayNoticias = false;
   hayGuia = false;
-
+  menuLibroExtra: DatoEntrada[];
 
   @Input() libro: Libro;
 
@@ -52,6 +53,13 @@ export class MenuInternoLibroComponent implements OnInit {
             break;
           }
         };
+        console.log('Menus');
+        if (entrada.enMenu) {
+          if (this.menuLibroExtra == null) {
+            this.menuLibroExtra = Array();
+          }
+          this.menuLibroExtra.push(entrada);
+        }
       })
     }
 
@@ -59,8 +67,9 @@ export class MenuInternoLibroComponent implements OnInit {
 
   isActive(instruction: any[]): boolean {
     // Set the second parameter to true if you want to require an exact match.
-    return this.router.isActive(this.router.createUrlTree(instruction), true);
+    return this.router.isActive(this.router.createUrlTree(instruction), false);
   }
+
 
 
 }

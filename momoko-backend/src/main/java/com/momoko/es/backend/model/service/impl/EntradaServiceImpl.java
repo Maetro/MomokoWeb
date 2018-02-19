@@ -164,7 +164,7 @@ public class EntradaServiceImpl implements EntradaService {
                 e.printStackTrace();
             }
 
-            if (!entradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
+            if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
                 final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
                 if (CollectionUtils.isNotEmpty(librosEntrada)) {
                     for (final LibroEntity libroEntrada : librosEntrada) {
@@ -178,6 +178,9 @@ public class EntradaServiceImpl implements EntradaService {
                                 final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
                                 datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
                                 datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                                datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
+                                datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
+                                datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
                                 listaDatosEntradas.add(datoEntrada);
                             }
                         }
@@ -698,6 +701,9 @@ public class EntradaServiceImpl implements EntradaService {
         viejaEntrada.setImagenDestacada(entradaEntity.getImagenDestacada());
         viejaEntrada.setEntradaAutor(entradaEntity.getEntradaAutor());
         viejaEntrada.setFechaAlta(entradaEntity.getFechaAlta());
+        viejaEntrada.setEnMenu(entradaEntity.isEnMenu());
+        viejaEntrada.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
+        viejaEntrada.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
         this.entradaRepository.save(viejaEntrada);
         return viejaEntrada;
     }

@@ -32,7 +32,10 @@ import { PageNotFoundComponent } from './contenido/estaticas/page-not-found/page
 import { PageSolicitudComponent } from './contenido/estaticas/page-solicitud/page-solicitud.component';
 import { EstaticasModule } from './contenido/estaticas/estaticas.module';
 import { makeDecorator } from '@angular/core/src/util/decorators';
-
+import { ObtenerEntradaZonaResolverService } from './services/resolvers/obtener-entrada-zona-resolver.service';
+import { ObtenerResenaResolverService } from './services/resolvers/obtener-resena-resolver.service';
+import { LinkService } from './services/link.service';
+import { UtilService } from './services/util/util.service';
 
 
 @NgModule({
@@ -56,10 +59,38 @@ import { makeDecorator } from '@angular/core/src/util/decorators';
         }
       },
       {
-        path: 'libro/noticias/:url',
+        path: 'libro/:url/noticias',
         loadChildren: './contenido/libro/lista-noticias-libro/lista-noticias-libro.module#ListaNoticiasLibroModule',
         resolve: {
           noticiasLibro: ObtenerLibroNoticiasResolverService
+        }
+      },
+      {
+        path: 'libro/:url_libro/resena/:url_entrada',
+        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+        resolve: {
+          obtenerEntradaResponse: ObtenerResenaResolverService
+        }
+      },
+      {
+        path: 'libro/:url_libro/miscelaneo/:url_entrada',
+        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+        resolve: {
+          obtenerEntradaResponse: ObtenerResenaResolverService
+        }
+      },
+      {
+        path: 'libro/:url_libro/noticia/:url_entrada',
+        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+        resolve: {
+          obtenerEntradaResponse: ObtenerResenaResolverService
+        }
+      },
+      {
+        path: 'libro/:url_libro/:url_zona/:url_entrada',
+        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+        resolve: {
+          obtenerEntradaResponse: ObtenerEntradaZonaResolverService
         }
       },
       {
@@ -120,7 +151,8 @@ import { makeDecorator } from '@angular/core/src/util/decorators';
   providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerListaCategoriaResolverService, ClasificadorService,
     ObtenerListaGeneroResolverService, ObtenerListaEtiquetaResolverService, ComentariosService, ObtenerVideoResolverService, VideoService,
     ObtenerEntradaResolverService, EntradaService, ScrollToService, ObtenerLibroNoticiasResolverService, ObtenerLibroResolverService, LibroService,
-    JsonAdapterService, ObtenerListaBusquedaResolverService],
+    JsonAdapterService, ObtenerListaBusquedaResolverService, ObtenerEntradaZonaResolverService, LinkService,
+    ObtenerResenaResolverService, UtilService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

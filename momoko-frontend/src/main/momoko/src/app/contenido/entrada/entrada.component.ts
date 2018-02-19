@@ -8,6 +8,7 @@ import { EntradaService } from '../../services/entrada.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerEntradaResponse } from '../../dtos/response/obtenerEntradaResponse';
 import { Meta } from '@angular/platform-browser';
+import { UtilService } from '../../services/util/util.service';
 
 @Component({
   selector: 'app-entrada',
@@ -34,8 +35,12 @@ export class EntradaComponent implements OnInit, OnDestroy {
 
   tipoEntrada: number;
 
-  constructor(private entradaService: EntradaService, private route: ActivatedRoute, private router: Router,
-     private metaService: Meta) { }
+  constructor(
+    private entradaService: EntradaService, 
+    private route: ActivatedRoute, 
+    private router: Router,
+    private util: UtilService,
+    private metaService: Meta) { }
 
   ngOnInit() {
     if (this.log) {
@@ -54,12 +59,8 @@ export class EntradaComponent implements OnInit, OnDestroy {
         this.entradaAnteriorYSiguiente = data.obtenerEntradaResponse.obtenerEntradaAnteriorYSiguiente;
         this.cuatroPostPequenosConImagen = data.obtenerEntradaResponse.cuatroPostPequenosConImagen;
 
-   
-        this.metaService.removeTag('name="og:url"');
-        this.metaService.removeTag('name="og:type"');
-        this.metaService.removeTag('name="og:title"');
-        this.metaService.removeTag('name="og:description"');
-        this.metaService.removeTag('name="og:image"');
+        this.util.removeAllTags(this.metaService);
+        
 
 
         this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/'+ this.url });

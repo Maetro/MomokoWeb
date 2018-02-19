@@ -10,4 +10,8 @@ export class EntradaSimple {
   fraseDescriptiva: string;
   tipoEntrada: string;
   titulosLibros: string;
+  nombreMenuLibro: string;
+  urlMenuLibro: string;
+  urlLibro: string;
+  visitas: number;
 }

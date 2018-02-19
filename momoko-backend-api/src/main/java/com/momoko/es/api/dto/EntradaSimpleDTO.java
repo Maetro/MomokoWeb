@@ -28,6 +28,11 @@ public class EntradaSimpleDTO implements Serializable {
     private String categoria;
     private String videoUrl;
     private String titulosLibros;
+    private String nombreMenuLibro;
+    private String urlMenuLibro;
+    private String urlLibro;
+    private Integer visitas;
+    private String bloque;
 
     /**
      * Gets the titulo entrada.
@@ -248,6 +253,25 @@ public class EntradaSimpleDTO implements Serializable {
     }
 
     /**
+     * Gets the nombre menu libro.
+     *
+     * @return the nombre menu libro
+     */
+    public String getNombreMenuLibro() {
+        return this.nombreMenuLibro;
+    }
+
+    /**
+     * Sets the nombre menu libro.
+     *
+     * @param nombreMenuLibro
+     *            the new nombre menu libro
+     */
+    public void setNombreMenuLibro(final String nombreMenuLibro) {
+        this.nombreMenuLibro = nombreMenuLibro;
+    }
+
+    /**
      * Sets the titulos libros.
      *
      * @param titulosLibros
@@ -274,6 +298,92 @@ public class EntradaSimpleDTO implements Serializable {
      */
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    /**
+     * Gets the visitas.
+     *
+     * @return the visitas
+     */
+    public Integer getVisitas() {
+        return this.visitas;
+    }
+
+    /**
+     * Sets the visitas.
+     *
+     * @param visitas
+     *            the new visitas
+     */
+    public void setVisitas(final Integer visitas) {
+        this.visitas = visitas;
+    }
+
+    /**
+     * Sets the video url.
+     *
+     * @param videoUrl
+     *            the new video url
+     */
+    public void setVideoUrl(final String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    /**
+     * Gets the url menu libro.
+     *
+     * @return the url menu libro
+     */
+    public String getUrlMenuLibro() {
+        return this.urlMenuLibro;
+    }
+
+    /**
+     * Sets the url menu libro.
+     *
+     * @param urlMenuLibro
+     *            the new url menu libro
+     */
+    public void setUrlMenuLibro(final String urlMenuLibro) {
+        this.urlMenuLibro = urlMenuLibro;
+    }
+
+    /**
+     * Gets the url libro.
+     *
+     * @return the url libro
+     */
+    public String getUrlLibro() {
+        return this.urlLibro;
+    }
+
+    /**
+     * Sets the url libro.
+     *
+     * @param urlLibro
+     *            the new url libro
+     */
+    public void setUrlLibro(final String urlLibro) {
+        this.urlLibro = urlLibro;
+    }
+
+    /**
+     * Gets the bloque.
+     *
+     * @return the bloque
+     */
+    public String getBloque() {
+        return this.bloque;
+    }
+
+    /**
+     * Sets the bloque.
+     *
+     * @param bloque
+     *            the new bloque
+     */
+    public void setBloque(final String bloque) {
+        this.bloque = bloque;
     }
 
 }

@@ -53,10 +53,11 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
   @Input() entrada: Entrada;
 
   @Output() onEntradaGuardada: EventEmitter<Entrada> = new EventEmitter<Entrada>();
-
+  @Output() onVolver: EventEmitter<Boolean> = new EventEmitter<Boolean>();
 
   msgs: Message[] = [];
   customURL = false;
+  customZona = false;
 
   nombresEditoriales: string[];
 
@@ -157,8 +158,18 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  cambioNombreMenu(newValue: string) {
+    if (!this.customURL) {
+      this.entrada.urlMenuLibro = encodeURIComponent(this.util.convertToSlug(newValue));
+    }
+  }
+
   urlChange(newValue: string) {
     this.customURL = true;
+  }
+
+  urlZonaChange(newValue: string) {
+    this.customZona = true;
   }
 
   actualizarContenido(contenido: string) {
@@ -286,6 +297,10 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   esTipoVideo(): boolean {
     return this.entrada.tipoEntrada === 4;
+  }
+
+  esMenu(): boolean {
+    return this.entrada.enMenu;
   }
 
   insertarGaleria($event) {
@@ -545,6 +560,10 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     });
     editor.pasteHTML(texto);
     $(container).data('quill', editor);
+  }
+
+  volver(): void {
+    this.onVolver.emit(true);
   }
 
 }

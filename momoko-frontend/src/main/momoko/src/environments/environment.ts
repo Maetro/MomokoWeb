@@ -26,6 +26,7 @@ export const environment = {
   oauthTokenUrl: 'http://localhost:5000/oauth/token',
   accountTokenUrl: 'http://localhost:5000/account/token',
   getEntradaUrl: 'http://localhost:5000/public/entrada/',
+  getEntradaZonaUrl: 'http://localhost:5000/public/zona/',
   getEntradaAdminUrl: 'http://localhost:5000/modelo/entrada/',
   indexDataUrl: 'http://localhost:5000/public/indexData',
   obtenerLibroUrl: 'http://localhost:5000/public/libro/',

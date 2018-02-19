@@ -16,6 +16,9 @@ public class DatoEntradaDTO implements Serializable {
     private static final long serialVersionUID = 1771931410522575737L;
     private Integer tipoEntrada;
     private String urlEntrada;
+    private Boolean enMenu;
+    private String nombreMenuLibro;
+    private String urlMenuLibro;
 
     /**
      * Gets the tipo entrada.
@@ -53,6 +56,63 @@ public class DatoEntradaDTO implements Serializable {
      */
     public void setUrlEntrada(final String urlEntrada) {
         this.urlEntrada = urlEntrada;
+    }
+
+    /**
+     * Gets the en menu.
+     *
+     * @return the en menu
+     */
+    public Boolean getEnMenu() {
+        return this.enMenu;
+    }
+
+    /**
+     * Sets the en menu.
+     *
+     * @param enMenu
+     *            the new en menu
+     */
+    public void setEnMenu(final Boolean enMenu) {
+        this.enMenu = enMenu;
+    }
+
+    /**
+     * Gets the nombre menu libro.
+     *
+     * @return the nombre menu libro
+     */
+    public String getNombreMenuLibro() {
+        return this.nombreMenuLibro;
+    }
+
+    /**
+     * Sets the nombre menu libro.
+     *
+     * @param nombreMenuLibro
+     *            the new nombre menu libro
+     */
+    public void setNombreMenuLibro(final String nombreMenuLibro) {
+        this.nombreMenuLibro = nombreMenuLibro;
+    }
+
+    /**
+     * Gets the url menu libro.
+     *
+     * @return the url menu libro
+     */
+    public String getUrlMenuLibro() {
+        return this.urlMenuLibro;
+    }
+
+    /**
+     * Sets the url menu libro.
+     *
+     * @param urlMenuLibro
+     *            the new url menu libro
+     */
+    public void setUrlMenuLibro(final String urlMenuLibro) {
+        this.urlMenuLibro = urlMenuLibro;
     }
 
 }

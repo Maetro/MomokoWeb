@@ -9,7 +9,7 @@ export class UtilService {
   constructor() { }
 
   convertToSlug(text: string) {
-
+    text = text.trim();
     const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
     const to = 'aaaaaeeeeeiiiiooooouuuunc------';
     for (let i = 0, l = from.length; i < l; i++) {

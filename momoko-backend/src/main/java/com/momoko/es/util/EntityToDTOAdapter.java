@@ -143,6 +143,10 @@ public final class EntityToDTOAdapter {
             }
             entradaDTO.setTitulosLibrosEntrada(titulos);
         }
+        entradaDTO.setEnMenu(entradaEntity.isEnMenu());
+        entradaDTO.setConSidebar(entradaEntity.isConSidebar());
+        entradaDTO.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
+        entradaDTO.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
         return entradaDTO;
     }
 

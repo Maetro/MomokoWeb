@@ -109,6 +109,18 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     /** The fecha alta. */
     private Date fechaBaja;
 
+    /** The con sidebar. */
+    private boolean conSidebar;
+
+    /** The en menu. */
+    private boolean enMenu;
+
+    /** The nombre menu libro. */
+    private String nombreMenuLibro;
+
+    /** The nombre menu libro. */
+    private String urlMenuLibro;
+
     /**
      * Instancia un nuevo entrada entity.
      */
@@ -317,8 +329,8 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     /**
      * Establece libro entrada.
      *
-     * @param libroEntrada
-     *            nuevo libro entrada
+     * @param librosEntrada
+     *            the new libros entrada
      */
     public void setLibrosEntrada(final List<LibroEntity> librosEntrada) {
         this.librosEntrada = librosEntrada;
@@ -438,62 +450,216 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
         this.comentarios = comentarios;
     }
 
+    /**
+     * Gets the usuario alta.
+     *
+     * @return the usuario alta
+     */
     public String getUsuarioAlta() {
         return this.usuarioAlta;
     }
 
+    /**
+     * Sets the usuario alta.
+     *
+     * @param usuarioAlta
+     *            the new usuario alta
+     */
     public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
     }
 
+    /**
+     * Gets the fecha alta.
+     *
+     * @return the fecha alta
+     */
     public Date getFechaAlta() {
         return this.fechaAlta;
     }
 
+    /**
+     * Sets the fecha alta.
+     *
+     * @param fechaAlta
+     *            the new fecha alta
+     */
     public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
+    /**
+     * Gets the usuario modificacion.
+     *
+     * @return the usuario modificacion
+     */
     public String getUsuarioModificacion() {
         return this.usuarioModificacion;
     }
 
+    /**
+     * Sets the usuario modificacion.
+     *
+     * @param usuarioModificacion
+     *            the new usuario modificacion
+     */
     public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
     }
 
+    /**
+     * Gets the fecha modificacion.
+     *
+     * @return the fecha modificacion
+     */
     public Date getFechaModificacion() {
         return this.fechaModificacion;
     }
 
+    /**
+     * Sets the fecha modificacion.
+     *
+     * @param fechaModificacion
+     *            the new fecha modificacion
+     */
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
 
+    /**
+     * Gets the usuario baja.
+     *
+     * @return the usuario baja
+     */
     public String getUsuarioBaja() {
         return this.usuarioBaja;
     }
 
+    /**
+     * Sets the usuario baja.
+     *
+     * @param usuarioBaja
+     *            the new usuario baja
+     */
     public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
     }
 
+    /**
+     * Gets the fecha baja.
+     *
+     * @return the fecha baja
+     */
     public Date getFechaBaja() {
         return this.fechaBaja;
     }
 
+    /**
+     * Sets the fecha baja.
+     *
+     * @param fechaBaja
+     *            the new fecha baja
+     */
     public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
 
+    /**
+     * Anade el libro.
+     *
+     * @param libro
+     *            the libro
+     */
     public void addLibro(final LibroEntity libro) {
         this.librosEntrada.add(libro);
         libro.getEntradas().add(this);
     }
 
+    /**
+     * Elimina el libro.
+     *
+     * @param libro
+     *            the libro
+     */
     public void removeLibro(final LibroEntity libro) {
         this.librosEntrada.remove(libro);
         libro.getEntradas().remove(this);
+    }
+
+    /**
+     * Checks if is con sidebar.
+     *
+     * @return true, if is con sidebar
+     */
+    public boolean isConSidebar() {
+        return this.conSidebar;
+    }
+
+    /**
+     * Sets the con sidebar.
+     *
+     * @param conSidebar
+     *            the new con sidebar
+     */
+    public void setConSidebar(final boolean conSidebar) {
+        this.conSidebar = conSidebar;
+    }
+
+    /**
+     * Checks if is en menu.
+     *
+     * @return true, if is en menu
+     */
+    public boolean isEnMenu() {
+        return this.enMenu;
+    }
+
+    /**
+     * Sets the en menu.
+     *
+     * @param enMenu
+     *            the new en menu
+     */
+    public void setEnMenu(final boolean enMenu) {
+        this.enMenu = enMenu;
+    }
+
+    /**
+     * Gets the nombre menu libro.
+     *
+     * @return the nombre menu libro
+     */
+    public String getNombreMenuLibro() {
+        return this.nombreMenuLibro;
+    }
+
+    /**
+     * Sets the nombre menu libro.
+     *
+     * @param nombreMenuLibro
+     *            the new nombre menu libro
+     */
+    public void setNombreMenuLibro(final String nombreMenuLibro) {
+        this.nombreMenuLibro = nombreMenuLibro;
+    }
+
+    /**
+     * Gets the url menu libro.
+     *
+     * @return the url menu libro
+     */
+    public String getUrlMenuLibro() {
+        return this.urlMenuLibro;
+    }
+
+    /**
+     * Sets the url menu libro.
+     *
+     * @param urlMenuLibro
+     *            the new url menu libro
+     */
+    public void setUrlMenuLibro(final String urlMenuLibro) {
+        this.urlMenuLibro = urlMenuLibro;
     }
 
     /**
@@ -510,6 +676,11 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
                 .append("orden", this.orden).toString();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EntradaEntity)) {
@@ -519,11 +690,21 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
         return new EqualsBuilder().append(this.entradaId, castOther.entradaId).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.entradaId).toHashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Comparable#compareTo(java.lang.Object)
+     */
     public int compareTo(final EntradaEntity other) {
         return new CompareToBuilder().append(this.fechaAlta, other.fechaAlta).toComparison();
     }

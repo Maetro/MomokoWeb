@@ -5,6 +5,7 @@ import { LibroSimple } from '../../../dtos/libroSimple';
 import { Comentario } from '../../../dtos/comentario';
 import { Title, Meta } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
+import { LinkService } from '../../../services/link.service';
 
 declare var $: any;
 
@@ -30,7 +31,8 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
-  constructor(private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object,
+  private linkService: LinkService) { }
 
   ngOnInit(): void {
     if (this.log) {
@@ -56,7 +58,8 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada })  
     this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva })  
     this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada })  
-
+    this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es/libro/' + 
+    this.entrada.librosEntrada[0].urlLibro +'/resena/' +  this.entrada.urlEntrada} );
 
   } 
 

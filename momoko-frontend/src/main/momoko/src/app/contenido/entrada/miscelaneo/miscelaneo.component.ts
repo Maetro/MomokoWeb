@@ -1,3 +1,4 @@
+import { LinkService } from './../../../services/link.service';
 import { Component, OnInit, AfterViewInit, Input, Inject, PLATFORM_ID } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Entrada } from '../../../dtos/entrada';
@@ -32,7 +33,8 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
-  constructor(private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(private titleService: Title, private metaService: Meta,
+     @Inject(PLATFORM_ID) private platformId: Object, private linkService: LinkService) { }
 
   ngOnInit() {
     const metatituloPagina = this.entrada.tituloEntrada;
@@ -46,6 +48,12 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
     this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada });
     this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva });
     this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada });
+    if (this.entrada.librosEntrada != null && this.entrada.librosEntrada.length > 0){
+      this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es/libro/' + 
+      this.entrada.librosEntrada[0].urlLibro +'/miscelaneo/' +  this.entrada.urlEntrada} );
+    } else {
+      this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es/' +  this.entrada.urlEntrada} );
+    }
   }
 
   ngAfterViewInit(): void {

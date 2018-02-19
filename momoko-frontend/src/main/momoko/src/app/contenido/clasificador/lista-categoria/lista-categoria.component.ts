@@ -9,6 +9,7 @@ import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { Categoria } from '../../../dtos/categoria';
 import { ClasificadorService } from '../../../services/clasificador.service';
 import { ObtenerPaginaCategoriaResponse } from '../../../dtos/response/obtenerPaginaCategoriaResponse';
+import { UtilService } from '../../../services/util/util.service';
 
 @Component({
   selector: 'app-lista-categoria',
@@ -38,7 +39,7 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
   numbers
 
   constructor(private clasificadorService: ClasificadorService, private location: Location, private route: ActivatedRoute,
-    private router: Router, private titleService: Title, private metaService: Meta) { }
+    private router: Router, private titleService: Title, private metaService: Meta, private util: UtilService) { }
 
   ngOnInit() {
     if (this.log) {
@@ -56,7 +57,7 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
         this.numeroEntradas = data.paginaCategoriaResponse.numeroEntradas;
         this.numeroPaginas = Math.ceil(this.numeroEntradas / this.numeroEntradasPagina);
         this.numbers = Array(this.numeroPaginas).fill(0).map((x, i) => i + 1);
-
+        this.util.removeAllTags(this.metaService);
         if (this.categoria.urlCategoria === 'noticias') {
           this.titleService.setTitle('Momoko - Últimas noticias');
           const tag = {
@@ -93,8 +94,6 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
           const tag = {
             name: 'description', content: metatituloPagina
           };
-          const attributeSelector = 'name="description"';
-          this.metaService.removeTag(attributeSelector);
           this.metaService.addTag(tag, false);
         }
 

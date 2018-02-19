@@ -211,6 +211,7 @@ export class ListaEntradasComponent implements OnInit {
     entrada.etiquetas = [];
     entrada.contenidoEntrada = '';
     entrada.permitirComentarios = true;
+    entrada.conSidebar = true;
     entrada.editorNombre = 'La Insomne';
     this.selectedEntrada = entrada;
     this.entradaDetailComponent.date = new Date();

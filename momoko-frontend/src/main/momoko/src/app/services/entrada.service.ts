@@ -16,6 +16,7 @@ export class EntradaService {
   private entradasUrl = environment.entradasUrl;
   private addEntradaUrl = environment.addEntradaUrl;
   private getEntradaUrl = environment.getEntradaUrl;
+  private getEntradaZonaUrl = environment.getEntradaZonaUrl;
   private getEntradaAdminUrl = environment.getEntradaAdminUrl;
 
   allEntradasList: Entrada[] = new Array();
@@ -23,11 +24,8 @@ export class EntradaService {
   constructor(private http: HttpClient) { }
 
   getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
-    const _ga = Cookie.get('_ga');
+
     let url = this.getEntradaUrl + urlEntrada;
-    // if (_ga != null){
-    //   url = url +'/'+ _ga;
-    // } 
 
     return this.http.get<ObtenerEntradaResponse>(url).map(this.obtenerEntradaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));

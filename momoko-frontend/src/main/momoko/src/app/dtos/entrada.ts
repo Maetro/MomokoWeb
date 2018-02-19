@@ -26,4 +26,9 @@ export class Entrada {
   urlVideo: string;
   tieneGaleria: boolean;
   editorNombre: string;
+  conSidebar: boolean;
+  enMenu: boolean;
+  nombreMenuLibro: string;
+  urlMenuLibro: string;
+  visitas: number;
 }

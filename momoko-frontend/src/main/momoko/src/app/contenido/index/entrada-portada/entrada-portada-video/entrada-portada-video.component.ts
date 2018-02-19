@@ -3,6 +3,7 @@ import { EntradaPortada } from '../entrada-portada.model';
 import { environment } from '../../../../../environments/environment';
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser';
 import { EntradaSimple } from '../../../../dtos/entradaSimple';
+import { UtilService } from '../../../../services/util/util.service';
 
 @Component({
   selector: 'app-entrada-portada-video',
@@ -19,7 +20,8 @@ export class EntradaPortadaVideoComponent implements OnInit, EntradaPortada {
   @Input() data: EntradaSimple;
 
   constructor(
-    private domSanitizationService: DomSanitizer
+    private domSanitizationService: DomSanitizer,
+    private util: UtilService
   ) {}
 
   ngOnInit(): void {
@@ -32,5 +34,8 @@ export class EntradaPortadaVideoComponent implements OnInit, EntradaPortada {
 
   }
 
+  obtenerUrlEntradaSimple(entrada: EntradaSimple): string{
+    return this.util.obtenerUrlEntradaSimple(entrada);
+  }
 
 }

@@ -46,31 +46,31 @@
               <p class="titulo_original"> {{libro.tituloOriginal}} </p>
               <div class="autor_libro" *ngFor="let autor of libro.autores"> {{autor.nombre}} </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3" *ngIf="libro.notaMomoko">
               <app-nota-circular [nota]="libro.notaMomoko"></app-nota-circular>
             </div>
             <div class="col-md-12">
               <p> {{libro.resumen}} </p>
             </div>
             <div class="col-md-12">
-              <div class="datos editorial">
+              <div class="datos editorial" *ngIf="libro.editorial.nombreEditorial">
                 <b>EDITORIAL: </b>
                 <span class="info">{{libro.editorial.nombreEditorial}}</span>
               </div>
-              <div class="datos anoEdicion">
+              <div class="datos anoEdicion" *ngIf="libro.anoEdicion">
                 <b>AÑO DE EDICIÓN: </b>
                 <span class="info">{{libro.anoEdicion}}</span>
               </div>
-              <div class="datos anoPublicacion">
+              <div class="datos anoPublicacion" *ngIf="libro.anoPublicacion">
                 <b>AÑO DE PUBLICACIÓN: </b>
                 <span class="info">{{libro.anoPublicacion}}</span>
               </div>
-              <div class="datos numPaginas">
+              <div class="datos numPaginas" *ngIf="libro.numeroPaginas">
                 <b>Nº PÁGINAS: </b>
                 <span class="info">{{libro.numeroPaginas}}</span>
               </div>
             </div>
-            <div class="col-md-12 marginTop40">
+            <div class="col-md-12 marginTop40" *ngIf="libro.enlaceAmazon">
               <a class="amazon" href="http://amzn.to/2tpXpDd" target="_blank" title="Compra  en Amazon">
                 <span class="btnComprarAmazon">Comprar libro &gt;</span>
                 <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">

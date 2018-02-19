@@ -5,10 +5,11 @@
            <img src="{{data.imagenEntrada}}" alt="">
         </a>
       </figure>
-      <app-tag-categoria [urlEntrada]="data.urlEntrada" [nombreCategoria]="data.categoria"></app-tag-categoria>
+      <app-tag-categoria [urlEntrada]="obtenerUrlEntradaSimple(data)" [nombreCategoria]="data.categoria"></app-tag-categoria>
 
       <h2 class="post-title text-center">
-        <a routerLink="/{{data.urlEntrada}}">{{data.tituloEntrada}} </a>
+        <a *ngIf="!data.urlLibro" routerLink="/{{data.urlEntrada}}">{{data.tituloEntrada}} </a>
+        <a *ngIf="data.urlLibro" routerLink="/libro/{{data.urlLibro}}//{{data.bloque}}/{{data.urlEntrada}}">{{data.tituloEntrada}} </a>
       </h2>
       <div class="meta text-center">
         <span class="date">{{data.fechaAlta | date:'dd MMM yyyy'}}</span>
@@ -16,13 +17,15 @@
           <a routerLink="/editor/{{data.nombreAutor}}">{{data.nombreAutor}}</a>
         </span>
         <span class="comments">
-          <a routerLink="/{{data.urlEntrada}}">{{data.numeroComentarios}} Comentarios</a>
+            <a *ngIf="!data.urlLibro" routerLink="/{{data.urlEntrada}}">{{data.numeroComentarios}} Comentarios </a>
+            <a *ngIf="data.urlLibro" routerLink="/libro/{{data.urlLibro}}//{{data.bloque}}/{{data.urlEntrada}}">{{data.numeroComentarios}} Comentarios </a>
         </span>
       </div>
       <div [innerHTML]="data.resumen">
       </div>
       <div class="text-center">
-        <a routerLink="/{{data.urlEntrada}}" class="more">Sigue leyendo </a>
+        <a *ngIf="!data.urlLibro" routerLink="/{{data.urlEntrada}}" class="more">Sigue leyendo </a>
+        <a *ngIf="data.urlLibro" routerLink="/libro/{{data.urlLibro}}//{{data.bloque}}/{{data.urlEntrada}}" class="more">Sigue leyendo </a>
       </div>
     </div>
     <!-- /.post-content -->

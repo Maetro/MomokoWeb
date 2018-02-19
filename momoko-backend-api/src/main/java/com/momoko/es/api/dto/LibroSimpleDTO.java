@@ -39,7 +39,11 @@ public class LibroSimpleDTO implements Serializable {
     /** The portada height. */
     private Integer portadaHeight;
 
+    /** The fecha alta. */
     private Date fechaAlta;
+
+    /** The visitas. */
+    private Integer visitas;
 
     /**
      * Gets the titulo.
@@ -191,6 +195,25 @@ public class LibroSimpleDTO implements Serializable {
      */
     public Date getFechaAlta() {
         return this.fechaAlta;
+    }
+
+    /**
+     * Gets the visitas.
+     *
+     * @return the visitas
+     */
+    public Integer getVisitas() {
+        return this.visitas;
+    }
+
+    /**
+     * Sets the visitas.
+     *
+     * @param visitas
+     *            the new visitas
+     */
+    public void setVisitas(final Integer visitas) {
+        this.visitas = visitas;
     }
 
 }

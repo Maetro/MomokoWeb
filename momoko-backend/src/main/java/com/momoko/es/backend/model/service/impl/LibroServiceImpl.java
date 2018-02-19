@@ -300,6 +300,9 @@ public class LibroServiceImpl implements LibroService {
                     final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
                     datoEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
                     datoEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
+                    datoEntrada.setEnMenu(entradaEntity.isEnMenu());
+                    datoEntrada.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
+                    datoEntrada.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
                     listaDatosEntradas.add(datoEntrada);
                 }
             }

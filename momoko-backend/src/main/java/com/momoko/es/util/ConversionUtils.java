@@ -126,6 +126,24 @@ public class ConversionUtils {
                 final EntradaSimpleDTO entradaSimple = obtenerEntradaSimpleDTO(entrada, obtenerComentarios);
                 entradasSimples.add(entradaSimple);
                 if (CollectionUtils.isNotEmpty(entrada.getLibrosEntrada())) {
+                    final LibroEntity libroEntrada = entrada.getLibrosEntrada().iterator().next();
+                    entradaSimple.setUrlLibro(libroEntrada.getUrlLibro());
+                    if (entradaSimple.getUrlMenuLibro() != null) {
+                        entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
+                    } else {
+                        if (TipoEntrada.NOTICIA.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("noticia");
+                        }
+                        if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("resena");
+                        }
+                        if (TipoEntrada.MISCELANEOS.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("miscelaneo");
+                        }
+                        if (TipoEntrada.VIDEO.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("video");
+                        }
+                    }
                     final StringBuilder titulosLibros = new StringBuilder();
                     final Iterator<LibroEntity> ite = entrada.getLibrosEntrada().iterator();
                     while (ite.hasNext()) {
@@ -177,6 +195,9 @@ public class ConversionUtils {
             entradaSimpleDTO
                     .setFraseDescriptiva(ConversionUtils.limpiarHTMLyRecortar(entrada.getContenidoEntrada(), 200));
         }
+        entradaSimpleDTO.setNombreMenuLibro(entrada.getNombreMenuLibro());
+        entradaSimpleDTO.setUrlMenuLibro(entrada.getUrlMenuLibro());
+
         return entradaSimpleDTO;
     }
 

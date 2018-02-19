@@ -62,29 +62,18 @@
                         </div>
                     </div>
 
-
-
-
-
-                    <!--  <nav class="paginas-pagination">
-              <ul class="page-numbers">
-                <li>
-                  <span class="page-numbers current">1</span>
-                </li>
-                <li>
-                  <a class="page-numbers" href="#">2</a>
-                </li>
-                <li>
-                  <a class="page-numbers" href="#">3</a>
-                </li>
-                <li>
-                  <a class="next page-numbers" href="#">→</a>
-                </li>
-              </ul>
-            </nav> -->
-
-
-
+                    <nav class="paginas-pagination">
+                        <ul class="page-numbers">
+                            <li *ngFor="let number of numbers">
+                                <a routerLink="/genero/{{genero.urlGenero}}/{{number}}">
+                                    <span class="page-numbers">{{number}}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="next page-numbers" href="#">→</a>
+                            </li>
+                        </ul>
+                    </nav>
 
                     <!-- /.page-navi -->
                     <div class="clearfix"></div>

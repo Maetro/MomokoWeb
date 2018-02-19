@@ -6,6 +6,8 @@ import { LibroSimple } from '../../../dtos/libroSimple';
 import { Title, Meta } from '@angular/platform-browser';
 import { isPlatformBrowser } from '@angular/common';
 import { Comentario } from '../../../dtos/comentario';
+import { LinkService } from '../../../services/link.service';
+import { UtilService } from '../../../services/util/util.service';
 
 declare var $: any;
 
@@ -32,20 +34,30 @@ export class NoticiaComponent implements OnInit, AfterViewInit {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
-  constructor(private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor(
+    private titleService: Title, 
+    private metaService: Meta, 
+    private linkService: LinkService,
+    private util: UtilService,
+    @Inject(PLATFORM_ID) private platformId: Object) { }
 
   ngOnInit(): void {
     const metatituloPagina = this.entrada.tituloEntrada;
     this.titleService.setTitle(metatituloPagina);
     // Changing meta with name="description"
     const tag = { name: 'description', content: this.entrada.fraseDescriptiva };
-    const attributeSelector = 'name="description"';
-    this.metaService.removeTag(attributeSelector);
+
     this.metaService.addTag(tag, false);
     this.metaService.addTag({ name: 'og:type', content: 'article' });
     this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada });
     this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva });
     this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada });
+    if (this.entrada.librosEntrada != null && this.entrada.librosEntrada.length > 0){
+      this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es/libro/' + 
+      this.entrada.librosEntrada[0].urlLibro +'/noticia/' +  this.entrada.urlEntrada} );
+    } else {
+      this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es/' +  this.entrada.urlEntrada} );
+    }
   }
 
   ngAfterViewInit(): void {
@@ -68,7 +80,9 @@ export class NoticiaComponent implements OnInit, AfterViewInit {
         videoMaxWidth: '1000px'
       });
       setTimeout(() => this.crearCollage(), 2000);
-      $('.link-noticia').addClass('active');
+      if ($(".active").html() == null){
+        $('.link-noticia').addClass('active');
+      }
     }
   }
 

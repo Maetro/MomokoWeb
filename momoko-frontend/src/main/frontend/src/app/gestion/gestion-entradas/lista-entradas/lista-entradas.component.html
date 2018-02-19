@@ -4,9 +4,6 @@
       <div [hidden]="selectedEntrada">
         <button type="button" (click)="nuevaEntrada()" class="btn btn-outline-primary">Nueva Entrada</button>
       </div>
-      <div [hidden]="!selectedEntrada">
-        <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
-      </div>
     </div>
   </div>
   <div class="divide10"></div>
@@ -24,20 +21,15 @@
         <p-column field="urlEntrada" header="URL" [sortable]="true" [style]="{'width':'25%'}"></p-column>
         <p-column field="nombreAutor" header="Autor" [sortable]="true" [style]="{'width':'7%'}"></p-column>
         <p-column field="fechaAlta" header="Fecha publicación" [sortable]="true" [style]="{'width':'11%'}">
-            <ng-template let-col let-entrada="rowData" pTemplate="body">
-                {{entrada[col.field]| date:'dd MMM yyyy' }}
-            </ng-template>
+          <ng-template let-col let-entrada="rowData" pTemplate="body">
+            {{entrada[col.field]| date:'dd MMM yyyy' }}
+          </ng-template>
         </p-column>
       </p-dataTable>
     </div>
   </div>
 
-
-  <div class="divide10"></div>
   <div class="container">
-    <app-entrada-detail [entrada]="selectedEntrada" (onEntradaGuardada)="actualizarOAnadirEntrada($event)"></app-entrada-detail>
-    <div [hidden]="!selectedEntrada">
-      <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
-    </div>
+    <app-entrada-detail [entrada]="selectedEntrada" (onEntradaGuardada)="actualizarOAnadirEntrada($event)" (onVolver)="volver()"></app-entrada-detail>
   </div>
 </div>

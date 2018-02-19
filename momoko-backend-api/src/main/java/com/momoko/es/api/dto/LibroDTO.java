@@ -96,6 +96,9 @@ public class LibroDTO implements Serializable {
     /** The generos string. */
     private String generosString;
 
+    /** The visitas. */
+    private Integer visitas;
+
     /**
      * Gets the libro id.
      *
@@ -531,6 +534,44 @@ public class LibroDTO implements Serializable {
      */
     public void setGenerosString(final String generosString) {
         this.generosString = generosString;
+    }
+
+    /**
+     * Gets the media puntuacion.
+     *
+     * @return the media puntuacion
+     */
+    public Integer getMediaPuntuacion() {
+        return this.mediaPuntuacion;
+    }
+
+    /**
+     * Sets the media puntuacion.
+     *
+     * @param mediaPuntuacion
+     *            the new media puntuacion
+     */
+    public void setMediaPuntuacion(final Integer mediaPuntuacion) {
+        this.mediaPuntuacion = mediaPuntuacion;
+    }
+
+    /**
+     * Gets the visitas.
+     *
+     * @return the visitas
+     */
+    public Integer getVisitas() {
+        return this.visitas;
+    }
+
+    /**
+     * Sets the visitas.
+     *
+     * @param visitas
+     *            the new visitas
+     */
+    public void setVisitas(final Integer visitas) {
+        this.visitas = visitas;
     }
 
     /*

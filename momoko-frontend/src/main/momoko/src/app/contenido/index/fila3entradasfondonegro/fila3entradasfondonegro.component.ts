@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/
 import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { environment } from '../../../../environments/environment';
 import { isPlatformBrowser } from '@angular/common';
+import { UtilService } from '../../../services/util/util.service';
 
 declare var $: any;
 
@@ -16,7 +17,10 @@ export class Fila3entradasfondonegroComponent implements OnInit, AfterViewInit {
 
   entradas: EntradaSimple[];
 
-  constructor( @Inject(PLATFORM_ID) private platformId: Object) { }
+  constructor( 
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private util: UtilService
+  ) { }
 
   ngOnInit() {
   }
@@ -41,6 +45,10 @@ export class Fila3entradasfondonegroComponent implements OnInit, AfterViewInit {
 
   loadEntradas(entradasSimples: EntradaSimple[]) {
     this.entradas = entradasSimples;
+  }
+
+  obtenerUrlEntradaSimple(entrada: EntradaSimple): string{
+    return this.util.obtenerUrlEntradaSimple(entrada);
   }
 
 }

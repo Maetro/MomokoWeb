@@ -113,6 +113,7 @@
     background:#29303A;
     position:absolute; top:0; bottom:0;
     color:white;
+    overflow: hidden;
     -webkit-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
     -moz-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);
     -ms-transform:rotate3d(0,1,0,-180deg) translate3d(0,0,25px);

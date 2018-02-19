@@ -21,6 +21,7 @@ export const environment = {
     oauthTokenUrl: 'http://momoko.es/oauth/token',
     accountTokenUrl: 'http://momoko.es/account/token',
     getEntradaUrl: 'http://momoko.es/public/entrada/',
+    getEntradaZonaUrl: 'http://momoko.es/public/zona/',
     getEntradaAdminUrl: 'http://momoko.es/modelo/entrada/',
     indexDataUrl: 'http://momoko.es/public/indexData',
     obtenerLibroUrl: 'http://momoko.es/public/libro/',

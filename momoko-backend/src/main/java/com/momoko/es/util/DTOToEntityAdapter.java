@@ -124,6 +124,10 @@ public final class DTOToEntityAdapter {
         entradaEntity.setEtiquetas(adaptarEtiquetas(entradaDTO.getEtiquetas()));
         entradaEntity.setFraseDescriptiva(entradaDTO.getFraseDescriptiva());
         entradaEntity.setFechaAlta(entradaDTO.getFechaAlta());
+        entradaEntity.setEnMenu(entradaDTO.isEnMenu());
+        entradaEntity.setConSidebar(entradaDTO.isConSidebar());
+        entradaEntity.setUrlMenuLibro(entradaDTO.getUrlMenuLibro());
+        entradaEntity.setNombreMenuLibro(entradaDTO.getNombreMenuLibro());
         return entradaEntity;
     }
 

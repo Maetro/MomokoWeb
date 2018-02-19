@@ -35,6 +35,14 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
+  numeroEntradas: number;
+
+  numeroEntradasPagina = 9;
+
+  numeroPaginas: number;
+
+  numbers
+
   constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
     private titleService: Title) { }
 
@@ -54,6 +62,9 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
         const metatituloPagina = 'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros del género ' + this.genero.nombre +
           ' en momoko';
         this.titleService.setTitle(metatituloPagina);
+        this.numeroEntradas = data.paginaGeneroResponse.numeroLibros;
+        this.numeroPaginas = Math.ceil(this.numeroEntradas / this.numeroEntradasPagina);
+        this.numbers = Array(this.numeroPaginas).fill(0).map((x, i) => i + 1);
       });
 
       // const columna = document.getElementById('mirarAnchura0');

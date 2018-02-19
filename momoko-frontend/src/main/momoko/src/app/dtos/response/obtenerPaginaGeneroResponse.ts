@@ -9,4 +9,5 @@ export class ObtenerPaginaGeneroResponse {
     genero: Genero;
     tresUltimasEntradasConLibro: EntradaSimple[];
     nueveLibrosGenero: LibroSimple[];
+    numeroLibros: number;
 }

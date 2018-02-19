@@ -7,4 +7,5 @@ export class LibroSimple {
     urlLibro: string;
     portadaWidth: number;
     portadaHeight: number;
+    visitas: number;
 }

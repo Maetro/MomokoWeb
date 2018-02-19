@@ -44,7 +44,6 @@ import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
-import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.GaleriaService;
 import com.momoko.es.backend.model.service.GeneroService;
@@ -69,9 +68,6 @@ public class ModeloController {
 
     @Autowired(required = false)
     private ValidadorService validadorService;
-
-    @Autowired(required = false)
-    private ComentarioService comentarioService;
 
     @Autowired(required = false)
     private PuntuacionService puntuacionService;
@@ -123,7 +119,7 @@ public class ModeloController {
             puntuacionDTO.setEsPuntuacionMomoko(true);
             puntuacionDTO.setLibroId(libro.getLibroId());
             try {
-                final PuntuacionDTO puntuacion = this.puntuacionService.guardarPuntuacion(puntuacionDTO);
+                this.puntuacionService.guardarPuntuacion(puntuacionDTO);
             } catch (final Exception e) {
                 listaErrores.add(ErrorCreacionLibro.PUNTUACION_YA_EXISTE);
             }
@@ -238,12 +234,10 @@ public class ModeloController {
 
     @GetMapping(path = "/entradas")
     public @ResponseBody List<EntradaSimpleDTO> getAllEntradas() {
-        System.out.println("LLamada a la lista de entradas");
         return this.entradaService.recuperarEntradasSimples();
     }
 
     public @ResponseBody List<EntradaSimpleDTO> getAllEntradasSimples() {
-        System.out.println("LLamada a la lista de entradas simples");
         return this.entradaService.recuperarEntradasSimples();
     }
 
@@ -256,7 +250,7 @@ public class ModeloController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/entradas/add")
-    ResponseEntity<GuardarEntradaResponse> add(@RequestBody final EntradaDTO entradaDTO) {
+    ResponseEntity<GuardarEntradaResponse> guardarEntrada(@RequestBody final EntradaDTO entradaDTO) {
 
         // Validar
         final List<ErrorCreacionEntrada> listaErrores = this.validadorService.validarEntrada(entradaDTO);

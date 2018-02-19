@@ -238,6 +238,22 @@ public class PublicFacade {
 
     }
 
+    @GetMapping(path = "/genero/{url-genero}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaGeneroResponse obtenerGeneroPagina(
+            @PathVariable("url-genero") final String urlGenero,
+            @PathVariable("numero-pagina") final Integer numeroPagina) {
+        final ObtenerPaginaGeneroResponse categoriaResponse = new ObtenerPaginaGeneroResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+
+        final ObtenerPaginaGeneroRequest request = new ObtenerPaginaGeneroRequest();
+        request.setNumeroPagina(numeroPagina);
+        request.setOrdenarPor("fecha");
+        request.setUrlGenero(urlGenero);
+
+        return obtenerGenero(urlGenero, request);
+
+    }
+
     @GetMapping(path = "/genero/{url-genero}")
     public @ResponseBody ObtenerPaginaGeneroResponse obtenerGenero(@PathVariable("url-genero") final String urlGenero,
             @RequestBody(required = false) ObtenerPaginaGeneroRequest request) {
@@ -281,7 +297,7 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
             @PathVariable("url-categoria") final String urlCategoria,
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
@@ -298,7 +314,7 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/categoria/{url-categoria}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerGenero(
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
             @PathVariable("url-categoria") final String urlCategoria,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();

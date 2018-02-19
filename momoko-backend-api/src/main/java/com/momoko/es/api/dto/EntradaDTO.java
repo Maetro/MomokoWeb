@@ -86,6 +86,21 @@ public class EntradaDTO {
     /** The editor nombre. */
     private String editorNombre;
 
+    /** The con sidebar. */
+    private boolean conSidebar;
+
+    /** The en menu. */
+    private boolean enMenu;
+
+    /** The nombre menu libro. */
+    private String nombreMenuLibro;
+
+    /** The nombre menu libro. */
+    private String urlMenuLibro;
+
+    /** The visitas. */
+    private Integer visitas;
+
     /**
      * Instancia un nuevo entrada DTO.
      */
@@ -294,8 +309,8 @@ public class EntradaDTO {
     /**
      * Establece libro entrada id.
      *
-     * @param libroEntrada
-     *            nuevo libro entrada
+     * @param librosEntrada
+     *            the new libros entrada
      */
     public void setLibrosEntrada(final List<LibroDTO> librosEntrada) {
         this.librosEntrada = librosEntrada;
@@ -389,8 +404,8 @@ public class EntradaDTO {
     /**
      * Sets the titulo libro entrada.
      *
-     * @param tituloLibroEntrada
-     *            the new titulo libro entrada
+     * @param titulosLibrosEntrada
+     *            the new titulos libros entrada
      */
     public void setTitulosLibrosEntrada(final List<String> titulosLibrosEntrada) {
         this.titulosLibrosEntrada = titulosLibrosEntrada;
@@ -508,6 +523,101 @@ public class EntradaDTO {
      */
     public void setEditorNombre(final String editorNombre) {
         this.editorNombre = editorNombre;
+    }
+
+    /**
+     * Checks if is con sidebar.
+     *
+     * @return true, if is con sidebar
+     */
+    public boolean isConSidebar() {
+        return this.conSidebar;
+    }
+
+    /**
+     * Sets the con sidebar.
+     *
+     * @param conSidebar
+     *            the new con sidebar
+     */
+    public void setConSidebar(final boolean conSidebar) {
+        this.conSidebar = conSidebar;
+    }
+
+    /**
+     * Checks if is en menu.
+     *
+     * @return true, if is en menu
+     */
+    public boolean isEnMenu() {
+        return this.enMenu;
+    }
+
+    /**
+     * Sets the en menu.
+     *
+     * @param enMenu
+     *            the new en menu
+     */
+    public void setEnMenu(final boolean enMenu) {
+        this.enMenu = enMenu;
+    }
+
+    /**
+     * Gets the nombre menu libro.
+     *
+     * @return the nombre menu libro
+     */
+    public String getNombreMenuLibro() {
+        return this.nombreMenuLibro;
+    }
+
+    /**
+     * Sets the nombre menu libro.
+     *
+     * @param nombreMenuLibro
+     *            the new nombre menu libro
+     */
+    public void setNombreMenuLibro(final String nombreMenuLibro) {
+        this.nombreMenuLibro = nombreMenuLibro;
+    }
+
+    /**
+     * Gets the url menu libro.
+     *
+     * @return the url menu libro
+     */
+    public String getUrlMenuLibro() {
+        return this.urlMenuLibro;
+    }
+
+    /**
+     * Sets the url menu libro.
+     *
+     * @param urlMenuLibro
+     *            the new url menu libro
+     */
+    public void setUrlMenuLibro(final String urlMenuLibro) {
+        this.urlMenuLibro = urlMenuLibro;
+    }
+
+    /**
+     * Gets the visitas.
+     *
+     * @return the visitas
+     */
+    public Integer getVisitas() {
+        return this.visitas;
+    }
+
+    /**
+     * Sets the visitas.
+     *
+     * @param visitas
+     *            the new visitas
+     */
+    public void setVisitas(final Integer visitas) {
+        this.visitas = visitas;
     }
 
     /**

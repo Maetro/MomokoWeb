@@ -9,7 +9,7 @@
               <h4> Título: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <label>
                 <input type="text" [(ngModel)]="entrada.tituloEntrada" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título de la entrada"
@@ -21,12 +21,12 @@
 
           <div class="divide10"></div>
 
-          <div class="col-sm-12 rp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <h4> URL: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <label>
                 <input type="text" [(ngModel)]="entrada.urlEntrada" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url de la entrada"
@@ -38,12 +38,12 @@
 
           <div class="divide10"></div>
 
-          <div class="col-sm-12 rp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <h4> Etiquetas: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <p-chips [(ngModel)]="etiquetas"></p-chips>
             </div>
@@ -52,12 +52,12 @@
 
           <div class="divide10"></div>
 
-          <div class="col-sm-12 rp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <h4> Tipo Entrada: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <p-dropdown [options]="tiposEntrada" [(ngModel)]="entrada.tipoEntrada" [style]="{'width':'400px'}"></p-dropdown>
             </div>
@@ -65,12 +65,12 @@
           </div>
 
           <div class="bloqueTipoVideo" *ngIf="esTipoVideo()">
-            <div class="marginTop10 col-sm-12 rp10">
+            <div class="marginTop10 col-sm-12">
               <div class="form-field">
                 <h4> URL Vídeo: </h4>
               </div>
             </div>
-            <div class="col-sm-12 lp10">
+            <div class="col-sm-12">
               <div class="form-field">
                 <label>
                   <input type="text" [(ngModel)]="entrada.urlVideo" placeholder="https://youtu.be/D8JE8FANjkE" />
@@ -81,12 +81,12 @@
 
           </div>
 
-          <div class="marginTop10 col-sm-12 rp10">
+          <div class="marginTop10 col-sm-12">
             <div class="form-field">
               <h4> Libros asociados: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <p-multiSelect [options]="titulosLibros" [defaultLabel]="fraseLibrosEscoger" [(ngModel)]="entrada.titulosLibrosEntrada" [filter]="true"
                 filterBy="label" [style]="{'width':'400px'}"></p-multiSelect>
@@ -94,159 +94,16 @@
             <!--/.form-field -->
           </div>
 
-          <div class="marginTop10 col-sm-12 rp10">
+          <div class="marginTop10 col-sm-12">
             <div class="form-field">
               <h4> Autor post: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <p-dropdown [options]="nicksEditores" [(ngModel)]="entrada.editorNombre" [filter]="true" filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
             </div>
             <!--/.form-field -->
-          </div>
-
-          <div class="col-sm-3 rp10 marginTop10">
-            <div class="form-field">
-              <h4> Permitir comentarios: </h4>
-            </div>
-          </div>
-          <div class="col-sm-9 lp10 marginTop8">
-            <div class="form-field">
-              <label>
-                <p-checkbox binary="true" [(ngModel)]="entrada.permitirComentarios"></p-checkbox>
-              </label>
-            </div>
-            <!--/.form-field -->
-          </div>
-
-          <div class="col-md-12">
-
-            <h4> Contenido </h4>
-            <div *ngFor="let fila of filas; let $i = index">
-              <div class="row marginTop10">
-                <div class="col-sm-1">
-                  <button type="button" (click)="anadirFila()" class="btn btn-outline-primary">+</button>
-                </div>
-                <div class="col-sm-3 rp10">
-                  <div class="form-field">
-                    <h4> Número de columnas: </h4>
-                  </div>
-                </div>
-                <div class="col-sm-2 lp10">
-                  <div class="form-field">
-                    <label>
-                      <input type="number" [(ngModel)]="fila.numeroColumnas" placeholder="Número de filas" (change)="pintarColumnas(event, fila)"
-                        min="1" max="6">
-                    </label>
-                  </div>
-                  <!--/.form-field -->
-                </div>
-                <div class="col-sm-2 rp10">
-                  <div class="form-field">
-                    <h4> Color de fondo: </h4>
-                  </div>
-                </div>
-                <div class="col-sm-2 lp10">
-                  <div class="form-field">
-                    <select [(ngModel)]="fila.colorFondo">
-                      <option *ngFor="let fondo of fondos" [ngValue]="fondo.id">{{fondo.name}}</option>
-                    </select>
-                  </div>
-                  <!--/.form-field -->
-                </div>
-              </div>
-
-              <h5> Fila {{$i + 1}}</h5>
-              <div class="row">
-                <div *ngFor="let columna of fila.columnas; let $j = index">
-
-                  <div [ngClass]="columna.bootstrapcolumn">
-                    <div class="row" *ngIf="fila?.columnas?.length > 1">
-                      <div class="col-sm-6 rp10">
-                        <div class="form-field">
-                          <h4> Anchura: </h4>
-                        </div>
-                      </div>
-                      <div class="col-sm-6 lp10">
-                        <div class="form-field">
-                          <label>
-                            <input type="number" [(ngModel)]="columna.anchura" placeholder="Número de filas"
-                             min="1" max="11" (change)="cambiarAnchura(event, columna)">
-                          </label>
-                        </div>
-                        <!--/.form-field  (change)="cambiarAnchura(event, columna)"-->
-                      </div>
-                    </div>
-                    <app-quill-editor [numeroFila]="$i" [numeroColumna]="$j" [columna]="columna"></app-quill-editor>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-12 marginTop10 marginBottom10">
-
-            <h4> Resumen </h4>
-            <textarea [(ngModel)]="entrada.resumenEntrada" [style]="{'height':'300px'}"></textarea>
-          </div>
-
-          <div class="col-sm-12 rp10">
-            <div class="form-field">
-              <h4> frase descriptiva: </h4>
-            </div>
-          </div>
-          <div class="col-sm-12 lp10">
-            <div class="form-field">
-              <label>
-                <input type="text" [(ngModel)]="entrada.fraseDescriptiva" placeholder="Escribe aquí una frase que resuma el contenido" />
-              </label>
-            </div>
-            <!--/.form-field -->
-          </div>
-
-          <div class="divide10"></div>
-
-          <div class="col-sm-12 rp10">
-            <div class="form-field">
-              <h4> Estado Entrada: </h4>
-            </div>
-          </div>
-          <div class="col-sm-12 lp10">
-            <div class="form-field">
-              <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
-            </div>
-            <!--/.form-field -->
-          </div>
-
-          <div class="divide10"></div>
-
-          <div class="col-sm-12 rp10">
-            <div class="form-field">
-              <h4> Fecha publicación: </h4>
-            </div>
-          </div>
-          <div class="col-sm-12 lp10">
-            <div class="form-field">
-              <p-calendar [(ngModel)]="date" [locale]="es" [showTime]="true" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" showButtonBar="true"></p-calendar>
-            </div>
-            <!--/.form-field -->
-          </div>
-
-          <div class="divide10"></div>
-
-          <div class="marginTop10">
-            <div class="col-md-12">
-              <div [hidden]="entrada.entradaId">
-                <input type="submit" class="btn btn-forest" value="Crear Entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
-                  data-success="Thank you!">
-              </div>
-              <div [hidden]="!entrada.entradaId">
-                <input type="submit" class="btn btn-forest" value="Actualizar entrada" (click)="guardarEntrada()" data-error="Fix errors"
-                  data-processing="Sending..." data-success="Thank you!">
-              </div>
-              <footer class="notification-box"></footer>
-            </div>
           </div>
         </div>
       </div>
@@ -278,12 +135,12 @@
         <div class="divide10"></div>
 
         <div *ngIf="galerias">
-          <div class="marginTop10 col-sm-12 rp10">
+          <div class="marginTop10 col-sm-12">
             <div class="form-field">
               <h4> Galerias: </h4>
             </div>
           </div>
-          <div class="col-sm-12 lp10">
+          <div class="col-sm-12">
             <div class="form-field">
               <p-multiSelect [options]="nombresGalerias" [defaultLabel]="fraseGalerias" [(ngModel)]="selectedGaleria" [filter]="true" filterBy="label"
                 [style]="{'width':'100%'}" resetFilterOnHide=true (onChange)="insertarGaleria($event)"></p-multiSelect>
@@ -296,7 +153,218 @@
 
       </div>
       <!-- /.widget -->
-
+      <div class="row">
+        <div class="col-sm-10 marginTop10">
+          <div class="form-field">
+            <h4> Permitir comentarios: </h4>
+          </div>
+        </div>
+        <div class="col-sm-2 marginTop8">
+          <div class="form-field">
+            <label>
+              <p-checkbox binary="true" [(ngModel)]="entrada.permitirComentarios"></p-checkbox>
+            </label>
+          </div>
+          <!--/.form-field -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10 marginTop10">
+          <div class="form-field">
+            <h4> Con sidebar: </h4>
+          </div>
+        </div>
+        <div class="col-sm-2 marginTop8">
+          <div class="form-field">
+            <label>
+              <p-checkbox binary="true" [(ngModel)]="entrada.conSidebar"></p-checkbox>
+            </label>
+          </div>
+          <!--/.form-field -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-10 marginTop10">
+          <div class="form-field">
+            <h4> ¿Aparece en menú libro?: </h4>
+          </div>
+        </div>
+        <div class="col-sm-2 marginTop8">
+          <div class="form-field">
+            <label>
+              <p-checkbox binary="true" [(ngModel)]="entrada.enMenu"></p-checkbox>
+            </label>
+          </div>
+          <!--/.form-field -->
+        </div>
+      </div>
+      <div *ngIf="esMenu()">
+        <div class="row">
+          <div class="marginTop10 col-sm-12">
+            <div class="form-field">
+              <h4> Nombre en menú libro: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="entrada.nombreMenuLibro" (ngModelChange)="cambioNombreMenu($event)" placeholder="Nombre en el menú" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="marginTop10 col-sm-12">
+            <div class="form-field">
+              <h4> Url zona libro: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="entrada.urlMenuLibro" (ngModelChange)="urlZonaChange($event)" placeholder="Url en el menú" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+        </div>
+      </div>
     </aside>
   </div>
+  <div class="row">
+    <div class="col-md-12 marginTop10">
+
+      <h4> Contenido </h4>
+      <div *ngFor="let fila of filas; let $i = index">
+        <div class="row marginTop10">
+          <div class="col-sm-2">
+            <button type="button" (click)="anadirFila()" class="btn btn-outline-primary">Añadir fila</button>
+          </div>
+          <div class="col-sm-2 rp10">
+            <div class="form-field">
+              <h4> Número de columnas: </h4>
+            </div>
+          </div>
+          <div class="col-sm-2 lp10">
+            <div class="form-field">
+              <label>
+                <input type="number" [(ngModel)]="fila.numeroColumnas" placeholder="Número de filas" (change)="pintarColumnas(event, fila)"
+                  min="1" max="6">
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+          <div class="col-sm-2 rp10">
+            <div class="form-field">
+              <h4> Color de fondo: </h4>
+            </div>
+          </div>
+          <div class="col-sm-2 lp10">
+            <div class="form-field">
+              <select [(ngModel)]="fila.colorFondo">
+                <option *ngFor="let fondo of fondos" [ngValue]="fondo.id">{{fondo.name}}</option>
+              </select>
+            </div>
+            <!--/.form-field -->
+          </div>
+        </div>
+
+        <h5> Fila {{$i + 1}}</h5>
+        <div class="row">
+          <div *ngFor="let columna of fila.columnas; let $j = index">
+
+            <div [ngClass]="columna.bootstrapcolumn">
+              <div class="row" *ngIf="fila?.columnas?.length > 1">
+                <div class="col-sm-6 rp10">
+                  <div class="form-field">
+                    <h4> Anchura: </h4>
+                  </div>
+                </div>
+                <div class="col-sm-6 lp10">
+                  <div class="form-field">
+                    <label>
+                      <input type="number" [(ngModel)]="columna.anchura" placeholder="Número de filas" min="1" max="11" (change)="cambiarAnchura(event, columna)">
+                    </label>
+                  </div>
+                  <!--/.form-field  (change)="cambiarAnchura(event, columna)"-->
+                </div>
+              </div>
+              <app-quill-editor [numeroFila]="$i" [numeroColumna]="$j" [columna]="columna"></app-quill-editor>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 marginTop10 marginBottom10">
+      <h4> Resumen </h4>
+      <textarea [(ngModel)]="entrada.resumenEntrada" [style]="{'height':'300px'}"></textarea>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 rp10">
+      <div class="form-field">
+        <h4> Frase descriptiva: </h4>
+      </div>
+    </div>
+    <div class="col-sm-12 lp10">
+      <div class="form-field">
+        <label>
+          <input type="text" [(ngModel)]="entrada.fraseDescriptiva" placeholder="Escribe aquí una frase que resuma el contenido" />
+        </label>
+      </div>
+      <!--/.form-field -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 rp10">
+      <div class="form-field">
+        <h4> Estado Entrada: </h4>
+      </div>
+    </div>
+    <div class="col-sm-12 lp10">
+      <div class="form-field">
+        <p-dropdown [options]="estadosEntrada" [(ngModel)]="entrada.estadoEntrada" [style]="{'width':'400px'}"></p-dropdown>
+      </div>
+      <!--/.form-field -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12 rp10">
+      <div class="form-field">
+        <h4> Fecha publicación: </h4>
+      </div>
+    </div>
+    <div class="col-sm-12 lp10">
+      <div class="form-field">
+        <p-calendar [(ngModel)]="date" [locale]="es" [showTime]="true" dateFormat="dd/mm/yy" showTime="true" hourFormat="24" showButtonBar="true"></p-calendar>
+      </div>
+      <!--/.form-field -->
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="marginTop10">
+      <div class="col-md-12">
+        <div [hidden]="entrada.entradaId">
+          <input type="submit" class="btn btn-forest" value="Crear Entrada" (click)="guardarEntrada()" data-error="Fix errors" data-processing="Sending..."
+            data-success="Thank you!">
+        </div>
+        <div [hidden]="!entrada.entradaId">
+          <input type="submit" class="btn btn-forest" value="Actualizar entrada" (click)="guardarEntrada()" data-error="Fix errors"
+            data-processing="Sending..." data-success="Thank you!">
+        </div>
+        <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
+        <footer class="notification-box"></footer>
+      </div>
+    </div>
+  </div>
+
+
 </div>
