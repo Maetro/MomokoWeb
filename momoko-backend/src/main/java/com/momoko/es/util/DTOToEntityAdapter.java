@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
@@ -81,7 +81,6 @@ public final class DTOToEntityAdapter {
         libroEntity.setGeneros(adaptarGeneros(libroDTO.getGeneros()));
         libroEntity.setLibroId(libroDTO.getLibroId());
         libroEntity.setResumen(libroDTO.getResumen());
-        libroEntity.setSaga(adpatarSaga(libroDTO.getSaga()));
         libroEntity.setTitulo(libroDTO.getTitulo());
         libroEntity.setUrlImagen(libroDTO.getUrlImagen());
         libroEntity.setAnoPublicacion(libroDTO.getAnoPublicacion());
@@ -150,12 +149,26 @@ public final class DTOToEntityAdapter {
 
     }
 
-    private static SagaEntity adpatarSaga(final SagaDTO saga) {
+    /**
+     * Adaptar saga.
+     *
+     * @param saga
+     *            the saga
+     * @return the saga entity
+     */
+    public static SagaEntity adaptarSaga(final SagaDTO saga) {
         SagaEntity entity = null;
         if (saga != null) {
             entity = new SagaEntity();
             entity.setSagaId(saga.getSagaId());
-            entity.setDescripcionSaga(saga.getDescripcionSaga());
+            entity.setNombre(saga.getNombreSaga());
+            entity.setUrlSaga(saga.getUrlSaga());
+            entity.setImagenSaga(saga.getImagenSaga());
+            entity.setResumen(saga.getResumen());
+            entity.setNumeroVolumenes(saga.getNumeroVolumenes());
+            entity.setEstaTerminada(saga.getEstaTerminada());
+            entity.setTipoSaga(saga.getTipoSaga());
+            entity.setDominaLibros(saga.getDominaLibros());
         }
         return entity;
     }
@@ -367,6 +380,17 @@ public final class DTOToEntityAdapter {
         categoriaEntity.setNombreCategoria(categoria.getNombreCategoria());
         return categoriaEntity;
 
+    }
+
+    public static PuntuacionEntity adaptarPuntuacion(final PuntuacionDTO puntuacionDTO, final UsuarioEntity autor,
+            final SagaEntity saga) {
+        final PuntuacionEntity puntuacionEntity = new PuntuacionEntity();
+        puntuacionEntity.setAutor(autor);
+        puntuacionEntity.setComentario(puntuacionDTO.getComentario());
+        puntuacionEntity.setSaga(saga);
+        puntuacionEntity.setValor(puntuacionDTO.getValor());
+        puntuacionEntity.setEsPuntuacionMomoko(puntuacionDTO.isEsPuntuacionMomoko());
+        return puntuacionEntity;
     }
 
 }

@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.facade;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,11 +31,13 @@ import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
+import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
 import com.momoko.es.api.dto.response.GuardarEntradaResponse;
 import com.momoko.es.api.dto.response.GuardarGaleriaResponse;
 import com.momoko.es.api.dto.response.GuardarGeneroResponse;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
+import com.momoko.es.api.dto.response.GuardarSagaResponse;
 import com.momoko.es.api.dto.response.InformacionGeneralResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
@@ -42,6 +45,7 @@ import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGaleria;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
+import com.momoko.es.api.enums.ErrorCreacionSaga;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
 import com.momoko.es.backend.model.service.EntradaService;
@@ -49,16 +53,20 @@ import com.momoko.es.backend.model.service.GaleriaService;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.PuntuacionService;
+import com.momoko.es.backend.model.service.SagaService;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "http://www.momoko.es" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es" })
 @RequestMapping(path = "/modelo")
 public class ModeloController {
 
     @Autowired(required = false)
     private LibroService libroService;
+
+    @Autowired(required = false)
+    private SagaService sagaService;
 
     @Autowired(required = false)
     private GeneroService generoService;
@@ -80,7 +88,7 @@ public class ModeloController {
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
-        System.out.println("LLamada a la lista de libros");
+        System.out.println("Llamada a la lista de libros");
         return this.libroService.recuperarLibros();
     }
 
@@ -92,6 +100,11 @@ public class ModeloController {
     @GetMapping(path = "/galerias")
     public @ResponseBody Iterable<GaleriaDTO> getAllGalerias() {
         return this.galeriaService.obtenerTodasGalerias();
+    }
+
+    @GetMapping(path = "/sagas")
+    public @ResponseBody List<SagaDTO> getAllSagas() {
+        return this.sagaService.recuperarSagas();
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -137,6 +150,51 @@ public class ModeloController {
         }
 
         return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, path = "/sagas/add")
+    ResponseEntity<GuardarSagaResponse> add(@RequestBody final SagaDTO sagaDTO) {
+
+        // Validar
+        final List<ErrorCreacionSaga> listaErrores = this.validadorService.validarSaga(sagaDTO);
+
+        // Guardar
+        SagaDTO saga = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                saga = this.sagaService.guardarSaga(sagaDTO);
+            } catch (final Exception e) {
+                e.printStackTrace();
+                listaErrores.add(ErrorCreacionSaga.ERROR_GUARDADO_SAGA);
+            }
+
+            if (sagaDTO.getNotaSaga() != null) {
+                final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
+                puntuacionDTO.setValor(new BigDecimal(sagaDTO.getNotaSaga()));
+                puntuacionDTO.setEsPuntuacionMomoko(true);
+                puntuacionDTO.setSagaId(saga.getSagaId());
+                try {
+                    this.puntuacionService.guardarPuntuacion(puntuacionDTO);
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                    listaErrores.add(ErrorCreacionSaga.ERROR_GUARDADO_PUNTUACION);
+                }
+            }
+        }
+        // Responder
+        final GuardarSagaResponse respuesta = new GuardarSagaResponse();
+        respuesta.setSagaDTO(saga);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((saga != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+
+        return new ResponseEntity<GuardarSagaResponse>(respuesta, HttpStatus.OK);
 
     }
 

@@ -27,4 +27,5 @@ export class Libro {
   portadaHeight: number;
   notaMomoko: number;
   visitas: number;
+  ordenSaga: number;
 }

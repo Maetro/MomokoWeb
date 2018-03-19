@@ -10,6 +10,7 @@ import { MenuInternoLibroComponent } from './menu-interno-libro/menu-interno-lib
 import { SobreAutorComponent } from './sobre-autor/sobre-autor.component';
 import { NotaCircularComponent } from './nota-circular/nota-circular.component';
 import { FormsModule } from '@angular/forms';
+import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   declarations: [TagCategoriaComponent, SidebarComponent, SidebarInstagramComponent, LibrosMesSidebarComponent, Libro3dComponent, 
-    MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent],
-  exports: [TagCategoriaComponent, SidebarComponent, Libro3dComponent, MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent]
+    MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent, MenuInternoSagaComponent],
+  exports: [TagCategoriaComponent, SidebarComponent, Libro3dComponent, MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent,
+    MenuInternoSagaComponent]
 })
 export class ComunesModule { }

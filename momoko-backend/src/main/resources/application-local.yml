@@ -97,14 +97,17 @@ logging:
 
 momokoConfiguracion:
   esServidorLocal: true
+  imagenDefault: imagenes-destacadas/generica-libreria.jpg
   directorios:
     remote:
       urlSitemap: http://localhost
       urlFiles: http://localhost/images
+      urlTemplates: http://localhost/templates
       urlImages: http://localhost/images/
       urlUpload: http://localhost/
     local:
       urlSitemap: D:\XAMPP\htdocs\momoko
       urlFiles: D:\XAMPP\htdocs\momoko\images
+      urlTemplates: D:\XAMPP\htdocs\momoko\templates
       urlImages: http://localhost/images/
       urlUpload: http://localhost/

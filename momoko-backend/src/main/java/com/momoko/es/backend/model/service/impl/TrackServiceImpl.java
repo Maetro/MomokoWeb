@@ -98,7 +98,7 @@ public class TrackServiceImpl implements TrackService {
 
         try {
             uri = builder.build();
-            System.out.println(restTemplate.getForEntity(uri, String.class));
+            restTemplate.getForEntity(uri, String.class);
         } catch (final URISyntaxException e) {
             e.printStackTrace();
         }

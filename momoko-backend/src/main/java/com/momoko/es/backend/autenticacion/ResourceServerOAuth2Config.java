@@ -29,9 +29,9 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
     @Override
     public void configure(final HttpSecurity http) throws Exception {
         http.requestMatchers()
-                .antMatchers("/", "/upload", "/public/**", "/modelo/**", "/rx/**", "/assets/**", "/account/**",
-                        "/auth/**", "/style/**", "/**.js", "/**.js.map", "/**.woff2", "/**.woff", "/**.ttf",
-                        "/favicon.ico")
+                .antMatchers("/", "/upload", "/public/**", "/amp/**", "/modelo/**", "/rx/**", "/assets/**",
+                        "/account/**", "/health", "/auth/**", "/style/**", "/**.js", "/**.js.map", "/**.woff2",
+                        "/**.woff", "/**.ttf", "index", "greeting", "/favicon.ico")
                 .and().authorizeRequests().antMatchers(HttpMethod.GET, "/modelo/**")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('read')")
                 .antMatchers(HttpMethod.POST, "/modelo/**")
@@ -41,8 +41,9 @@ public class ResourceServerOAuth2Config extends ResourceServerConfigurerAdapter 
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
                 .antMatchers(HttpMethod.POST, "/upload")
                 .access("#oauth2.hasScope('modelo') and #oauth2.hasScope('write')")
-                .antMatchers("/", "/auth/**", "/account/**", "/public/**", "/assets/**", "/**.js", "/style/**",
-                        "/**.js.map", "/**.woff2", "/**.woff", "/**.ttf", "/favicon.ico")
+                .antMatchers("/", "/auth/**", "/account/**", "/public/**", "/amp/**", "/health", "/assets/**", "/**.js",
+                        "/style/**", "/**.js.map", "/**.woff2", "index", "greeting", "/**.woff", "/**.ttf",
+                        "/favicon.ico")
                 .permitAll().and().exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler()).and().csrf()
                 .disable();
 

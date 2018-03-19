@@ -28,11 +28,13 @@ import org.springframework.stereotype.Service;
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
+import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.exceptions.NoExisteGeneroException;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
@@ -333,6 +335,10 @@ public class LibroServiceImpl implements LibroService {
             }
             libroDTO.setEntradasLibro(listaDatosEntradas);
 
+            if (libroEntity.getOrdenSaga() != null) {
+                libroDTO.setSaga(EntityToDTOAdapter.adaptarSaga(libroEntity.getSaga(), false));
+            }
+
             respuesta.setLibro(libroDTO);
         }
         return respuesta;
@@ -370,8 +376,8 @@ public class LibroServiceImpl implements LibroService {
 
         idsGeneros.add(genero.getGeneroId());
 
-        final List<LibroEntity> listaLibrosGenero = this.libroRepository
-                .obtenerLibrosConAnalisisGeneroPorFecha(idsGeneros, new PageRequest(pagina, numeroLibros));
+        final List<LibroEntity> listaLibrosGenero = this.libroRepository.obtenerLibrosConAnalisisGeneroPorFecha(
+                idsGeneros, Calendar.getInstance().getTime(), new PageRequest(pagina, numeroLibros));
 
         return ConversionUtils.obtenerLibrosBasicos(listaLibrosGenero, null);
     }
@@ -382,5 +388,52 @@ public class LibroServiceImpl implements LibroService {
                 .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
                         Arrays.asList(generoDTO.getGeneroId()));
         return numeroResultados.intValue();
+    }
+
+    @Override
+    public List<LibroDTO> obtenerLibros(final List<String> librosUrl) {
+        final List<LibroEntity> listaLibros = this.libroRepository.findByUrlLibroIn(librosUrl);
+        final List<LibroDTO> listaLibrosDTO = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(listaLibros)) {
+
+            listaLibrosDTO.addAll(EntityToDTOAdapter.adaptarLibros(listaLibros));
+            for (final LibroDTO libroDTO : listaLibrosDTO) {
+
+                try {
+                    final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
+                            .getImageDimensions(libroDTO.getUrlImagen());
+                    libroDTO.setPortadaHeight(alturaAnchura.getAltura());
+                    libroDTO.setPortadaWidth(alturaAnchura.getAnchura());
+                    final String url = this.almacenImagenes.getUrlImageServer();
+
+                    libroDTO.setUrlImagen(
+                            this.almacenImagenes.obtenerMiniatura(libroDTO.getUrlImagen(), 200, 310, true));
+                    final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
+                    for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                        generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
+                        generosImagenes.add(generoDTO);
+                    }
+                    libroDTO.setGeneros(generosImagenes);
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return listaLibrosDTO;
+    }
+
+    @Override
+    public EntradaDTO obtenerAnalisisLibro(final String urlLibro) {
+        final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
+        final List<EntradaEntity> entradas = libroEntity.getEntradas();
+        EntradaDTO analisisLibro = null;
+        for (final EntradaEntity entradaEntity : entradas) {
+            if (TipoEntrada.ANALISIS.getValue().equals(entradaEntity.getTipoEntrada())) {
+                analisisLibro = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+                break;
+            }
+        }
+        return analisisLibro;
     }
 }

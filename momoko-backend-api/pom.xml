@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.6.6-SNAPSHOT</version>
+		<version>0.9-SNAPSHOT</version>
 	</parent>
 
 	<packaging>jar</packaging>

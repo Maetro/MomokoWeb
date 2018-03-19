@@ -43,7 +43,7 @@ export class AppComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.url_seguimiento = 'http://momoko.es/files/' + this.urlSeguimiento;
+    this.url_seguimiento = 'https://momoko.es/files/' + this.urlSeguimiento;
   }
 
   navigationInterceptor(event: RouterEvent): void {

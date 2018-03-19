@@ -21,7 +21,7 @@ import com.momoko.es.backend.model.service.properties.StorageProperties;
 @SpringBootApplication
 @EnableCaching
 @EnableAsync
-@CrossOrigin(origins = { "http://localhost:4200", "http://www.momoko.es" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es" })
 @EnableAutoConfiguration
 @EnableOAuth2Client
 @EnableConfigurationProperties(StorageProperties.class)

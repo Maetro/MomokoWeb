@@ -9,15 +9,15 @@ package com.momoko.es.api.enums;
 public enum TipoEntrada {
     NOTICIA(1, "Noticia"), ANALISIS(2, "Análisis"), MISCELANEOS(3, "Misceláneos"), VIDEO(4, "Vídeo");
 
-    private final int value;
+    private final Integer value;
     private final String nombre;
 
-    TipoEntrada(final int newValue, final String nombre) {
+    TipoEntrada(final Integer newValue, final String nombre) {
         this.value = newValue;
         this.nombre = nombre;
     }
 
-    public int getValue() {
+    public Integer getValue() {
         return this.value;
     }
 

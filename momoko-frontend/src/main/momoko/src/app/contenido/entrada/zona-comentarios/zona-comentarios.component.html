@@ -1,16 +1,18 @@
-<hr />
-<p-growl [(value)]="msgs" sticky="true"></p-growl>
 <div id="comments" class="text-left">
   <h3>{{entrada.numeroComentarios}} comentarios en este post </h3>
   <ol id="singlecomments" class="commentlist">
     <li *ngFor="let comentario of comentarios, let last = last;">
-        <app-plantilla-comentario [comentario]="comentario" (onSelectedComentario)="seleccionarComentario($event, posicionRespuesta)"></app-plantilla-comentario>
+      <app-plantilla-comentario [comentario]="comentario" (onSelectedComentario)="seleccionarComentario($event, posicionRespuesta)"></app-plantilla-comentario>
     </li>
   </ol>
 </div>
 <!-- /#comments -->
 
 <hr />
+<div class="alert alert-success" role="alert" *ngIf="mostrarMensaje">
+  Tu mensaje ha sido enviado correctamente.</div>
+<div class="alert alert-warning" role="alert" *ngIf="mostrarError">
+    Ha habido un problema al enviar el mensaje. Vuelve a intentarlo más tarde</div>
 <div class="comment-form-wrapper text-left">
   <h3>¿Te gustaría compartir lo que piensas?</h3>
   <div class="comentarioAResponder" id="comments" *ngIf="comentarioSeleccionado">
@@ -22,7 +24,9 @@
             <div class="user">
               <img alt="" src="{{comentarioAResponder.autor.avatar}}" class="avatar" />
             </div>
-            <a class="" (click)="cerrarComentario()"><i class="budicon-cancel-1"></i></a>
+            <a class="" (click)="cerrarComentario()">
+              <i class="budicon-cancel-1"></i>
+            </a>
             <div class="info">
               <h5>
                 <a href="#">{{comentarioAResponder.autor.nombre}}</a>

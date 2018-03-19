@@ -56,6 +56,7 @@ import com.momoko.es.api.youtube.list.Video;
 import com.momoko.es.api.youtube.list.YoutubeVideoList;
 import com.momoko.es.api.youtube.video.Item;
 import com.momoko.es.api.youtube.video.VideoYoutube;
+import com.momoko.es.backend.configuration.MomokoConfiguracion;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.entity.GaleriaEntity;
@@ -118,6 +119,9 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Autowired
     private GeneroService generoService;
+
+    @Autowired
+    private MomokoConfiguracion momokoConfiguracion;
 
     /**
      * Obtener entrada para gestion.
@@ -290,7 +294,17 @@ public class EntradaServiceImpl implements EntradaService {
 
             if (entradaDTO.getAutor() != null) {
                 final UsuarioBasicoDTO autor = entradaDTO.getAutor();
-                autor.setAvatar(ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                if (autor.getAvatar() != null) {
+                    try {
+                        autor.setAvatar(this.almacenImagenes.obtenerMiniatura(autor.getAvatar(), 120, 120, true));
+                    } catch (final IOException e) {
+                        autor.setAvatar(
+                                ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                    }
+
+                } else {
+                    autor.setAvatar(ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                }
                 autor.setCargo(entradaEntity.getEntradaAutor().getCargo());
                 entradaDTO.setAutor(autor);
             }
@@ -619,7 +633,11 @@ public class EntradaServiceImpl implements EntradaService {
             }
             entradaEntity.setEtiquetas(etiquetasBD);
         }
-        entradaEntity.setImagenDestacada(soloNombreImagenADestacadas(entradaEntity.getImagenDestacada()));
+        if (entradaEntity.getImagenDestacada() != null) {
+            entradaEntity.setImagenDestacada(soloNombreImagenADestacadas(entradaEntity.getImagenDestacada()));
+        } else {
+            entradaEntity.setImagenDestacada(this.momokoConfiguracion.getImagenDefault());
+        }
         final boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
         // Comprobamos si la url de la entrada existe.
         EntradaEntity coincidencia;

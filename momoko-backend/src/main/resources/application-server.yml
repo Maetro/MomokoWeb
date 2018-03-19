@@ -13,6 +13,8 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
+  thymeleaf:
+    prefix: classpath:/templates
 
 security:
   oauth2:
@@ -84,14 +86,17 @@ logging:
 #momoko properties
 momokoConfiguracion:
   esServidorLocal: true
+  imagenDefault: imagenes-destacadas/generica-libreria.jpg
   directorios:
     remote:
-      urlSitemap: http://momoko.es
-      urlFiles: http://momoko.es/images
-      urlImages: http://momoko.es/images/
-      urlUpload: http://momoko.es/
+      urlSitemap: https://momoko.es
+      urlFiles: https://momoko.es/images
+      urlTemplates: https://momoko.es/templates
+      urlImages: https://momoko.es/images/
+      urlUpload: https://momoko.es/
     local:
       urlSitemap: /var/www/html
       urlFiles: /var/www/html/images
-      urlImages: http://momoko.es/images/
-      urlUpload: http://momoko.es/
+      urlTemplates: /var/www/html/templates
+      urlImages: https://momoko.es/images/
+      urlUpload: https://momoko.es/

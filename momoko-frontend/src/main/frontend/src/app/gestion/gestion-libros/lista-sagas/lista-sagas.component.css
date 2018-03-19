@@ -1,0 +1,12 @@
+
+.ui-datatable-data{
+  padding: .30em .5em !important;
+}
+
+.ui-button-icon-only {
+  display: block !important;
+  background-color: black;
+  width: 40px;
+  color: white !important;
+  margin-left: 35px;
+}

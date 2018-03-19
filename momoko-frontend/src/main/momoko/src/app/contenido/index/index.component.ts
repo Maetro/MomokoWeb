@@ -71,14 +71,14 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.titleService.setTitle('Momoko - blog de literatura, análisis y noticias de libros');
       this.util.removeAllTags( this.metaService);
       this.metaService.addTag({ name: 'description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'});
-      this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es'});
+      this.metaService.addTag({ name: 'og:url', content: 'https://momoko.es'});
       this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
       this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
       this.metaService.addTag({ name: 'og:type', content: 'article' });
       this.metaService.addTag({ name: 'og:title', content: 'Momoko - blog de literatura, análisis y noticias de libros'});
       this.metaService.addTag({ name: 'og:description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'});
-      this.metaService.addTag({ name: 'og:image', content: 'http://momoko.es/assets/style/images/logo.png' });
-      this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es'} );
+      this.metaService.addTag({ name: 'og:image', content: 'https://momoko.es/assets/style/images/logo.png' });
+      this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es'} );
     }, error => {
       if (this.log) {
         console.log('Error al recuperar los datos generales ', error);

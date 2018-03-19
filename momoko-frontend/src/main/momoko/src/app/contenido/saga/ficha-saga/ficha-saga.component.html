@@ -1,0 +1,60 @@
+<div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + librosSaga[0].generos[0].imagenCabeceraGenero + ')'}">
+    <div class="container inner">
+        <h1 class="text-center">
+            <span *ngFor="let genero of librosSaga[0].generos, let last = last;">{{genero.nombre}}
+                <span [hidden]="last">, </span>
+            </span>
+        </h1>
+    </div>
+</div>
+<app-menu-interno-saga [saga]="saga"></app-menu-interno-saga>
+<div class="container inner tp0">
+    <div class="col-sm-4 text-center sagasizquierda">
+        <!-- titulo saga -->
+        <header class="section-header section-header--center">
+            <h2 class="section-title">
+                Saga </h2>
+        </header>
+        <img src="{{saga.imagenSaga}}">
+        <h2 class="separatop25"> {{saga.nombreSaga}} </h2>
+        <h4 class="autor_libro"> {{saga.numeroVolumenes}} tomos - saga completa </h4>
+        <p class="separatop15"> {{saga.resumen}} </p>
+    </div>
+
+    <div class="col-sm-1"> </div>
+    <div class="col-sm-7">
+        <header class="section-header section-header--center">
+            <h2 class="section-title">
+                Libros de la saga </h2>
+        </header>
+        <div class="row">
+
+            <div class="col-sm-4 separatop35" *ngFor="let libro of librosSaga, let i = index; let first = first">
+                <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
+                <div class="contenedorImagenes">
+                    <a routerLink="/libro/{{libro.urlLibro}}">
+                        <img src="{{libro.urlImagen}}">
+                    </a>
+                </div>
+                <h3 class="titulo_libro"> {{libro.titulo}} </h3>
+                <span class="librosaga"> {{mapaOrdinales[i]}} volumen
+                    <span *ngIf="libro.anoPublicacion">- {{libro.anoPublicacion}} </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="divide60"></div>
+
+        <div class="blog row">
+
+            <div class="col-sm-8 blog-content list-view">
+
+
+                <!-- /.blog-content -->
+            </div>
+            <!-- /.blog -->
+
+        </div>
+        <!-- /.container -->
+    </div>
+    <!-- /.light-wrapper -->

@@ -58,7 +58,7 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada })  
     this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva })  
     this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada })  
-    this.linkService.addTag( { rel: 'canonical', href: 'http://momoko.es/libro/' + 
+    this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/libro/' + 
     this.entrada.librosEntrada[0].urlLibro +'/resena/' +  this.entrada.urlEntrada} );
 
   } 

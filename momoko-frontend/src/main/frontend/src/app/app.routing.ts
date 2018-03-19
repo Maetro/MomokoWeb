@@ -11,6 +11,7 @@ import { ListaEntradasComponent } from 'app/gestion/gestion-entradas/lista-entra
 import { IndexComponent } from 'app/contenido/index/index.component';
 import { ListaGaleriasComponent } from 'app/gestion/gestion-galerias/lista-galerias/lista-galerias.component';
 import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-index-data-resolver.service';
+import { ListaSagasComponent } from 'app/gestion/gestion-libros/lista-sagas/lista-sagas.component';
 
 const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
@@ -24,6 +25,10 @@ const appRoutes: Routes = [
           {
             path: 'lista-entradas',
             component: ListaEntradasComponent
+          },
+          {
+            path: 'lista-sagas',
+            component: ListaSagasComponent
           },
           {
             path: 'lista-generos',

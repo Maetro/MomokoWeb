@@ -98,7 +98,7 @@
                 <h2 class="separatop"> {{ultimoComicAnalizado.entrada.tituloEntrada}}</h2>
                 <p [innerHTML]="ultimoComicAnalizado.entrada.resumen"> </p>
 
-                <a routerLink="/{{ultimoComicAnalizado.entrada.urlEntrada}}" class="btn">Ver cómic </a>
+                <a routerLink="/libro/{{ultimoComicAnalizado.libro.urlLibro}}/resena/{{ultimoComicAnalizado.entrada.urlEntrada}}" class="btn">Ver cómic </a>
             </div>
         </div>
         <div class="col-sm-12 col-md-3" style="margin-top:-70px">

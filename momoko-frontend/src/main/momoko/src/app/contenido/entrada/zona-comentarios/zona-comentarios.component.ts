@@ -7,7 +7,6 @@ import { ComentarioRequest } from '../../../dtos/request/comentarioRequest';
 import { ComentariosService } from '../../../services/comentarios.service';
 import { NgForm } from '@angular/forms';
 import { Message } from 'primeng/components/common/api';
-import { GrowlModule } from 'primeng/components/growl/growl';
 import { ScrollToService } from 'ng2-scroll-to-el';
 
 @Component({
@@ -31,7 +30,9 @@ export class ZonaComentariosComponent implements OnInit {
 
   comentarioSeleccionado = false;
 
-  msgs: Message[] = [];
+  mostrarMensaje = false;
+
+  mostrarError = false;
 
   constructor(private comentariosService: ComentariosService, private scrollService: ScrollToService) {
     this.nuevoComentario = new ComentarioRequest;
@@ -49,34 +50,15 @@ export class ZonaComentariosComponent implements OnInit {
     this.nuevoComentario.entradaId = this.entrada.entradaId;
     this.comentariosService.guardarComentario(this.nuevoComentario).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
-        this.showSuccess('Comentario guardado correctamente');
+        this.mostrarMensaje = true;
+        this.nuevoComentario = new ComentarioRequest();
+        this.comentarioAResponder = null;
+        setTimeout(() => this.mostrarMensaje = false, 4000);
       } else {
-        this.showError(res.listaErroresValidacion);
+        this.mostrarError = true;
+        setTimeout(() => this.mostrarError = false, 4000);
       }
     })
-  }
-
-  showSuccess(mensaje: string) {
-    this.msgs = [];
-    if (this.log) {
-      console.log(mensaje);
-    }
-    this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
-  }
-
-  showError(mensaje: string[]) {
-    this.msgs = [];
-    if (this.log) {
-      console.log(mensaje);
-    }
-    let mensajeTotal = '';
-    mensaje.forEach(element => {
-      mensajeTotal += element + '<br/>';
-    });
-    if (this.log) {
-      console.log(mensajeTotal);
-    }
-    this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
   }
 
   seleccionarComentario(comentario: Comentario, element) {

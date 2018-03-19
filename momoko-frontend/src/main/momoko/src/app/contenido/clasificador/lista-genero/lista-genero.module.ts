@@ -15,7 +15,7 @@ import { ComunesModule } from '../../comunes/comunes.module';
         path: ':numero_pagina',
         component: ListaGeneroComponent,
         resolve: {
-          paginaCategoriaResponse: ObtenerListaGeneroResolverService
+          paginaGeneroResponse: ObtenerListaGeneroResolverService
         }
       }
     ])

@@ -1,0 +1,31 @@
+<div class="dark-wrapper">
+    <div class="container  lineafina">
+      <div class="col-md-12" style="margin-bottom:0px">
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a routerLink="/saga/{{saga.urlSaga}}" routerLinkActive="active"
+            routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <u>Saga</u>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="hayAnalisis">
+            <a routerLinkActive="active" routerLink="/saga/{{saga.urlSaga}}/resena/{{urlAnalisis}}" 
+            [class.active]="isActive(['saga', saga.urlSaga, 'resena', urlAnalisis])">
+              <u>Análisis</u>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="hayNoticias">
+            <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/saga/{{saga.urlSaga}}/noticias/"><u>Noticias </u></a>
+          </li>
+          <li class="nav-item" *ngIf="hayGuia">
+            <a class="nav-link disabled" routerLink="/saga/guia-personajes/{{saga.urlSaga}}">Guía de personajes </a>
+          </li>
+          <li class="nav-item" *ngFor="let datoEntrada of menuLibroExtra, let last = last;">
+            <a class="nav-link" routerLink="/libro/{{libro.urlLibro}}/{{datoEntrada.urlMenuLibro}}/{{datoEntrada.urlEntrada}}"
+            [class.active]="isActive(['libro', libro.urlLibro, datoEntrada.urlMenuLibro, datoEntrada.urlEntrada])">
+            <u>{{datoEntrada.nombreMenuLibro}}</u> </a>
+          </li> <!--:url_libro/:url_zona/:url_entrada-->
+        </ul>
+      </div>
+    </div>
+  </div>

@@ -161,4 +161,11 @@ public interface StorageService {
      */
     String getUrlSitemap();
 
+    /**
+     * Gets the template folder.
+     *
+     * @return the template folder
+     */
+    String getTemplateFolder();
+
 }

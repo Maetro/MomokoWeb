@@ -17,7 +17,6 @@ export class JsonAdapterService {
   adaptarLibro(json: any): Libro {
   const l = new Libro();
   l.libroId = json.libroId;
-  l.sagaId = json.sagaId;
   l.anoEdicion = json.anoEdicion;
   l.citaLibro = json.citaLibro;
   l.resumen = json.resumen;

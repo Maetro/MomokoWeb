@@ -64,8 +64,6 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
             name: 'description', content: 'Últimas noticias de libros del mundo editorial en general: Rumores, ' +
               'estadísticas, fechas de lanzamiento y mucho más.'
           };
-          const attributeSelector = 'name="description"';
-          this.metaService.removeTag(attributeSelector);
           this.metaService.addTag(tag, false);
         } else if (this.categoria.urlCategoria === 'miscelaneos') {
           this.titleService.setTitle('Momoko - Últimas noticias');
@@ -73,8 +71,6 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
             name: 'description', content: 'Miscelaneos: Contendido con todo lo que rodea a tus libros favoritos, imágenes,' +
               ' eventos y curiosidades:'
           };
-          const attributeSelector = 'name="description"';
-          this.metaService.removeTag(attributeSelector);
           this.metaService.addTag(tag, false);
 
         } else if (this.categoria.urlCategoria === 'videos') {
@@ -83,8 +79,6 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
           const tag = {
             name: 'description', content: 'Videos: Videos relacionados con el mundo de la literatura y sobre tus libros favoritos'
           };
-          const attributeSelector = 'name="description"';
-          this.metaService.removeTag(attributeSelector);
           this.metaService.addTag(tag, false);
         } else {
           const metatituloPagina = 'Categoría: ' + this.categoria.nombreCategoria + ': Últimas entradas en momoko sobre la categoría: ' +

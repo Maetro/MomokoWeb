@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -62,9 +63,11 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      *            the pageable
      * @return the list
      */
-    @Query("select distinct l from LibroEntity l join l.entradas e join l.generos g join l.entradas e WHERE e.tipoEntrada = 2 AND g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL ORDER BY l.fechaAlta DESC")
+    @Query("select distinct l from LibroEntity l join l.entradas e join l.generos g join l.entradas e"
+            + " WHERE e.tipoEntrada = 2 AND g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL"
+            + " AND e.fechaAlta < :ahora ORDER BY l.fechaAlta DESC")
     List<LibroEntity> obtenerLibrosConAnalisisGeneroPorFecha(@Param("generoIds") List<Integer> generoIds,
-            Pageable pageable);
+            @Param("ahora") Date ahora, Pageable pageable);
 
     /**
      * Find libro by generos and fecha baja is null order by fecha alta desc.
@@ -89,6 +92,15 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
     List<LibroEntity> findByLibroIdIn(List<Integer> librosId);
 
     /**
+     * Find by libro id in.
+     *
+     * @param librosId
+     *            the libros id
+     * @return the list
+     */
+    List<LibroEntity> findByUrlLibroIn(List<String> urlsLibros);
+
+    /**
      * Find ultimos analisis.
      *
      * @return the list
@@ -105,14 +117,5 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
      */
     @Query("select l from LibroEntity l ORDER BY l.fechaAlta DESC")
     List<LibroEntity> findUltimasFichas(Pageable pageable);
-
-    /**
-     * Find by url libro in.
-     *
-     * @param urlLibro
-     *            the url libro
-     * @return the list
-     */
-    List<LibroEntity> findByUrlLibroIn(List<String> urlLibro);
 
 }

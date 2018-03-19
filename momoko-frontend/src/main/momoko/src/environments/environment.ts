@@ -40,5 +40,9 @@ export const environment = {
   getEtiquetaUrl: 'http://localhost:5000/public/etiqueta/',
   getNoticiasLibroUrl: 'http://localhost:5000/public/noticias-libro/',
   suscripcionUrl: 'http://localhost:5000/public/suscribirse/',
-  getBusquedaUrl: 'http://localhost:5000/public/buscar/'
+  getBusquedaUrl: 'http://localhost:5000/public/buscar/',
+  sagasUrl: 'http://localhost:5000/modelo/sagas',
+  obtenerSagaAdmin: 'http://localhost:5000/modelo/saga/',
+  addSagaUrl: 'http://localhost:5000/modelo/sagas/add',
+  getSagaUrl: 'http://localhost:5000/public/saga/'
 };

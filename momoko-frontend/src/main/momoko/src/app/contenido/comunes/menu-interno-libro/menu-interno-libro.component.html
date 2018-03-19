@@ -4,8 +4,13 @@
         <ul class="nav nav-tabs">
           <li class="nav-item">
             <a routerLink="/libro/{{libro.urlLibro}}" routerLinkActive="active"
-            routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            [routerLinkActiveOptions]="{exact: true}">
               <u>Ficha del libro</u>
+            </a>
+          </li>
+          <li class="nav-item" *ngIf="esSaga">
+            <a routerLink="/saga/{{libro.saga.urlSaga}}">
+              <u>Saga</u>
             </a>
           </li>
           <li class="nav-item" *ngIf="hayAnalisis">

@@ -2,12 +2,13 @@ import { Genero } from './genero';
 import { Editorial } from './editorial';
 import { Autor } from './autor';
 import { DatoEntrada } from './datoEntrada';
+import { Saga } from './saga';
 
 
 
 export class Libro {
   libroId: number;
-  sagaId: number;
+  saga: Saga;
   editorial: Editorial;
   generos: Genero[];
   anoEdicion: number;
@@ -28,4 +29,5 @@ export class Libro {
   portadaHeight: number;
   notaMomoko: number;
   visitas: number;
+  ordenSaga: number;
 }

@@ -22,11 +22,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
@@ -362,7 +367,22 @@ public class ConversionUtils {
      */
     public static String obtenerGravatar(final String emailComentario) {
         final String hash = ConversionUtils.md5Hex(emailComentario.toLowerCase());
-        return "https://www.gravatar.com/avatar/" + hash;
+        String url = "https://www.gravatar.com/avatar/" + hash + "?s=120&d=404";
+        final RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> respuesta = null;
+        try {
+            respuesta = restTemplate.getForEntity(url, String.class);
+        } catch (final HttpServerErrorException e) {
+            respuesta = null;
+        } catch (final HttpClientErrorException e) {
+            respuesta = null;
+        }
+        if ((respuesta == null) || !respuesta.getStatusCode().is2xxSuccessful()) {
+            final Random r = new Random();
+            final int number = r.nextInt((8 - 1) + 1) + 1;
+            url = "https://momoko.es/images/avatares/random/avatar-momoko-0" + number + ".png";
+        }
+        return url;
     }
 
 }

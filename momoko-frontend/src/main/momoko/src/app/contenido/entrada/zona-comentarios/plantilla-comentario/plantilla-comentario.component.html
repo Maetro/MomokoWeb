@@ -1,4 +1,5 @@
-<div class="message">
+<div class="row">
+  <div class="message">
     <div class="user">
       <img alt="" src="{{comentario.autor.avatar}}" class="avatar" />
     </div>
@@ -18,7 +19,8 @@
     </div>
   </div>
   <ul class="children" *ngIf="comentario.comentariosHijo">
-      <li *ngFor="let respuesta of comentario.comentariosHijo, let last = last;">
-          <app-plantilla-comentario [comentario]="respuesta" (onSelectedComentario)="onSeleccionarComentario($event)"></app-plantilla-comentario>
-      </li>
-    </ul>
+    <li *ngFor="let respuesta of comentario.comentariosHijo, let last = last;">
+      <app-plantilla-comentario [comentario]="respuesta" (onSelectedComentario)="onSeleccionarComentario($event)"></app-plantilla-comentario>
+    </li>
+  </ul>
+</div>

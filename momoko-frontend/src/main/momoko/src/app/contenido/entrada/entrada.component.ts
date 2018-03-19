@@ -63,7 +63,7 @@ export class EntradaComponent implements OnInit, OnDestroy {
         
 
 
-        this.metaService.addTag({ name: 'og:url', content: 'http://momoko.es/'+ this.url });
+        this.metaService.addTag({ name: 'og:url', content: 'https://momoko.es/'+ this.url });
         this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
         this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
 

@@ -30,6 +30,15 @@ export class ClasificadorService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
+  getGeneroPage(urlGenero, numeroPagina): Observable<ObtenerPaginaGeneroResponse> {
+    if (this.log) {
+      console.log(urlGenero);
+    }
+    return this.http.get<ObtenerPaginaGeneroResponse>(this.getGeneroUrl + urlGenero + '/' + numeroPagina)
+      .map(this.obtenerEntradaDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
   private obtenerEntradaDeRespuesta(res: ObtenerPaginaGeneroResponse) {
     return res;
   }

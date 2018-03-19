@@ -99,6 +99,9 @@ public class LibroDTO implements Serializable {
     /** The visitas. */
     private Integer visitas;
 
+    /** The orden saga. */
+    private Integer ordenSaga;
+
     /**
      * Gets the libro id.
      *
@@ -622,6 +625,25 @@ public class LibroDTO implements Serializable {
                 .append("numeroPaginas", this.numeroPaginas).append("citaLibro", this.citaLibro)
                 .append("resumen", this.resumen).append("enlaceAmazon", this.enlaceAmazon)
                 .append("urlImagen", this.urlImagen).toString();
+    }
+
+    /**
+     * Gets the orden saga.
+     *
+     * @return the orden saga
+     */
+    public Integer getOrdenSaga() {
+        return this.ordenSaga;
+    }
+
+    /**
+     * Sets the orden saga.
+     *
+     * @param ordenSaga
+     *            the new orden saga
+     */
+    public void setOrdenSaga(final Integer ordenSaga) {
+        this.ordenSaga = ordenSaga;
     }
 
 }

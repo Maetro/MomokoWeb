@@ -46,7 +46,8 @@ export class MenuComponent implements OnInit, AfterViewInit {
         console.log('Creando menus');
       }
 
-      $('#main-menu').smartmenus();
+      
+      setTimeout(() => $('#main-menu').smartmenus(), 1000);
     }
 
   }

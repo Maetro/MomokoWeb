@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.service;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
@@ -96,5 +97,23 @@ public interface LibroService {
      * @return the integer
      */
     public Integer obtenerNumeroLibrosConAnalisisGenero(GeneroDTO generoDTO);
+
+    /**
+     * Obtener libros.
+     *
+     * @param librosSaga
+     *            the libros saga
+     * @return the list
+     */
+    public List<LibroDTO> obtenerLibros(List<String> librosSaga);
+
+    /**
+     * Obtener analisis libro.
+     *
+     * @param urlLibro
+     *            the url libro
+     * @return the list
+     */
+    public EntradaDTO obtenerAnalisisLibro(String urlLibro);
 
 }

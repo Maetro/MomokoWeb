@@ -441,4 +441,13 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    @Override
+    public String getTemplateFolder() {
+        if (esServidorLocal()) {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getUrlTemplates();
+        } else {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getUrlTemplates();
+        }
+    }
+
 }

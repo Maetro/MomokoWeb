@@ -65,7 +65,7 @@
                     <nav class="paginas-pagination">
                         <ul class="page-numbers">
                             <li *ngFor="let number of numbers">
-                                <a routerLink="/genero/{{genero.urlGenero}}/{{number}}">
+                                <a *ngIf="number > 1; else else1Block" routerLink="/genero/{{genero.urlGenero}}/{{number}}">
                                     <span class="page-numbers">{{number}}</span>
                                 </a>
                             </li>
@@ -74,6 +74,12 @@
                             </li>
                         </ul>
                     </nav>
+
+                    <ng-template #else1Block>
+                        <a routerLink="/genero/{{genero.urlGenero}}">
+                            <span class="page-numbers">1</span>
+                        </a>
+                    </ng-template>
 
                     <!-- /.page-navi -->
                     <div class="clearfix"></div>

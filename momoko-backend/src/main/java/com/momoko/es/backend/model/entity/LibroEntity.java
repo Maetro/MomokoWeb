@@ -47,7 +47,7 @@ public class LibroEntity {
 
     /** The saga id. */
     @ManyToOne
-    @JoinColumn(nullable = true)
+    @JoinColumn(name = "saga_id", nullable = true)
     private SagaEntity saga;
 
     /** The orden saga. */
@@ -468,6 +468,25 @@ public class LibroEntity {
     }
 
     /**
+     * Gets the orden saga.
+     *
+     * @return the orden saga
+     */
+    public Integer getOrdenSaga() {
+        return this.ordenSaga;
+    }
+
+    /**
+     * Sets the orden saga.
+     *
+     * @param ordenSaga
+     *            the new orden saga
+     */
+    public void setOrdenSaga(final Integer ordenSaga) {
+        this.ordenSaga = ordenSaga;
+    }
+
+    /**
      * Gets the usuario alta.
      *
      * @return the usuario alta
@@ -581,6 +600,11 @@ public class LibroEntity {
         this.fechaBaja = fechaBaja;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("libroId", this.libroId).append("autores", this.autores)
@@ -591,6 +615,11 @@ public class LibroEntity {
                 .append("numeroPaginas", this.numeroPaginas).append("tituloOriginal", this.tituloOriginal).toString();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof LibroEntity)) {
@@ -600,6 +629,11 @@ public class LibroEntity {
         return new EqualsBuilder().append(this.libroId, castOther.libroId).isEquals();
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.libroId).toHashCode();

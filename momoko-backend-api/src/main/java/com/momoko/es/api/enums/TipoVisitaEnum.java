@@ -7,5 +7,5 @@
 package com.momoko.es.api.enums;
 
 public enum TipoVisitaEnum {
-    ENTRADA, LIBRO, FALLO
+    ENTRADA, LIBRO, FALLO, SAGA
 }

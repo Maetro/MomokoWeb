@@ -12,6 +12,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
+import com.momoko.es.backend.model.entity.SagaEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 
 public interface PuntuacionRepository extends CrudRepository<PuntuacionEntity, Integer> {
@@ -49,5 +50,27 @@ public interface PuntuacionRepository extends CrudRepository<PuntuacionEntity, I
      * @return the puntuacion entity
      */
     public PuntuacionEntity findOneByEsPuntuacionMomokoAndLibro(boolean esPuntuacionMomoko, LibroEntity libro);
+
+    /**
+     * Find one by es puntuacion momoko and saga.
+     *
+     * @param b
+     *            the b
+     * @param sagaEntity
+     *            the saga entity
+     * @return the puntuacion entity
+     */
+    public PuntuacionEntity findOneByEsPuntuacionMomokoAndSaga(boolean esPuntuacionMomoko, SagaEntity sagaEntity);
+
+    /**
+     * Find one puntuacion entity by saga and autor.
+     *
+     * @param saga
+     *            the saga
+     * @param autor
+     *            the autor
+     * @return the puntuacion entity
+     */
+    public PuntuacionEntity findOnePuntuacionEntityBySagaAndAutor(SagaEntity saga, UsuarioEntity autor);
 
 }

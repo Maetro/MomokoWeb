@@ -48,6 +48,10 @@ public class PuntuacionEntity {
     @JoinColumn(name = "libro_id")
     private LibroEntity libro;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "saga_id")
+    private SagaEntity saga;
+
     /** The es puntuacion momoko. */
     private boolean esPuntuacionMomoko;
 
@@ -187,6 +191,25 @@ public class PuntuacionEntity {
      */
     public void setLibro(final LibroEntity libro) {
         this.libro = libro;
+    }
+
+    /**
+     * Gets the saga.
+     *
+     * @return the saga
+     */
+    public SagaEntity getSaga() {
+        return this.saga;
+    }
+
+    /**
+     * Sets the saga.
+     *
+     * @param saga
+     *            the new saga
+     */
+    public void setSaga(final SagaEntity saga) {
+        this.saga = saga;
     }
 
     /**

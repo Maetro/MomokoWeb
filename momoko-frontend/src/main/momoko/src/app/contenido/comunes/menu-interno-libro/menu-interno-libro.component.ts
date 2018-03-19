@@ -19,6 +19,7 @@ export class MenuInternoLibroComponent implements OnInit {
   hayAnalisis = false;
   hayNoticias = false;
   hayGuia = false;
+  esSaga = false;
   menuLibroExtra: DatoEntrada[];
 
   @Input() libro: Libro;
@@ -30,6 +31,9 @@ export class MenuInternoLibroComponent implements OnInit {
       console.log('Iniciando menu');
     }
     if (this.libro.entradasLibro.length > 0) {
+      if (this.libro.saga != null){
+        this.esSaga = true;
+      }
       this.libro.entradasLibro.forEach(entrada => {
         switch (entrada.tipoEntrada) {
           // 1 - NOTICIA

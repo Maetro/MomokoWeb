@@ -1,12 +1,12 @@
 <div class="row marginTop30" *ngFor="let entrada of entradas">
     <div class="col-md-5">
-        <a routerLink="/{{entrada.urlEntrada}}">
+        <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">
           <img src="{{entrada.imagenEntrada}}" alt="">
        </a>
     </div>
     <div class="col-md-7">
         <h2 class="post-title">
-            <a routerLink="/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}} </a>
+            <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}} </a>
           </h2>
           <div class="meta">
             <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
@@ -14,13 +14,13 @@
               <a routerLink="/editor/{{entrada.nombreAutor}}">{{entrada.nombreAutor}}</a>
             </span>
             <span class="comments">
-              <a routerLink="/{{entrada.urlEntrada}}">{{entrada.numeroComentarios}} Comentarios</a>
+              <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.numeroComentarios}} Comentarios</a>
             </span>
           </div>
           <div class="contenidoResumen" [innerHTML]="entrada.fraseDescriptiva">
           </div>
           <div class="">
-            <a routerLink="/{{entrada.urlEntrada}}" class="more">Sigue leyendo </a>
+            <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="more">Sigue leyendo </a>
           </div>
     </div>
   </div>

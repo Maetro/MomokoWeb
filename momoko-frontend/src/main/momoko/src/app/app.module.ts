@@ -36,6 +36,8 @@ import { ObtenerEntradaZonaResolverService } from './services/resolvers/obtener-
 import { ObtenerResenaResolverService } from './services/resolvers/obtener-resena-resolver.service';
 import { LinkService } from './services/link.service';
 import { UtilService } from './services/util/util.service';
+import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-resolver.service';
+import { SagaService } from './services/saga.service';
 
 
 @NgModule({
@@ -91,6 +93,13 @@ import { UtilService } from './services/util/util.service';
         loadChildren: './contenido/entrada/entrada.module#EntradaModule',
         resolve: {
           obtenerEntradaResponse: ObtenerEntradaZonaResolverService
+        }
+      },
+      {
+        path: 'saga/:url_saga',
+        loadChildren: './contenido/saga/ficha-saga/ficha-saga.module#FichaSagaModule',
+        resolve: {
+          fichaSaga: ObtenerSagaResolverService
         }
       },
       {
@@ -151,7 +160,7 @@ import { UtilService } from './services/util/util.service';
   providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerListaCategoriaResolverService, ClasificadorService,
     ObtenerListaGeneroResolverService, ObtenerListaEtiquetaResolverService, ComentariosService, ObtenerVideoResolverService, VideoService,
     ObtenerEntradaResolverService, EntradaService, ScrollToService, ObtenerLibroNoticiasResolverService, ObtenerLibroResolverService, LibroService,
-    JsonAdapterService, ObtenerListaBusquedaResolverService, ObtenerEntradaZonaResolverService, LinkService,
+    JsonAdapterService, ObtenerListaBusquedaResolverService, ObtenerEntradaZonaResolverService, LinkService, ObtenerSagaResolverService, SagaService,
     ObtenerResenaResolverService, UtilService],
   bootstrap: [AppComponent]
 })

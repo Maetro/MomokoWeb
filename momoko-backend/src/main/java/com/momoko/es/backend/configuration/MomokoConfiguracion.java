@@ -21,6 +21,9 @@ public class MomokoConfiguracion {
     /** The es servidor local. */
     private boolean esServidorLocal;
 
+    /** The imagen default. */
+    private String imagenDefault;
+
     /** The directorios. */
     private Directorios directorios = new Directorios();
 
@@ -130,6 +133,9 @@ public class MomokoConfiguracion {
         /** The url sitemap. */
         private String urlSitemap;
 
+        /** The url templates. */
+        private String urlTemplates;
+
         /**
          * Gets the url files.
          *
@@ -204,6 +210,25 @@ public class MomokoConfiguracion {
          */
         public void setUrlSitemap(final String urlSitemap) {
             this.urlSitemap = urlSitemap;
+        }
+
+        /**
+         * Gets the url templates.
+         *
+         * @return the url templates
+         */
+        public String getUrlTemplates() {
+            return this.urlTemplates;
+        }
+
+        /**
+         * Sets the url templates.
+         *
+         * @param urlTemplates
+         *            the new url templates
+         */
+        public void setUrlTemplates(final String urlTemplates) {
+            this.urlTemplates = urlTemplates;
         }
 
     }
@@ -227,6 +252,9 @@ public class MomokoConfiguracion {
         /** The url sitemap. */
         private String urlSitemap;
 
+        /** The url templates. */
+        private String urlTemplates;
+
         /**
          * Gets the url files.
          *
@@ -303,6 +331,44 @@ public class MomokoConfiguracion {
             this.urlSitemap = urlSitemap;
         }
 
+        /**
+         * Gets the url templates.
+         *
+         * @return the url templates
+         */
+        public String getUrlTemplates() {
+            return this.urlTemplates;
+        }
+
+        /**
+         * Sets the url templates.
+         *
+         * @param urlTemplates
+         *            the new url templates
+         */
+        public void setUrlTemplates(final String urlTemplates) {
+            this.urlTemplates = urlTemplates;
+        }
+
+    }
+
+    /**
+     * Gets the imagen default.
+     *
+     * @return the imagen default
+     */
+    public String getImagenDefault() {
+        return this.imagenDefault;
+    }
+
+    /**
+     * Sets the imagen default.
+     *
+     * @param imagenDefault
+     *            the new imagen default
+     */
+    public void setImagenDefault(final String imagenDefault) {
+        this.imagenDefault = imagenDefault;
     }
 
 }

@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import com.momoko.es.api.dto.AutorDTO;
@@ -81,7 +81,6 @@ public final class EntityToDTOAdapter {
         libroDTO.setEnlaceAmazon(libroEntity.getEnlaceAmazon());
         libroDTO.setLibroId(libroEntity.getLibroId());
         libroDTO.setResumen(libroEntity.getResumen());
-        libroDTO.setSaga(libroEntity.getSaga() != null ? adaptarSaga(libroEntity.getSaga()) : null);
         libroDTO.setTitulo(libroEntity.getTitulo());
         libroDTO.setUrlImagen(libroEntity.getUrlImagen());
         libroDTO.setAutores(adaptarAutores(libroEntity.getAutores()));
@@ -91,6 +90,7 @@ public final class EntityToDTOAdapter {
         libroDTO.setTituloOriginal(libroEntity.getTituloOriginal());
         libroDTO.setUrlLibro(libroEntity.getUrlLibro());
         libroDTO.setFechaAlta(libroEntity.getFechaAlta());
+        libroDTO.setOrdenSaga(libroEntity.getOrdenSaga());
         return libroDTO;
     }
 
@@ -174,10 +174,40 @@ public final class EntityToDTOAdapter {
      *            saga entity
      * @return the saga DTO
      */
-    private static SagaDTO adaptarSaga(final SagaEntity sagaEntity) {
+    public static SagaDTO adaptarSaga(final SagaEntity sagaEntity, final boolean adaptarLibros) {
         final SagaDTO sagaDTO = new SagaDTO();
         sagaDTO.setSagaId(sagaEntity.getSagaId());
-        sagaDTO.setDescripcionSaga(sagaEntity.getDescripcionSaga());
+        sagaDTO.setNombreSaga(sagaEntity.getNombre());
+        sagaDTO.setImagenSaga(sagaEntity.getImagenSaga());
+        if (adaptarLibros) {
+            final List<String> urlLibrosSaga = new ArrayList<String>();
+            final List<LibroDTO> librosSaga = new ArrayList<LibroDTO>();
+            if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+                for (final LibroEntity libroEntity : sagaEntity.getLibros()) {
+                    urlLibrosSaga.add(libroEntity.getUrlLibro());
+                    librosSaga.add(adaptarLibro(libroEntity));
+                }
+            }
+
+            sagaDTO.setLibrosSaga(librosSaga);
+            sagaDTO.setUrlsLibrosSaga(urlLibrosSaga);
+        }
+        sagaDTO.setResumen(sagaEntity.getResumen());
+        sagaDTO.setNumeroVolumenes(sagaEntity.getNumeroVolumenes());
+        sagaDTO.setEstaTerminada(sagaEntity.getEstaTerminada());
+        sagaDTO.setTipoSaga(sagaEntity.getTipoSaga());
+        sagaDTO.setDominaLibros(sagaEntity.getDominaLibros());
+        sagaDTO.setUrlSaga(sagaEntity.getUrlSaga());
+        final List<PuntuacionDTO> puntuacionesDTO = new ArrayList<PuntuacionDTO>();
+        if (CollectionUtils.isNotEmpty(sagaEntity.getPuntuaciones())) {
+            for (final PuntuacionEntity puntuacion : sagaEntity.getPuntuaciones()) {
+                if (puntuacion.isEsPuntuacionMomoko()) {
+                    sagaDTO.setNotaSaga(puntuacion.getValor().intValue());
+                }
+                puntuacionesDTO.add(adaptarPuntuacion(puntuacion));
+            }
+        }
+        sagaDTO.setPuntuacionesSaga(puntuacionesDTO);
         return sagaDTO;
     }
 
@@ -361,7 +391,12 @@ public final class EntityToDTOAdapter {
         puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(puntuacionEntity.getAutor()));
         puntuacionDTO.setComentario(puntuacionEntity.getComentario());
         puntuacionDTO.setEsPuntuacionMomoko(puntuacionEntity.isEsPuntuacionMomoko());
-        puntuacionDTO.setLibroId(puntuacionEntity.getLibro().getLibroId());
+        if (puntuacionEntity.getLibro() != null) {
+            puntuacionDTO.setLibroId(puntuacionEntity.getLibro().getLibroId());
+        }
+        if (puntuacionEntity.getSaga() != null) {
+            puntuacionDTO.setSagaId(puntuacionEntity.getSaga().getSagaId());
+        }
         puntuacionDTO.setValor(puntuacionEntity.getValor());
         return puntuacionDTO;
     }

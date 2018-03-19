@@ -32,6 +32,9 @@ public class PuntuacionDTO {
     /** The libro id. */
     private Integer libroId;
 
+    /** The libro id. */
+    private Integer sagaId;
+
     /** The es puntuacion momoko. */
     private boolean esPuntuacionMomoko;
 
@@ -150,6 +153,25 @@ public class PuntuacionDTO {
     }
 
     /**
+     * Gets the saga id.
+     *
+     * @return the saga id
+     */
+    public Integer getSagaId() {
+        return this.sagaId;
+    }
+
+    /**
+     * Sets the saga id.
+     *
+     * @param sagaId
+     *            the new saga id
+     */
+    public void setSagaId(final Integer sagaId) {
+        this.sagaId = sagaId;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -160,8 +182,8 @@ public class PuntuacionDTO {
         final PuntuacionDTO castOther = (PuntuacionDTO) other;
         return new EqualsBuilder().append(this.puntuacionId, castOther.puntuacionId).append(this.valor, castOther.valor)
                 .append(this.autor, castOther.autor).append(this.comentario, castOther.comentario)
-                .append(this.libroId, castOther.libroId).append(this.esPuntuacionMomoko, castOther.esPuntuacionMomoko)
-                .isEquals();
+                .append(this.libroId, castOther.libroId).append(this.sagaId, castOther.sagaId)
+                .append(this.esPuntuacionMomoko, castOther.esPuntuacionMomoko).isEquals();
     }
 
     /**
@@ -170,17 +192,15 @@ public class PuntuacionDTO {
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.puntuacionId).append(this.valor).append(this.autor)
-                .append(this.comentario).append(this.libroId).append(this.esPuntuacionMomoko).toHashCode();
+                .append(this.comentario).append(this.libroId).append(this.sagaId).append(this.esPuntuacionMomoko)
+                .toHashCode();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("puntuacionId", this.puntuacionId).append("valor", this.valor)
                 .append("autor", this.autor).append("comentario", this.comentario).append("libroId", this.libroId)
-                .append("esPuntuacionMomoko", this.esPuntuacionMomoko).toString();
+                .append("sagaId", this.sagaId).append("esPuntuacionMomoko", this.esPuntuacionMomoko).toString();
     }
 
 }

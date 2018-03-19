@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -29,6 +30,7 @@ import com.momoko.es.backend.model.repository.ComentarioRepository;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.service.ComentarioService;
+import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.EntityToDTOAdapter;
 
@@ -43,6 +45,9 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     @Autowired(required = false)
     private ComentarioRepository comentarioRepository;
+
+    @Autowired(required = false)
+    private StorageService almacenImagenes;
 
     @Override
     @Transactional
@@ -124,6 +129,13 @@ public class ComentarioServiceImpl implements ComentarioService {
                 usuarioBasico.setNombre(comentarioEntity.getNombreComentario());
                 if (usuarioBasico.getAvatar() == null) {
                     usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(comentarioEntity.getEmailComentario()));
+                } else {
+                    try {
+                        usuarioBasico.setAvatar(
+                                this.almacenImagenes.obtenerMiniatura(usuarioBasico.getAvatar(), 120, 120, true));
+                    } catch (final IOException e) {
+                        usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(comentarioEntity.getEmailComentario()));
+                    }
                 }
             } else {
                 usuarioBasico = new UsuarioBasicoDTO();

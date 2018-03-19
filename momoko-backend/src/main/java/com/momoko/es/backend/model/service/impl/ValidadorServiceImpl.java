@@ -22,12 +22,14 @@ import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.ErrorCreacionGaleria;
 import com.momoko.es.api.enums.ErrorCreacionGenero;
 import com.momoko.es.api.enums.ErrorCreacionLibro;
+import com.momoko.es.api.enums.ErrorCreacionSaga;
 import com.momoko.es.api.enums.ErrorPublicarComentario;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
 import com.momoko.es.api.enums.TipoEntrada;
@@ -113,7 +115,7 @@ public class ValidadorServiceImpl implements ValidadorService {
         if (entradaDTO.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
-        if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideo(entradaDTO)
+        if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideoONoticia(entradaDTO)
                 && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
@@ -130,9 +132,10 @@ public class ValidadorServiceImpl implements ValidadorService {
      *            the entrada dto
      * @return true, if successful
      */
-    public boolean esTipoMiscelaneaOVideo(final EntradaDTO entradaDTO) {
+    public boolean esTipoMiscelaneaOVideoONoticia(final EntradaDTO entradaDTO) {
         return TipoEntrada.MISCELANEOS.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()))
-                || TipoEntrada.VIDEO.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()));
+                || TipoEntrada.VIDEO.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()))
+                || TipoEntrada.NOTICIA.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()));
     }
 
     /**
@@ -204,6 +207,25 @@ public class ValidadorServiceImpl implements ValidadorService {
         if (CollectionUtils.isEmpty(galeriaDTO.getImagenes())) {
             listaErrores.add(ErrorCreacionGaleria.FALTAN_IMAGENES);
         }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorCreacionSaga> validarSaga(final SagaDTO sagaDTO) {
+        final List<ErrorCreacionSaga> listaErrores = new ArrayList<ErrorCreacionSaga>();
+        if (CollectionUtils.isEmpty(sagaDTO.getLibrosSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTAN_LIBROS);
+        }
+        if (StringUtils.isEmpty(sagaDTO.getNombreSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTA_NOMBRE);
+        }
+        if (StringUtils.isEmpty(sagaDTO.getImagenSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTA_IMAGEN);
+        }
+        if (StringUtils.isEmpty(sagaDTO.getUrlSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTA_URL);
+        }
+
         return listaErrores;
     }
 
