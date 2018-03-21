@@ -7,13 +7,13 @@
 package com.momoko.es.backend.model.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -26,7 +26,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
-import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
@@ -53,6 +52,7 @@ import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.MomokoUtils;
 
 /**
  * The Class LibroServiceImpl.
@@ -100,31 +100,11 @@ public class LibroServiceImpl implements LibroService {
             if (libroDTO.getUrlImagen() != null) {
                 libroDTO.setUrlImagen(urlImageServer + libroDTO.getUrlImagen());
             }
-            String autoresString = "";
-            if (CollectionUtils.isNotEmpty(libroDTO.getAutores())) {
-                final Iterator<AutorDTO> iterator = libroDTO.getAutores().iterator();
-                while (iterator.hasNext()) {
-                    final AutorDTO autor = iterator.next();
-                    autoresString += autor.getNombre();
-                    if (iterator.hasNext()) {
-                        autoresString += ", ";
-                    }
-                }
-            }
+            final String autoresString = MomokoUtils.generarAutoresString(libroDTO);
 
             libroDTO.setAutoresString(autoresString);
 
-            String generosString = "";
-            if (CollectionUtils.isNotEmpty(libroDTO.getGeneros())) {
-                final Iterator<GeneroDTO> iterator = libroDTO.getGeneros().iterator();
-                while (iterator.hasNext()) {
-                    final GeneroDTO autor = iterator.next();
-                    generosString += autor.getNombre();
-                    if (iterator.hasNext()) {
-                        generosString += ", ";
-                    }
-                }
-            }
+            final String generosString = MomokoUtils.generarGenerosString(libroDTO);
 
             libroDTO.setGenerosString(generosString);
 
@@ -435,5 +415,10 @@ public class LibroServiceImpl implements LibroService {
             }
         }
         return analisisLibro;
+    }
+
+    @Override
+    public BigDecimal obtenerPuntucionMomokoLibro(final String urlLibro) {
+        return this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibroUrl(urlLibro);
     }
 }

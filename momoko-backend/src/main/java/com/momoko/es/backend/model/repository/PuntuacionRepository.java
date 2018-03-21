@@ -6,9 +6,12 @@
  */
 package com.momoko.es.backend.model.repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
@@ -50,6 +53,14 @@ public interface PuntuacionRepository extends CrudRepository<PuntuacionEntity, I
      * @return the puntuacion entity
      */
     public PuntuacionEntity findOneByEsPuntuacionMomokoAndLibro(boolean esPuntuacionMomoko, LibroEntity libro);
+
+    /**
+     * Find ultimos analisis.
+     *
+     * @return the list
+     */
+    @Query("select p.valor from PuntuacionEntity p join p.libro l WHERE l.urlLibro LIKE CONCAT('%',:urlLibro,'%')")
+    BigDecimal findOneByEsPuntuacionMomokoAndLibroUrl(@Param("urlLibro") String urlLibro);
 
     /**
      * Find one by es puntuacion momoko and saga.

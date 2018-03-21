@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.facade;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -31,6 +32,7 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.backend.configuration.MomokoConfiguracion;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
+import com.momoko.es.util.JsonLDUtils;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
@@ -63,16 +65,36 @@ public class AMPFacade {
                     StandardCharsets.UTF_8);
             final EntradaDTO analisis = this.libroService.obtenerAnalisisLibro(urlLibro);
             final LibroDTO libro = analisis.getLibrosEntrada().iterator().next();
+            final BigDecimal puntuacion = this.libroService.obtenerPuntucionMomokoLibro(libro.getUrlLibro());
+            JsonLDUtils.crearJsonLDAnalisis(libro, analisis, puntuacion);
             content = replaceTagInContent("${titulo}", analisis.getTituloEntrada(), content);
             content = replaceTagInContent("${autor}", analisis.getEditorNombre(), content);
             content = replaceTagInContent("${resumen}", analisis.getResumenEntrada(), content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(analisis.getImagenDestacada(), 1280, 768,
                     true);
             content = replaceTagInContent("${imagen-entrada}", miniatura, content);
+
+            String body = analisis.getContenidoEntrada();
+            while (body.contains("<img ")) {
+                final String bloqueImagen = StringUtils.substringBetween(body, "<img ", ">");
+                String imagen = StringUtils.substringBetween(bloqueImagen, "src=\"", "\"");
+                if (!imagen.contains("https") || !imagen.contains("http")) {
+                    imagen = this.almacenImagenes.getUrlImageServer() + imagen;
+                }
+                final String ampImagen = "<figure>" + "<amp-img src=\"" + imagen
+                        + "\" width=\"1280\" height=\"768\" layout=\"responsive\"></amp-img>" + "</figure>";
+                body = StringUtils.replace(body, "<img " + bloqueImagen + ">", ampImagen);
+            }
+            while (body.contains("<p><br></p>")) {
+                body = StringUtils.replace(body, "<p><br></p>", "");
+            }
+            content = replaceTagInContent("${contenido}", body, content);
+
             content = replaceTagInContent("${meta-titulo}", "Análisis de " + libro.getTitulo(), content);
         } catch (final IOException e) {
             e.printStackTrace();
         }
+
         response.setCharacterEncoding("utf-8");
         return content;
     }

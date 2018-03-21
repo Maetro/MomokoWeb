@@ -1,3 +1,9 @@
+/**
+ * BookMainEntity.java 21-mar-2018
+ *
+ * Copyright 2018 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 
 package com.momoko.es.api.datosestructurados;
 
@@ -23,124 +29,124 @@ public class BookMainEntity {
     private List<Review> review = null;
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
     public String getAuthor() {
-        return author;
+        return this.author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(final String author) {
         this.author = author;
     }
 
-    public String getBookFormat() {
-        return bookFormat;
-    }
-
-    public void setBookFormat(String bookFormat) {
-        this.bookFormat = bookFormat;
-    }
-
     public String getDatePublished() {
-        return datePublished;
+        return this.datePublished;
     }
 
-    public void setDatePublished(String datePublished) {
+    public void setDatePublished(final String datePublished) {
         this.datePublished = datePublished;
     }
 
     public String getImage() {
-        return image;
+        return this.image;
     }
 
-    public void setImage(String image) {
+    public void setImage(final String image) {
         this.image = image;
     }
 
     public String getInLanguage() {
-        return inLanguage;
+        return this.inLanguage;
     }
 
-    public void setInLanguage(String inLanguage) {
+    public void setInLanguage(final String inLanguage) {
         this.inLanguage = inLanguage;
     }
 
     public String getIsbn() {
-        return isbn;
+        return this.isbn;
     }
 
-    public void setIsbn(String isbn) {
+    public void setIsbn(final String isbn) {
         this.isbn = isbn;
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
     public String getNumberOfPages() {
-        return numberOfPages;
+        return this.numberOfPages;
     }
 
-    public void setNumberOfPages(String numberOfPages) {
+    public void setNumberOfPages(final String numberOfPages) {
         this.numberOfPages = numberOfPages;
     }
 
     public Offers getOffers() {
-        return offers;
+        return this.offers;
     }
 
-    public void setOffers(Offers offers) {
+    public void setOffers(final Offers offers) {
         this.offers = offers;
     }
 
     public String getPublisher() {
-        return publisher;
+        return this.publisher;
     }
 
-    public void setPublisher(String publisher) {
+    public void setPublisher(final String publisher) {
         this.publisher = publisher;
     }
 
     public AggregateRating getAggregateRating() {
-        return aggregateRating;
+        return this.aggregateRating;
     }
 
-    public void setAggregateRating(AggregateRating aggregateRating) {
+    public void setAggregateRating(final AggregateRating aggregateRating) {
         this.aggregateRating = aggregateRating;
     }
 
     public List<Review> getReview() {
-        return review;
+        return this.review;
     }
 
-    public void setReview(List<Review> review) {
+    public void setReview(final List<Review> review) {
         this.review = review;
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(inLanguage).append(offers).append(datePublished).append(image).append(type).append(publisher).append(author).append(name).append(isbn).append(bookFormat).append(numberOfPages).append(aggregateRating).append(review).toHashCode();
+        return new HashCodeBuilder().append(this.inLanguage).append(this.offers).append(this.datePublished)
+                .append(this.image).append(this.type).append(this.publisher).append(this.author).append(this.name)
+                .append(this.isbn).append(this.bookFormat).append(this.numberOfPages).append(this.aggregateRating)
+                .append(this.review).toHashCode();
     }
 
     @Override
-    public boolean equals(Object other) {
+    public boolean equals(final Object other) {
         if (other == this) {
             return true;
         }
         if ((other instanceof BookMainEntity) == false) {
             return false;
         }
-        BookMainEntity rhs = ((BookMainEntity) other);
-        return new EqualsBuilder().append(inLanguage, rhs.inLanguage).append(offers, rhs.offers).append(datePublished, rhs.datePublished).append(image, rhs.image).append(type, rhs.type).append(publisher, rhs.publisher).append(author, rhs.author).append(name, rhs.name).append(isbn, rhs.isbn).append(bookFormat, rhs.bookFormat).append(numberOfPages, rhs.numberOfPages).append(aggregateRating, rhs.aggregateRating).append(review, rhs.review).isEquals();
+        final BookMainEntity rhs = ((BookMainEntity) other);
+        return new EqualsBuilder().append(this.inLanguage, rhs.inLanguage).append(this.offers, rhs.offers)
+                .append(this.datePublished, rhs.datePublished).append(this.image, rhs.image).append(this.type, rhs.type)
+                .append(this.publisher, rhs.publisher).append(this.author, rhs.author).append(this.name, rhs.name)
+                .append(this.isbn, rhs.isbn).append(this.bookFormat, rhs.bookFormat)
+                .append(this.numberOfPages, rhs.numberOfPages).append(this.aggregateRating, rhs.aggregateRating)
+                .append(this.review, rhs.review).isEquals();
     }
 
 }

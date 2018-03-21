@@ -1,81 +1,140 @@
+/**
+ * Review_.java 21-mar-2018
+ *
+ * Copyright 2018 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 
 package com.momoko.es.api.datosestructurados;
+
+import java.io.Serializable;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Review {
+public class Review implements Serializable {
 
     private String type;
     private String author;
     private String datePublished;
+    private String description;
     private String name;
     private String reviewBody;
-    private String reviewRating;
+    private ReviewRating reviewRating;
+    private final static long serialVersionUID = -3557395569399654514L;
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
-    public void setType(String type) {
+    public void setType(final String type) {
         this.type = type;
     }
 
-    public String getAuthor() {
-        return author;
+    public Review withType(final String type) {
+        this.type = type;
+        return this;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getDatePublished() {
-        return datePublished;
-    }
-
-    public void setDatePublished(String datePublished) {
-        this.datePublished = datePublished;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
+    /**
+     * Gets the review body.
+     *
+     * @return the review body
+     */
     public String getReviewBody() {
-        return reviewBody;
+        return this.reviewBody;
     }
 
-    public void setReviewBody(String reviewBody) {
+    /**
+     * Sets the review body.
+     *
+     * @param reviewBody
+     *            the new review body
+     */
+    public void setReviewBody(final String reviewBody) {
         this.reviewBody = reviewBody;
     }
 
-    public String getReviewRating() {
-        return reviewRating;
+    public String getAuthor() {
+        return this.author;
     }
 
-    public void setReviewRating(String reviewRating) {
+    public void setAuthor(final String author) {
+        this.author = author;
+    }
+
+    public Review withAuthor(final String author) {
+        this.author = author;
+        return this;
+    }
+
+    public String getDatePublished() {
+        return this.datePublished;
+    }
+
+    public void setDatePublished(final String datePublished) {
+        this.datePublished = datePublished;
+    }
+
+    public Review withDatePublished(final String datePublished) {
+        this.datePublished = datePublished;
+        return this;
+    }
+
+    public String getDescription() {
+        return this.description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
+    }
+
+    public Review withDescription(final String description) {
+        this.description = description;
+        return this;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    public Review withName(final String name) {
+        this.name = name;
+        return this;
+    }
+
+    public ReviewRating getReviewRating() {
+        return this.reviewRating;
+    }
+
+    public void setReviewRating(final ReviewRating reviewRating) {
         this.reviewRating = reviewRating;
+    }
+
+    public Review withReviewRating(final ReviewRating reviewRating) {
+        this.reviewRating = reviewRating;
+        return this;
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (!(other instanceof Review)) {
+            return false;
+        }
+        final Review castOther = (Review) other;
+        return new EqualsBuilder().append(this.type, castOther.type).append(this.author, castOther.author)
+                .append(this.datePublished, castOther.datePublished).append(this.description, castOther.description)
+                .append(this.name, castOther.name).append(this.reviewRating, castOther.reviewRating).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(author).append(reviewRating).append(reviewBody).append(name).append(datePublished).append(type).toHashCode();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
-        }
-        if ((other instanceof Review) == false) {
-            return false;
-        }
-        Review rhs = ((Review) other);
-        return new EqualsBuilder().append(author, rhs.author).append(reviewRating, rhs.reviewRating).append(reviewBody, rhs.reviewBody).append(name, rhs.name).append(datePublished, rhs.datePublished).append(type, rhs.type).isEquals();
+        return new HashCodeBuilder().append(this.type).append(this.author).append(this.datePublished)
+                .append(this.description).append(this.name).append(this.reviewRating).toHashCode();
     }
 
 }

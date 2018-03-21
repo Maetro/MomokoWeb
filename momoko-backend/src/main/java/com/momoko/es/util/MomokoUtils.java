@@ -6,6 +6,14 @@
  */
 package com.momoko.es.util;
 
+import java.util.Iterator;
+
+import org.apache.commons.collections4.CollectionUtils;
+
+import com.momoko.es.api.dto.AutorDTO;
+import com.momoko.es.api.dto.GeneroDTO;
+import com.momoko.es.api.dto.LibroDTO;
+
 public class MomokoUtils {
 
     /**
@@ -57,6 +65,50 @@ public class MomokoUtils {
             classColumn = "col-sm-12";
         }
         return classColumn;
+    }
+
+    /**
+     * Generar autores string.
+     *
+     * @param libroDTO
+     *            the libro dto
+     * @return the string
+     */
+    public static String generarGenerosString(final LibroDTO libroDTO) {
+        String generosString = "";
+        if (CollectionUtils.isNotEmpty(libroDTO.getGeneros())) {
+            final Iterator<GeneroDTO> iterator = libroDTO.getGeneros().iterator();
+            while (iterator.hasNext()) {
+                final GeneroDTO autor = iterator.next();
+                generosString += autor.getNombre();
+                if (iterator.hasNext()) {
+                    generosString += ", ";
+                }
+            }
+        }
+        return generosString;
+    }
+
+    /**
+     * Generar autores string.
+     *
+     * @param libroDTO
+     *            the libro dto
+     * @return the string
+     */
+    public static String generarAutoresString(final LibroDTO libroDTO) {
+        String autoresString = "";
+        if (CollectionUtils.isNotEmpty(libroDTO.getAutores())) {
+            final Iterator<AutorDTO> iterator = libroDTO.getAutores().iterator();
+            while (iterator.hasNext()) {
+                final AutorDTO autor = iterator.next();
+                autoresString += autor.getNombre();
+                if (iterator.hasNext()) {
+                    autoresString += ", ";
+                }
+            }
+        }
+        return autoresString;
     }
 
 }

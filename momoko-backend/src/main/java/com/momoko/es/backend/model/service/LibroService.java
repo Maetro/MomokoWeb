@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaDTO;
@@ -115,5 +116,14 @@ public interface LibroService {
      * @return the list
      */
     public EntradaDTO obtenerAnalisisLibro(String urlLibro);
+
+    /**
+     * Obtener puntucion libro.
+     *
+     * @param urlLibro
+     *            the url libro
+     * @return the big decimal
+     */
+    public BigDecimal obtenerPuntucionMomokoLibro(String urlLibro);
 
 }
