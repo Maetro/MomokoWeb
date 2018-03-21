@@ -13,7 +13,7 @@ public class WebPage implements Serializable
     private String context;
     private String type;
     private String breadcrumb;
-    private MainEntity mainEntity;
+    private BookMainEntity mainEntity;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
     private final static long serialVersionUID = -4832692798105323726L;
 
@@ -56,15 +56,15 @@ public class WebPage implements Serializable
         return this;
     }
 
-    public MainEntity getMainEntity() {
+    public BookMainEntity getMainEntity() {
         return mainEntity;
     }
 
-    public void setMainEntity(MainEntity mainEntity) {
+    public void setMainEntity(BookMainEntity mainEntity) {
         this.mainEntity = mainEntity;
     }
 
-    public WebPage withMainEntity(MainEntity mainEntity) {
+    public WebPage withMainEntity(BookMainEntity mainEntity) {
         this.mainEntity = mainEntity;
         return this;
     }

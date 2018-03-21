@@ -100,6 +100,8 @@ public class EntradaDTO {
 
     /** The visitas. */
     private Integer visitas;
+    
+    private String jsonLD;
 
     /**
      * Instancia un nuevo entrada DTO.
@@ -620,6 +622,14 @@ public class EntradaDTO {
         this.visitas = visitas;
     }
 
+    public String getJsonLD() {
+		return jsonLD;
+	}
+    
+    public void setJsonLD(String jsonLD) {
+		this.jsonLD = jsonLD;
+	}
+    
     /**
      * {@inheritDoc}
      */

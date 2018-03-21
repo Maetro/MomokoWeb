@@ -1,39 +1,17 @@
 
 package com.momoko.es.api.datosestructurados;
 
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-public class Review implements Serializable
-{
+public class Review {
 
-    private String context;
     private String type;
-    private AggregateRating aggregateRating;
-    private String description;
+    private String author;
+    private String datePublished;
     private String name;
-    private String image;
-    private Offers offers;
-    private List<Review_> review = null;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = 3244691292128334706L;
-
-    public String getContext() {
-        return context;
-    }
-
-    public void setContext(String context) {
-        this.context = context;
-    }
-
-    public Review withContext(String context) {
-        this.context = context;
-        return this;
-    }
+    private String reviewBody;
+    private String reviewRating;
 
     public String getType() {
         return type;
@@ -43,35 +21,20 @@ public class Review implements Serializable
         this.type = type;
     }
 
-    public Review withType(String type) {
-        this.type = type;
-        return this;
+    public String getAuthor() {
+        return author;
     }
 
-    public AggregateRating getAggregateRating() {
-        return aggregateRating;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
-    public void setAggregateRating(AggregateRating aggregateRating) {
-        this.aggregateRating = aggregateRating;
+    public String getDatePublished() {
+        return datePublished;
     }
 
-    public Review withAggregateRating(AggregateRating aggregateRating) {
-        this.aggregateRating = aggregateRating;
-        return this;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Review withDescription(String description) {
-        this.description = description;
-        return this;
+    public void setDatePublished(String datePublished) {
+        this.datePublished = datePublished;
     }
 
     public String getName() {
@@ -82,66 +45,25 @@ public class Review implements Serializable
         this.name = name;
     }
 
-    public Review withName(String name) {
-        this.name = name;
-        return this;
+    public String getReviewBody() {
+        return reviewBody;
     }
 
-    public String getImage() {
-        return image;
+    public void setReviewBody(String reviewBody) {
+        this.reviewBody = reviewBody;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public String getReviewRating() {
+        return reviewRating;
     }
 
-    public Review withImage(String image) {
-        this.image = image;
-        return this;
-    }
-
-    public Offers getOffers() {
-        return offers;
-    }
-
-    public void setOffers(Offers offers) {
-        this.offers = offers;
-    }
-
-    public Review withOffers(Offers offers) {
-        this.offers = offers;
-        return this;
-    }
-
-    public List<Review_> getReview() {
-        return review;
-    }
-
-    public void setReview(List<Review_> review) {
-        this.review = review;
-    }
-
-    public Review withReview(List<Review_> review) {
-        this.review = review;
-        return this;
-    }
-
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public Review withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
+    public void setReviewRating(String reviewRating) {
+        this.reviewRating = reviewRating;
     }
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(additionalProperties).append(description).append(offers).append(name).append(context).append(image).append(aggregateRating).append(type).append(review).toHashCode();
+        return new HashCodeBuilder().append(author).append(reviewRating).append(reviewBody).append(name).append(datePublished).append(type).toHashCode();
     }
 
     @Override
@@ -153,7 +75,7 @@ public class Review implements Serializable
             return false;
         }
         Review rhs = ((Review) other);
-        return new EqualsBuilder().append(additionalProperties, rhs.additionalProperties).append(description, rhs.description).append(offers, rhs.offers).append(name, rhs.name).append(context, rhs.context).append(image, rhs.image).append(aggregateRating, rhs.aggregateRating).append(type, rhs.type).append(review, rhs.review).isEquals();
+        return new EqualsBuilder().append(author, rhs.author).append(reviewRating, rhs.reviewRating).append(reviewBody, rhs.reviewBody).append(name, rhs.name).append(datePublished, rhs.datePublished).append(type, rhs.type).isEquals();
     }
 
 }
