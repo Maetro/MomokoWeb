@@ -266,6 +266,11 @@ public class PublicFacade {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
         }
 
+        Mail.sendEmail("Nuevo comentario en momoko",
+                "Hay un nuevo comentario en momoko en la entrada: " + comentario.getEntradaId(), "RMaetro@gmail.com");
+        Mail.sendEmail("Nuevo comentario en momoko",
+                "Hay un nuevo comentario en momoko en la entrada: " + comentario.getEntradaId(),
+                "kizuna.owo@gmail.com");
         return new ResponseEntity<GuardarComentarioResponse>(respuesta, HttpStatus.OK);
 
     }
