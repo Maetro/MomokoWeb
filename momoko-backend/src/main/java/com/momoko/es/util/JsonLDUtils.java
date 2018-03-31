@@ -10,13 +10,16 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.jsoup.Jsoup;
 import org.thymeleaf.util.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.momoko.es.api.datosestructurados.BlogPosting;
 import com.momoko.es.api.datosestructurados.BookMainEntity;
 import com.momoko.es.api.datosestructurados.BookReview;
+import com.momoko.es.api.datosestructurados.Publisher;
 import com.momoko.es.api.datosestructurados.Review;
 import com.momoko.es.api.datosestructurados.ReviewRating;
 import com.momoko.es.api.dto.EntradaDTO;
@@ -44,6 +47,8 @@ public class JsonLDUtils {
             final BookReview bookReview = new BookReview();
             bookReview.setContext("http://schema.org");
             bookReview.setType("WebPage");
+            bookReview.setName("Análisis libro - " + libro.getTitulo());
+            bookReview.setUrl("https://momoko.es/libro/" + libro.getUrlLibro() + "/resena/" + entrada.getUrlEntrada());
             GeneroDTO genero = null;
 
             if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
@@ -71,6 +76,7 @@ public class JsonLDUtils {
 
             final ArrayList<Review> reviews = new ArrayList<Review>();
             final Review reviewMomoko = new Review();
+            reviewMomoko.setType("Review");
             reviewMomoko.setAuthor(entrada.getAutor().getNombre());
             reviewMomoko.setDatePublished(entrada.getFechaAlta().toString());
             reviewMomoko.setName(entrada.getTituloEntrada());
@@ -96,6 +102,51 @@ public class JsonLDUtils {
             jsonLDAnalisis = StringUtils.replace(jsonLDAnalisis, "\"type\"", "\"@type\"");
         }
         return jsonLDAnalisis;
+    }
+
+    public static String crearJsonLDMiscelaneo(final EntradaDTO entrada) {
+        String jsonLDMiscelaneo = "";
+        if ((entrada != null)) {
+            final BlogPosting blogPosting = new BlogPosting();
+            blogPosting.setContext("http://schema.org");
+            blogPosting.setType("BlogPosting");
+            blogPosting.setHeadline(entrada.getTituloEntrada());
+            blogPosting.setImage(entrada.getImagenDestacada());
+            blogPosting.setUrl("https://momoko.es/" + entrada.getUrlEntrada());
+            blogPosting.setDateCreated(entrada.getFechaAlta().toString());
+            blogPosting.setDescription(entrada.getResumenEntrada());
+            blogPosting.setArticleBody(entrada.getContenidoEntrada());
+            blogPosting.setDatePublished(entrada.getFechaAlta().toString());
+            final Publisher publisher = new Publisher();
+            publisher.setName("Momoko");
+            publisher.setType("Organization");
+            blogPosting.setPublisher(publisher);
+            blogPosting.setDateModified(entrada.getFechaModificacion().toString());
+            blogPosting.setMainEntityOfPage("True");
+            try {
+                blogPosting.setWordcount(String.valueOf(countWords(entrada.getContenidoEntrada())));
+            } catch (final Exception e) {
+                e.printStackTrace();
+            }
+            blogPosting.setAuthor(entrada.getEditorNombre());
+            final ObjectMapper mapper = new ObjectMapper();
+            try {
+                mapper.setSerializationInclusion(Include.NON_NULL);
+                jsonLDMiscelaneo = mapper.writeValueAsString(blogPosting);
+            } catch (final JsonProcessingException e) {
+                e.printStackTrace();
+            }
+            jsonLDMiscelaneo = StringUtils.replace(jsonLDMiscelaneo, "\"context\"", "\"@context\"");
+            jsonLDMiscelaneo = StringUtils.replace(jsonLDMiscelaneo, "\"type\"", "\"@type\"");
+        }
+        return jsonLDMiscelaneo;
+    }
+
+    private static int countWords(final String html) throws Exception {
+        final org.jsoup.nodes.Document dom = Jsoup.parse(html);
+        final String text = dom.text();
+
+        return text.split(" ").length;
     }
 
 }

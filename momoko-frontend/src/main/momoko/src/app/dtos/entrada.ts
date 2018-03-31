@@ -31,4 +31,5 @@ export class Entrada {
   nombreMenuLibro: string;
   urlMenuLibro: string;
   visitas: number;
+  jsonLD: string;
 }

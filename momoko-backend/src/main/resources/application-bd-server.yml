@@ -91,9 +91,10 @@ logging:
       springframework:
         security: INFO
       hibernate:
-        type: ERROR
-        SQL: ERROR
+        type: INFO
+        SQL: INFO
     root: INFO
+
 
 #momoko properties
 momokoConfiguracion:
@@ -101,14 +102,14 @@ momokoConfiguracion:
   imagenDefault: imagenes-destacadas/generica-libreria.jpg
   directorios:
     remote:
-      urlSitemap: http://www.momoko.es
-      urlFiles: http://www.momoko.es/images
-      urlImages: http://www.momoko.es/images/
-      urlUpload: http://www.momoko.es/
-      urlTemplates: http://www.momoko.es/templates/
+      urlSitemap: https://www.momoko.es
+      urlFiles: https://www.momoko.es/images
+      urlImages: https://www.momoko.es/images/
+      urlUpload: https://www.momoko.es/
+      urlTemplates: https://www.momoko.es/templates/
     local:
-      urlSitemap: http://www.momoko.es
-      urlFiles: http://www.momoko.es/images
-      urlImages: http://www.momoko.es/images/
-      urlTemplates: http://www.momoko.es/templates/
-      urlUpload: http://www.momoko.es/
+      urlSitemap: https://www.momoko.es
+      urlFiles: https://www.momoko.es/images
+      urlImages: https://www.momoko.es/images/
+      urlTemplates: https://www.momoko.es/templates/
+      urlUpload: https://www.momoko.es/

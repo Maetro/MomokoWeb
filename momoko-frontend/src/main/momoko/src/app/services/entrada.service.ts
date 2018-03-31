@@ -26,7 +26,6 @@ export class EntradaService {
   getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
 
     let url = this.getEntradaUrl + urlEntrada;
-
     return this.http.get<ObtenerEntradaResponse>(url).map(this.obtenerEntradaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }

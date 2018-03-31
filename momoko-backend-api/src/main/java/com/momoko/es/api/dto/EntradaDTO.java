@@ -80,6 +80,9 @@ public class EntradaDTO {
     /** The fecha alta. */
     private Date fechaAlta;
 
+    /** The fecha alta. */
+    private Date fechaModificacion;
+
     /** The tiene galeria. */
     private boolean tieneGaleria = false;
 
@@ -100,7 +103,8 @@ public class EntradaDTO {
 
     /** The visitas. */
     private Integer visitas;
-    
+
+    /** The json ld. */
     private String jsonLD;
 
     /**
@@ -623,13 +627,21 @@ public class EntradaDTO {
     }
 
     public String getJsonLD() {
-		return jsonLD;
-	}
-    
-    public void setJsonLD(String jsonLD) {
-		this.jsonLD = jsonLD;
-	}
-    
+        return this.jsonLD;
+    }
+
+    public void setJsonLD(final String jsonLD) {
+        this.jsonLD = jsonLD;
+    }
+
+    public Date getFechaModificacion() {
+        return this.fechaModificacion;
+    }
+
+    public void setFechaModificacion(final Date fechaModificacion) {
+        this.fechaModificacion = fechaModificacion;
+    }
+
     /**
      * {@inheritDoc}
      */

@@ -14,12 +14,16 @@ import { RouterModule } from '@angular/router';
 import { GrowlModule } from 'primeng/components/growl/growl';
 import { FormsModule } from '@angular/forms';
 
+// Import library module
+import { NgxJsonLdModule } from 'ngx-json-ld';
+
 @NgModule({
   imports: [
     CommonModule,
     ComunesModule,
     GrowlModule,
     FormsModule,      
+    NgxJsonLdModule,
     RouterModule.forChild([
       { path: '', component: EntradaComponent, pathMatch: 'full'}      
     ])

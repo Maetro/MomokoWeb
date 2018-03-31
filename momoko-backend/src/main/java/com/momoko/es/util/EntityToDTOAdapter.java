@@ -135,6 +135,11 @@ public final class EntityToDTOAdapter {
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
         entradaDTO.setEtiquetas(adaptarEtiquetas(new ArrayList(entradaEntity.getEtiquetas())));
         entradaDTO.setFechaAlta(entradaEntity.getFechaAlta());
+        if (entradaEntity.getFechaModificacion() != null) {
+            entradaDTO.setFechaModificacion(entradaEntity.getFechaModificacion());
+        } else {
+            entradaDTO.setFechaModificacion(entradaEntity.getFechaAlta());
+        }
         entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
         if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
             final List<String> titulos = new ArrayList<String>();

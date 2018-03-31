@@ -382,7 +382,18 @@ public class FileSystemStorageService implements StorageService {
     public AnchuraAlturaDTO getImageDimensions(final String urlImagen) throws IOException {
         final String[] lista = urlImagen.split("/");
         final int elementos = lista.length;
-        return getImageDimensions(lista[elementos - 1], lista[elementos - 2]);
+        // TODO: Corregir
+        String tipoAlmacenamiento = "";
+        String temp = lista[elementos - 2];
+        for (int i = elementos - 2; !temp.equals("images"); i--) {
+            tipoAlmacenamiento = lista[i] + "/" + tipoAlmacenamiento;
+            if (i == 0) {
+                break;
+            }
+            temp = lista[i];
+        }
+        tipoAlmacenamiento = tipoAlmacenamiento.substring(7, tipoAlmacenamiento.length() - 1);
+        return getImageDimensions(lista[elementos - 1], tipoAlmacenamiento);
     }
 
     @Override

@@ -82,16 +82,16 @@ facebook:
 #      scope: read,write
 #      auto-approve-scopes: '.*'
       
+
 logging:
   level:
     org:
       springframework:
-        security: INFO
+        security: ERROR
       hibernate:
-        type: ERROR
-        SQL: ERROR
+        type: INFO
+        SQL: INFO
     root: INFO
-
 
 #momoko properties
 

@@ -13,6 +13,7 @@ import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
+import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 
@@ -183,5 +184,31 @@ public interface EntradaService {
      * @return the integer
      */
     Integer obtenerNumeroEntradasEtiqueta(EtiquetaDTO etiquetaDTO);
+
+    /**
+     * Obtener galerias entrada amp.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     */
+    void obtenerGaleriasEntradaAmp(EntradaDTO entradaDTO);
+
+    /**
+     * Obtener analisis generos.
+     *
+     * @param libro
+     *            the libro
+     * @return the list
+     */
+    List<EntradaDTO> obtenerAnalisisGeneros(LibroDTO libro);
+
+    /**
+     * Obtener entradas aleatorias de tipo.
+     *
+     * @param value
+     *            the value
+     * @return the list
+     */
+    List<EntradaDTO> obtenerEntradasAleatoriasDeTipo(Integer value);
 
 }

@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.9-SNAPSHOT</version>
+		<version>0.10.6-SNAPSHOT</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>
@@ -147,7 +147,7 @@
 			<artifactId>google-api-services-customsearch</artifactId>
 			<version>v1-rev59-1.23.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -158,6 +158,19 @@
 			<artifactId>commons-collections4</artifactId>
 			<version>4.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		
 		<!-- END BORRAME -->
 
 		<dependency>

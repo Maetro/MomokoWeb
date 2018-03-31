@@ -79,6 +79,7 @@ import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.JsonLDUtils;
 import com.momoko.es.util.MomokoUtils;
 
 /**
@@ -161,13 +162,17 @@ public class EntradaServiceImpl implements EntradaService {
             final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
 
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+
             try {
                 entradaDTO.setImagenDestacada(
                         this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 432, true));
             } catch (final IOException e) {
                 e.printStackTrace();
             }
-
+            if (TipoEntrada.MISCELANEOS.getValue().equals(entradaDTO.getTipoEntrada())) {
+                final String jsonLD = JsonLDUtils.crearJsonLDMiscelaneo(entradaDTO);
+                entradaDTO.setJsonLD(jsonLD);
+            }
             if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
                 final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
                 if (CollectionUtils.isNotEmpty(librosEntrada)) {
@@ -198,6 +203,11 @@ public class EntradaServiceImpl implements EntradaService {
                                         .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
                                 if (puntuacion != null) {
                                     libroDTO.setNotaMomoko(puntuacion.getValor());
+                                }
+                                if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
+                                    final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libroDTO, entradaDTO,
+                                            puntuacion.getValor());
+                                    entradaDTO.setJsonLD(jsonLD);
                                 }
                             }
 
@@ -410,6 +420,26 @@ public class EntradaServiceImpl implements EntradaService {
         }
     }
 
+    @Override
+    public void obtenerGaleriasEntradaAmp(final EntradaDTO entradaDTO) {
+        int numeroGaleria = 0;
+        while (entradaDTO.getContenidoEntrada().contains("[momoko-galeria-")) {
+            final String urlGaleria = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(), "[momoko-galeria-",
+                    "]");
+            final GaleriaEntity galeria = this.galeriaRepository.findOneByUrlGaleria(urlGaleria);
+            if (galeria != null) {
+                entradaDTO.setTieneGaleria(true);
+
+                final String code = generarCodigoGaleriaAmp(galeria, numeroGaleria);
+                entradaDTO.setContenidoEntrada(StringUtils.replace(entradaDTO.getContenidoEntrada(),
+                        "[momoko-galeria-" + urlGaleria + "]", code));
+                numeroGaleria++;
+            } else {
+                break;
+            }
+        }
+    }
+
     /**
      * Obtener imagenes contenidas entrada.
      *
@@ -431,6 +461,22 @@ public class EntradaServiceImpl implements EntradaService {
             }
             entradaDTO.setContenidoEntrada(builder.toString());
         }
+    }
+
+    private String generarCodigoGaleriaAmp(final GaleriaEntity galeria, final int numeroGaleria) {
+        final StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("<amp-carousel height=\"300\" layout=\"fixed-height\" type=\"carousel\">");
+        final List<String> imagenes = ConversionUtils.divide(galeria.getImagenes(), ";");
+
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
+        for (final String imagen : imagenes) {
+            stringBuilder.append("<amp-img src=\"" + imageServer + imagen
+                    + "\" width=\"534\" height=\"300\" alt=\"galeria imagenes libro\"></amp-img>");
+
+        }
+
+        stringBuilder.append("</amp-carousel>");
+        return stringBuilder.toString();
     }
 
     private String generarCodigoGaleria(final GaleriaEntity galeria, final int numeroGaleria) {
@@ -991,6 +1037,44 @@ public class EntradaServiceImpl implements EntradaService {
         final Long numeroEntradas = this.entradaRepository
                 .findNumberEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(etiquetaDTO.getEtiquetaId());
         return numeroEntradas.intValue();
+    }
+
+    @Override
+    public List<EntradaDTO> obtenerAnalisisGeneros(final LibroDTO libro) {
+        final List<Integer> idsGenero = new ArrayList<Integer>();
+        final List<EntradaDTO> entradas = new ArrayList<EntradaDTO>();
+        if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
+            for (final GeneroDTO genero : libro.getGeneros()) {
+                idsGenero.add(genero.getGeneroId());
+            }
+            final List<EntradaEntity> entradasEntity = this.entradaRepository
+                    .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGenero,
+                            new PageRequest(0, 4));
+            for (final EntradaEntity entradaEntity : entradasEntity) {
+                boolean entradaValida = true;
+                for (final LibroEntity libroEntity : entradaEntity.getLibrosEntrada()) {
+                    if (libroEntity.getLibroId().equals(libro.getLibroId())) {
+                        entradaValida = false;
+                        break;
+                    }
+                }
+                if (entradaValida) {
+                    entradas.add(EntityToDTOAdapter.adaptarEntrada(entradaEntity));
+                }
+
+            }
+        }
+        return entradas;
+    }
+
+    @Override
+    public List<EntradaDTO> obtenerEntradasAleatoriasDeTipo(final Integer tipoEntrada) {
+        final List<EntradaDTO> entradas = new ArrayList<EntradaDTO>();
+        final List<EntradaEntity> entradasEntity = this.entradaRepository.obtenerEntradasAleatoriasDeTipo(tipoEntrada);
+        for (final EntradaEntity entradaEntity : entradasEntity) {
+            entradas.add(EntityToDTOAdapter.adaptarEntrada(entradaEntity));
+        }
+        return entradas;
     }
 
 }

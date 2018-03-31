@@ -81,6 +81,7 @@ import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.backend.model.service.TrackService;
 import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
+import com.momoko.es.util.Mail;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
@@ -135,7 +136,6 @@ public class PublicFacade {
     @GetMapping(path = "/indexData")
     public @ResponseBody ObtenerIndexDataReponseDTO
             getInfoIndex(@RequestHeader(value = "User-Agent") final String userAgent) {
-        System.out.println("GET: INDEX user-agent:" + userAgent);
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
         final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
@@ -158,7 +158,6 @@ public class PublicFacade {
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
             final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
-        System.out.println("GET: " + urlEntrada + " user-agent:" + userAgent);
         ObtenerEntradaResponse respuesta = null;
         if (!urlEntrada.equals("not-found")) {
             respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
@@ -181,7 +180,7 @@ public class PublicFacade {
 
     @GetMapping(path = "/suscribirse/{email}")
     public @ResponseBody ObtenerEntradaResponse suscribirse(@PathVariable("email") final String email) {
-        // System.out.println("Suscribirse: " + email);
+
         this.indexService.suscribirse(email);
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         return respuesta;
@@ -190,7 +189,7 @@ public class PublicFacade {
     @GetMapping(path = "/libro/{url-libro}")
     public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro,
             final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
-        // System.out.println("GET: libro/" + urlLibro + " user-agent:" + userAgent);
+
         final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerLibro(urlLibro);
         final String ip = getClientIp(request);
         if (respuesta.getLibro() != null) {
@@ -213,7 +212,7 @@ public class PublicFacade {
     @GetMapping(path = "/saga/{url-saga}")
     public @ResponseBody ObtenerFichaSagaResponse obtenerSaga(@PathVariable("url-saga") final String urlSaga,
             final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
-        // System.out.println("GET: saga/" + urlSaga + " user-agent:" + userAgent);
+
         final ObtenerFichaSagaResponse sagaResponse = new ObtenerFichaSagaResponse();
         SagaDTO sagaDTO = null;
         try {
@@ -235,8 +234,6 @@ public class PublicFacade {
     @GetMapping(path = "/video/{url-video}")
     public @ResponseBody ObtenerEntradaResponse obtenerVideo(@PathVariable("url-video") final String urlVideo,
             @RequestHeader(value = "User-Agent") final String userAgent) {
-        System.out.println("GET: video/" + urlVideo + " user-agent:" + userAgent);
-        System.out.println("Obtener libro: " + urlVideo);
         final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntradaVideo(urlVideo);
         // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
         return respuesta;
@@ -295,7 +292,6 @@ public class PublicFacade {
             @RequestBody(required = false) ObtenerPaginaGeneroRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerPaginaGeneroResponse generoResponse = new ObtenerPaginaGeneroResponse();
-        System.out.println("GET: genero/" + urlGenero + " user-agent:" + userAgent);
         if (request == null) {
             request = new ObtenerPaginaGeneroRequest();
             request.setNumeroPagina(1);
@@ -340,7 +336,6 @@ public class PublicFacade {
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
-        System.out.println("GET: categoria/" + urlCategoria + " user-agent:" + userAgent);
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -358,7 +353,7 @@ public class PublicFacade {
             @PathVariable("url-categoria") final String urlCategoria,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
-        System.out.println("GET: categoria/" + urlCategoria + " user-agent:" + userAgent);
+
         final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
         final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
         if (request == null) {
@@ -424,7 +419,6 @@ public class PublicFacade {
             @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
-        System.out.println("GET: noticias-libro/" + urlLibro + " user-agent:" + userAgent);
         if (request == null) {
             request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(numeroPagina);
@@ -442,7 +436,6 @@ public class PublicFacade {
             @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse = new ObtenerPaginaLibroNoticiasResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
-        System.out.println("GET: noticias-libro/" + urlLibro + " user-agent:" + userAgent);
         if (request == null) {
             request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(1);
@@ -493,7 +486,6 @@ public class PublicFacade {
             @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
         final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
-        System.out.println("GET: etiqueta/" + urlEtiqueta + " user-agent:" + userAgent);
         if (request == null) {
             request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(numeroPagina);
@@ -511,7 +503,6 @@ public class PublicFacade {
             @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerPaginaEtiquetaResponse etiquetaResponse = new ObtenerPaginaEtiquetaResponse();
         final List<EntradaSimpleDTO> entradasEtiqueta = new ArrayList<EntradaSimpleDTO>();
-        System.out.println("GET: etiqueta/" + urlEtiqueta + " user-agent:" + userAgent);
         if (request == null) {
             request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(1);
@@ -531,7 +522,7 @@ public class PublicFacade {
         final String key = "AIzaSyBnQDrUmjpTtgHSgxTaOnt39u6SXiDvwPE";
         parametrosBusqueda.replaceAll(" ", "%20");
         final String qry = parametrosBusqueda;
-        System.out.println("GET: buscar/" + qry + " user-agent:" + userAgent);
+
         String url;
         final List<String> entradas = new ArrayList<String>();
         final List<String> etiquetas = new ArrayList<String>();
@@ -753,8 +744,6 @@ public class PublicFacade {
     @RequestMapping(method = RequestMethod.GET, path = "/r/collect")
     public @ResponseBody String anotarVisita(@RequestParam final Map<String, String> allRequestParams,
             final ModelMap model) throws Exception {
-        System.out.println(
-                "Se envia visita a anlytics: " + (allRequestParams.get("dp") != null ? allRequestParams.get("dp") : 0));
         this.trackService.enviarVisitaAPagina("/r/collect", allRequestParams);
         return "OK";
     }
@@ -762,8 +751,6 @@ public class PublicFacade {
     @RequestMapping(method = RequestMethod.GET, path = "/collect")
     public @ResponseBody String anotarVisita2(@RequestParam final Map<String, String> allRequestParams,
             final ModelMap model) throws Exception {
-        System.out.println(
-                "Se envia visita a anlytics: " + (allRequestParams.get("dp") != null ? allRequestParams.get("dp") : 1));
         this.trackService.enviarVisitaAPagina("/collect", allRequestParams);
         return "OK";
     }
@@ -782,6 +769,11 @@ public class PublicFacade {
                 }
             }
         }
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/email")
+    void testEmail() throws Exception {
+        Mail.sendEmail("Test email", "Contenido", "RMaetro@gmail.com");
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarSiteMap")

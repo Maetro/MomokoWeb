@@ -179,4 +179,14 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     List<EntradaEntity> findByUrlEntradaIn(List<String> entradasUrls);
 
+    /**
+     * Obtener entradas aleatorias de tipo.
+     *
+     * @param tipoEntrada
+     *            the tipo entrada
+     * @return the list
+     */
+    @Query(value = "SELECT * FROM entrada where tipo_entrada = :tipoEntrada ORDER BY RAND() LIMIT 5;", nativeQuery = true)
+    List<EntradaEntity> obtenerEntradasAleatoriasDeTipo(@Param("tipoEntrada") Integer tipoEntrada);
+
 }

@@ -4,7 +4,7 @@
  * Copyright 2018 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package main;
+package com.momoko.es.util;
 
 import java.util.Properties;
 
