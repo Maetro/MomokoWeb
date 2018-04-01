@@ -1,73 +1,79 @@
+/**
+ * Publisher.java 01-abr-2018
+ *
+ * Copyright 2018 RAMON CASARES.
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 
 package com.momoko.es.api.datosestructurados;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+public class Publisher implements Serializable {
 
-public class Publisher implements Serializable
-{
-
+    /**
+     *
+     */
+    private static final long serialVersionUID = 349118749227951519L;
     private String type;
     private String name;
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
-    private final static long serialVersionUID = -6858517539237423972L;
+    private Logo logo;
 
+    /**
+     * Gets the type.
+     *
+     * @return the type
+     */
     public String getType() {
-        return type;
+        return this.type;
     }
 
-    public void setType(String type) {
+    /**
+     * Sets the type.
+     *
+     * @param type
+     *            the new type
+     */
+    public void setType(final String type) {
         this.type = type;
     }
 
-    public Publisher withType(String type) {
-        this.type = type;
-        return this;
-    }
-
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
-        return name;
+        return this.name;
     }
 
-    public void setName(String name) {
+    /**
+     * Sets the name.
+     *
+     * @param name
+     *            the new name
+     */
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public Publisher withName(String name) {
-        this.name = name;
-        return this;
+    /**
+     * Gets the logo.
+     *
+     * @return the logo
+     */
+    public Logo getLogo() {
+        return this.logo;
     }
 
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
+    /**
+     * Sets the logo.
+     *
+     * @param logo
+     *            the new logo
+     */
+    public void setLogo(final Logo logo) {
+        this.logo = logo;
     }
-
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-    }
-
-    public Publisher withAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
-        return this;
-    }
-
-    @Override
-    public boolean equals(final Object other) {
-        if (!(other instanceof Publisher))
-            return false;
-        Publisher castOther = (Publisher) other;
-        return new EqualsBuilder().append(type, castOther.type).append(name, castOther.name)
-                .append(additionalProperties, castOther.additionalProperties).isEquals();
-    }
-
-    @Override
-    public int hashCode() {
-        return new HashCodeBuilder().append(type).append(name).append(additionalProperties).toHashCode();
-    }
-
 
 }

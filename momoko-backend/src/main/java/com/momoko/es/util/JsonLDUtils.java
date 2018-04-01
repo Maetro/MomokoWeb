@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momoko.es.api.datosestructurados.BlogPosting;
 import com.momoko.es.api.datosestructurados.BookMainEntity;
 import com.momoko.es.api.datosestructurados.BookReview;
+import com.momoko.es.api.datosestructurados.Logo;
 import com.momoko.es.api.datosestructurados.Publisher;
 import com.momoko.es.api.datosestructurados.Review;
 import com.momoko.es.api.datosestructurados.ReviewRating;
@@ -120,6 +121,10 @@ public class JsonLDUtils {
             final Publisher publisher = new Publisher();
             publisher.setName("Momoko");
             publisher.setType("Organization");
+            final Logo logo = new Logo();
+            logo.setType("ImageObject");
+            logo.setUrl("https://momoko.es/images/logo_momoko.png");
+            publisher.setLogo(logo);
             blogPosting.setPublisher(publisher);
             blogPosting.setDateModified(entrada.getFechaModificacion().toString());
             blogPosting.setMainEntityOfPage("True");
