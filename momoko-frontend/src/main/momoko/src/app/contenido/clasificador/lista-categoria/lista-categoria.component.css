@@ -82,43 +82,7 @@
     color: #e3b015;
     transition: color 150ms ease-in;
   }
-  
-  .paginas-pagination ul.page-numbers {
-    list-style: none;
-    padding: 0;
-    display: block;
-    cursor: pointer;
-  }
-  
-  .paginas-pagination ul.page-numbers li {
-    display: inline-block;
-  }
-  
-  .paginas-pagination ul.page-numbers .page-numbers {
-    padding: 13px 15px 10px;
-    margin-right: 10px;
-    display: block;
-    background-color: white;
-    line-height: 1;
-    box-shadow: 0 2px 10px rgba(192, 221, 238, 0.7);
-    font-weight: 700;
-    color: #616161;
-  }
-  
-  .paginas-pagination ul.page-numbers .page-numbers:hover {
-    background-color: #e3b015;
-    transition: all 150ms ease-in;
-    color: white;
-  }
-  
-  .paginas-pagination ul.page-numbers .page-numbers.current {
-    background-color: #e3b015;
-  }
-  
-  .paginas-pagination ul.page-numbers .page-numbers.current {
-    color: white;
-  }
-  
+    
   .descripcionlibro {
   
     margin-top: 15px;

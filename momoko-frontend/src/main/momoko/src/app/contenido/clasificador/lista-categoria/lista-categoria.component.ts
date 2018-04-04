@@ -38,6 +38,13 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
 
   numbers
 
+  size: number = 0;
+  offset: number = 0;
+  limit: number = 20;
+  range: number = 3;
+
+  paginaActual: number;
+  
   constructor(private clasificadorService: ClasificadorService, private location: Location, private route: ActivatedRoute,
     private router: Router, private titleService: Title, private metaService: Meta, private util: UtilService) { }
 
@@ -48,15 +55,23 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
     this.enLista = false;
     this.suscriptor = this.route.params.subscribe(params => {
       this.url = params['url_categoria']; // (+) converts string 'id' to a number
+      if (params['numero_pagina'] != null){
+        this.paginaActual = params['numero_pagina'];
+      } else{
+        this.paginaActual = 1;
+      }
+      
       if (this.log) {
         console.log(this.url);
       }
       this.route.data.subscribe((data: { paginaCategoriaResponse: ObtenerPaginaCategoriaResponse }) => {
         this.entradasCategoria = data.paginaCategoriaResponse.entradasCategoria;
         this.categoria = data.paginaCategoriaResponse.categoria;
-        this.numeroEntradas = data.paginaCategoriaResponse.numeroEntradas;
-        this.numeroPaginas = Math.ceil(this.numeroEntradas / this.numeroEntradasPagina);
-        this.numbers = Array(this.numeroPaginas).fill(0).map((x, i) => i + 1);
+        this.size = data.paginaCategoriaResponse.numeroEntradas;
+        this.offset = 1;
+        this.limit = this.numeroEntradasPagina;
+        this.range = 2;
+
         this.util.removeAllTags(this.metaService);
         if (this.categoria.urlCategoria === 'noticias') {
           this.titleService.setTitle('Momoko - Últimas noticias');
@@ -116,6 +131,20 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
 
   desactivarEnLista() {
     this.enLista = false;
+  }
+
+  onPageChange(offset) {
+    this.offset = offset;
+    
+    const destinationPage : number =  (offset / this.limit) + 1;
+    if (this.log){
+      console.log("Pagina destino: " + destinationPage);
+    }
+    if (destinationPage != 1){
+      this.router.navigate(['/categoria/' + this.url + "/" + destinationPage]);
+    } else {
+      this.router.navigate(['/categoria/' + this.url]);
+    }
   }
 
 }

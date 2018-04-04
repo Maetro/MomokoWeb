@@ -1,0 +1,19 @@
+<ul class="pagination">
+    <li (click)="selectPage(1, $event)" [class.disabled]="currentPage == 1">
+      <a href="" title="Ir a la primera página">&laquo;</a>
+    </li>
+    <li (click)="selectPage(currentPage - 1, $event)" [class.disabled]="currentPage == 1">
+      <a href="" title="Ir a la página anterior">&lsaquo;</a>
+    </li>
+    <li *ngFor="let page of pages | async" [class.active]="page == currentPage">
+      <a href="" (click)="selectPage(page, $event)">
+        {{page}}
+      </a>
+    </li>
+    <li (click)="selectPage(currentPage + 1, $event)" [class.disabled]="currentPage == totalPages">
+      <a href="" title="Ir a la siguiente pagina">&rsaquo;</a>
+    </li>
+    <li (click)="selectPage(totalPages, $event)" [class.disabled]="currentPage == totalPages">
+      <a href="" title="Ir a la última página">&raquo;</a>
+    </li>
+  </ul>

@@ -114,26 +114,8 @@
 
             </div>
 
-            <nav class="paginas-pagination">
-              <ul class="page-numbers">
-                <li *ngFor="let number of numbers">
-                  <a *ngIf="number > 1; else else1Block" routerLink="/categoria/{{categoria.urlCategoria}}/{{number}}">
-                    <span class="page-numbers">{{number}}</span>
-                  </a>
-                </li>
-                <li>
-                  <a class="next page-numbers" href="#">→</a>
-                </li>
-              </ul>
-            </nav>
-
-            <ng-template #else1Block>
-                <a routerLink="/categoria/{{categoria.urlCategoria}}">
-                  <span class="page-numbers">1</span>
-                </a>
-              </ng-template>
-
-
+            <app-pagination [offset]="offset" [currentPage]="paginaActual" [limit]="limit" [range]="range" [size]="size" (pageChange)="onPageChange($event)"></app-pagination>
+          
             <!-- /.page-navi -->
             <div class="clearfix"></div>
           </div>

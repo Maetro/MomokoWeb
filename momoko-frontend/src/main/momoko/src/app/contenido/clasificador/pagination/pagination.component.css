@@ -1,0 +1,21 @@
+.pagination>li>a:hover, .pagination>li>span:hover, .pagination>li>a:focus, .pagination>li>span:focus {
+    color: #e3b015;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination>.active>a, .pagination>.active>span, .pagination>.active>a:hover, .pagination>.active>span:hover, .pagination>.active>a:focus, .pagination>.active>span:focus {
+    background-color: #e3b015;
+    border-color: #e3b015;
+    color:#fff;
+}
+
+.pagination>li>a, .pagination>li>span {
+    color: #616161;
+    font-size: 20px;
+}
+
+
+.pagination {
+    margin: 35px 0 20px 0;
+}

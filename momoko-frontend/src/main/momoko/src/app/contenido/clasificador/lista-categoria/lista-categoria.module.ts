@@ -1,3 +1,4 @@
+import { PaginationModule } from './../pagination/pagination.module';
 import { ListaCategoriaComponent } from './lista-categoria.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,6 +9,7 @@ import { ClasificadorService } from '../../../services/clasificador.service';
 @NgModule({
   imports: [
     CommonModule,
+    PaginationModule,
     RouterModule.forChild([
       { path: '', component: ListaCategoriaComponent, pathMatch: 'full'},
       {
