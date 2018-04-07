@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.10.7-SNAPSHOT</version>
+		<version>0.11-SNAPSHOT</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>
@@ -105,6 +105,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>com.momoko.es</groupId>
 			<artifactId>backend-api</artifactId>
 			<version>${parent.version}</version>
@@ -164,13 +169,13 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.8.3</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-		
+
 		<!-- END BORRAME -->
 
 		<dependency>

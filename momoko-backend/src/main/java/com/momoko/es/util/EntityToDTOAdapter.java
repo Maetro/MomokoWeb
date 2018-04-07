@@ -133,6 +133,7 @@ public final class EntityToDTOAdapter {
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setEditorNombre(entradaEntity.getEntradaAutor().getUsuarioNick());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
+        entradaDTO.setUrlAntigua(entradaEntity.getUrlAntigua());
         entradaDTO.setEtiquetas(adaptarEtiquetas(new ArrayList(entradaEntity.getEtiquetas())));
         entradaDTO.setFechaAlta(entradaEntity.getFechaAlta());
         if (entradaEntity.getFechaModificacion() != null) {

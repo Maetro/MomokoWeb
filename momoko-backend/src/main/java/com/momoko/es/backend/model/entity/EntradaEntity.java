@@ -121,6 +121,9 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     /** The nombre menu libro. */
     private String urlMenuLibro;
 
+    /** The url antigua. */
+    private String urlAntigua;
+
     /**
      * Instancia un nuevo entrada entity.
      */
@@ -663,6 +666,25 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     }
 
     /**
+     * Gets the url antigua.
+     *
+     * @return the url antigua
+     */
+    public String getUrlAntigua() {
+        return this.urlAntigua;
+    }
+
+    /**
+     * Sets the url antigua.
+     *
+     * @param urlAntigua
+     *            the new url antigua
+     */
+    public void setUrlAntigua(final String urlAntigua) {
+        this.urlAntigua = urlAntigua;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -678,7 +700,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -692,7 +714,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -702,7 +724,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final EntradaEntity other) {

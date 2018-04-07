@@ -63,7 +63,11 @@ public class LibroEntity {
     @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "generoId", referencedColumnName = "generoId"))
     private Set<GeneroEntity> generos;
 
+    /** The url libro. */
     private String urlLibro;
+
+    /** The url antigua. */
+    private String urlAntigua;
 
     /** The titulo. */
     private String titulo;
@@ -598,6 +602,25 @@ public class LibroEntity {
      */
     public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
+    }
+
+    /**
+     * Gets the url antigua.
+     *
+     * @return the url antigua
+     */
+    public String getUrlAntigua() {
+        return this.urlAntigua;
+    }
+
+    /**
+     * Sets the url antigua.
+     *
+     * @param urlAntigua
+     *            the new url antigua
+     */
+    public void setUrlAntigua(final String urlAntigua) {
+        this.urlAntigua = urlAntigua;
     }
 
     /*

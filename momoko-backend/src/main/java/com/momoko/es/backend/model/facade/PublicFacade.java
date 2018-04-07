@@ -18,11 +18,15 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StopWatch;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -91,6 +95,8 @@ import com.redfin.sitemapgenerator.WebSitemapUrl;
 @RequestMapping(path = "/public")
 public class PublicFacade {
 
+    private static final Logger log = LoggerFactory.getLogger(PublicFacade.class);
+
     @Autowired
     private EntradaService entradaService;
 
@@ -126,41 +132,55 @@ public class PublicFacade {
 
     @GetMapping(path = "/initData")
     public @ResponseBody InitDataDTO getInitData() {
+        final StopWatch stopWatch = new StopWatch("getInitData()");
+        stopWatch.start("Obtener Init Data");
         final List<MenuDTO> menu = this.indexService.obtenerMenu();
 
         final InitDataDTO initDataDTO = new InitDataDTO();
         initDataDTO.setMenu(menu);
+        stopWatch.stop();
+        log.info(stopWatch.prettyPrint());
         return initDataDTO;
     }
 
     @GetMapping(path = "/indexData")
     public @ResponseBody ObtenerIndexDataReponseDTO
             getInfoIndex(@RequestHeader(value = "User-Agent") final String userAgent) {
+        final StopWatch stopWatch = new StopWatch("getInfoIndex()");
+        stopWatch.start("obtenerUltimasEntradas");
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
+        stopWatch.stop();
+        stopWatch.start("obtenerLibrosMasVistos");
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
+        stopWatch.stop();
+        stopWatch.start("obtenerUltimasFichas");
         final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
+        stopWatch.stop();
+        stopWatch.start("obtenerUltimoComicAnalizado");
         final LibroEntradaSimpleDTO ultimoComicAnalizado = this.indexService.obtenerUltimoComicAnalizado();
+        stopWatch.stop();
+        stopWatch.start("Crear objeto respuesta");
         final ObtenerIndexDataReponseDTO obtenerIndexDataResponseDTO = new ObtenerIndexDataReponseDTO();
         obtenerIndexDataResponseDTO.setUltimasEntradas(ultimasEntradas);
         obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
         obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
-
+        stopWatch.stop();
+        log.info(stopWatch.prettyPrint());
         return obtenerIndexDataResponseDTO;
-    }
-
-    @GetMapping(path = "/entradas")
-    public @ResponseBody List<EntradaDTO> getAllEntradas() {
-
-        return this.entradaService.recuperarEntradas();
     }
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
             final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
         ObtenerEntradaResponse respuesta = null;
+        final StopWatch stopWatch = new StopWatch("getEntradaByUrl()");
         if (!urlEntrada.equals("not-found")) {
+
+            stopWatch.start("obtenerEntrada");
             respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+            stopWatch.stop();
+            stopWatch.start("almacenarVisitaEnBD");
             final String ip = getClientIp(request);
             if (respuesta.getEntrada() == null) {
                 this.trackService.alamacenarVisitaBD(urlEntrada, TipoVisitaEnum.FALLO, ip);
@@ -172,7 +192,8 @@ public class PublicFacade {
                     }
                 }
             }
-
+            stopWatch.stop();
+            log.info(stopWatch.prettyPrint());
         }
 
         return respuesta;
@@ -573,6 +594,10 @@ public class PublicFacade {
                     final String entradaUrl = urlPart.split("resena/")[1];
                     entradas.add(entradaUrl.trim());
                     order.add(entradaUrl.trim());
+                } else if (urlPart.contains("analisis/")) {
+                    final String entradaUrl = urlPart.split("analisis/")[1];
+                    entradas.add(entradaUrl.trim());
+                    order.add(entradaUrl.trim());
                 } else if (urlPart.contains("noticia/")) {
                     final String entradaUrl = urlPart.split("noticia/")[1];
                     entradas.add(entradaUrl.trim());
@@ -779,6 +804,35 @@ public class PublicFacade {
     @RequestMapping(method = RequestMethod.GET, path = "/email")
     void testEmail() throws Exception {
         Mail.sendEmail("Test email", "Contenido", "RMaetro@gmail.com");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/generarRedirects")
+    public @ResponseBody String generarRedirects() throws Exception {
+        System.out.println("Generando redirections");
+        final StringBuilder builder = new StringBuilder();
+        final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
+        for (final EntradaDTO entradaDTO : entradas) {
+            if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
+                final LibroDTO libro = entradaDTO.getLibrosEntrada().iterator().next();
+                if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+                    builder.append("libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
+                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(System.lineSeparator());
+                    builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
+                            .append(System.lineSeparator());
+                } else {
+                    builder.append("libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlAntigua() + " "
+                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(System.lineSeparator());
+                    builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
+                            .append(System.lineSeparator());
+                    builder.append("libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
+                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(System.lineSeparator());
+                    builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
+                            .append(System.lineSeparator());
+                }
+            }
+        }
+        System.out.println(builder.toString());
+        return builder.toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarSiteMap")

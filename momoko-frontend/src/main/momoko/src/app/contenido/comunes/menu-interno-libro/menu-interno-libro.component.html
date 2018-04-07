@@ -14,14 +14,11 @@
             </a>
           </li>
           <li class="nav-item" *ngIf="hayAnalisis">
-            <a routerLinkActive="active" routerLink="/libro/{{libro.urlLibro}}/resena/{{urlAnalisis}}" 
-            [class.active]="isActive(['libro', libro.urlLibro, 'resena', urlAnalisis])">
+            <a routerLinkActive="active" routerLink="/analisis/{{urlAnalisis}}" 
+            [class.active]="isActive(['analisis', urlAnalisis])">
               <u>Análisis</u>
             </a>
           </li>
-         <!-- <li class="nav-item">
-            <a class="nav-link" routerLink="/libro/criticas/{{libro.urlLibro}}">Críticas de los usuarios</a>
-          </li> libro/el-cuento-de-la-criada/resena/el-cuento-de-la-criada-analisis-y-critica-de-la-novela-de-margaret-atwood -->
           <li class="nav-item" *ngIf="hayNoticias">
             <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/libro/{{libro.urlLibro}}/noticias/"><u>Noticias </u></a>
           </li>

@@ -29,6 +29,9 @@ public class EntradaDTO {
     /** The url entrada. */
     private String urlEntrada;
 
+    /** The url entrada. */
+    private String urlAntigua;
+
     /** The tipo entrada. */
     private Integer tipoEntrada;
 
@@ -168,6 +171,25 @@ public class EntradaDTO {
      */
     public void setUrlEntrada(final String urlEntrada) {
         this.urlEntrada = urlEntrada;
+    }
+
+    /**
+     * Gets the url antigua.
+     *
+     * @return the url antigua
+     */
+    public String getUrlAntigua() {
+        return this.urlAntigua;
+    }
+
+    /**
+     * Sets the url antigua.
+     *
+     * @param urlAntigua
+     *            the new url antigua
+     */
+    public void setUrlAntigua(final String urlAntigua) {
+        this.urlAntigua = urlAntigua;
     }
 
     /**

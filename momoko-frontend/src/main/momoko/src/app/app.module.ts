@@ -1,3 +1,4 @@
+import { TestService } from './services/test.service';
 import { PageCriteriosComponent } from './contenido/estaticas/page-criterios/page-criterios.component';
 import { LibroService } from './services/libro.service';
 import { VideoService } from './services/video.service';
@@ -38,6 +39,8 @@ import { LinkService } from './services/link.service';
 import { UtilService } from './services/util/util.service';
 import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-resolver.service';
 import { SagaService } from './services/saga.service';
+import { ObtenerLiveTestResolverService } from './services/resolvers/obtener-live-test-resolver.service';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -52,116 +55,14 @@ import { SagaService } from './services/saga.service';
     AppLoadModule,
     EstaticasModule,
     BrowserModule.withServerTransition({ appId: 'momoko-app' }),
-    RouterModule.forRoot([
-      {
-        path: 'categoria/:url_categoria',
-        loadChildren: './contenido/clasificador/lista-categoria/lista-categoria.module#ListaCategoriaModule',
-        resolve: {
-          paginaCategoriaResponse: ObtenerListaCategoriaResolverService
-        }
-      },
-      {
-        path: 'libro/:url/noticias',
-        loadChildren: './contenido/libro/lista-noticias-libro/lista-noticias-libro.module#ListaNoticiasLibroModule',
-        resolve: {
-          noticiasLibro: ObtenerLibroNoticiasResolverService
-        }
-      },
-      {
-        path: 'libro/:url_libro/resena/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerResenaResolverService
-        }
-      },
-      {
-        path: 'libro/:url_libro/miscelaneo/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerResenaResolverService
-        }
-      },
-      {
-        path: 'libro/:url_libro/noticia/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerResenaResolverService
-        }
-      },
-      {
-        path: 'libro/:url_libro/:url_zona/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerEntradaZonaResolverService
-        }
-      },
-      {
-        path: 'saga/:url_saga',
-        loadChildren: './contenido/saga/ficha-saga/ficha-saga.module#FichaSagaModule',
-        resolve: {
-          fichaSaga: ObtenerSagaResolverService
-        }
-      },
-      {
-        path: 'libro/:url',
-        loadChildren: './contenido/libro/ficha-libro/ficha-libro.module#FichaLibroModule',
-        resolve: {
-          fichaLibro: ObtenerLibroResolverService
-        }
-      },
-      {
-        path: 'videos/:url',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerVideoResolverService
-        }
-      },
-      {
-        path: 'genero/:url_genero',
-        loadChildren: './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
-        resolve: {
-          paginaGeneroResponse: ObtenerListaGeneroResolverService
-        }
-      },
-      {
-        path: 'tag/:url_etiqueta',
-        loadChildren: './contenido/clasificador/lista-etiqueta/lista-etiqueta.module#ListaEtiquetaModule',
-        resolve: {
-          paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
-        }
-      },
-      {
-        path: 'buscar/:parametros_a_buscar',
-        loadChildren: './contenido/clasificador/lista-busqueda/lista-busqueda.module#ListaBusquedaModule',
-        resolve: {
-          busqueda: ObtenerListaBusquedaResolverService
-        }
-      },
-      {path: 'not-found', component: PageNotFoundComponent },
-      {path: 'solicitud', component: PageSolicitudComponent },
-      {path: 'criterios', component: PageCriteriosComponent },
-      {
-        path: ':url',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerEntradaResolverService
-        }
-      },
-      {
-        path: '',
-        loadChildren: './contenido/index/index.module#IndexModule',
-        resolve: {
-          obtenerIndexDataResponse: ObtenerIndexDataResolverService
-        }
-      }   
-    ]),
+    AppRoutingModule,
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
   providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerListaCategoriaResolverService, ClasificadorService,
     ObtenerListaGeneroResolverService, ObtenerListaEtiquetaResolverService, ComentariosService, ObtenerVideoResolverService, VideoService,
     ObtenerEntradaResolverService, EntradaService, ScrollToService, ObtenerLibroNoticiasResolverService, ObtenerLibroResolverService, LibroService,
     JsonAdapterService, ObtenerListaBusquedaResolverService, ObtenerEntradaZonaResolverService, LinkService, ObtenerSagaResolverService, SagaService,
-    ObtenerResenaResolverService, UtilService],
+    ObtenerResenaResolverService, UtilService, ObtenerLiveTestResolverService, TestService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

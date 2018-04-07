@@ -1,11 +1,11 @@
 <ngx-json-ld [json]="schema"></ngx-json-ld>
 <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
     <div class="container inner">
-      <h1 class="text-center">
+      <div class="generosLibro">
         <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">{{genero.nombre}}
           <span [hidden]="last">, </span>
         </span>
-      </h1>
+      </div>
     </div>
   </div>
   <app-menu-interno-libro [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>

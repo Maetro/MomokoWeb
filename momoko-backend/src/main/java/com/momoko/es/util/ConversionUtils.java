@@ -140,7 +140,7 @@ public class ConversionUtils {
                             entradaSimple.setBloque("noticia");
                         }
                         if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
-                            entradaSimple.setBloque("resena");
+                            entradaSimple.setBloque("analisis");
                         }
                         if (TipoEntrada.MISCELANEOS.getNombre().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("miscelaneo");

@@ -600,7 +600,6 @@ public class EntradaServiceImpl implements EntradaService {
         final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
         int cont = 0;
         final String imageServer = this.almacenImagenes.getUrlImageServer();
-        final String localFolder = this.almacenImagenes.getImageFolder();
         while (entradaAGuardar.getContenidoEntrada().contains("data:image/png;base64,")
                 || entradaAGuardar.getContenidoEntrada().contains("data:image/jpeg;base64,")
                 || entradaAGuardar.getContenidoEntrada().contains("data:image/gif;base64,")) {
@@ -748,6 +747,9 @@ public class EntradaServiceImpl implements EntradaService {
             viejaEntrada.setPadreEntrada(padre);
         } else {
             viejaEntrada.setPadreEntrada(null);
+        }
+        if (!viejaEntrada.getUrlEntrada().equals(entradaEntity.getUrlEntrada())) {
+            viejaEntrada.setUrlAntigua(viejaEntrada.getUrlEntrada());
         }
 
         viejaEntrada.setContenidoEntrada(entradaEntity.getContenidoEntrada());

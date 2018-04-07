@@ -61,6 +61,17 @@
   .amazon {
     text-align: right;
   }
+
+  .generosLibro{
+    text-align: center;
+    margin: 0;
+    font-size: 36px;
+    line-height: 50px;
+    font-weight: normal;
+    font-family: 'Vidaloka', serif;
+    text-transform: none;
+    color: #FFF;
+  }
   
   .amazon img {
     width: 96px;

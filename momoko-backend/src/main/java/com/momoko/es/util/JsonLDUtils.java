@@ -49,7 +49,7 @@ public class JsonLDUtils {
             bookReview.setContext("http://schema.org");
             bookReview.setType("WebPage");
             bookReview.setName("Análisis libro - " + libro.getTitulo());
-            bookReview.setUrl("https://momoko.es/libro/" + libro.getUrlLibro() + "/resena/" + entrada.getUrlEntrada());
+            bookReview.setUrl("https://momoko.es/analisis/" + entrada.getUrlEntrada());
             GeneroDTO genero = null;
 
             if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
