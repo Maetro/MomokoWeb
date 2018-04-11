@@ -47,6 +47,7 @@ import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.GeneroRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
+import com.momoko.es.backend.model.service.EditorialService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
@@ -59,6 +60,9 @@ import com.momoko.es.util.MomokoUtils;
  */
 @Service
 public class LibroServiceImpl implements LibroService {
+
+    @Autowired(required = false)
+    private EditorialService editorialService;
 
     @Autowired(required = false)
     private LibroRepository libroRepository;
@@ -127,7 +131,8 @@ public class LibroServiceImpl implements LibroService {
             }
             final Set<AutorEntity> autoresObra = obtenerOGuardarAutoresObra(libroEntity);
             libroEntity.setAutores(autoresObra);
-            final EditorialEntity editorialObra = obtenerOGuardarEditorialObra(libroEntity);
+
+            final EditorialEntity editorialObra = this.editorialService(libroEntity);
             libroEntity.setEditorial(editorialObra);
             final Set<GeneroEntity> generosObra = obtenerGenerosObra(libroEntity);
             libroEntity.setGeneros(generosObra);
@@ -177,32 +182,6 @@ public class LibroServiceImpl implements LibroService {
         final String[] lista = urlImagen.split("/");
         final int elementos = lista.length;
         return "portadas/" + lista[elementos - 1];
-    }
-
-    /**
-     * Obtener o guardar editorial obra.
-     *
-     * @param libroEntity
-     *            the libro entity
-     * @return the editorial entity
-     */
-    private EditorialEntity obtenerOGuardarEditorialObra(final LibroEntity libroEntity) {
-        final EditorialEntity editorialABuscar = libroEntity.getEditorial();
-        EditorialEntity editorialEncontrada = null;
-        if (editorialABuscar != null) {
-            editorialEncontrada = this.editorialRepository
-                    .findFirstByNombreEditorial(editorialABuscar.getNombreEditorial());
-            if (editorialEncontrada == null) {
-                // No existe la editorial, la creamos
-                editorialEncontrada = new EditorialEntity();
-                editorialEncontrada.setNombreEditorial(editorialABuscar.getNombreEditorial());
-                editorialEncontrada.setFechaAlta(Calendar.getInstance().getTime());
-                // TODO: poner algo que identifique al usuario.
-                editorialEncontrada.setUsuarioAlta("RMaetro@gmail.com");
-                editorialEncontrada = this.editorialRepository.save(editorialEncontrada);
-            }
-        }
-        return editorialEncontrada;
     }
 
     /**

@@ -35,20 +35,16 @@ const appRoutes = [
       },
       {
         path: 'libro/:url_libro/miscelaneo/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerResenaResolverService
-        }
+        redirectTo: '/:url_entrada',
+        pathMatch: 'full'
       },
       {
         path: 'libro/:url_libro/noticia/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerResenaResolverService
-        }
+        redirectTo: '/:url_entrada',
+        pathMatch: 'full'
       },
       {
-        path: 'libro/:url_libro/:url_zona/:url_entrada',
+        path: ':url_zona/:url_entrada',
         loadChildren: './contenido/entrada/entrada.module#EntradaModule',
         resolve: {
           obtenerEntradaResponse: ObtenerEntradaZonaResolverService
@@ -73,6 +69,20 @@ const appRoutes = [
         loadChildren: './contenido/entrada/entrada.module#EntradaModule',
         resolve: {
           obtenerEntradaResponse: ObtenerVideoResolverService
+        }
+      },
+      {
+        path: 'editor/:url_editor',
+        loadChildren: './contenido/clasificador/lista-editor/lista-editor.module#ListaEditorModule',
+        resolve: {
+          paginaGeneroResponse: ObtenerListaEditorResolverService
+        }
+      },
+      {
+        path: 'editorial/:url_editorial',
+        loadChildren: './contenido/clasificador/lista-editorial/lista-editorial.module#ListaEditorialModule',
+        resolve: {
+          paginaGeneroResponse: ObtenerListaEditoralResolverService
         }
       },
       {

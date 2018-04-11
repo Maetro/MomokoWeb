@@ -64,4 +64,13 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
      */
     List<UsuarioEntity> findAllByUsuarioRolIdIs(Integer rolId);
 
+    /**
+     * Find first by url entrada.
+     *
+     * @param urlEntrada
+     *            url entrada
+     * @return the entrada entity
+     */
+    UsuarioEntity findFirstByUsuarioUrl(String urlUsuario);
+
 }

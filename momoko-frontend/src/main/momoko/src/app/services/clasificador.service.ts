@@ -7,6 +7,8 @@ import { ObtenerPaginaCategoriaResponse } from '../dtos/response/obtenerPaginaCa
 import { ObtenerPaginaEtiquetaResponse } from '../dtos/response/obtenerPaginaEtiquetaResponse';
 import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
+import { ObtenerPaginaEditorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
+import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
 
 
 @Injectable()
@@ -19,6 +21,9 @@ export class ClasificadorService {
   getEtiquetaUrl = environment.getEtiquetaUrl;
   getNoticiasLibroUrl = environment.getNoticiasLibroUrl;
   getBusquedaUrl = environment.getBusquedaUrl;
+  getEditorUrl = environment.getEditorUrl;
+  getEditorialUrl = environment.getEditorialUrl;
+
 
   constructor(private http: HttpClient) { }
 
@@ -117,5 +122,46 @@ export class ClasificadorService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
+  getEditor(urlEditor): Observable<ObtenerPaginaEditorResponse> {
+    if (this.log) {
+      console.log(urlEditor);
+    }
+    return this.http.get<ObtenerPaginaEditorResponse>(this.getEditorUrl + urlEditor).map(this.obtenerEditorDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getEditorPage(urlEditor, numeroPagina): Observable<ObtenerPaginaEditorResponse> {
+    if (this.log) {
+      console.log(urlEditor);
+    }
+    return this.http.get<ObtenerPaginaEditorResponse>(this.getEditorUrl + urlEditor + '/' + numeroPagina)
+      .map(this.obtenerEditorDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerEditorDeRespuesta(res: ObtenerPaginaEditorResponse) {
+    return res;
+  }
+
+  getEditorial(urlEditorial): Observable<ObtenerPaginaEditorialResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaEditorialResponse>(this.getEditorialUrl + urlEditorial).map(this.obtenerEditorialDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getEditorialPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaEditorialResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaEditorialResponse>(this.getEditorialUrl + urlEditorial + '/' + numeroPagina)
+      .map(this.obtenerEditorialDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerEditorialDeRespuesta(res: ObtenerPaginaEditorialResponse) {
+    return res;
+  }
 
 }

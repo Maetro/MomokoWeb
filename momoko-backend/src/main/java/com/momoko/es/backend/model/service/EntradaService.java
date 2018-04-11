@@ -211,4 +211,40 @@ public interface EntradaService {
      */
     List<EntradaDTO> obtenerEntradasAleatoriasDeTipo(Integer value);
 
+    /**
+     * Obtener entradas editor por fecha.
+     *
+     * @param urlCategoria
+     *            the url categoria
+     * @param numeroEntradas
+     *            the numero entradas
+     * @param numeroPagina
+     *            the numero pagina
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerEntradasEditorPorFecha(String urlCategoria, int numeroEntradas, Integer numeroPagina);
+
+    /**
+     * Obtener numero entradas editor.
+     *
+     * @param urlEditor
+     *            the url editor
+     * @return the integer
+     */
+    Integer obtenerNumeroEntradasEditor(String urlEditor);
+
+    /**
+     * Obtener entradas editor por fecha.
+     *
+     * @param urlCategoria
+     *            the url categoria
+     * @param numeroEntradas
+     *            the numero entradas
+     * @param numeroPagina
+     *            the numero pagina
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerEntradasEditorialPorFecha(String urlEditorial, int numeroEntradas,
+            Integer numeroPagina);
+
 }

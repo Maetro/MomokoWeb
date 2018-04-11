@@ -1079,4 +1079,29 @@ public class EntradaServiceImpl implements EntradaService {
         return entradas;
     }
 
+    @Override
+    public List<EntradaSimpleDTO> obtenerEntradasEditorPorFecha(final String urlEditor, final int numeroEntradas,
+            final Integer numeroPagina) {
+
+        final List<EntradaEntity> listaEntities = this.entradaRepository
+                .findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(urlEditor,
+                        new PageRequest(numeroPagina - 1, numeroEntradas));
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+    }
+
+    @Override
+    public Integer obtenerNumeroEntradasEditor(final String urlEditor) {
+        final Long numeroEntradas = this.entradaRepository
+                .findNumberEntradasByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(urlEditor);
+        return numeroEntradas.intValue();
+    }
+
+    @Override
+    public List<EntradaSimpleDTO> obtenerEntradasEditorialPorFecha(final String urlEditorial, final int numeroEntradas,
+            final Integer numeroPagina) {
+        final List<EntradaEntity> listaEntities = this.entradaRepository.obtenerEntradasEditorialPorFecha(urlEditorial,
+                new PageRequest(numeroPagina - 1, numeroEntradas));
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+    }
+
 }

@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Entrada } from '../dtos/entrada';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/empty'
+import 'rxjs/add/observable/throw';
+
 import { ObtenerEntradaResponse } from '../dtos/response/obtenerEntradaResponse';
 import { EntradaSimple } from '../dtos/entradaSimple';
 import { GuardarEntradaResponse } from '../dtos/response/guardarEntradaResponse';
 import { Cookie } from 'ng2-cookies';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class EntradaService {
@@ -21,13 +25,15 @@ export class EntradaService {
 
   allEntradasList: Entrada[] = new Array();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router:Router) { }
 
   getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
 
     let url = this.getEntradaUrl + urlEntrada;
     return this.http.get<ObtenerEntradaResponse>(url).map(this.obtenerEntradaDeRespuesta)
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: HttpErrorResponse) => {
+        this.router.navigate(['/not-found']);
+        return Observable.empty<ObtenerEntradaResponse>()});
   }
 
   getEntradaAdmin(urlEntrada): Observable<Entrada> {
@@ -37,7 +43,7 @@ export class EntradaService {
     });
     return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, { headers: headers })
       .map(this.obtenerEntrada)
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: HttpErrorResponse) => Observable.empty<Entrada>());
   }
 
   private obtenerEntradaDeRespuesta(res: ObtenerEntradaResponse) {

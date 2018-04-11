@@ -32,6 +32,9 @@ public class EditorialEntity {
     @Column(name = "nombre_editorial")
     private String nombreEditorial;
 
+    /** The url editorial. */
+    private String urlEditorial;
+
     /** The usuario alta. */
     private String usuarioAlta;
 
@@ -202,9 +205,28 @@ public class EditorialEntity {
         this.fechaBaja = fechaBaja;
     }
 
+    /**
+     * Gets the url editorial.
+     *
+     * @return the url editorial
+     */
+    public String getUrlEditorial() {
+        return this.urlEditorial;
+    }
+
+    /**
+     * Sets the url editorial.
+     *
+     * @param urlEditorial
+     *            the new url editorial
+     */
+    public void setUrlEditorial(final String urlEditorial) {
+        this.urlEditorial = urlEditorial;
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -218,7 +240,7 @@ public class EditorialEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -228,7 +250,7 @@ public class EditorialEntity {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override

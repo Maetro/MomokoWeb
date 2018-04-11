@@ -189,4 +189,39 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     @Query(value = "SELECT * FROM entrada where tipo_entrada = :tipoEntrada ORDER BY RAND() LIMIT 5;", nativeQuery = true)
     List<EntradaEntity> obtenerEntradasAleatoriasDeTipo(@Param("tipoEntrada") Integer tipoEntrada);
 
+    /**
+     * Find entrada by editor ur ls and fecha baja is null order by fecha alta desc.
+     *
+     * @param urlEditor
+     *            the url editor
+     * @param pageRequest
+     *            the page request
+     * @return the list
+     */
+    @Query("select distinct e from EntradaEntity e join e.entradaAutor ea WHERE ea.usuarioUrl = :urlEditor AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
+    List<EntradaEntity> findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(
+            @Param("urlEditor") String urlEditor, Pageable pageable);
+
+    /**
+     * Find number entradas by editor ur ls and fecha baja is null order by fecha alta desc.
+     *
+     * @param urlEditor
+     *            the url editor
+     * @return the long
+     */
+    @Query("select COUNT(e) from EntradaEntity e join e.entradaAutor ea WHERE ea.usuarioUrl = :urlEditor AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
+    Long findNumberEntradasByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(@Param("urlEditor") String urlEditor);
+
+    /**
+     * Obtener entradas editorial por fecha.
+     *
+     * @param urlEditorial
+     *            the url editorial
+     * @param pageRequest
+     *            the page request
+     * @return the list
+     */
+    @Query("select distinct e from EntradaEntity e join e.librosEntrada l join l.editorial ed WHERE ed.urlEditorial = :urlEditorial AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
+    List<EntradaEntity> obtenerEntradasEditorialPorFecha(@Param("urlEditorial") String urlEditorial, Pageable pageable);
+
 }

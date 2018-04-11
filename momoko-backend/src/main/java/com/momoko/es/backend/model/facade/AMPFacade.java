@@ -93,8 +93,8 @@ public class AMPFacade {
             content = replaceTagInContent("${autor}", analisis.getEditorNombre(), content);
             content = replaceTagInContent("${resumen}", analisis.getResumenEntrada(), content);
             content = replaceTagInContent("${related}", generarRelated(libro), content);
-            content = replaceTagInContent("${urlCanonical}",
-                    "https://momoko.es/analisis/" + analisis.getUrlEntrada(), content);
+            content = replaceTagInContent("${urlCanonical}", "https://momoko.es/analisis/" + analisis.getUrlEntrada(),
+                    content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(analisis.getImagenDestacada(), 1280, 768,
                     true);
             content = replaceTagInContent("${imagen-entrada}", miniatura, content);
@@ -139,6 +139,10 @@ public class AMPFacade {
                 }
                 final URL url = new URL(imagen);
                 final BufferedImage image = ImageIO.read(url);
+                if (image == null) {
+                    body = StringUtils.replace(body, "<img " + bloqueImagen + ">", "");
+                    continue;
+                }
                 anchuraAltura = new AnchuraAlturaDTO();
                 anchuraAltura.setAltura(image.getHeight());
                 anchuraAltura.setAnchura(image.getWidth());
