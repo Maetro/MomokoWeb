@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -833,6 +834,28 @@ public class PublicFacade {
         }
         System.out.println(builder.toString());
         return builder.toString();
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/arreglarEtiquetas")
+    public @ResponseBody String arreglarEtiquetas() {
+        final Map<String, List<EtiquetaDTO>> etiquetas = this.etiquetaService.arreglarEtiquetas();
+
+        for (final List<EtiquetaDTO> etiquetaDTO : etiquetas.values()) {
+            final Iterator<EtiquetaDTO> ite = etiquetaDTO.iterator();
+            final EtiquetaDTO etiquetaNueva = ite.next();
+            while (ite.hasNext()) {
+                final EtiquetaDTO etiquetaAEliminar = ite.next();
+                final List<EntradaSimpleDTO> entradas = this.entradaService.obtenerEntradasEtiqueta(etiquetaAEliminar);
+                for (final EntradaSimpleDTO entradaSimpleDTO : entradas) {
+                    this.entradaService.eliminarEtiqueta(entradaSimpleDTO.getUrlEntrada(),
+                            etiquetaAEliminar.getEtiquetaId());
+                    this.entradaService.anadirEtiqueta(entradaSimpleDTO.getUrlEntrada(), etiquetaNueva.getEtiquetaId());
+                }
+            }
+        }
+
+        return null;
+
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarSiteMap")
