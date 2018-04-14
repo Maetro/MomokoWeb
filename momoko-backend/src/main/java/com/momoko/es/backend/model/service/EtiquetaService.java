@@ -7,6 +7,7 @@
 package com.momoko.es.backend.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.momoko.es.api.dto.EtiquetaDTO;
 
@@ -37,5 +38,12 @@ public interface EtiquetaService {
      * @return the etiqueta dto
      */
     EtiquetaDTO obtenerEtiquetaPorUrl(String urlEtiqueta);
+
+    /**
+     * Arreglar etiquetas.
+     *
+     * @return true, if successful
+     */
+    Map<String, List<EtiquetaDTO>> arreglarEtiquetas();
 
 }

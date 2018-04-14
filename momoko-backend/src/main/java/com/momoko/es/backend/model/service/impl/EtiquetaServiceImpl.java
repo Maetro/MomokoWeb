@@ -8,15 +8,21 @@ package com.momoko.es.backend.model.service.impl;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
+import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.EtiquetaRepository;
 import com.momoko.es.backend.model.service.EtiquetaService;
 import com.momoko.es.util.ConversionUtils;
@@ -28,6 +34,9 @@ public class EtiquetaServiceImpl implements EtiquetaService {
 
     @Autowired
     private EtiquetaRepository etiquetaRepository;
+
+    @Autowired
+    private EntradaRepository entradaRepository;
 
     @Override
     public List<EtiquetaDTO> obtenerTodasEtiquetas() {
@@ -82,6 +91,33 @@ public class EtiquetaServiceImpl implements EtiquetaService {
     public EtiquetaDTO obtenerEtiquetaPorUrl(final String urlEtiqueta) {
         final EtiquetaEntity etiquetaEntity = this.etiquetaRepository.findOneByEtiquetaUrl(urlEtiqueta);
         return EntityToDTOAdapter.adaptarEtiqueta(etiquetaEntity);
+    }
+
+    @Override
+    @Transactional
+    public Map<String, List<EtiquetaDTO>> arreglarEtiquetas() {
+        Iterable<EtiquetaEntity> etiquetas = this.etiquetaRepository.findAll();
+
+        for (final EtiquetaEntity etiquetaEntity : etiquetas) {
+            if (StringUtils.isEmpty(etiquetaEntity.getEtiquetaUrl())) {
+                etiquetaEntity.setEtiquetaUrl(ConversionUtils.toSlug(etiquetaEntity.getNombre()));
+                this.etiquetaRepository.save(etiquetaEntity);
+            }
+        }
+
+        etiquetas = this.etiquetaRepository.findAll();
+
+        final Map<String, List<EtiquetaDTO>> mapaEtiquetas = new HashMap<String, List<EtiquetaDTO>>();
+        for (final EtiquetaEntity etiquetaEntity : etiquetas) {
+            List<EtiquetaDTO> listaEtiquetas = mapaEtiquetas.get(etiquetaEntity.getEtiquetaUrl());
+            if (CollectionUtils.isEmpty(listaEtiquetas)) {
+                listaEtiquetas = new ArrayList<EtiquetaDTO>();
+            }
+            listaEtiquetas.add(EntityToDTOAdapter.adaptarEtiqueta(etiquetaEntity));
+            mapaEtiquetas.put(etiquetaEntity.getEtiquetaUrl(), listaEtiquetas);
+        }
+
+        return mapaEtiquetas;
     }
 
 }

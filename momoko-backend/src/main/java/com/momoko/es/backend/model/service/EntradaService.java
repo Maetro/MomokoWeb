@@ -163,6 +163,15 @@ public interface EntradaService {
     EntradaSimpleDTO obtenerEntradaSimple(String urlEntrada);
 
     /**
+     * Obtener entradas etiqueta.
+     *
+     * @param etiquetaDTO
+     *            the etiqueta dto
+     * @return the list
+     */
+    List<EntradaSimpleDTO> obtenerEntradasEtiqueta(final EtiquetaDTO etiquetaDTO);
+
+    /**
      * Obtener entradas etiqueta por fecha.
      *
      * @param etiquetaDTO
@@ -247,4 +256,23 @@ public interface EntradaService {
     List<EntradaSimpleDTO> obtenerEntradasEditorialPorFecha(String urlEditorial, int numeroEntradas,
             Integer numeroPagina);
 
+    /*
+     * Eliminar etiqueta.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @param etiquetaId
+     *            the etiqueta id
+     */
+    void eliminarEtiqueta(String urlEntrada, Integer etiquetaId);
+
+    /**
+     * Anadir etiqueta.
+     *
+     * @param urlEntrada
+     *            the url entrada
+     * @param etiquetaId
+     *            the etiqueta id
+     */
+    void anadirEtiqueta(String urlEntrada, Integer etiquetaId);
 }

@@ -44,6 +44,15 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     EntradaEntity findFirstByUrlEntrada(String urlEntrada);
 
     /**
+     * Find by etiquetas.
+     *
+     * @param etiquetas
+     *            the etiquetas
+     * @return the list
+     */
+    List<EntradaEntity> findByEtiquetasEtiquetaIdIn(List<Integer> etiquetaId);
+
+    /**
      * Find ultimas entradas.
      *
      * @param num

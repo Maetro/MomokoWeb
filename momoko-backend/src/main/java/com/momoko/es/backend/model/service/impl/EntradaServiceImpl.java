@@ -663,7 +663,8 @@ public class EntradaServiceImpl implements EntradaService {
                     etiquetas.add(etiqueta.getNombre());
                 }
                 for (final String nombreEtiqueta : etiquetas) {
-                    EtiquetaEntity etiquetaBD = this.etiquetaRepository.findOneByNombre(nombreEtiqueta.trim());
+                    EtiquetaEntity etiquetaBD = this.etiquetaRepository
+                            .findOneByEtiquetaUrl(ConversionUtils.toSlug(nombreEtiqueta.trim()));
                     if (etiquetaBD == null) {
                         final EtiquetaEntity nuevaEtiqueta = new EtiquetaEntity();
                         nuevaEtiqueta.setNombre(nombreEtiqueta.trim());
@@ -1025,6 +1026,14 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
+    public List<EntradaSimpleDTO> obtenerEntradasEtiqueta(final EtiquetaDTO etiquetaDTO) {
+
+        final List<EntradaEntity> listaEntities = this.entradaRepository
+                .findByEtiquetasEtiquetaIdIn(Arrays.asList(etiquetaDTO.getEtiquetaId()));
+        return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+    }
+
+    @Override
     public List<EntradaSimpleDTO> obtenerEntradasEtiquetaPorFecha(final EtiquetaDTO etiquetaDTO,
             final int numeroEntradas, final Integer numeroPagina) {
 
@@ -1102,6 +1111,30 @@ public class EntradaServiceImpl implements EntradaService {
         final List<EntradaEntity> listaEntities = this.entradaRepository.obtenerEntradasEditorialPorFecha(urlEditorial,
                 new PageRequest(numeroPagina - 1, numeroEntradas));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+
+    @Override
+    public void eliminarEtiqueta(final String urlEntrada, final Integer etiquetaId) {
+        final EtiquetaEntity et = this.etiquetaRepository.findOne(etiquetaId);
+        final EntradaEntity entrada = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
+        EtiquetaEntity etiquetaAEliminar = null;
+        for (final EtiquetaEntity etiqueta : entrada.getEtiquetas()) {
+            if (etiqueta.getEtiquetaId().equals(etiquetaId)) {
+                etiquetaAEliminar = etiqueta;
+                break;
+            }
+        }
+        entrada.getEtiquetas().remove(etiquetaAEliminar);
+        et.getEtiquetasEntrada().remove(entrada);
+        this.entradaRepository.save(entrada);
+    }
+
+    @Override
+    public void anadirEtiqueta(final String urlEntrada, final Integer etiquetaId) {
+        final EtiquetaEntity etiqueta = this.etiquetaRepository.findOne(etiquetaId);
+        final EntradaEntity entrada = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
+        entrada.getEtiquetas().add(etiqueta);
+        etiqueta.getEtiquetasEntrada().add(entrada);
+        this.entradaRepository.save(entrada);
     }
 
 }
