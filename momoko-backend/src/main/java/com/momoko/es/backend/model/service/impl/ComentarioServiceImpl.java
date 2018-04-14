@@ -7,6 +7,8 @@
 package com.momoko.es.backend.model.service.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.ComentarioEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
@@ -33,6 +36,7 @@ import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.Mail;
 
 @Service
 public class ComentarioServiceImpl implements ComentarioService {
@@ -147,6 +151,86 @@ public class ComentarioServiceImpl implements ComentarioService {
             comentariosEntrada.add(comentarioDTO);
         }
         return comentariosEntrada;
+    }
+
+    @Override
+    public void enviarNotificacion(final ComentarioDTO comentarioDTO) {
+        try {
+
+            final ComentarioEntity comentarioPrincipal = this.comentarioRepository
+                    .findOne(comentarioDTO.getComentarioId());
+            final EntradaEntity entrada = comentarioPrincipal.getEntrada();
+            final String content = generarEmailNuevoComentario(comentarioPrincipal, entrada);
+
+            Mail.sendEmail("Nuevo comentario en momoko.es", content, "kizuna.owo@gmail.com");
+            Mail.sendEmail("Nuevo comentario en momoko.es", content, "RMaetro@gmail.com");
+
+            if (comentarioPrincipal.getComentarioReferenciaEntity() != null) {
+
+                enviarEmailRespuestaComentario(comentarioPrincipal, entrada);
+            }
+
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void enviarEmailRespuestaComentario(final ComentarioEntity comentarioPrincipal,
+            final EntradaEntity entrada) {
+        final ComentarioEntity referencia = comentarioPrincipal.getComentarioReferenciaEntity();
+        String content = null;
+        try {
+            content = generarEmail(comentarioPrincipal, entrada, referencia.getNombreComentario(),
+                    "email-comment.html");
+            Mail.sendEmail("Te han respondido un comentario en momoko.es", content, referencia.getEmailComentario());
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String generarEmailNuevoComentario(final ComentarioEntity comentarioPrincipal, final EntradaEntity entrada)
+            throws IOException {
+
+        final String nombreDestinatario = "Ren";
+        final String mailTemplate = "email-notification.html";
+
+        final String content = generarEmail(comentarioPrincipal, entrada, nombreDestinatario, mailTemplate);
+        return content;
+    }
+
+    /**
+     * Generar email.
+     *
+     * @param comentarioPrincipal
+     *            the comentario principal
+     * @param entrada
+     *            the entrada
+     * @param nombreDestinatario
+     *            the nombre destinatario
+     * @param mailTemplate
+     *            the mail template
+     * @return the string
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public String generarEmail(final ComentarioEntity comentarioPrincipal, final EntradaEntity entrada,
+            final String nombreDestinatario, final String mailTemplate) throws IOException {
+        final SimpleDateFormat dt = new SimpleDateFormat("hh:mm dd/mm/yyyy");
+
+        String content = Mail.readMailTemplate(this.almacenImagenes.getTemplateFolder() + "/" + mailTemplate,
+                StandardCharsets.UTF_8);
+
+        content = Mail.replaceTagInContent("${nombreDestinatario}", nombreDestinatario, content);
+        content = Mail.replaceTagInContent("${nombreComentario}", comentarioPrincipal.getNombreComentario(), content);
+        content = Mail.replaceTagInContent("${tituloEntrada}", entrada.getTituloEntrada(), content);
+        content = Mail.replaceTagInContent("${tipoEntrada}",
+                TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre(), content);
+
+        content = Mail.replaceTagInContent("${fechaComentario}", dt.format(comentarioPrincipal.getFechaAlta()),
+                content);
+        content = Mail.replaceTagInContent("${contenidoComentario}", comentarioPrincipal.getTextoComentario(), content);
+        content = Mail.replaceTagInContent("${urlComentario}", "https://momoko.es/" + entrada.getUrlEntrada(), content);
+        return content;
     }
 
 }

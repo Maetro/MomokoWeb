@@ -18,6 +18,8 @@ public class EntradaSimpleDTO implements Serializable {
     private String tituloEntrada;
     private String imagenEntrada;
     private String nombreAutor;
+    private String urlEditor;
+    private String urlEditorial;
     private String urlEntrada;
     private Integer numeroComentarios;
     private Date fechaAlta;
@@ -384,6 +386,44 @@ public class EntradaSimpleDTO implements Serializable {
      */
     public void setBloque(final String bloque) {
         this.bloque = bloque;
+    }
+
+    /**
+     * Gets the url editor.
+     *
+     * @return the url editor
+     */
+    public String getUrlEditor() {
+        return this.urlEditor;
+    }
+
+    /**
+     * Sets the url editor.
+     *
+     * @param urlEditor
+     *            the new url editor
+     */
+    public void setUrlEditor(final String urlEditor) {
+        this.urlEditor = urlEditor;
+    }
+
+    /**
+     * Gets the url editorial.
+     *
+     * @return the url editorial
+     */
+    public String getUrlEditorial() {
+        return this.urlEditorial;
+    }
+
+    /**
+     * Sets the url editorial.
+     *
+     * @param urlEditorial
+     *            the new url editorial
+     */
+    public void setUrlEditorial(final String urlEditorial) {
+        this.urlEditorial = urlEditorial;
     }
 
 }

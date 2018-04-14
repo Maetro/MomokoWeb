@@ -43,6 +43,7 @@ import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
+import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
@@ -54,6 +55,7 @@ import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.ResultadoBusquedaDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
@@ -64,6 +66,7 @@ import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;
 import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaEditorResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
@@ -72,10 +75,12 @@ import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
+import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.api.google.GoogleSearch;
 import com.momoko.es.api.google.Item;
 import com.momoko.es.backend.model.service.BuscadorService;
 import com.momoko.es.backend.model.service.ComentarioService;
+import com.momoko.es.backend.model.service.EditorialService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.EtiquetaService;
 import com.momoko.es.backend.model.service.GeneroService;
@@ -84,9 +89,11 @@ import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.SagaService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.backend.model.service.TrackService;
+import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.Mail;
+import com.momoko.es.util.NotFoundException;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
@@ -127,6 +134,12 @@ public class PublicFacade {
 
     @Autowired(required = false)
     private BuscadorService buscadorService;
+
+    @Autowired(required = false)
+    private EditorialService editorialService;
+
+    @Autowired(required = false)
+    private UserService userService;
 
     @Autowired(required = false)
     private TrackService trackService;
@@ -173,7 +186,8 @@ public class PublicFacade {
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
-            final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
+            final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent)
+            throws NotFoundException {
         ObtenerEntradaResponse respuesta = null;
         final StopWatch stopWatch = new StopWatch("getEntradaByUrl()");
         if (!urlEntrada.equals("not-found")) {
@@ -196,7 +210,9 @@ public class PublicFacade {
             stopWatch.stop();
             log.info(stopWatch.prettyPrint());
         }
-
+        if (respuesta.getEntrada() == null) {
+            throw new NotFoundException("No se ha encontrado la entrada: " + urlEntrada);
+        }
         return respuesta;
     }
 
@@ -272,6 +288,7 @@ public class PublicFacade {
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
                 comentarioDTO = this.comentarioService.guardarComentario(comentario);
+                this.comentarioService.enviarNotificacion(comentarioDTO);
             } catch (final Exception e) {
                 listaErrores.add(ErrorCreacionComentario.ERROR_EN_GUARDADO);
             }
@@ -391,6 +408,99 @@ public class PublicFacade {
         }
         return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
 
+    }
+
+    @GetMapping(path = "/editorial/{url-categoria}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerEditorial(
+            @PathVariable("url-categoria") final String urlCategoria,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) {
+        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(numeroPagina);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlCategoria);
+        }
+        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+
+    }
+
+    @GetMapping(path = "/editorial/{url-categoria}")
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerEditorial(
+            @PathVariable("url-categoria") final String urlCategoria,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) {
+
+        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlCategoria);
+        }
+        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+
+    }
+
+    @GetMapping(path = "/editor/{url-editor}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaEditorResponse obtenerEditor(@PathVariable("url-editor") final String urlEditor,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestHeader(value = "User-Agent") final String userAgent) {
+
+        final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
+        request.setNumeroPagina(numeroPagina);
+        request.setOrdenarPor("fecha");
+        request.setUrlElemento(urlEditor);
+
+        return obtenerEditorResponse(request);
+
+    }
+
+    @GetMapping(path = "/editor/{url-editor}")
+    public @ResponseBody ObtenerPaginaEditorResponse obtenerEditor(@PathVariable("url-editor") final String urlEditor,
+            @RequestHeader(value = "User-Agent") final String userAgent) {
+
+        final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
+        request.setNumeroPagina(1);
+        request.setOrdenarPor("fecha");
+        request.setUrlElemento(urlEditor);
+
+        return obtenerEditorResponse(request);
+
+    }
+
+    private ObtenerPaginaEditorResponse obtenerEditorResponse(final ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaEditorResponse editorResponse = new ObtenerPaginaEditorResponse();
+        final StopWatch stopWatch = new StopWatch("obtenerEditorResponse()");
+        stopWatch.start("Obtener Nueve entradas editor");
+        final List<EntradaSimpleDTO> nueveEntradasEditor = this.entradaService
+                .obtenerEntradasEditorPorFecha(request.getUrlElemento(), 9, request.getNumeroPagina());
+        editorResponse.setNueveEntradasEditor(nueveEntradasEditor);
+        stopWatch.stop();
+        stopWatch.start("Obtener Editor");
+        if (CollectionUtils.isNotEmpty(nueveEntradasEditor)) {
+            final String urlEditor = nueveEntradasEditor.iterator().next().getUrlEditor();
+
+            UsuarioBasicoDTO autor;
+            try {
+                autor = this.userService.findFirstByUsuarioUrl(urlEditor);
+                editorResponse.setAutor(autor);
+            } catch (final UserNotFoundException e) {
+                e.printStackTrace();
+            }
+
+        }
+        stopWatch.stop();
+
+        stopWatch.start("Obtener Numero libros editor");
+        editorResponse.setNumeroLibros(this.entradaService.obtenerNumeroEntradasEditor(request.getUrlElemento()));
+        stopWatch.stop();
+        log.info(stopWatch.prettyPrint());
+        return editorResponse;
     }
 
     /**
@@ -802,6 +912,22 @@ public class PublicFacade {
         }
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/generarURLsEditoriales")
+    void generarURLsEditoriales() throws Exception {
+        final List<EditorialDTO> editoriales = this.editorialService.recuperarEditoriales();
+        for (final EditorialDTO editorial : editoriales) {
+            if (editorial.getUrlEditorial() == null) {
+                final String urlEditorial = ConversionUtils.toSlug(editorial.getNombreEditorial());
+                editorial.setUrlEditorial(urlEditorial);
+                try {
+                    this.editorialService.guardarEditorial(editorial);
+                } catch (final Exception e) {
+                    System.out.println(urlEditorial);
+                }
+            }
+        }
+    }
+
     @RequestMapping(method = RequestMethod.GET, path = "/email")
     void testEmail() throws Exception {
         Mail.sendEmail("Test email", "Contenido", "RMaetro@gmail.com");
@@ -816,19 +942,19 @@ public class PublicFacade {
             if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
                 final LibroDTO libro = entradaDTO.getLibrosEntrada().iterator().next();
                 if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-                    builder.append("libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(System.lineSeparator());
+                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
+                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
                     builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(System.lineSeparator());
+                            .append(";<br/>");
                 } else {
-                    builder.append("libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlAntigua() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(System.lineSeparator());
+                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlAntigua() + " "
+                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
                     builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(System.lineSeparator());
-                    builder.append("libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(System.lineSeparator());
+                            .append(";<br/>");
+                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
+                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
                     builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(System.lineSeparator());
+                            .append(";<br/>");
                 }
             }
         }
@@ -948,8 +1074,7 @@ public class PublicFacade {
                 wsg.addUrl(wsmUrl);
                 nrOfURLs++;
                 if (entrada.getUrlLibro() != null) {
-                    url = urlPagina + "/libro/" + entrada.getUrlLibro() + "/" + entrada.getBloque() + "/"
-                            + entrada.getUrlEntrada();
+                    url = urlPagina + "/" + entrada.getBloque() + "/" + entrada.getUrlEntrada();
                     if (entrada.getFechaModificacion() != null) {
                         wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaModificacion()).priority(0.5)
                                 .changeFreq(ChangeFreq.MONTHLY).build();

@@ -6,6 +6,10 @@
  */
 package com.momoko.es.util;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -14,6 +18,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import org.apache.commons.lang.StringUtils;
 
 public class Mail {
 
@@ -31,7 +37,7 @@ public class Mail {
             message.setFrom(new InternetAddress("noreply@momoko.es"));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
             message.setSubject(asunto);
-            message.setText(contenido);
+            message.setContent(contenido, "text/html; charset=utf-8");
 
             Transport.send(message);
 
@@ -40,5 +46,14 @@ public class Mail {
         } catch (final MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static String readMailTemplate(final String path, final Charset encoding) throws IOException {
+        final byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+    }
+
+    public static String replaceTagInContent(final String tag, final String with, final String content) {
+        return StringUtils.replace(content, tag, with);
     }
 }

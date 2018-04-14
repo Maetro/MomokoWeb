@@ -40,5 +40,7 @@ export const environment = {
     obtenerSagaAdmin: 'https://momoko.es/modelo/saga/',
     addSagaUrl: 'https://momoko.es/modelo/sagas/add',
     getSagaUrl: 'https://momoko.es/public/saga/',
+    getEditorialUrl: 'https://momoko.es/public/editorial/',
+    getEditorUrl: 'https://momoko.es/public/editor/',
     testUrl: 'https://momoko.es/public/redirect'
 };

@@ -8,6 +8,7 @@ package com.momoko.es.backend.model.service;
 
 import java.util.List;
 
+import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
@@ -68,5 +69,16 @@ public interface UserService {
      * @return the nombres editores
      */
     public List<String> getNombresEditores();
+
+    /**
+     * Find first by usuario url.
+     *
+     * @param urlUsuario
+     *            the url usuario
+     * @return the usuario dto
+     * @throws UserNotFoundException
+     *             the user not found exception
+     */
+    UsuarioBasicoDTO findFirstByUsuarioUrl(String urlUsuario) throws UserNotFoundException;
 
 }

@@ -12,12 +12,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.service.UserService;
+import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
@@ -90,6 +92,12 @@ public class UserServiceImpl implements UserService {
             nombresEditores.add(usuarioEntity.getUsuarioNick());
         }
         return nombresEditores;
+    }
+
+    @Override
+    public UsuarioBasicoDTO findFirstByUsuarioUrl(final String urlUsuario) throws UserNotFoundException {
+        final UsuarioEntity usuarioBD = this.usuarioRepository.findFirstByUsuarioUrl(urlUsuario);
+        return ConversionUtils.obtenerUsuarioBasico(usuarioBD);
     }
 
 }

@@ -46,7 +46,7 @@ public class ObtenerPaginaElementoRequest implements Serializable {
      *
      * @return the url genero
      */
-    public String getUrlCategoria() {
+    public String getUrlElemento() {
         return this.urlCategoria;
     }
 

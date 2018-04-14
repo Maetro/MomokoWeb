@@ -180,9 +180,10 @@ public final class DTOToEntityAdapter {
      *            the editorial
      * @return the editorial entity
      */
-    private static EditorialEntity adaptarEditorial(final EditorialDTO editorial) {
+    public static EditorialEntity adaptarEditorial(final EditorialDTO editorial) {
         final EditorialEntity editorialEntity = new EditorialEntity();
         editorialEntity.setEditorialId(editorial.getEditorialId());
+        editorialEntity.setUrlEditorial(editorial.getUrlEditorial());
         editorialEntity.setNombreEditorial(editorial.getNombreEditorial());
         return editorialEntity;
     }

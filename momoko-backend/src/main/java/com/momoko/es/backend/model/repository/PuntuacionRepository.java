@@ -59,7 +59,7 @@ public interface PuntuacionRepository extends CrudRepository<PuntuacionEntity, I
      *
      * @return the list
      */
-    @Query("select p.valor from PuntuacionEntity p join p.libro l WHERE l.urlLibro LIKE CONCAT('%',:urlLibro,'%')")
+    @Query("select p.valor from PuntuacionEntity p join p.libro l WHERE l.urlLibro LIKE :urlLibro")
     BigDecimal findOneByEsPuntuacionMomokoAndLibroUrl(@Param("urlLibro") String urlLibro);
 
     /**

@@ -26,6 +26,9 @@ public class EditorialDTO implements Serializable {
     /** The nombre editorial. */
     private String nombreEditorial;
 
+    /** The url editorial. */
+    private String urlEditorial;
+
     /**
      * Gets the editorial id.
      *
@@ -64,6 +67,25 @@ public class EditorialDTO implements Serializable {
         this.nombreEditorial = nombreEditorial;
     }
 
+    /**
+     * Gets the url editorial.
+     *
+     * @return the url editorial
+     */
+    public String getUrlEditorial() {
+        return this.urlEditorial;
+    }
+
+    /**
+     * Sets the url editorial.
+     *
+     * @param urlEditorial
+     *            the new url editorial
+     */
+    public void setUrlEditorial(final String urlEditorial) {
+        this.urlEditorial = urlEditorial;
+    }
+
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof EditorialDTO)) {
@@ -81,8 +103,7 @@ public class EditorialDTO implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this).append("editorialId", this.editorialId)
-                .append("nombreEditorial", this.nombreEditorial)
-                .toString();
+                .append("nombreEditorial", this.nombreEditorial).toString();
     }
 
 }

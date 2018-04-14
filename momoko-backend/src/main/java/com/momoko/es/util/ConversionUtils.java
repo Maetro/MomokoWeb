@@ -158,6 +158,10 @@ public class ConversionUtils {
                             titulosLibros.append(", ");
                         }
                     }
+                    if (entrada.getLibrosEntrada().size() == 1) {
+                        entradaSimple.setUrlEditorial(
+                                entrada.getLibrosEntrada().iterator().next().getEditorial().getUrlEditorial());
+                    }
                     entradaSimple.setTitulosLibros(titulosLibros.toString());
                 }
             }
@@ -182,6 +186,7 @@ public class ConversionUtils {
         }
         entradaSimpleDTO.setUrlEntrada(entrada.getUrlEntrada());
         entradaSimpleDTO.setImagenEntrada(entrada.getImagenDestacada());
+        entradaSimpleDTO.setUrlEditor(entrada.getEntradaAutor().getUsuarioUrl());
         entradaSimpleDTO.setFechaAlta(entrada.getFechaAlta());
         entradaSimpleDTO.setFechaModificacion(entrada.getFechaModificacion());
         if (obtenerComentarios) {
