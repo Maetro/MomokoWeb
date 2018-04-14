@@ -19,6 +19,7 @@ import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.repository.EditorialRepository;
 import com.momoko.es.backend.model.service.EditorialService;
+import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
@@ -51,11 +52,8 @@ public class EditorialServiceImpl implements EditorialService {
     }
 
     private EditorialDTO nuevaEditorial(final EditorialDTO editorial) {
-        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        final String currentPrincipalName = authentication.getName();
-        final EditorialEntity entity = DTOToEntityAdapter.adaptarEditorial(editorial);
-        entity.setFechaAlta(Calendar.getInstance().getTime());
-        entity.setUsuarioAlta(currentPrincipalName);
+        EditorialEntity entity = DTOToEntityAdapter.adaptarEditorial(editorial);
+        entity = anadirDatosCreacionEditorial(entity);
         final EditorialEntity editorialEntity = this.editorialRepository.save(entity);
         return EntityToDTOAdapter.adaptarEditorial(editorialEntity);
     }
@@ -70,6 +68,37 @@ public class EditorialServiceImpl implements EditorialService {
         editorialEntity.setNombreEditorial(editorial.getNombreEditorial());
         this.editorialRepository.save(editorialEntity);
         return EntityToDTOAdapter.adaptarEditorial(editorialEntity);
+    }
+
+    @Override
+    public EditorialEntity obtenerEditorialOCrear(final EditorialEntity editorialEntity) {
+        EditorialEntity editorialBD = null;
+        if (editorialEntity == null) {
+            throw new RuntimeException("La editorial es nula");
+        }
+        if (editorialEntity.getEditorialId() != null) {
+            editorialBD = this.editorialRepository.findOne(editorialEntity.getEditorialId());
+        } else if (editorialEntity.getUrlEditorial() != null) {
+            editorialBD = this.editorialRepository.findFirstByUrlEditorial(editorialEntity.getUrlEditorial());
+        } else if (editorialEntity.getNombreEditorial() != null) {
+            editorialBD = this.editorialRepository.findFirstByNombreEditorial(editorialEntity.getUrlEditorial());
+            if (editorialBD == null) {
+                editorialBD = anadirDatosCreacionEditorial(editorialEntity);
+                editorialBD.setUrlEditorial(ConversionUtils.toSlug(editorialBD.getNombreEditorial()));
+                editorialBD = this.editorialRepository.save(editorialBD);
+            }
+        } else {
+            throw new RuntimeException("La editorial es nula");
+        }
+        return editorialBD;
+    }
+
+    private EditorialEntity anadirDatosCreacionEditorial(final EditorialEntity entity) {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
+        entity.setFechaAlta(Calendar.getInstance().getTime());
+        entity.setUsuarioAlta(currentPrincipalName);
+        return entity;
     }
 
 }

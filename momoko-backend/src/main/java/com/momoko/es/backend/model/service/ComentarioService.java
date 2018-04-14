@@ -36,4 +36,12 @@ public interface ComentarioService {
      */
     public List<ComentarioDTO> obtenerComentariosEntrada(Integer entradaId);
 
+    /**
+     * Enviar notificacion.
+     *
+     * @param comentarioDTO
+     *            the comentario dto
+     */
+    public void enviarNotificacion(ComentarioDTO comentarioDTO);
+
 }

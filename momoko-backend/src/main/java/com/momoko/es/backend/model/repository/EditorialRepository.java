@@ -37,4 +37,13 @@ public interface EditorialRepository extends CrudRepository<EditorialEntity, Int
     @Query("SELECT e.nombreEditorial FROM EditorialEntity e")
     List<String> findAllNombresEditoriales();
 
+    /**
+     * Find first by nombre editorial.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the list
+     */
+    EditorialEntity findFirstByUrlEditorial(String urlEditorial);
+
 }

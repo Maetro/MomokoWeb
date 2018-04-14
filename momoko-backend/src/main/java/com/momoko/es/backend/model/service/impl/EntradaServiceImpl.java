@@ -1111,6 +1111,7 @@ public class EntradaServiceImpl implements EntradaService {
         final List<EntradaEntity> listaEntities = this.entradaRepository.obtenerEntradasEditorialPorFecha(urlEditorial,
                 new PageRequest(numeroPagina - 1, numeroEntradas));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
+    }
 
     @Override
     public void eliminarEtiqueta(final String urlEntrada, final Integer etiquetaId) {

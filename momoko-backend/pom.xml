@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.11.1-SNAPSHOT</version>
+		<version>0.12-SNAPSHOT</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>
@@ -175,6 +175,11 @@
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
+
+<!-- 		<dependency> -->
+<!--         	<groupId>ch.qos.logback</groupId> -->
+<!--       	  <artifactId>logback-classic</artifactId> -->
+<!--     	</dependency> -->
 
 		<!-- END BORRAME -->
 

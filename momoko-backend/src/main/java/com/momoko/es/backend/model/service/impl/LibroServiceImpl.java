@@ -132,7 +132,8 @@ public class LibroServiceImpl implements LibroService {
             final Set<AutorEntity> autoresObra = obtenerOGuardarAutoresObra(libroEntity);
             libroEntity.setAutores(autoresObra);
 
-            final EditorialEntity editorialObra = this.editorialService(libroEntity);
+            final EditorialEntity editorialObra = this.editorialService
+                    .obtenerEditorialOCrear(libroEntity.getEditorial());
             libroEntity.setEditorial(editorialObra);
             final Set<GeneroEntity> generosObra = obtenerGenerosObra(libroEntity);
             libroEntity.setGeneros(generosObra);
