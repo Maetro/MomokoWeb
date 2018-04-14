@@ -32,7 +32,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      *
      * @see org.springframework.data.repository.CrudRepository#findAll()
      */
-    List<EntradaEntity> findAll();
+    List<EntradaEntity> findTop10ByOrderByFechaAltaDesc();
 
     /**
      * Find first by url entrada.

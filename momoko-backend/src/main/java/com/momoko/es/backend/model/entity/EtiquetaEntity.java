@@ -20,6 +20,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * The Class EtiquetaEntity.
  *
@@ -36,6 +38,7 @@ public class EtiquetaEntity {
 
     /** The libros autor. */
     @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "etiquetas", fetch = FetchType.LAZY)
+    @JsonIgnore
     private Set<EntradaEntity> etiquetasEntrada;
 
     /** The etiqueta url. */

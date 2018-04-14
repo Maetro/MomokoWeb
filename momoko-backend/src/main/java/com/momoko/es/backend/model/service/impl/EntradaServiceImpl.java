@@ -567,8 +567,9 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaSimpleDTO> recuperarEntradasSimples() {
-        final List<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
+        final List<EntradaEntity> entradasEntity = this.entradaRepository.findTop10ByOrderByFechaAltaDesc();
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasEntity, false);
+
         return entradasBasicas;
     }
 
