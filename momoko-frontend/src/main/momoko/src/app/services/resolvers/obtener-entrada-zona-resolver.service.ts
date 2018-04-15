@@ -17,7 +17,7 @@ export class ObtenerEntradaZonaResolverService implements Resolve<ObtenerEntrada
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerEntradaResponse> {
     if (this.log) {
-      console.log('Obteniendo analisis 2');
+      console.log('Obteniendo entrada zona');
     }
     const url_entrada = route.paramMap.get('url_entrada');
 

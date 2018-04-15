@@ -7,5 +7,5 @@ export class ObtenerPaginaEditorResponse {
 
     autor: User;
     nueveEntradasEditor: EntradaSimple[];
-    numeroLibros: number;
+    numeroEntradas: number;
 }

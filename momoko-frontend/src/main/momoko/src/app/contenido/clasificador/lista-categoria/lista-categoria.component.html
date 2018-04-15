@@ -46,7 +46,7 @@
                           <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                         </span>
                       </a>
-                      <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                      <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
                         <span>
                           <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                         </span>
@@ -57,7 +57,7 @@
                           <span>Ver más información</span>
                         </a>
 
-                        <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
+                        <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
                           class="button buy-now" style="
                           font-size:11px;">
                           <span>Ver más información</span>
@@ -66,13 +66,13 @@
                     </figure>
                     <div class="entrada__detail">
                       <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
-                        <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                        <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
                         <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
                       </h3>
                       <h4 class="entrada__autor">
                         {{entrada.nombreAutor}}
                       </h4>
-                      <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
+                      <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
                         Leer más
                       </a>
                       <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
@@ -88,7 +88,7 @@
             <div class="row" *ngIf="enLista">
               <div class="categoriaEntradaLista" *ngFor="let entrada of entradasCategoria, let i = index; let first = first">
                 <div class="col-sm-4">
-                  <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">
+                  <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
                     <img src="{{entrada.imagenEntrada}}">
                   </a>
                   <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
@@ -96,7 +96,7 @@
                   </a>
                 </div>
                 <div class="col-sm-8">
-                  <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">
+                  <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
                     <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
                   </a>
                   <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
@@ -106,7 +106,7 @@
 
                   <div class="descripcionlibro" [innerHTML]="entrada.resumen"> </div>
 
-                  <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="btn">Leer más </a>
+                  <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="btn">Leer más </a>
                   <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" class="btn">Leer más </a>
                 </div>
                 <div class="clearfix"></div>

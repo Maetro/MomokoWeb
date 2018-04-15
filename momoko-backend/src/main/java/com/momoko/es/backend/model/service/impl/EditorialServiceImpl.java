@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.momoko.es.api.dto.EditorialDTO;
@@ -23,6 +24,7 @@ import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
 
+@Service
 public class EditorialServiceImpl implements EditorialService {
 
     @Autowired

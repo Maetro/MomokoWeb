@@ -33,13 +33,16 @@ public class UsuarioBasicoDTO implements Serializable {
     /** The avatar. */
     private String avatar;
 
+    /** The url usuario. */
+    private String urlUsuario;
+
     /**
      * Obtiene id usuario.
      *
      * @return id usuario
      */
     public Integer getIdUsuario() {
-        return idUsuario;
+        return this.idUsuario;
     }
 
     /**
@@ -48,7 +51,7 @@ public class UsuarioBasicoDTO implements Serializable {
      * @param idUsuario
      *            nuevo id usuario
      */
-    public void setIdUsuario(Integer idUsuario) {
+    public void setIdUsuario(final Integer idUsuario) {
         this.idUsuario = idUsuario;
     }
 
@@ -58,7 +61,7 @@ public class UsuarioBasicoDTO implements Serializable {
      * @return nombre
      */
     public String getNombre() {
-        return nombre;
+        return this.nombre;
     }
 
     /**
@@ -67,7 +70,7 @@ public class UsuarioBasicoDTO implements Serializable {
      * @param nombre
      *            nuevo nombre
      */
-    public void setNombre(String nombre) {
+    public void setNombre(final String nombre) {
         this.nombre = nombre;
     }
 
@@ -77,7 +80,7 @@ public class UsuarioBasicoDTO implements Serializable {
      * @return cargo
      */
     public String getCargo() {
-        return cargo;
+        return this.cargo;
     }
 
     /**
@@ -86,7 +89,7 @@ public class UsuarioBasicoDTO implements Serializable {
      * @param cargo
      *            nuevo cargo
      */
-    public void setCargo(String cargo) {
+    public void setCargo(final String cargo) {
         this.cargo = cargo;
     }
 
@@ -96,7 +99,7 @@ public class UsuarioBasicoDTO implements Serializable {
      * @return avatar
      */
     public String getAvatar() {
-        return avatar;
+        return this.avatar;
     }
 
     /**
@@ -105,8 +108,27 @@ public class UsuarioBasicoDTO implements Serializable {
      * @param avatar
      *            nuevo avatar
      */
-    public void setAvatar(String avatar) {
+    public void setAvatar(final String avatar) {
         this.avatar = avatar;
+    }
+
+    /**
+     * Gets the url usuario.
+     *
+     * @return the url usuario
+     */
+    public String getUrlUsuario() {
+        return this.urlUsuario;
+    }
+
+    /**
+     * Sets the url usuario.
+     *
+     * @param urlUsuario
+     *            the new url usuario
+     */
+    public void setUrlUsuario(final String urlUsuario) {
+        this.urlUsuario = urlUsuario;
     }
 
     /**
@@ -114,11 +136,12 @@ public class UsuarioBasicoDTO implements Serializable {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof UsuarioBasicoDTO))
+        if (!(other instanceof UsuarioBasicoDTO)) {
             return false;
-        UsuarioBasicoDTO castOther = (UsuarioBasicoDTO) other;
-        return new EqualsBuilder().append(idUsuario, castOther.idUsuario).append(nombre, castOther.nombre)
-                .append(avatar, castOther.avatar).isEquals();
+        }
+        final UsuarioBasicoDTO castOther = (UsuarioBasicoDTO) other;
+        return new EqualsBuilder().append(this.idUsuario, castOther.idUsuario).append(this.nombre, castOther.nombre)
+                .append(this.avatar, castOther.avatar).isEquals();
     }
 
     /**
@@ -126,13 +149,18 @@ public class UsuarioBasicoDTO implements Serializable {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(idUsuario).append(nombre).append(avatar).toHashCode();
+        return new HashCodeBuilder().append(this.idUsuario).append(this.nombre).append(this.avatar).toHashCode();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("idUsuario", idUsuario).append("nombre", nombre).append("cargo", cargo)
-                .append("avatar", avatar).toString();
+        return new ToStringBuilder(this).append("idUsuario", this.idUsuario).append("nombre", this.nombre)
+                .append("cargo", this.cargo).append("avatar", this.avatar).toString();
     }
 
 }

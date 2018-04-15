@@ -41,6 +41,8 @@ import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-re
 import { SagaService } from './services/saga.service';
 import { ObtenerLiveTestResolverService } from './services/resolvers/obtener-live-test-resolver.service';
 import { AppRoutingModule } from './app-routing.module';
+import { ObtenerListaEditorResolverService} from './services/resolvers/obtener-lista-editor-resolver.service';
+import { ObtenerListaEditoralResolverService} from './services/resolvers/obtener-lista-editoral-resolver.service';
 
 
 @NgModule({
@@ -62,7 +64,8 @@ import { AppRoutingModule } from './app-routing.module';
     ObtenerListaGeneroResolverService, ObtenerListaEtiquetaResolverService, ComentariosService, ObtenerVideoResolverService, VideoService,
     ObtenerEntradaResolverService, EntradaService, ScrollToService, ObtenerLibroNoticiasResolverService, ObtenerLibroResolverService, LibroService,
     JsonAdapterService, ObtenerListaBusquedaResolverService, ObtenerEntradaZonaResolverService, LinkService, ObtenerSagaResolverService, SagaService,
-    ObtenerResenaResolverService, UtilService, ObtenerLiveTestResolverService, TestService],
+    ObtenerResenaResolverService, UtilService, ObtenerLiveTestResolverService, TestService, ObtenerListaEditorResolverService,
+    ObtenerListaEditoralResolverService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -4,36 +4,36 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@a
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../../environments/environment';
 import { ClasificadorService } from '../clasificador.service';
-import { ObtenerPaginaEditorResponse } from '../../dtos/response/obtenerPaginaEditorResponse';
-
+import { ObtenerPaginaCategoriaResponse } from '../../dtos/response/obtenerPaginaCategoriaResponse';
+import { ObtenerPaginaEditorialResponse } from '../../dtos/response/obtenerPaginaEditorialResponse';
 
 
 @Injectable()
-export class ObtenerListaEditorResolverServiceService implements Resolve<ObtenerPaginaEditorResponse> {
+export class ObtenerListaEditoralResolverService implements Resolve<ObtenerPaginaEditorialResponse> {
 
   private log = environment.log;
 
   constructor(private clasificadorService: ClasificadorService, private router: Router) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaEditorResponse> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaEditorialResponse> {
     if (this.log) {
-      console.log('Obteniendo lista Editor');
+      console.log('Obteniendo lista Categoria');
     }
-    const url = route.paramMap.get('url_editor');
+    const url = route.paramMap.get('url_categoria');
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
-      return this.clasificadorService.getEditorPage(url, numeroPagina).take(1).map(editor => {
-        if (editor.autor != null) {
-          return editor;
+      return this.clasificadorService.getEditorialPage(url, numeroPagina).take(1).map(editorial => {
+        if (editorial.editorial != null) {
+          return editorial;
         } else { // url not found
           this.router.navigate(['/not-found']);
           return null;
         }
       });
     } else {
-      return this.clasificadorService.getEditor(url).take(1).map(editor => {
-        if (editor.autor != null) {
-          return editor;
+      return this.clasificadorService.getEditorial(url).take(1).map(editorial => {
+        if (editorial.editorial != null) {
+          return editorial;
         } else { // url not found
           this.router.navigate(['/not-found']);
           return null;

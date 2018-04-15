@@ -479,6 +479,16 @@ public class PublicFacade {
         stopWatch.start("Obtener Nueve entradas editor");
         final List<EntradaSimpleDTO> nueveEntradasEditor = this.entradaService
                 .obtenerEntradasEditorPorFecha(request.getUrlElemento(), 9, request.getNumeroPagina());
+        for (final EntradaSimpleDTO entradaSimpleDTO : nueveEntradasEditor) {
+            if (entradaSimpleDTO.getImagenEntrada() != null) {
+                try {
+                    entradaSimpleDTO.setImagenEntrada(
+                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 370, 208, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         editorResponse.setNueveEntradasEditor(nueveEntradasEditor);
         stopWatch.stop();
         stopWatch.start("Obtener Editor");
@@ -497,7 +507,7 @@ public class PublicFacade {
         stopWatch.stop();
 
         stopWatch.start("Obtener Numero libros editor");
-        editorResponse.setNumeroLibros(this.entradaService.obtenerNumeroEntradasEditor(request.getUrlElemento()));
+        editorResponse.setNumeroEntradas(this.entradaService.obtenerNumeroEntradasEditor(request.getUrlElemento()));
         stopWatch.stop();
         log.info(stopWatch.prettyPrint());
         return editorResponse;
@@ -913,7 +923,7 @@ public class PublicFacade {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarURLsEditoriales")
-    void generarURLsEditoriales() throws Exception {
+    public @ResponseBody String generarURLsEditoriales() throws Exception {
         final List<EditorialDTO> editoriales = this.editorialService.recuperarEditoriales();
         for (final EditorialDTO editorial : editoriales) {
             if (editorial.getUrlEditorial() == null) {
@@ -926,6 +936,7 @@ public class PublicFacade {
                 }
             }
         }
+        return "DONE";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/email")

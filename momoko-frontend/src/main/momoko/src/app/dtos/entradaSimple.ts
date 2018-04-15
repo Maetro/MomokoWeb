@@ -3,6 +3,8 @@ export class EntradaSimple {
   imagenEntrada: string;
   nombreAutor: string;
   urlEntrada: string;
+  urlEditor: string;
+  urlEditorial: string;
   videoUrl: string;
   numeroComentarios: number;
   fechaAlta: Date;

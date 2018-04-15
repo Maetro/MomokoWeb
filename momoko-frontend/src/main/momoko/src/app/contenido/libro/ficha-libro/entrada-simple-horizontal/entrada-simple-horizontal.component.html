@@ -11,7 +11,7 @@
           <div class="meta">
             <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
             <span class="author">Por
-              <a routerLink="/editor/{{entrada.nombreAutor}}">{{entrada.nombreAutor}}</a>
+              <a routerLink="/redactor/{{entrada.urlEditor}}">{{entrada.nombreAutor}}</a>
             </span>
             <span class="comments">
               <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.numeroComentarios}} Comentarios</a>

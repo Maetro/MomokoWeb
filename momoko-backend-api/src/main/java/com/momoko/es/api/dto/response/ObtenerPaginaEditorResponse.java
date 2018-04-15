@@ -23,7 +23,7 @@ public class ObtenerPaginaEditorResponse {
     private List<EntradaSimpleDTO> nueveEntradasEditor;
 
     /** The numero libros. */
-    private Integer numeroLibros;
+    private Integer numeroEntradas;
 
     /**
      * Gets the autor.
@@ -68,8 +68,8 @@ public class ObtenerPaginaEditorResponse {
      *
      * @return the numero libros
      */
-    public Integer getNumeroLibros() {
-        return this.numeroLibros;
+    public Integer getNumeroEntradas() {
+        return this.numeroEntradas;
     }
 
     /**
@@ -78,8 +78,8 @@ public class ObtenerPaginaEditorResponse {
      * @param numeroLibros
      *            the new numero libros
      */
-    public void setNumeroLibros(final Integer numeroLibros) {
-        this.numeroLibros = numeroLibros;
+    public void setNumeroEntradas(final Integer numeroLibros) {
+        this.numeroEntradas = numeroLibros;
     }
 
 }

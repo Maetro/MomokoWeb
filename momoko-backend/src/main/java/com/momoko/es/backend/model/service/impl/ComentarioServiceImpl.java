@@ -95,6 +95,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         UsuarioBasicoDTO usuarioBasico = null;
         if (usuarioComentario != null) {
             usuarioBasico = ConversionUtils.obtenerUsuarioBasico(usuarioComentario);
+            usuarioBasico.setUrlUsuario(usuarioComentario.getUsuarioUrl());
             usuarioBasico.setNombre(respuesta.getNombreComentario());
             if (usuarioBasico.getAvatar() == null) {
                 usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(respuesta.getEmailComentario()));
@@ -131,6 +132,7 @@ public class ComentarioServiceImpl implements ComentarioService {
                 usuarioBasico = ConversionUtils.obtenerUsuarioBasico(usuarioComentario);
                 usuarioBasico.setCargo("Miembro");
                 usuarioBasico.setNombre(comentarioEntity.getNombreComentario());
+                usuarioBasico.setUrlUsuario(usuarioComentario.getUsuarioUrl());
                 if (usuarioBasico.getAvatar() == null) {
                     usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(comentarioEntity.getEmailComentario()));
                 } else {
@@ -162,7 +164,7 @@ public class ComentarioServiceImpl implements ComentarioService {
             final EntradaEntity entrada = comentarioPrincipal.getEntrada();
             final String content = generarEmailNuevoComentario(comentarioPrincipal, entrada);
 
-            Mail.sendEmail("Nuevo comentario en momoko.es", content, "kizuna.owo@gmail.com");
+            Mail.sendEmail("Nuevo comentario en momoko.es", content, entrada.getEntradaAutor().getUsuarioEmail());
             Mail.sendEmail("Nuevo comentario en momoko.es", content, "RMaetro@gmail.com");
 
             if (comentarioPrincipal.getComentarioReferenciaEntity() != null) {

@@ -13,7 +13,7 @@
       <div class="meta text-center">
         <span class="date">{{data.fechaAlta | date:'dd MMM yyyy'}}</span>
         <span class="author">Por
-          <a routerLink="/editor/{{data.nombreAutor}}">{{data.nombreAutor}}</a>
+          <a routerLink="/redactor/{{data.urlEditor}}">{{data.nombreAutor}}</a>
         </span>
         <span class="comments">
             <a *ngIf="!data.urlLibro" routerLink="/{{data.urlEntrada}}">{{data.numeroComentarios}} Comentarios </a>

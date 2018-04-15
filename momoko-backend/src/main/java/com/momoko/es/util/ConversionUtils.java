@@ -113,6 +113,7 @@ public class ConversionUtils {
         usuarioBasico.setCargo(autor.getCargo());
         usuarioBasico.setIdUsuario(autor.getUsuarioId());
         usuarioBasico.setNombre(autor.getUsuarioNick());
+        usuarioBasico.setUrlUsuario(autor.getUsuarioUrl());
         return usuarioBasico;
     }
 

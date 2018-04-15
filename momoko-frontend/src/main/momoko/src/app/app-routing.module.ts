@@ -16,6 +16,8 @@ import { ObtenerEntradaResolverService } from "./services/resolvers/obtener-entr
 import { ObtenerIndexDataResolverService } from "./services/resolvers/obtener-index-data-resolver.service";
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
+import { ObtenerListaEditoralResolverService } from "./services/resolvers/obtener-lista-editoral-resolver.service";
+import { ObtenerListaEditorResolverService } from "./services/resolvers/obtener-lista-editor-resolver.service";
 
 
 const appRoutes = [
@@ -44,13 +46,6 @@ const appRoutes = [
         pathMatch: 'full'
       },
       {
-        path: ':url_zona/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerEntradaZonaResolverService
-        }
-      },
-      {
         path: 'saga/:url_saga',
         loadChildren: './contenido/saga/ficha-saga/ficha-saga.module#FichaSagaModule',
         resolve: {
@@ -72,17 +67,17 @@ const appRoutes = [
         }
       },
       {
-        path: 'editor/:url_editor',
+        path: 'redactor/:url_editor',
         loadChildren: './contenido/clasificador/lista-editor/lista-editor.module#ListaEditorModule',
         resolve: {
-          paginaGeneroResponse: ObtenerListaEditorResolverService
+          redactor: ObtenerListaEditorResolverService
         }
       },
       {
         path: 'editorial/:url_editorial',
         loadChildren: './contenido/clasificador/lista-editorial/lista-editorial.module#ListaEditorialModule',
         resolve: {
-          paginaGeneroResponse: ObtenerListaEditoralResolverService
+          editorial: ObtenerListaEditoralResolverService
         }
       },
       {
@@ -111,6 +106,13 @@ const appRoutes = [
         loadChildren: './contenido/clasificador/lista-busqueda/lista-busqueda.module#ListaBusquedaModule',
         resolve: {
           busqueda: ObtenerListaBusquedaResolverService
+        }
+      },
+      {
+        path: ':url_zona/:url_entrada',
+        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+        resolve: {
+          obtenerEntradaResponse: ObtenerEntradaZonaResolverService
         }
       },
       {path: 'not-found', component: PageNotFoundComponent },
