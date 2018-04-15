@@ -67,6 +67,7 @@ import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEditorResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
@@ -410,40 +411,64 @@ public class PublicFacade {
 
     }
 
-    @GetMapping(path = "/editorial/{url-categoria}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerEditorial(
-            @PathVariable("url-categoria") final String urlCategoria,
+    @GetMapping(path = "/editorial/{url-editorial}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaEditorialResponse obtenerEditorial(
+            @PathVariable("url-editorial") final String urlEditorial,
             @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
-        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
-        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
-        if (request == null) {
-            request = new ObtenerPaginaElementoRequest();
-            request.setNumeroPagina(numeroPagina);
-            request.setOrdenarPor("fecha");
-            request.setUrlElemento(urlCategoria);
-        }
-        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+
+        final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
+        request.setNumeroPagina(numeroPagina);
+        request.setOrdenarPor("fecha");
+        request.setUrlElemento(urlEditorial);
+
+        return obtenerEditorialResponse(request);
 
     }
 
-    @GetMapping(path = "/editorial/{url-categoria}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerEditorial(
-            @PathVariable("url-categoria") final String urlCategoria,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+    @GetMapping(path = "/editorial/{url-editorial}")
+    public @ResponseBody ObtenerPaginaEditorialResponse obtenerEditorial(
+            @PathVariable("url-editorial") final String urlEditorial,
             @RequestHeader(value = "User-Agent") final String userAgent) {
 
-        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
-        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
-        if (request == null) {
-            request = new ObtenerPaginaElementoRequest();
-            request.setNumeroPagina(1);
-            request.setOrdenarPor("fecha");
-            request.setUrlElemento(urlCategoria);
-        }
-        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+        final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
+        request.setNumeroPagina(1);
+        request.setOrdenarPor("fecha");
+        request.setUrlElemento(urlEditorial);
 
+        return obtenerEditorialResponse(request);
+
+    }
+
+    private ObtenerPaginaEditorialResponse obtenerEditorialResponse(final ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaEditorialResponse editorialResponse = new ObtenerPaginaEditorialResponse();
+        final StopWatch stopWatch = new StopWatch("obtenerEditorialResponse()");
+        stopWatch.start("Obtener Nueve libros editorial");
+        final List<LibroSimpleDTO> nueveLibrosEditorial = this.editorialService
+                .obtenerLibrosEditorial(request.getUrlElemento(), 9, request.getNumeroPagina());
+        for (final LibroSimpleDTO libroSimpleDTO : nueveLibrosEditorial) {
+            if (libroSimpleDTO.getPortada() != null) {
+                try {
+                    libroSimpleDTO.setPortada(
+                            this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 370, 208, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        editorialResponse.setNueveLibrosEditorial(nueveLibrosEditorial);
+        stopWatch.stop();
+        stopWatch.start("Obtener Editorial");
+        editorialResponse.setEditorial(this.editorialService.obtenerEditorialByUrl(request.getUrlElemento()));
+        stopWatch.stop();
+        stopWatch.start("Obtener 3 ultimas entradas editorial");
+        this.editorialService.obtenerUltimasEntradasEditorial(request.getUrlElemento(), 3, 1);
+        stopWatch.stop();
+        stopWatch.start("Obtener Numero libros editorial");
+        editorialResponse.setNumeroLibros(this.editorialService.obtenerNumeroLibrosEditorial(request.getUrlElemento()));
+        stopWatch.stop();
+        log.info(stopWatch.prettyPrint());
+        return editorialResponse;
     }
 
     @GetMapping(path = "/editor/{url-editor}/{numero-pagina}")

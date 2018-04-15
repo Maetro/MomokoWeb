@@ -7,11 +7,14 @@
 package com.momoko.es.backend.model.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
@@ -52,6 +55,10 @@ public class EditorialEntity {
 
     /** The fecha alta. */
     private Date fechaBaja;
+
+    /** The libros autor. */
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "editorial")
+    private Set<LibroEntity> librosEditorial;
 
     /**
      * Gets the editorial id.
