@@ -15,7 +15,7 @@
             <h2 class="section-title">
                 Saga </h2>
         </header>
-        <img src="{{saga.imagenSaga}}">
+        <img src="{{saga.imagenSaga}}" alt="Imagen Destacada - {{saga.nombreSaga}} ">
         <h2 class="separatop25"> {{saga.nombreSaga}} </h2>
         <h4 class="autor_libro"> {{saga.numeroVolumenes}} tomos - saga completa </h4>
         <p class="separatop15"> {{saga.resumen}} </p>
@@ -33,7 +33,7 @@
                 <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
                 <div class="contenedorImagenes">
                     <a routerLink="/libro/{{libro.urlLibro}}">
-                        <img src="{{libro.urlImagen}}">
+                        <img src="{{libro.urlImagen}}" alt="Portada libro - {{libro.titulo}} ">
                     </a>
                 </div>
                 <h3 class="titulo_libro"> {{libro.titulo}} </h3>

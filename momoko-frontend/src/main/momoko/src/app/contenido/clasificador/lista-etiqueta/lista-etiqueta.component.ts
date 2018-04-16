@@ -41,7 +41,7 @@ export class ListaEtiquetaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (this.log) {
-      console.log('Creando pagina de la categoria');
+      console.log('Creando pagina de la etiqueta');
     }
     this.enLista = false;
     this.suscriptor = this.route.params.subscribe(params => {

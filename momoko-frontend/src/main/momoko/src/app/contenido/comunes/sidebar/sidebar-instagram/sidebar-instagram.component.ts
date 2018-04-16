@@ -32,7 +32,7 @@ export class SidebarInstagramComponent implements OnInit, AfterViewInit {
         resolution: 'low_resolution',
         clientId: 'b4c416e8ab3f424d915b5601f5d3dd88',
         // tslint:disable-next-line:max-line-length
-        template: '<div class="item col-xs-4 col-sm-6 col-md-4"><figure class="overlay small"><a href="{{link}}" target="_blank"><img src="{{image}}" /></a></figure></div>',
+        template: '<div class="item col-xs-4 col-sm-6 col-md-4"><figure class="overlay small"><a href="{{link}}" target="_blank"><img src="{{image}}" alt="Imagen de instagram de momoko"/></a></figure></div>',
         after: function () {
           $('#instafeed-widget figure.overlay a').prepend('<span class="over"><span></span></span>');
         }

@@ -1,6 +1,6 @@
 <div class="light-wrapper">
 
-  <div class="parallax page-title inverse-wrapper parallax2">
+  <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + urlCabecera + ')'}">
     <div class="container inner">
       <h1 class="text-center">Categoría: {{categoria.nombreCategoria}} </h1>
     </div>
@@ -89,10 +89,10 @@
               <div class="categoriaEntradaLista" *ngFor="let entrada of entradasCategoria, let i = index; let first = first">
                 <div class="col-sm-4">
                   <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-                    <img src="{{entrada.imagenEntrada}}">
+                    <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}}">
                   </a>
                   <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
-                    <img src="{{entrada.imagenEntrada}}">
+                    <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                   </a>
                 </div>
                 <div class="col-sm-8">

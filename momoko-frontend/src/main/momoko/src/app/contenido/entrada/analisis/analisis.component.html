@@ -72,12 +72,17 @@
               <div class="infoEntrada">
                 Análisis de
                 <span class="autorEntrada">
-                  <a routerLink="/editor/{{entrada.autor.urlUsuario}}">{{entrada.autor.nombre}}</a>
+                  <a routerLink="/redactor/{{entrada.autor.urlUsuario}}">{{entrada.autor.nombre}}</a>
                 </span>
                 <span class="generosText">Género
                   <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
                     <a routerLink="/genero/{{genero.nombre}}">{{genero.nombre}}</a>
                     <span [hidden]="last">, </span>
+                  </span>
+                </span>
+                <span class="editorialText">Editorial
+                  <span class="autorEntrada">
+                    <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
                   </span>
                 </span>
               </div>
@@ -110,7 +115,7 @@
               <div class="infoEntrada">
                 Análisis de
                 <span class="autorEntrada">
-                  <a routerLink="/editor/{{entrada.autor.urlUsuario}}">{{entrada.autor.nombre}}</a>
+                  <a routerLink="/redactor/{{entrada.autor.urlUsuario}}">{{entrada.autor.nombre}}</a>
                 </span>
                 <span class="generosText">Género
                   <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">

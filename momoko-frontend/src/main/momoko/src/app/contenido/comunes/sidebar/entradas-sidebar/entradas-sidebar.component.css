@@ -1,0 +1,7 @@
+.overlay{
+    box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
+ }
+ 
+ li .post-title {
+    padding-top: 10px;
+}

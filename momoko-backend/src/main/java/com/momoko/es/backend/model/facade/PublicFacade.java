@@ -446,23 +446,15 @@ public class PublicFacade {
         stopWatch.start("Obtener Nueve libros editorial");
         final List<LibroSimpleDTO> nueveLibrosEditorial = this.editorialService
                 .obtenerLibrosEditorial(request.getUrlElemento(), 9, request.getNumeroPagina());
-        for (final LibroSimpleDTO libroSimpleDTO : nueveLibrosEditorial) {
-            if (libroSimpleDTO.getPortada() != null) {
-                try {
-                    libroSimpleDTO.setPortada(
-                            this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 370, 208, true));
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+
         editorialResponse.setNueveLibrosEditorial(nueveLibrosEditorial);
         stopWatch.stop();
         stopWatch.start("Obtener Editorial");
         editorialResponse.setEditorial(this.editorialService.obtenerEditorialByUrl(request.getUrlElemento()));
         stopWatch.stop();
         stopWatch.start("Obtener 3 ultimas entradas editorial");
-        this.editorialService.obtenerUltimasEntradasEditorial(request.getUrlElemento(), 3, 1);
+        editorialResponse.setTresUltimasEntradasEditorial(
+                this.editorialService.obtenerUltimasEntradasEditorial(request.getUrlElemento(), 3, 1));
         stopWatch.stop();
         stopWatch.start("Obtener Numero libros editorial");
         editorialResponse.setNumeroLibros(this.editorialService.obtenerNumeroLibrosEditorial(request.getUrlElemento()));

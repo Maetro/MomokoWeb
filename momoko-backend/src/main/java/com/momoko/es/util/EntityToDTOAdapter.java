@@ -257,6 +257,7 @@ public final class EntityToDTOAdapter {
         final EditorialDTO editorialDTO = new EditorialDTO();
         editorialDTO.setEditorialId(editorial.getEditorialId());
         editorialDTO.setNombreEditorial(editorial.getNombreEditorial());
+        editorialDTO.setUrlEditorial(editorial.getUrlEditorial());
         return editorialDTO;
     }
 

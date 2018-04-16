@@ -4,10 +4,12 @@ import { ListaEditorialComponent } from './lista-editorial.component';
 import { PaginationModule } from '../pagination/pagination.module';
 import { RouterModule } from '@angular/router';
 import { ObtenerListaEditoralResolverService } from '../../../services/resolvers/obtener-lista-editoral-resolver.service';
+import { ComunesModule } from '../../comunes/comunes.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    ComunesModule,
     PaginationModule,
     RouterModule.forChild([
       { path: '', component: ListaEditorialComponent, pathMatch: 'full'},
@@ -15,7 +17,7 @@ import { ObtenerListaEditoralResolverService } from '../../../services/resolvers
         path: ':numero_pagina',
         component: ListaEditorialComponent,
         resolve: {
-          redactor: ObtenerListaEditoralResolverService
+          editorial: ObtenerListaEditoralResolverService
         }
       }
     ])

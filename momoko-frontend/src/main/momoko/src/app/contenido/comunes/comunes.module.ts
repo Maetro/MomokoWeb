@@ -11,6 +11,7 @@ import { SobreAutorComponent } from './sobre-autor/sobre-autor.component';
 import { NotaCircularComponent } from './nota-circular/nota-circular.component';
 import { FormsModule } from '@angular/forms';
 import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.component';
+import { EntradasSidebarComponent } from './sidebar/entradas-sidebar/entradas-sidebar.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,7 @@ import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.
     FormsModule
   ],
   declarations: [TagCategoriaComponent, SidebarComponent, SidebarInstagramComponent, LibrosMesSidebarComponent, Libro3dComponent, 
-    MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent, MenuInternoSagaComponent],
+    MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent, MenuInternoSagaComponent, EntradasSidebarComponent],
   exports: [TagCategoriaComponent, SidebarComponent, Libro3dComponent, MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent,
     MenuInternoSagaComponent]
 })

@@ -1,0 +1,17 @@
+<li *ngFor="let entrada of entradas">
+    <div class="row">
+        <div class="col-md-12">
+            <a routerLink="/{{entrada.urlEntrada}}">
+                <span class="over">
+                    <span></span>
+                </span>
+                <img src="{{entrada.imagenEntrada}}" alt="Imagen destacada - {{entrada.tituloEntrada}}"> </a>
+        </div>
+
+        <div class="col-md-12">
+            <h4 class="post-title">
+                <a routerLink="/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
+            </h4>
+        </div>
+    </div>
+</li>

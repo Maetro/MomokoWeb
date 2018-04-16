@@ -3,20 +3,22 @@
 
   <div *ngIf="entrada.librosEntrada?.length > 0; else elseBlock" class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
     <div class="container inner">
-      <h1 class="text-center">
+      <div class="textoCabecera">
         <span> Misceláneos </span>
-      </h1>
+      </div>
     </div>
   </div>
   <ng-template #elseBlock>
     <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
       <div class="container inner">
-        <h1 class="text-center">Misceláneos</h1>
+        <div class="textoCabecera">
+          <span> Misceláneos </span>
+        </div>
       </div>
-      <!-- /.container --> 
+      <!-- /.container -->
     </div>
   </ng-template>
-  
+
 
   <app-menu-interno-libro *ngIf="entrada.librosEntrada?.length > 0" [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>
   <div class="container inner tp0">
@@ -29,7 +31,7 @@
             <div class="post">
               <div class="post-content">
                 <figure>
-                  <img src="{{entrada.imagenDestacada}}" alt="">
+                  <img src="{{entrada.imagenDestacada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                 </figure>
                 <div class="text-center">
                   <span class="category">
@@ -42,7 +44,7 @@
                 <div class="meta text-center">
                   <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
                   <span class="author">By
-                    <a routerLink="/editor/{{entrada.autor.urlUsuario}}">{{entrada.autor.nombre}}</a>
+                    <a routerLink="/redactor/{{entrada.autor.urlUsuario}}">{{entrada.autor.nombre}}</a>
                   </span>
                   <span class="comments">
                     <a href="#">{{entrada.numeroComentarios}} Comentarios</a>
@@ -81,7 +83,7 @@
                       <div class="post row">
                         <div class="col-md-5">
                           <figure class="overlay small">
-                            <a href="#">
+                            <a routerLink="/{{post.urlEntrada}}">
                               <span class="over">
                                 <span></span>
                               </span>
@@ -98,7 +100,7 @@
                             <div class="meta">
                               <span class="date">{{post.fechaAlta | date:'dd MMM yyyy'}}</span>
                               <span class="comments">
-                                <a href="#">
+                                <a routerLink="/{{post.urlEntrada}}">
                                   <i class="ion-chatbubbles"></i> {{post.numeroComentarios}}</a>
                               </span>
                             </div>

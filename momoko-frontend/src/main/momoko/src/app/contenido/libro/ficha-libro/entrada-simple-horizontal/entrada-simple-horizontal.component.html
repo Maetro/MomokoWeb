@@ -1,7 +1,7 @@
 <div class="row marginTop30" *ngFor="let entrada of entradas">
     <div class="col-md-5">
         <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-          <img src="{{entrada.imagenEntrada}}" alt="">
+          <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
        </a>
     </div>
     <div class="col-md-7">

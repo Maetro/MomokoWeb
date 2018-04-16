@@ -2,7 +2,7 @@
     <div class="post-content">
       <figure class="t">
         <a routerLink="/{{data.urlEntrada}}">
-           <img src="{{data.imagenEntrada}}" alt="">
+           <img src="{{data.imagenEntrada}}" alt="Imagen Destacada - {{data.tituloEntrada}} ">
         </a>
       </figure>
       <app-tag-categoria [urlEntrada]="obtenerUrlEntradaSimple(data)" [nombreCategoria]="data.categoria"></app-tag-categoria>

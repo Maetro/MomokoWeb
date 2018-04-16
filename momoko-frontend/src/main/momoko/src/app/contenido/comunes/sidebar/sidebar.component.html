@@ -2,7 +2,7 @@
 
   <!-- /.widget -->
   <div class="sidebox widget">
-    <img class="imagen-buscador" src="https://momoko.es/images/toucan.png" />
+    <img class="imagen-buscador" src="https://momoko.es/images/toucan.png" alt="Mascota buscador momoko" />
     <h3 class="widget-title section-title">Buscador</h3>
 
     <div class="search-form">
@@ -24,16 +24,36 @@
   </div>
   <!-- /.widget -->
 
+  <div class="sidebox widget" *ngIf="entradas">
+    <h3 class="widget-title section-title">{{tituloSeccionEntradas}}</h3>
+    <ul class="post-list">
+      <app-entradas-sidebar [entradas]="entradas"></app-entradas-sidebar>
+    </ul>
+    <!-- /.post-list -->
+  </div>
+
+  <div class="sidebox widget">
+    <h3 class="widget-title section-title">Ayudanos a crecer
+      <img class="imagen-buscador" src="https://momoko.es/images/fijas/kofi.gif" alt="Gif for kofi patreon"
+      />
+    </h3>
+    <span class="opacidad-baja">Invitanos a un café y ayudanos a seguir creciendo. Coffee son solo 3 €.</span>
+    <a href='https://ko-fi.com/Z8Z38UQV' target='_blank'>
+      <img height='36' style='border:0px;height:36px;margin-top: 10px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' alt="Link para Coffe"
+        border='0' alt='Buy Me a Coffee at ko-fi.com' />
+    </a>
+    <!-- /.post-list -->
+  </div>
 
   <div class="sidebox widget">
     <div class="banner">
       <a routerLink="/solicitud">
-        <img src="https://momoko.es/images/fijas/banner-resenas.jpg" />
+        <img src="https://momoko.es/images/fijas/banner-resenas.jpg" alt="Link para solicitar reseñas"/>
       </a>
     </div>
     <div class="banner">
       <a routerLink="/criterios">
-        <img src="https://momoko.es/images/fijas/guia-de-notas-banner.jpg" />
+        <img src="https://momoko.es/images/fijas/guia-de-notas-banner.jpg" alt="Link para guía de notas"/>
       </a>
     </div>
   </div>

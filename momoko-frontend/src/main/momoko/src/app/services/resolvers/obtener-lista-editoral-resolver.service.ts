@@ -17,9 +17,9 @@ export class ObtenerListaEditoralResolverService implements Resolve<ObtenerPagin
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaEditorialResponse> {
     if (this.log) {
-      console.log('Obteniendo lista Categoria');
+      console.log('Obteniendo lista Editorial');
     }
-    const url = route.paramMap.get('url_categoria');
+    const url = route.paramMap.get('url_editorial');
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
       return this.clasificadorService.getEditorialPage(url, numeroPagina).take(1).map(editorial => {

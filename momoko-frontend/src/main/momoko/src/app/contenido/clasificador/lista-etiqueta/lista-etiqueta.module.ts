@@ -15,7 +15,7 @@ import { ObtenerListaEtiquetaResolverService } from '../../../services/resolvers
         path: ':numero_pagina',
         component: ListaEtiquetaComponent,
         resolve: {
-          paginaCategoriaResponse: ObtenerListaEtiquetaResolverService
+          paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
         }
       }
     ])

@@ -141,7 +141,20 @@ public class EditorialServiceImpl implements EditorialService {
             }
 
         }
-        return ConversionUtils.obtenerLibrosBasicos(librosEditorial, null);
+        final List<LibroSimpleDTO> obtenerLibrosBasicos = ConversionUtils.obtenerLibrosBasicos(librosEditorial, null);
+
+        for (final LibroSimpleDTO libroSimpleDTO : obtenerLibrosBasicos) {
+            if (libroSimpleDTO.getPortada() != null) {
+                try {
+                    libroSimpleDTO.setPortada(
+                            this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return obtenerLibrosBasicos;
     }
 
     @Override
@@ -169,7 +182,7 @@ public class EditorialServiceImpl implements EditorialService {
             if (entradaSimpleDTO.getImagenEntrada() != null) {
                 try {
                     entradaSimpleDTO.setImagenEntrada(
-                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 370, 208, true));
+                            this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 350, 253, true));
                 } catch (final IOException e) {
                     e.printStackTrace();
                 }

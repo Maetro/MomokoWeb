@@ -36,6 +36,8 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
 
   numeroPaginas: number;
 
+  urlCabecera = '/assets/style/images/art/parallax2.jpg';
+
   numbers
 
   size: number = 0;
@@ -71,9 +73,10 @@ export class ListaCategoriaComponent implements OnInit, OnDestroy {
         this.offset = 1;
         this.limit = this.numeroEntradasPagina;
         this.range = 2;
-
+        this.urlCabecera = '/assets/style/images/art/parallax2.jpg';
         this.util.removeAllTags(this.metaService);
         if (this.categoria.urlCategoria === 'noticias') {
+          this.urlCabecera = 'https://momoko.es/images/fijas/cabecera_noticias.jpg';
           this.titleService.setTitle('Momoko - Últimas noticias');
           const tag = {
             name: 'description', content: 'Últimas noticias de libros del mundo editorial en general: Rumores, ' +

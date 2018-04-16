@@ -83,13 +83,15 @@ public class JsonLDUtils {
             reviewMomoko.setName(entrada.getTituloEntrada());
             reviewMomoko.setDescription(entrada.getResumenEntrada());
             // reviewMomoko.setReviewBody(entrada.getContenidoEntrada());
-            final ReviewRating ratingMomoko = new ReviewRating();
-            ratingMomoko.setBestRating("100");
-            ratingMomoko.setWorstRating("0");
-            ratingMomoko.setRatingValue(puntuacion.toString());
-            ratingMomoko.setType("Rating");
-            reviewMomoko.setReviewRating(ratingMomoko);
-            reviews.add(reviewMomoko);
+            if (puntuacion != null) {
+                final ReviewRating ratingMomoko = new ReviewRating();
+                ratingMomoko.setBestRating("100");
+                ratingMomoko.setWorstRating("0");
+                ratingMomoko.setRatingValue(puntuacion.toString());
+                ratingMomoko.setType("Rating");
+                reviewMomoko.setReviewRating(ratingMomoko);
+                reviews.add(reviewMomoko);
+            }
             mainEntity.setReview(reviews);
             bookReview.setMainEntity(mainEntity);
             final ObjectMapper mapper = new ObjectMapper();

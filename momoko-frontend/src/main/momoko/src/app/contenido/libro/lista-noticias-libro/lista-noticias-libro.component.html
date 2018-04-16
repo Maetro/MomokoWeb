@@ -73,7 +73,7 @@
             <div class="col-md-12 marginTop40" *ngIf="libro.enlaceAmazon">
               <a class="amazon" href="http://amzn.to/2tpXpDd" target="_blank" title="Compra  en Amazon">
                 <span class="btnComprarAmazon">Comprar libro &gt;</span>
-                <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon" title="Amazon">
+                <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Comprar amazon" title="Amazon">
               </a>
             </div>
           </div>
@@ -141,7 +141,7 @@
                     <div class="categoriaEntradaLista" *ngFor="let entrada of noticias, let i = index; let first = first">
                       <div class="col-sm-4">
                         <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}">
-                          <img src="{{entrada.imagenEntrada}}">
+                          <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                         </a>
                       </div>
                       <div class="col-sm-8">
