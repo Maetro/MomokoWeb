@@ -101,7 +101,7 @@ public class EditorialServiceImpl implements EditorialService {
         } else if (editorialEntity.getUrlEditorial() != null) {
             editorialBD = this.editorialRepository.findFirstByUrlEditorial(editorialEntity.getUrlEditorial());
         } else if (editorialEntity.getNombreEditorial() != null) {
-            editorialBD = this.editorialRepository.findFirstByNombreEditorial(editorialEntity.getUrlEditorial());
+            editorialBD = this.editorialRepository.findFirstByNombreEditorial(editorialEntity.getNombreEditorial());
             if (editorialBD == null) {
                 editorialBD = anadirDatosCreacionEditorial(editorialEntity);
                 editorialBD.setUrlEditorial(ConversionUtils.toSlug(editorialBD.getNombreEditorial()));
