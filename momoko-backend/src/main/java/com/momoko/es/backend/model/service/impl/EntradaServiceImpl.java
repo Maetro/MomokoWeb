@@ -330,7 +330,8 @@ public class EntradaServiceImpl implements EntradaService {
         while (entradaDTO.getContenidoEntrada().contains("[gif ")) {
             final String gif = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(), "[gif ", "]");
             final String url = this.almacenImagenes.getUrlImageServer();
-            final String code = "<img src=\"" + url + "gifs/" + gif.trim() + ".gif\" />";
+            final String code = "<img src=\"" + url + "gifs/" + gif.trim() + ".gif\" alt=\"Gif de la entrada "
+                    + entradaDTO.getTituloEntrada() + "\" />";
             entradaDTO.setContenidoEntrada(
                     StringUtils.replace(entradaDTO.getContenidoEntrada(), "[gif " + gif + "]", code));
         }
@@ -503,7 +504,8 @@ public class EntradaServiceImpl implements EntradaService {
             stringBuilder.append("<div class=\"collage-image-wrapper\"><div class=\"overlay\">");
             stringBuilder.append("<a href=\"" + imageServer + imagen + "\" class=\"lgitem\" data-sub-html=\"#caption"
                     + columna + "\"><img src=\"" + imageServer + imagen + "\" style=\"width:"
-                    + anchuraAltura.getAnchura() + "px; height:" + anchuraAltura.getAltura() + "px;\" /></a>");
+                    + anchuraAltura.getAnchura() + "px; height:" + anchuraAltura.getAltura() + "px;\" "
+                    + "alt =\"Imagen galeria " + galeria.getNombreGaleria() + " " + columna + "\" /></a>");
             stringBuilder.append("</div></div>");
             columna++;
         }

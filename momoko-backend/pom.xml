@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.12.2-SNAPSHOT</version>
+		<version>0.12.3-SNAPSHOT</version>
 	</parent>
 
 	<groupId>${parent.groupId}</groupId>

@@ -126,32 +126,38 @@ public class AMPFacade {
 
     public String adaptarImagenesAmp(String body) throws IOException, MalformedURLException {
         while (body.contains("<img ")) {
+
             final String bloqueImagen = StringUtils.substringBetween(body, "<img ", ">");
             String imagen = StringUtils.substringBetween(bloqueImagen, "src=\"", "\"");
-            AnchuraAlturaDTO anchuraAltura;
-            if (!imagen.contains("http")) {
-                final String imageServer = this.almacenImagenes.getUrlImageServer();
-                anchuraAltura = this.almacenImagenes.getImageDimensions(imageServer + imagen);
-                imagen = this.almacenImagenes.getUrlImageServer() + imagen;
-            } else {
-                if (imagen.contains("http://momoko.es")) {
-                    imagen = imagen.replaceAll("http://", "https://");
-                }
-                final URL url = new URL(imagen);
-                final BufferedImage image = ImageIO.read(url);
-                if (image == null) {
-                    body = StringUtils.replace(body, "<img " + bloqueImagen + ">", "");
-                    continue;
-                }
-                anchuraAltura = new AnchuraAlturaDTO();
-                anchuraAltura.setAltura(image.getHeight());
-                anchuraAltura.setAnchura(image.getWidth());
-            }
-            final String ampImagen = "<figure>" + "<amp-img src=\"" + imagen + "\" width=\""
-                    + anchuraAltura.getAnchura() + "\" height=\"" + anchuraAltura.getAltura()
-                    + "\" layout=\"responsive\"></amp-img>" + "</figure>";
+            try {
+                AnchuraAlturaDTO anchuraAltura;
 
-            body = StringUtils.replace(body, "<img " + bloqueImagen + ">", ampImagen);
+                if (!imagen.contains("http")) {
+                    final String imageServer = this.almacenImagenes.getUrlImageServer();
+                    anchuraAltura = this.almacenImagenes.getImageDimensions(imageServer + imagen);
+                    imagen = this.almacenImagenes.getUrlImageServer() + imagen;
+                } else {
+                    if (imagen.contains("http://momoko.es")) {
+                        imagen = imagen.replaceAll("http://", "https://");
+                    }
+                    final URL url = new URL(imagen);
+                    final BufferedImage image = ImageIO.read(url);
+                    if (image == null) {
+                        body = StringUtils.replace(body, "<img " + bloqueImagen + ">", "");
+                        continue;
+                    }
+                    anchuraAltura = new AnchuraAlturaDTO();
+                    anchuraAltura.setAltura(image.getHeight());
+                    anchuraAltura.setAnchura(image.getWidth());
+                }
+                final String ampImagen = "<figure>" + "<amp-img src=\"" + imagen + "\" width=\""
+                        + anchuraAltura.getAnchura() + "\" height=\"" + anchuraAltura.getAltura()
+                        + "\" layout=\"responsive\"></amp-img>" + "</figure>";
+
+                body = StringUtils.replace(body, "<img " + bloqueImagen + ">", ampImagen);
+            } catch (final ArrayIndexOutOfBoundsException e) {
+                body = StringUtils.replace(body, "<img " + bloqueImagen + ">", "");
+            }
         }
         return body;
     }

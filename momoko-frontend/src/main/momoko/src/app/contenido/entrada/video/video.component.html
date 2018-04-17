@@ -72,11 +72,11 @@
                         <div class="post row">
                           <div class="col-md-5">
                             <figure class="overlay small">
-                              <a href="#">
+                              <a routerLink="/{{post.urlEntrada}}">
                                 <span class="over">
                                   <span></span>
                                 </span>
-                                <img src="{{post.imagenEntrada}}" alt="">
+                                <img src="{{post.imagenEntrada}}" alt="Imagen Destacada - {{post.tituloEntrada}} ">
                               </a>
                             </figure>
                           </div>
@@ -84,12 +84,12 @@
                           <div class="col-md-7">
                             <div class="post-content">
                               <h4 class="post-title">
-                                <a href="blog-post.html">{{post.tituloEntrada}}</a>
+                                <a routerLink="/{{post.urlEntrada}}">{{post.tituloEntrada}}</a>
                               </h4>
                               <div class="meta">
                                 <span class="date">{{post.fechaAlta | date:'dd MMM yyyy'}}</span>
                                 <span class="comments">
-                                  <a href="#">
+                                  <a routerLink="/{{post.urlEntrada}}">
                                     <i class="ion-chatbubbles"></i> {{post.numeroComentarios}}</a>
                                 </span>
                               </div>

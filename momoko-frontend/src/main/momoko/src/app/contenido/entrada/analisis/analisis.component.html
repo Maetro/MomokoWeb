@@ -76,7 +76,7 @@
                 </span>
                 <span class="generosText">Género
                   <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                    <a routerLink="/genero/{{genero.nombre}}">{{genero.nombre}}</a>
+                    <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
                     <span [hidden]="last">, </span>
                   </span>
                 </span>
@@ -119,7 +119,7 @@
                 </span>
                 <span class="generosText">Género
                   <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                    <a routerLink="/genero/{{genero.nombre}}">{{genero.nombre}}</a>
+                    <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
                     <span [hidden]="last">, </span>
                   </span>
                 </span>
