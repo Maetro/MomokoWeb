@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.enums;
+package com.momoko.es.api.enums.errores;
 
 public enum ErrorCreacionGenero {
     OK("OK"), FALTA_GENERO("Falta el nombre del genero"), GENERO_YA_EXISTE("El genero nuevo ya existe"), FALTA_URL(

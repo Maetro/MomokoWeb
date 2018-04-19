@@ -6,17 +6,26 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.enums.TipoUsuario;
 import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
+import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
+import com.momoko.es.backend.model.repository.EntradaRepository;
+import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.util.ConversionUtils;
@@ -31,6 +40,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PuntuacionRepository puntuacionRepository;
+
+    @Autowired
+    private EntradaRepository entradaRepository;
 
     @Override
     public UsuarioDTO crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
@@ -98,6 +113,30 @@ public class UserServiceImpl implements UserService {
     public UsuarioBasicoDTO findFirstByUsuarioUrl(final String urlUsuario) throws UserNotFoundException {
         final UsuarioEntity usuarioBD = this.usuarioRepository.findFirstByUsuarioUrl(urlUsuario);
         return ConversionUtils.obtenerUsuarioBasico(usuarioBD);
+    }
+
+    @Override
+    public List<RedactorDTO> obtenerRedactoresMomoko() {
+        final List<UsuarioEntity> redactoresEntity = this.usuarioRepository
+                .findAllByUsuarioRolIdIs(TipoUsuario.REDACTOR.getValue());
+        final List<RedactorDTO> redactoresDTO = ConversionUtils.getRedactoresFromUsuarios(redactoresEntity);
+        for (final RedactorDTO redactorDTO : redactoresDTO) {
+            final BigDecimal media = this.puntuacionRepository.findScoreAverageFromUserId(redactorDTO.getUsuarioId());
+            redactorDTO.setMediaPuntuaciones(media);
+            final List<EntradaEntity> ultimaEntrada = this.entradaRepository
+                    .findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(redactorDTO.getUrlRedactor(),
+                            new PageRequest(0, 1));
+            if (CollectionUtils.isNotEmpty(ultimaEntrada)) {
+                redactorDTO.setFechaUltimaEntrada(ultimaEntrada.get(0).getFechaAlta());
+            }
+        }
+        redactoresDTO.sort(new Comparator<RedactorDTO>() {
+            @Override
+            public int compare(final RedactorDTO o1, final RedactorDTO o2) {
+                return o1.getFechaUltimaEntrada().before(o2.getFechaUltimaEntrada()) ? 1 : -1;
+            }
+        });
+        return redactoresDTO;
     }
 
 }

@@ -89,10 +89,10 @@
                 <div class="categoriaEntradaLista" *ngFor="let entrada of entradasEditor, let i = index; let first = first">
                   <div class="col-sm-4">
                     <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-                      <img src="{{entrada.imagenEntrada}}">
+                      <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                     </a>
                     <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
-                      <img src="{{entrada.imagenEntrada}}">
+                      <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                     </a>
                   </div>
                   <div class="col-sm-8">

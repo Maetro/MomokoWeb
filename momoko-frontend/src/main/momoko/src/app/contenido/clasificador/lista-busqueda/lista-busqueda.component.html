@@ -40,7 +40,7 @@
                     <div class="categoriaEntradaLista" *ngFor="let resultado of resultadosBusqueda, let i = index; let first = first">
                       <div class="col-sm-4">
                         <a routerLink="/{{resultado.url}}" *ngIf="resultado.imagen">
-                          <img src="{{resultado.imagen}}">
+                          <img src="{{resultado.imagen}}" alt="Imagen del resultado de busqueda - {{resultado.titulo}}">
                         </a>
                       </div>
                       <div class="col-sm-8">

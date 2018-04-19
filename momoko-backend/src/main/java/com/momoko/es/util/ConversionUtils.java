@@ -35,6 +35,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.EntradaEntity;
@@ -389,6 +390,48 @@ public class ConversionUtils {
             url = "https://momoko.es/images/avatares/random/avatar-momoko-0" + number + ".png";
         }
         return url;
+    }
+
+    /**
+     * Gets the redactores from usuarios.
+     *
+     * @param redactoresEntity
+     *            the redactores entity
+     * @return the redactores from usuarios
+     */
+    public static List<RedactorDTO> getRedactoresFromUsuarios(final List<UsuarioEntity> redactoresEntity) {
+        final List<RedactorDTO> redactores = new ArrayList<RedactorDTO>();
+        if (CollectionUtils.isNotEmpty(redactoresEntity)) {
+            for (final UsuarioEntity usuarioEntity : redactoresEntity) {
+                redactores.add(getRedactorFromUsuario(usuarioEntity));
+            }
+        }
+        return redactores;
+    }
+
+    /**
+     * Gets the redactor from usuario.
+     *
+     * @param usuarioEntity
+     *            the usuario entity
+     * @return the redactor from usuario
+     */
+    public static RedactorDTO getRedactorFromUsuario(final UsuarioEntity usuarioEntity) {
+        final RedactorDTO redactorDTO = new RedactorDTO();
+        redactorDTO.setUsuarioId(usuarioEntity.getUsuarioId());
+        redactorDTO.setNombre(usuarioEntity.getUsuarioLogin());
+        redactorDTO.setNick(usuarioEntity.getUsuarioNick());
+        redactorDTO.setImagenCabeceraRedactor(usuarioEntity.getImagenCabeceraRedactor());
+        redactorDTO.setAvatarRedactor(usuarioEntity.getAvatarUrl());
+        redactorDTO.setUrlRedactor(usuarioEntity.getUsuarioUrl());
+        redactorDTO.setDescripcion(usuarioEntity.getCargo());
+        redactorDTO.setTwitter(usuarioEntity.getTwitter());
+        redactorDTO.setFacebook(usuarioEntity.getFacebook());
+        redactorDTO.setInstagram(usuarioEntity.getInstagram());
+        redactorDTO.setYoutube(usuarioEntity.getYoutube());
+        redactorDTO.setPaginaWeb(usuarioEntity.getPaginaWeb());
+        redactorDTO.setFechaAlta(usuarioEntity.getFechaAlta());
+        return redactorDTO;
     }
 
 }

@@ -24,16 +24,16 @@ import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
-import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
-import com.momoko.es.api.enums.ErrorCreacionEntrada;
-import com.momoko.es.api.enums.ErrorCreacionGaleria;
-import com.momoko.es.api.enums.ErrorCreacionGenero;
-import com.momoko.es.api.enums.ErrorCreacionLibro;
-import com.momoko.es.api.enums.ErrorCreacionSaga;
-import com.momoko.es.api.enums.ErrorPublicarComentario;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
 import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
+import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
+import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
+import com.momoko.es.api.enums.errores.ErrorPublicarComentario;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 /**

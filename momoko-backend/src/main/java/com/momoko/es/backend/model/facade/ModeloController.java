@@ -31,6 +31,7 @@ import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
+import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
 import com.momoko.es.api.dto.response.GuardarEntradaResponse;
@@ -40,13 +41,13 @@ import com.momoko.es.api.dto.response.GuardarLibroResponse;
 import com.momoko.es.api.dto.response.GuardarSagaResponse;
 import com.momoko.es.api.dto.response.InformacionGeneralResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
-import com.momoko.es.api.enums.ErrorCreacionEntrada;
-import com.momoko.es.api.enums.ErrorCreacionGaleria;
-import com.momoko.es.api.enums.ErrorCreacionGenero;
-import com.momoko.es.api.enums.ErrorCreacionLibro;
-import com.momoko.es.api.enums.ErrorCreacionSaga;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
+import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
+import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
 import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.GaleriaService;
@@ -95,6 +96,12 @@ public class ModeloController {
     @GetMapping(path = "/generos")
     public @ResponseBody Iterable<GeneroDTO> getAllGeneros() {
         return this.generoService.obtenerTodosGeneros();
+    }
+
+    @GetMapping(path = "/redactores")
+    public @ResponseBody List<RedactorDTO> getAllRedactores() {
+        final List<RedactorDTO> redactores = this.userService.obtenerRedactoresMomoko();
+        return redactores;
     }
 
     @GetMapping(path = "/galerias")

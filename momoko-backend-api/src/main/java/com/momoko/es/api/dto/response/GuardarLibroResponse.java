@@ -14,8 +14,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.enums.ErrorCreacionLibro;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
 
 /**
  * The Class GuardarLibroResponse.
