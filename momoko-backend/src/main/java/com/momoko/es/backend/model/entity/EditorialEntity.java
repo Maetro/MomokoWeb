@@ -1,25 +1,18 @@
 /**
  * EditorialEntity.java 08-ago-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.backend.model.entity;
 
-import java.util.Date;
-import java.util.Set;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+
+import javax.persistence.*;
+import java.util.Date;
+import java.util.Objects;
+import java.util.Set;
 
 /**
  * The Class EditorialEntity.
@@ -29,7 +22,9 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 public class EditorialEntity {
 
     /** The editorial id. */
-    private @Id @GeneratedValue Integer editorialId;
+    private @Id
+    @GeneratedValue
+    Integer editorialId;
 
     /** The nombre editorial. */
     @Column(name = "nombre_editorial")
@@ -56,6 +51,16 @@ public class EditorialEntity {
     /** The fecha alta. */
     private Date fechaBaja;
 
+    private String imagenEditorial;
+
+    private String descripcionEditorial;
+
+    private String webEditorial;
+
+    private String informacionDeContacto;
+
+    private String imagenCabeceraEditorial;
+
     /** The libros autor. */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "editorial")
     private Set<LibroEntity> librosEditorial;
@@ -72,8 +77,7 @@ public class EditorialEntity {
     /**
      * Sets the editorial id.
      *
-     * @param editorialId
-     *            the new editorial id
+     * @param editorialId the new editorial id
      */
     public void setEditorialId(final Integer editorialId) {
         this.editorialId = editorialId;
@@ -91,8 +95,7 @@ public class EditorialEntity {
     /**
      * Sets the nombre editorial.
      *
-     * @param nombreEditorial
-     *            the new nombre editorial
+     * @param nombreEditorial the new nombre editorial
      */
     public void setNombreEditorial(final String nombreEditorial) {
         this.nombreEditorial = nombreEditorial;
@@ -110,8 +113,7 @@ public class EditorialEntity {
     /**
      * Sets the usuario alta.
      *
-     * @param usuarioAlta
-     *            the new usuario alta
+     * @param usuarioAlta the new usuario alta
      */
     public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
@@ -129,8 +131,7 @@ public class EditorialEntity {
     /**
      * Sets the fecha alta.
      *
-     * @param fechaAlta
-     *            the new fecha alta
+     * @param fechaAlta the new fecha alta
      */
     public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
@@ -148,8 +149,7 @@ public class EditorialEntity {
     /**
      * Sets the usuario modificacion.
      *
-     * @param usuarioModificacion
-     *            the new usuario modificacion
+     * @param usuarioModificacion the new usuario modificacion
      */
     public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
@@ -167,8 +167,7 @@ public class EditorialEntity {
     /**
      * Sets the fecha modificacion.
      *
-     * @param fechaModificacion
-     *            the new fecha modificacion
+     * @param fechaModificacion the new fecha modificacion
      */
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
@@ -186,8 +185,7 @@ public class EditorialEntity {
     /**
      * Sets the usuario baja.
      *
-     * @param usuarioBaja
-     *            the new usuario baja
+     * @param usuarioBaja the new usuario baja
      */
     public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
@@ -205,8 +203,7 @@ public class EditorialEntity {
     /**
      * Sets the fecha baja.
      *
-     * @param fechaBaja
-     *            the new fecha baja
+     * @param fechaBaja the new fecha baja
      */
     public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
@@ -224,35 +221,132 @@ public class EditorialEntity {
     /**
      * Sets the url editorial.
      *
-     * @param urlEditorial
-     *            the new url editorial
+     * @param urlEditorial the new url editorial
      */
     public void setUrlEditorial(final String urlEditorial) {
         this.urlEditorial = urlEditorial;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Gets imagen editorial.
      *
-     * @see java.lang.Object#equals(java.lang.Object)
+     * @return the imagen editorial
      */
-    @Override
-    public boolean equals(final Object other) {
-        if (!(other instanceof EditorialEntity)) {
-            return false;
-        }
-        final EditorialEntity castOther = (EditorialEntity) other;
-        return new EqualsBuilder().append(this.editorialId, castOther.editorialId).isEquals();
+    public String getImagenEditorial() {
+        return imagenEditorial;
     }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Sets imagen editorial.
      *
-     * @see java.lang.Object#hashCode()
+     * @param imagenEditorial the imagen editorial
      */
+    public void setImagenEditorial(String imagenEditorial) {
+        this.imagenEditorial = imagenEditorial;
+    }
+
+    /**
+     * Gets descripcion editorial.
+     *
+     * @return the descripcion editorial
+     */
+    public String getDescripcionEditorial() {
+        return descripcionEditorial;
+    }
+
+    /**
+     * Sets descripcion editorial.
+     *
+     * @param descripcionEditorial the descripcion editorial
+     */
+    public void setDescripcionEditorial(String descripcionEditorial) {
+        this.descripcionEditorial = descripcionEditorial;
+    }
+
+    /**
+     * Gets web editorial.
+     *
+     * @return the web editorial
+     */
+    public String getWebEditorial() {
+        return webEditorial;
+    }
+
+    /**
+     * Sets web editorial.
+     *
+     * @param webEditorial the web editorial
+     */
+    public void setWebEditorial(String webEditorial) {
+        this.webEditorial = webEditorial;
+    }
+
+    /**
+     * Gets informacion de contacto.
+     *
+     * @return the informacion de contacto
+     */
+    public String getInformacionDeContacto() {
+        return informacionDeContacto;
+    }
+
+    /**
+     * Sets informacion de contacto.
+     *
+     * @param informacionDeContacto the informacion de contacto
+     */
+    public void setInformacionDeContacto(String informacionDeContacto) {
+        this.informacionDeContacto = informacionDeContacto;
+    }
+
+    /**
+     * Gets imagen cabecera editorial.
+     *
+     * @return the imagen cabecera editorial
+     */
+    public String getImagenCabeceraEditorial() {
+        return imagenCabeceraEditorial;
+    }
+
+    /**
+     * Sets imagen cabecera editorial.
+     *
+     * @param imagenCabeceraEditorial the imagen cabecera editorial
+     */
+    public void setImagenCabeceraEditorial(String imagenCabeceraEditorial) {
+        this.imagenCabeceraEditorial = imagenCabeceraEditorial;
+    }
+
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.editorialId).toHashCode();
+        return Objects.hash(editorialId, nombreEditorial, urlEditorial, usuarioAlta, fechaAlta, usuarioModificacion,
+                fechaModificacion, usuarioBaja, fechaBaja, imagenEditorial, descripcionEditorial, webEditorial,
+                informacionDeContacto, librosEditorial);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final EditorialEntity other = (EditorialEntity) obj;
+        return Objects.equals(this.editorialId, other.editorialId)
+                && Objects.equals(this.nombreEditorial, other.nombreEditorial)
+                && Objects.equals(this.urlEditorial, other.urlEditorial)
+                && Objects.equals(this.usuarioAlta, other.usuarioAlta)
+                && Objects.equals(this.fechaAlta, other.fechaAlta)
+                && Objects.equals(this.usuarioModificacion, other.usuarioModificacion)
+                && Objects.equals(this.fechaModificacion, other.fechaModificacion)
+                && Objects.equals(this.usuarioBaja, other.usuarioBaja)
+                && Objects.equals(this.fechaBaja, other.fechaBaja)
+                && Objects.equals(this.imagenEditorial, other.imagenEditorial)
+                && Objects.equals(this.descripcionEditorial, other.descripcionEditorial)
+                && Objects.equals(this.webEditorial, other.webEditorial)
+                && Objects.equals(this.informacionDeContacto, other.informacionDeContacto)
+                && Objects.equals(this.librosEditorial, other.librosEditorial);
     }
 
     /*

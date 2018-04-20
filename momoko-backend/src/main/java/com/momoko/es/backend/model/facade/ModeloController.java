@@ -6,62 +6,33 @@
  */
 package com.momoko.es.backend.model.facade;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.response.*;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.*;
+import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
+import com.momoko.es.backend.model.service.*;
+import com.momoko.es.util.MomokoUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
-import com.momoko.es.api.dto.response.GuardarEntradaResponse;
-import com.momoko.es.api.dto.response.GuardarGaleriaResponse;
-import com.momoko.es.api.dto.response.GuardarGeneroResponse;
-import com.momoko.es.api.dto.response.GuardarLibroResponse;
-import com.momoko.es.api.dto.response.GuardarSagaResponse;
-import com.momoko.es.api.dto.response.InformacionGeneralResponse;
-import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
-import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
-import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
-import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
-import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
-import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
-import com.momoko.es.backend.model.service.EntradaService;
-import com.momoko.es.backend.model.service.GaleriaService;
-import com.momoko.es.backend.model.service.GeneroService;
-import com.momoko.es.backend.model.service.LibroService;
-import com.momoko.es.backend.model.service.PuntuacionService;
-import com.momoko.es.backend.model.service.SagaService;
-import com.momoko.es.backend.model.service.UserService;
-import com.momoko.es.backend.model.service.ValidadorService;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es" })
 @RequestMapping(path = "/modelo")
 public class ModeloController {
+
+    private static final Logger log = LoggerFactory.getLogger(ModeloController.class);
 
     @Autowired(required = false)
     private LibroService libroService;
@@ -85,6 +56,9 @@ public class ModeloController {
     private GaleriaService galeriaService;
 
     @Autowired(required = false)
+    private EditorialService editorialService;
+
+    @Autowired(required = false)
     private UserService userService;
 
     @GetMapping(path = "/libros")
@@ -102,6 +76,11 @@ public class ModeloController {
     public @ResponseBody List<RedactorDTO> getAllRedactores() {
         final List<RedactorDTO> redactores = this.userService.obtenerRedactoresMomoko();
         return redactores;
+    }
+
+    @GetMapping(path = "/editoriales")
+    public @ResponseBody List<EditorialDTO> getAllEditoriales() {
+        return this.editorialService.recuperarEditoriales();
     }
 
     @GetMapping(path = "/galerias")
@@ -239,12 +218,84 @@ public class ModeloController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, path = "/redactor/add")
+    ResponseEntity<GuardarRedactorResponse> guardarRedactor(@RequestBody final RedactorDTO redactorDTO) {
+
+        // Validar
+        final List<ErrorCreacionRedactor> listaErrores = this.validadorService.validarRedactor(redactorDTO);
+
+        // Guardar
+        RedactorDTO redactorGuardado = null;
+        String stackTrace = "";
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                redactorGuardado = this.userService.guardarRedactor(redactorDTO);
+            } catch (final Exception e) {
+                e.printStackTrace();
+                ErrorCreacionRedactor error = ErrorCreacionRedactor.ERROR_DESCONOCIDO;
+                stackTrace = e.getMessage();
+            }
+        }
+
+        // Responder
+        final GuardarRedactorResponse respuesta = new GuardarRedactorResponse();
+        respuesta.setRedactorDTO(redactorGuardado);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((redactorGuardado != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+
+        return new ResponseEntity<GuardarRedactorResponse>(respuesta, HttpStatus.OK);
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, path = "/editorial/add")
+    ResponseEntity<GuardarEditorialResponse> guardarEditorial(@RequestBody final EditorialDTO editorialDTO) {
+
+        final GuardarEditorialResponse respuesta = new GuardarEditorialResponse();
+        // Validar
+        final List<ErrorCreacionEditorial> listaErrores = this.validadorService.validarEditorial(editorialDTO);
+
+        // Guardar
+        EditorialDTO editorialGuardada = null;
+        String stackTrace = "";
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                editorialGuardada = this.editorialService.guardarEditorial(editorialDTO);
+            } catch (final Exception e) {
+                log.error("ERROR", e);
+                listaErrores.add(ErrorCreacionEditorial.ERROR_DESCONOCIDO);
+                respuesta.setStackTrace(stackTrace);
+            }
+        }
+
+        // Responder
+
+        respuesta.setEditorialDTO(editorialGuardada);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((editorialGuardada != null) && CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
+
+    }
+
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/galerias/add")
     ResponseEntity<GuardarGaleriaResponse> addGaleria(@RequestBody final GaleriaDTO galeriaDTO) {
 
         // Validar
         final List<ErrorCreacionGaleria> listaErrores = this.validadorService.validarGaleria(galeriaDTO);
-        final List<String> mensajeError = new ArrayList<String>();
+        final List<String> mensajeError = new ArrayList<>();
         // Guardar
         GaleriaDTO galeria = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
@@ -254,11 +305,10 @@ public class ModeloController {
 
                 listaErrores.add(ErrorCreacionGaleria.ERROR_EN_GUARDADO);
                 mensajeError.add(e.getMessage());
-                e.printStackTrace();
+                log.error(MomokoUtils.ERROR, e);
 
             } catch (final Exception e) {
-
-                e.printStackTrace();
+                log.error(MomokoUtils.ERROR, e);
                 listaErrores.add(ErrorCreacionGaleria.ERROR_EN_GUARDADO);
             }
         }
@@ -274,7 +324,7 @@ public class ModeloController {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
         }
 
-        return new ResponseEntity<GuardarGaleriaResponse>(respuesta, HttpStatus.OK);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
 
     }
 
@@ -293,7 +343,7 @@ public class ModeloController {
         respuesta.setCategorias(categorias);
         respuesta.setNombresAutores(autores);
         respuesta.setNicksEditores(nicksEditores);
-        return new ResponseEntity<InformacionGeneralResponse>(respuesta, HttpStatus.OK);
+        return new ResponseEntity<>(respuesta, HttpStatus.OK);
 
     }
 
@@ -308,7 +358,9 @@ public class ModeloController {
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody EntradaDTO getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
-        System.out.println("Obtener entrada: " + urlEntrada);
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("Obtener entrada: %s", urlEntrada));
+        }
         final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntradaParaGestion(urlEntrada);
         return entrada.getEntrada();
     }
@@ -327,7 +379,7 @@ public class ModeloController {
                 entrada = this.entradaService.guardarEntrada(entradaDTO);
             } catch (final Exception e) {
                 listaErrores.add(ErrorCreacionEntrada.ERROR_EN_GUARDADO);
-                e.printStackTrace();
+                log.error(MomokoUtils.ERROR, e);
             }
         }
 
@@ -343,7 +395,7 @@ public class ModeloController {
             status = HttpStatus.OK;
         }
 
-        return new ResponseEntity<GuardarEntradaResponse>(respuesta, status);
+        return new ResponseEntity<>(respuesta, status);
 
     }
 
@@ -369,7 +421,7 @@ public class ModeloController {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
             status = HttpStatus.BAD_REQUEST;
         }
-        return new ResponseEntity<AnadirPuntuacionResponse>(respuesta, status);
+        return new ResponseEntity<>(respuesta, status);
     }
 
 }

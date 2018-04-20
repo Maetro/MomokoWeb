@@ -43,6 +43,9 @@ import com.momoko.es.backend.model.entity.UsuarioEntity;
  */
 public final class DTOToEntityAdapter {
 
+    private DTOToEntityAdapter() {
+    }
+
     /**
      * Adaptar usuario.
      *
@@ -139,7 +142,7 @@ public final class DTOToEntityAdapter {
      */
     private static List<LibroEntity> adaptarLibros(final List<LibroDTO> librosEntrada) {
 
-        final List<LibroEntity> librosEntity = new ArrayList<LibroEntity>();
+        final List<LibroEntity> librosEntity = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(librosEntrada)) {
             for (final LibroDTO libroDTO : librosEntrada) {
                 librosEntity.add(adaptarLibro(libroDTO));
@@ -185,6 +188,11 @@ public final class DTOToEntityAdapter {
         editorialEntity.setEditorialId(editorial.getEditorialId());
         editorialEntity.setUrlEditorial(editorial.getUrlEditorial());
         editorialEntity.setNombreEditorial(editorial.getNombreEditorial());
+        editorialEntity.setImagenEditorial(editorial.getImagenEditorial());
+        editorialEntity.setDescripcionEditorial(editorial.getDescripcionEditorial());
+        editorialEntity.setWebEditorial(editorial.getWebEditorial());
+        editorialEntity.setInformacionDeContacto(editorial.getInformacionDeContacto());
+        editorialEntity.setImagenCabeceraEditorial(editorial.getImagenCabeceraEditorial());
         return editorialEntity;
     }
 
@@ -196,7 +204,7 @@ public final class DTOToEntityAdapter {
      * @return the establece
      */
     public static Set<AutorEntity> adaptarAutores(final Set<AutorDTO> autores) {
-        final Set<AutorEntity> autoresEntities = new HashSet<AutorEntity>();
+        final Set<AutorEntity> autoresEntities = new HashSet<>();
         for (final AutorDTO autorDTO : autores) {
             autoresEntities.add(adaptarAutor(autorDTO));
         }
@@ -220,12 +228,12 @@ public final class DTOToEntityAdapter {
     /**
      * Adaptar autores.
      *
-     * @param autores
-     *            the autores
+     * @param generos
+     *            the generos
      * @return the establece
      */
     public static Set<GeneroEntity> adaptarGeneros(final Set<GeneroDTO> generos) {
-        final Set<GeneroEntity> generosEntities = new HashSet<GeneroEntity>();
+        final Set<GeneroEntity> generosEntities = new HashSet<>();
         for (final GeneroDTO generoDTO : generos) {
             generosEntities.add(adaptarGenero(generoDTO));
         }
@@ -240,7 +248,7 @@ public final class DTOToEntityAdapter {
      * @return the list
      */
     public static List<GeneroEntity> adaptarGeneros(final List<GeneroDTO> generos) {
-        final List<GeneroEntity> generosEntities = new ArrayList<GeneroEntity>();
+        final List<GeneroEntity> generosEntities = new ArrayList<>();
         for (final GeneroDTO generoDTO : generos) {
             generosEntities.add(adaptarGenero(generoDTO));
         }
@@ -275,7 +283,7 @@ public final class DTOToEntityAdapter {
      * @return the establece
      */
     public static Set<EtiquetaEntity> adaptarEtiquetas(final List<EtiquetaDTO> etiquetas) {
-        final Set<EtiquetaEntity> etiquetasEntities = new HashSet<EtiquetaEntity>();
+        final Set<EtiquetaEntity> etiquetasEntities = new HashSet<>();
         for (final EtiquetaDTO etiquetaDTO : etiquetas) {
             etiquetasEntities.add(adaptarEtiqueta(etiquetaDTO));
         }
@@ -300,8 +308,8 @@ public final class DTOToEntityAdapter {
     /**
      * Adaptar galeria.
      *
-     * @param galeriaEntity
-     *            the galeria entity
+     * @param galeriaDTO
+     *            the galeria dto
      * @return the galeria dto
      */
     public static GaleriaEntity adaptarGaleria(final GaleriaDTO galeriaDTO) {

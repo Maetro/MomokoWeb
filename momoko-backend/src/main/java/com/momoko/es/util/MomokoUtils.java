@@ -16,6 +16,8 @@ import com.momoko.es.api.dto.LibroDTO;
 
 public class MomokoUtils {
 
+    public static final String ERROR = "ERROR";
+
     /**
      * Solo nombre y carpeta.
      *

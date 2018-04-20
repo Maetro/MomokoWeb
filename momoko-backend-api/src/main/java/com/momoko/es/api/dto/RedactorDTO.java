@@ -9,6 +9,7 @@ package com.momoko.es.api.dto;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Objects;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -22,6 +23,7 @@ public class RedactorDTO implements Serializable {
     private static final long serialVersionUID = -8106699885540550978L;
     private Integer usuarioId;
     private String nombre;
+    private String email;
     private String nick;
     private String imagenCabeceraRedactor;
     private String avatarRedactor;
@@ -48,8 +50,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the usuario id.
      *
-     * @param usuarioId
-     *            the new usuario id
+     * @param usuarioId the new usuario id
      */
     public void setUsuarioId(final Integer usuarioId) {
         this.usuarioId = usuarioId;
@@ -67,8 +68,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the nombre.
      *
-     * @param nombre
-     *            the new nombre
+     * @param nombre the new nombre
      */
     public void setNombre(final String nombre) {
         this.nombre = nombre;
@@ -86,8 +86,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the nick.
      *
-     * @param nick
-     *            the new nick
+     * @param nick the new nick
      */
     public void setNick(final String nick) {
         this.nick = nick;
@@ -105,8 +104,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the imagen cabecera redactor.
      *
-     * @param imagenCabeceraRedactor
-     *            the new imagen cabecera redactor
+     * @param imagenCabeceraRedactor the new imagen cabecera redactor
      */
     public void setImagenCabeceraRedactor(final String imagenCabeceraRedactor) {
         this.imagenCabeceraRedactor = imagenCabeceraRedactor;
@@ -124,8 +122,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the avatar redactor.
      *
-     * @param avatarRedactor
-     *            the new avatar redactor
+     * @param avatarRedactor the new avatar redactor
      */
     public void setAvatarRedactor(final String avatarRedactor) {
         this.avatarRedactor = avatarRedactor;
@@ -143,8 +140,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the url redactor.
      *
-     * @param urlRedactor
-     *            the new url redactor
+     * @param urlRedactor the new url redactor
      */
     public void setUrlRedactor(final String urlRedactor) {
         this.urlRedactor = urlRedactor;
@@ -162,8 +158,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the descripcion.
      *
-     * @param descripcion
-     *            the new descripcion
+     * @param descripcion the new descripcion
      */
     public void setDescripcion(final String descripcion) {
         this.descripcion = descripcion;
@@ -181,8 +176,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the twitter.
      *
-     * @param twitter
-     *            the new twitter
+     * @param twitter the new twitter
      */
     public void setTwitter(final String twitter) {
         this.twitter = twitter;
@@ -200,8 +194,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the facebook.
      *
-     * @param facebook
-     *            the new facebook
+     * @param facebook the new facebook
      */
     public void setFacebook(final String facebook) {
         this.facebook = facebook;
@@ -219,8 +212,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the instagram.
      *
-     * @param instagram
-     *            the new instagram
+     * @param instagram the new instagram
      */
     public void setInstagram(final String instagram) {
         this.instagram = instagram;
@@ -238,8 +230,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the youtube.
      *
-     * @param youtube
-     *            the new youtube
+     * @param youtube the new youtube
      */
     public void setYoutube(final String youtube) {
         this.youtube = youtube;
@@ -257,8 +248,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the fecha alta.
      *
-     * @param fechaAlta
-     *            the new fecha alta
+     * @param fechaAlta the new fecha alta
      */
     public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
@@ -276,8 +266,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the fecha ultima entrada.
      *
-     * @param fechaUltimaEntrada
-     *            the new fecha ultima entrada
+     * @param fechaUltimaEntrada the new fecha ultima entrada
      */
     public void setFechaUltimaEntrada(final Date fechaUltimaEntrada) {
         this.fechaUltimaEntrada = fechaUltimaEntrada;
@@ -295,8 +284,7 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the pagina web.
      *
-     * @param paginaWeb
-     *            the new pagina web
+     * @param paginaWeb the new pagina web
      */
     public void setPaginaWeb(final String paginaWeb) {
         this.paginaWeb = paginaWeb;
@@ -314,59 +302,61 @@ public class RedactorDTO implements Serializable {
     /**
      * Sets the media puntuaciones.
      *
-     * @param mediaPuntuaciones
-     *            the new media puntuaciones
+     * @param mediaPuntuaciones the new media puntuaciones
      */
     public void setMediaPuntuaciones(final BigDecimal mediaPuntuaciones) {
         this.mediaPuntuaciones = mediaPuntuaciones;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
+    /**
+     * Gets email.
+     *
+     * @return the email
      */
-    @Override
-    public boolean equals(final Object other) {
-        if (!(other instanceof RedactorDTO)) {
-            return false;
-        }
-        final RedactorDTO castOther = (RedactorDTO) other;
-        return new EqualsBuilder().append(this.usuarioId, castOther.usuarioId).append(this.nombre, castOther.nombre)
-                .append(this.nick, castOther.nick).append(this.imagenCabeceraRedactor, castOther.imagenCabeceraRedactor)
-                .append(this.avatarRedactor, castOther.avatarRedactor).append(this.urlRedactor, castOther.urlRedactor)
-                .append(this.descripcion, castOther.descripcion).append(this.twitter, castOther.twitter)
-                .append(this.facebook, castOther.facebook).append(this.instagram, castOther.instagram)
-                .append(this.youtube, castOther.youtube).append(this.fechaAlta, castOther.fechaAlta)
-                .append(this.fechaUltimaEntrada, castOther.fechaUltimaEntrada).isEquals();
+    public String getEmail() {
+        return email;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
+    /**
+     * Sets email.
+     *
+     * @param email the email
      */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.usuarioId).append(this.nombre).append(this.nick)
-                .append(this.imagenCabeceraRedactor).append(this.avatarRedactor).append(this.urlRedactor)
-                .append(this.descripcion).append(this.twitter).append(this.facebook).append(this.instagram)
-                .append(this.youtube).append(this.fechaAlta).append(this.fechaUltimaEntrada).toHashCode();
+        return Objects.hash(usuarioId, nombre, email, nick, imagenCabeceraRedactor, avatarRedactor, urlRedactor,
+                descripcion, twitter, facebook, instagram, youtube, paginaWeb, mediaPuntuaciones, fechaAlta,
+                fechaUltimaEntrada);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("usuarioId", this.usuarioId).append("nombre", this.nombre)
-                .append("nick", this.nick).append("imagenCabeceraRedactor", this.imagenCabeceraRedactor)
-                .append("avatarRedactor", this.avatarRedactor).append("urlRedactor", this.urlRedactor)
-                .append("descripcion", this.descripcion).append("twitter", this.twitter)
-                .append("facebook", this.facebook).append("instagram", this.instagram).append("youtube", this.youtube)
-                .append("fechaAlta", this.fechaAlta).append("fechaUltimaEntrada", this.fechaUltimaEntrada).toString();
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final RedactorDTO other = (RedactorDTO) obj;
+        return Objects.equals(this.usuarioId, other.usuarioId)
+                && Objects.equals(this.nombre, other.nombre)
+                && Objects.equals(this.email, other.email)
+                && Objects.equals(this.nick, other.nick)
+                && Objects.equals(this.imagenCabeceraRedactor, other.imagenCabeceraRedactor)
+                && Objects.equals(this.avatarRedactor, other.avatarRedactor)
+                && Objects.equals(this.urlRedactor, other.urlRedactor)
+                && Objects.equals(this.descripcion, other.descripcion)
+                && Objects.equals(this.twitter, other.twitter)
+                && Objects.equals(this.facebook, other.facebook)
+                && Objects.equals(this.instagram, other.instagram)
+                && Objects.equals(this.youtube, other.youtube)
+                && Objects.equals(this.paginaWeb, other.paginaWeb)
+                && Objects.equals(this.mediaPuntuaciones, other.mediaPuntuaciones)
+                && Objects.equals(this.fechaAlta, other.fechaAlta)
+                && Objects.equals(this.fechaUltimaEntrada, other.fechaUltimaEntrada);
     }
-
 }

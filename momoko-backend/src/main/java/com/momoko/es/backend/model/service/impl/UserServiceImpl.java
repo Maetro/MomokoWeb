@@ -6,16 +6,6 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
@@ -31,6 +21,19 @@ import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.NotFoundException;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * The Class UserServiceImpl.
@@ -59,8 +62,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UsuarioDTO> recuperarUsuarios() {
-        // TODO Auto-generated method stub
-        return null;
+        Iterable<UsuarioEntity> usuarios = this.usuarioRepository.findAll();
+        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+        if (usuarios.iterator().hasNext()) {
+            for (UsuarioEntity usuario : usuarios) {
+                usuariosDTO.add(EntityToDTOAdapter.adaptarUsuario(usuario));
+            }
+        }
+        return usuariosDTO;
     }
 
     /**
@@ -72,10 +81,7 @@ public class UserServiceImpl implements UserService {
      */
     private boolean emailExiste(final String email) {
         final UsuarioEntity user = this.usuarioRepository.findByUsuarioEmail(email);
-        if (user != null) {
-            return true;
-        }
-        return false;
+        return user != null;
     }
 
     @Override
@@ -130,13 +136,76 @@ public class UserServiceImpl implements UserService {
                 redactorDTO.setFechaUltimaEntrada(ultimaEntrada.get(0).getFechaAlta());
             }
         }
-        redactoresDTO.sort(new Comparator<RedactorDTO>() {
-            @Override
-            public int compare(final RedactorDTO o1, final RedactorDTO o2) {
-                return o1.getFechaUltimaEntrada().before(o2.getFechaUltimaEntrada()) ? 1 : -1;
-            }
-        });
+        redactoresDTO.sort((RedactorDTO r1, RedactorDTO r2) -> r1.getFechaUltimaEntrada().before(r2.getFechaUltimaEntrada()) ? 1 : -1);
+
         return redactoresDTO;
     }
+
+    @Override
+    public RedactorDTO guardarRedactor(RedactorDTO redactorDTO) throws NotFoundException {
+        UsuarioEntity usuarioEntity = null;
+
+        if (redactorDTO.getUsuarioId() != null) {
+            usuarioEntity = actualizarRedactor(redactorDTO);
+
+        } else {
+            usuarioEntity = crearRedactor(redactorDTO);
+        }
+
+        return ConversionUtils.getRedactorFromUsuario(usuarioEntity);
+    }
+
+
+
+    private UsuarioEntity actualizarRedactor(@NotNull RedactorDTO redactorDTO) throws NotFoundException {
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
+        UsuarioEntity usuario = this.usuarioRepository.findOne(redactorDTO.getUsuarioId().longValue());
+        if (usuario == null){
+            throw new NotFoundException("El redactor a actualizar no fue encontrado");
+        }
+        usuario.setUsuarioLogin(redactorDTO.getNick());
+        usuario.setUsuarioNick(redactorDTO.getNick());
+        usuario.setUsuarioEmail(redactorDTO.getEmail());
+        usuario.setPaginaWeb(redactorDTO.getPaginaWeb());
+        usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
+        usuario.setUsuarioNombreVisible(redactorDTO.getNick());
+        usuario.setUsuarioRolId(1);
+        usuario.setAvatarUrl(redactorDTO.getAvatarRedactor());
+        usuario.setCargo(redactorDTO.getDescripcion());
+        usuario.setFechaModificacion(Calendar.getInstance().getTime());
+        usuario.setUsuarioModificacion(currentPrincipalName);
+        usuario.setImagenCabeceraRedactor(redactorDTO.getImagenCabeceraRedactor());
+        usuario.setTwitter(redactorDTO.getTwitter());
+        usuario.setFacebook(redactorDTO.getFacebook());
+        usuario.setInstagram(redactorDTO.getInstagram());
+        usuario.setYoutube(redactorDTO.getYoutube());
+        return this.usuarioRepository.save(usuario);
+    }
+
+    private UsuarioEntity crearRedactor(@NotNull RedactorDTO redactorDTO){
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        final String currentPrincipalName = authentication.getName();
+        UsuarioEntity usuario = new UsuarioEntity();
+        usuario.setUsuarioLogin(redactorDTO.getNick());
+        usuario.setUsuarioNick(redactorDTO.getNick());
+        usuario.setUsuarioEmail(redactorDTO.getEmail());
+        usuario.setUsuarioContrasena("cambiame");
+        usuario.setPaginaWeb(redactorDTO.getPaginaWeb());
+        usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
+        usuario.setUsuarioNombreVisible(redactorDTO.getNick());
+        usuario.setUsuarioRolId(1);
+        usuario.setAvatarUrl(redactorDTO.getAvatarRedactor());
+        usuario.setCargo(redactorDTO.getDescripcion());
+        usuario.setFechaAlta(Calendar.getInstance().getTime());
+        usuario.setUsuarioAlta(currentPrincipalName);
+        usuario.setImagenCabeceraRedactor(redactorDTO.getImagenCabeceraRedactor());
+        usuario.setTwitter(redactorDTO.getTwitter());
+        usuario.setFacebook(redactorDTO.getFacebook());
+        usuario.setInstagram(redactorDTO.getInstagram());
+        usuario.setYoutube(redactorDTO.getYoutube());
+        return this.usuarioRepository.save(usuario);
+    }
+
 
 }

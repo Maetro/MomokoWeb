@@ -1,7 +1,8 @@
 /**
  * ValidadorServiceImpl.java 15-jul-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.backend.model.service.impl;
@@ -11,29 +12,15 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.enums.errores.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
-import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
 import com.momoko.es.api.enums.TipoEntrada;
-import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
-import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
-import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
-import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
-import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
-import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
-import com.momoko.es.api.enums.errores.ErrorPublicarComentario;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 /**
@@ -45,7 +32,7 @@ public class ValidadorServiceImpl implements ValidadorService {
     @Override
     public List<ErrorCreacionLibro> validarLibro(final LibroDTO libroDTO) {
 
-        final List<ErrorCreacionLibro> listaErrores = new ArrayList<ErrorCreacionLibro>();
+        final List<ErrorCreacionLibro> listaErrores = new ArrayList<>();
 
         if (StringUtils.isEmpty(libroDTO.getTitulo())) {
             listaErrores.add(ErrorCreacionLibro.FALTA_TITULO);
@@ -81,7 +68,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorCreacionGenero> validarGenero(final GeneroDTO generoDTO) {
-        final List<ErrorCreacionGenero> listaErrores = new ArrayList<ErrorCreacionGenero>();
+        final List<ErrorCreacionGenero> listaErrores = new ArrayList<>();
 
         if (StringUtils.isEmpty(generoDTO.getNombre())) {
             listaErrores.add(ErrorCreacionGenero.FALTA_GENERO);
@@ -108,7 +95,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorCreacionEntrada> validarEntrada(final EntradaDTO entradaDTO) {
-        final List<ErrorCreacionEntrada> listaErrores = new ArrayList<ErrorCreacionEntrada>();
+        final List<ErrorCreacionEntrada> listaErrores = new ArrayList<>();
         if (entradaDTO.getTituloEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_TITULO);
         }
@@ -151,7 +138,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorPublicarComentario> validarComentario(final ComentarioDTO comentarioDTO) {
-        final List<ErrorPublicarComentario> listaErrores = new ArrayList<ErrorPublicarComentario>();
+        final List<ErrorPublicarComentario> listaErrores = new ArrayList<>();
         if (StringUtils.isNotEmpty(comentarioDTO.getTextoComentario())) {
             listaErrores.add(ErrorPublicarComentario.COMENTARIO_VACIO);
         }
@@ -163,7 +150,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(final PuntuacionDTO puntuacionDTO) {
-        final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<ErrorAnadirPuntuacionEnum>();
+        final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<>();
         if ((puntuacionDTO.getValor() == null)
                 || ((puntuacionDTO.getValor().intValue() >= 0) && (puntuacionDTO.getValor().intValue() <= 10))) {
             listaErrores.add(ErrorAnadirPuntuacionEnum.PUNTUACION_INCORRECTA);
@@ -176,7 +163,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorCreacionComentario> validarComentario(final NuevoComentarioRequest comentario) {
-        final List<ErrorCreacionComentario> listaErrores = new ArrayList<ErrorCreacionComentario>();
+        final List<ErrorCreacionComentario> listaErrores = new ArrayList<>();
         if (StringUtils.isEmpty(comentario.getNombre())) {
             listaErrores.add(ErrorCreacionComentario.FALTA_NOMBRE);
         }
@@ -194,7 +181,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorCreacionGaleria> validarGaleria(final GaleriaDTO galeriaDTO) {
-        final List<ErrorCreacionGaleria> listaErrores = new ArrayList<ErrorCreacionGaleria>();
+        final List<ErrorCreacionGaleria> listaErrores = new ArrayList<>();
         if (StringUtils.isEmpty(galeriaDTO.getNombreGaleria())) {
             listaErrores.add(ErrorCreacionGaleria.FALTA_NOMBRE);
         }
@@ -212,7 +199,7 @@ public class ValidadorServiceImpl implements ValidadorService {
 
     @Override
     public List<ErrorCreacionSaga> validarSaga(final SagaDTO sagaDTO) {
-        final List<ErrorCreacionSaga> listaErrores = new ArrayList<ErrorCreacionSaga>();
+        final List<ErrorCreacionSaga> listaErrores = new ArrayList<>();
         if (CollectionUtils.isEmpty(sagaDTO.getLibrosSaga())) {
             listaErrores.add(ErrorCreacionSaga.FALTAN_LIBROS);
         }
@@ -229,4 +216,21 @@ public class ValidadorServiceImpl implements ValidadorService {
         return listaErrores;
     }
 
+    @Override
+    public List<ErrorCreacionRedactor> validarRedactor(RedactorDTO redactorDTO) {
+        final List<ErrorCreacionRedactor> listaErrores = new ArrayList<>();
+        if (StringUtils.isEmpty(redactorDTO.getNombre())) {
+            listaErrores.add(ErrorCreacionRedactor.FALTA_NOMBRE);
+        }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorCreacionEditorial> validarEditorial(EditorialDTO editorialDTO) {
+        final List<ErrorCreacionEditorial> listaErrores = new ArrayList<>();
+        if (StringUtils.isEmpty(editorialDTO.getNombreEditorial())){
+            listaErrores.add(ErrorCreacionEditorial.FALTA_NOMBRE);
+        }
+        return listaErrores;
+    }
 }

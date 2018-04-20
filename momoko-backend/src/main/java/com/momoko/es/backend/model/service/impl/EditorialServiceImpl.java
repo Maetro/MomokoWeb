@@ -86,6 +86,11 @@ public class EditorialServiceImpl implements EditorialService {
         editorialEntity.setUsuarioModificacion(currentPrincipalName);
         editorialEntity.setUrlEditorial(editorial.getUrlEditorial());
         editorialEntity.setNombreEditorial(editorial.getNombreEditorial());
+        editorialEntity.setImagenEditorial(editorial.getImagenEditorial());
+        editorialEntity.setDescripcionEditorial(editorial.getDescripcionEditorial());
+        editorialEntity.setWebEditorial(editorial.getWebEditorial());
+        editorialEntity.setInformacionDeContacto(editorial.getInformacionDeContacto());
+        editorialEntity.setImagenCabeceraEditorial(editorial.getImagenCabeceraEditorial());
         this.editorialRepository.save(editorialEntity);
         return EntityToDTOAdapter.adaptarEditorial(editorialEntity);
     }
