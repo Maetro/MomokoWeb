@@ -9,8 +9,8 @@ package com.momoko.es.api.dto.response;
 import java.util.List;
 
 import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.enums.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
 
 /**
  * The Class AnadirPuntuacionResponse.

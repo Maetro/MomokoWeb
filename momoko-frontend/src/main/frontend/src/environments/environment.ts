@@ -40,5 +40,6 @@ export const environment = {
   sagasUrl: 'http://localhost:5000/modelo/sagas',
   obtenerSagaAdmin: 'http://localhost:5000/modelo/saga/',
   addSagaUrl: 'http://localhost:5000/modelo/sagas/add',
-  getSagaUrl: 'http://localhost:5000/public/saga/'
+  getSagaUrl: 'http://localhost:5000/public/saga/',
+  redactoresUrl: 'http://localhost:5000/modelo/redactores'
 };

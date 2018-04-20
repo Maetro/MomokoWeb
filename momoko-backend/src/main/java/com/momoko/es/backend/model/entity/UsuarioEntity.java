@@ -92,6 +92,21 @@ public class UsuarioEntity extends AuditoriaBasica {
     /** The fecha alta. */
     private Date fechaBaja;
 
+    /** The imagen cabecera redactor. */
+    private String imagenCabeceraRedactor;
+
+    /** The twitter. */
+    private String twitter;
+
+    /** The facebook. */
+    private String facebook;
+
+    /** The instagram. */
+    private String instagram;
+
+    /** The youtube. */
+    private String youtube;
+
     /**
      * Gets the usuario alta.
      *
@@ -268,10 +283,21 @@ public class UsuarioEntity extends AuditoriaBasica {
         return this.usuarioContrasena;
     }
 
+    /**
+     * Gets the pagina web.
+     *
+     * @return the pagina web
+     */
     public String getPaginaWeb() {
         return this.paginaWeb;
     }
 
+    /**
+     * Sets the pagina web.
+     *
+     * @param paginaWeb
+     *            the new pagina web
+     */
     public void setPaginaWeb(final String paginaWeb) {
         this.paginaWeb = paginaWeb;
     }
@@ -493,6 +519,101 @@ public class UsuarioEntity extends AuditoriaBasica {
      */
     public void setCargo(final String cargo) {
         this.cargo = cargo;
+    }
+
+    /**
+     * Gets the facebook.
+     *
+     * @return the facebook
+     */
+    public String getFacebook() {
+        return this.facebook;
+    }
+
+    /**
+     * Sets the facebook.
+     *
+     * @param facebook
+     *            the new facebook
+     */
+    public void setFacebook(final String facebook) {
+        this.facebook = facebook;
+    }
+
+    /**
+     * Gets the imagen cabecera redactor.
+     *
+     * @return the imagen cabecera redactor
+     */
+    public String getImagenCabeceraRedactor() {
+        return this.imagenCabeceraRedactor;
+    }
+
+    /**
+     * Sets the imagen cabecera redactor.
+     *
+     * @param imagenCabeceraRedactor
+     *            the new imagen cabecera redactor
+     */
+    public void setImagenCabeceraRedactor(final String imagenCabeceraRedactor) {
+        this.imagenCabeceraRedactor = imagenCabeceraRedactor;
+    }
+
+    /**
+     * Gets the twitter.
+     *
+     * @return the twitter
+     */
+    public String getTwitter() {
+        return this.twitter;
+    }
+
+    /**
+     * Sets the twitter.
+     *
+     * @param twitter
+     *            the new twitter
+     */
+    public void setTwitter(final String twitter) {
+        this.twitter = twitter;
+    }
+
+    /**
+     * Gets the instagram.
+     *
+     * @return the instagram
+     */
+    public String getInstagram() {
+        return this.instagram;
+    }
+
+    /**
+     * Sets the instagram.
+     *
+     * @param instagram
+     *            the new instagram
+     */
+    public void setInstagram(final String instagram) {
+        this.instagram = instagram;
+    }
+
+    /**
+     * Gets the youtube.
+     *
+     * @return the youtube
+     */
+    public String getYoutube() {
+        return this.youtube;
+    }
+
+    /**
+     * Sets the youtube.
+     *
+     * @param youtube
+     *            the new youtube
+     */
+    public void setYoutube(final String youtube) {
+        this.youtube = youtube;
     }
 
     /**

@@ -1,3 +1,4 @@
+import { GestionRedactoresModule } from './gestion/gestion-redactores/gestion-redactores.module';
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
@@ -45,6 +46,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
     GestionLibrosModule,
     GestionEntradasModule,
     GestionGaleriasModule,
+    GestionRedactoresModule,
     ContenidoModule,
     routing,
     AppLoadModule,

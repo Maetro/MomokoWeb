@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.enums.ErrorPublicarComentario;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorPublicarComentario;
 
 /**
  * The Class PublicarComentarioResponse.

@@ -8,8 +8,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.enums.ErrorCreacionEntrada;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 
 public class GuardarEntradaResponse {
 

@@ -10,8 +10,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.enums.ErrorCreacionSaga;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
 
 /**
  * The Class GuardarSagaResponse.

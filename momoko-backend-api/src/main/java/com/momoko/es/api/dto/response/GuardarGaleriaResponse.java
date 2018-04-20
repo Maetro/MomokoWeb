@@ -14,8 +14,8 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.enums.ErrorCreacionGaleria;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
 
 /**
  * The Class GuardarGaleriaResponse.
