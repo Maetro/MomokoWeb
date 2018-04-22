@@ -24,7 +24,7 @@ public class EntradaDTO {
     private Integer entradaId;
 
     /** The autor id. */
-    private UsuarioBasicoDTO autor;
+    private RedactorDTO redactor;
 
     /** The url entrada. */
     private String urlEntrada;
@@ -140,8 +140,8 @@ public class EntradaDTO {
      *
      * @return autor
      */
-    public UsuarioBasicoDTO getAutor() {
-        return this.autor;
+    public RedactorDTO getRedactor() {
+        return this.redactor;
     }
 
     /**
@@ -150,8 +150,8 @@ public class EntradaDTO {
      * @param autor
      *            nuevo autor
      */
-    public void setAutor(final UsuarioBasicoDTO autor) {
-        this.autor = autor;
+    public void setRedactor(final RedactorDTO redactor) {
+        this.redactor = redactor;
     }
 
     /**
@@ -673,7 +673,7 @@ public class EntradaDTO {
             return false;
         }
         final EntradaDTO castOther = (EntradaDTO) other;
-        return new EqualsBuilder().append(this.entradaId, castOther.entradaId).append(this.autor, castOther.autor)
+        return new EqualsBuilder().append(this.entradaId, castOther.entradaId).append(this.redactor, castOther.redactor)
                 .append(this.urlEntrada, castOther.urlEntrada).append(this.tipoEntrada, castOther.tipoEntrada)
                 .append(this.tituloEntrada, castOther.tituloEntrada)
                 .append(this.contenidoEntrada, castOther.contenidoEntrada)
@@ -691,7 +691,7 @@ public class EntradaDTO {
      */
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(this.entradaId).append(this.autor).append(this.urlEntrada)
+        return new HashCodeBuilder().append(this.entradaId).append(this.redactor).append(this.urlEntrada)
                 .append(this.tipoEntrada).append(this.tituloEntrada).append(this.contenidoEntrada)
                 .append(this.resumenEntrada).append(this.estadoEntrada).append(this.permitirComentarios)
                 .append(this.padreEntrada).append(this.librosEntrada).append(this.etiquetas)
@@ -704,7 +704,7 @@ public class EntradaDTO {
      */
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("entradaId", this.entradaId).append("autor", this.autor)
+        return new ToStringBuilder(this).append("entradaId", this.entradaId).append("redactor", this.redactor)
                 .append("urlEntrada", this.urlEntrada).append("tipoEntrada", this.tipoEntrada)
                 .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
                 .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)

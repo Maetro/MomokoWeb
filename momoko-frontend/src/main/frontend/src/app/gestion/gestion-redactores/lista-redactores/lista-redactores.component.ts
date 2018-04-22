@@ -60,7 +60,6 @@ export class ListaRedactoresComponent implements OnInit {
     if (this.log) {
       console.log('selectLibro');
     }
-    this.redactorDetailComponent.idRedactorSeleccionado = redactor.usuarioId;
     this.selectedRedactor = redactor;
   }
 
@@ -70,7 +69,6 @@ export class ListaRedactoresComponent implements OnInit {
     }
     this.selectedRedactor = null;
     const redactor = new Redactor;
-    this.redactorDetailComponent.idRedactorSeleccionado = null;
     this.selectedRedactor = redactor;
   }
 
@@ -96,14 +94,12 @@ export class ListaRedactoresComponent implements OnInit {
     if (!encontrado) {
       this.redactores = [...this.redactores, redactor];
     }
-    this.redactorDetailComponent.idRedactorSeleccionado = null;
   }
 
   onRowSelect(event) {
     if (this.log) {
       console.log('onRowSelect');
     }
-    this.redactorDetailComponent.idRedactorSeleccionado = event.data.redactor.redactorId;
   }
 
 }

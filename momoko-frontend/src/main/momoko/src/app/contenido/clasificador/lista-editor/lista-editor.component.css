@@ -1,192 +1,288 @@
 .titulo_libro {
-    margin-bottom: 0px;
-    padding-top: 10px;
-  }
-  
-  .product-layout-view a {
-    display: inline-block;
-    padding: 10px;
+  margin-bottom: 0px;
+  padding-top: 10px;
+}
+
+.product-layout-view a {
+  display: inline-block;
+  padding: 10px;
+  font-size: 20px;
+  border: 3px solid #BDBDBD;
+  line-height: .5;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.product-layout-view a.active {
+  color: #e3b015;
+  border: 3px solid #e3b015;
+}
+
+.product-layout-view a:hover {
+  border: 3px solid #e3b015;
+}
+
+.iconomono {
+  color: #BDBDBD;
+}
+
+.separatop15 {
+  margin-top: 15px;
+}
+
+.separatop {
+  margin-top: 16px;
+}
+
+.separatop25 {
+  margin-top: 25px;
+}
+
+.separatop35 {
+  margin-top: 35px;
+}
+
+select.ui-paginator-rpp-options.ui-widget.ui-state-default {
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  font-weight: inherit;
+  width: 100% !important;
+  height: 40px;
+  padding: 2px 15px 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: inherit;
+  background: rgba(0, 0, 0, 0.05);
+  border: 0;
+  border-radius: 0;
+  resize: none;
+  vertical-align: middle;
+  box-shadow: none;
+  transition: all 150ms ease-in;
+  color: #505050 !important;
+}
+
+a:hover,
+a:focus {
+  color: #e3b015;
+}
+
+.paginas-pagination {
+  padding: 60px 0;
+}
+
+h3 a:hover,
+h3 a:focus {
+  color: #e3b015;
+  transition: color 150ms ease-in;
+}
+
+h4:hover,
+h4:focus {
+  color: #e3b015;
+  transition: color 150ms ease-in;
+}
+
+.descripcionlibro {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.clearfix {
+  margin-bottom: 50px;
+}
+
+.autor_libro {
+  font-family: 'Playfair';
+  font-size: 20px;
+  font-style: italic;
+  color: #9e9e9e;
+}
+
+.tituloBloque h2 {
+  color: #2a2c2b;
+  font-size: 22px;
+  margin: 10px 0 15px;
+  text-align: center;
+}
+
+.tituloBloque h2::after {
+  content: '';
+  width: 40px;
+  border-bottom: 4px solid #EFC66E;
+  display: block;
+  padding: 3px;
+  margin: 0 auto;
+}
+
+.entrada__image {
+  margin: 0 0 20px;
+  box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform .3s ease;
+}
+
+.entrada__image>a {
+  overflow: hidden;
+  display: block;
+  height: 208px;
+}
+
+.entrada__image img {
+  max-width: 100%;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .3s ease;
+}
+
+.entrada__action {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  opacity: 0;
+  transition: .3s ease;
+}
+
+.buy-now {
+  color: #dbae27;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 15px 5px;
+  font-weight: 600;
+  border-radius: 40px;
+  line-height: 1;
+  font-size: 11px;
+  border: 3px solid;
+}
+
+.entrada:hover .entrada__action {
+  opacity: 1;
+}
+
+.btn_leer_mas {
+  margin: 5px auto 0;
+  text-align: center;
+  color: #686868;
+}
+
+.entrada__title a {
+  color: rgb(43, 43, 43);
+}
+
+.entrada__autor {
+  font-family: 'Playfair';
+  font-size: 20px;
+  font-style: italic;
+  color: #9e9e9e;
+  cursor: pointer;
+}
+
+img.avatar {
+  width: 170px;
+}
+
+.post__share a {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: white;
+  line-height: 1;
+  margin-bottom: 3px;
+  font-size: 14px;
+  font-size: 0.875em;
+}
+
+.post__share a.facebook {
+  background-color: #3B5998;
+}
+
+.post__share a.twitter {
+  background-color: #55ACEE;
+}
+
+.post__share a.instagram {
+  background: #f09433; 
+  background: -moz-linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); 
+  background: -webkit-linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+  background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); 
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f09433', endColorstr='#bc1888',GradientType=1 );
+}
+
+.post__share a.youtube {
+  background-color: #C4302b;
+}
+
+.post__share a.paginaweb {
+  background-color: #34a853;
+}
+
+.post__share a.google-plus {
+  background-color: #E02F2F;
+}
+
+.contenedorAvatar{
+  text-align: center;
+}
+
+.contenedorAvatar img{
+  border-radius: 50%;
+  -moz-transition: all .51s;
+-o-transition: all .51s;
+-webkit-transition: all .51s;
+transition: all .51s;
+}
+
+.contenedorAvatar img:hover{
+  border-radius: 0%;
+}
+
+.enlaceRedes{
+  float: left;
+}
+
+.enlaceRedes a{
+  margin-right: 15px;
+}
+
+.iconoSocial a{
+
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     font-size: 20px;
-    border: 3px solid #BDBDBD;
-    line-height: .5;
-    margin-right: 10px;
-    border-radius: 10px;
-  }
-  
-  .product-layout-view a.active {
-    color: #e3b015;
-    border: 3px solid #e3b015;
-  }
-  
-  .product-layout-view a:hover {
-    border: 3px solid #e3b015;
-  }
-  
-  .iconomono {
-    color: #BDBDBD;
-  }
-  
-  .separatop15 {
-    margin-top: 15px;
-  }
-  
-  .separatop {
-    margin-top: 16px;
-  }
-  
-  .separatop25 {
-    margin-top: 25px;
-  }
-  
-  .separatop35 {
-    margin-top: 35px;
-  }
-  
-  select.ui-paginator-rpp-options.ui-widget.ui-state-default {
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%;
-    font-weight: inherit;
-    width: 100% !important;
-    height: 40px;
-    padding: 2px 15px 0;
-    margin-bottom: 15px;
-    font-size: 16px;
-    color: inherit;
-    background: rgba(0, 0, 0, 0.05);
-    border: 0;
-    border-radius: 0;
-    resize: none;
-    vertical-align: middle;
-    box-shadow: none;
-    transition: all 150ms ease-in;
-    color: #505050 !important;
-  }
-  
-  a:hover,
-  a:focus {
-    color: #e3b015;
-  }
-  .paginas-pagination {
-    padding: 60px 0;
-  }
-  
-  h3 a:hover,
-  h3 a:focus {
-    color: #e3b015;
-    transition: color 150ms ease-in;
-  }
-  
-  h4:hover,
-  h4:focus {
-    color: #e3b015;
-    transition: color 150ms ease-in;
-  }
-    
-  .descripcionlibro {
-  
-    margin-top: 15px;
-    font-size: 14px;
-  }
-  
-  .clearfix {
-    margin-bottom: 50px;
-  }
-  
-  .autor_libro {
-    font-family: 'Playfair';
-    font-size: 20px;
-    font-style: italic;
-    color: #9e9e9e;
-  } 
-  
-  .tituloBloque h2{
-    color: #2a2c2b;
-    font-size: 22px;
-    margin: 10px 0 15px;
+    line-height: 50px;
     text-align: center;
-  }
+    padding: 2px 3px;
   
-  .tituloBloque h2::after{
-    content: '';
-    width: 40px;
-    border-bottom: 4px solid #EFC66E;
-    display: block;
-    padding: 3px;
-    margin: 0 auto;
-  }
-  
-  .entrada__image {
-    margin: 0 0 20px;
-    box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
-    position: relative;
-    transition: transform .3s ease;
-  }
-  
-  .entrada__image > a {
-    overflow: hidden;
-    display: block;
-    height: 208px;
-  }
-  
-  .entrada__image img {
-    max-width: 100%;
-    display: block;
-    width: 100%;
-    height: auto;
-    transition: .3s ease;
-  }
-  
-  .entrada__action {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-direction: column;
-    flex-direction: column;
-    -ms-flex-align: center;
-    align-items: center;
-    -ms-flex-pack: center;
-    justify-content: center;
-    opacity: 0;
-    transition: .3s ease;
-  }
-  
-  .buy-now{
-    color: #dbae27;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 8px 15px 5px;
-    font-weight: 600;
-    border-radius: 40px;
-    line-height: 1;
-    font-size: 11px;
-    border: 3px solid;
-  }
-  
-  .entrada:hover .entrada__action {
-      opacity: 1;
-  }
-  
-  .btn_leer_mas {
-    margin: 5px auto 0;
-    text-align: center;
-    color: #686868;
-  }
-  
-  .entrada__title a{
-    color: rgb(43, 43, 43);
-  }
-  
-  .entrada__autor{
-    font-family: 'Playfair';
-    font-size: 20px;
-    font-style: italic;
-    color: #9e9e9e;
-    cursor: pointer;
-  }
-  
+}
+
+.iconoSocial a:hover{
+
+  padding: -10px 3px;
+
+}
+
+.descripcionAutor{
+  color: #686868;
+}
+
+.marginTop65{
+  margin-top: 65px;
+}
+
+.iconoSocial a:hover {
+  margin-top: -10px;
+}

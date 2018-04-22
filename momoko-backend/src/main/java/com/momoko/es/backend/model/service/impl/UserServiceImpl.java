@@ -6,6 +6,20 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
@@ -17,23 +31,13 @@ import com.momoko.es.backend.model.entity.UsuarioEntity;
 import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.UsuarioRepository;
+import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.MomokoUtils;
 import com.momoko.es.util.NotFoundException;
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotNull;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * The Class UserServiceImpl.
@@ -50,6 +54,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EntradaRepository entradaRepository;
 
+    @Autowired
+    private StorageService almacenImagenes;
+
     @Override
     public UsuarioDTO crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
         if (emailExiste(nuevoUsuario.getUsuarioEmail())) {
@@ -62,10 +69,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UsuarioDTO> recuperarUsuarios() {
-        Iterable<UsuarioEntity> usuarios = this.usuarioRepository.findAll();
-        List<UsuarioDTO> usuariosDTO = new ArrayList<>();
+        final Iterable<UsuarioEntity> usuarios = this.usuarioRepository.findAll();
+        final List<UsuarioDTO> usuariosDTO = new ArrayList<>();
         if (usuarios.iterator().hasNext()) {
-            for (UsuarioEntity usuario : usuarios) {
+            for (final UsuarioEntity usuario : usuarios) {
                 usuariosDTO.add(EntityToDTOAdapter.adaptarUsuario(usuario));
             }
         }
@@ -126,6 +133,7 @@ public class UserServiceImpl implements UserService {
         final List<UsuarioEntity> redactoresEntity = this.usuarioRepository
                 .findAllByUsuarioRolIdIs(TipoUsuario.REDACTOR.getValue());
         final List<RedactorDTO> redactoresDTO = ConversionUtils.getRedactoresFromUsuarios(redactoresEntity);
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
         for (final RedactorDTO redactorDTO : redactoresDTO) {
             final BigDecimal media = this.puntuacionRepository.findScoreAverageFromUserId(redactorDTO.getUsuarioId());
             redactorDTO.setMediaPuntuaciones(media);
@@ -135,14 +143,17 @@ public class UserServiceImpl implements UserService {
             if (CollectionUtils.isNotEmpty(ultimaEntrada)) {
                 redactorDTO.setFechaUltimaEntrada(ultimaEntrada.get(0).getFechaAlta());
             }
+            redactorDTO.setAvatarRedactor(imageServer + redactorDTO.getAvatarRedactor());
+            redactorDTO.setImagenCabeceraRedactor(imageServer + redactorDTO.getImagenCabeceraRedactor());
         }
-        redactoresDTO.sort((RedactorDTO r1, RedactorDTO r2) -> r1.getFechaUltimaEntrada().before(r2.getFechaUltimaEntrada()) ? 1 : -1);
+        redactoresDTO.sort((final RedactorDTO r1, final RedactorDTO r2) -> (r1.getFechaUltimaEntrada() != null)
+                && r1.getFechaUltimaEntrada().before(r2.getFechaUltimaEntrada()) ? 1 : -1);
 
         return redactoresDTO;
     }
 
     @Override
-    public RedactorDTO guardarRedactor(RedactorDTO redactorDTO) throws NotFoundException {
+    public RedactorDTO guardarRedactor(final RedactorDTO redactorDTO) throws NotFoundException {
         UsuarioEntity usuarioEntity = null;
 
         if (redactorDTO.getUsuarioId() != null) {
@@ -155,13 +166,11 @@ public class UserServiceImpl implements UserService {
         return ConversionUtils.getRedactorFromUsuario(usuarioEntity);
     }
 
-
-
-    private UsuarioEntity actualizarRedactor(@NotNull RedactorDTO redactorDTO) throws NotFoundException {
+    private UsuarioEntity actualizarRedactor(@NotNull final RedactorDTO redactorDTO) throws NotFoundException {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        UsuarioEntity usuario = this.usuarioRepository.findOne(redactorDTO.getUsuarioId().longValue());
-        if (usuario == null){
+        final UsuarioEntity usuario = this.usuarioRepository.findOne(redactorDTO.getUsuarioId());
+        if (usuario == null) {
             throw new NotFoundException("El redactor a actualizar no fue encontrado");
         }
         usuario.setUsuarioLogin(redactorDTO.getNick());
@@ -171,11 +180,12 @@ public class UserServiceImpl implements UserService {
         usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
         usuario.setUsuarioNombreVisible(redactorDTO.getNick());
         usuario.setUsuarioRolId(1);
-        usuario.setAvatarUrl(redactorDTO.getAvatarRedactor());
-        usuario.setCargo(redactorDTO.getDescripcion());
+        usuario.setAvatarUrl(MomokoUtils.soloNombreYCarpeta(redactorDTO.getAvatarRedactor()));
+        usuario.setCargo(redactorDTO.getCargo());
+        usuario.setDescripcion(redactorDTO.getDescripcion());
         usuario.setFechaModificacion(Calendar.getInstance().getTime());
         usuario.setUsuarioModificacion(currentPrincipalName);
-        usuario.setImagenCabeceraRedactor(redactorDTO.getImagenCabeceraRedactor());
+        usuario.setImagenCabeceraRedactor(MomokoUtils.soloNombreYCarpeta(redactorDTO.getImagenCabeceraRedactor()));
         usuario.setTwitter(redactorDTO.getTwitter());
         usuario.setFacebook(redactorDTO.getFacebook());
         usuario.setInstagram(redactorDTO.getInstagram());
@@ -183,10 +193,10 @@ public class UserServiceImpl implements UserService {
         return this.usuarioRepository.save(usuario);
     }
 
-    private UsuarioEntity crearRedactor(@NotNull RedactorDTO redactorDTO){
+    private UsuarioEntity crearRedactor(@NotNull final RedactorDTO redactorDTO) {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        UsuarioEntity usuario = new UsuarioEntity();
+        final UsuarioEntity usuario = new UsuarioEntity();
         usuario.setUsuarioLogin(redactorDTO.getNick());
         usuario.setUsuarioNick(redactorDTO.getNick());
         usuario.setUsuarioEmail(redactorDTO.getEmail());
@@ -195,11 +205,14 @@ public class UserServiceImpl implements UserService {
         usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
         usuario.setUsuarioNombreVisible(redactorDTO.getNick());
         usuario.setUsuarioRolId(1);
-        usuario.setAvatarUrl(redactorDTO.getAvatarRedactor());
-        usuario.setCargo(redactorDTO.getDescripcion());
+        usuario.setAvatarUrl(MomokoUtils.soloNombreYCarpeta(redactorDTO.getAvatarRedactor()));
+        usuario.setCargo(redactorDTO.getCargo());
+        usuario.setDescripcion(redactorDTO.getDescripcion());
         usuario.setFechaAlta(Calendar.getInstance().getTime());
+        usuario.setUsuarioFechaRegistro(Calendar.getInstance().getTime());
+        usuario.setUsuarioStatus(0);
         usuario.setUsuarioAlta(currentPrincipalName);
-        usuario.setImagenCabeceraRedactor(redactorDTO.getImagenCabeceraRedactor());
+        usuario.setImagenCabeceraRedactor(MomokoUtils.soloNombreYCarpeta(redactorDTO.getImagenCabeceraRedactor()));
         usuario.setTwitter(redactorDTO.getTwitter());
         usuario.setFacebook(redactorDTO.getFacebook());
         usuario.setInstagram(redactorDTO.getInstagram());
@@ -207,5 +220,14 @@ public class UserServiceImpl implements UserService {
         return this.usuarioRepository.save(usuario);
     }
 
+    @Override
+    public RedactorDTO findRedactorByUrl(final String urlRedactor) throws UserNotFoundException {
+        final UsuarioEntity usuarioBD = this.usuarioRepository.findFirstByUsuarioUrl(urlRedactor);
+        if (usuarioBD == null) {
+            throw new UserNotFoundException("No existe el usuario con la url: " + urlRedactor);
+        }
+
+        return ConversionUtils.getRedactorFromUsuario(usuarioBD);
+    }
 
 }

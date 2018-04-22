@@ -6,8 +6,9 @@ import { ClasificadorService } from '../../../services/clasificador.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { UtilService } from '../../../services/util/util.service';
-import { ObtenerPaginaEditorResponse } from '../../../dtos/response/obtenerPaginaEditorResponse';
+import { ObtenerPaginaRedactorResponse } from '../../../dtos/response/obtenerPaginaEditorResponse';
 import { User } from '../../../dtos/user';
+import { Redactor } from '../../../dtos/redactor';
 
 @Component({
   selector: 'app-lista-editor',
@@ -24,7 +25,7 @@ export class ListaEditorComponent implements OnInit {
 
   entradasEditor: EntradaSimple[];
 
-  redactor: User;
+  redactor: Redactor;
 
   enLista: boolean;
 
@@ -48,11 +49,11 @@ export class ListaEditorComponent implements OnInit {
 
   ngOnInit() {
     if (this.log) {
-      console.log('Creando pagina de la editor');
+      console.log('Creando pagina del redactor');
     }
     this.enLista = false;
     this.suscriptor = this.route.params.subscribe(params => {
-      this.url = params['url_editor']; // (+) converts string 'id' to a number
+      this.url = params['url_redactor']; // (+) converts string 'id' to a number
       if (params['numero_pagina'] != null) {
         this.paginaActual = params['numero_pagina'];
       } else {
@@ -62,9 +63,9 @@ export class ListaEditorComponent implements OnInit {
       if (this.log) {
         console.log(this.url);
       }
-      this.route.data.subscribe((data: { redactor: ObtenerPaginaEditorResponse }) => {
+      this.route.data.subscribe((data: { redactor: ObtenerPaginaRedactorResponse }) => {
         this.entradasEditor = data.redactor.nueveEntradasEditor;
-        this.redactor = data.redactor.autor;
+        this.redactor = data.redactor.redactor;
         this.size = data.redactor.numeroEntradas;
         this.offset = 1;
         this.limit = this.numeroEntradasPagina;
@@ -72,10 +73,10 @@ export class ListaEditorComponent implements OnInit {
 
         this.util.removeAllTags(this.metaService);
 
-        const metatituloPagina = 'Editor: ' + this.redactor.nombre + ': Últimas entradas en momoko del editor: ' +
+        const metatituloPagina = 'Redactor: ' + this.redactor.nombre + ': Últimas entradas en momoko del editor: ' +
           this.redactor.nombre;
 
-        this.titleService.setTitle('Momoko - Editor: ' + this.redactor.nombre);
+        this.titleService.setTitle('Momoko - Redactor: ' + this.redactor.nombre);
         const tag = {
           name: 'description', content: metatituloPagina
         };

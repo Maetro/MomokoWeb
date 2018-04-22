@@ -91,7 +91,8 @@ public interface PuntuacionRepository extends CrudRepository<PuntuacionEntity, I
      *            the url editor
      * @return the long
      */
-    @Query("select AVG(p.valor) from PuntuacionEntity p join p.libro l join l.entradas e WHERE e.entradaAutor.usuarioId = :userId AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL")
+    @Query("select AVG(p.valor) from PuntuacionEntity p join p.libro l join l.entradas e "
+            + "WHERE e.entradaAutor.usuarioId = :userId AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL")
     public BigDecimal findScoreAverageFromUserId(@Param("userId") Integer userId);
 
 }

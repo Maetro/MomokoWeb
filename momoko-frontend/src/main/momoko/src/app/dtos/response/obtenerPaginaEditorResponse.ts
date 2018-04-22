@@ -2,10 +2,11 @@ import { Genero } from "../genero";
 import { EntradaSimple } from "../entradaSimple";
 import { LibroSimple } from "../libroSimple";
 import { User } from "../user";
+import { Redactor } from "../redactor";
 
-export class ObtenerPaginaEditorResponse {
+export class ObtenerPaginaRedactorResponse {
 
-    autor: User;
+    redactor: Redactor;
     nueveEntradasEditor: EntradaSimple[];
     numeroEntradas: number;
 }

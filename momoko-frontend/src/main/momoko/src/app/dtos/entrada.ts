@@ -1,11 +1,11 @@
-import { User } from './user';
 import { Etiqueta } from './etiqueta';
 import { Libro } from './libro';
+import { Redactor } from './redactor';
 
 
 export class Entrada {
   entradaId: number;
-  autor: User;
+  redactor: Redactor;
   urlEntrada: string;
   tipoEntrada: number;
   tipoEntradaString: string;

@@ -3,10 +3,12 @@ export class Redactor {
   usuarioId: number;
   nombre: string;
   nick: string;
+  email: string;
   imagenCabeceraRedactor: string;
   avatarRedactor: string;
   urlRedactor: string;
   descripcion: string;
+  cargo: string;
   twitter: string;
   facebook: string;
   instagram: string;

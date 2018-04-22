@@ -46,7 +46,7 @@ import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.UsuarioBasicoDTO;
+import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
@@ -302,21 +302,22 @@ public class EntradaServiceImpl implements EntradaService {
                 }
             }
 
-            if (entradaDTO.getAutor() != null) {
-                final UsuarioBasicoDTO autor = entradaDTO.getAutor();
-                if (autor.getAvatar() != null) {
+            if (entradaDTO.getRedactor() != null) {
+                final RedactorDTO redactor = entradaDTO.getRedactor();
+                if (redactor.getAvatarRedactor() != null) {
                     try {
-                        autor.setAvatar(this.almacenImagenes.obtenerMiniatura(autor.getAvatar(), 120, 120, true));
+                        redactor.setAvatarRedactor(
+                                this.almacenImagenes.obtenerMiniatura(redactor.getAvatarRedactor(), 120, 120, true));
                     } catch (final IOException e) {
-                        autor.setAvatar(
+                        redactor.setAvatarRedactor(
                                 ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
                     }
 
                 } else {
-                    autor.setAvatar(ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                    redactor.setAvatarRedactor(
+                            ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
                 }
-                autor.setCargo(entradaEntity.getEntradaAutor().getCargo());
-                entradaDTO.setAutor(autor);
+                entradaDTO.setRedactor(redactor);
             }
 
             respuesta.setEntrada(entradaDTO);
@@ -842,7 +843,7 @@ public class EntradaServiceImpl implements EntradaService {
                     final Item videoData = videoMomokoYoutube.getItems().iterator().next();
                     final UsuarioEntity autora = this.usuarioRepository.findByUsuarioEmail("kizuna.owo@gmail.com");
                     final EntradaDTO nuevaEntradaVideo = new EntradaDTO();
-                    nuevaEntradaVideo.setAutor(ConversionUtils.obtenerUsuarioBasico(autora));
+                    nuevaEntradaVideo.setRedactor(ConversionUtils.getRedactorFromUsuario(autora));
                     nuevaEntradaVideo.setContenidoEntrada(videoData.getSnippet().getDescription());
                     nuevaEntradaVideo.setEstadoEntrada(2);
                     final EtiquetaDTO etiqueta = new EtiquetaDTO();
@@ -899,7 +900,8 @@ public class EntradaServiceImpl implements EntradaService {
                 librosEntrada.add(EntityToDTOAdapter.adaptarLibro(this.libroRepository.findOneByTitulo(titulo)));
             }
         }
-        final UsuarioEntity autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getAutor().getNombre());
+        final UsuarioEntity autor = this.usuarioRepository
+                .findByUsuarioLogin(entradaAGuardar.getRedactor().getNombre());
 
         final EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, autor);
 

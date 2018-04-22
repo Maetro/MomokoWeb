@@ -74,7 +74,7 @@ export class FileUploadService {
       headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
       const options = new RequestOptions({ headers: headers });
       return this.http.post(this.uploadUrl, formData, options)
-        .map((res: Response) => this.urlFiles + tipoSubida + '/' + file.name)
+        .map((res: Response) => this.urlFiles + tipoSubida + '/' + nombre)
         .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
     } else {
       return null;

@@ -105,7 +105,7 @@ public final class EntityToDTOAdapter {
         final EntradaDTO entradaDTO = new EntradaDTO();
         entradaDTO.setEntradaId(entradaEntity.getEntradaId());
         entradaDTO.setContenidoEntrada(entradaEntity.getContenidoEntrada());
-        entradaDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(entradaEntity.getEntradaAutor()));
+        entradaDTO.setRedactor(ConversionUtils.getRedactorFromUsuario(entradaEntity.getEntradaAutor()));
         entradaDTO.setEstadoEntrada(entradaEntity.getEstadoEntrada());
         if (entradaEntity.getLibrosEntrada() != null) {
             entradaDTO.setLibrosEntrada(adaptarLibros(entradaEntity.getLibrosEntrada()));

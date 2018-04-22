@@ -7,7 +7,7 @@ import { ObtenerPaginaCategoriaResponse } from '../dtos/response/obtenerPaginaCa
 import { ObtenerPaginaEtiquetaResponse } from '../dtos/response/obtenerPaginaEtiquetaResponse';
 import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
-import { ObtenerPaginaEditorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
+import { ObtenerPaginaRedactorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
 import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
 
 
@@ -122,24 +122,24 @@ export class ClasificadorService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getEditor(urlEditor): Observable<ObtenerPaginaEditorResponse> {
+  getEditor(urlEditor): Observable<ObtenerPaginaRedactorResponse> {
     if (this.log) {
       console.log(urlEditor);
     }
-    return this.http.get<ObtenerPaginaEditorResponse>(this.getEditorUrl + urlEditor).map(this.obtenerEditorDeRespuesta)
+    return this.http.get<ObtenerPaginaRedactorResponse>(this.getEditorUrl + urlEditor).map(this.obtenerEditorDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getEditorPage(urlEditor, numeroPagina): Observable<ObtenerPaginaEditorResponse> {
+  getEditorPage(urlEditor, numeroPagina): Observable<ObtenerPaginaRedactorResponse> {
     if (this.log) {
       console.log(urlEditor);
     }
-    return this.http.get<ObtenerPaginaEditorResponse>(this.getEditorUrl + urlEditor + '/' + numeroPagina)
+    return this.http.get<ObtenerPaginaRedactorResponse>(this.getEditorUrl + urlEditor + '/' + numeroPagina)
       .map(this.obtenerEditorDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerEditorDeRespuesta(res: ObtenerPaginaEditorResponse) {
+  private obtenerEditorDeRespuesta(res: ObtenerPaginaRedactorResponse) {
     return res;
   }
 

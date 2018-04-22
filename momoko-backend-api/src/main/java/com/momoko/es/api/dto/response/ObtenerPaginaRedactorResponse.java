@@ -9,15 +9,15 @@ package com.momoko.es.api.dto.response;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.UsuarioBasicoDTO;
+import com.momoko.es.api.dto.RedactorDTO;
 
 /**
  * The Class ObtenerPaginaEditorResponse.
  */
-public class ObtenerPaginaEditorResponse {
+public class ObtenerPaginaRedactorResponse {
 
     /** The autor. */
-    private UsuarioBasicoDTO autor;
+    private RedactorDTO redactor;
 
     /** The nueve entradas editor. */
     private List<EntradaSimpleDTO> nueveEntradasEditor;
@@ -30,18 +30,18 @@ public class ObtenerPaginaEditorResponse {
      *
      * @return the autor
      */
-    public UsuarioBasicoDTO getAutor() {
-        return this.autor;
+    public RedactorDTO getRedactor() {
+        return this.redactor;
     }
 
     /**
      * Sets the autor.
      *
-     * @param autor
+     * @param redactor
      *            the new autor
      */
-    public void setAutor(final UsuarioBasicoDTO autor) {
-        this.autor = autor;
+    public void setRedactor(final RedactorDTO redactor) {
+        this.redactor = redactor;
     }
 
     /**

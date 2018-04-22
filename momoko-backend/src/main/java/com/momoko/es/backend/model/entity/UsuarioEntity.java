@@ -74,6 +74,9 @@ public class UsuarioEntity extends AuditoriaBasica {
     /** The cargo. */
     private String cargo;
 
+    /** The descripcion. */
+    private String descripcion;
+
     /** The usuario alta. */
     private String usuarioAlta;
 
@@ -614,6 +617,25 @@ public class UsuarioEntity extends AuditoriaBasica {
      */
     public void setYoutube(final String youtube) {
         this.youtube = youtube;
+    }
+
+    /**
+     * Gets the descripcion.
+     *
+     * @return the descripcion
+     */
+    public String getDescripcion() {
+        return this.descripcion;
+    }
+
+    /**
+     * Sets the descripcion.
+     *
+     * @param descripcion
+     *            the new descripcion
+     */
+    public void setDescripcion(final String descripcion) {
+        this.descripcion = descripcion;
     }
 
     /**

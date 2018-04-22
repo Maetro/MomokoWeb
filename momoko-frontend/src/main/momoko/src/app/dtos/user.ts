@@ -5,7 +5,7 @@ export class User {
       nombre: string;
       cargo: string;
       avatar: string;
-
+      
       constructor() {
       }
 

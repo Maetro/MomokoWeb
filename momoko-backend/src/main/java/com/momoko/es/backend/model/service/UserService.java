@@ -23,9 +23,11 @@ public interface UserService {
     /**
      * Crear usuario.
      *
-     * @param nuevoUsuario the nuevo usuario
+     * @param nuevoUsuario
+     *            the nuevo usuario
      * @return the integer
-     * @throws EmailExistsException the email exists exception
+     * @throws EmailExistsException
+     *             the email exists exception
      */
     public UsuarioDTO crearUsuario(UsuarioDTO nuevoUsuario) throws EmailExistsException;
 
@@ -39,25 +41,30 @@ public interface UserService {
     /**
      * Does user exist.
      *
-     * @param username the username
+     * @param username
+     *            the username
      * @return the usuario entity
-     * @throws UserNotFoundException the user not found exception
+     * @throws UserNotFoundException
+     *             the user not found exception
      */
     public UsuarioDTO doesUserExist(String username) throws UserNotFoundException;
 
     /**
      * Does email exist.
      *
-     * @param email the email
+     * @param email
+     *            the email
      * @return the usuario dto
-     * @throws UserNotFoundException the user not found exception
+     * @throws UserNotFoundException
+     *             the user not found exception
      */
     UsuarioDTO doesEmailExist(String email) throws UserNotFoundException;
 
     /**
      * Gets the user encoded password.
      *
-     * @param email the email
+     * @param email
+     *            the email
      * @return the user encoded password
      */
     public String getUserEncodedPassword(String email);
@@ -72,9 +79,11 @@ public interface UserService {
     /**
      * Find first by usuario url.
      *
-     * @param urlUsuario the url usuario
+     * @param urlUsuario
+     *            the url usuario
      * @return the usuario dto
-     * @throws UserNotFoundException the user not found exception
+     * @throws UserNotFoundException
+     *             the user not found exception
      */
     UsuarioBasicoDTO findFirstByUsuarioUrl(String urlUsuario) throws UserNotFoundException;
 
@@ -88,8 +97,18 @@ public interface UserService {
     /**
      * Guardar redactor redactor dto.
      *
-     * @param redactorDTO the redactor dto
+     * @param redactorDTO
+     *            the redactor dto
      * @return the redactor dto
      */
     RedactorDTO guardarRedactor(RedactorDTO redactorDTO) throws NotFoundException;
+
+    /**
+     * Find redactor by url.
+     *
+     * @param urlRedactor
+     *            the url editor
+     * @return the redactor dto
+     */
+    public RedactorDTO findRedactorByUrl(String urlRedactor) throws UserNotFoundException;
 }

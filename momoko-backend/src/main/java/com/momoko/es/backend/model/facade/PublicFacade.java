@@ -53,9 +53,9 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.ResultadoBusquedaDTO;
 import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
@@ -66,11 +66,11 @@ import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;
 import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaEditorResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
@@ -463,35 +463,37 @@ public class PublicFacade {
         return editorialResponse;
     }
 
-    @GetMapping(path = "/editor/{url-editor}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaEditorResponse obtenerEditor(@PathVariable("url-editor") final String urlEditor,
+    @GetMapping(path = "/redactor/{url-redactor}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaRedactorResponse obtenerEditor(
+            @PathVariable("url-redactor") final String urlRedactor,
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestHeader(value = "User-Agent") final String userAgent) {
 
         final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
         request.setNumeroPagina(numeroPagina);
         request.setOrdenarPor("fecha");
-        request.setUrlElemento(urlEditor);
+        request.setUrlElemento(urlRedactor);
 
-        return obtenerEditorResponse(request);
+        return obtenerRedactorResponse(request);
 
     }
 
-    @GetMapping(path = "/editor/{url-editor}")
-    public @ResponseBody ObtenerPaginaEditorResponse obtenerEditor(@PathVariable("url-editor") final String urlEditor,
+    @GetMapping(path = "/redactor/{url-redactor}")
+    public @ResponseBody ObtenerPaginaRedactorResponse obtenerEditor(
+            @PathVariable("url-redactor") final String urlRedactor,
             @RequestHeader(value = "User-Agent") final String userAgent) {
 
         final ObtenerPaginaElementoRequest request = new ObtenerPaginaElementoRequest();
         request.setNumeroPagina(1);
         request.setOrdenarPor("fecha");
-        request.setUrlElemento(urlEditor);
+        request.setUrlElemento(urlRedactor);
 
-        return obtenerEditorResponse(request);
+        return obtenerRedactorResponse(request);
 
     }
 
-    private ObtenerPaginaEditorResponse obtenerEditorResponse(final ObtenerPaginaElementoRequest request) {
-        final ObtenerPaginaEditorResponse editorResponse = new ObtenerPaginaEditorResponse();
+    private ObtenerPaginaRedactorResponse obtenerRedactorResponse(final ObtenerPaginaElementoRequest request) {
+        final ObtenerPaginaRedactorResponse redactorResponse = new ObtenerPaginaRedactorResponse();
         final StopWatch stopWatch = new StopWatch("obtenerEditorResponse()");
         stopWatch.start("Obtener Nueve entradas editor");
         final List<EntradaSimpleDTO> nueveEntradasEditor = this.entradaService
@@ -506,16 +508,32 @@ public class PublicFacade {
                 }
             }
         }
-        editorResponse.setNueveEntradasEditor(nueveEntradasEditor);
+        redactorResponse.setNueveEntradasEditor(nueveEntradasEditor);
         stopWatch.stop();
-        stopWatch.start("Obtener Editor");
+        stopWatch.start("Obtener Redactor");
         if (CollectionUtils.isNotEmpty(nueveEntradasEditor)) {
             final String urlEditor = nueveEntradasEditor.iterator().next().getUrlEditor();
 
-            UsuarioBasicoDTO autor;
+            RedactorDTO redactorDTO;
             try {
-                autor = this.userService.findFirstByUsuarioUrl(urlEditor);
-                editorResponse.setAutor(autor);
+                redactorDTO = this.userService.findRedactorByUrl(urlEditor);
+                redactorResponse.setRedactor(redactorDTO);
+                final String imageServer = this.almacenImagenes.getUrlImageServer();
+                if (redactorDTO.getAvatarRedactor() != null) {
+                    try {
+                        redactorDTO.setAvatarRedactor(
+                                this.almacenImagenes.obtenerMiniatura(redactorDTO.getAvatarRedactor(), 170, 170, true));
+                    } catch (final IOException e) {
+                        redactorDTO.setAvatarRedactor(ConversionUtils.obtenerGravatar(redactorDTO.getEmail()));
+                    }
+                } else {
+                    redactorDTO.setAvatarRedactor(ConversionUtils.obtenerGravatar(redactorDTO.getEmail()));
+                }
+                if (redactorDTO.getImagenCabeceraRedactor() != null) {
+                    redactorDTO.setImagenCabeceraRedactor(imageServer + redactorDTO.getImagenCabeceraRedactor());
+                } else {
+                    redactorDTO.setImagenCabeceraRedactor("/assets/style/images/art/parallax2.jpg");
+                }
             } catch (final UserNotFoundException e) {
                 e.printStackTrace();
             }
@@ -524,10 +542,10 @@ public class PublicFacade {
         stopWatch.stop();
 
         stopWatch.start("Obtener Numero libros editor");
-        editorResponse.setNumeroEntradas(this.entradaService.obtenerNumeroEntradasEditor(request.getUrlElemento()));
+        redactorResponse.setNumeroEntradas(this.entradaService.obtenerNumeroEntradasEditor(request.getUrlElemento()));
         stopWatch.stop();
         log.info(stopWatch.prettyPrint());
-        return editorResponse;
+        return redactorResponse;
     }
 
     /**

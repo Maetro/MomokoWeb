@@ -67,7 +67,7 @@ const appRoutes = [
         }
       },
       {
-        path: 'redactor/:url_editor',
+        path: 'redactor/:url_redactor',
         loadChildren: './contenido/clasificador/lista-editor/lista-editor.module#ListaEditorModule',
         resolve: {
           redactor: ObtenerListaEditorResolverService

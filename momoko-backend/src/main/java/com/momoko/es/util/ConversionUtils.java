@@ -420,16 +420,18 @@ public class ConversionUtils {
         final RedactorDTO redactorDTO = new RedactorDTO();
         redactorDTO.setUsuarioId(usuarioEntity.getUsuarioId());
         redactorDTO.setNombre(usuarioEntity.getUsuarioLogin());
+        redactorDTO.setEmail(usuarioEntity.getUsuarioEmail());
         redactorDTO.setNick(usuarioEntity.getUsuarioNick());
         redactorDTO.setImagenCabeceraRedactor(usuarioEntity.getImagenCabeceraRedactor());
         redactorDTO.setAvatarRedactor(usuarioEntity.getAvatarUrl());
         redactorDTO.setUrlRedactor(usuarioEntity.getUsuarioUrl());
-        redactorDTO.setDescripcion(usuarioEntity.getCargo());
+        redactorDTO.setDescripcion(usuarioEntity.getDescripcion());
         redactorDTO.setTwitter(usuarioEntity.getTwitter());
         redactorDTO.setFacebook(usuarioEntity.getFacebook());
         redactorDTO.setInstagram(usuarioEntity.getInstagram());
         redactorDTO.setYoutube(usuarioEntity.getYoutube());
         redactorDTO.setPaginaWeb(usuarioEntity.getPaginaWeb());
+        redactorDTO.setCargo(usuarioEntity.getCargo());
         redactorDTO.setFechaAlta(usuarioEntity.getFechaAlta());
         return redactorDTO;
     }

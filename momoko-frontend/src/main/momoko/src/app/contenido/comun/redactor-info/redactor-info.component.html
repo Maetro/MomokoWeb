@@ -1,0 +1,43 @@
+<div class="col-md-2 contenedorAvatar">
+  <a routerLink="/redactor/{{redactor.urlRedactor}}">
+    <img alt="Avatar del redactor {{redactor.nombre}}" src="{{redactor.avatarRedactor}}" class="avatar" />
+  </a>
+</div>
+<div class="col-md-10">
+  <div class="row">
+    <div class="col-md-12">
+        <a routerLink="/redactor/{{redactor.urlRedactor}}"> <h2>{{redactor.nombre}}</h2> </a>
+      <h3>{{redactor.cargo}}</h3>
+      <p class="descripcionAutor">{{redactor.descripcion}}</p>
+    </div>
+    <div class="col-md-12">
+      <div class="post__share iconoSocial">
+        <div *ngIf="redactor.facebook" class="enlaceRedes">
+          <a class=" facebook s_facebook" href="{{redactor.facebook}}">
+            <i class="fa fa-facebook"></i>
+          </a>
+        </div>
+        <div *ngIf="redactor.twitter" class="enlaceRedes">
+          <a class="twitter s_twitter" href="{{redactor.twitter}}">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </div>
+        <div *ngIf="redactor.instagram" class="enlaceRedes">
+          <a class="instagram s_instagram" href="{{redactor.instagram}}">
+            <i class="fa fa-instagram"></i>
+          </a>
+        </div>
+        <div *ngIf="redactor.youtube" class="enlaceRedes">
+          <a class="youtube s_youtube" href="{{redactor.youtube}}">
+            <i class="fa fa-youtube"></i>
+          </a>
+        </div>
+        <div *ngIf="redactor.paginaweb" class="enlaceRedes">
+          <a class="paginaweb s_paginaweb" href="{{redactor.paginaweb}}">
+            <i class="fa fa-file"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

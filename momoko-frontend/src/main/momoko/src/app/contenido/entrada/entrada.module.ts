@@ -16,6 +16,7 @@ import { FormsModule } from '@angular/forms';
 
 // Import library module
 import { NgxJsonLdModule } from 'ngx-json-ld';
+import { RedactorInfoModule } from '../comun/redactor-info/redactor-info.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { NgxJsonLdModule } from 'ngx-json-ld';
     ComunesModule,
     GrowlModule,
     FormsModule,      
+    RedactorInfoModule,
     NgxJsonLdModule,
     RouterModule.forChild([
       { path: '', component: EntradaComponent, pathMatch: 'full'}      

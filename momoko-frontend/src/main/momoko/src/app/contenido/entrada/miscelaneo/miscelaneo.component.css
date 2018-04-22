@@ -8,3 +8,8 @@
     text-transform: none;
     color: #FFF;
   }
+
+  hr{
+    padding-top: 15px;
+    margin-bottom: 15px;
+  }

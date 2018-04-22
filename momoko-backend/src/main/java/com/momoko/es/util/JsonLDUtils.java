@@ -78,7 +78,7 @@ public class JsonLDUtils {
             final ArrayList<Review> reviews = new ArrayList<Review>();
             final Review reviewMomoko = new Review();
             reviewMomoko.setType("Review");
-            reviewMomoko.setAuthor(entrada.getAutor().getNombre());
+            reviewMomoko.setAuthor(entrada.getRedactor().getNombre());
             reviewMomoko.setDatePublished(entrada.getFechaAlta().toString());
             reviewMomoko.setName(entrada.getTituloEntrada());
             reviewMomoko.setDescription(entrada.getResumenEntrada());

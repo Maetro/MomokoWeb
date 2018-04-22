@@ -16,7 +16,7 @@ import com.momoko.es.backend.model.entity.UsuarioEntity;
 /**
  * The Interface UsuarioRepositoryImpl.
  */
-public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Long> {
+public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Integer> {
 
     /**
      * Find by email.

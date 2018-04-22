@@ -1,28 +1,25 @@
 <div class="light-wrapper">
 
-    <div class="parallax page-title inverse-wrapper parallax2">
-      <div class="container inner">
-        <h1 class="text-center">Redactor: {{redactor.nombre}} </h1>
-      </div>
-      <!-- /.container -->
-  
+  <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + redactor.imagenCabeceraRedactor + ')'}">
+    <div class="container inner">
+      <h1 class="text-center">Redactor: {{redactor.nombre}} </h1>
     </div>
-    <div class="container inner tp0">
-      <div class="divide60"></div>
-      <div class="blog row">
-        <div class="col-sm-12 blog-content list-view">
-          <div class="row">
-            <div class="col-sm-9">
-              <div class="product-layout-view active">
-                <a class="active" (click)="desactivarEnLista()" title="Grid Layout">
-                  <i class="fa fa-th" aria-hidden="true"></i>
-                </a>
-                <a class="iconomono" (click)="activarEnLista()" title="List Layout">
-                  <i class="fa fa-list-ul" aria-hidden="true"></i>
-                </a>
-              </div>
-            </div>
-            <!-- <div class="col-sm-3">
+    <!-- /.container -->
+
+  </div>
+  <div class="container inner tp0">
+    <div class="row marginTop65">
+        <app-redactor-info [redactor]="redactor"></app-redactor-info>
+        
+    </div>
+    <hr/>
+    <div class="blog row">
+      <div class="col-sm-12 blog-content list-view">
+        <div class="row">
+          <div class="col-sm-9">
+            <h3>Lista Entradas de {{redactor.nombre}}:</h3>
+          </div>
+          <!-- <div class="col-sm-3">
                 <select class="ui-paginator-rpp-options ui-widget ui-state-default" (change)="onChangeOrder($event)">
     
                   <option value="1">Orden por fecha </option>
@@ -31,100 +28,100 @@
                 <br />
                 <br />
               </div> -->
-          </div>
-  
-          <div class="blog-content marginTop20">
-            <div class="blog-post">
-              <div class="row" *ngIf="!enLista">
-                <div class="libroGenero" *ngFor="let entrada of entradasEditor, let i = index; let first = first">
-                  <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
-                  <div class="col-sm-4">
-                    <div class="entrada">
-                      <figure class="entrada__image">
-                        <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
-                          <span>
-                            <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
-                          </span>
+        </div>
+
+        <div class="blog-content marginTop20">
+          <div class="blog-post">
+            <div class="row" *ngIf="!enLista">
+              <div class="libroGenero" *ngFor="let entrada of entradasEditor, let i = index; let first = first">
+                <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
+                <div class="col-sm-4">
+                  <div class="entrada">
+                    <figure class="entrada__image">
+                      <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                        <span>
+                          <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                        </span>
+                      </a>
+                      <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                        <span>
+                          <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                        </span>
+                      </a>
+                      <div class="entrada__action">
+                        <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
+                          class="button buy-now" style="font-size:11px;">
+                          <span>Ver más información</span>
                         </a>
-                        <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
-                          <span>
-                            <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
-                          </span>
-                        </a>
-                        <div class="entrada__action">
-                          <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
-                            class="button buy-now" style="font-size:11px;">
-                            <span>Ver más información</span>
-                          </a>
-  
-                          <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
-                            class="button buy-now" style="
+
+                        <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
+                          class="button buy-now" style="
                             font-size:11px;">
-                            <span>Ver más información</span>
-                          </a>
-                        </div>
-                      </figure>
-                      <div class="entrada__detail">
-                        <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
-                          <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
-                          <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
-                        </h3>
-                        <h4 class="entrada__autor">
-                          {{entrada.nombreAutor}}
-                        </h4>
-                        <a *ngIf="entrada.urlLibro" routerLink="//{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
-                          Leer más
-                        </a>
-                        <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
-                          Leer más
+                          <span>Ver más información</span>
                         </a>
                       </div>
+                    </figure>
+                    <div class="entrada__detail">
+                      <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
+                        <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                        <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                      </h3>
+                      <h4 class="entrada__autor">
+                        {{entrada.nombreAutor}}
+                      </h4>
+                      <a *ngIf="entrada.urlLibro" routerLink="//{{entrada.bloque}}/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
+                        Leer más
+                      </a>
+                      <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
+                        Leer más
+                      </a>
                     </div>
                   </div>
-  
                 </div>
-  
+
               </div>
-              <div class="row" *ngIf="enLista">
-                <div class="categoriaEntradaLista" *ngFor="let entrada of entradasEditor, let i = index; let first = first">
-                  <div class="col-sm-4">
-                    <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-                      <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
-                    </a>
-                    <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
-                      <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
-                    </a>
-                  </div>
-                  <div class="col-sm-8">
-                    <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-                      <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
-                    </a>
-                    <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
-                      <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
-                    </a>
-                    <span class="autor_libro"> {{entrada.nombreAutor}} </span>
-  
-                    <div class="descripcionlibro" [innerHTML]="entrada.resumen"> </div>
-  
-                    <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="btn">Leer más </a>
-                    <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" class="btn">Leer más </a>
-                  </div>
-                  <div class="clearfix"></div>
-                </div>
-  
-              </div>
-  
-              <app-pagination [offset]="offset" [currentPage]="paginaActual" [limit]="limit" [range]="range" [size]="size" (pageChange)="onPageChange($event)"></app-pagination>
-            
-              <!-- /.page-navi -->
-              <div class="clearfix"></div>
+
             </div>
-            <!-- /.blog-content -->
+            <div class="row" *ngIf="enLista">
+              <div class="categoriaEntradaLista" *ngFor="let entrada of entradasEditor, let i = index; let first = first">
+                <div class="col-sm-4">
+                  <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
+                    <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                  </a>
+                  <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
+                    <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                  </a>
+                </div>
+                <div class="col-sm-8">
+                  <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
+                    <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
+                  </a>
+                  <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
+                    <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
+                  </a>
+                  <span class="autor_libro"> {{entrada.nombreAutor}} </span>
+
+                  <div class="descripcionlibro" [innerHTML]="entrada.resumen"> </div>
+
+                  <a *ngIf="entrada.urlLibro" routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="btn">Leer más </a>
+                  <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}" class="btn">Leer más </a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+            </div>
+
+            <app-pagination [offset]="offset" [currentPage]="paginaActual" [limit]="limit" [range]="range" [size]="size" (pageChange)="onPageChange($event)"></app-pagination>
+
+            <!-- /.page-navi -->
+            <div class="clearfix"></div>
           </div>
-  
-  
+          <!-- /.blog-content -->
         </div>
-        <!-- /.blog -->
-  
+
+
       </div>
+      <!-- /.blog -->
+
     </div>
+  </div>
