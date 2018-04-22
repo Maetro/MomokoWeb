@@ -180,12 +180,16 @@ public class UserServiceImpl implements UserService {
         usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
         usuario.setUsuarioNombreVisible(redactorDTO.getNick());
         usuario.setUsuarioRolId(1);
-        usuario.setAvatarUrl(MomokoUtils.soloNombreYCarpeta(redactorDTO.getAvatarRedactor()));
+        if (redactorDTO.getAvatarRedactor() != null) {
+            usuario.setAvatarUrl(MomokoUtils.soloNombreYCarpeta(redactorDTO.getAvatarRedactor()));
+        }
         usuario.setCargo(redactorDTO.getCargo());
         usuario.setDescripcion(redactorDTO.getDescripcion());
         usuario.setFechaModificacion(Calendar.getInstance().getTime());
         usuario.setUsuarioModificacion(currentPrincipalName);
-        usuario.setImagenCabeceraRedactor(MomokoUtils.soloNombreYCarpeta(redactorDTO.getImagenCabeceraRedactor()));
+        if (redactorDTO.getImagenCabeceraRedactor() != null) {
+            usuario.setImagenCabeceraRedactor(MomokoUtils.soloNombreYCarpeta(redactorDTO.getImagenCabeceraRedactor()));
+        }
         usuario.setTwitter(redactorDTO.getTwitter());
         usuario.setFacebook(redactorDTO.getFacebook());
         usuario.setInstagram(redactorDTO.getInstagram());
