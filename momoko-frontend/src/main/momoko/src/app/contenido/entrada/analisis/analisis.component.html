@@ -120,7 +120,7 @@
             <div class="infoEntrada">
               Análisis de
               <span class="autorEntrada">
-                <a routerLink="/redactor/{{entrada.autor.urlRedactor}}">{{entrada.autor.nombre}}</a>
+                <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
               </span>
               <span class="generosText">Género
                 <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
