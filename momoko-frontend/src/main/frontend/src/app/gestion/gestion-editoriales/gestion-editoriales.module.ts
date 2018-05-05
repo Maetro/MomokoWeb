@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListaRedactoresComponent } from './lista-redactores/lista-redactores.component';
 import {
   InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule,
   SharedModule, DropdownModule
@@ -14,8 +13,9 @@ import { PickListModule } from 'primeng/components/picklist/picklist';
 import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
 import { FormsModule } from '@angular/forms';
 import { Ng2CompleterModule } from 'ng2-completer';
-import { RedactorDetailComponent } from './redactor-detail/redactor-detail.component';
 import { RedactorService } from 'app/services/redactor.service';
+import { EditorialService } from 'app/services/editorial.service';
+import { ListaEditorialesComponent } from './lista-editoriales/lista-editoriales.component';
 
 @NgModule({
   imports: [
@@ -32,7 +32,7 @@ import { RedactorService } from 'app/services/redactor.service';
     PickListModule,
     Ng2CompleterModule,
   ],
-  declarations: [ListaRedactoresComponent, RedactorDetailComponent],
-  providers: [RedactorService]
+  declarations: [ListaEditorialesComponent],
+  providers: [EditorialService]
 })
-export class GestionRedactoresModule { }
+export class GestionEditorialesModule { }

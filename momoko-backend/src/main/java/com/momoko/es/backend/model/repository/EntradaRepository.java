@@ -34,6 +34,8 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     List<EntradaEntity> findTop10ByOrderByFechaAltaDesc();
 
+    List<EntradaEntity> findAll();
+
     /**
      * Find first by url entrada.
      *

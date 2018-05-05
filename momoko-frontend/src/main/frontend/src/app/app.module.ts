@@ -28,6 +28,7 @@ import { SuscripcionService } from 'app/services/suscripcion.service';
 
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-editoriales/lista-editoriales.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
     HeaderComponent,
     FooterComponent,
     AdminComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    ListaEditorialesComponent
   ],
   imports: [
     BrowserModule,

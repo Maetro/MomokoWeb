@@ -18,32 +18,36 @@ const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
   {
     path: 'admin',
-     children: [
-          {
-            path: 'lista-libros',
-            component: ListaLibrosComponent
-          },
-          {
-            path: 'lista-entradas',
-            component: ListaEntradasComponent
-          },
-          {
-            path: 'lista-sagas',
-            component: ListaSagasComponent
-          },
-          {
-            path: 'lista-generos',
-            component: ListaGenerosComponent
-          },
-          {
-            path: 'lista-galerias',
-            component: ListaGaleriasComponent
-          },
-          {
-            path: 'lista-redactores',
-            component: ListaRedactoresComponent
-          }
-        ],
+    children: [
+      {
+        path: 'lista-libros',
+        component: ListaLibrosComponent
+      },
+      {
+        path: 'lista-entradas',
+        component: ListaEntradasComponent
+      },
+      {
+        path: 'lista-sagas',
+        component: ListaSagasComponent
+      },
+      {
+        path: 'lista-generos',
+        component: ListaGenerosComponent
+      },
+      {
+        path: 'lista-galerias',
+        component: ListaGaleriasComponent
+      },
+      {
+        path: 'lista-redactores',
+        component: ListaRedactoresComponent
+      },
+      {
+        path: 'lista-editoriales',
+        component: ListaRedactoresComponent
+      }
+    ],
   },
   {
     path: '',
