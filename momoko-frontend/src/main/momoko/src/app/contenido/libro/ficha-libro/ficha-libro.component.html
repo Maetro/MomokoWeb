@@ -59,7 +59,9 @@
           <div class="col-md-12">
             <div class="datos editorial" *ngIf="libro.editorial.nombreEditorial">
               <b>EDITORIAL: </b>
-              <span class="info">{{libro.editorial.nombreEditorial}}</span>
+              <a routerLink="/editorial/{{libro.editorial.urlEditorial}}">
+                <span class="info">{{libro.editorial.nombreEditorial}}</span>
+              </a>
             </div>
             <div class="datos anoEdicion" *ngIf="libro.anoEdicion">
               <b>AÑO DE EDICIÓN: </b>

@@ -85,7 +85,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .findUltimasEntradas(Calendar.getInstance().getTime(), new PageRequest(0, 10));
+                .findUltimasEntradas(Calendar.getInstance().getTime(), new PageRequest(0, 11));
         final List<EntradaSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
 
         for (int i = 0; i < 5; i++) {
@@ -102,13 +102,13 @@ public class IndexServiceImpl implements IndexService {
                 }
             }
         }
-        for (int i = 5; i < 7; i++) {
+        for (int i = 5; i < 8; i++) {
             final EntradaSimpleDTO entradaSimpleDTO = listaEntradasSimples.get(i);
             if (entradaSimpleDTO.getImagenEntrada() != null) {
                 try {
 
                     final String thumbnail = this.storageService.obtenerMiniatura("imagenes-destacadas",
-                            entradaSimpleDTO.getImagenEntrada(), 900, 650, true);
+                            entradaSimpleDTO.getImagenEntrada(), 770, 450, true);
                     entradaSimpleDTO.setImagenEntrada(thumbnail);
 
                 } catch (final IOException e) {
@@ -124,7 +124,7 @@ public class IndexServiceImpl implements IndexService {
 
             }
         }
-        for (int i = 7; i < 10; i++) {
+        for (int i = 8; i < 11; i++) {
             final EntradaSimpleDTO entradaSimpleDTO = listaEntradasSimples.get(i);
             if (entradaSimpleDTO.getImagenEntrada() != null) {
                 try {
@@ -147,8 +147,8 @@ public class IndexServiceImpl implements IndexService {
         final Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, -1);
 
-        final List<String> librosMasVisitadosMes = this.visitaRepository.findTipoVisitaMasVistosDesde(new PageRequest(0, 5),
-                TipoVisitaEnum.LIBRO.toString(), c.getTime());
+        final List<String> librosMasVisitadosMes = this.visitaRepository
+                .findTipoVisitaMasVistosDesde(new PageRequest(0, 5), TipoVisitaEnum.LIBRO.toString(), c.getTime());
 
         final List<LibroEntity> listaLibros = this.libroRepository.findByUrlLibroIn(librosMasVisitadosMes);
         final List<Integer> listaLibrosIds = new ArrayList<Integer>();

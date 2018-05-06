@@ -10,8 +10,8 @@
                                     <app-tag-categoria [urlEntrada]="obtenerUrlEntradaSimple(entradaSimple)" [nombreCategoria]="entradaSimple.categoria"></app-tag-categoria>
 
                                     <h2 class="post-title text-center">
-                                            <a *ngIf="!entradaSimple.urlLibro" routerLink="/{{entradaSimple.urlEntrada}}">{{entradaSimple.tituloEntrada}} </a>
-                                            <a *ngIf="entradaSimple.urlLibro" routerLink="{{entradaSimple.bloque}}/{{entradaSimple.urlEntrada}}">{{entradaSimple.tituloEntrada}} </a>
+                                        <a *ngIf="!entradaSimple.urlLibro" routerLink="/{{entradaSimple.urlEntrada}}">{{entradaSimple.tituloEntrada}} </a>
+                                        <a *ngIf="entradaSimple.urlLibro" routerLink="{{entradaSimple.bloque}}/{{entradaSimple.urlEntrada}}">{{entradaSimple.tituloEntrada}} </a>
                                     </h2>
                                     <div class="meta text-center">
                                         <span class="date">{{entradaSimple.fechaAlta | date:'dd MMM yyyy'}}</span>
@@ -41,6 +41,7 @@
                     <div class="blog-posts">
                         <app-anadir-entrada></app-anadir-entrada>
                         <app-anadir-entrada2></app-anadir-entrada2>
+                        <app-anadir-entrada3></app-anadir-entrada3>
                     </div>
                     <!-- /.blog-posts -->
 

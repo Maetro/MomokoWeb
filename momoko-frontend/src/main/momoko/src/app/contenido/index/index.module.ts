@@ -14,6 +14,7 @@ import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila
 import { LibrosHorizontalComponent } from './libros-horizontal/libros-horizontal.component';
 import { VideosHorizontalComponent } from './videos-horizontal/videos-horizontal.component';
 import { YoutubeService } from '../../services/youtube.service';
+import { AnadirEntrada3Component } from './entrada-portada/anadir-entrada3/anadir-entrada3.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,7 @@ import { YoutubeService } from '../../services/youtube.service';
     ])
   ],
   declarations: [IndexComponent, EntradaPortadaNormalComponent, AnadirEntradaDirective, AnadirEntradaComponent, 
-    AnadirEntrada2Component, EntradaPortadaNormalComponent, EntradaPortadaVideoComponent, Fila3entradasfondonegroComponent, LibrosHorizontalComponent, VideosHorizontalComponent],
+    AnadirEntrada2Component, EntradaPortadaNormalComponent, EntradaPortadaVideoComponent, Fila3entradasfondonegroComponent, LibrosHorizontalComponent, VideosHorizontalComponent, AnadirEntrada3Component],
   providers:[ IndexDataService, ObtenerIndexDataResolverService, YoutubeService ],
   entryComponents: [EntradaPortadaNormalComponent, EntradaPortadaVideoComponent]
 })

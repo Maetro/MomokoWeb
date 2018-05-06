@@ -22,32 +22,32 @@
             <app-nota-circular [nota]="entrada.librosEntrada[0].notaMomoko"></app-nota-circular>
           </div>
           <div class="bloqueDatos">
-            <div class="datos autor">
+            <div class="datos autor" *ngIf="entrada.librosEntrada[0].titulo">
               <b>Título:
                 <span class="info">{{entrada.librosEntrada[0].titulo}}</span>
               </b>
             </div>
-            <div class="datos autor">
+            <div class="datos autor" *ngIf="entrada.librosEntrada[0].tituloOriginal">
               <b>Título original:
                 <span class="info">{{entrada.librosEntrada[0].tituloOriginal}}</span>
               </b>
             </div>
-            <div class="datos autor">
+            <div class="datos autor" *ngIf="autores">
               <b>Autor:
                 <span class="info">{{autores}}</span>
               </b>
             </div>
-            <div class="datos numPaginas">
+            <div class="datos numPaginas" *ngIf="entrada.librosEntrada[0].numeroPaginas">
               <b>Nº de páginas:
                 <span class="info">{{entrada.librosEntrada[0].numeroPaginas}}</span>
               </b>
             </div>
-            <div class="datos autor">
+            <div class="datos autor" *ngIf="entrada.librosEntrada[0].anoPublicacion">
               <b>Año de publicación:
                 <span class="info">{{entrada.librosEntrada[0].anoPublicacion}}</span>
               </b>
             </div>
-            <div class="datos autor">
+            <div class="datos autor" *ngIf="entrada.librosEntrada[0].anoEdicion">
               <b>Año de edición:
                 <span class="info">{{entrada.librosEntrada[0].anoEdicion}}</span>
               </b>

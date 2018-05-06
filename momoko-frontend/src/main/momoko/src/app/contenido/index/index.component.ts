@@ -17,6 +17,7 @@ import { YoutubeService } from '../../services/youtube.service';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { LinkService } from '../../services/link.service';
+import { AnadirEntrada3Component } from './entrada-portada/anadir-entrada3/anadir-entrada3.component';
 
 declare var $: any;
 
@@ -45,16 +46,17 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   @ViewChild(AnadirEntradaComponent) anadirEntradaComponent: AnadirEntradaComponent;
   @ViewChild(AnadirEntrada2Component) anadirEntrada2Component: AnadirEntrada2Component;
+  @ViewChild(AnadirEntrada3Component) anadirEntrada3Component: AnadirEntrada3Component;
   @ViewChild(Fila3entradasfondonegroComponent) fila3entradasfondonegroComponent: Fila3entradasfondonegroComponent;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
     private youtubeService: YoutubeService,
-    private metaService: Meta, 
+    private metaService: Meta,
     private titleService: Title,
     private linkService: LinkService,
-    private util: UtilService, 
+    private util: UtilService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
@@ -69,16 +71,16 @@ export class IndexComponent implements OnInit, AfterViewInit {
       this.librosUltimosAnalisis = data.obtenerIndexDataResponse.ultimosAnalisis;
       this.ultimoComicAnalizado = data.obtenerIndexDataResponse.ultimoComicAnalizado;
       this.titleService.setTitle('Momoko - blog de literatura, análisis y noticias de libros');
-      this.util.removeAllTags( this.metaService);
-      this.metaService.addTag({ name: 'description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'});
-      this.metaService.addTag({ name: 'og:url', content: 'https://momoko.es'});
+      this.util.removeAllTags(this.metaService);
+      this.metaService.addTag({ name: 'description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.' });
+      this.metaService.addTag({ name: 'og:url', content: 'https://momoko.es' });
       this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
       this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
       this.metaService.addTag({ name: 'og:type', content: 'article' });
-      this.metaService.addTag({ name: 'og:title', content: 'Momoko - blog de literatura, análisis y noticias de libros'});
-      this.metaService.addTag({ name: 'og:description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'});
+      this.metaService.addTag({ name: 'og:title', content: 'Momoko - blog de literatura, análisis y noticias de libros' });
+      this.metaService.addTag({ name: 'og:description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.' });
       this.metaService.addTag({ name: 'og:image', content: 'https://momoko.es/assets/style/images/logo.png' });
-      this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es'} );
+      this.linkService.addTag({ rel: 'canonical', href: 'https://momoko.es' });
     }, error => {
       if (this.log) {
         console.log('Error al recuperar los datos generales ', error);
@@ -93,7 +95,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    
+
     if (this.log) {
       console.log('Ejecutando JQuery');
     }
@@ -121,12 +123,12 @@ export class IndexComponent implements OnInit, AfterViewInit {
         });
         const $swipers = $(this);
       });
-   }
-   if (isPlatformServer(this.platformId)) {
-     // Server only code.
-   }
+    }
+    if (isPlatformServer(this.platformId)) {
+      // Server only code.
+    }
 
-    
+
 
   }
 
@@ -137,7 +139,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     if (this.log) {
       console.log('Obtener entradas portada');
     }
-    for (let i = 5; i < 7; i++) {
+    for (let i = 5; i < 8; i++) {
       const entradaSimple = entradas[i];
       let e: EntradaItem;
       if (entradaSimple.tipoEntrada === 'Vídeo') {
@@ -151,6 +153,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     this.entradasPortada = entradasBD;
     this.anadirEntradaComponent.loadComponent(this.entradasPortada[0]);
     this.anadirEntrada2Component.loadComponent(this.entradasPortada[1]);
+    this.anadirEntrada3Component.loadComponent(this.entradasPortada[2]);
 
     for (let pos = 0; pos < 5; pos++) {
       this.entradas1a5.push(this.ultimasEntradas[pos]);
@@ -163,7 +166,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
   }
 
 
-  obtenerUrlEntradaSimple(entrada: EntradaSimple): string{
+  obtenerUrlEntradaSimple(entrada: EntradaSimple): string {
     return this.util.obtenerUrlEntradaSimple(entrada);
   }
 
