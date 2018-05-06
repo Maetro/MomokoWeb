@@ -40,7 +40,7 @@ export class EditorialService {
     });
 
     return this.http
-      .post(this.editorialesUrl, JSON.stringify(editorial), { headers: headers })
+      .post(this.addEditorialUrl, JSON.stringify(editorial), { headers: headers })
       .map(this.obtenerRespuestaGuardadoRedactor)
       .catch(error => Observable.throw(error || 'Server error'));
   }

@@ -1,99 +1,102 @@
 <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + libro.generos[0].imagenCabeceraGenero + ')'}">
-    <div class="container inner">
-        <div class="textoCabecera">
-            <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
-                <span [hidden]="last">, </span>
-              </span>
-        </div>
-      </div>
+  <div class="container inner">
+    <div class="textoCabecera">
+      <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
+        <span [hidden]="last">, </span>
+      </span>
+    </div>
   </div>
-  <app-menu-interno-libro [libro]="libro"></app-menu-interno-libro>
-  <div class="light-wrapper">
-    <div class="container inner nopaddingbottom">
-      <div class="blog row">
-        <div class="col-md-4" id="mirarAnchura">
-          <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.urlImagen"></app-libro3d>
-          <div class="post__share" data-title="" data-text="" data-image="http://demo.tokomoo.com/pustaka/buku/wp-content/uploads/sites/3/2016/10/Book_003.jpg"
-            data-url="http://demo.tokomoo.com/pustaka/buku/product/since-youve-been-gone/" data-width="640" data-height="480">
-            <strong></strong>
-            <div class="row">
-              <div class="col-md-12 bloqueRedes">
-                <a href="" class="facebook s_facebook">
-                  <i class="fa fa-facebook"></i>
-                  <span class="label">Facebook</span>
-                </a>
-                <a href="" class="twitter s_twitter">
-                  <i class="fa fa-twitter"></i>
-                  <span class="label">Twitter</span>
-                </a>
-                <a href="" class="google-plus s_plus">
-                  <i class="fa fa-google-plus"></i>
-                  <span class="label">Google+</span>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-8">
+</div>
+<app-menu-interno-libro [libro]="libro"></app-menu-interno-libro>
+<div class="light-wrapper">
+  <div class="container inner nopaddingbottom">
+    <div class="blog row">
+      <div class="col-md-4" id="mirarAnchura">
+        <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.urlImagen"></app-libro3d>
+        <div class="post__share" data-title="" data-text="" data-image="http://demo.tokomoo.com/pustaka/buku/wp-content/uploads/sites/3/2016/10/Book_003.jpg"
+          data-url="http://demo.tokomoo.com/pustaka/buku/product/since-youve-been-gone/" data-width="640" data-height="480">
+          <strong></strong>
           <div class="row">
-            <div class="col-md-9">
-              <div class="etiquetaLibro">
-                <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
-                  <span [hidden]="last"> / </span>
-                </span>
-              </div>
-              <h1 class="post-title">{{libro.titulo}} </h1>
-              <p class="titulo_original"> {{libro.tituloOriginal}} </p>
-              <div class="autor_libro" > <span *ngFor="let autor of libro.autores,let last = last;">{{autor.nombre}}<span [hidden]="last">, </span></span></div>
-            </div>
-            <div class="col-md-3" *ngIf="libro.notaMomoko">
-              <app-nota-circular [nota]="libro.notaMomoko"></app-nota-circular>
-            </div>
-            <div class="col-md-12">
-              <p> {{libro.resumen}} </p>
-            </div>
-            <div class="col-md-12">
-              <div class="datos editorial" *ngIf="libro.editorial.nombreEditorial">
-                <b>EDITORIAL: </b>
-                <span class="info">{{libro.editorial.nombreEditorial}}</span>
-              </div>
-              <div class="datos anoEdicion" *ngIf="libro.anoEdicion">
-                <b>AÑO DE EDICIÓN: </b>
-                <span class="info">{{libro.anoEdicion}}</span>
-              </div>
-              <div class="datos anoPublicacion" *ngIf="libro.anoPublicacion">
-                <b>AÑO DE PUBLICACIÓN: </b>
-                <span class="info">{{libro.anoPublicacion}}</span>
-              </div>
-              <div class="datos numPaginas" *ngIf="libro.numeroPaginas">
-                <b>Nº PÁGINAS: </b>
-                <span class="info">{{libro.numeroPaginas}}</span>
-              </div>
-            </div>
-            <div class="col-md-12 marginTop40"  *ngIf="libro.enlaceAmazon">
-              <a class="amazon" href="{{libro.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
-                <span class="btnComprarAmazon">Comprar libro &gt;</span>
-                <img src="http://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Comprar Amazon" title="Amazon">
+            <div class="col-md-12 bloqueRedes">
+              <a href="" class="facebook s_facebook">
+                <i class="fa fa-facebook"></i>
+                <span class="label">Facebook</span>
+              </a>
+              <a href="" class="twitter s_twitter">
+                <i class="fa fa-twitter"></i>
+                <span class="label">Twitter</span>
+              </a>
+              <a href="" class="google-plus s_plus">
+                <i class="fa fa-google-plus"></i>
+                <span class="label">Google+</span>
               </a>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="light-wrapper">
-    <div class="container inner">
-      <div class="blog row">
-        <div class="col-sm-8">
-          <div class="blog-content classic-view">
-              <h3> Últimas actualizaciones de este libro </h3>
-               <div class="divider_inner divider_line1"></div>
-                <app-entrada-simple-horizontal [entradas]="tresUltimasEntradas"></app-entrada-simple-horizontal>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="etiquetaLibro">
+              <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
+                <span [hidden]="last"> / </span>
+              </span>
+            </div>
+            <h1 class="post-title">{{libro.titulo}} </h1>
+            <p class="titulo_original"> {{libro.tituloOriginal}} </p>
+            <div class="autor_libro">
+              <span *ngFor="let autor of libro.autores,let last = last;">{{autor.nombre}}
+                <span [hidden]="last">, </span>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-3" *ngIf="libro.notaMomoko">
+            <app-nota-circular [nota]="libro.notaMomoko"></app-nota-circular>
+          </div>
+          <div class="col-md-12">
+            <p> {{libro.resumen}} </p>
+          </div>
+          <div class="col-md-12">
+            <div class="datos editorial" *ngIf="libro.editorial.nombreEditorial">
+              <b>EDITORIAL: </b>
+              <span class="info">{{libro.editorial.nombreEditorial}}</span>
+            </div>
+            <div class="datos anoEdicion" *ngIf="libro.anoEdicion">
+              <b>AÑO DE EDICIÓN: </b>
+              <span class="info">{{libro.anoEdicion}}</span>
+            </div>
+            <div class="datos anoPublicacion" *ngIf="libro.anoPublicacion">
+              <b>AÑO DE PUBLICACIÓN: </b>
+              <span class="info">{{libro.anoPublicacion}}</span>
+            </div>
+            <div class="datos numPaginas" *ngIf="libro.numeroPaginas">
+              <b>Nº PÁGINAS: </b>
+              <span class="info">{{libro.numeroPaginas}}</span>
+            </div>
+          </div>
+          <div class="col-md-12 marginTop40" *ngIf="libro.enlaceAmazon">
+            <a class="amazon" href="{{libro.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
+              <span class="btnComprarAmazon">Comprar libro &gt;</span>
+              <img src="https://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Comprar Amazon" title="Amazon">
+            </a>
           </div>
         </div>
-  
-        <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
       </div>
     </div>
   </div>
-  
+</div>
+<div class="light-wrapper">
+  <div class="container inner">
+    <div class="blog row">
+      <div class="col-sm-8">
+        <div class="blog-content classic-view">
+          <h3> Últimas actualizaciones de este libro </h3>
+          <div class="divider_inner divider_line1"></div>
+          <app-entrada-simple-horizontal [entradas]="tresUltimasEntradas"></app-entrada-simple-horizontal>
+        </div>
+      </div>
+
+      <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
+    </div>
+  </div>
+</div>

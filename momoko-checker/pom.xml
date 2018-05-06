@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>com.momoko.es</groupId>
 		<artifactId>parent</artifactId>
-		<version>0.13.3-SNAPSHOT</version>
+		<version>0.13.4-SNAPSHOT</version>
 	</parent>
 	<artifactId>momoko-checker</artifactId>
 	<dependencies>

@@ -87,7 +87,7 @@ logging:
   level:
     org:
       springframework:
-        security: ERROR
+        security: DEBUG
       hibernate:
         type: INFO
         SQL: INFO
