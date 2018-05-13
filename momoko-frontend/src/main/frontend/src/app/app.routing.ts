@@ -13,6 +13,7 @@ import { ListaGaleriasComponent } from 'app/gestion/gestion-galerias/lista-galer
 import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-index-data-resolver.service';
 import { ListaSagasComponent } from 'app/gestion/gestion-libros/lista-sagas/lista-sagas.component';
 import { ListaRedactoresComponent } from 'app/gestion/gestion-redactores/lista-redactores/lista-redactores.component';
+import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-editoriales/lista-editoriales.component';
 
 const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
@@ -45,9 +46,9 @@ const appRoutes: Routes = [
       },
       {
         path: 'lista-editoriales',
-        component: ListaRedactoresComponent
+        component: ListaEditorialesComponent
       }
-    ],
+    ]
   },
   {
     path: '',
@@ -56,7 +57,9 @@ const appRoutes: Routes = [
       obtenerIndexDataResponse: ObtenerIndexDataResolverService
     }
   },
-  { path: '**', component: PageNotFoundComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
-export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes) // <-- debugging purposes only);
+export const routing: ModuleWithProviders = RouterModule.forRoot(appRoutes, {
+  enableTracing: false
+}); // <-- debugging purposes only);

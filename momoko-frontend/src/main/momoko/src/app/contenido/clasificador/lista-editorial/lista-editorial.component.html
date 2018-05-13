@@ -1,24 +1,41 @@
 <div class="light-wrapper">
-    <div class="parallax page-title inverse-wrapper parallax2">
+    <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + editorial.imagenCabeceraEditorial + ')'}">
         <div class="container inner">
             <h1 class="text-center">Editorial: {{editorial.nombreEditorial}} </h1>
         </div>
         <!-- /.container -->
-    
-      </div>
+
+    </div>
     <div class="container inner tp0">
         <div class="divide60"></div>
+        <div class="blog row" *ngIf="editorial.imagenEditorial">
+            <div class="col-sm-2">
+                <img src="{{editorial.imagenEditorial}}" alt="Imagen editorial - {{editorial.nombreEditorial}} " />
+            </div>
+            <div class="col-sm-10">
+                <div class="cuerpo" [innerHTML]="editorial.descripcionEditorial  | satinizeHtml2">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <b>Página web</b>
+                <span class="autorEntrada">
+                    <a target="_blank" href="{{editorial.webEditorial}}">Link</a>
+                </span>
+                <!-- Contacto
+                <span class="autorEntrada">
+                    {{editorial.informacionDeContacto}}
+                </span> -->
+
+                <!-- <span class="editorialText">Editorial
+                    <span class="autorEntrada">
+                        <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
+                    </span>
+                </span> -->
+            </div>
+        </div>
         <div class="blog row">
             <div class="col-sm-8 blog-content list-view">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="product-layout-view active">
-                            <a class="active" href="#" title="Grid Layout">
-                                <i class="fa fa-th" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
+
 
                 <div class="blog-content marginTop20">
                     <div class="blog-post">
@@ -32,7 +49,7 @@
                                     <div class="contenedorImagenes">
                                         <a routerLink="/libro/{{libro.urlLibro}}">
                                             <span class="helper over"></span>
-                                            <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} "/>
+                                            <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} " />
                                         </a>
                                     </div>
                                     <!-- <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.portada"></app-libro3d> -->

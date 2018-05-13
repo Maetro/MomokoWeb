@@ -8,13 +8,12 @@ import { GuardarEditorialResponse } from 'app/dtos/response/guardarEditorialResp
 
 @Injectable()
 export class EditorialService {
-
   private log = environment.log;
 
   private editorialesUrl = environment.editorialesUrl;
   private addEditorialUrl = environment.addEditorialUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getEditoriales(): Observable<Editorial[]> {
     if (this.log) {
@@ -22,9 +21,11 @@ export class EditorialService {
     }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      Authorization: 'Bearer ' + Cookie.get('access_token')
     });
-    return this.http.get<Editorial[]>(this.editorialesUrl, { headers: headers }).map(this.extractEditoriales)
+    return this.http
+      .get<Editorial[]>(this.editorialesUrl, { headers: headers })
+      .map(this.extractEditoriales)
       .catch(error => Observable.throw(error || 'Server error'));
   }
 
@@ -32,15 +33,15 @@ export class EditorialService {
     return res;
   }
 
-
-  guardarEditorial(editorial: Editorial): Observable<Editorial> {
+  guardarEditorial(editorial: Editorial): Observable<GuardarEditorialResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      Authorization: 'Bearer ' + Cookie.get('access_token')
     });
-
     return this.http
-      .post(this.addEditorialUrl, JSON.stringify(editorial), { headers: headers })
+      .post(this.addEditorialUrl, JSON.stringify(editorial), {
+        headers: headers
+      })
       .map(this.obtenerRespuestaGuardadoRedactor)
       .catch(error => Observable.throw(error || 'Server error'));
   }
@@ -48,5 +49,4 @@ export class EditorialService {
   private obtenerRespuestaGuardadoRedactor(res: GuardarEditorialResponse) {
     return res;
   }
-
 }

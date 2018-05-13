@@ -7,12 +7,19 @@
  */
 package com.momoko.es.backend.model.entity;
 
-import org.apache.commons.lang.builder.ToStringBuilder;
-
-import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Class EditorialEntity.
@@ -22,9 +29,7 @@ import java.util.Set;
 public class EditorialEntity {
 
     /** The editorial id. */
-    private @Id
-    @GeneratedValue
-    Integer editorialId;
+    private @Id @GeneratedValue Integer editorialId;
 
     /** The nombre editorial. */
     @Column(name = "nombre_editorial")
@@ -61,6 +66,8 @@ public class EditorialEntity {
 
     private String imagenCabeceraEditorial;
 
+    private String infoAdicionalJSON;
+
     /** The libros autor. */
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "editorial")
     private Set<LibroEntity> librosEditorial;
@@ -77,7 +84,8 @@ public class EditorialEntity {
     /**
      * Sets the editorial id.
      *
-     * @param editorialId the new editorial id
+     * @param editorialId
+     *            the new editorial id
      */
     public void setEditorialId(final Integer editorialId) {
         this.editorialId = editorialId;
@@ -95,7 +103,8 @@ public class EditorialEntity {
     /**
      * Sets the nombre editorial.
      *
-     * @param nombreEditorial the new nombre editorial
+     * @param nombreEditorial
+     *            the new nombre editorial
      */
     public void setNombreEditorial(final String nombreEditorial) {
         this.nombreEditorial = nombreEditorial;
@@ -113,7 +122,8 @@ public class EditorialEntity {
     /**
      * Sets the usuario alta.
      *
-     * @param usuarioAlta the new usuario alta
+     * @param usuarioAlta
+     *            the new usuario alta
      */
     public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
@@ -131,7 +141,8 @@ public class EditorialEntity {
     /**
      * Sets the fecha alta.
      *
-     * @param fechaAlta the new fecha alta
+     * @param fechaAlta
+     *            the new fecha alta
      */
     public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
@@ -149,7 +160,8 @@ public class EditorialEntity {
     /**
      * Sets the usuario modificacion.
      *
-     * @param usuarioModificacion the new usuario modificacion
+     * @param usuarioModificacion
+     *            the new usuario modificacion
      */
     public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
@@ -167,7 +179,8 @@ public class EditorialEntity {
     /**
      * Sets the fecha modificacion.
      *
-     * @param fechaModificacion the new fecha modificacion
+     * @param fechaModificacion
+     *            the new fecha modificacion
      */
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
@@ -185,7 +198,8 @@ public class EditorialEntity {
     /**
      * Sets the usuario baja.
      *
-     * @param usuarioBaja the new usuario baja
+     * @param usuarioBaja
+     *            the new usuario baja
      */
     public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
@@ -203,7 +217,8 @@ public class EditorialEntity {
     /**
      * Sets the fecha baja.
      *
-     * @param fechaBaja the new fecha baja
+     * @param fechaBaja
+     *            the new fecha baja
      */
     public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
@@ -221,7 +236,8 @@ public class EditorialEntity {
     /**
      * Sets the url editorial.
      *
-     * @param urlEditorial the new url editorial
+     * @param urlEditorial
+     *            the new url editorial
      */
     public void setUrlEditorial(final String urlEditorial) {
         this.urlEditorial = urlEditorial;
@@ -233,15 +249,16 @@ public class EditorialEntity {
      * @return the imagen editorial
      */
     public String getImagenEditorial() {
-        return imagenEditorial;
+        return this.imagenEditorial;
     }
 
     /**
      * Sets imagen editorial.
      *
-     * @param imagenEditorial the imagen editorial
+     * @param imagenEditorial
+     *            the imagen editorial
      */
-    public void setImagenEditorial(String imagenEditorial) {
+    public void setImagenEditorial(final String imagenEditorial) {
         this.imagenEditorial = imagenEditorial;
     }
 
@@ -251,15 +268,16 @@ public class EditorialEntity {
      * @return the descripcion editorial
      */
     public String getDescripcionEditorial() {
-        return descripcionEditorial;
+        return this.descripcionEditorial;
     }
 
     /**
      * Sets descripcion editorial.
      *
-     * @param descripcionEditorial the descripcion editorial
+     * @param descripcionEditorial
+     *            the descripcion editorial
      */
-    public void setDescripcionEditorial(String descripcionEditorial) {
+    public void setDescripcionEditorial(final String descripcionEditorial) {
         this.descripcionEditorial = descripcionEditorial;
     }
 
@@ -269,15 +287,16 @@ public class EditorialEntity {
      * @return the web editorial
      */
     public String getWebEditorial() {
-        return webEditorial;
+        return this.webEditorial;
     }
 
     /**
      * Sets web editorial.
      *
-     * @param webEditorial the web editorial
+     * @param webEditorial
+     *            the web editorial
      */
-    public void setWebEditorial(String webEditorial) {
+    public void setWebEditorial(final String webEditorial) {
         this.webEditorial = webEditorial;
     }
 
@@ -287,15 +306,16 @@ public class EditorialEntity {
      * @return the informacion de contacto
      */
     public String getInformacionDeContacto() {
-        return informacionDeContacto;
+        return this.informacionDeContacto;
     }
 
     /**
      * Sets informacion de contacto.
      *
-     * @param informacionDeContacto the informacion de contacto
+     * @param informacionDeContacto
+     *            the informacion de contacto
      */
-    public void setInformacionDeContacto(String informacionDeContacto) {
+    public void setInformacionDeContacto(final String informacionDeContacto) {
         this.informacionDeContacto = informacionDeContacto;
     }
 
@@ -305,31 +325,62 @@ public class EditorialEntity {
      * @return the imagen cabecera editorial
      */
     public String getImagenCabeceraEditorial() {
-        return imagenCabeceraEditorial;
+        return this.imagenCabeceraEditorial;
     }
 
     /**
      * Sets imagen cabecera editorial.
      *
-     * @param imagenCabeceraEditorial the imagen cabecera editorial
+     * @param imagenCabeceraEditorial
+     *            the imagen cabecera editorial
      */
-    public void setImagenCabeceraEditorial(String imagenCabeceraEditorial) {
+    public void setImagenCabeceraEditorial(final String imagenCabeceraEditorial) {
         this.imagenCabeceraEditorial = imagenCabeceraEditorial;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(editorialId, nombreEditorial, urlEditorial, usuarioAlta, fechaAlta, usuarioModificacion,
-                fechaModificacion, usuarioBaja, fechaBaja, imagenEditorial, descripcionEditorial, webEditorial,
-                informacionDeContacto, librosEditorial);
+    /**
+     * Gets the info adicional json.
+     *
+     * @return the info adicional json
+     */
+    public String getInfoAdicionalJSON() {
+        return this.infoAdicionalJSON;
     }
 
+    /**
+     * Sets the info adicional json.
+     *
+     * @param infoAdicionalJSON
+     *            the new info adicional json
+     */
+    public void setInfoAdicionalJSON(final String infoAdicionalJSON) {
+        this.infoAdicionalJSON = infoAdicionalJSON;
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
     @Override
-    public boolean equals(Object obj) {
+    public int hashCode() {
+        return Objects.hash(this.editorialId, this.nombreEditorial, this.urlEditorial, this.usuarioAlta, this.fechaAlta,
+                this.usuarioModificacion, this.fechaModificacion, this.usuarioBaja, this.fechaBaja,
+                this.imagenEditorial, this.descripcionEditorial, this.webEditorial, this.informacionDeContacto,
+                this.librosEditorial);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj == null || this.getClass() != obj.getClass()) {
+        if ((obj == null) || (this.getClass() != obj.getClass())) {
             return false;
         }
         final EditorialEntity other = (EditorialEntity) obj;

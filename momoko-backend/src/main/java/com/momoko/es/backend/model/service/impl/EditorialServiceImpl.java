@@ -21,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
@@ -35,6 +37,7 @@ import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
+import com.momoko.es.util.MomokoUtils;
 
 @Service
 public class EditorialServiceImpl implements EditorialService {
@@ -52,8 +55,19 @@ public class EditorialServiceImpl implements EditorialService {
     public List<EditorialDTO> recuperarEditoriales() {
         final List<EditorialDTO> editoriales = new ArrayList<EditorialDTO>();
         final Iterable<EditorialEntity> listaEditoriales = this.editorialRepository.findAll();
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
         for (final EditorialEntity editorialEntity : listaEditoriales) {
-            editoriales.add(EntityToDTOAdapter.adaptarEditorial(editorialEntity));
+            final EditorialDTO editorialDTO = EntityToDTOAdapter.adaptarEditorial(editorialEntity);
+            if (editorialDTO.getImagenCabeceraEditorial() != null) {
+                editorialDTO.setImagenCabeceraEditorial(imageServer + editorialDTO.getImagenCabeceraEditorial());
+            }
+            if (editorialDTO.getImagenEditorial() != null) {
+                editorialDTO.setImagenEditorial(imageServer + editorialDTO.getImagenEditorial());
+            }
+            editorialDTO
+                    .setInfoAdicional(ConversionUtils.deJSONToInfoAdicionalDTO(editorialEntity.getInfoAdicionalJSON()));
+            editoriales.add(editorialDTO);
+
         }
         return editoriales;
     }
@@ -86,11 +100,22 @@ public class EditorialServiceImpl implements EditorialService {
         editorialEntity.setUsuarioModificacion(currentPrincipalName);
         editorialEntity.setUrlEditorial(editorial.getUrlEditorial());
         editorialEntity.setNombreEditorial(editorial.getNombreEditorial());
-        editorialEntity.setImagenEditorial(editorial.getImagenEditorial());
+        editorialEntity.setImagenEditorial(MomokoUtils.soloNombreYCarpeta(editorial.getImagenEditorial()));
         editorialEntity.setDescripcionEditorial(editorial.getDescripcionEditorial());
         editorialEntity.setWebEditorial(editorial.getWebEditorial());
         editorialEntity.setInformacionDeContacto(editorial.getInformacionDeContacto());
-        editorialEntity.setImagenCabeceraEditorial(editorial.getImagenCabeceraEditorial());
+        editorialEntity
+                .setImagenCabeceraEditorial(MomokoUtils.soloNombreYCarpeta(editorial.getImagenCabeceraEditorial()));
+        try {
+            editorialEntity
+                    .setInfoAdicionalJSON(ConversionUtils.deInfoAdicionalDTOToJSON(editorial.getInfoAdicional()));
+        } catch (final JsonParseException e) {
+            e.printStackTrace();
+        } catch (final JsonMappingException e) {
+            e.printStackTrace();
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
         this.editorialRepository.save(editorialEntity);
         return EntityToDTOAdapter.adaptarEditorial(editorialEntity);
     }
@@ -165,7 +190,17 @@ public class EditorialServiceImpl implements EditorialService {
     @Override
     public EditorialDTO obtenerEditorialByUrl(final String urlEditorial) {
         final EditorialEntity editorial = this.editorialRepository.findFirstByUrlEditorial(urlEditorial);
-        return EntityToDTOAdapter.adaptarEditorial(editorial);
+        final EditorialDTO editorialDTO = EntityToDTOAdapter.adaptarEditorial(editorial);
+        final String imageServer = this.almacenImagenes.getUrlImageServer();
+        if (editorialDTO.getImagenCabeceraEditorial() != null) {
+            editorialDTO.setImagenCabeceraEditorial(imageServer + editorialDTO.getImagenCabeceraEditorial());
+        } else {
+            editorialDTO.setImagenCabeceraEditorial("/assets/style/images/art/parallax2.jpg");
+        }
+        if (editorialDTO.getImagenEditorial() != null) {
+            editorialDTO.setImagenEditorial(imageServer + editorialDTO.getImagenEditorial());
+        }
+        return editorialDTO;
     }
 
     @Override

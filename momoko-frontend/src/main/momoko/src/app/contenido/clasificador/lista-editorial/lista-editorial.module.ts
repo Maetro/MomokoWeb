@@ -5,6 +5,7 @@ import { PaginationModule } from '../pagination/pagination.module';
 import { RouterModule } from '@angular/router';
 import { ObtenerListaEditoralResolverService } from '../../../services/resolvers/obtener-lista-editoral-resolver.service';
 import { ComunesModule } from '../../comunes/comunes.module';
+import { SatinizeHtml2Pipe } from './util/satinize-html2.pipe';
 
 @NgModule({
   imports: [
@@ -12,7 +13,7 @@ import { ComunesModule } from '../../comunes/comunes.module';
     ComunesModule,
     PaginationModule,
     RouterModule.forChild([
-      { path: '', component: ListaEditorialComponent, pathMatch: 'full'},
+      { path: '', component: ListaEditorialComponent, pathMatch: 'full' },
       {
         path: ':numero_pagina',
         component: ListaEditorialComponent,
@@ -22,6 +23,6 @@ import { ComunesModule } from '../../comunes/comunes.module';
       }
     ])
   ],
-  declarations: [ListaEditorialComponent]
+  declarations: [ListaEditorialComponent, SatinizeHtml2Pipe]
 })
 export class ListaEditorialModule { }

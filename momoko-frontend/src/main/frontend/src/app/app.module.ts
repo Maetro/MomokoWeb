@@ -28,7 +28,7 @@ import { SuscripcionService } from 'app/services/suscripcion.service';
 
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-editoriales/lista-editoriales.component';
+import { GestionEditorialesModule } from './gestion/gestion-editoriales/gestion-editoriales.module';
 
 @NgModule({
   declarations: [
@@ -37,8 +37,7 @@ import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-e
     HeaderComponent,
     FooterComponent,
     AdminComponent,
-    PageNotFoundComponent,
-    ListaEditorialesComponent
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -49,6 +48,7 @@ import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-e
     GestionEntradasModule,
     GestionGaleriasModule,
     GestionRedactoresModule,
+    GestionEditorialesModule,
     ContenidoModule,
     routing,
     AppLoadModule,
@@ -57,6 +57,5 @@ import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-e
   providers: [SuscripcionService],
   bootstrap: [AppComponent],
   entryComponents: [ListaLibrosComponent, ListaGenerosComponent]
-
 })
-export class AppModule { }
+export class AppModule {}

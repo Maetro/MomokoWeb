@@ -1,8 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule,
-  SharedModule, DropdownModule
+  InputTextModule,
+  FileUploadModule,
+  MultiSelectModule,
+  GrowlModule,
+  DataTableModule,
+  SharedModule,
+  DropdownModule,
+  PaginatorModule
 } from 'primeng/primeng';
 
 import { LibroService } from './../../services/libro.service';
@@ -16,6 +22,9 @@ import { Ng2CompleterModule } from 'ng2-completer';
 import { RedactorService } from 'app/services/redactor.service';
 import { EditorialService } from 'app/services/editorial.service';
 import { ListaEditorialesComponent } from './lista-editoriales/lista-editoriales.component';
+import { EditorialDetailComponent } from './editorial-detail/editorial-detail.component';
+import { EditorModule } from 'primeng/editor';
+import { InfoAdicionalModule } from '../comun/info-adicional/info-adicional.module';
 
 @NgModule({
   imports: [
@@ -31,8 +40,10 @@ import { ListaEditorialesComponent } from './lista-editoriales/lista-editoriales
     SharedModule,
     PickListModule,
     Ng2CompleterModule,
+    PaginatorModule,
+    InfoAdicionalModule
   ],
-  declarations: [ListaEditorialesComponent],
+  declarations: [ListaEditorialesComponent, EditorialDetailComponent],
   providers: [EditorialService]
 })
-export class GestionEditorialesModule { }
+export class GestionEditorialesModule {}

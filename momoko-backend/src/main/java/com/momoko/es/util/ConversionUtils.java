@@ -9,6 +9,7 @@ package com.momoko.es.util;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
@@ -33,7 +34,13 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.InfoAdicionalDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
@@ -434,6 +441,61 @@ public class ConversionUtils {
         redactorDTO.setCargo(usuarioEntity.getCargo());
         redactorDTO.setFechaAlta(usuarioEntity.getFechaAlta());
         return redactorDTO;
+    }
+
+    /**
+     * De json to info adicional dto.
+     *
+     * @param infoAdicionalJSON
+     *            the info adicional json
+     * @return the list
+     * @throws JsonParseException
+     *             the json parse exception
+     * @throws JsonMappingException
+     *             the json mapping exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public static List<InfoAdicionalDTO> deJSONToInfoAdicionalDTO(final String infoAdicionalJSON) {
+
+        final ObjectMapper mapper = new ObjectMapper();
+
+        final TypeReference<List<InfoAdicionalDTO>> mapType = new TypeReference<List<InfoAdicionalDTO>>() {
+        };
+        List<InfoAdicionalDTO> lista = null;
+        if (StringUtils.isNotEmpty(infoAdicionalJSON)) {
+            try {
+                lista = mapper.readValue(infoAdicionalJSON, mapType);
+            } catch (final JsonParseException e) {
+                e.printStackTrace();
+            } catch (final JsonMappingException e) {
+                e.printStackTrace();
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return lista;
+    }
+
+    /**
+     * De info adicional dto to json.
+     *
+     * @param lista
+     *            the lista
+     * @return the string
+     * @throws JsonParseException
+     *             the json parse exception
+     * @throws JsonMappingException
+     *             the json mapping exception
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    public static String deInfoAdicionalDTOToJSON(final List<InfoAdicionalDTO> lista)
+            throws JsonParseException, JsonMappingException, IOException {
+        final ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        final String arrayToJson = mapper.writeValueAsString(lista);
+        return arrayToJson;
     }
 
 }

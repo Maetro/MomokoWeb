@@ -21,128 +21,128 @@ import { ObtenerListaEditorResolverService } from "./services/resolvers/obtener-
 
 
 const appRoutes = [
-    {
-        path: 'categoria/:url_categoria',
-        loadChildren: './contenido/clasificador/lista-categoria/lista-categoria.module#ListaCategoriaModule',
-        resolve: {
-          paginaCategoriaResponse: ObtenerListaCategoriaResolverService
-        }
-      },
-      {
-        path: 'libro/:url/noticias',
-        loadChildren: './contenido/libro/lista-noticias-libro/lista-noticias-libro.module#ListaNoticiasLibroModule',
-        resolve: {
-          noticiasLibro: ObtenerLibroNoticiasResolverService
-        }
-      },
-      {
-        path: 'libro/:url_libro/miscelaneo/:url_entrada',
-        redirectTo: '/:url_entrada',
-        pathMatch: 'full'
-      },
-      {
-        path: 'libro/:url_libro/noticia/:url_entrada',
-        redirectTo: '/:url_entrada',
-        pathMatch: 'full'
-      },
-      {
-        path: 'saga/:url_saga',
-        loadChildren: './contenido/saga/ficha-saga/ficha-saga.module#FichaSagaModule',
-        resolve: {
-          fichaSaga: ObtenerSagaResolverService
-        }
-      },
-      {
-        path: 'libro/:url',
-        loadChildren: './contenido/libro/ficha-libro/ficha-libro.module#FichaLibroModule',
-        resolve: {
-          fichaLibro: ObtenerLibroResolverService
-        }
-      },
-      {
-        path: 'videos/:url',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerVideoResolverService
-        }
-      },
-      {
-        path: 'redactor/:url_redactor',
-        loadChildren: './contenido/clasificador/lista-editor/lista-editor.module#ListaEditorModule',
-        resolve: {
-          redactor: ObtenerListaEditorResolverService
-        }
-      },
-      {
-        path: 'editorial/:url_editorial',
-        loadChildren: './contenido/clasificador/lista-editorial/lista-editorial.module#ListaEditorialModule',
-        resolve: {
-          editorial: ObtenerListaEditoralResolverService
-        }
-      },
-      {
-        path: 'genero/:url_genero',
-        loadChildren: './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
-        resolve: {
-          paginaGeneroResponse: ObtenerListaGeneroResolverService
-        }
-      },
-      {
-        path: 'tag/:url_etiqueta',
-        loadChildren: './contenido/clasificador/lista-etiqueta/lista-etiqueta.module#ListaEtiquetaModule',
-        resolve: {
-          paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
-        }
-      },
-      {
-        path: 'analisis/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerResenaResolverService
-        }
-      },
-      {
-        path: 'buscar/:parametros_a_buscar',
-        loadChildren: './contenido/clasificador/lista-busqueda/lista-busqueda.module#ListaBusquedaModule',
-        resolve: {
-          busqueda: ObtenerListaBusquedaResolverService
-        }
-      },
-      {
-        path: ':url_zona/:url_entrada',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerEntradaZonaResolverService
-        }
-      },
-      {path: 'not-found', component: PageNotFoundComponent },
-      {path: 'solicitud', component: PageSolicitudComponent },
-      {path: 'criterios', component: PageCriteriosComponent },
-      {
-        path: ':url',
-        loadChildren: './contenido/entrada/entrada.module#EntradaModule',
-        resolve: {
-          obtenerEntradaResponse: ObtenerEntradaResolverService
-        }
-      },
-      {
-        path: '',
-        loadChildren: './contenido/index/index.module#IndexModule',
-        resolve: {
-          obtenerIndexDataResponse: ObtenerIndexDataResolverService
-        }
-      }
+  {
+    path: 'categoria/:url_categoria',
+    loadChildren: './contenido/clasificador/lista-categoria/lista-categoria.module#ListaCategoriaModule',
+    resolve: {
+      paginaCategoriaResponse: ObtenerListaCategoriaResolverService
+    }
+  },
+  {
+    path: 'libro/:url/noticias',
+    loadChildren: './contenido/libro/lista-noticias-libro/lista-noticias-libro.module#ListaNoticiasLibroModule',
+    resolve: {
+      noticiasLibro: ObtenerLibroNoticiasResolverService
+    }
+  },
+  {
+    path: 'libro/:url_libro/miscelaneo/:url_entrada',
+    redirectTo: '/:url_entrada',
+    pathMatch: 'full'
+  },
+  {
+    path: 'libro/:url_libro/noticia/:url_entrada',
+    redirectTo: '/:url_entrada',
+    pathMatch: 'full'
+  },
+  {
+    path: 'saga/:url_saga',
+    loadChildren: './contenido/saga/ficha-saga/ficha-saga.module#FichaSagaModule',
+    resolve: {
+      fichaSaga: ObtenerSagaResolverService
+    }
+  },
+  {
+    path: 'libro/:url',
+    loadChildren: './contenido/libro/ficha-libro/ficha-libro.module#FichaLibroModule',
+    resolve: {
+      fichaLibro: ObtenerLibroResolverService
+    }
+  },
+  {
+    path: 'videos/:url',
+    loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+    resolve: {
+      obtenerEntradaResponse: ObtenerVideoResolverService
+    }
+  },
+  {
+    path: 'redactor/:url_redactor',
+    loadChildren: './contenido/clasificador/lista-editor/lista-editor.module#ListaEditorModule',
+    resolve: {
+      redactor: ObtenerListaEditorResolverService
+    }
+  },
+  {
+    path: 'editorial/:url_editorial',
+    loadChildren: './contenido/clasificador/lista-editorial/lista-editorial.module#ListaEditorialModule',
+    resolve: {
+      editorial: ObtenerListaEditoralResolverService
+    }
+  },
+  {
+    path: 'genero/:url_genero',
+    loadChildren: './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
+    resolve: {
+      paginaGeneroResponse: ObtenerListaGeneroResolverService
+    }
+  },
+  {
+    path: 'tag/:url_etiqueta',
+    loadChildren: './contenido/clasificador/lista-etiqueta/lista-etiqueta.module#ListaEtiquetaModule',
+    resolve: {
+      paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
+    }
+  },
+  {
+    path: 'analisis/:url_entrada',
+    loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+    resolve: {
+      obtenerEntradaResponse: ObtenerResenaResolverService
+    }
+  },
+  {
+    path: 'buscar/:parametros_a_buscar',
+    loadChildren: './contenido/clasificador/lista-busqueda/lista-busqueda.module#ListaBusquedaModule',
+    resolve: {
+      busqueda: ObtenerListaBusquedaResolverService
+    }
+  },
+  {
+    path: ':url_zona/:url_entrada',
+    loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+    resolve: {
+      obtenerEntradaResponse: ObtenerEntradaZonaResolverService
+    }
+  },
+  { path: 'not-found', component: PageNotFoundComponent },
+  { path: 'solicitud', component: PageSolicitudComponent },
+  { path: 'criterios', component: PageCriteriosComponent },
+  {
+    path: ':url',
+    loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+    resolve: {
+      obtenerEntradaResponse: ObtenerEntradaResolverService
+    }
+  },
+  {
+    path: '',
+    loadChildren: './contenido/index/index.module#IndexModule',
+    resolve: {
+      obtenerIndexDataResponse: ObtenerIndexDataResolverService
+    }
+  }
 ]
 
 @NgModule({
-    imports: [
-      RouterModule.forRoot(
-        appRoutes,
-        { enableTracing: false } // <-- debugging purposes only
-      )
-    ],
-    exports: [
-      RouterModule
-    ]
-  })
-  export class AppRoutingModule {}
+  imports: [
+    RouterModule.forRoot(
+      appRoutes,
+      { enableTracing: false } // <-- debugging purposes only
+    )
+  ],
+  exports: [
+    RouterModule
+  ]
+})
+export class AppRoutingModule { }

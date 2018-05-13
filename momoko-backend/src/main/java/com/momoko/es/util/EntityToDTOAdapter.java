@@ -258,6 +258,12 @@ public final class EntityToDTOAdapter {
         editorialDTO.setEditorialId(editorial.getEditorialId());
         editorialDTO.setNombreEditorial(editorial.getNombreEditorial());
         editorialDTO.setUrlEditorial(editorial.getUrlEditorial());
+        editorialDTO.setDescripcionEditorial(editorial.getDescripcionEditorial());
+        editorialDTO.setImagenCabeceraEditorial(editorial.getImagenCabeceraEditorial());
+        editorialDTO.setImagenEditorial(editorial.getImagenEditorial());
+        editorialDTO.setInformacionDeContacto(editorial.getInformacionDeContacto());
+        editorialDTO.setWebEditorial(editorial.getWebEditorial());
+        editorialDTO.setInfoAdicional(ConversionUtils.deJSONToInfoAdicionalDTO(editorial.getInfoAdicionalJSON()));
         return editorialDTO;
     }
 
