@@ -188,12 +188,16 @@ public final class DTOToEntityAdapter {
         editorialEntity.setEditorialId(editorial.getEditorialId());
         editorialEntity.setUrlEditorial(editorial.getUrlEditorial());
         editorialEntity.setNombreEditorial(editorial.getNombreEditorial());
-        editorialEntity.setImagenEditorial(MomokoUtils.soloNombreYCarpeta(editorial.getImagenEditorial()));
+        if (editorial.getImagenEditorial() != null) {
+            editorialEntity.setImagenEditorial(MomokoUtils.soloNombreYCarpeta(editorial.getImagenEditorial()));
+        }
         editorialEntity.setDescripcionEditorial(editorial.getDescripcionEditorial());
         editorialEntity.setWebEditorial(editorial.getWebEditorial());
         editorialEntity.setInformacionDeContacto(editorial.getInformacionDeContacto());
-        editorialEntity
-                .setImagenCabeceraEditorial(MomokoUtils.soloNombreYCarpeta(editorial.getImagenCabeceraEditorial()));
+        if (editorial.getImagenCabeceraEditorial() != null) {
+            editorialEntity
+                    .setImagenCabeceraEditorial(MomokoUtils.soloNombreYCarpeta(editorial.getImagenCabeceraEditorial()));
+        }
         return editorialEntity;
     }
 
