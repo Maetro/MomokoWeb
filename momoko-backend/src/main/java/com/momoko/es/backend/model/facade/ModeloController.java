@@ -63,7 +63,7 @@ public class ModeloController {
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
-        System.out.println("Llamada a la lista de libros");
+        log.debug("Llamada a la lista de libros");
         return this.libroService.recuperarLibros();
     }
 
@@ -111,7 +111,7 @@ public class ModeloController {
             }
         }
 
-        if (libroDTO.getNotaMomoko() != null) {
+        if (libroDTO.getNotaMomoko() != null && libro != null) {
             final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
             puntuacionDTO.setValor(libroDTO.getNotaMomoko());
             puntuacionDTO.setComentario(libroDTO.getComentarioNotaMomoko());
@@ -156,7 +156,7 @@ public class ModeloController {
                 listaErrores.add(ErrorCreacionSaga.ERROR_GUARDADO_SAGA);
             }
 
-            if (sagaDTO.getNotaSaga() != null) {
+            if (sagaDTO.getNotaSaga() != null && saga != null) {
                 final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
                 puntuacionDTO.setValor(new BigDecimal(sagaDTO.getNotaSaga()));
                 puntuacionDTO.setEsPuntuacionMomoko(true);
@@ -220,6 +220,8 @@ public class ModeloController {
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/redactor/add")
     ResponseEntity<GuardarRedactorResponse> guardarRedactor(@RequestBody final RedactorDTO redactorDTO) {
+        // Responder
+        final GuardarRedactorResponse respuesta = new GuardarRedactorResponse();
 
         // Validar
         final List<ErrorCreacionRedactor> listaErrores = this.validadorService.validarRedactor(redactorDTO);
@@ -232,13 +234,13 @@ public class ModeloController {
                 redactorGuardado = this.userService.guardarRedactor(redactorDTO);
             } catch (final Exception e) {
                 e.printStackTrace();
-                ErrorCreacionRedactor error = ErrorCreacionRedactor.ERROR_DESCONOCIDO;
+                listaErrores.add(ErrorCreacionRedactor.ERROR_DESCONOCIDO);
+                respuesta.s
                 stackTrace = e.getMessage();
             }
         }
 
-        // Responder
-        final GuardarRedactorResponse respuesta = new GuardarRedactorResponse();
+
         respuesta.setRedactorDTO(redactorGuardado);
         respuesta.setListaErroresValidacion(listaErrores);
 
