@@ -235,7 +235,7 @@ public class ModeloController {
             } catch (final Exception e) {
                 e.printStackTrace();
                 listaErrores.add(ErrorCreacionRedactor.ERROR_DESCONOCIDO);
-                respuesta.s
+                respuesta.setListaErroresValidacion(listaErrores);
                 stackTrace = e.getMessage();
             }
         }
