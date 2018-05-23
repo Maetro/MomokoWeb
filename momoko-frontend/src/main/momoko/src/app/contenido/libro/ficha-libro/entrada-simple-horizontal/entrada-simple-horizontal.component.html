@@ -1,27 +1,26 @@
 <div class="row marginTop30" *ngFor="let entrada of entradas">
-    <div class="col-md-5">
-        <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-          <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
-       </a>
+  <div class="col-md-5">
+    <a routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">
+      <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+    </a>
+  </div>
+  <div class="col-md-7">
+    <h2 class="post-title">
+      <a routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}} </a>
+    </h2>
+    <div class="meta">
+      <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
+      <span class="author">Por
+        <a routerLink="/redactor/{{entrada.urlEditor}}">{{entrada.nombreAutor}}</a>
+      </span>
+      <span class="comments">
+        <a routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.numeroComentarios}} Comentarios</a>
+      </span>
     </div>
-    <div class="col-md-7">
-        <h2 class="post-title">
-            <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}} </a>
-          </h2>
-          <div class="meta">
-            <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
-            <span class="author">Por
-              <a routerLink="/redactor/{{entrada.urlEditor}}">{{entrada.nombreAutor}}</a>
-            </span>
-            <span class="comments">
-              <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.numeroComentarios}} Comentarios</a>
-            </span>
-          </div>
-          <div class="contenidoResumen" [innerHTML]="entrada.fraseDescriptiva">
-          </div>
-          <div class="">
-            <a routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="more">Sigue leyendo </a>
-          </div>
+    <div class="contenidoResumen" [innerHTML]="entrada.fraseDescriptiva">
+    </div>
+    <div class="">
+      <a routerLink="/{{entrada.bloque}}/{{entrada.urlEntrada}}" class="more">Sigue leyendo </a>
     </div>
   </div>
-  
+</div>
