@@ -4360,9 +4360,12 @@ section[data-kc-fullwidth] {
 body section[data-kc-equalheight="true"],
 body section[data-kc-equalheight="true"]>.kc-container,
 body section[data-kc-equalheight="true"]>.kc-container .kc-wrap-columns {
-  display: -webkit-flex !important;
+  /*display: -webkit-flex !important;
   display: -ms-flexbox !important;
-  display: flex !important;
+  display: flex !important;*/
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   width: 100%
 }
 

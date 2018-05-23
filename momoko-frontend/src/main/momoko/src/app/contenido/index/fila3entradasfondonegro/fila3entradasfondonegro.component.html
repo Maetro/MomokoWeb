@@ -1,46 +1,47 @@
 <div class="dark-wrapper">
-    <div class="container inner">
-      <div class="grid-view">
-        <div class="row blog-posts blog-content">
-  
-          <div class="post col-sm-12 col-md-4" *ngFor="let entrada of entradas">
-            <div class="fichaEntrada">
-              <figure class="t">
-                  <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
-                    <img src="{{entrada.imagenEntrada}}" alt="Imagen de entrada - {{entrada.tituloEntrada}}" />
-                  </a>
-                  <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">
-                    <img src="{{entrada.imagenEntrada}}" alt="Imagen de entrada - {{entrada.tituloEntrada}}" />
-                  </a>
-              </figure>
-              <div class="zonablanca post-content">
-                <div>
-                    <app-tag-categoria [urlEntrada]="obtenerUrlEntradaSimple(entrada)" [nombreCategoria]="entrada.categoria"></app-tag-categoria>
-                  <h3 class="post-title">
-                      <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
-                      <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
-                  </h3>
-                  <div class="meta text-center">
-                    <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
-                    <span class="author">Por
-                      <a href="#">{{entrada.nombreAutor}}</a>
-                    </span>
-                    <span class="comments">
-                      <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}"><i class="ion-chatbubbles"></i> {{entrada.numeroComentarios}}</a>
-                      <a *ngIf="entrada.urlLibro" routerLink="/libro/{{entrada.urlLibro}}/{{entrada.bloque}}/{{entrada.urlEntrada}}"><i class="ion-chatbubbles"></i> {{entrada.numeroComentarios}}</a>
-                    </span>
-                  </div>
-                  <p [innerHTML]="entrada.fraseDescriptiva"></p>
+  <div class="container inner">
+    <div class="grid-view">
+      <div class="row blog-posts blog-content">
+
+        <div class="post col-sm-12 col-md-4" *ngFor="let entrada of entradas">
+          <div class="fichaEntrada">
+            <figure class="t">
+              <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
+                <img src="{{entrada.imagenEntrada}}" alt="Imagen de entrada - {{entrada.tituloEntrada}}" />
+              </a>
+              <a *ngIf="entrada.urlLibro" routerLink="{{entrada.bloque}}/{{entrada.urlEntrada}}">
+                <img src="{{entrada.imagenEntrada}}" alt="Imagen de entrada - {{entrada.tituloEntrada}}" />
+              </a>
+            </figure>
+            <div class="zonablanca post-content">
+              <div>
+                <app-tag-categoria [urlEntrada]="obtenerUrlEntradaSimple(entrada)" [nombreCategoria]="entrada.categoria"></app-tag-categoria>
+                <h3 class="post-title">
+                  <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
+                  <a *ngIf="entrada.urlLibro" routerLink="{{entrada.bloque}}/{{entrada.urlEntrada}}">{{entrada.tituloEntrada}}</a>
+                </h3>
+                <div class="meta text-center">
+                  <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
+                  <span class="author">Por
+                    <a href="#">{{entrada.nombreAutor}}</a>
+                  </span>
+                  <span class="comments">
+                    <a *ngIf="!entrada.urlLibro" routerLink="/{{entrada.urlEntrada}}">
+                      <i class="ion-chatbubbles"></i> {{entrada.numeroComentarios}}</a>
+                    <a *ngIf="entrada.urlLibro" routerLink="{{entrada.bloque}}/{{entrada.urlEntrada}}">
+                      <i class="ion-chatbubbles"></i> {{entrada.numeroComentarios}}</a>
+                  </span>
                 </div>
-                <div class="contenidobottom text-center">
-                  <a routerLink="/{{entrada.urlEntrada}}" class="more">Continuar leyendo</a>
-                </div>
+                <p [innerHTML]="entrada.fraseDescriptiva"></p>
+              </div>
+              <div class="contenidobottom text-center">
+                <a routerLink="/{{entrada.urlEntrada}}" class="more">Continuar leyendo</a>
               </div>
             </div>
-            <!-- /.post-content -->
           </div>
-  
+          <!-- /.post-content -->
         </div>
+
       </div>
     </div>
-  
+  </div>

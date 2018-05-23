@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private EntradaRepository entradaRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private StorageService almacenImagenes;
 
     @Override

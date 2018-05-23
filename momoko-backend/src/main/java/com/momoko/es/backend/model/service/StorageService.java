@@ -8,8 +8,6 @@ package com.momoko.es.backend.model.service;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.util.stream.Stream;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -39,26 +37,6 @@ public interface StorageService {
      *            the tipo almacenamineto
      */
     String store(BufferedImage image, String tipoAlmacenamineto, String name, String extension);
-
-    /**
-     * Load all.
-     *
-     * @param tipoAlmacenamineto
-     *            the tipo almacenamineto
-     * @return the stream
-     */
-    Stream<Path> loadAll(String tipoAlmacenamineto);
-
-    /**
-     * Load.
-     *
-     * @param filename
-     *            the filename
-     * @param tipoAlmacenamineto
-     *            the tipo almacenamineto
-     * @return the path
-     */
-    Path load(String filename, String tipoAlmacenamineto);
 
     /**
      * Obtener miniatura.

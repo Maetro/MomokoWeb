@@ -4,24 +4,24 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false,
+  production: true,
 
-  log: true,
+  log: false,
 
   seguimientoJS: 'seguimiento.js',
 
   //URLS app
   momokoUrl: 'http://localhost:4200/',
-  serverUrl : 'http://localhost:5000/',
-  uploadUrl : 'http://localhost/upload.php',
-  urlFiles : 'http://localhost/images/',
+  serverUrl: 'http://localhost:5000/',
+  uploadUrl: 'http://localhost/upload.php',
+  urlFiles: 'http://localhost/images/',
   entradasUrl: 'http://localhost:5000/modelo/entradas',
-  librosUrl :  'http://localhost:5000/modelo/libros',
-  generosUrl :  'http://localhost:5000/modelo/generos',
+  librosUrl: 'http://localhost:5000/modelo/libros',
+  generosUrl: 'http://localhost:5000/modelo/generos',
   addEntradaUrl: 'http://localhost:5000/modelo/entradas/add',
-  addLibroUrl :  'http://localhost:5000/modelo/libros/add',
-  addGeneroUrl :  'http://localhost:5000/modelo/generos/add',
-  informacionGeneralUrl:  'http://localhost:5000/modelo/informacionGeneral',
+  addLibroUrl: 'http://localhost:5000/modelo/libros/add',
+  addGeneroUrl: 'http://localhost:5000/modelo/generos/add',
+  informacionGeneralUrl: 'http://localhost:5000/modelo/informacionGeneral',
   singUpURL: 'http://localhost:5000/account/signup',
   oauthTokenUrl: 'http://localhost:5000/oauth/token',
   accountTokenUrl: 'http://localhost:5000/account/token',

@@ -1,20 +1,52 @@
-<li *ngFor="let libro of libros">
-    <figure class="overlay small">
-      <a routerLink="/libro/{{libro.urlLibro}}">
-        <span class="over">
-          <span></span>
-        </span>
-        <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}}"> </a>
-    </figure>
-    <div class="post-content">
-      <h4 class="post-title">
-        <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
-      </h4>
-      <div class="meta">
-        <span class="date">{{libro.nombreAutor}} </span>
-        <span class="autorygenero" *ngIf="libro.nota">
-          <a routerLink="/libro/{{libro.urlLibro}}"> NOTA: {{libro.nota}}  </a>
-        </span>
+<li *ngFor="let libro of libros" class="hidden-xs">
+  <figure class="overlay small">
+    <a routerLink="/libro/{{libro.urlLibro}}">
+      <span class="over">
+        <span></span>
+      </span>
+      <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}}"> </a>
+  </figure>
+  <div class="post-content">
+    <h4 class="post-title">
+      <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
+    </h4>
+    <div class="meta">
+      <span class="date">{{libro.nombreAutor}} </span>
+      <span class="autorygenero" *ngIf="libro.nota">
+        <a routerLink="/libro/{{libro.urlLibro}}"> NOTA: {{libro.nota}} </a>
+      </span>
+    </div>
+  </div>
+</li>
+<div class="row">
+  <div *ngFor="let libro of libros; let i = index;" class="visible-xs">
+
+    <div class="col-xs-6" *ngIf="i < 4">
+      <div class="row">
+        <div class="col-xs-12">
+          <figure class="overlay small">
+            <a routerLink="/libro/{{libro.urlLibro}}">
+              <span class="over">
+                <span></span>
+              </span>
+              <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}}"> </a>
+          </figure>
+        </div>
+        <div class="col-xs-12">
+          <div class="post-content">
+            <h4 class="post-title">
+              <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
+            </h4>
+            <div class="meta">
+              <span class="date">{{libro.nombreAutor}} </span>
+              <span class="autorygenero" *ngIf="libro.nota">
+                <a routerLink="/libro/{{libro.urlLibro}}"> NOTA: {{libro.nota}} </a>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </li>
+    <div class="clearfix" *ngIf="(i+1) % 2 == 0"></div>
+  </div>
+</div>

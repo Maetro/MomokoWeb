@@ -63,42 +63,44 @@
           </div>
         </div>
       </div>
-      <div class="blog row" *ngIf="!entrada.tieneGaleria">
+    </div>
+    <div class="row" *ngIf="!entrada.tieneGaleria">
+      <div class="contenidoEntrada">
         <div class="col-md-8">
-          <div class="contenidoEntrada">
-            <div class="tituloEntrada">
-              <h1>{{entrada.tituloEntrada}}</h1>
-            </div>
-            <div class="infoEntrada">
-              Análisis de
-              <span class="autorEntrada">
-                <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
-              </span>
-              <span class="generosText">Género
-                <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                  <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
-                  <span [hidden]="last">, </span>
-                </span>
-              </span>
-              <span class="editorialText">Editorial
-                <span class="autorEntrada">
-                  <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
-                </span>
-              </span>
-            </div>
-            <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
-            </div>
-            <div class="infoEntrada">
 
-              <span class="lineaHorizontalCorta"></span>
-              <span class="etiquetasText">Etiquetas
-                <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
-                  <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
-                  <span [hidden]="last">, </span>
-                </span>
-              </span>
-            </div>
+          <div class="tituloEntrada">
+            <h1>{{entrada.tituloEntrada}}</h1>
           </div>
+          <div class="infoEntrada">
+            Análisis de
+            <span class="autorEntrada">
+              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+            </span>
+            <span class="generosText">Género
+              <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
+                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+                <span [hidden]="last">, </span>
+              </span>
+            </span>
+            <span class="editorialText">Editorial
+              <span class="autorEntrada">
+                <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
+              </span>
+            </span>
+          </div>
+          <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
+          </div>
+          <div class="infoEntrada">
+
+            <span class="lineaHorizontalCorta"></span>
+            <span class="etiquetasText">Etiquetas
+              <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+                <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                <span [hidden]="last">, </span>
+              </span>
+            </span>
+          </div>
+
           <hr/>
           <div class="row">
             <div class="col-md-12">
@@ -108,40 +110,46 @@
           </div>
           <hr/>
           <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
+
+          <div class="row">
+            <app-mobile-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-mobile-sidebar>
+          </div>
         </div>
         <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
       </div>
-      <div class="blog row" *ngIf="entrada.tieneGaleria">
-        <div class="col-md-12">
-          <div class="contenidoEntrada">
-            <div class="tituloEntrada">
-              <h1>{{entrada.tituloEntrada}}</h1>
-            </div>
-            <div class="infoEntrada">
-              Análisis de
-              <span class="autorEntrada">
-                <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
-              </span>
-              <span class="generosText">Género
-                <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                  <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
-                  <span [hidden]="last">, </span>
-                </span>
-              </span>
-            </div>
-            <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
-            </div>
-            <div class="infoEntrada">
 
-              <span class="lineaHorizontalCorta"></span>
-              <span class="etiquetasText">Etiquetas
-                <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
-                  <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
-                  <span [hidden]="last">, </span>
-                </span>
-              </span>
-            </div>
+    </div>
+    <div class="row" *ngIf="entrada.tieneGaleria">
+      <div class="col-md-12">
+        <div class="contenidoEntrada">
+          <div class="tituloEntrada">
+            <h1>{{entrada.tituloEntrada}}</h1>
           </div>
+          <div class="infoEntrada">
+            Análisis de
+            <span class="autorEntrada">
+              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+            </span>
+            <span class="generosText">Género
+              <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
+                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+                <span [hidden]="last">, </span>
+              </span>
+            </span>
+          </div>
+          <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
+          </div>
+          <div class="infoEntrada">
+
+            <span class="lineaHorizontalCorta"></span>
+            <span class="etiquetasText">Etiquetas
+              <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+                <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                <span [hidden]="last">, </span>
+              </span>
+            </span>
+          </div>
+
           <!-- <app-sobre-autor [autor]="entrada.autor"></app-sobre-autor> -->
           <!-- <app-sobre-autor *ngIf="entrada.autor"  [autor]="entrada.autor"></app-sobre-autor> -->
 

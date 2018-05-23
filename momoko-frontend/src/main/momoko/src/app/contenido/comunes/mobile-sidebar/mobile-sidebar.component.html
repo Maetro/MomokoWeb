@@ -1,0 +1,50 @@
+<aside class="col-sm-4 sidebar visible-xs">
+
+    <div class="sidebox widget" *ngIf="libros">
+        <h3 class="widget-title section-title">{{tituloSeccionLibros}}</h3>
+        <ul class="post-list">
+            <app-libros-mes-sidebar [libros]="libros"></app-libros-mes-sidebar>
+        </ul>
+        <!-- /.post-list -->
+    </div>
+
+    <div class="sidebox widget">
+        <h3 class="widget-title section-title">Ayudanos a crecer
+            <img class="imagen-buscador" src="https://momoko.es/images/fijas/kofi.gif" alt="Gif for kofi patreon" />
+        </h3>
+        <span class="opacidad-baja">Invitanos a un café y ayudanos a seguir creciendo. Coffee son solo 3 €.</span>
+        <a href='https://ko-fi.com/Z8Z38UQV' target='_blank'>
+            <img height='36' style='border:0px;height:36px;margin-top: 10px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0'
+                alt="Link para Coffe" border='0' alt='Buy Me a Coffee at ko-fi.com' />
+        </a>
+        <!-- /.post-list -->
+    </div>
+
+    <div class="sidebox widget">
+        <div class="banner">
+            <a routerLink="/solicitud">
+                <img src="https://momoko.es/images/fijas/banner-resenas.jpg" alt="Link para solicitar reseñas" />
+            </a>
+        </div>
+        <div class="banner">
+            <a routerLink="/criterios">
+                <img src="https://momoko.es/images/fijas/guia-de-notas-banner.jpg" alt="Link para guía de notas" />
+            </a>
+        </div>
+    </div>
+
+    <div class="sidebox widget">
+        <h3 class="widget-title section-title">¿Quieres colaborar con nosotros?</h3>
+        <figure>
+            <!--<img src="assets/style/images/art/about.jpg" class="img-auto" alt=""> -->
+        </figure>
+        <div class="divide10"></div>
+        <p>¿Eres una editorial o un autor y quieres que hagamos una reseña de tu libro? ¿Eres redactor de contenidos y te apetece
+            escribir en Momoko? ¡Ponte en contacto!
+            <a href="mailto:info@momoko.es"> info@momoko.es </a>
+        </p>
+
+        <div class="clearfix"></div>
+    </div>
+
+</aside>

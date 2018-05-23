@@ -53,7 +53,7 @@ import com.momoko.es.util.JsonLDUtils;
 @RequestMapping(path = "/amp")
 public class AMPFacade {
 
-    @Autowired
+    @Autowired(required = false)
     private StorageService almacenImagenes;
 
     @Autowired

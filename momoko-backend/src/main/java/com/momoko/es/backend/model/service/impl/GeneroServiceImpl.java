@@ -40,7 +40,7 @@ public class GeneroServiceImpl implements GeneroService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private StorageService almacenImagenes;
 
     @Override

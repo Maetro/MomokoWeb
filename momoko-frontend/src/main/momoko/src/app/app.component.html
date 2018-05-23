@@ -1,13 +1,16 @@
 <div class="loading-overlay" *ngIf="loading">
-    <div class="overlay">
-      <div class="cargaContainer">
-        <img src="/assets/style/images/cargando_momoko.gif" alt="Loading image for momoko.es" class="centered" />
-      </div>
+  <div class="overlay">
+    <div class="cargaContainer">
+      <img src="/assets/style/images/cargando_momoko.gif" alt="Loading image for momoko.es" class="centered" />
     </div>
   </div>
-  <div class="content-wrapper">
-    <app-menu> Cargando menu... </app-menu>
+</div>
+<div class="content-wrapper">
+  <app-menu> Cargando menu... </app-menu>
+  <div class="container-fluid">
     <app-header>Cargando cabecera ...</app-header>
-    <router-outlet></router-outlet>
   </div>
-  <app-footer></app-footer>
+  <router-outlet></router-outlet>
+</div>
+
+<app-footer></app-footer>

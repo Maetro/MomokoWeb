@@ -12,16 +12,32 @@ import { NotaCircularComponent } from './nota-circular/nota-circular.component';
 import { FormsModule } from '@angular/forms';
 import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.component';
 import { EntradasSidebarComponent } from './sidebar/entradas-sidebar/entradas-sidebar.component';
+import { MobileSidebarComponent } from './mobile-sidebar/mobile-sidebar.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule
+  imports: [CommonModule, RouterModule, FormsModule],
+  declarations: [
+    TagCategoriaComponent,
+    SidebarComponent,
+    SidebarInstagramComponent,
+    LibrosMesSidebarComponent,
+    Libro3dComponent,
+    MenuInternoLibroComponent,
+    SobreAutorComponent,
+    NotaCircularComponent,
+    MenuInternoSagaComponent,
+    EntradasSidebarComponent,
+    MobileSidebarComponent
   ],
-  declarations: [TagCategoriaComponent, SidebarComponent, SidebarInstagramComponent, LibrosMesSidebarComponent, Libro3dComponent, 
-    MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent, MenuInternoSagaComponent, EntradasSidebarComponent],
-  exports: [TagCategoriaComponent, SidebarComponent, Libro3dComponent, MenuInternoLibroComponent, SobreAutorComponent, NotaCircularComponent,
-    MenuInternoSagaComponent]
+  exports: [
+    TagCategoriaComponent,
+    SidebarComponent,
+    Libro3dComponent,
+    MenuInternoLibroComponent,
+    SobreAutorComponent,
+    NotaCircularComponent,
+    MenuInternoSagaComponent,
+    MobileSidebarComponent
+  ]
 })
-export class ComunesModule { }
+export class ComunesModule {}

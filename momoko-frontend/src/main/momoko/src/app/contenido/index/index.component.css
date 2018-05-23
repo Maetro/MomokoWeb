@@ -1,22 +1,23 @@
 .kc-css-97853 i {
-    color: #ffffff;
-    font-size: 77px;
+  color: #ffffff;
+  font-size: 77px;
 }
 
 .kc-icon-wrapper i {
-    display: inline-block;
-    text-align: center;
-    line-height: 1em;
-    transition: background-color 0.3s ease 0s, color 0.3s ease 0s, border-radius 0.3s ease 0s;
+  display: inline-block;
+  text-align: center;
+  line-height: 1em;
+  transition: background-color 0.3s ease 0s, color 0.3s ease 0s,
+    border-radius 0.3s ease 0s;
 }
 
 div.horizontal {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 div.vertical {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

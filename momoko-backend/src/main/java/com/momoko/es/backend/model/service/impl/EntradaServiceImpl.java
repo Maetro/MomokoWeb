@@ -76,6 +76,7 @@ import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.GeneroService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
+import com.momoko.es.backend.model.service.impl.util.FileSystemStorageHelper;
 import com.momoko.es.util.ConversionUtils;
 import com.momoko.es.util.DTOToEntityAdapter;
 import com.momoko.es.util.EntityToDTOAdapter;
@@ -112,7 +113,7 @@ public class EntradaServiceImpl implements EntradaService {
     @Autowired(required = false)
     private GaleriaRepository galeriaRepository;
 
-    @Autowired
+    @Autowired(required = false)
     private StorageService almacenImagenes;
 
     @Autowired
@@ -631,7 +632,7 @@ public class EntradaServiceImpl implements EntradaService {
             String nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
             this.almacenImagenes.crearCarpetaSiNoExiste("/" + carpeta);
             String url = imageServer + carpeta + "/" + nombreImagen + "." + extension;
-            while (FileSystemStorageService.exists(url)) {
+            while (FileSystemStorageHelper.exists(url)) {
                 cont++;
                 nombreImagen = entradaAGuardar.getUrlEntrada() + cont;
                 url = imageServer + carpeta + "/" + nombreImagen + "." + extension;
