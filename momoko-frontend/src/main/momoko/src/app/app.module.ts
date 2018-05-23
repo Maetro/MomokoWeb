@@ -41,31 +41,53 @@ import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-re
 import { SagaService } from './services/saga.service';
 import { ObtenerLiveTestResolverService } from './services/resolvers/obtener-live-test-resolver.service';
 import { AppRoutingModule } from './app-routing.module';
-import { ObtenerListaEditorResolverService} from './services/resolvers/obtener-lista-editor-resolver.service';
-import { ObtenerListaEditoralResolverService} from './services/resolvers/obtener-lista-editoral-resolver.service';
-
+import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
+import { ObtenerListaEditoralResolverService } from './services/resolvers/obtener-lista-editoral-resolver.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-  ],
+  declarations: [AppComponent],
   imports: [
     ContenidoModule,
     RouterModule,
     HttpClientModule,
     HttpModule,
     AppLoadModule,
+    FormsModule,
     EstaticasModule,
     BrowserModule.withServerTransition({ appId: 'momoko-app' }),
     AppRoutingModule,
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
-  providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerListaCategoriaResolverService, ClasificadorService,
-    ObtenerListaGeneroResolverService, ObtenerListaEtiquetaResolverService, ComentariosService, ObtenerVideoResolverService, VideoService,
-    ObtenerEntradaResolverService, EntradaService, ScrollToService, ObtenerLibroNoticiasResolverService, ObtenerLibroResolverService, LibroService,
-    JsonAdapterService, ObtenerListaBusquedaResolverService, ObtenerEntradaZonaResolverService, LinkService, ObtenerSagaResolverService, SagaService,
-    ObtenerResenaResolverService, UtilService, ObtenerLiveTestResolverService, TestService, ObtenerListaEditorResolverService,
-    ObtenerListaEditoralResolverService],
+  providers: [
+    ObtenerIndexDataResolverService,
+    IndexDataService,
+    ObtenerListaCategoriaResolverService,
+    ClasificadorService,
+    ObtenerListaGeneroResolverService,
+    ObtenerListaEtiquetaResolverService,
+    ComentariosService,
+    ObtenerVideoResolverService,
+    VideoService,
+    ObtenerEntradaResolverService,
+    EntradaService,
+    ScrollToService,
+    ObtenerLibroNoticiasResolverService,
+    ObtenerLibroResolverService,
+    LibroService,
+    JsonAdapterService,
+    ObtenerListaBusquedaResolverService,
+    ObtenerEntradaZonaResolverService,
+    LinkService,
+    ObtenerSagaResolverService,
+    SagaService,
+    ObtenerResenaResolverService,
+    UtilService,
+    ObtenerLiveTestResolverService,
+    TestService,
+    ObtenerListaEditorResolverService,
+    ObtenerListaEditoralResolverService
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

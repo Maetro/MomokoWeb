@@ -21,16 +21,17 @@ declare var $: any;
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-
+export class AppComponent implements OnInit {
   private log = environment.log;
 
   private urlSeguimiento = environment.seguimientoJS;
 
-  url_seguimiento : string;
+  busqueda: string;
+
+  url_seguimiento: string;
 
   // Sets initial value to true to show loading spinner on first load
-  loading = true
+  loading = true;
 
   constructor(
     private router: Router,
@@ -38,17 +39,23 @@ export class AppComponent implements OnInit{
     @Inject(PLATFORM_ID) private platformId: Object
   ) {
     router.events.subscribe((event: RouterEvent) => {
-      this.navigationInterceptor(event)
-    })
+      this.navigationInterceptor(event);
+    });
   }
 
   ngOnInit(): void {
     this.url_seguimiento = 'https://momoko.es/files/' + this.urlSeguimiento;
   }
 
+  buscarResultados() {
+    console.log(this.busqueda);
+    this.router.navigate(['/buscar/' + this.busqueda]);
+    this.busqueda = "";
+  }
+
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
-      this.loading = true
+      this.loading = true;
     }
     if (event instanceof NavigationEnd) {
       if (isPlatformBrowser(this.platformId)) {
@@ -59,21 +66,22 @@ export class AppComponent implements OnInit{
           console.log('Distancia top: ' + distanciaTop);
         }
         if (distanciaTop > 500) {
-
-          $('body,html').animate({
-            scrollTop: 0
-          }, 800);
+          $('body,html').animate(
+            {
+              scrollTop: 0
+            },
+            800
+          );
         }
       }
-
     }
 
     // Set loading state to false in both of the below events to hide the spinner in case a request fails
     if (event instanceof NavigationCancel) {
-      this.loading = false
+      this.loading = false;
     }
     if (event instanceof NavigationError) {
-      this.loading = false
+      this.loading = false;
     }
   }
 }

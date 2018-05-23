@@ -154,7 +154,7 @@ public class PublicFacade {
         final InitDataDTO initDataDTO = new InitDataDTO();
         initDataDTO.setMenu(menu);
         stopWatch.stop();
-        log.info(stopWatch.prettyPrint());
+        log.debug(stopWatch.prettyPrint());
         return initDataDTO;
     }
 
@@ -181,7 +181,7 @@ public class PublicFacade {
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
         obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
         stopWatch.stop();
-        log.info(stopWatch.prettyPrint());
+        log.debug(stopWatch.prettyPrint());
         return obtenerIndexDataResponseDTO;
     }
 
@@ -209,7 +209,7 @@ public class PublicFacade {
                 }
             }
             stopWatch.stop();
-            log.info(stopWatch.prettyPrint());
+            log.debug(stopWatch.prettyPrint());
         }
         if (respuesta.getEntrada() == null) {
             throw new NotFoundException("No se ha encontrado la entrada: " + urlEntrada);
@@ -459,7 +459,7 @@ public class PublicFacade {
         stopWatch.start("Obtener Numero libros editorial");
         editorialResponse.setNumeroLibros(this.editorialService.obtenerNumeroLibrosEditorial(request.getUrlElemento()));
         stopWatch.stop();
-        log.info(stopWatch.prettyPrint());
+        log.debug(stopWatch.prettyPrint());
         return editorialResponse;
     }
 
@@ -544,7 +544,7 @@ public class PublicFacade {
         stopWatch.start("Obtener Numero libros editor");
         redactorResponse.setNumeroEntradas(this.entradaService.obtenerNumeroEntradasEditor(request.getUrlElemento()));
         stopWatch.stop();
-        log.info(stopWatch.prettyPrint());
+        log.debug(stopWatch.prettyPrint());
         return redactorResponse;
     }
 

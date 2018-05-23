@@ -17,12 +17,9 @@ import { environment } from '../../../environments/environment';
   styles: []
 })
 export class HeaderComponent implements OnInit {
-
   private log = environment.log;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

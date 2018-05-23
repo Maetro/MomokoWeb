@@ -7,6 +7,15 @@
 </div>
 <div class="content-wrapper">
   <app-menu> Cargando menu... </app-menu>
+  <div class="input-group buscadorMovil">
+    <span class="input-group-addon" id="basic-addon1">
+      <i class="fa fa-search"></i>
+    </span>
+    <form>
+      <input name="busqueda" [(ngModel)]="busqueda" (keyup.enter)="buscarResultados()" style="border: solid 1px #ddd;" type="text" class="form-control"
+        placeholder="Buscar" aria-describedby="basic-addon1">
+    </form>
+  </div>
   <div class="container-fluid">
     <app-header>Cargando cabecera ...</app-header>
   </div>
