@@ -25,7 +25,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Method;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.momoko.es.api.exceptions.StorageException;
@@ -49,9 +48,9 @@ public class FileSystemStorageHelperRemote extends FileSystemStorageHelper {
     }
 
     @Override
-    public String store(final MultipartFile file, final String tipoAlmacenamiento, final String filename) {
+    public String store(final MultipartFile file, final String tipoAlmacenamiento, final String filename,
+                        final  String[] partes) {
         final String nuevoArchivo = "";
-        final String[] partes = filename.split("\\.");
         try {
             final boolean existeImagen = exists(
                     getImageServerLocation(tipoAlmacenamiento) + "/" + filename + "." + partes[1]);

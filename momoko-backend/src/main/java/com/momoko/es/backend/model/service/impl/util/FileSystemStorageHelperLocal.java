@@ -19,7 +19,6 @@ import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
 import org.imgscalr.Scalr.Method;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.momoko.es.api.exceptions.StorageException;
@@ -43,9 +42,9 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
     }
 
     @Override
-    public String store(final MultipartFile file, final String tipoAlmacenamiento, final String filename) {
+    public String store(final MultipartFile file, final String tipoAlmacenamiento, final String filename,
+                        final String[] partes) {
         String nuevoArchivo = "";
-        final String[] partes = filename.split("\\.");
         try {
             nuevoArchivo = filename + "." + partes[1];
             Path location = getFileLocation(tipoAlmacenamiento).resolve(nuevoArchivo);
