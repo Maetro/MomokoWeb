@@ -1,14 +1,15 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { Genero } from '../../../dtos/genero';
+import { LibroSimple } from '../../../dtos/libroSimple';
+import { ObtenerPaginaGeneroResponse } from '../../../dtos/response/obtenerPaginaGeneroResponse';
+import { ClasificadorService } from '../../../services/clasificador.service';
+import { UtilService } from '../../../services/util/util.service';
 import { EntradaSimple } from './../../../dtos/entradaSimple';
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
-import { Title } from '@angular/platform-browser';
-import { environment } from '../../../../environments/environment';
-import { LibroSimple } from '../../../dtos/libroSimple';
-import { Genero } from '../../../dtos/genero';
-import { ClasificadorService } from '../../../services/clasificador.service';
-import { ObtenerPaginaGeneroResponse } from '../../../dtos/response/obtenerPaginaGeneroResponse';
 
 @Component({
   selector: 'app-lista-genero',
@@ -44,7 +45,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
   numbers
 
   constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
-    private titleService: Title) { }
+    private titleService: Title, private metaService: Meta, private util: UtilService) { }
 
   ngOnInit() {
     if (this.log) {
@@ -57,10 +58,16 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
       }
       this.route.data.subscribe((data: { paginaGeneroResponse: ObtenerPaginaGeneroResponse }) => {
         this.genero = data.paginaGeneroResponse.genero;
+        this.util.removeAllTags(this.metaService);
         this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
         this.entradasPopulares = data.paginaGeneroResponse.tresUltimasEntradasConLibro;
         const metatituloPagina = 'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros del género ' + this.genero.nombre +
           ' en momoko';
+          const tag = {
+            name: 'description', content: 'Últimas fichas de los libros del género ' + this.genero.nombre +
+              'desde donde podras acceder a sus noticias y análisis'
+          };
+          this.metaService.addTag(tag, false);
         this.titleService.setTitle(metatituloPagina);
         this.numeroEntradas = data.paginaGeneroResponse.numeroLibros;
         this.numeroPaginas = Math.ceil(this.numeroEntradas / this.numeroEntradasPagina);

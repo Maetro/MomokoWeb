@@ -8,6 +8,7 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 
+import com.sun.org.glassfish.gmbal.Description;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -35,6 +36,23 @@ public class EntradaUrlDTO implements Comparable<EntradaUrlDTO>, Serializable {
 
     /** The url entrada. */
     String urlAntigua;
+
+    /**
+     * The Met description.
+     */
+    String metaDescription;
+
+    /**
+     * The Title.
+     */
+    String title;
+
+    /**
+     * The Tipo url.
+     */
+    String tipoUrl;
+
+
 
     /**
      * Gets the entrada id.
@@ -129,6 +147,30 @@ public class EntradaUrlDTO implements Comparable<EntradaUrlDTO>, Serializable {
      */
     public void setUrlAntigua(final String urlAntigua) {
         this.urlAntigua = urlAntigua;
+    }
+
+    public String getMetaDescription() {
+        return metaDescription;
+    }
+
+    public void setMetaDescription(String metaDescription) {
+        this.metaDescription = metaDescription;
+    }
+
+    public String getTipoUrl() {
+        return tipoUrl;
+    }
+
+    public void setTipoUrl(String tipoUrl) {
+        this.tipoUrl = tipoUrl;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public int compareTo(final EntradaUrlDTO other) {
