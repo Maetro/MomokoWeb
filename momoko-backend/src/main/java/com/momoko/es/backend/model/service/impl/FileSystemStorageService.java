@@ -75,7 +75,7 @@ public class FileSystemStorageService implements StorageService {
             throw new StorageException("Cannot store file with relative path outside current directory " + filename);
         }
 
-        final String nuevoArchivo = this.getFileSystemHelper().store(file, tipoAlmacenamiento);
+        final String nuevoArchivo = this.getFileSystemHelper().store(file, tipoAlmacenamiento, filename);
 
         return nuevoArchivo;
     }

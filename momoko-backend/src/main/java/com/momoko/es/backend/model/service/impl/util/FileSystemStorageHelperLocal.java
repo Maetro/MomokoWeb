@@ -43,8 +43,7 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
     }
 
     @Override
-    public String store(final MultipartFile file, final String tipoAlmacenamiento) {
-        final String filename = StringUtils.cleanPath(file.getOriginalFilename());
+    public String store(final MultipartFile file, final String tipoAlmacenamiento, final String filename) {
         String nuevoArchivo = "";
         final String[] partes = filename.split("\\.");
         try {

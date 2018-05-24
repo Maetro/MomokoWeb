@@ -43,7 +43,7 @@ public abstract class FileSystemStorageHelper {
      *            the tipo almacenamiento
      * @return the string
      */
-    public abstract String store(MultipartFile file, String tipoAlmacenamiento);
+    public abstract String store(MultipartFile file, String tipoAlmacenamiento, String filename);
 
     /**
      * Store with extension.
