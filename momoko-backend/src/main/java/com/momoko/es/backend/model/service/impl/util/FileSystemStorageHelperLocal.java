@@ -129,7 +129,8 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
                         (scaledImg.getHeight() - height) / 2, width, height);
             }
             final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
-            createJpegWithPredefinedCompression(tipoAlmacenamiento, fileNameNuevo, scaledImg, newName);
+            ImageIO.write(scaledImg, "jpg", newName);
+//            createJpegWithPredefinedCompression(tipoAlmacenamiento, fileNameNuevo, scaledImg, newName);
         }
         miniatura = this.momokoConfiguracion.getDirectorios().getRemote().getUrlImages() + tipoAlmacenamiento + "/"
                 + fileNameNuevo;
