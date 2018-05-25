@@ -13,7 +13,6 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./ficha-saga.component.css']
 })
 export class FichaSagaComponent implements OnInit {
-
   private log = environment.log;
 
   saga: Saga;
@@ -27,7 +26,8 @@ export class FichaSagaComponent implements OnInit {
     private router: Router,
     private titleService: Title,
     private metaService: Meta,
-    @Inject(PLATFORM_ID) private platformId: Object) { }
+    @Inject(PLATFORM_ID) private platformId: Object
+  ) {}
 
   ngOnInit() {
     if (this.log) {
@@ -45,7 +45,7 @@ export class FichaSagaComponent implements OnInit {
     this.route.data.subscribe((data: { fichaSaga: FichaSaga }) => {
       this.saga = data.fichaSaga.saga;
       this.librosSaga = data.fichaSaga.librosSaga;
-      this.librosSaga.sort(function (a, b) {
+      this.librosSaga.sort(function(a, b) {
         if (a.ordenSaga < b.ordenSaga) {
           return -1;
         } else if (a.ordenSaga > b.ordenSaga) {
@@ -53,10 +53,11 @@ export class FichaSagaComponent implements OnInit {
         } else {
           return 0;
         }
-      })
+      });
       const titulo = 'Ficha de saga ' + this.saga.nombreSaga;
       console.log(this.librosSaga[0].generos);
-      const metatituloPagina = 'Encuentra aquí toda la información sobre ' + this.saga.nombreSaga;
+      const metatituloPagina =
+        'Encuentra aquí toda la información sobre ' + this.saga.nombreSaga;
       this.titleService.setTitle(titulo);
       // Changing meta with name="description"
       const tag = { name: 'description', content: metatituloPagina };
@@ -68,14 +69,37 @@ export class FichaSagaComponent implements OnInit {
       this.metaService.removeTag('name="og:title"');
       this.metaService.removeTag('name="og:description"');
       this.metaService.removeTag('name="og:image"');
-      this.metaService.addTag({ name: 'og:url', content: 'https://momoko.es/saga/' + this.saga.urlSaga });
+      this.metaService.addTag({
+        name: 'og:url',
+        content: 'https://momoko.es/saga/' + this.saga.urlSaga
+      });
       this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
-      this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
+      this.metaService.addTag({
+        name: 'fb:app_id',
+        content: '1932678757049258'
+      });
       this.metaService.addTag({ name: 'og:type', content: 'book' });
-      this.metaService.addTag({ name: 'og:title', content: this.saga.nombreSaga });
-      this.metaService.addTag({ name: 'og:description', content: this.saga.resumen });
-      this.metaService.addTag({ name: 'og:image', content: this.saga.imagenSaga });
+      this.metaService.addTag({
+        name: 'og:title',
+        content: this.saga.nombreSaga
+      });
+      this.metaService.addTag({
+        name: 'og:description',
+        content: this.saga.resumen
+      });
+      this.metaService.addTag({
+        name: 'og:image',
+        content: this.saga.imagenSaga
+      });
     });
   }
 
+  existeAnalisis(libro: Libro) {
+    console.log('existeAnalisis');
+    let result = '';
+    if (!libro.tieneAnalisis) {
+      result = 'grayscale';
+    }
+    return result;
+  }
 }

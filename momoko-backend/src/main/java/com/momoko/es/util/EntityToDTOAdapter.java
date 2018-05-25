@@ -91,6 +91,17 @@ public final class EntityToDTOAdapter {
         libroDTO.setUrlLibro(libroEntity.getUrlLibro());
         libroDTO.setFechaAlta(libroEntity.getFechaAlta());
         libroDTO.setOrdenSaga(libroEntity.getOrdenSaga());
+        if (libroEntity.getOrdenSaga() != null) {
+            libroDTO.setSaga(adaptarSaga(libroEntity.getSaga(), false));
+        }
+        if (CollectionUtils.isNotEmpty(libroEntity.getEntradas())) {
+            for (final EntradaEntity entradaEntity : libroEntity.getEntradas()) {
+                if (TipoEntrada.ANALISIS.getValue().equals(entradaEntity.getTipoEntrada())) {
+                    libroDTO.setTieneAnalisis(true);
+                    break;
+                }
+            }
+        }
         return libroDTO;
     }
 

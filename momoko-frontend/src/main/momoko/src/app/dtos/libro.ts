@@ -4,8 +4,6 @@ import { Autor } from './autor';
 import { DatoEntrada } from './datoEntrada';
 import { Saga } from './saga';
 
-
-
 export class Libro {
   libroId: number;
   saga: Saga;
@@ -30,4 +28,5 @@ export class Libro {
   notaMomoko: number;
   visitas: number;
   ordenSaga: number;
+  tieneAnalisis: boolean;
 }

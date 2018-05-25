@@ -33,7 +33,7 @@
                 <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
                 <div class="contenedorImagenes">
                     <a routerLink="/libro/{{libro.urlLibro}}">
-                        <img src="{{libro.urlImagen}}" alt="Portada libro - {{libro.titulo}} ">
+                        <img src="{{libro.urlImagen}}" [class]="existeAnalisis(libro)" alt="Portada libro - {{libro.titulo}} ">
                     </a>
                 </div>
                 <h3 class="titulo_libro"> {{libro.titulo}} </h3>

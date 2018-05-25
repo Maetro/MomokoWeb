@@ -59,6 +59,7 @@ export class FichaLibroComponent implements OnInit {
     this.anchura = width - margin;
     this.href = this.router.url;
     this.route.data.subscribe((data: { fichaLibro: FichaLibro }) => {
+      console.log(data.fichaLibro);
       this.libro = data.fichaLibro.libro;
       this.librosParecidos = data.fichaLibro.cincoLibrosParecidos;
       this.tresUltimasEntradas = data.fichaLibro.tresUltimasEntradas;

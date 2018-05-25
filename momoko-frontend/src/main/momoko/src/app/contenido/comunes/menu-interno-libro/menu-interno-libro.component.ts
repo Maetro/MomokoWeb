@@ -10,7 +10,6 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./menu-interno-libro.component.css']
 })
 export class MenuInternoLibroComponent implements OnInit {
-
   private log = environment.log;
 
   urlVideo: string;
@@ -24,16 +23,16 @@ export class MenuInternoLibroComponent implements OnInit {
 
   @Input() libro: Libro;
 
-  constructor(private route: ActivatedRoute, private router: Router) { }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     if (this.log) {
       console.log('Iniciando menu');
     }
+    if (this.libro.saga != null) {
+      this.esSaga = true;
+    }
     if (this.libro.entradasLibro.length > 0) {
-      if (this.libro.saga != null){
-        this.esSaga = true;
-      }
       this.libro.entradasLibro.forEach(entrada => {
         switch (entrada.tipoEntrada) {
           // 1 - NOTICIA
@@ -56,24 +55,19 @@ export class MenuInternoLibroComponent implements OnInit {
           default: {
             break;
           }
-        };
-        console.log('Menus');
+        }
         if (entrada.enMenu) {
           if (this.menuLibroExtra == null) {
             this.menuLibroExtra = Array();
           }
           this.menuLibroExtra.push(entrada);
         }
-      })
+      });
     }
-
   }
 
   isActive(instruction: any[]): boolean {
     // Set the second parameter to true if you want to require an exact match.
     return this.router.isActive(this.router.createUrlTree(instruction), false);
   }
-
-
-
 }
