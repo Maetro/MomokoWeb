@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { LibroSimple } from '../../../dtos/libroSimple';
-import { EntradaSimple } from '../../../dtos/entradaSimple';
-import { Editorial } from '../../../dtos/editorial';
-import { ClasificadorService } from '../../../services/clasificador.service';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Title } from '@angular/platform-browser';
+import { environment } from '../../../../environments/environment';
+import { Editorial } from '../../../dtos/editorial';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
+import { LibroSimple } from '../../../dtos/libroSimple';
 import { ObtenerPaginaEditorialResponse } from '../../../dtos/response/obtenerPaginaEditorialResponse';
+import { ClasificadorService } from '../../../services/clasificador.service';
+import { UtilService } from '../../../services/util/util.service';
 
 @Component({
   selector: 'app-lista-editorial',
@@ -40,7 +41,7 @@ export class ListaEditorialComponent implements OnInit, OnDestroy {
   numbers
 
   constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
-    private titleService: Title) { }
+    private titleService: Title, private metaService: Meta, private util: UtilService) { }
 
   ngOnInit() {
     if (this.log) {
@@ -55,12 +56,22 @@ export class ListaEditorialComponent implements OnInit, OnDestroy {
         this.editorial = data.editorial.editorial;
         this.librosEditorial = data.editorial.nueveLibrosEditorial;
         this.tresUltimasEntradas = data.editorial.tresUltimasEntradasEditorial;
-        const metatituloPagina = 'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros de la editorial ' + this.editorial.nombreEditorial +
-          ' en momoko';
+
+        const metatituloPagina = 'Editorial: ' + this.editorial.nombreEditorial + ': Últimos libros en momoko de la editorial: ' +
+           this.editorial.nombreEditorial;
         this.titleService.setTitle(metatituloPagina);
         this.numeroLibros = data.editorial.numeroLibros;
         this.numeroPaginas = Math.ceil(this.numeroLibros / this.numeroLibrosPagina);
         this.numbers = Array(this.numeroPaginas).fill(0).map((x, i) => i + 1);
+
+        this.util.removeAllTags(this.metaService);
+
+
+        this.titleService.setTitle('Momoko - Editorial: ' + this.editorial.nombreEditorial);
+        const tag = {
+          name: 'description', content: metatituloPagina
+        };
+        this.metaService.addTag(tag, false);
       });
 
       // const columna = document.getElementById('mirarAnchura0');
