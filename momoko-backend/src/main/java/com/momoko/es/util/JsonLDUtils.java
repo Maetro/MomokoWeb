@@ -70,7 +70,9 @@ public class JsonLDUtils {
             }
             mainEntity.setImage("https://momoko.es/images/" + libro.getUrlImagen());
             mainEntity.setName(libro.getTitulo());
-            mainEntity.setNumberOfPages(libro.getNumeroPaginas().toString());
+            if (libro.getNumeroPaginas() != null) {
+                mainEntity.setNumberOfPages(libro.getNumeroPaginas().toString());
+            }
             if (libro.getEditorial() != null) {
                 mainEntity.setPublisher(libro.getEditorial().getNombreEditorial());
             }
