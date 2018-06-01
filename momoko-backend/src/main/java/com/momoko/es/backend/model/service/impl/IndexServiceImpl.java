@@ -85,7 +85,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     public List<EntradaSimpleDTO> obtenerUltimasEntradas() {
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .findUltimasEntradas(Calendar.getInstance().getTime(), new PageRequest(0, 11));
+                .findUltimasEntradas(Calendar.getInstance().getTime(), PageRequest.of(0, 11));
         final List<EntradaSimpleDTO> listaEntradasSimples = ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
 
         for (int i = 0; i < 5; i++) {
@@ -148,16 +148,16 @@ public class IndexServiceImpl implements IndexService {
         c.add(Calendar.MONTH, -1);
 
         final List<String> librosMasVisitadosMes = this.visitaRepository
-                .findTipoVisitaMasVistosDesde(new PageRequest(0, 5), TipoVisitaEnum.LIBRO.toString(), c.getTime());
+                .findTipoVisitaMasVistosDesde(PageRequest.of(0, 5), TipoVisitaEnum.LIBRO.toString(), c.getTime());
 
         final List<LibroEntity> listaLibros = this.libroRepository.findByUrlLibroIn(librosMasVisitadosMes);
-        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+        final List<Integer> listaLibrosIds = new ArrayList<>();
         for (final LibroEntity libroEntity : listaLibros) {
             listaLibrosIds.add(libroEntity.getLibroId());
         }
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
-        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<>();
         if (CollectionUtils.isNotEmpty(listaPuntuaciones)) {
             for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
                 mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);
@@ -222,7 +222,7 @@ public class IndexServiceImpl implements IndexService {
 
         final EntradaEntity ultimoComicAnalisis = this.entradaRepository
                 .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
-                        new PageRequest(0, 1))
+                        PageRequest.of(0, 1))
                 .iterator().next();
 
         final LibroEntity ultimoComicAnalizado = ultimoComicAnalisis.getLibrosEntrada().iterator().next();
@@ -251,14 +251,14 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public List<LibroSimpleDTO> obtenerUltimosAnalisis() {
-        final List<LibroEntity> listaLibros = this.libroRepository.findUltimosAnalisis(new PageRequest(0, 5));
-        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+        final List<LibroEntity> listaLibros = this.libroRepository.findUltimosAnalisis(PageRequest.of(0, 5));
+        final List<Integer> listaLibrosIds = new ArrayList<>();
         for (final LibroEntity libroEntity : listaLibros) {
             listaLibrosIds.add(libroEntity.getLibroId());
         }
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
-        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<>();
         if (CollectionUtils.isNotEmpty(listaPuntuaciones)) {
             for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
                 mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);
@@ -285,14 +285,14 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public List<LibroSimpleDTO> obtenerUltimasFichas() {
-        final List<LibroEntity> listaLibros = this.libroRepository.findUltimasFichas(new PageRequest(0, 5));
-        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+        final List<LibroEntity> listaLibros = this.libroRepository.findUltimasFichas(PageRequest.of(0, 5));
+        final List<Integer> listaLibrosIds = new ArrayList<>();
         for (final LibroEntity libroEntity : listaLibros) {
             listaLibrosIds.add(libroEntity.getLibroId());
         }
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
-        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<>();
         if (CollectionUtils.isNotEmpty(listaPuntuaciones)) {
             for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
                 mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);

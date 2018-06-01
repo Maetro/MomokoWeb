@@ -77,7 +77,7 @@ public class GeneroServiceImpl implements GeneroService {
             final String currentPrincipalName = authentication.getName();
 
             if (generoEntity.getGeneroId() != null) {
-                final GeneroEntity generoBD = this.generoRepository.findOne(generoEntity.getGeneroId());
+                final GeneroEntity generoBD = this.generoRepository.findById(generoEntity.getGeneroId()).orElse(null);
                 generoEntity = generoBD;
                 generoEntity.setUsuarioModificacion(currentPrincipalName);
                 generoEntity.setFechaModificacion(Calendar.getInstance().getTime());

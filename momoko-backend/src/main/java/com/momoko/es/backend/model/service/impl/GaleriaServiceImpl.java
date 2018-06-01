@@ -38,7 +38,7 @@ public class GaleriaServiceImpl implements GaleriaService {
 
     @Override
     public GaleriaDTO obtenerGaleria(final Integer galeriaId) {
-        return EntityToDTOAdapter.adaptarGaleria(this.galeriaRepository.findOne(galeriaId));
+        return EntityToDTOAdapter.adaptarGaleria(this.galeriaRepository.findById(galeriaId).orElse(null));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class GaleriaServiceImpl implements GaleriaService {
      *             the error en guardado reconocido exception
      */
     private GaleriaEntity actualizarGaleria(final GaleriaDTO galeriaDTO) throws ErrorEnGuardadoReconocidoException {
-        final GaleriaEntity galeriaEntity = this.galeriaRepository.findOne(galeriaDTO.getGaleriaId());
+        final GaleriaEntity galeriaEntity = this.galeriaRepository.findById(galeriaDTO.getGaleriaId()).orElse(null);
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
         if (!galeriaDTO.getUrlGaleria().equals(galeriaEntity.getUrlGaleria())) {

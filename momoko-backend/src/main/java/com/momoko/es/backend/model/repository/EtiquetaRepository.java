@@ -32,13 +32,6 @@ public interface EtiquetaRepository extends CrudRepository<EtiquetaEntity, Integ
      */
     EtiquetaEntity findOneByNombre(String nombre);
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.data.repository.CrudRepository#findOne(java.io.Serializable)
-     */
-    EtiquetaEntity findOne(Integer etiqueta_id);
-
     /**
      * Find one by url categoria.
      *

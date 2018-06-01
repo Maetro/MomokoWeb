@@ -76,12 +76,12 @@ public class ComentarioServiceImpl implements ComentarioService {
             nuevoComentario.setEmailComentario(comentarioAGuardar.getEmail());
             nuevoComentario.setPaginaWebComentario(comentarioAGuardar.getPaginaWeb());
         }
-        final EntradaEntity comentarioEntrada = this.entradaRepository.findOne(comentarioAGuardar.getEntradaId());
+        final EntradaEntity comentarioEntrada = this.entradaRepository.findById(comentarioAGuardar.getEntradaId()).orElse(null);
         nuevoComentario.setEntrada(comentarioEntrada);
         ComentarioEntity comentarioReferenciaEntity = null;
 
         if (comentarioAGuardar.getComentarioRespuesta() != null) {
-            comentarioReferenciaEntity = this.comentarioRepository.findOne(comentarioAGuardar.getComentarioRespuesta());
+            comentarioReferenciaEntity = this.comentarioRepository.findById(comentarioAGuardar.getComentarioRespuesta()).orElse(null);
             nuevoComentario.setComentarioReferenciaEntity(comentarioReferenciaEntity);
         }
 
@@ -160,7 +160,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         try {
 
             final ComentarioEntity comentarioPrincipal = this.comentarioRepository
-                    .findOne(comentarioDTO.getComentarioId());
+                    .findById(comentarioDTO.getComentarioId()).orElse(null);
             final EntradaEntity entrada = comentarioPrincipal.getEntrada();
             final String content = generarEmailNuevoComentario(comentarioPrincipal, entrada);
 

@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
  * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
  */
 @Configuration
-@ConfigurationProperties("momokoConfiguracion")
+@ConfigurationProperties("momoko-configuracion")
 public class MomokoConfiguracion {
 
     /** The es servidor local. */

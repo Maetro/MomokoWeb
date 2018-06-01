@@ -47,17 +47,26 @@ gmail:
     userInfoUri: https://www.googleapis.com/plus/v1/people/me
     preferTokenInfo: false
 
-facebook:
-  client:
-    clientId: 233668646673605
-    clientSecret: 33b17e044ee6a4fa383f46ec6e28ea1d
-    accessTokenUri: https://graph.facebook.com/oauth/access_token
-    userAuthorizationUri: https://www.facebook.com/dialog/oauth
-    tokenName: oauth_token
-    authenticationScheme: query
-    clientAuthenticationScheme: form
-  resource:
-    userInfoUri: https://graph.facebook.com/me
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          facebook:
+            client-id: 233668646673605
+            client-secret: 33b17e044ee6a4fa383f46ec6e28ea1d
+
+#facebook:
+#  client:
+#    clientId:
+#    clientSecret:
+#    accessTokenUri: https://graph.facebook.com/oauth/access_token
+#    userAuthorizationUri: https://www.facebook.com/dialog/oauth
+#    tokenName: oauth_token
+#    authenticationScheme: query
+#    clientAuthenticationScheme: form
+#  resource:
+#    userInfoUri: https://graph.facebook.com/me
 
 #Facebook
 #facebook:
@@ -95,19 +104,19 @@ logging:
 
 #momoko properties
 
-momokoConfiguracion:
-  esServidorLocal: true
-  imagenDefault: imagenes-destacadas/generica-libreria.jpg
+momoko-configuracion:
+  es-servidor-local: true
+  imagen-default: imagenes-destacadas/generica-libreria.jpg
   directorios:
     remote:
-      urlSitemap: http://localhost
-      urlFiles: http://localhost/images
-      urlTemplates: http://localhost/templates
-      urlImages: http://localhost/images/
-      urlUpload: http://localhost/
+      url-sitemap: http://localhost
+      url-files: http://localhost/images
+      url-templates: http://localhost/templates
+      url-images: http://localhost/images/
+      url-upload: http://localhost/
     local:
-      urlSitemap: D:\XAMPP\htdocs\momoko
-      urlFiles: D:\XAMPP\htdocs\momoko\images
-      urlTemplates: D:\XAMPP\htdocs\momoko\templates
-      urlImages: http://localhost/images/
-      urlUpload: http://localhost/
+      url-sitemap: D:\XAMPP\htdocs\momoko
+      url-files: D:\XAMPP\htdocs\momoko\images
+      url-templates: D:\XAMPP\htdocs\momoko\templates
+      url-images: http://localhost/images/
+      url-upload: http://localhost/

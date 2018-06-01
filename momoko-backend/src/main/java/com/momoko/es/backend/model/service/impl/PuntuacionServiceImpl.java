@@ -52,12 +52,12 @@ public class PuntuacionServiceImpl implements PuntuacionService {
         LibroEntity libro;
         SagaEntity saga;
         if (puntuacionDTO.getLibroId() != null) {
-            libro = this.libroRepository.findOne(puntuacionDTO.getLibroId());
+            libro = this.libroRepository.findById(puntuacionDTO.getLibroId()).orElse(null);
             respuesta = guardarPuntuacionLibro(puntuacionDTO, libro);
 
         } else {
 
-            saga = this.sagaRepository.findOne(puntuacionDTO.getSagaId());
+            saga = this.sagaRepository.findById(puntuacionDTO.getSagaId()).orElse(null);
             respuesta = guardarPuntuacionSaga(puntuacionDTO, saga);
         }
 

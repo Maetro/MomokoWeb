@@ -53,7 +53,7 @@ public class EditorialServiceImpl implements EditorialService {
 
     @Override
     public List<EditorialDTO> recuperarEditoriales() {
-        final List<EditorialDTO> editoriales = new ArrayList<EditorialDTO>();
+        final List<EditorialDTO> editoriales = new ArrayList<>();
         final Iterable<EditorialEntity> listaEditoriales = this.editorialRepository.findAll();
         final String imageServer = this.almacenImagenes.getUrlImageServer();
         for (final EditorialEntity editorialEntity : listaEditoriales) {
@@ -95,7 +95,7 @@ public class EditorialServiceImpl implements EditorialService {
     private EditorialDTO actualizarEditorial(final EditorialDTO editorial) {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        final EditorialEntity editorialEntity = this.editorialRepository.findOne(editorial.getEditorialId());
+        final EditorialEntity editorialEntity = this.editorialRepository.findById(editorial.getEditorialId()).orElse(null);
         editorialEntity.setFechaModificacion(Calendar.getInstance().getTime());
         editorialEntity.setUsuarioModificacion(currentPrincipalName);
         editorialEntity.setUrlEditorial(editorial.getUrlEditorial());
@@ -127,7 +127,7 @@ public class EditorialServiceImpl implements EditorialService {
             throw new RuntimeException("La editorial es nula");
         }
         if (editorialEntity.getEditorialId() != null) {
-            editorialBD = this.editorialRepository.findOne(editorialEntity.getEditorialId());
+            editorialBD = this.editorialRepository.findById(editorialEntity.getEditorialId()).orElse(null);
         } else if (editorialEntity.getUrlEditorial() != null) {
             editorialBD = this.editorialRepository.findFirstByUrlEditorial(editorialEntity.getUrlEditorial());
         } else if (editorialEntity.getNombreEditorial() != null) {
@@ -156,15 +156,15 @@ public class EditorialServiceImpl implements EditorialService {
             final Integer numeroPagina) {
         final List<LibroEntity> librosEditorial = this.editorialRepository
                 .findLibrosByEditorialURLsAndFechaBajaIsNullOrderByFechaAltaDesc(urlElemento,
-                        new PageRequest(numeroPagina - 1, numeroElementos));
-        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+                        PageRequest.of(numeroPagina - 1, numeroElementos));
+        final List<Integer> listaLibrosIds = new ArrayList<>();
         for (final LibroEntity libroEntity : librosEditorial) {
             listaLibrosIds.add(libroEntity.getLibroId());
         }
 
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
-        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<>();
         if (CollectionUtils.isNotEmpty(librosEditorial)) {
             for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
                 mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);
@@ -215,7 +215,7 @@ public class EditorialServiceImpl implements EditorialService {
             final Integer numeroPagina) {
         final List<EntradaEntity> entradasEditorial = this.editorialRepository
                 .findEntradasByEditorialURLsAndFechaBajaIsNullOrderByFechaAltaDesc(urlElemento,
-                        new PageRequest(numeroPagina - 1, numeroElementos));
+                        PageRequest.of(numeroPagina - 1, numeroElementos));
         final List<EntradaSimpleDTO> entradasSimples = ConversionUtils.obtenerEntradasBasicas(entradasEditorial, false);
 
         for (final EntradaSimpleDTO entradaSimpleDTO : entradasSimples) {

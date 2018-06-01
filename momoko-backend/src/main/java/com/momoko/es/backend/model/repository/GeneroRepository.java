@@ -26,13 +26,6 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      */
     List<GeneroEntity> findByNombre(String nombre);
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.springframework.data.repository.CrudRepository#findOne(java.io.Serializable)
-     */
-    GeneroEntity findOne(Integer genero_id);
-
     /**
      * Find one by url genero and fecha baja is null order by fecha alta desc.
      *

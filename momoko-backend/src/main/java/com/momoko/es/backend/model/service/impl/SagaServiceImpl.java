@@ -127,7 +127,7 @@ public class SagaServiceImpl implements SagaService {
 
     private SagaEntity actualizarSaga(final SagaDTO sagaAGuardar)
             throws NoSeEncuentraElementoConID, NoSeEncuentranLibrosSagaException {
-        final SagaEntity sagaEntity = this.sagaRepository.findOne(sagaAGuardar.getSagaId());
+        final SagaEntity sagaEntity = this.sagaRepository.findById(sagaAGuardar.getSagaId()).orElse(null);
         if (sagaEntity == null) {
             throw new NoSeEncuentraElementoConID("Saga ID: " + sagaAGuardar.getSagaId());
         }

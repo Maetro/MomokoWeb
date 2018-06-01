@@ -139,7 +139,7 @@ public class UserServiceImpl implements UserService {
             redactorDTO.setMediaPuntuaciones(media);
             final List<EntradaEntity> ultimaEntrada = this.entradaRepository
                     .findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(redactorDTO.getUrlRedactor(),
-                            new PageRequest(0, 1));
+                            PageRequest.of(0, 1));
             if (CollectionUtils.isNotEmpty(ultimaEntrada)) {
                 redactorDTO.setFechaUltimaEntrada(ultimaEntrada.get(0).getFechaAlta());
             }
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
     private UsuarioEntity actualizarRedactor(@NotNull final RedactorDTO redactorDTO) throws NotFoundException {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        final UsuarioEntity usuario = this.usuarioRepository.findOne(redactorDTO.getUsuarioId());
+        final UsuarioEntity usuario = this.usuarioRepository.findById(redactorDTO.getUsuarioId()).orElse(null);
         if (usuario == null) {
             throw new NotFoundException("El redactor a actualizar no fue encontrado");
         }

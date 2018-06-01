@@ -159,8 +159,8 @@ public class EntradaServiceImpl implements EntradaService {
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         if (entradaEntity != null) {
-            final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
-            final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
+            final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<>();
+            final List<LibroSimpleDTO> librosParecidos = new ArrayList<>();
 
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
 
@@ -254,8 +254,8 @@ public class EntradaServiceImpl implements EntradaService {
             final List<ComentarioDTO> comentarios = this.comentarioService
                     .obtenerComentariosEntrada(entradaDTO.getEntradaId());
 
-            final List<ComentarioDTO> comentariosOrdenados = new ArrayList<ComentarioDTO>();
-            final Map<Integer, ComentarioDTO> mapaComentarios = new HashMap<Integer, ComentarioDTO>();
+            final List<ComentarioDTO> comentariosOrdenados = new ArrayList<>();
+            final Map<Integer, ComentarioDTO> mapaComentarios = new HashMap<>();
             for (final ComentarioDTO comentarioDTO : comentarios) {
                 if (comentarioDTO.getComentarioPadreId() == null) {
                     mapaComentarios.put(comentarioDTO.getComentarioId(), comentarioDTO);
@@ -264,7 +264,7 @@ public class EntradaServiceImpl implements EntradaService {
                     if (comentarioPadre != null) {
                         List<ComentarioDTO> respuestas = comentarioPadre.getComentariosHijo();
                         if (CollectionUtils.isEmpty(respuestas)) {
-                            respuestas = new ArrayList<ComentarioDTO>();
+                            respuestas = new ArrayList<>();
                         }
                         respuestas.add(comentarioDTO);
                         comentarioPadre.setComentarioReferencia(respuestas);
@@ -294,7 +294,7 @@ public class EntradaServiceImpl implements EntradaService {
             if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
                 for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
                     final String url = this.almacenImagenes.getUrlImageServer();
-                    final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
+                    final Set<GeneroDTO> generosImagenes = new HashSet<>();
                     for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
                         generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
                         generosImagenes.add(generoDTO);
@@ -525,7 +525,7 @@ public class EntradaServiceImpl implements EntradaService {
      */
     private List<EntradaSimpleDTO> obtener4PostPequenosConImagen(final Integer entradaId) {
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .seleccionarEntradasAleatorias(entradaId, new PageRequest(0, 4)).getContent();
+                .seleccionarEntradasAleatorias(entradaId, PageRequest.of(0, 4)).getContent();
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
@@ -538,12 +538,12 @@ public class EntradaServiceImpl implements EntradaService {
      */
     private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente(final Date fechaAlta) {
         final List<EntradaEntity> entradaAnterior = this.entradaRepository
-                .findEntradaMiscelaneosAnteriorAFecha(fechaAlta, new PageRequest(0, 1)).getContent();
+                .findEntradaMiscelaneosAnteriorAFecha(fechaAlta, PageRequest.of(0, 1)).getContent();
 
         final List<EntradaEntity> entradaPosterior = this.entradaRepository
-                .findEntradaMiscelaneosPosteriorAFecha(fechaAlta, new PageRequest(0, 1)).getContent();
+                .findEntradaMiscelaneosPosteriorAFecha(fechaAlta, PageRequest.of(0, 1)).getContent();
 
-        final List<EntradaEntity> listaEntities = new ArrayList<EntradaEntity>();
+        final List<EntradaEntity> listaEntities = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(entradaAnterior)) {
             listaEntities.add(entradaAnterior.iterator().next());
         }
@@ -555,7 +555,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaDTO> recuperarEntradas() {
-        final List<EntradaDTO> entradasDTO = new ArrayList<EntradaDTO>();
+        final List<EntradaDTO> entradasDTO = new ArrayList<>();
         final Iterable<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
         final String imageServer = this.almacenImagenes.getUrlImageServer();
         for (final EntradaEntity entradaEntity : entradasEntity) {
@@ -577,17 +577,9 @@ public class EntradaServiceImpl implements EntradaService {
         return entradasBasicas;
     }
 
-    /**
-     * Obtener titulos libros entrada.
-     *
-     * @param entradaEntity
-     *            the entrada entity
-     * @param entradaDTO
-     *            the entrada dto
-     * @return
-     */
+
     public List<String> obtenerTitulosLibrosEntrada(final EntradaEntity entradaEntity) {
-        final List<String> titulosLibros = new ArrayList<String>();
+        final List<String> titulosLibros = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
             for (final LibroEntity libro : entradaEntity.getLibrosEntrada()) {
                 titulosLibros.add(libro.getTitulo());
@@ -599,7 +591,7 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     @Transactional
     public EntradaDTO guardarEntrada(final EntradaDTO entradaAGuardar) throws Exception {
-        final List<LibroDTO> librosEntrada = new ArrayList<LibroDTO>();
+        final List<LibroDTO> librosEntrada = new ArrayList<>();
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
         final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
@@ -659,9 +651,9 @@ public class EntradaServiceImpl implements EntradaService {
         EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
-            final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
+            final Set<EtiquetaEntity> etiquetasBD = new HashSet<>();
             for (final EtiquetaEntity etiqueta : entradaEntity.getEtiquetas()) {
-                List<String> etiquetas = new ArrayList<String>();
+                List<String> etiquetas = new ArrayList<>();
                 if (StringUtils.contains(etiqueta.getNombre(), ",")) {
                     etiquetas = ConversionUtils.divide(etiqueta.getNombre());
                 } else {
@@ -695,7 +687,7 @@ public class EntradaServiceImpl implements EntradaService {
         if (esNuevaEntrada) {
             coincidencia = this.entradaRepository.findFirstByUrlEntrada(entradaEntity.getUrlEntrada());
         } else {
-            coincidencia = this.entradaRepository.findOne(entradaAGuardar.getEntradaId());
+            coincidencia = this.entradaRepository.findById(entradaAGuardar.getEntradaId()).orElse(null);
         }
 
         if (esNuevaEntrada && (coincidencia != null)) {
@@ -710,7 +702,7 @@ public class EntradaServiceImpl implements EntradaService {
             entradaEntity = actualizarEntrada(entradaEntity, coincidencia);
         }
         if (entradaEntity.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
-            VideoEntity videoEntity = this.videoRepository.findOne(entradaEntity.getEntradaId());
+            VideoEntity videoEntity = this.videoRepository.findById(entradaEntity.getEntradaId()).orElse(null);
             if (videoEntity == null) {
                 videoEntity = new VideoEntity();
                 videoEntity.setTitulo(entradaEntity.getTituloEntrada());
@@ -811,7 +803,7 @@ public class EntradaServiceImpl implements EntradaService {
 
         List<LibroEntity> librosEncontrado = null;
         if (CollectionUtils.isNotEmpty(librosABuscar)) {
-            final List<Integer> librosIds = new ArrayList<Integer>();
+            final List<Integer> librosIds = new ArrayList<>();
             for (final LibroEntity libroEntity : librosABuscar) {
                 librosIds.add(libroEntity.getLibroId());
             }
@@ -850,7 +842,7 @@ public class EntradaServiceImpl implements EntradaService {
                     final EtiquetaDTO etiqueta = new EtiquetaDTO();
 
                     etiqueta.setNombreEtiqueta("Video momoko");
-                    final List<EtiquetaDTO> setEtiquetas = new ArrayList<EtiquetaDTO>();
+                    final List<EtiquetaDTO> setEtiquetas = new ArrayList<>();
                     setEtiquetas.add(etiqueta);
                     for (final String etiquetaString : videoData.getSnippet().getTags()) {
                         final EtiquetaDTO etiquetaS = new EtiquetaDTO();
@@ -894,7 +886,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     private EntradaEntity obtenerEntradaEntityParaVideo(final EntradaDTO entradaAGuardar) {
-        final List<LibroDTO> librosEntrada = new ArrayList<LibroDTO>();
+        final List<LibroDTO> librosEntrada = new ArrayList<>();
         final List<String> titulosLibrosEntrada = entradaAGuardar.getTitulosLibrosEntrada();
         if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
             for (final String titulo : titulosLibrosEntrada) {
@@ -907,9 +899,9 @@ public class EntradaServiceImpl implements EntradaService {
         final EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
-            final Set<EtiquetaEntity> etiquetasBD = new HashSet<EtiquetaEntity>();
+            final Set<EtiquetaEntity> etiquetasBD = new HashSet<>();
             for (final EtiquetaEntity etiqueta : entradaEntity.getEtiquetas()) {
-                List<String> etiquetas = new ArrayList<String>();
+                List<String> etiquetas = new ArrayList<>();
                 if (StringUtils.contains(etiqueta.getNombre(), ",")) {
                     etiquetas = ConversionUtils.divide(etiqueta.getNombre());
                 } else {
@@ -963,20 +955,20 @@ public class EntradaServiceImpl implements EntradaService {
     public List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(final CategoriaDTO categoriaDTO,
             final int numeroEntradas, final int pagina) {
         final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
-        final List<Integer> generosIds = new ArrayList<Integer>();
+        final List<Integer> generosIds = new ArrayList<>();
         for (final GeneroDTO generoDTO : listaGeneros) {
             generosIds.add(generoDTO.getGeneroId());
         }
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds,
-                        new PageRequest(pagina - 1, 9));
+                        PageRequest.of(pagina - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
     @Override
     public Integer obtenerNumeroEntradasCategoria(final CategoriaDTO categoriaDTO) {
         final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
-        final List<Integer> generosIds = new ArrayList<Integer>();
+        final List<Integer> generosIds = new ArrayList<>();
         for (final GeneroDTO generoDTO : listaGeneros) {
             generosIds.add(generoDTO.getGeneroId());
         }
@@ -989,7 +981,7 @@ public class EntradaServiceImpl implements EntradaService {
     public List<EntradaSimpleDTO> obtenerNoticias(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaNoticias = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.NOTICIA.getValue(),
-                        new PageRequest(request.getNumeroPagina() - 1, 9));
+                        PageRequest.of(request.getNumeroPagina() - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaNoticias, true);
     }
 
@@ -1002,7 +994,7 @@ public class EntradaServiceImpl implements EntradaService {
     public Collection<EntradaSimpleDTO> obtenerMiscelaneos(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.MISCELANEOS.getValue(),
-                        new PageRequest(request.getNumeroPagina() - 1, 9));
+                        PageRequest.of(request.getNumeroPagina() - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaMiscelaneos, true);
     }
 
@@ -1016,7 +1008,7 @@ public class EntradaServiceImpl implements EntradaService {
     public Collection<EntradaSimpleDTO> obtenerVideos(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
                 .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.VIDEO.getValue(),
-                        new PageRequest(request.getNumeroPagina() - 1, 9));
+                        PageRequest.of(request.getNumeroPagina() - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaMiscelaneos, true);
     }
 
@@ -1045,7 +1037,7 @@ public class EntradaServiceImpl implements EntradaService {
 
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(etiquetaDTO.getEtiquetaId(),
-                        new PageRequest(numeroPagina - 1, numeroEntradas));
+                        PageRequest.of(numeroPagina - 1, numeroEntradas));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
@@ -1058,15 +1050,15 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaDTO> obtenerAnalisisGeneros(final LibroDTO libro) {
-        final List<Integer> idsGenero = new ArrayList<Integer>();
-        final List<EntradaDTO> entradas = new ArrayList<EntradaDTO>();
+        final List<Integer> idsGenero = new ArrayList<>();
+        final List<EntradaDTO> entradas = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
             for (final GeneroDTO genero : libro.getGeneros()) {
                 idsGenero.add(genero.getGeneroId());
             }
             final List<EntradaEntity> entradasEntity = this.entradaRepository
                     .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGenero,
-                            new PageRequest(0, 4));
+                            PageRequest.of(0, 4));
             for (final EntradaEntity entradaEntity : entradasEntity) {
                 boolean entradaValida = true;
                 for (final LibroEntity libroEntity : entradaEntity.getLibrosEntrada()) {
@@ -1086,7 +1078,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaDTO> obtenerEntradasAleatoriasDeTipo(final Integer tipoEntrada) {
-        final List<EntradaDTO> entradas = new ArrayList<EntradaDTO>();
+        final List<EntradaDTO> entradas = new ArrayList<>();
         final List<EntradaEntity> entradasEntity = this.entradaRepository.obtenerEntradasAleatoriasDeTipo(tipoEntrada);
         for (final EntradaEntity entradaEntity : entradasEntity) {
             entradas.add(EntityToDTOAdapter.adaptarEntrada(entradaEntity));
@@ -1100,7 +1092,7 @@ public class EntradaServiceImpl implements EntradaService {
 
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(urlEditor,
-                        new PageRequest(numeroPagina - 1, numeroEntradas));
+                        PageRequest.of(numeroPagina - 1, numeroEntradas));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
@@ -1115,13 +1107,13 @@ public class EntradaServiceImpl implements EntradaService {
     public List<EntradaSimpleDTO> obtenerEntradasEditorialPorFecha(final String urlEditorial, final int numeroEntradas,
             final Integer numeroPagina) {
         final List<EntradaEntity> listaEntities = this.entradaRepository.obtenerEntradasEditorialPorFecha(urlEditorial,
-                new PageRequest(numeroPagina - 1, numeroEntradas));
+                PageRequest.of(numeroPagina - 1, numeroEntradas));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
     @Override
     public void eliminarEtiqueta(final String urlEntrada, final Integer etiquetaId) {
-        final EtiquetaEntity et = this.etiquetaRepository.findOne(etiquetaId);
+        final EtiquetaEntity et = this.etiquetaRepository.findById(etiquetaId).orElse(null);
         final EntradaEntity entrada = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         EtiquetaEntity etiquetaAEliminar = null;
         for (final EtiquetaEntity etiqueta : entrada.getEtiquetas()) {
@@ -1137,7 +1129,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public void anadirEtiqueta(final String urlEntrada, final Integer etiquetaId) {
-        final EtiquetaEntity etiqueta = this.etiquetaRepository.findOne(etiquetaId);
+        final EtiquetaEntity etiqueta = this.etiquetaRepository.findById(etiquetaId).orElse(null);
         final EntradaEntity entrada = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         entrada.getEtiquetas().add(etiqueta);
         etiqueta.getEtiquetasEntrada().add(entrada);

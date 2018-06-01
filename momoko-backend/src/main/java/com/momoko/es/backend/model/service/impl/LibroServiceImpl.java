@@ -145,7 +145,7 @@ public class LibroServiceImpl implements LibroService {
             final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             final String currentPrincipalName = authentication.getName();
             if (libroEntity.getLibroId() != null) {
-                final LibroEntity libroBD = this.libroRepository.findOne(libroEntity.getLibroId());
+                final LibroEntity libroBD = this.libroRepository.findById(libroEntity.getLibroId()).orElse(null);
                 libroEntity.setFechaAlta(libroBD.getFechaAlta());
                 libroEntity.setUsuarioAlta(libroBD.getUsuarioAlta());
                 libroEntity.setUsuarioModificacion(currentPrincipalName);
@@ -307,18 +307,18 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public List<LibroSimpleDTO> obtenerLibrosParecidos(final LibroDTO libro, final int numeroLibros) {
         final Set<GeneroEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
-        final List<Integer> idsGeneros = new ArrayList<Integer>();
+        final List<Integer> idsGeneros = new ArrayList<>();
         for (final GeneroEntity generoEntity : generos) {
             idsGeneros.add(generoEntity.getGeneroId());
         }
 
         final List<LibroEntity> listaLibrosParecidos = this.libroRepository
                 .findLibrosParecidosByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros, libro.getLibroId(),
-                        new PageRequest(0, numeroLibros));
-        final List<Integer> listaLibrosIds = new ArrayList<Integer>();
+                        PageRequest.of(0, numeroLibros));
+        final List<Integer> listaLibrosIds = new ArrayList<>();
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
-        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<LibroEntity, PuntuacionEntity>();
+        final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro = new HashMap<>();
         if (CollectionUtils.isNotEmpty(listaLibrosParecidos)) {
             for (final PuntuacionEntity puntuacionEntity : listaPuntuaciones) {
                 mapaPuntacionMomokoPorLibro.put(puntuacionEntity.getLibro(), puntuacionEntity);
@@ -332,12 +332,12 @@ public class LibroServiceImpl implements LibroService {
     public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GeneroDTO genero, final int numeroLibros,
             final int pagina) {
 
-        final List<Integer> idsGeneros = new ArrayList<Integer>();
+        final List<Integer> idsGeneros = new ArrayList<>();
 
         idsGeneros.add(genero.getGeneroId());
 
         final List<LibroEntity> listaLibrosGenero = this.libroRepository.obtenerLibrosConAnalisisGeneroPorFecha(
-                idsGeneros, Calendar.getInstance().getTime(), new PageRequest(pagina, numeroLibros));
+                idsGeneros, Calendar.getInstance().getTime(), PageRequest.of(pagina, numeroLibros));
 
         return ConversionUtils.obtenerLibrosBasicos(listaLibrosGenero, null);
     }

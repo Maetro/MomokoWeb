@@ -56,7 +56,7 @@ public class EtiquetaServiceImpl implements EtiquetaService {
         final String currentPrincipalName = authentication.getName();
 
         if (etiquetaDTO.getEtiquetaId() != null) {
-            etiquetaBD = this.etiquetaRepository.findOne(etiquetaDTO.getEtiquetaId());
+            etiquetaBD = this.etiquetaRepository.findById(etiquetaDTO.getEtiquetaId()).orElse(null);
             etiquetaBD.setUsuarioModificacion(currentPrincipalName);
             etiquetaBD.setFechaModificacion(Calendar.getInstance().getTime());
         } else if (etiquetaDTO.getUrlEtiqueta() != null) {
