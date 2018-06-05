@@ -45,4 +45,5 @@ export const environment = {
   addRedactorUrl: 'http://localhost:5000/modelo/redactor/add',
   editorialesUrl: 'http://localhost:5000/modelo/editoriales',
   addEditorialUrl: 'http://localhost:5000/modelo/editorial/add',
+  getEntradasUrl: 'http://localhost:5000/modelo/entradasUrls'
 };

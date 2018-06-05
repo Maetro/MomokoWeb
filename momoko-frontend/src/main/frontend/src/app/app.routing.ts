@@ -14,6 +14,7 @@ import { ObtenerIndexDataResolverService } from 'app/services/resolvers/obtener-
 import { ListaSagasComponent } from 'app/gestion/gestion-libros/lista-sagas/lista-sagas.component';
 import { ListaRedactoresComponent } from 'app/gestion/gestion-redactores/lista-redactores/lista-redactores.component';
 import { ListaEditorialesComponent } from './gestion/gestion-editoriales/lista-editoriales/lista-editoriales.component';
+import { ListaUrlsComponent } from './gestion/gestion-urls/lista-urls/lista-urls.component';
 
 const appRoutes: Routes = [
   { path: 'gestion', component: AdminComponent },
@@ -47,6 +48,10 @@ const appRoutes: Routes = [
       {
         path: 'lista-editoriales',
         component: ListaEditorialesComponent
+      },
+      {
+        path: 'gestor-urls',
+        component: ListaUrlsComponent
       }
     ]
   },

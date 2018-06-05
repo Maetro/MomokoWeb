@@ -1,4 +1,3 @@
-
 import { MiscelaneosComponent } from './main-content/miscelaneos/miscelaneos.component';
 import { ListaGeneroComponent } from 'app/contenido/clasificador/lista-genero/lista-genero.component';
 import { VideoService } from 'app/services/video.service';
@@ -22,7 +21,6 @@ import { FichaLibroComponent } from 'app/contenido/ficha-libro/ficha-libro.compo
 import { EntradaRoutingModule } from 'app/contenido/entrada-routing.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
 
 import { EntradaSimpleHorizontalComponent } from 'app/contenido/entrada-simple-horizontal/entrada-simple-horizontal.component';
 import { AnalisisComponent } from 'app/contenido/analisis/analisis.component';
@@ -56,10 +54,6 @@ import { SobreAutorComponent } from 'app/contenido/sobre-autor/sobre-autor.compo
 import { ListaEtiquetaComponent } from 'app/contenido/clasificador/lista-etiqueta/lista-etiqueta.component';
 import { ObtenerListaEtiquetaResolverService } from 'app/services/resolvers/obtener-etiqueta-resolver.service';
 
-
-
-
-
 @NgModule({
   imports: [
     CommonModule,
@@ -69,19 +63,60 @@ import { ObtenerListaEtiquetaResolverService } from 'app/services/resolvers/obte
     FormsModule,
     ScrollToModule
   ],
-  declarations: [IndexComponent, AnadirEntradaDirective, EntradaPortadaNormalImplComponent,
-    AnadirEntradaComponent, AnadirEntrada2Component, LibrosMesSidebarComponent, Fila3entradasfondonegroComponent,
-    LibrosHorizontalComponent, Libro3dComponent, FichaLibroComponent,
-    EntradaSimpleHorizontalComponent, AnalisisComponent, MenuInternoLibroComponent, NotaCircularComponent,
-    CrearComentarioComponent, PlantillaComentarioComponent, VideosHorizontalComponent, ListaGeneroComponent, MainContentComponent,
-     MiscelaneosComponent, ListaCategoriaComponent, NoticiaComponent, EntradaPortadaVideoComponent, SatinizeHtmlPipe, VideosComponent,
-      ListaNoticiasLibroComponent, SidebarComponent, SidebarInstagramComponent, TagCategoriaComponent, SobreAutorComponent,
-      ListaEtiquetaComponent],
-   providers: [ObtenerIndexDataResolverService, IndexDataService, ObtenerLibroResolverService, ObtenerAnalisisResolverService,
-    ObtenerVideoResolverService, ComentariosService, YoutubeService, VideoService, ObtenerListaGeneroResolverService,
-    ObtenerListaCategoriaResolverService, ClasificadorService,  ObtenerDatosGeneralesResolverService, ObtenerListaEtiquetaResolverService,
-    ObtenerLibroNoticiasResolverService, SatinizeHtmlPipe],
+  declarations: [
+    IndexComponent,
+    AnadirEntradaDirective,
+    EntradaPortadaNormalImplComponent,
+    AnadirEntradaComponent,
+    AnadirEntrada2Component,
+    LibrosMesSidebarComponent,
+    Fila3entradasfondonegroComponent,
+    LibrosHorizontalComponent,
+    Libro3dComponent,
+    FichaLibroComponent,
+    EntradaSimpleHorizontalComponent,
+    AnalisisComponent,
+    MenuInternoLibroComponent,
+    NotaCircularComponent,
+    CrearComentarioComponent,
+    PlantillaComentarioComponent,
+    VideosHorizontalComponent,
+    ListaGeneroComponent,
+    MainContentComponent,
+    MiscelaneosComponent,
+    ListaCategoriaComponent,
+    NoticiaComponent,
+    EntradaPortadaVideoComponent,
+    SatinizeHtmlPipe,
+    VideosComponent,
+    ListaNoticiasLibroComponent,
+    SidebarComponent,
+    SidebarInstagramComponent,
+    TagCategoriaComponent,
+    SobreAutorComponent,
+    ListaEtiquetaComponent
+  ],
+  providers: [
+    ObtenerIndexDataResolverService,
+    IndexDataService,
+    ObtenerLibroResolverService,
+    ObtenerAnalisisResolverService,
+    ObtenerVideoResolverService,
+    ComentariosService,
+    YoutubeService,
+    VideoService,
+    ObtenerListaGeneroResolverService,
+    ObtenerListaCategoriaResolverService,
+    ClasificadorService,
+    ObtenerDatosGeneralesResolverService,
+    ObtenerListaEtiquetaResolverService,
+    ObtenerLibroNoticiasResolverService,
+    SatinizeHtmlPipe
+  ],
   exports: [RouterModule],
-  entryComponents: [EntradaPortadaNormalImplComponent, EntradaPortadaVideoComponent]
+  entryComponents: [
+    EntradaPortadaNormalImplComponent,
+    EntradaPortadaVideoComponent
+  ]
 })
-export class ContenidoModule { }
+export class ContenidoModule {}
