@@ -26,13 +26,13 @@ import com.momoko.es.api.dto.UsuarioDTO;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.backend.model.service.UserService;
 
-@Component
+//@Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
-    @Autowired
+//    @Autowired
     private UserService userService;
 
-    @Autowired(required = false)
+//    @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
 
     public CustomAuthenticationProvider() {

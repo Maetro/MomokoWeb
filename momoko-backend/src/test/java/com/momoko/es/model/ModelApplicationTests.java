@@ -6,43 +6,28 @@
  */
 package com.momoko.es.model;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@SpringBootTest
+import com.momoko.es.backend.ModelApplication;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit4.SpringRunner;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = ModelApplication.class)
 public class ModelApplicationTests {
 
-    // @Test
+
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
+
+     @Test
     public void contextLoads() {
+         String toEncode = "momadm.18";
+         System.out.println(this.passwordEncoder.encode(toEncode));
     }
 
-    // @Test
-    // public void connectJDBCToAWSEC2() {
 
-    // System.out.println("----MySQL JDBC Connection Testing -------");
-    //
-    // try {
-    // Class.forName("com.mysql.jdbc.Driver");
-    // } catch (ClassNotFoundException e) {
-    // System.out.println("Where is your MySQL JDBC Driver?");
-    // e.printStackTrace();
-    // return;
-    // }
-    //
-    // System.out.println("MySQL JDBC Driver Registered!");
-    // Connection connection = null;
-    //
-    // try {
-    // connection = DriverManager.
-    // getConnection("jdbc:mysql://ec2-52-37-81-48.us-west-2.compute.amazonaws.com:3306/momokobd",
-    // "momokobdUser", "momokoBDpass");
-    // } catch (SQLException e) {
-    // System.out.println("Connection Failed!:\n" + e.getMessage());
-    // }
-    //
-    // if (connection != null) {
-    // System.out.println("SUCCESS!!!! You made it, take control your database now!");
-    // } else {
-    // System.out.println("FAILURE! Failed to make connection!");
-    // }
-
-    // }
 }
