@@ -30,39 +30,6 @@ export class MenuInternoSagaComponent implements OnInit {
     if (this.log) {
       console.log('Iniciando menu');
     }
-    // if (this.saga.entradasLibro.length > 0) {
-    //   this.libro.entradasLibro.forEach(entrada => {
-    //     switch (entrada.tipoEntrada) {
-    //       // 1 - NOTICIA
-    //       case 1: {
-    //         this.hayNoticias = true;
-    //         break;
-    //       }
-    //       // 2 - ANALISIS
-    //       case 2: {
-    //         this.hayAnalisis = true;
-    //         this.urlAnalisis = entrada.urlEntrada;
-    //         break;
-    //       }
-    //       // 3 - VIDEO
-    //       case 3: {
-    //         this.hayVideo = true;
-    //         this.urlVideo = entrada.urlEntrada;
-    //         break;
-    //       }
-    //       default: {
-    //         break;
-    //       }
-    //     };
-    //     console.log('Menus');
-    //     if (entrada.enMenu) {
-    //       if (this.menuLibroExtra == null) {
-    //         this.menuLibroExtra = Array();
-    //       }
-    //       this.menuLibroExtra.push(entrada);
-    //     }
-    //   })
-    // }
 
   }
 

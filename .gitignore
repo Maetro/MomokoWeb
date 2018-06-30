@@ -2,3 +2,5 @@
 /.settings/
 .idea/
 *.iml
+momoko-checker/.settings/org.eclipse.wst.common.project.facet.core.xml
+momoko-checker/.settings/org.springframework.ide.eclipse.prefs

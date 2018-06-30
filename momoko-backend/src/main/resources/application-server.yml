@@ -5,10 +5,10 @@ spring:
     show-sql: false
     database-platform: org.hibernate.dialect.MySQL5Dialect
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/momokoBD
     username: root
     password: DLlCfAjs1
+    driver-class-name: com.mysql.jdbc.Driver
   http:
     multipart:
       max-file-size: 10MB

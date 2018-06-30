@@ -9,24 +9,31 @@ package com.momoko.es.backend.model.service.impl;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConID;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
 import com.momoko.es.api.exceptions.NoSeEncuentranLibrosSagaException;
+import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.entity.SagaEntity;
+import com.momoko.es.backend.model.repository.EntradaRepository;
 import com.momoko.es.backend.model.repository.LibroRepository;
 import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.SagaRepository;
@@ -48,6 +55,9 @@ public class SagaServiceImpl implements SagaService {
     @Autowired(required = false)
     private LibroRepository libroRepository;
 
+    @Autowired(required = false)
+    private EntradaRepository entradaRepository;
+    
     @Autowired(required = false)
     private StorageService almacenImagenes;
 
@@ -208,5 +218,50 @@ public class SagaServiceImpl implements SagaService {
     public List<String> getNombresSagas() {
         return this.sagaRepository.findAllNombresSagas();
     }
+
+	@Override
+	public List<EntradaSimpleDTO> obtenerEntradasSaga(SagaDTO sagaDTO) {
+	
+		final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                .findBySagasEntradaIn(Arrays.asList(sagaDTO.getSagaId()),new PageRequest(0, 3));
+		Collections.sort(entradasRelacionadas);
+        final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
+                true);
+        // generar miniaturas de 304 x 221
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasBasicas) {
+            try {
+                entradaSimpleDTO.setImagenEntrada(
+                        this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 304, 221, true));
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+		return entradasBasicas;
+	}
+	
+	@Override
+	public List<EntradaSimpleDTO> obtenerEntradasLibrosSaga(SagaDTO sagaDTO) {
+		
+		
+		List<LibroEntity> librosSaga = this.libroRepository.findByUrlLibroIn(sagaDTO.getLibrosSaga());
+		
+		final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                .findByLibrosEntradaIn(librosSaga, new PageRequest(0, 3));
+		Collections.sort(entradasRelacionadas);
+        final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
+                true);
+        // generar miniaturas de 304 x 221
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasBasicas) {
+            try {
+                entradaSimpleDTO.setImagenEntrada(
+                        this.almacenImagenes.obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 304, 221, true));
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+		return entradasBasicas;
+	}
 
 }

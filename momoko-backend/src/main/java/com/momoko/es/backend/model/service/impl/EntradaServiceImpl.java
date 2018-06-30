@@ -186,7 +186,7 @@ public class EntradaServiceImpl implements EntradaService {
                     for (final LibroEntity libroEntrada : librosEntrada) {
 
                         final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                                .findByLibrosEntradaIn(Arrays.asList(libroEntrada));
+                                .findByLibrosEntradaIn(Arrays.asList(libroEntrada), new PageRequest(0, 4));
 
                         Collections.sort(entradasRelacionadas);
                         if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {

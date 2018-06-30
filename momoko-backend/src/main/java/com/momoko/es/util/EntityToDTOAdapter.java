@@ -160,6 +160,13 @@ public final class EntityToDTOAdapter {
             }
             entradaDTO.setTitulosLibrosEntrada(titulos);
         }
+        if (CollectionUtils.isNotEmpty(entradaEntity.getSagasEntrada())) {
+            final List<String> nombres = new ArrayList<String>();
+            for (final SagaEntity sagaEntity : entradaEntity.getSagasEntrada()) {
+            	nombres.add(sagaEntity.getNombre());
+            }
+            entradaDTO.setNombresSagasEntrada(nombres);
+        }
         entradaDTO.setEnMenu(entradaEntity.isEnMenu());
         entradaDTO.setConSidebar(entradaEntity.isConSidebar());
         entradaDTO.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());

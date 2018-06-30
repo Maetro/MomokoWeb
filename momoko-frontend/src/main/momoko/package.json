@@ -49,6 +49,7 @@
     "ng2-cookies": "^1.0.12",
     "ng2-scroll-to-el": "^1.2.1",
     "ngx-json-ld": "^0.3.1",
+    "pinkie-promise": "git+https://github.com/floatdrop/pinkie-promise.git",
     "primeng": "^5.0.2",
     "require-from-string": "https://github.com/floatdrop/require-from-string/tarball/v1.1.0",
     "rxjs": "^5.5.2",

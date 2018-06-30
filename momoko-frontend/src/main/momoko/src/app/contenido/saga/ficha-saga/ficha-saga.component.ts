@@ -6,6 +6,7 @@ import { FichaSaga } from '../../../dtos/fichaSaga';
 import { Saga } from '../../../dtos/saga';
 import { Libro } from '../../../dtos/libro';
 import { environment } from '../../../../environments/environment';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 
 @Component({
   selector: 'app-ficha-saga',
@@ -17,7 +18,8 @@ export class FichaSagaComponent implements OnInit {
 
   saga: Saga;
   librosSaga: Libro[];
-
+  entradas: EntradaSimple[];
+  entradasLibros: EntradaSimple[];
   mapaOrdinales = [];
 
   constructor(
@@ -27,11 +29,11 @@ export class FichaSagaComponent implements OnInit {
     private titleService: Title,
     private metaService: Meta,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) {}
+  ) { }
 
   ngOnInit() {
     if (this.log) {
-      console.log('Creando pagina de la entrada');
+      console.log('Creando pagina de la saga');
     }
     this.mapaOrdinales.push('Primer');
     this.mapaOrdinales.push('Segundo');
@@ -43,9 +45,12 @@ export class FichaSagaComponent implements OnInit {
     this.mapaOrdinales.push('Octavo');
     this.mapaOrdinales.push('Noveno');
     this.route.data.subscribe((data: { fichaSaga: FichaSaga }) => {
+      debugger;
       this.saga = data.fichaSaga.saga;
       this.librosSaga = data.fichaSaga.librosSaga;
-      this.librosSaga.sort(function(a, b) {
+      this.entradas = data.fichaSaga.tresUltimasEntradas;
+      this.entradasLibros = data.fichaSaga.tresUltimasEntradasLibros;
+      this.librosSaga.sort(function (a, b) {
         if (a.ordenSaga < b.ordenSaga) {
           return -1;
         } else if (a.ordenSaga > b.ordenSaga) {

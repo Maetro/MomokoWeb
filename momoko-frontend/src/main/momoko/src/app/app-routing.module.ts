@@ -42,7 +42,7 @@ const appRoutes = [
   },
   {
     path: 'libro/:url_libro/noticia/:url_entrada',
-    redirectTo: '/:url_entrada',
+    redirectTo: 'noticia/:url_entrada',
     pathMatch: 'full'
   },
   {
@@ -96,6 +96,13 @@ const appRoutes = [
   },
   {
     path: 'analisis/:url_entrada',
+    loadChildren: './contenido/entrada/entrada.module#EntradaModule',
+    resolve: {
+      obtenerEntradaResponse: ObtenerResenaResolverService
+    }
+  },
+  {
+    path: 'noticia/:url_entrada',
     loadChildren: './contenido/entrada/entrada.module#EntradaModule',
     resolve: {
       obtenerEntradaResponse: ObtenerResenaResolverService
