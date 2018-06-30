@@ -59,4 +59,30 @@ public interface SagaRepository extends CrudRepository<SagaEntity, Integer> {
     @Query("SELECT l FROM SagaEntity s join s.libros l WHERE s.sagaId = :sagaId")
     List<LibroEntity> findLibrosSaga(@Param("sagaId") Integer sagaId);
 
+    /**
+     * Find by saga id in.
+     *
+     * @param sagasIds
+     *            the sagas ids
+     * @return the list
+     */
+    List<SagaEntity> findBySagaIdIn(List<Integer> sagasIds);
+
+    /**
+     * Find all nombres editoriales.
+     *
+     * @return the list
+     */
+    @Query("SELECT s.nombre FROM SagaEntity s")
+    List<String> findAllNombresSagas();
+
+    /**
+     * Find one by nombre.
+     *
+     * @param nombre
+     *            the nombre
+     * @return the saga entity
+     */
+    SagaEntity findOneByNombre(String nombre);
+
 }

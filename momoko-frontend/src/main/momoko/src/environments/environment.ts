@@ -14,7 +14,7 @@ export const environment = {
   momokoUrl: 'http://localhost:4200/',
   serverUrl: 'http://localhost:5000/',
   uploadUrl: 'http://localhost/upload.php',
-  urlFiles: 'http://localhost/images/',
+  urlFiles: 'http://momoko.local/images/',
   entradasUrl: 'http://localhost:5000/modelo/entradas',
   librosUrl: 'http://localhost:5000/modelo/libros',
   generosUrl: 'http://localhost:5000/modelo/generos',

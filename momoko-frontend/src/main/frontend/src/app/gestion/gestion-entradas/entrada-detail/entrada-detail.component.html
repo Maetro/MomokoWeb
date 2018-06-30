@@ -81,18 +81,32 @@
 
           </div>
 
-          <div class="marginTop10 col-sm-12">
+          <div class="marginTop10 col-sm-6">
             <div class="form-field">
               <h4> Libros asociados: </h4>
             </div>
           </div>
-          <div class="col-sm-12">
+          <div class="marginTop10 col-sm-6">
+            <div class="form-field">
+              <h4> O sagas asociadas: </h4>
+            </div>
+          </div>
+          <div class="col-sm-6">
             <div class="form-field">
               <p-multiSelect [options]="titulosLibros" [defaultLabel]="fraseLibrosEscoger" [(ngModel)]="entrada.titulosLibrosEntrada" [filter]="true"
                 filterBy="label" [style]="{'width':'400px'}"></p-multiSelect>
             </div>
             <!--/.form-field -->
           </div>
+
+          <div class="col-sm-6">
+            <div class="form-field">
+              <p-multiSelect [options]="nombresSagas" [defaultLabel]="fraseSagasEscoger" [(ngModel)]="entrada.nombresSagasEntrada" [filter]="true"
+                filterBy="label" [style]="{'width':'400px'}"></p-multiSelect>
+            </div>
+            <!--/.form-field -->
+          </div>
+
 
           <div class="marginTop10 col-sm-12">
             <div class="form-field">
@@ -208,7 +222,8 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="entrada.nombreMenuLibro" (ngModelChange)="cambioNombreMenu($event)" placeholder="Nombre en el menú" />
+                <input type="text" [(ngModel)]="entrada.nombreMenuLibro" (ngModelChange)="cambioNombreMenu($event)" placeholder="Nombre en el menú"
+                />
               </label>
             </div>
             <!--/.form-field -->
@@ -223,7 +238,8 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="entrada.urlMenuLibro" (ngModelChange)="urlZonaChange($event)" placeholder="Url en el menú" />
+                <input type="text" [(ngModel)]="entrada.urlMenuLibro" (ngModelChange)="urlZonaChange($event)" placeholder="Url en el menú"
+                />
               </label>
             </div>
             <!--/.form-field -->

@@ -6,6 +6,7 @@
  */
 package com.momoko.es.backend.model.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.momoko.es.api.dto.SagaDTO;
@@ -54,5 +55,21 @@ public interface SagaService {
      * @throws NoSeEncuentraElementoConID
      */
     public SagaDTO obtenerSaga(String urlSaga) throws NoSeEncuentraElementoConUrl;
+
+    /**
+     * Obtener puntucion momoko saga.
+     *
+     * @param urlSaga
+     *            the url saga
+     * @return the big decimal
+     */
+    public BigDecimal obtenerPuntucionMomokoSaga(String urlSaga);
+
+    /**
+     * Gets the nombres sagas.
+     *
+     * @return the nombres sagas
+     */
+    public List<String> getNombresSagas();
 
 }

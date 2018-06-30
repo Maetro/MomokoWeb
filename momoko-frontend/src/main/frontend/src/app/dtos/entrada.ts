@@ -20,6 +20,7 @@ export class Entrada {
   orden: number;
   imagenDestacada: string;
   titulosLibrosEntrada: string;
+  nombresSagasEntrada: string;
   fraseDescriptiva: string;
   fechaAlta: Date;
   urlVideo: string;

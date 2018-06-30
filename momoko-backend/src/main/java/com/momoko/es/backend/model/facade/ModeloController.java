@@ -390,11 +390,13 @@ public class ModeloController {
         final List<String> libros = this.libroService.obtenerListaTitulosLibros();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
         final List<String> nicksEditores = this.userService.getNombresEditores();
+        final List<String> sagas = this.sagaService.getNombresSagas();
         respuesta.setNombresEditoriales(editoriales);
         respuesta.setTitulosLibros(libros);
         respuesta.setCategorias(categorias);
         respuesta.setNombresAutores(autores);
         respuesta.setNicksEditores(nicksEditores);
+        respuesta.setSagas(sagas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
 
     }

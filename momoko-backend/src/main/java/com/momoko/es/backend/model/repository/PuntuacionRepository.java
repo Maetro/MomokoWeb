@@ -95,4 +95,14 @@ public interface PuntuacionRepository extends CrudRepository<PuntuacionEntity, I
             + "WHERE e.entradaAutor.usuarioId = :userId AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL")
     public BigDecimal findScoreAverageFromUserId(@Param("userId") Integer userId);
 
+    /**
+     * Find one by es puntuacion momoko and saga url.
+     *
+     * @param urlSaga
+     *            the url saga
+     * @return the big decimal
+     */
+    @Query("select p.valor from PuntuacionEntity p join p.saga s WHERE s.urlSaga LIKE :urlSaga")
+    public BigDecimal findOneByEsPuntuacionMomokoAndSagaUrl(@Param("urlSaga") String urlSaga);
+
 }

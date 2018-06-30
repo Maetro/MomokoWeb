@@ -7,6 +7,7 @@
 package com.momoko.es.backend.model.service.impl;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -196,6 +197,16 @@ public class SagaServiceImpl implements SagaService {
     public List<String> obtenerListaUrlsLibros(final Integer sagaId) {
         final List<String> urlsLibros = this.sagaRepository.findUrlsLibrosSaga(sagaId);
         return urlsLibros;
+    }
+
+    @Override
+    public BigDecimal obtenerPuntucionMomokoSaga(final String urlSaga) {
+        return this.puntuacionRepository.findOneByEsPuntuacionMomokoAndSagaUrl(urlSaga);
+    }
+
+    @Override
+    public List<String> getNombresSagas() {
+        return this.sagaRepository.findAllNombresSagas();
     }
 
 }

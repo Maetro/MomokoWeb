@@ -102,7 +102,7 @@ public final class DTOToEntityAdapter {
      * @return the entrada entity
      */
     public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final List<LibroDTO> librosEntrada,
-            final UsuarioEntity autor) {
+            final List<SagaDTO> sagasEntrada, final UsuarioEntity autor) {
         final EntradaEntity entradaEntity = new EntradaEntity();
         entradaEntity.setEntradaId(entradaDTO.getEntradaId());
         entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
@@ -113,10 +113,13 @@ public final class DTOToEntityAdapter {
         if (librosEntrada != null) {
             entradaEntity.setLibrosEntrada(adaptarLibros(librosEntrada));
         }
+        if (sagasEntrada != null) {
+            entradaEntity.setSagasEntrada(adaptarSagas(sagasEntrada));
+        }
         entradaEntity.setNumeroComentarios(entradaDTO.getNumeroComentarios());
         entradaEntity.setOrden(entradaDTO.getOrden());
-        entradaEntity.setPadreEntrada(
-                entradaDTO.getPadreEntrada() != null ? adaptarEntrada(entradaDTO.getPadreEntrada(), null, null) : null);
+        entradaEntity.setPadreEntrada(entradaDTO.getPadreEntrada() != null
+                ? adaptarEntrada(entradaDTO.getPadreEntrada(), null, null, null) : null);
         entradaEntity.setPermitirComentarios(entradaDTO.getPermitirComentarios());
         entradaEntity.setResumenEntrada(entradaDTO.getResumenEntrada());
         entradaEntity.setTipoEntrada(entradaDTO.getTipoEntrada());
@@ -149,6 +152,25 @@ public final class DTOToEntityAdapter {
             }
         }
         return librosEntity;
+
+    }
+
+    /**
+     * Adaptar sagas.
+     *
+     * @param sagasEntrada
+     *            the sagas entrada
+     * @return the list
+     */
+    private static List<SagaEntity> adaptarSagas(final List<SagaDTO> sagasEntrada) {
+
+        final List<SagaEntity> sagasEntity = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(sagasEntrada)) {
+            for (final SagaDTO sagaDTO : sagasEntrada) {
+                sagasEntity.add(adaptarSaga(sagaDTO));
+            }
+        }
+        return sagasEntity;
 
     }
 

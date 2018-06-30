@@ -100,14 +100,14 @@ momokoConfiguracion:
   imagenDefault: imagenes-destacadas/generica-libreria.jpg
   directorios:
     remote:
-      urlSitemap: http://localhost
-      urlFiles: http://localhost/images
-      urlTemplates: http://localhost/templates
-      urlImages: http://localhost/images/
-      urlUpload: http://localhost/
+      urlSitemap: http://momoko.local
+      urlFiles: http://momoko.local/images
+      urlTemplates: http://momoko.local/templates
+      urlImages: http://momoko.local/images/
+      urlUpload: http://momoko.local/
     local:
       urlSitemap: D:\XAMPP\htdocs\momoko
       urlFiles: D:\XAMPP\htdocs\momoko\images
       urlTemplates: D:\XAMPP\htdocs\momoko\templates
-      urlImages: http://localhost/images/
-      urlUpload: http://localhost/
+      urlImages: http://momoko.local/images/
+      urlUpload: http://momoko.local/

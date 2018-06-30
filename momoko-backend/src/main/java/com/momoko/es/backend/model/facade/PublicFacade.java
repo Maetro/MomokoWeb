@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StopWatch;
@@ -144,6 +145,9 @@ public class PublicFacade {
 
     @Autowired(required = false)
     private TrackService trackService;
+
+    @Autowired(required = false)
+    private PasswordEncoder passwordEncoder;
 
     @GetMapping(path = "/initData")
     public @ResponseBody InitDataDTO getInitData() {
@@ -276,6 +280,13 @@ public class PublicFacade {
         final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntradaVideo(urlVideo);
         // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
         return respuesta;
+    }
+
+    @GetMapping(path = "/test")
+    public @ResponseBody String obtenerVideo() {
+        final String response = this.passwordEncoder.encode("momadm.18");
+        // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
+        return response;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/comentario/add")

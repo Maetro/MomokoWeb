@@ -75,6 +75,11 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     @JoinTable(name = "entrada_libro", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"))
     private List<LibroEntity> librosEntrada;
 
+    /** The libro entrada. */
+    @ManyToMany
+    @JoinTable(name = "entrada_saga", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "saga_id", referencedColumnName = "sagaId"))
+    private List<SagaEntity> sagasEntrada;
+
     @OneToMany(mappedBy = "entrada", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComentarioEntity> comentarios;
 
@@ -337,6 +342,25 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      */
     public void setLibrosEntrada(final List<LibroEntity> librosEntrada) {
         this.librosEntrada = librosEntrada;
+    }
+
+    /**
+     * Gets the sagas entrada.
+     *
+     * @return the sagas entrada
+     */
+    public List<SagaEntity> getSagasEntrada() {
+        return this.sagasEntrada;
+    }
+
+    /**
+     * Sets the sagas entrada.
+     *
+     * @param sagasEntrada
+     *            the new sagas entrada
+     */
+    public void setSagasEntrada(final List<SagaEntity> sagasEntrada) {
+        this.sagasEntrada = sagasEntrada;
     }
 
     /**

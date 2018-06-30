@@ -59,6 +59,9 @@ public class EntradaDTO {
     /** The libro entrada. */
     private List<LibroDTO> librosEntrada;
 
+    /** The libro entrada. */
+    private List<SagaDTO> sagasEntrada;
+
     /** The etiquetas. */
     private List<EtiquetaDTO> etiquetas;
 
@@ -70,6 +73,9 @@ public class EntradaDTO {
 
     /** The titulo libro entrada. */
     private List<String> titulosLibrosEntrada;
+
+    /** The nombres sagas entrada. */
+    private List<String> nombresSagasEntrada;
 
     /** The orden. */
     private Integer orden;
@@ -342,6 +348,14 @@ public class EntradaDTO {
      */
     public void setLibrosEntrada(final List<LibroDTO> librosEntrada) {
         this.librosEntrada = librosEntrada;
+    }
+
+    public List<SagaDTO> getSagasEntrada() {
+        return this.sagasEntrada;
+    }
+
+    public void setSagasEntrada(final List<SagaDTO> sagasEntrada) {
+        this.sagasEntrada = sagasEntrada;
     }
 
     /**
@@ -662,6 +676,14 @@ public class EntradaDTO {
 
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public List<String> getNombresSagasEntrada() {
+        return this.nombresSagasEntrada;
+    }
+
+    public void setNombresSagasEntrada(final List<String> nombresSagasEntrada) {
+        this.nombresSagasEntrada = nombresSagasEntrada;
     }
 
     /**

@@ -401,4 +401,5 @@ public class LibroServiceImpl implements LibroService {
     public BigDecimal obtenerPuntucionMomokoLibro(final String urlLibro) {
         return this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibroUrl(urlLibro);
     }
+
 }

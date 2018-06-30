@@ -14,22 +14,19 @@ import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class FileUploadService {
-
   private log = environment.log;
 
-  private uploadUrl = environment.uploadUrl;  // URL to web api
+  private uploadUrl = environment.uploadUrl; // URL to web api
   private urlFiles = environment.urlFiles;
-
 
   private headers = new Headers({ 'Content-Type': 'application/json' });
 
-  constructor(private http: Http, private util: UtilService, ) { }
+  constructor(private http: Http, private util: UtilService) {}
 
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
   }
-
 
   fileChange(event, tipoSubida): Observable<string> {
     const fileList: FileList = event.files;
@@ -43,17 +40,24 @@ export class FileUploadService {
           }
           const formDataF: FormData = new FormData();
           const partesF = fichero.name.split('.');
-          const nombreF  = this.util.convertToSlug(partesF[0]) +  '.' + partesF[1];
+          const nombreF =
+            this.util.convertToSlug(partesF[0]) + '.' + partesF[1];
 
           formDataF.append('uploadFile', fichero, nombreF);
           formDataF.append('tipoSubida', tipoSubida);
           const headersF = new Headers();
           headersF.append('Accept', 'application/json');
-          headersF.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
+          headersF.append(
+            'Authorization',
+            'Bearer ' + Cookie.get('access_token')
+          );
           const optionsF = new RequestOptions({ headers: headersF });
-          this.http.post(this.uploadUrl, formDataF, optionsF)
+          this.http
+            .post(this.uploadUrl, formDataF, optionsF)
             .map((res: Response) => this.urlFiles + tipoSubida + '/' + nombreF)
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+            .catch((error: any) =>
+              Observable.throw(error.json().error || 'Server error')
+            );
         }
         num++;
       });
@@ -63,9 +67,7 @@ export class FileUploadService {
       const file: File = fileList[0];
       const formData: FormData = new FormData();
       const partes = file.name.split('.');
-      const nombre  = this.util.convertToSlug(partes[0]) +  '.' + partes[1];
-
-
+      const nombre = this.util.convertToSlug(partes[0]) + '.' + partes[1];
 
       formData.append('uploadFile', file, nombre);
       formData.append('tipoSubida', tipoSubida);
@@ -73,14 +75,18 @@ export class FileUploadService {
       headers.append('Accept', 'application/json');
       headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
       const options = new RequestOptions({ headers: headers });
-      return this.http.post(this.uploadUrl, formData, options)
-        .map((res: Response) => this.urlFiles + tipoSubida + '/' + nombre)
-        .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      return this.http
+        .post(this.uploadUrl, formData, options)
+        .map((res: any) => {
+          const finalImage = JSON.parse(res._body).response;
+          console.log(res);
+          return this.urlFiles + tipoSubida + '/' + finalImage;
+        })
+        .catch((error: any) =>
+          Observable.throw(error.json().error || 'Server error')
+        );
     } else {
       return null;
     }
   }
-
-
-
 }
