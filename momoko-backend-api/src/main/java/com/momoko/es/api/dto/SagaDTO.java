@@ -48,6 +48,9 @@ public class SagaDTO implements Serializable {
 
     /** The libros string. */
     private String librosString;
+    
+    /** The entradas. */
+    private List<DatoEntradaDTO> entradasSaga;
 
     /* SOLO PARA LECTURA - NO NECESARIOS PARA GUARDADO */
 
@@ -311,6 +314,14 @@ public class SagaDTO implements Serializable {
     public void setDominaLibros(final Boolean dominaLibros) {
         this.dominaLibros = dominaLibros;
     }
+    
+    public List<DatoEntradaDTO> getEntradasSaga() {
+		return entradasSaga;
+	}
+    
+    public void setEntradasSaga(List<DatoEntradaDTO> entradasSaga) {
+		this.entradasSaga = entradasSaga;
+	}
 
     @Override
     public boolean equals(final Object other) {

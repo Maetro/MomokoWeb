@@ -71,7 +71,7 @@ public class SagaServiceImpl implements SagaService {
         final String urlImageServer = this.almacenImagenes.getUrlImageServer();
         for (final SagaEntity sagaEntity : sagaEntityIterable) {
 
-            final SagaDTO sagaDTO = EntityToDTOAdapter.adaptarSaga(sagaEntity, true);
+            final SagaDTO sagaDTO = EntityToDTOAdapter.adaptarSaga(sagaEntity, false, true);
 
             // Nota Momoko del libro
             final PuntuacionEntity puntuacionEntity = this.puntuacionRepository.findOneByEsPuntuacionMomokoAndSaga(true,
@@ -102,7 +102,7 @@ public class SagaServiceImpl implements SagaService {
             sagaEntity = crearSaga(sagaAGuardar);
         }
 
-        return EntityToDTOAdapter.adaptarSaga(sagaEntity, true);
+        return EntityToDTOAdapter.adaptarSaga(sagaEntity, true, true);
     }
 
     private SagaEntity crearSaga(final SagaDTO sagaAGuardar) throws NoSeEncuentranLibrosSagaException {
@@ -194,7 +194,7 @@ public class SagaServiceImpl implements SagaService {
         if (sagaEntity == null) {
             throw new NoSeEncuentraElementoConUrl("Saga URL: " + urlSaga);
         }
-        final SagaDTO sagaDTO = EntityToDTOAdapter.adaptarSaga(sagaEntity, true);
+        final SagaDTO sagaDTO = EntityToDTOAdapter.adaptarSaga(sagaEntity, true, true);
         try {
             sagaDTO.setImagenSaga(this.almacenImagenes.obtenerMiniatura(sagaDTO.getImagenSaga(), 200, 200, true));
         } catch (final IOException e) {

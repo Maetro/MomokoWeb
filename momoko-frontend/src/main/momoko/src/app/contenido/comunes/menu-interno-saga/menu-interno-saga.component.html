@@ -8,8 +8,28 @@
           </a>
         </li>
         <li class="nav-item" *ngIf="hayAnalisis">
-          <a routerLinkActive="active" routerLink="/saga/analisis/{{urlAnalisis}}" [class.active]="isActive(['analisis', urlAnalisis])">
+          <a routerLinkActive="active" routerLink="/analisis/{{urlAnalisis}}" [class.active]="isActive(['analisis', urlAnalisis])">
             <u>Análisis</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="hayNoticia">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+            <u>Noticias</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="hayNoticias">
+            <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+              <u>Noticias</u>
+            </a>
+          </li>
+        <li class="nav-item" *ngIf="hayMiscelaneo">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+            <u>Miscelaneos</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="hayMiscelaneos">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+            <u>Miscelaneos</u>
           </a>
         </li>
       </ul>

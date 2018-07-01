@@ -12,13 +12,17 @@ import { Saga } from '../../../dtos/saga';
 })
 export class MenuInternoSagaComponent implements OnInit {
 
+
   private log = environment.log;
 
   urlVideo: string;
   urlAnalisis: string;
   hayVideo = false;
   hayAnalisis = false;
+  hayNoticia = false;
   hayNoticias = false;
+  hayMiscelaneo = false;
+  hayMiscelaneos = false;
   hayGuia = false;
   menuLibroExtra: DatoEntrada[];
 

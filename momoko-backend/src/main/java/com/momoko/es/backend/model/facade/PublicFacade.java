@@ -265,6 +265,7 @@ public class PublicFacade {
             sagaResponse.setLibrosSaga(librosSaga);
             final List<EntradaSimpleDTO> entradasSaga = this.sagaService.obtenerEntradasSaga(sagaDTO);
             sagaResponse.setTresUltimasEntradas(entradasSaga);
+            
             final List<EntradaSimpleDTO> entradasLibrosSaga = this.sagaService.obtenerEntradasLibrosSaga(sagaDTO);
             sagaResponse.setTresUltimasEntradasLibros(entradasLibrosSaga);
         } catch (final NoSeEncuentraElementoConUrl e) {

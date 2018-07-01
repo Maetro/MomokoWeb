@@ -664,7 +664,7 @@ public class EntradaServiceImpl implements EntradaService {
         }
         if (CollectionUtils.isNotEmpty(nombresSagasEntrada)) {
             for (final String nombre : nombresSagasEntrada) {
-                sagasEntrada.add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true));
+                sagasEntrada.add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true, true));
             }
         }
         if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
@@ -945,7 +945,7 @@ public class EntradaServiceImpl implements EntradaService {
         final List<String> nombresSagasEntrada = entradaAGuardar.getNombresSagasEntrada();
         if (CollectionUtils.isNotEmpty(nombresSagasEntrada)) {
             for (final String nombre : nombresSagasEntrada) {
-                sagasEntrada.add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true));
+                sagasEntrada.add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true, true));
             }
         }
         final UsuarioEntity autor = this.usuarioRepository

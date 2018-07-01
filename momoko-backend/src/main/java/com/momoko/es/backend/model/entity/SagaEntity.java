@@ -409,4 +409,12 @@ public class SagaEntity {
         this.dominaLibros = dominaLibros;
     }
 
+    public List<EntradaEntity> getEntradas() {
+		return entradas;
+	}
+    
+    public void setEntradas(List<EntradaEntity> entradas) {
+		this.entradas = entradas;
+	}
+    
 }

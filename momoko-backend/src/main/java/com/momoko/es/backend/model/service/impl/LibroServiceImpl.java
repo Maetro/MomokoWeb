@@ -296,7 +296,7 @@ public class LibroServiceImpl implements LibroService {
             libroDTO.setEntradasLibro(listaDatosEntradas);
 
             if (libroEntity.getOrdenSaga() != null) {
-                libroDTO.setSaga(EntityToDTOAdapter.adaptarSaga(libroEntity.getSaga(), false));
+                libroDTO.setSaga(EntityToDTOAdapter.adaptarSaga(libroEntity.getSaga(), false, false));
             }
 
             respuesta.setLibro(libroDTO);

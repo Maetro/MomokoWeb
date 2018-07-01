@@ -92,7 +92,7 @@ public final class EntityToDTOAdapter {
         libroDTO.setFechaAlta(libroEntity.getFechaAlta());
         libroDTO.setOrdenSaga(libroEntity.getOrdenSaga());
         if (libroEntity.getOrdenSaga() != null) {
-            libroDTO.setSaga(adaptarSaga(libroEntity.getSaga(), false));
+            libroDTO.setSaga(adaptarSaga(libroEntity.getSaga(), false, false));
         }
         if (CollectionUtils.isNotEmpty(libroEntity.getEntradas())) {
             for (final EntradaEntity entradaEntity : libroEntity.getEntradas()) {
@@ -105,6 +105,16 @@ public final class EntityToDTOAdapter {
         return libroDTO;
     }
 
+    
+    public static List<EntradaDTO> adaptarEntradas(final List<EntradaEntity> entradaEntities) {
+    	List<EntradaDTO> entradas = new ArrayList<>();
+    	if (CollectionUtils.isNotEmpty(entradaEntities)) {
+    		for (EntradaEntity entradaEntity : entradaEntities) {
+				entradas.add(adaptarEntrada(entradaEntity));
+			}
+    	}
+    	return entradas;
+    }
     /**
      * Adaptar entrada.
      *
@@ -198,7 +208,8 @@ public final class EntityToDTOAdapter {
      *            saga entity
      * @return the saga DTO
      */
-    public static SagaDTO adaptarSaga(final SagaEntity sagaEntity, final boolean adaptarLibros) {
+    public static SagaDTO adaptarSaga(final SagaEntity sagaEntity, final boolean adaptarEntradas,
+    		final boolean adaptarLibros) {
         final SagaDTO sagaDTO = new SagaDTO();
         sagaDTO.setSagaId(sagaEntity.getSagaId());
         sagaDTO.setNombreSaga(sagaEntity.getNombre());
@@ -215,6 +226,12 @@ public final class EntityToDTOAdapter {
 
             sagaDTO.setLibrosSaga(librosSaga);
             sagaDTO.setUrlsLibrosSaga(urlLibrosSaga);
+        }
+        if (adaptarEntradas) {
+        	final List<EntradaDTO> entradasSaga = new ArrayList<>();
+        	if (CollectionUtils.isNotEmpty(sagaEntity.getEntradas())) {
+                	entradasSaga.addAll(adaptarEntradas(sagaEntity.getEntradas()));   
+            }
         }
         sagaDTO.setResumen(sagaEntity.getResumen());
         sagaDTO.setNumeroVolumenes(sagaEntity.getNumeroVolumenes());
