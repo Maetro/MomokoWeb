@@ -29,7 +29,7 @@ export class FichaSagaComponent implements OnInit {
     private titleService: Title,
     private metaService: Meta,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {}
 
   ngOnInit() {
     if (this.log) {
@@ -45,12 +45,11 @@ export class FichaSagaComponent implements OnInit {
     this.mapaOrdinales.push('Octavo');
     this.mapaOrdinales.push('Noveno');
     this.route.data.subscribe((data: { fichaSaga: FichaSaga }) => {
-      debugger;
       this.saga = data.fichaSaga.saga;
       this.librosSaga = data.fichaSaga.librosSaga;
       this.entradas = data.fichaSaga.tresUltimasEntradas;
       this.entradasLibros = data.fichaSaga.tresUltimasEntradasLibros;
-      this.librosSaga.sort(function (a, b) {
+      this.librosSaga.sort(function(a, b) {
         if (a.ordenSaga < b.ordenSaga) {
           return -1;
         } else if (a.ordenSaga > b.ordenSaga) {
@@ -100,7 +99,6 @@ export class FichaSagaComponent implements OnInit {
   }
 
   existeAnalisis(libro: Libro) {
-    console.log('existeAnalisis');
     let result = '';
     if (!libro.tieneAnalisis) {
       result = 'grayscale';

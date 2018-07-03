@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import javax.transaction.Transactional;
@@ -165,8 +166,6 @@ public class EntradaServiceImpl implements EntradaService {
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         if (entradaEntity != null) {
-            final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
-            final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
 
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
 
@@ -181,56 +180,9 @@ public class EntradaServiceImpl implements EntradaService {
                 entradaDTO.setJsonLD(jsonLD);
             }
             if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
-                final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
-                if (CollectionUtils.isNotEmpty(librosEntrada)) {
-                    for (final LibroEntity libroEntrada : librosEntrada) {
-
-                        final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                                .findByLibrosEntradaIn(Arrays.asList(libroEntrada), new PageRequest(0, 4));
-
-                        Collections.sort(entradasRelacionadas);
-                        if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                            for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
-                                final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                                datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
-                                datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
-                                datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
-                                datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
-                                datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
-                                listaDatosEntradas.add(datoEntrada);
-                            }
-                        }
-
-                        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
-                            for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
-                                libroDTO.setEntradasLibro(listaDatosEntradas);
-                                librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
-
-                                final PuntuacionEntity puntuacion = this.puntuacionRepository
-                                        .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
-                                if (puntuacion != null) {
-                                    libroDTO.setNotaMomoko(puntuacion.getValor());
-                                }
-                                if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
-                                    final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libroDTO, entradaDTO,
-                                            puntuacion.getValor());
-                                    entradaDTO.setJsonLD(jsonLD);
-                                }
-                            }
-
-                        }
-                    }
-                    respuesta.setCincoLibrosParecidos(
-                            librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
-                    if (CollectionUtils.isNotEmpty(librosParecidos)) {
-                        final String url = this.almacenImagenes.getUrlImageServer();
-                        for (final LibroSimpleDTO libroSimple : librosParecidos) {
-
-                            libroSimple.setPortada(url + libroSimple.getPortada());
-
-                        }
-                    }
-                }
+                obtenerEntradaAsociadaALibros(respuesta, entradaEntity, entradaDTO);
+            } else if (CollectionUtils.isNotEmpty(entradaEntity.getSagasEntrada())) {
+                obtenerEntradaAsociadaASagas(respuesta, entradaEntity, entradaDTO);
             } else {
 
                 final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
@@ -331,6 +283,102 @@ public class EntradaServiceImpl implements EntradaService {
             respuesta.setComentarios(comentariosOrdenados);
         }
         return respuesta;
+    }
+
+    /**
+     * Asociar datos saga asociada a entrada.
+     *
+     * @param respuesta
+     *            the respuesta
+     * @param entradaEntity
+     *            the entrada entity
+     * @param listaDatosEntradas
+     *            the lista datos entradas
+     * @param librosParecidos
+     *            the libros parecidos
+     * @param entradaDTO
+     *            the entrada dto
+     */
+    public void obtenerEntradaAsociadaASagas(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
+            final EntradaDTO entradaDTO) {
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        final List<SagaEntity> sagasEntrada = entradaEntity.getSagasEntrada();
+        if (CollectionUtils.isNotEmpty(sagasEntrada)) {
+            final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findBySagasEntradaIn(
+                    sagasEntrada.stream().map(SagaEntity::getSagaId).collect(Collectors.toList()),
+                    new PageRequest(0, 99));
+
+            if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+                Collections.sort(entradasRelacionadas);
+                for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
+                    final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                    datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                    datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                    datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
+                    datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
+                    datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
+                    listaDatosEntradas.add(datoEntrada);
+                }
+                entradaDTO.setDatosEntrada(listaDatosEntradas);
+            }
+
+        }
+    }
+
+    public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
+            final EntradaDTO entradaDTO) {
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
+        final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
+        if (CollectionUtils.isNotEmpty(librosEntrada)) {
+            for (final LibroEntity libroEntrada : librosEntrada) {
+
+                final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                        .findByLibrosEntradaIn(Arrays.asList(libroEntrada), new PageRequest(0, 99));
+
+                Collections.sort(entradasRelacionadas);
+                if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+                    for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
+                        final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                        datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                        datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                        datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
+                        datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
+                        datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
+                        listaDatosEntradas.add(datoEntrada);
+                    }
+                }
+
+                if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+                    for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                        libroDTO.setEntradasLibro(listaDatosEntradas);
+                        librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
+
+                        final PuntuacionEntity puntuacion = this.puntuacionRepository
+                                .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
+                        if (puntuacion != null) {
+                            libroDTO.setNotaMomoko(puntuacion.getValor());
+                        }
+                        if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
+                            final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libroDTO, entradaDTO,
+                                    puntuacion.getValor());
+                            entradaDTO.setJsonLD(jsonLD);
+                        }
+                    }
+
+                }
+            }
+            respuesta.setCincoLibrosParecidos(
+                    librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
+            if (CollectionUtils.isNotEmpty(librosParecidos)) {
+                final String url = this.almacenImagenes.getUrlImageServer();
+                for (final LibroSimpleDTO libroSimple : librosParecidos) {
+
+                    libroSimple.setPortada(url + libroSimple.getPortada());
+
+                }
+            }
+        }
     }
 
     private void obtenerGifs(final EntradaDTO entradaDTO) {
@@ -664,7 +712,8 @@ public class EntradaServiceImpl implements EntradaService {
         }
         if (CollectionUtils.isNotEmpty(nombresSagasEntrada)) {
             for (final String nombre : nombresSagasEntrada) {
-                sagasEntrada.add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true, true));
+                sagasEntrada
+                        .add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true, true));
             }
         }
         if (CollectionUtils.isNotEmpty(titulosLibrosEntrada)) {
@@ -945,7 +994,8 @@ public class EntradaServiceImpl implements EntradaService {
         final List<String> nombresSagasEntrada = entradaAGuardar.getNombresSagasEntrada();
         if (CollectionUtils.isNotEmpty(nombresSagasEntrada)) {
             for (final String nombre : nombresSagasEntrada) {
-                sagasEntrada.add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true, true));
+                sagasEntrada
+                        .add(EntityToDTOAdapter.adaptarSaga(this.sagaRepository.findOneByNombre(nombre), true, true));
             }
         }
         final UsuarioEntity autor = this.usuarioRepository

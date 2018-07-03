@@ -23,7 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConID;
@@ -57,7 +57,7 @@ public class SagaServiceImpl implements SagaService {
 
     @Autowired(required = false)
     private EntradaRepository entradaRepository;
-    
+
     @Autowired(required = false)
     private StorageService almacenImagenes;
 
@@ -200,6 +200,19 @@ public class SagaServiceImpl implements SagaService {
         } catch (final IOException e) {
             e.printStackTrace();
         }
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        if (CollectionUtils.isNotEmpty(sagaEntity.getEntradas())) {
+            for (final EntradaEntity entradaEntity : sagaEntity.getEntradas()) {
+                final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                datoEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
+                datoEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
+                datoEntrada.setEnMenu(entradaEntity.isEnMenu());
+                datoEntrada.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
+                datoEntrada.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
+                listaDatosEntradas.add(datoEntrada);
+            }
+        }
+        sagaDTO.setEntradasSaga(listaDatosEntradas);
         return sagaDTO;
     }
 
@@ -219,12 +232,12 @@ public class SagaServiceImpl implements SagaService {
         return this.sagaRepository.findAllNombresSagas();
     }
 
-	@Override
-	public List<EntradaSimpleDTO> obtenerEntradasSaga(SagaDTO sagaDTO) {
-	
-		final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                .findBySagasEntradaIn(Arrays.asList(sagaDTO.getSagaId()),new PageRequest(0, 3));
-		Collections.sort(entradasRelacionadas);
+    @Override
+    public List<EntradaSimpleDTO> obtenerEntradasSaga(final SagaDTO sagaDTO) {
+
+        final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                .findBySagasEntradaIn(Arrays.asList(sagaDTO.getSagaId()), new PageRequest(0, 3));
+        Collections.sort(entradasRelacionadas);
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
                 true);
         // generar miniaturas de 304 x 221
@@ -237,18 +250,17 @@ public class SagaServiceImpl implements SagaService {
             }
         }
 
-		return entradasBasicas;
-	}
-	
-	@Override
-	public List<EntradaSimpleDTO> obtenerEntradasLibrosSaga(SagaDTO sagaDTO) {
-		
-		
-		List<LibroEntity> librosSaga = this.libroRepository.findByUrlLibroIn(sagaDTO.getLibrosSaga());
-		
-		final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                .findByLibrosEntradaIn(librosSaga, new PageRequest(0, 3));
-		Collections.sort(entradasRelacionadas);
+        return entradasBasicas;
+    }
+
+    @Override
+    public List<EntradaSimpleDTO> obtenerEntradasLibrosSaga(final SagaDTO sagaDTO) {
+
+        final List<LibroEntity> librosSaga = this.libroRepository.findByUrlLibroIn(sagaDTO.getLibrosSaga());
+
+        final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findByLibrosEntradaIn(librosSaga,
+                new PageRequest(0, 3));
+        Collections.sort(entradasRelacionadas);
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
                 true);
         // generar miniaturas de 304 x 221
@@ -261,7 +273,7 @@ public class SagaServiceImpl implements SagaService {
             }
         }
 
-		return entradasBasicas;
-	}
+        return entradasBasicas;
+    }
 
 }

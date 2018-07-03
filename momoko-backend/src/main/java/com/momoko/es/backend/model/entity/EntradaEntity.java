@@ -752,7 +752,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     public int compareTo(final EntradaEntity other) {
-        return new CompareToBuilder().append(this.fechaAlta, other.fechaAlta).toComparison();
+        return new CompareToBuilder().append(other.fechaAlta, this.fechaAlta).toComparison();
     }
 
 }

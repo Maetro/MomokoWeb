@@ -265,7 +265,7 @@ public class PublicFacade {
             sagaResponse.setLibrosSaga(librosSaga);
             final List<EntradaSimpleDTO> entradasSaga = this.sagaService.obtenerEntradasSaga(sagaDTO);
             sagaResponse.setTresUltimasEntradas(entradasSaga);
-            
+
             final List<EntradaSimpleDTO> entradasLibrosSaga = this.sagaService.obtenerEntradasLibrosSaga(sagaDTO);
             sagaResponse.setTresUltimasEntradasLibros(entradasLibrosSaga);
         } catch (final NoSeEncuentraElementoConUrl e) {
@@ -289,7 +289,7 @@ public class PublicFacade {
 
     @GetMapping(path = "/test")
     public @ResponseBody String obtenerVideo() {
-        final String response = this.passwordEncoder.encode("momadm.18");
+        final String response = this.passwordEncoder.encode("test");
         // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
         return response;
     }

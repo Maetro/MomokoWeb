@@ -1,5 +1,12 @@
 import { LinkService } from './../../../services/link.service';
-import { Component, OnInit, AfterViewInit, Input, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  Inject,
+  PLATFORM_ID
+} from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Entrada } from '../../../dtos/entrada';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
@@ -16,7 +23,6 @@ declare var $: any;
   styleUrls: ['./miscelaneo.component.css']
 })
 export class MiscelaneoComponent implements OnInit, AfterViewInit {
-
   private log = environment.log;
 
   @Input() entrada: Entrada;
@@ -33,10 +39,14 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
-  schema 
+  schema;
 
-  constructor(private titleService: Title, private metaService: Meta,
-     @Inject(PLATFORM_ID) private platformId: Object, private linkService: LinkService) { }
+  constructor(
+    private titleService: Title,
+    private metaService: Meta,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private linkService: LinkService
+  ) {}
 
   ngOnInit() {
     const metatituloPagina = this.entrada.tituloEntrada;
@@ -47,18 +57,31 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
     this.metaService.removeTag(attributeSelector);
     this.metaService.addTag(tag, false);
     this.metaService.addTag({ name: 'og:type', content: 'article' });
-    this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada });
-    this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva });
-    this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada });
+    this.metaService.addTag({
+      name: 'og:title',
+      content: this.entrada.tituloEntrada
+    });
+    this.metaService.addTag({
+      name: 'og:description',
+      content: this.entrada.fraseDescriptiva
+    });
+    this.metaService.addTag({
+      name: 'og:image',
+      content: this.entrada.imagenDestacada
+    });
 
     this.linkService.removeTag('rel=canonical');
-    this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/' +  this.entrada.urlEntrada} );
+    this.linkService.addTag({
+      rel: 'canonical',
+      href: 'https://momoko.es/' + this.entrada.urlEntrada
+    });
 
     this.linkService.removeTag('rel=amphtml');
-    this.linkService.addTag( { rel: 'amphtml', href: 'https://momoko.es/amp/miscelaneo/' + 
-    this.entrada.urlEntrada} );
+    this.linkService.addTag({
+      rel: 'amphtml',
+      href: 'https://momoko.es/amp/' + this.entrada.urlEntrada
+    });
     this.schema = JSON.parse(this.entrada.jsonLD);
-
   }
 
   ngAfterViewInit(): void {
@@ -92,20 +115,23 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
   }
 
   collage() {
-    $('#collage-large').removeWhitespace().collagePlus({
-      'fadeSpeed': 5000,
-      'targetHeight': 400,
-      'effect': 'effect-2',
-      'direction': 'vertical',
-      'allowPartialLastRow': true
-    });
-    $('#collage-medium').removeWhitespace().collagePlus({
-      'fadeSpeed': 5000,
-      'targetHeight': 300,
-      'effect': 'effect-2',
-      'direction': 'vertical',
-      'allowPartialLastRow': true
-    });
-  };
-
+    $('#collage-large')
+      .removeWhitespace()
+      .collagePlus({
+        fadeSpeed: 5000,
+        targetHeight: 400,
+        effect: 'effect-2',
+        direction: 'vertical',
+        allowPartialLastRow: true
+      });
+    $('#collage-medium')
+      .removeWhitespace()
+      .collagePlus({
+        fadeSpeed: 5000,
+        targetHeight: 300,
+        effect: 'effect-2',
+        direction: 'vertical',
+        allowPartialLastRow: true
+      });
+  }
 }

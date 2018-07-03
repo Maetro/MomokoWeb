@@ -12,24 +12,34 @@
             <u>Análisis</u>
           </a>
         </li>
-        <li class="nav-item" *ngIf="hayNoticia">
+        <li class="nav-item" *ngIf="numNoticias == 1">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/{{urlNoticia}}">
+            <u>Noticias</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numNoticias > 1">
           <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
             <u>Noticias</u>
           </a>
         </li>
-        <li class="nav-item" *ngIf="hayNoticias">
-            <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
-              <u>Noticias</u>
-            </a>
-          </li>
-        <li class="nav-item" *ngIf="hayMiscelaneo">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+        <li class="nav-item" *ngIf="numMiscelaneos == 1">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/{{urlMiscelaneo}}">
             <u>Miscelaneos</u>
           </a>
         </li>
-        <li class="nav-item" *ngIf="hayMiscelaneos">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+        <li class="nav-item" *ngIf="numMiscelaneos > 1">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/miscelaneos-saga/{{saga.urlSaga}}">
             <u>Miscelaneos</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numVideos == 1">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/{{urlVideo}}">
+            <u>Vídeos</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numVideos > 1">
+          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/videos-saga/{{saga.urlSaga}}">
+            <u>Vídeos</u>
           </a>
         </li>
       </ul>

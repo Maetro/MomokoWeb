@@ -1,3 +1,4 @@
+import { DatoEntrada } from './datoEntrada';
 import { Libro } from './libro';
 
 export class Saga {
@@ -13,4 +14,5 @@ export class Saga {
   dominaLibros: boolean;
   tipoSaga: string;
   librosSaga: Libro[];
+  entradasSaga: DatoEntrada[];
 }

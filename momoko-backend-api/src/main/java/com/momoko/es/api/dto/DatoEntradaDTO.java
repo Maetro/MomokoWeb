@@ -8,6 +8,10 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
+import com.momoko.es.api.enums.TipoEntrada;
+
 /**
  * The Class DatoEntradaDTO.
  */
@@ -113,6 +117,14 @@ public class DatoEntradaDTO implements Serializable {
      */
     public void setUrlMenuLibro(final String urlMenuLibro) {
         this.urlMenuLibro = urlMenuLibro;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("tipoEntrada", TipoEntrada.obtenerTipoEntrada(this.tipoEntrada).getNombre())
+                .append("urlEntrada", this.urlEntrada).append("enMenu", this.enMenu)
+                .append("nombreMenuLibro", this.nombreMenuLibro).append("urlMenuLibro", this.urlMenuLibro).toString();
     }
 
 }

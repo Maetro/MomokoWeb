@@ -116,6 +116,9 @@ public class EntradaDTO {
     /** The json ld. */
     private String jsonLD;
 
+    /** The datos entrada. */
+    private List<DatoEntradaDTO> datosEntrada;
+
     /**
      * Instancia un nuevo entrada DTO.
      */
@@ -684,6 +687,25 @@ public class EntradaDTO {
 
     public void setNombresSagasEntrada(final List<String> nombresSagasEntrada) {
         this.nombresSagasEntrada = nombresSagasEntrada;
+    }
+
+    /**
+     * Gets the datos entrada.
+     *
+     * @return the datos entrada
+     */
+    public List<DatoEntradaDTO> getDatosEntrada() {
+        return this.datosEntrada;
+    }
+
+    /**
+     * Sets the datos entrada.
+     *
+     * @param datosEntrada
+     *            the new datos entrada
+     */
+    public void setDatosEntrada(final List<DatoEntradaDTO> datosEntrada) {
+        this.datosEntrada = datosEntrada;
     }
 
     /**
