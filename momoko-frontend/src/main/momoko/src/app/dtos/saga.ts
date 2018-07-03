@@ -21,4 +21,5 @@ export class Saga {
   autores: Autor[];
   generos: Genero[];
   editorial: Editorial;
+  notaMomoko: number;
 }
