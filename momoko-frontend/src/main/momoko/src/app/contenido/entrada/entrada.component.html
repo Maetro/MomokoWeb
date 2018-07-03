@@ -2,8 +2,11 @@
     <app-noticia [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
         [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-noticia>
 </div>
-<div *ngIf="tipoEntrada == 2">
+<div *ngIf="tipoEntrada == 2 && entrada.librosEntrada.length > 0">
     <app-analisis [entrada]="entrada" [autores]="autores" [titulo]="titulo" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis>
+</div>
+<div *ngIf="tipoEntrada == 2 && entrada.sagasEntrada.length > 0">
+    <app-analisis-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis-saga>
 </div>
 <div *ngIf="tipoEntrada == 3">
     <app-miscelaneo [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"

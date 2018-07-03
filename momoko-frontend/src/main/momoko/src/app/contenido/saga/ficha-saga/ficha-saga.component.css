@@ -185,3 +185,7 @@ h3 {
   -webkit-filter: grayscale(0);
   filter: grayscale(0);
 }
+
+i.fa.fa-eye {
+  margin-right: 10px;
+}

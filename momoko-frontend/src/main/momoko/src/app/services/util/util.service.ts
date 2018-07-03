@@ -4,19 +4,16 @@ import { Meta } from '@angular/platform-browser';
 
 @Injectable()
 export class UtilService {
+  constructor() {}
 
-
-  constructor() { }
-
-  obtenerUrlEntradaSimple(entrada: EntradaSimple): string{
+  obtenerUrlEntradaSimple(entrada: EntradaSimple): string {
     let urlEntrada = '';
-    if (entrada.urlLibro != null){
-      urlEntrada = 'libro/' + entrada.urlLibro + '/' + entrada.bloque + '/' + entrada.urlEntrada;
+    if (entrada.urlLibro != null) {
+      urlEntrada = entrada.bloque + '/' + entrada.urlEntrada;
     } else {
       urlEntrada = entrada.urlEntrada;
     }
     return urlEntrada;
-
   }
 
   removeAllTags(metaService: Meta): any {
@@ -30,5 +27,4 @@ export class UtilService {
     metaService.removeTag('name="fb:app_id"');
     metaService.removeTag('rel="canonical"');
   }
-
 }

@@ -253,6 +253,23 @@ public final class EntityToDTOAdapter {
                 entradasSaga.addAll(adaptarEntradas(sagaEntity.getEntradas()));
             }
         }
+        if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+            final Set<GeneroEntity> listaGeneros = sagaEntity.getLibros().stream().map(LibroEntity::getGeneros)
+                    .collect(HashSet::new, Set::addAll, Set::addAll);
+            sagaDTO.setGeneros(adaptarGeneros(listaGeneros));
+        }
+
+        if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+            final Set<AutorEntity> listaAutores = sagaEntity.getLibros().stream().map(LibroEntity::getAutores)
+                    .collect(HashSet::new, Set::addAll, Set::addAll);
+            sagaDTO.setAutores(adaptarAutores(listaAutores));
+        }
+
+        if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+            final EditorialEntity editorial = sagaEntity.getLibros().iterator().next().getEditorial();
+            sagaDTO.setEditorial(adaptarEditorial(editorial));
+        }
+
         sagaDTO.setResumen(sagaEntity.getResumen());
         sagaDTO.setNumeroVolumenes(sagaEntity.getNumeroVolumenes());
         sagaDTO.setEstaTerminada(sagaEntity.getEstaTerminada());

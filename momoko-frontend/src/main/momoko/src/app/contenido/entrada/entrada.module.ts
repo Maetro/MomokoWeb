@@ -17,21 +17,31 @@ import { FormsModule } from '@angular/forms';
 // Import library module
 import { NgxJsonLdModule } from 'ngx-json-ld';
 import { RedactorInfoModule } from '../comun/redactor-info/redactor-info.module';
+import { AnalisisSagaComponent } from './analisis-saga/analisis-saga.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ComunesModule,
     GrowlModule,
-    FormsModule,      
+    FormsModule,
     RedactorInfoModule,
     NgxJsonLdModule,
     RouterModule.forChild([
-      { path: '', component: EntradaComponent, pathMatch: 'full'}      
+      { path: '', component: EntradaComponent, pathMatch: 'full' }
     ])
   ],
-  declarations: [EntradaComponent, NoticiaComponent, AnalisisComponent, VideoComponent, MiscelaneoComponent, ZonaComentariosComponent, PlantillaComentarioComponent,
-    SatinizeHtmlPipe],
-    providers:[SatinizeHtmlPipe]
+  declarations: [
+    EntradaComponent,
+    NoticiaComponent,
+    AnalisisComponent,
+    AnalisisSagaComponent,
+    VideoComponent,
+    MiscelaneoComponent,
+    ZonaComentariosComponent,
+    PlantillaComentarioComponent,
+    SatinizeHtmlPipe
+  ],
+  providers: [SatinizeHtmlPipe]
 })
-export class EntradaModule { }
+export class EntradaModule {}

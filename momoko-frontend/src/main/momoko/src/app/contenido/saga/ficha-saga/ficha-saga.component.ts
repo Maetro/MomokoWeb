@@ -21,6 +21,7 @@ export class FichaSagaComponent implements OnInit {
   entradas: EntradaSimple[];
   entradasLibros: EntradaSimple[];
   mapaOrdinales = [];
+  urlAnalisis: string;
 
   constructor(
     private sagaService: SagaService,
@@ -95,6 +96,13 @@ export class FichaSagaComponent implements OnInit {
         name: 'og:image',
         content: this.saga.imagenSaga
       });
+      if (this.saga.entradasSaga) {
+        this.saga.entradasSaga.forEach(entrada => {
+          if (entrada.tipoEntrada === 2) {
+            this.urlAnalisis = '/analisis/' + entrada.urlEntrada;
+          }
+        });
+      }
     });
   }
 

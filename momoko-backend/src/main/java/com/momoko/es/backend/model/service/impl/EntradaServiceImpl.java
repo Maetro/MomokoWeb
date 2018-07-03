@@ -183,6 +183,14 @@ public class EntradaServiceImpl implements EntradaService {
                 obtenerEntradaAsociadaALibros(respuesta, entradaEntity, entradaDTO);
             } else if (CollectionUtils.isNotEmpty(entradaEntity.getSagasEntrada())) {
                 obtenerEntradaAsociadaASagas(respuesta, entradaEntity, entradaDTO);
+                if (CollectionUtils.isNotEmpty(entradaDTO.getSagasEntrada())
+                        && CollectionUtils.isNotEmpty(entradaDTO.getSagasEntrada().iterator().next().getGeneros())) {
+                    final Set<GeneroDTO> generos = entradaDTO.getSagasEntrada().iterator().next().getGeneros();
+                    final String url = this.almacenImagenes.getUrlImageServer();
+                    for (final GeneroDTO generoDTO : generos) {
+                        generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
+                    }
+                }
             } else {
 
                 final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(

@@ -48,6 +48,7 @@ import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
+import com.momoko.es.backend.model.entity.SagaEntity;
 import com.momoko.es.backend.model.entity.UsuarioEntity;
 
 /**
@@ -172,7 +173,21 @@ public class ConversionUtils {
                                 entrada.getLibrosEntrada().iterator().next().getEditorial().getUrlEditorial());
                     }
                     entradaSimple.setTitulosLibros(titulosLibros.toString());
+                } else if (CollectionUtils.isNotEmpty(entrada.getSagasEntrada())) {
+                    final SagaEntity sagaEntrada = entrada.getSagasEntrada().iterator().next();
+                    entradaSimple.setUrlLibro(sagaEntrada.getUrlSaga());
+                    if (entradaSimple.getUrlMenuLibro() != null) {
+                        entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
+                    } else {
+
+                        if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("analisis");
+                        }
+
+                    }
+
                 }
+
             }
         }
         return entradasSimples;

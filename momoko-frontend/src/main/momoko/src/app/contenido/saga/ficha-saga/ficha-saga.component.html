@@ -17,8 +17,20 @@
         </header>
         <img src="{{saga.imagenSaga}}" alt="Imagen Destacada - {{saga.nombreSaga}} ">
         <h2 class="separatop25"> {{saga.nombreSaga}} </h2>
-        <h4 class="autor_libro"> {{saga.numeroVolumenes}} tomos - saga completa </h4>
+        <h4 class="autor_libro"> {{saga.numeroVolumenes}} tomos -
+            <span *ngIf="saga.estaTerminada">
+                <span *ngIf="saga.tipoSaga == 'Saga'">Saga completa </span>
+                <span *ngIf="saga.tipoSaga == 'Coleccion'">Colección completa </span>
+            </span>
+            <span *ngIf="!saga.estaTerminada">
+                <span *ngIf="saga.tipoSaga == 'Saga'">Saga incompleta </span>
+                <span *ngIf="saga.tipoSaga == 'Coleccion'">Colección incompleta </span>
+            </span>
+        </h4>
         <p class="separatop15"> {{saga.resumen}} </p>
+        <a *ngIf="urlAnalisis" routerLink="{{urlAnalisis}}" title="Análisis saga {{saga.nombreSaga}}" class="btn">
+            <i class="fa fa-eye"></i>Ver análisis saga </a>
+
     </div>
 
     <div class="col-sm-1"> </div>
@@ -60,8 +72,12 @@
 
     <div class="blog row">
         <div class="col-sm-8">
-            <div class="blog-content classic-view">
-                <h2> Últimas actualizaciones de esta saga </h2>
+            <div class="blog-content classic-view" *ngIf="entradas.length > 0">
+                <header class="section-header section-header--left">
+                    <h2 class="section-title">
+                        Últimas actualizaciones de esta saga </h2>
+                </header>
+
                 <div class="divider_inner divider_line1"></div>
                 <div class="row marginTop30" *ngFor="let entrada of entradas">
                     <div class="col-md-5">
@@ -90,8 +106,12 @@
                     </div>
                 </div>
             </div>
-            <div class="blog-content classic-view">
-                <h2> Últimas actualizaciones de los libros de esta saga </h2>
+            <div class="blog-content classic-view" *ngIf="entradasLibros.length > 0">
+                <header class="section-header section-header--left">
+                    <h2 class="section-title">
+                        Últimas actualizaciones de los libros de esta saga </h2>
+                </header>
+
                 <div class="divider_inner divider_line1"></div>
                 <div class="row marginTop30" *ngFor="let entrada of entradasLibros">
                     <div class="col-md-5">
