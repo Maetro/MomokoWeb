@@ -72,6 +72,7 @@ import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaSagaNoticiasResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
@@ -674,6 +675,73 @@ public class PublicFacade {
         paginaLibroNoticiasResponse.setNoticias(noticias);
         paginaLibroNoticiasResponse.setNumeroEntradas(numeroEntradas);
         return paginaLibroNoticiasResponse;
+    }
+
+    @GetMapping(path = "/noticias-saga/{url-saga}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaSagaNoticiasResponse obtenerNoticiasSagaPagina(
+            @PathVariable("url-saga") final String urlSaga, @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
+        final ObtenerPaginaSagaNoticiasResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaNoticiasResponse();
+        final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(numeroPagina);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlSaga);
+        }
+        return obtenerPaginaSagaNoticiasResponse(urlSaga, request, paginaSagaNoticiasResponse, noticias);
+
+    }
+
+    @GetMapping(path = "/noticias-saga/{url-saga}")
+    public @ResponseBody ObtenerPaginaSagaNoticiasResponse obtenerNoticiasSaga(
+            @PathVariable("url-saga") final String urlSaga,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
+        final ObtenerPaginaSagaNoticiasResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaNoticiasResponse();
+        final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlSaga);
+        }
+        return obtenerPaginaSagaNoticiasResponse(urlSaga, request, paginaSagaNoticiasResponse, noticias);
+
+    }
+
+    private ObtenerPaginaSagaNoticiasResponse obtenerPaginaSagaNoticiasResponse(final String urlSaga,
+            final ObtenerPaginaElementoRequest request,
+            final ObtenerPaginaSagaNoticiasResponse paginaSagaNoticiasResponse, final List<EntradaSimpleDTO> noticias)
+            throws NoSeEncuentraElementoConUrl {
+        final SagaDTO saga = this.sagaService.obtenerSaga(urlSaga);
+        final List<DatoEntradaDTO> entradasSimples = saga.getEntradasSaga();
+        int numeroEntradas = 0;
+
+        for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
+            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.NOTICIA.getValue())) {
+                final EntradaSimpleDTO entradaSimple = this.entradaService
+                        .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
+                if (entradaSimple.getImagenEntrada() != null) {
+                    try {
+                        entradaSimple.setImagenEntrada(this.almacenImagenes
+                                .obtenerMiniatura(entradaSimple.getImagenEntrada(), 370, 208, true));
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                noticias.add(entradaSimple);
+
+                numeroEntradas++;
+            }
+        }
+        paginaSagaNoticiasResponse.setSaga(saga);
+        paginaSagaNoticiasResponse.setDatosEntrada(entradasSimples);
+        paginaSagaNoticiasResponse.setNoticias(noticias);
+        paginaSagaNoticiasResponse.setNumeroEntradas(numeroEntradas);
+        return paginaSagaNoticiasResponse;
     }
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}/{numero-pagina}")

@@ -21,7 +21,7 @@
 
 
   <app-menu-interno-libro *ngIf="entrada.librosEntrada?.length > 0" [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>
-  <app-menu-interno-saga *ngIf="entrada.sagasEntrada?.length > 0" [datosEntrada]="entrada.datosEntrada"></app-menu-interno-saga>
+  <app-menu-interno-saga *ngIf="entrada.sagasEntrada?.length > 0" [datosEntrada]="entrada.datosEntrada" [parentType]="'MISCELANEO'"></app-menu-interno-saga>
   <div class="container inner tp0">
 
     <div class="divide60"></div>

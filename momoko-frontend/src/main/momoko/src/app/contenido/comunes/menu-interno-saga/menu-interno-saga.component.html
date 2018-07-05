@@ -3,42 +3,42 @@
     <div class="col-md-12" style="margin-bottom:0px">
       <ul class="nav nav-tabs">
         <li class="nav-item">
-          <a routerLink="/saga/{{saga.urlSaga}}" routerLinkActive="active" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <a routerLink="/saga/{{saga.urlSaga}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <u>Saga</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="hayAnalisis">
-          <a routerLinkActive="active" routerLink="/analisis/{{urlAnalisis}}" [class.active]="isActive(['analisis', urlAnalisis])">
+          <a routerLinkActive="active" routerLink="/analisis/{{urlAnalisis}}" [class.active]="isActive('ANALISIS')">
             <u>Análisis</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="numNoticias == 1">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/{{urlNoticia}}">
+          <a class="nav-link link-noticia" routerLink="/{{urlNoticia}}" [class.active]="isActive('NOTICIA')">
             <u>Noticias</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="numNoticias > 1">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/noticias-saga/{{saga.urlSaga}}">
+          <a class="nav-link link-noticia" routerLink="/noticias-saga/{{saga.urlSaga}}" [class.active]="isActive('NOTICIA')">
             <u>Noticias</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="numMiscelaneos == 1">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/{{urlMiscelaneo}}">
+          <a class="nav-link link-noticia" routerLink="/{{urlMiscelaneo}}" [class.active]="isActive('MISCELANEO')">
             <u>Miscelaneos</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="numMiscelaneos > 1">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/miscelaneos-saga/{{saga.urlSaga}}">
+          <a class="nav-link link-noticia" routerLink="/miscelaneos-saga/{{saga.urlSaga}}" [class.active]="isActive('MISCELANEO')">
             <u>Miscelaneos</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="numVideos == 1">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/{{urlVideo}}">
+          <a class="nav-link link-noticia" routerLink="/{{urlVideo}}" [class.active]="isActive('VIDEO')">
             <u>Vídeos</u>
           </a>
         </li>
         <li class="nav-item" *ngIf="numVideos > 1">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/videos-saga/{{saga.urlSaga}}">
+          <a class="nav-link link-noticia" routerLink="/videos-saga/{{saga.urlSaga}}" [class.active]="isActive('VIDEO')">
             <u>Vídeos</u>
           </a>
         </li>

@@ -8,7 +8,7 @@
         </div>
     </div>
 </div>
-<app-menu-interno-saga [saga]="entrada.sagasEntrada[0]" [datosEntrada]="entrada.datosEntrada"></app-menu-interno-saga>
+<app-menu-interno-saga [saga]="entrada.sagasEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-saga>
 <div class="light-wrapper">
     <div class="container inner">
         <div class="blog row">
@@ -18,8 +18,8 @@
             </div>
             <div class="col-md-4">
                 <div class="dark-wrapper bloqueInfoLibro">
-                    <div class="bloqueNota" *ngIf="entrada.sagasEntrada[0].notaMomoko">
-                        <app-nota-circular [nota]="entrada.sagasEntrada[0].notaMomoko"></app-nota-circular>
+                    <div class="bloqueNota" *ngIf="entrada.sagasEntrada[0].notaSaga">
+                        <app-nota-circular [nota]="entrada.sagasEntrada[0].notaSaga"></app-nota-circular>
                     </div>
                     <div class="bloqueDatos">
                         <div class="datos autor" *ngIf="entrada.sagasEntrada[0].nombreSaga">
@@ -43,10 +43,14 @@
                             </b>
                         </div>
                         <div class="datos numPaginas">
-                            <b>¿Está terminada?:
-                                <span class="info" *ngIf="entrada.sagasEntrada[0].estaTerminada">Terminada</span>
-                                <span class="info" *ngIf="!entrada.sagasEntrada[0].estaTerminada">Incompleta</span>
-                            </b>
+                            <ng-container *ngIf="entrada.sagasEntrada[0].tipoSaga == 'Saga'">
+                                <span class="info" *ngIf="entrada.sagasEntrada[0].estaTerminada">Saga completa</span>
+                                <span class="info" *ngIf="!entrada.sagasEntrada[0].estaTerminada">Saga incompleta</span>
+                            </ng-container>
+                            <ng-container *ngIf="entrada.sagasEntrada[0].tipoSaga == 'Coleccion'">
+                                <span class="info" *ngIf="entrada.sagasEntrada[0].estaTerminada">Colección completa</span>
+                                <span class="info" *ngIf="!entrada.sagasEntrada[0].estaTerminada">Colección incompleta</span>
+                            </ng-container>
                         </div>
 
                     </div>

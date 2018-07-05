@@ -34,6 +34,7 @@ export const environment = {
   getCategoriaUrl: 'https://momoko.es/public/categoria/',
   getEtiquetaUrl: 'https://momoko.es/public/etiqueta/',
   getNoticiasLibroUrl: 'https://momoko.es/public/noticias-libro/',
+  getNoticiasSagaUrl: 'https://momoko.es/public/noticias-saga/',
   suscripcionUrl: 'https://momoko.es/public/suscribirse/',
   getBusquedaUrl: 'https://momoko.es/public/buscar/',
   sagasUrl: 'https://momoko.es/modelo/sagas',

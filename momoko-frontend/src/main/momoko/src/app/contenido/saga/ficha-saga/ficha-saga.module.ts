@@ -4,11 +4,13 @@ import { ComunesModule } from '../../comunes/comunes.module';
 import { RouterModule } from '@angular/router';
 import { FichaSagaComponent } from './ficha-saga.component';
 import { EntradaSimpleHorizontalComponent } from '../../libro/ficha-libro/entrada-simple-horizontal/entrada-simple-horizontal.component';
+import { DescriptorSagaModule } from '../comunes/descriptor-saga/descriptor-saga.module';
 
 @NgModule({
   imports: [
     CommonModule,
-    ComunesModule,     
+    ComunesModule,  
+    DescriptorSagaModule,   
     RouterModule.forChild([
       { path: '', component: FichaSagaComponent, pathMatch: 'full'}      
     ])

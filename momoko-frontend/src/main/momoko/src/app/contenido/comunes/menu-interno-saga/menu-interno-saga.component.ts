@@ -23,6 +23,7 @@ export class MenuInternoSagaComponent implements OnInit {
   numVideos = 0;
   menuLibroExtra: DatoEntrada[];
 
+  @Input() parentType: string;
   @Input() datosEntrada: DatoEntrada[];
   @Input() saga: Saga;
 
@@ -72,8 +73,9 @@ export class MenuInternoSagaComponent implements OnInit {
     }
   }
 
-  isActive(instruction: any[]): boolean {
+  isActive(instruction: string): boolean {
     // Set the second parameter to true if you want to require an exact match.
-    return this.router.isActive(this.router.createUrlTree(instruction), false);
+    return instruction === this.parentType;
   }
+
 }

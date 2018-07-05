@@ -34,6 +34,10 @@ export class EntradaComponent implements OnInit, OnDestroy {
 
   tipoEntrada: number;
 
+  haySagas: boolean;
+
+  hayLibros: boolean;
+
   constructor(
     private entradaService: EntradaService,
     private route: ActivatedRoute,
@@ -58,6 +62,10 @@ export class EntradaComponent implements OnInit, OnDestroy {
             data.obtenerEntradaResponse.cincoLibrosParecidos;
           this.comentarios = data.obtenerEntradaResponse.comentarios;
           this.tipoEntrada = data.obtenerEntradaResponse.entrada.tipoEntrada;
+          this.hayLibros =
+            data.obtenerEntradaResponse.entrada.librosEntrada.length > 0;
+          this.haySagas =
+            data.obtenerEntradaResponse.entrada.sagasEntrada.length > 0;
           this.entradaAnteriorYSiguiente =
             data.obtenerEntradaResponse.obtenerEntradaAnteriorYSiguiente;
           this.cuatroPostPequenosConImagen =

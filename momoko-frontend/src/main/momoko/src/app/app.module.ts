@@ -44,6 +44,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
 import { ObtenerListaEditoralResolverService } from './services/resolvers/obtener-lista-editoral-resolver.service';
 import { FormsModule } from '@angular/forms';
+import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -86,7 +87,8 @@ import { FormsModule } from '@angular/forms';
     ObtenerLiveTestResolverService,
     TestService,
     ObtenerListaEditorResolverService,
-    ObtenerListaEditoralResolverService
+    ObtenerListaEditoralResolverService,
+    ObtenerSagaNoticiasResolverService
   ],
   bootstrap: [AppComponent]
 })
