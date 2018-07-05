@@ -2,11 +2,8 @@ import { DatoEntrada } from './../../../dtos/datoEntrada';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
-import { Libro } from '../../../dtos/libro';
-import { LibroService } from '../../../services/libro.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
-import { ObtenerPaginaLibroNoticiasResponse } from '../../../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { Saga } from '../../../dtos/saga';
 import { ObtenerPaginaSagaNoticiasResponse } from '../../../dtos/response/ObtenerPaginaSagaNoticiasResponse';
 

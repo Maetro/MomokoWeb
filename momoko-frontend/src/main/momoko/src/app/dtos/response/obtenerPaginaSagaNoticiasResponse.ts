@@ -1,6 +1,5 @@
-import { DatoEntrada } from './../datoEntrada';
-import { EntradaSimple } from '../entradaSimple';
-import { Saga } from '../saga';
+import { Saga } from "../saga";
+import { EntradaSimple } from "../entradaSimple";
 
 export class ObtenerPaginaSagaNoticiasResponse {
   saga: Saga;
