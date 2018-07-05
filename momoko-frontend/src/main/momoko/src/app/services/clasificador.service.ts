@@ -9,7 +9,7 @@ import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPagi
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
 import { ObtenerPaginaRedactorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
 import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
-import { ObtenerPaginaSagaNoticiasResponse } from '../dtos/response/ObtenerPaginaSagaNoticiasResponse';
+import { ObtenerPaginaNoticiasSagaResponse } from '../dtos/response/obtenerPaginaNoticiasSagaResponse';
 
 
 @Injectable()
@@ -166,24 +166,24 @@ export class ClasificadorService {
     return res;
   }
 
-  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaSagaNoticiasResponse> {
+  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaNoticiasSagaResponse> {
     if (this.log) {
       console.log(urlEditorial);
     }
-    return this.http.get<ObtenerPaginaSagaNoticiasResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaNoticiasResponse)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaSagaNoticiasResponse> {
+  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaNoticiasSagaResponse> {
     if (this.log) {
       console.log(urlEditorial);
     }
-    return this.http.get<ObtenerPaginaSagaNoticiasResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
+    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
       .map(this.obtenerObtenerPaginaSagaNoticiasResponse)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerObtenerPaginaSagaNoticiasResponse(res: ObtenerPaginaSagaNoticiasResponse) {
+  private obtenerObtenerPaginaSagaNoticiasResponse(res: ObtenerPaginaNoticiasSagaResponse) {
     return res;
   }
 

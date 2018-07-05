@@ -9,11 +9,11 @@ import {
 import { environment } from '../../../environments/environment';
 import { ClasificadorService } from '../clasificador.service';
 import { Observable } from 'rxjs/Observable';
-import { ObtenerPaginaSagaNoticiasResponse } from '../../dtos/response/ObtenerPaginaSagaNoticiasResponse';
+import { ObtenerPaginaNoticiasSagaResponse } from '../../dtos/response/obtenerPaginaNoticiasSagaResponse';
 
 @Injectable()
 export class ObtenerSagaNoticiasResolverService
-  implements Resolve<ObtenerPaginaSagaNoticiasResponse> {
+  implements Resolve<ObtenerPaginaNoticiasSagaResponse> {
   private log = environment.log;
 
   constructor(
@@ -24,7 +24,7 @@ export class ObtenerSagaNoticiasResolverService
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<ObtenerPaginaSagaNoticiasResponse> {
+  ): Observable<ObtenerPaginaNoticiasSagaResponse> {
     if (this.log) {
       console.log('Obteniendo lista noticias saga');
     }
