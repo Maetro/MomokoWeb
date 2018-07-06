@@ -9,15 +9,15 @@ import { ObtenerPaginaColeccionSagaResponse } from '../../../dtos/response/obten
 
 
 @Component({
-  selector: 'app-lista-noticias-saga',
-  templateUrl: './lista-noticias-saga.component.html',
-  styleUrls: ['./lista-noticias-saga.component.css']
+  selector: 'app-lista-miscelaneos-saga',
+  templateUrl: './lista-miscelaneos-saga.component.html',
+  styleUrls: ['./lista-miscelaneos-saga.component.css']
 })
-export class ListaNoticiasSagaComponent implements OnInit {
+export class ListaMiscelaneosSagaComponent implements OnInit {
   private log = environment.log;
 
   saga: Saga;
-  noticias: EntradaSimple[];
+  miscelaneos: EntradaSimple[];
   numeroEntradas: number;
   enLista: boolean;
   datosEntrada: DatoEntrada[];
@@ -37,7 +37,7 @@ export class ListaNoticiasSagaComponent implements OnInit {
         coleccionSaga: ObtenerPaginaColeccionSagaResponse;
       }) => {
         this.saga = coleccionSaga.coleccionSaga.saga;
-        this.noticias = coleccionSaga.coleccionSaga.entradas;
+        this.miscelaneos = coleccionSaga.coleccionSaga.entradas;
         this.numeroEntradas = coleccionSaga.coleccionSaga.numeroEntradas;
         this.datosEntrada = coleccionSaga.coleccionSaga.datosEntrada;
         let autores = '';

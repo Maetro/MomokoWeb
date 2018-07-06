@@ -8,7 +8,6 @@ import { ObtenerVideoResolverService } from './services/resolvers/obtener-video-
 import { ObtenerListaGeneroResolverService } from './services/resolvers/obtener-lista-genero-resolver.service';
 import { ObtenerListaEtiquetaResolverService } from './services/resolvers/obtener-etiqueta-resolver.service';
 import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtener-lista-busqueda-resolver.service';
-import { ObtenerLiveTestResolverService } from './services/resolvers/obtener-live-test-resolver.service';
 import { PageNotFoundComponent } from './contenido/estaticas/page-not-found/page-not-found.component';
 import { PageSolicitudComponent } from './contenido/estaticas/page-solicitud/page-solicitud.component';
 import { PageCriteriosComponent } from './contenido/estaticas/page-criterios/page-criterios.component';
@@ -19,6 +18,7 @@ import { RouterModule } from '@angular/router';
 import { ObtenerListaEditoralResolverService } from './services/resolvers/obtener-lista-editoral-resolver.service';
 import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
 import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
+import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obtener-saga-miscelaneos.resolver.service';
 
 const appRoutes = [
   {
@@ -42,7 +42,15 @@ const appRoutes = [
     loadChildren:
       './contenido/saga/lista-noticias-saga/lista-noticias-saga.module#ListaNoticiasSagaModule',
     resolve: {
-      noticiasSaga: ObtenerSagaNoticiasResolverService
+      coleccionSaga: ObtenerSagaNoticiasResolverService
+    }
+  },
+  {
+    path: 'miscelaneos-saga/:url-saga',
+    loadChildren:
+      './contenido/saga/lista-miscelaneos-saga/lista-miscelaneos-saga.module#ListaMiscelaneosSagaModule',
+    resolve: {
+      coleccionSaga: ObtenerSagaMiscelaneosResolverService
     }
   },
   {

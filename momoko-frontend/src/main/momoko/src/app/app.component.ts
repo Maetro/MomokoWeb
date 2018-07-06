@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
+    //NO ELIMINAR
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {

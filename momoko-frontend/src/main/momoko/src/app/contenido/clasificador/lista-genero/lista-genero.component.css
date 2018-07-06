@@ -156,3 +156,39 @@ a:focus {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
 }
+
+.contenedorImagenes:hover .sagaMarker{
+  top:-10px;
+  left: -10px;
+}
+
+.sagaMarker {
+  
+  position:absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  font-size: 14px;
+  color: #fff;
+  line-height: 50px;
+  text-align: center;
+  background: #0a23f3;
+  z-index: 2;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s ease 0s;
+  top:0px;
+  left: 0px;
+}
+
+@media (max-width: 1200px) {
+  .contenedorImagenes {
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .contenedorImagenes {
+    height: auto;
+  }
+}

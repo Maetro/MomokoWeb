@@ -11,47 +11,40 @@
         <div class="divide60"></div>
         <div class="blog row">
             <div class="col-sm-8 blog-content list-view">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="product-layout-view active">
-                            <a class="active" href="#" title="Grid Layout">
-                                <i class="fa fa-th" aria-hidden="true"></i>
-                            </a>
-                            <!-- <a class="iconomono" href="#" title="List Layout">
-                  <i class="fa fa-list-ul" aria-hidden="true"></i>
-                </a> -->
-                        </div>
-                    </div>
-                    <!-- <div class="col-sm-3">
-              <select class="ui-paginator-rpp-options ui-widget ui-state-default" (change)="onChangeOrder($event)">
-  
-                <option value="1">Orden por fecha </option>
-                <option value="2">Popularidad</option>
-              </select>
-              <br />
-              <br />
-            </div> -->
-                </div>
+               
 
                 <div class="blog-content marginTop20">
                     <div class="blog-post">
                         <div class="row">
                             <div class="libroGenero" *ngFor="let libro of librosGenero, let i = index; let first = first">
                                 <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
-                                <div class="col-sm-4" id="mirarAnchura{{i}}">
+                                <div class="col-xs-4" id="mirarAnchura{{i}}">
 
 
 
-                                    <div class="contenedorImagenes">
-                                        <a routerLink="/libro/{{libro.urlLibro}}">
+                                    <div class="contenedorImagenes" *ngIf="libro.representaSaga">
+                                        <div class="sagaMarker">
+                                            SAGA
+                                        </div>
+                                        <a routerLink="/saga/{{libro.urlSaga}}">
                                             <span class="helper over"></span>
-                                            <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} "/>
+                                            <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} " />
                                         </a>
                                     </div>
+                                    <div class="contenedorImagenes" *ngIf="!libro.representaSaga">
+                                        <a routerLink="/libro/{{libro.urlLibro}}">
+                                            <span class="helper over"></span>
+                                            <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} " />
+                                        </a>
+                                    </div>
+
                                     <!-- <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.portada"></app-libro3d> -->
 
-                                    <h3 class="titulo_libro">
+                                    <h3 class="titulo_libro" *ngIf="!libro.representaSaga">
                                         <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
+                                    </h3>
+                                    <h3 class="titulo_libro" *ngIf="libro.representaSaga">
+                                            <a routerLink="/saga/{{libro.urlSaga}}">{{libro.nombreSaga}}</a>
                                     </h3>
                                     <span class="autor_libro"> {{libro.nombreAutor}} </span>
 

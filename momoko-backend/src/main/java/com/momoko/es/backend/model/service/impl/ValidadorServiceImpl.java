@@ -122,7 +122,7 @@ public class ValidadorServiceImpl implements ValidadorService {
         }
         if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideoONoticia(entradaDTO)
                 && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
-                && CollectionUtils.isEmpty(entradaDTO.getSagasEntrada())) {
+                && CollectionUtils.isEmpty(entradaDTO.getNombresSagasEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
         if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {

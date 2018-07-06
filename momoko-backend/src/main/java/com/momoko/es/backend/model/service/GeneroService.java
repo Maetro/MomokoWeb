@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
+import com.momoko.es.api.dto.LibroSimpleDTO;
 
 public interface GeneroService {
 
@@ -62,5 +63,19 @@ public interface GeneroService {
      * @return the list
      */
     List<GeneroDTO> obtenerGenerosCategoria(CategoriaDTO categoriaDTO);
+
+    /**
+     * Obtener libros con analisis genero por fecha.
+     *
+     * @param generoDTO
+     *            the genero dto
+     * @param i
+     *            the i
+     * @param numeroPagina
+     *            the numero pagina
+     * @return the list
+     */
+    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GeneroDTO generoDTO, int numElements,
+            Integer numeroPagina);
 
 }

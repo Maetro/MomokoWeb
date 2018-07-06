@@ -16,7 +16,7 @@ import com.momoko.es.api.dto.SagaDTO;
 /**
  * The Class ObtenerPaginaSagaNoticiasResponse.
  */
-public class ObtenerPaginaSagaNoticiasResponse implements Serializable {
+public class ObtenerPaginaSagaColeccionResponse implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 318745796338010279L;
@@ -25,7 +25,7 @@ public class ObtenerPaginaSagaNoticiasResponse implements Serializable {
     private SagaDTO saga;
 
     /** The tres ultimas entradas. */
-    private List<EntradaSimpleDTO> noticias;
+    private List<EntradaSimpleDTO> entradas;
 
     /** The numero entradas. */
     private Integer numeroEntradas;
@@ -57,8 +57,8 @@ public class ObtenerPaginaSagaNoticiasResponse implements Serializable {
      *
      * @return the noticias
      */
-    public List<EntradaSimpleDTO> getNoticias() {
-        return this.noticias;
+    public List<EntradaSimpleDTO> getEntradas() {
+        return this.entradas;
     }
 
     /**
@@ -67,8 +67,8 @@ public class ObtenerPaginaSagaNoticiasResponse implements Serializable {
      * @param noticias
      *            the new noticias
      */
-    public void setNoticias(final List<EntradaSimpleDTO> noticias) {
-        this.noticias = noticias;
+    public void setEntradas(final List<EntradaSimpleDTO> entradas) {
+        this.entradas = entradas;
     }
 
     /**

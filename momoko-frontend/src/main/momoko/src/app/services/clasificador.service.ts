@@ -9,7 +9,7 @@ import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPagi
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
 import { ObtenerPaginaRedactorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
 import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
-import { ObtenerPaginaNoticiasSagaResponse } from '../dtos/response/obtenerPaginaNoticiasSagaResponse';
+import { ObtenerPaginaColeccionSagaResponse } from '../dtos/response/obtenerPaginaSagaColeccionResponse';
 
 
 @Injectable()
@@ -25,6 +25,7 @@ export class ClasificadorService {
   getEditorUrl = environment.getEditorUrl;
   getEditorialUrl = environment.getEditorialUrl;
   getNoticiasSagaUrl = environment.getNoticiasSagaUrl;
+  getMiscelaneosSagaUrl = environment.getMiscelaneosSagaUrl;
 
 
   constructor(private http: HttpClient) { }
@@ -166,24 +167,41 @@ export class ClasificadorService {
     return res;
   }
 
-  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaNoticiasSagaResponse> {
+  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaColeccionSagaResponse> {
     if (this.log) {
       console.log(urlEditorial);
     }
-    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaColeccionResponse)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaNoticiasSagaResponse> {
+  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaColeccionSagaResponse> {
     if (this.log) {
       console.log(urlEditorial);
     }
-    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
-      .map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
+      .map(this.obtenerObtenerPaginaSagaColeccionResponse)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerObtenerPaginaSagaNoticiasResponse(res: ObtenerPaginaNoticiasSagaResponse) {
+  getPaginaMiscelaneosSaga(urlEditorial): Observable<ObtenerPaginaColeccionSagaResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getMiscelaneosSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaColeccionResponse)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getPaginaMiscelaneosSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaColeccionSagaResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getMiscelaneosSagaUrl + urlEditorial + '/' + numeroPagina)
+      .map(this.obtenerObtenerPaginaSagaColeccionResponse)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerObtenerPaginaSagaColeccionResponse(res: ObtenerPaginaColeccionSagaResponse) {
     return res;
   }
 
