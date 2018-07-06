@@ -6,13 +6,10 @@
  */
 package com.momoko.es.backend.model.facade;
 
-import com.momoko.es.api.dto.*;
-import com.momoko.es.api.dto.response.*;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.errores.*;
-import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
-import com.momoko.es.backend.model.service.*;
-import com.momoko.es.util.MomokoUtils;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +18,59 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import com.momoko.es.api.dto.CategoriaDTO;
+import com.momoko.es.api.dto.EditorialDTO;
+import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.EntradaUrlDTO;
+import com.momoko.es.api.dto.GaleriaDTO;
+import com.momoko.es.api.dto.GeneroDTO;
+import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.PuntuacionDTO;
+import com.momoko.es.api.dto.RedactorDTO;
+import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
+import com.momoko.es.api.dto.response.GuardarEditorialResponse;
+import com.momoko.es.api.dto.response.GuardarEntradaResponse;
+import com.momoko.es.api.dto.response.GuardarGaleriaResponse;
+import com.momoko.es.api.dto.response.GuardarGeneroResponse;
+import com.momoko.es.api.dto.response.GuardarLibroResponse;
+import com.momoko.es.api.dto.response.GuardarRedactorResponse;
+import com.momoko.es.api.dto.response.GuardarSagaResponse;
+import com.momoko.es.api.dto.response.InformacionGeneralResponse;
+import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
+import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
+import com.momoko.es.api.enums.errores.ErrorCreacionRedactor;
+import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
+import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
+import com.momoko.es.backend.model.service.EditorialService;
+import com.momoko.es.backend.model.service.EntradaService;
+import com.momoko.es.backend.model.service.GaleriaService;
+import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.HerramientasService;
+import com.momoko.es.backend.model.service.LibroService;
+import com.momoko.es.backend.model.service.PuntuacionService;
+import com.momoko.es.backend.model.service.SagaService;
+import com.momoko.es.backend.model.service.UserService;
+import com.momoko.es.backend.model.service.ValidadorService;
+import com.momoko.es.util.MomokoUtils;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es" })
+@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4000", "https://www.momoko.es" })
 @RequestMapping(path = "/modelo")
 public class ModeloController {
 
@@ -61,6 +103,9 @@ public class ModeloController {
     @Autowired(required = false)
     private UserService userService;
 
+    @Autowired(required = false)
+    private HerramientasService herramientasService;
+
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
         log.debug("Llamada a la lista de libros");
@@ -76,6 +121,13 @@ public class ModeloController {
     public @ResponseBody List<RedactorDTO> getAllRedactores() {
         final List<RedactorDTO> redactores = this.userService.obtenerRedactoresMomoko();
         return redactores;
+    }
+
+    @GetMapping(path = "/entradasUrls")
+    public @ResponseBody List<EntradaUrlDTO> getAllUrls() {
+        List<EntradaUrlDTO> urls = new ArrayList<EntradaUrlDTO>();
+        urls = this.herramientasService.obtenerUrlsOrdenadasPorLongitud();
+        return urls;
     }
 
     @GetMapping(path = "/editoriales")
@@ -111,7 +163,7 @@ public class ModeloController {
             }
         }
 
-        if (libroDTO.getNotaMomoko() != null && libro != null) {
+        if ((libroDTO.getNotaMomoko() != null) && (libro != null)) {
             final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
             puntuacionDTO.setValor(libroDTO.getNotaMomoko());
             puntuacionDTO.setComentario(libroDTO.getComentarioNotaMomoko());
@@ -156,7 +208,7 @@ public class ModeloController {
                 listaErrores.add(ErrorCreacionSaga.ERROR_GUARDADO_SAGA);
             }
 
-            if (sagaDTO.getNotaSaga() != null && saga != null) {
+            if ((sagaDTO.getNotaSaga() != null) && (saga != null)) {
                 final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
                 puntuacionDTO.setValor(new BigDecimal(sagaDTO.getNotaSaga()));
                 puntuacionDTO.setEsPuntuacionMomoko(true);
@@ -240,7 +292,6 @@ public class ModeloController {
             }
         }
 
-
         respuesta.setRedactorDTO(redactorGuardado);
         respuesta.setListaErroresValidacion(listaErrores);
 
@@ -264,7 +315,7 @@ public class ModeloController {
 
         // Guardar
         EditorialDTO editorialGuardada = null;
-        String stackTrace = "";
+        final String stackTrace = "";
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
                 editorialGuardada = this.editorialService.guardarEditorial(editorialDTO);
@@ -289,7 +340,6 @@ public class ModeloController {
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
 
     }
-
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/galerias/add")
@@ -340,11 +390,13 @@ public class ModeloController {
         final List<String> libros = this.libroService.obtenerListaTitulosLibros();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
         final List<String> nicksEditores = this.userService.getNombresEditores();
+        final List<String> sagas = this.sagaService.getNombresSagas();
         respuesta.setNombresEditoriales(editoriales);
         respuesta.setTitulosLibros(libros);
         respuesta.setCategorias(categorias);
         respuesta.setNombresAutores(autores);
         respuesta.setNicksEditores(nicksEditores);
+        respuesta.setSagas(sagas);
         return new ResponseEntity<>(respuesta, HttpStatus.OK);
 
     }

@@ -12,15 +12,33 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.momoko.es.api.dto.*;
-import com.momoko.es.api.enums.errores.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import com.momoko.es.api.dto.ComentarioDTO;
+import com.momoko.es.api.dto.EditorialDTO;
+import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.dto.GaleriaDTO;
+import com.momoko.es.api.dto.GeneroDTO;
+import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.PuntuacionDTO;
+import com.momoko.es.api.dto.RedactorDTO;
+import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
+import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
 import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
+import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
+import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
+import com.momoko.es.api.enums.errores.ErrorCreacionRedactor;
+import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
+import com.momoko.es.api.enums.errores.ErrorPublicarComentario;
 import com.momoko.es.backend.model.service.ValidadorService;
 
 /**
@@ -103,7 +121,8 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
         if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideoONoticia(entradaDTO)
-                && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())) {
+                && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
+                && CollectionUtils.isEmpty(entradaDTO.getSagasEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
         if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {
@@ -217,7 +236,7 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorCreacionRedactor> validarRedactor(RedactorDTO redactorDTO) {
+    public List<ErrorCreacionRedactor> validarRedactor(final RedactorDTO redactorDTO) {
         final List<ErrorCreacionRedactor> listaErrores = new ArrayList<>();
         if (StringUtils.isEmpty(redactorDTO.getNombre())) {
             listaErrores.add(ErrorCreacionRedactor.FALTA_NOMBRE);
@@ -226,9 +245,9 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorCreacionEditorial> validarEditorial(EditorialDTO editorialDTO) {
+    public List<ErrorCreacionEditorial> validarEditorial(final EditorialDTO editorialDTO) {
         final List<ErrorCreacionEditorial> listaErrores = new ArrayList<>();
-        if (StringUtils.isEmpty(editorialDTO.getNombreEditorial())){
+        if (StringUtils.isEmpty(editorialDTO.getNombreEditorial())) {
             listaErrores.add(ErrorCreacionEditorial.FALTA_NOMBRE);
         }
         return listaErrores;

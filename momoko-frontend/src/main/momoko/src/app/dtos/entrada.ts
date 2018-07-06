@@ -1,7 +1,8 @@
+import { DatoEntrada } from './datoEntrada';
 import { Etiqueta } from './etiqueta';
 import { Libro } from './libro';
 import { Redactor } from './redactor';
-
+import { Saga } from './saga';
 
 export class Entrada {
   entradaId: number;
@@ -16,6 +17,7 @@ export class Entrada {
   permitirComentarios: boolean;
   padreEntrada: Entrada;
   librosEntrada: Libro[];
+  sagasEntrada: Saga[];
   numeroComentarios: number;
   etiquetas: Etiqueta[];
   orden: number;
@@ -32,4 +34,5 @@ export class Entrada {
   urlMenuLibro: string;
   visitas: number;
   jsonLD: string;
+  datosEntrada: DatoEntrada[];
 }

@@ -1,3 +1,4 @@
+import { MiscelaneoSagaComponent } from './miscelaneo-saga/miscelaneo-saga.component';
 import { ComunesModule } from './../comunes/comunes.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -17,21 +18,34 @@ import { FormsModule } from '@angular/forms';
 // Import library module
 import { NgxJsonLdModule } from 'ngx-json-ld';
 import { RedactorInfoModule } from '../comun/redactor-info/redactor-info.module';
+import { AnalisisSagaComponent } from './analisis-saga/analisis-saga.component';
+import { NoticiaSagaComponent } from './noticia-saga/noticia-saga.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ComunesModule,
     GrowlModule,
-    FormsModule,      
+    FormsModule,
     RedactorInfoModule,
     NgxJsonLdModule,
     RouterModule.forChild([
-      { path: '', component: EntradaComponent, pathMatch: 'full'}      
+      { path: '', component: EntradaComponent, pathMatch: 'full' }
     ])
   ],
-  declarations: [EntradaComponent, NoticiaComponent, AnalisisComponent, VideoComponent, MiscelaneoComponent, ZonaComentariosComponent, PlantillaComentarioComponent,
-    SatinizeHtmlPipe],
-    providers:[SatinizeHtmlPipe]
+  declarations: [
+    EntradaComponent,
+    NoticiaComponent,
+    NoticiaSagaComponent,
+    AnalisisComponent,
+    AnalisisSagaComponent,
+    VideoComponent,
+    MiscelaneoComponent,
+    MiscelaneoSagaComponent,
+    ZonaComentariosComponent,
+    PlantillaComentarioComponent,
+    SatinizeHtmlPipe
+  ],
+  providers: [SatinizeHtmlPipe]
 })
-export class EntradaModule { }
+export class EntradaModule {}

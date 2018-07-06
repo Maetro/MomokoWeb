@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.SagaEntity;
 
 /**
  * The Interface EntradaRepository.
@@ -80,7 +81,10 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      *            the libro entrada
      * @return the list
      */
-    List<EntradaEntity> findByLibrosEntradaIn(List<LibroEntity> librosEntrada);
+    List<EntradaEntity> findByLibrosEntradaIn(List<LibroEntity> librosEntrada, Pageable limit);
+    
+    @Query("select e from EntradaEntity e inner join e.sagasEntrada s where s.sagaId IN :sagaIds and e.fechaBaja IS NULL ORDER by e.fechaAlta DESC")
+    List<EntradaEntity> findBySagasEntradaIn(@Param("sagaIds") List<Integer> sagaIds, Pageable limit);
 
     /**
      * Find entrada miscelaneos anterior a fecha.

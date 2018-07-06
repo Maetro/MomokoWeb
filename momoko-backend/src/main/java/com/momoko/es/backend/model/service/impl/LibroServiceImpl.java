@@ -240,7 +240,7 @@ public class LibroServiceImpl implements LibroService {
         final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
         if (libroEntity != null) {
             final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                    .findByLibrosEntradaIn(Arrays.asList(libroEntity));
+                    .findByLibrosEntradaIn(Arrays.asList(libroEntity), new PageRequest(0, 4));
             Collections.sort(entradasRelacionadas);
             final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
                     true);
@@ -296,7 +296,7 @@ public class LibroServiceImpl implements LibroService {
             libroDTO.setEntradasLibro(listaDatosEntradas);
 
             if (libroEntity.getOrdenSaga() != null) {
-                libroDTO.setSaga(EntityToDTOAdapter.adaptarSaga(libroEntity.getSaga(), false));
+                libroDTO.setSaga(EntityToDTOAdapter.adaptarSaga(libroEntity.getSaga(), false, false));
             }
 
             respuesta.setLibro(libroDTO);
@@ -401,4 +401,5 @@ public class LibroServiceImpl implements LibroService {
     public BigDecimal obtenerPuntucionMomokoLibro(final String urlLibro) {
         return this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibroUrl(urlLibro);
     }
+
 }

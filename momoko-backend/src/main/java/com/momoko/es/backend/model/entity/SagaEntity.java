@@ -15,6 +15,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -75,6 +76,9 @@ public class SagaEntity {
 
     /** The domina libros. */
     private Boolean dominaLibros;
+
+    @ManyToMany(mappedBy = "sagasEntrada")
+    private List<EntradaEntity> entradas;
 
     /**
      * Anade el libro.
@@ -405,4 +409,12 @@ public class SagaEntity {
         this.dominaLibros = dominaLibros;
     }
 
+    public List<EntradaEntity> getEntradas() {
+		return entradas;
+	}
+    
+    public void setEntradas(List<EntradaEntity> entradas) {
+		this.entradas = entradas;
+	}
+    
 }

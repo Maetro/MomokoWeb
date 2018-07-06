@@ -43,8 +43,8 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
         final StringBuilder buider = new StringBuilder();
         if (!ArrayUtils.isEmpty(files)) {
             for (final MultipartFile multipartFile : files) {
-                this.storageService.store(multipartFile, tipoSubida);
-                buider.append("You successfully uploaded " + multipartFile.getOriginalFilename() + " \n");
+                final String finalFileName = this.storageService.store(multipartFile, tipoSubida);
+                buider.append(finalFileName);
             }
         }
         final StringResponseDTO response = new StringResponseDTO(buider.toString());

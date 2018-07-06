@@ -1,3 +1,4 @@
+import { GestionUrlsModule } from './gestion/gestion-urls/gestion-urls.module';
 import { GestionRedactoresModule } from './gestion/gestion-redactores/gestion-redactores.module';
 import { AdminComponent } from './admin/admin.component';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,6 +50,7 @@ import { GestionEditorialesModule } from './gestion/gestion-editoriales/gestion-
     GestionGaleriasModule,
     GestionRedactoresModule,
     GestionEditorialesModule,
+    GestionUrlsModule,
     ContenidoModule,
     routing,
     AppLoadModule,

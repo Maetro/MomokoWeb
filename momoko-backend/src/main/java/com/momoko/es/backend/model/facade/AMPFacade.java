@@ -39,12 +39,14 @@ import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.configuration.MomokoConfiguracion;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
+import com.momoko.es.backend.model.service.SagaService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.util.JsonLDUtils;
 
@@ -58,6 +60,9 @@ public class AMPFacade {
 
     @Autowired
     private LibroService libroService;
+
+    @Autowired
+    private SagaService sagaService;
 
     @Autowired
     private EntradaService entradaService;
@@ -84,15 +89,27 @@ public class AMPFacade {
             content = readFile(this.almacenImagenes.getTemplateFolder() + "/" + "analisis.html",
                     StandardCharsets.UTF_8);
             final EntradaDTO analisis = this.libroService.obtenerAnalisisLibro(urlLibro);
-            final LibroDTO libro = analisis.getLibrosEntrada().iterator().next();
-            final BigDecimal puntuacion = this.libroService.obtenerPuntucionMomokoLibro(libro.getUrlLibro());
-            final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libro, analisis, puntuacion);
+            if (CollectionUtils.isNotEmpty(analisis.getLibrosEntrada())) {
+                final LibroDTO libro = analisis.getLibrosEntrada().iterator().next();
+                final BigDecimal puntuacion = this.libroService.obtenerPuntucionMomokoLibro(libro.getUrlLibro());
+                final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libro, analisis, puntuacion);
+                content = replaceTagInContent("${jsonLD}", jsonLD, content);
+                content = replaceTagInContent("${related}", generarRelated(libro), content);
+                content = replaceTagInContent("${meta-titulo}", "Análisis de " + libro.getTitulo(), content);
+            }
+            if (CollectionUtils.isNotEmpty(analisis.getSagasEntrada())) {
+                final SagaDTO saga = analisis.getSagasEntrada().iterator().next();
+                final BigDecimal puntuacion = this.sagaService.obtenerPuntucionMomokoSaga(saga.getUrlSaga());
+                final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(saga, analisis, puntuacion);
+                content = replaceTagInContent("${jsonLD}", jsonLD, content);
+                content = replaceTagInContent("${related}", generarRelated(saga), content);
+            }
             content = replaceTagInContent("${menu}", generarMenu(), content);
-            content = replaceTagInContent("${jsonLD}", jsonLD, content);
+
             content = replaceTagInContent("${titulo}", analisis.getTituloEntrada(), content);
             content = replaceTagInContent("${autor}", analisis.getEditorNombre(), content);
             content = replaceTagInContent("${resumen}", analisis.getResumenEntrada(), content);
-            content = replaceTagInContent("${related}", generarRelated(libro), content);
+
             content = replaceTagInContent("${urlCanonical}", "https://momoko.es/analisis/" + analisis.getUrlEntrada(),
                     content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(analisis.getImagenDestacada(), 1280, 768,
@@ -115,7 +132,6 @@ public class AMPFacade {
             }
             content = replaceTagInContent("${contenido}", body, content);
 
-            content = replaceTagInContent("${meta-titulo}", "Análisis de " + libro.getTitulo(), content);
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -347,6 +363,11 @@ public class AMPFacade {
         }
 
         return builder.toString();
+    }
+
+    private String generarRelated(final SagaDTO saga) {
+        // TODO
+        return null;
     }
 
     private String replaceTagInContent(final String tag, final String with, final String content) {

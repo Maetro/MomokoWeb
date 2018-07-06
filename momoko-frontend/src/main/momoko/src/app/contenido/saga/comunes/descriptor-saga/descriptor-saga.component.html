@@ -1,0 +1,23 @@
+<div class="col-sm-4 text-center sagasizquierda">
+    <!-- titulo saga -->
+    <header class="section-header section-header--center">
+        <h2 class="section-title">
+            Saga </h2>
+    </header>
+    <img src="{{saga.imagenSaga}}" alt="Imagen Destacada - {{saga.nombreSaga}} ">
+    <h2 class="separatop25"> {{saga.nombreSaga}} </h2>
+    <h4 class="autor_libro"> {{saga.numeroVolumenes}} tomos -
+        <span *ngIf="saga.estaTerminada">
+            <span *ngIf="saga.tipoSaga == 'Saga'">Saga completa </span>
+            <span *ngIf="saga.tipoSaga == 'Coleccion'">Colección completa </span>
+        </span>
+        <span *ngIf="!saga.estaTerminada">
+            <span *ngIf="saga.tipoSaga == 'Saga'">Saga incompleta </span>
+            <span *ngIf="saga.tipoSaga == 'Coleccion'">Colección incompleta </span>
+        </span>
+    </h4>
+    <p class="separatop15"> {{saga.resumen}} </p>
+    <a *ngIf="urlAnalisis" routerLink="{{urlAnalisis}}" title="Análisis saga {{saga.nombreSaga}}" class="btn">
+        <i class="fa fa-eye"></i>Ver análisis saga </a>
+
+</div>

@@ -1,7 +1,7 @@
+import { environment } from './../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { environment } from '../../environments/environment';
 import { ObtenerPaginaGeneroResponse } from '../dtos/response/obtenerPaginaGeneroResponse';
 import { ObtenerPaginaCategoriaResponse } from '../dtos/response/obtenerPaginaCategoriaResponse';
 import { ObtenerPaginaEtiquetaResponse } from '../dtos/response/obtenerPaginaEtiquetaResponse';
@@ -9,6 +9,7 @@ import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPagi
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
 import { ObtenerPaginaRedactorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
 import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
+import { ObtenerPaginaNoticiasSagaResponse } from '../dtos/response/obtenerPaginaNoticiasSagaResponse';
 
 
 @Injectable()
@@ -23,6 +24,7 @@ export class ClasificadorService {
   getBusquedaUrl = environment.getBusquedaUrl;
   getEditorUrl = environment.getEditorUrl;
   getEditorialUrl = environment.getEditorialUrl;
+  getNoticiasSagaUrl = environment.getNoticiasSagaUrl;
 
 
   constructor(private http: HttpClient) { }
@@ -161,6 +163,27 @@ export class ClasificadorService {
   }
 
   private obtenerEditorialDeRespuesta(res: ObtenerPaginaEditorialResponse) {
+    return res;
+  }
+
+  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaNoticiasSagaResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaNoticiasSagaResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
+      .map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerObtenerPaginaSagaNoticiasResponse(res: ObtenerPaginaNoticiasSagaResponse) {
     return res;
   }
 

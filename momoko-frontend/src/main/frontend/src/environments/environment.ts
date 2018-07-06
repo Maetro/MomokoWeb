@@ -9,10 +9,10 @@ export const environment = {
   log: true,
 
   // URLS app
-  momokoUrl: 'http://localhost:4200/',
+  momokoUrl: 'http://localhost:4000/',
   serverUrl: 'http://localhost:5000/',
   uploadUrl: 'http://localhost:5000/modelo/upload',
-  urlFiles: 'http://localhost/images/',
+  urlFiles: 'http://momoko.local/images/',
   entradasUrl: 'http://localhost:5000/modelo/entradas',
   librosUrl: 'http://localhost:5000/modelo/libros',
   generosUrl: 'http://localhost:5000/modelo/generos',
@@ -45,4 +45,5 @@ export const environment = {
   addRedactorUrl: 'http://localhost:5000/modelo/redactor/add',
   editorialesUrl: 'http://localhost:5000/modelo/editoriales',
   addEditorialUrl: 'http://localhost:5000/modelo/editorial/add',
+  getEntradasUrl: 'http://localhost:5000/modelo/entradasUrls'
 };

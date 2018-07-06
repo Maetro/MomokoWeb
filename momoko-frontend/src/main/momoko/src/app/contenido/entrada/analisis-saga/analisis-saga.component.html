@@ -1,0 +1,154 @@
+<ngx-json-ld [json]="schema"></ngx-json-ld>
+<div class="parallax page-title inverse-wrapper parallax2 custombackground" [ngStyle]="{background: 'url(' + entrada.sagasEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
+    <div class="container inner">
+        <div class="generosLibro">
+            <span *ngFor="let genero of entrada.sagasEntrada[0].generos, let last = last;">{{genero.nombre}}
+                <span [hidden]="last">, </span>
+            </span>
+        </div>
+    </div>
+</div>
+<app-menu-interno-saga [saga]="entrada.sagasEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-saga>
+<div class="light-wrapper">
+    <div class="container inner">
+        <div class="blog row">
+            <div class="col-md-8">
+                <img src="{{entrada.imagenDestacada}}" alt="Imágen destacada - {{entrada.tituloEntrada}}" title="Imágen destacada - {{entrada.tituloEntrada}}"
+                />
+            </div>
+            <div class="col-md-4">
+                <div class="dark-wrapper bloqueInfoLibro">
+                    <div class="bloqueNota" *ngIf="entrada.sagasEntrada[0].notaSaga">
+                        <app-nota-circular [nota]="entrada.sagasEntrada[0].notaSaga"></app-nota-circular>
+                    </div>
+                    <div class="bloqueDatos">
+                        <div class="datos autor" *ngIf="entrada.sagasEntrada[0].nombreSaga">
+                            <b>Título:
+                                <span class="info">{{entrada.sagasEntrada[0].nombreSaga}}</span>
+                            </b>
+                        </div>
+                        <div class="datos autor" *ngIf="entrada.sagasEntrada[0].numeroVolumenes">
+                            <b>Número volúmenes:
+                                <span class="info">{{entrada.sagasEntrada[0].numeroVolumenes}}</span>
+                            </b>
+                        </div>
+                        <div class="datos autor" *ngIf="autores">
+                            <b>Autor:
+                                <span class="info">{{autores}}</span>
+                            </b>
+                        </div>
+                        <div class="datos autor" *ngIf="entrada.sagasEntrada[0].tipoSaga">
+                            <b>Tipo saga:
+                                <span class="info">{{entrada.sagasEntrada[0].tipoSaga}}</span>
+                            </b>
+                        </div>
+                        <div class="datos numPaginas">
+                            <ng-container *ngIf="entrada.sagasEntrada[0].tipoSaga == 'Saga'">
+                                <span class="info" *ngIf="entrada.sagasEntrada[0].estaTerminada">Saga completa</span>
+                                <span class="info" *ngIf="!entrada.sagasEntrada[0].estaTerminada">Saga incompleta</span>
+                            </ng-container>
+                            <ng-container *ngIf="entrada.sagasEntrada[0].tipoSaga == 'Coleccion'">
+                                <span class="info" *ngIf="entrada.sagasEntrada[0].estaTerminada">Colección completa</span>
+                                <span class="info" *ngIf="!entrada.sagasEntrada[0].estaTerminada">Colección incompleta</span>
+                            </ng-container>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="!entrada.tieneGaleria">
+            <div class="contenidoEntrada">
+                <div class="col-md-8">
+
+                    <div class="tituloEntrada">
+                        <h1>{{entrada.tituloEntrada}}</h1>
+                    </div>
+                    <div class="infoEntrada">
+                        Análisis de
+                        <span class="autorEntrada">
+                            <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+                        </span>
+                        <span class="generosText">Género
+                            <span *ngFor="let genero of entrada.sagasEntrada[0].generos, let last = last;">
+                                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+                                <span [hidden]="last">, </span>
+                            </span>
+                        </span>
+                        <span class="editorialText">Editorial
+                            <span class="autorEntrada">
+                                <a routerLink="/editorial/{{entrada.sagasEntrada[0].editorial.urlEditorial}}">{{entrada.sagasEntrada[0].editorial.nombreEditorial}}</a>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
+                    </div>
+                    <div class="infoEntrada">
+
+                        <span class="lineaHorizontalCorta"></span>
+                        <span class="etiquetasText">Etiquetas
+                            <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+                                <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                                <span [hidden]="last">, </span>
+                            </span>
+                        </span>
+                    </div>
+
+                    <hr/>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="section-title"> Análisis de </h2>
+                            <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
+                        </div>
+                    </div>
+                    <hr/>
+                    <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
+
+                    <div class="row">
+                        <app-mobile-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-mobile-sidebar>
+                    </div>
+                </div>
+                <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
+            </div>
+
+        </div>
+        <div class="row" *ngIf="entrada.tieneGaleria">
+            <div class="col-md-12">
+                <div class="contenidoEntrada">
+                    <div class="tituloEntrada">
+                        <h1>{{entrada.tituloEntrada}}</h1>
+                    </div>
+                    <div class="infoEntrada">
+                        Análisis de
+                        <span class="autorEntrada">
+                            <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+                        </span>
+                        <span class="generosText">Género
+                            <span *ngFor="let genero of entrada.sagasEntrada[0].generos, let last = last;">
+                                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+                                <span [hidden]="last">, </span>
+                            </span>
+                        </span>
+                    </div>
+                    <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
+                    </div>
+                    <div class="infoEntrada">
+
+                        <span class="lineaHorizontalCorta"></span>
+                        <span class="etiquetasText">Etiquetas
+                            <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+                                <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
+                                <span [hidden]="last">, </span>
+                            </span>
+                        </span>
+                    </div>
+
+                    <!-- <app-sobre-autor [autor]="entrada.autor"></app-sobre-autor> -->
+                    <!-- <app-sobre-autor *ngIf="entrada.autor"  [autor]="entrada.autor"></app-sobre-autor> -->
+
+                    <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

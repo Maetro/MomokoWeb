@@ -1,5 +1,12 @@
 import { environment } from './../../../../environments/environment';
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild
+} from '@angular/core';
 import { Galeria } from 'app/dtos/galeria';
 import { Message } from 'primeng/primeng';
 import { GaleriaService } from 'app/services/galeria.service';
@@ -15,12 +22,12 @@ const NUM = 12;
   styleUrls: ['./galeria-detail.component.css']
 })
 export class GaleriaDetailComponent implements OnInit {
-
   private log = environment.log;
 
   galeria: Galeria;
 
-  @Input() set _galeria(value: Galeria) {
+  @Input()
+  set _galeria(value: Galeria) {
     this.galeria = value;
     if (value != null) {
       if (value.galeriaId != null) {
@@ -30,8 +37,8 @@ export class GaleriaDetailComponent implements OnInit {
     }
   }
 
-  @Output() onGaleriaGuardado: EventEmitter<Galeria> = new EventEmitter<Galeria>();
-
+  @Output()
+  onGaleriaGuardado: EventEmitter<Galeria> = new EventEmitter<Galeria>();
 
   changeLog: string[] = [];
 
@@ -47,35 +54,37 @@ export class GaleriaDetailComponent implements OnInit {
 
   urlImageServer = environment.urlFiles;
 
-  constructor(private galeriaService: GaleriaService, private fileUploadService: FileUploadService,
-    private generalDataService: GeneralDataService, private util: UtilService) {
-  }
+  constructor(
+    private galeriaService: GaleriaService,
+    private fileUploadService: FileUploadService,
+    private generalDataService: GeneralDataService,
+    private util: UtilService
+  ) {}
 
   ngOnInit(): void {
-
-    this.generalDataService.getInformacionGeneral().subscribe(datos => {
-      if (this.log) {
-        console.log('Init info general');
-      }
-    },
+    this.generalDataService.getInformacionGeneral().subscribe(
+      datos => {
+        if (this.log) {
+          console.log('Init info general');
+        }
+      },
       error => {
         if (this.log) {
           console.log('Error al recuperar los datos generales ', error);
         }
-      });
+      }
+    );
   }
 
-
   guardarGaleria(): void {
-    this.galeriaService.guardarGaleria(this.galeria)
-      .subscribe(res => {
-        if (res.estadoGuardado === 'CORRECTO') {
-          this.showSuccess('Género guardado correctamente');
-          this.onGaleriaGuardado.emit(this.galeria);
-        } else {
-          this.showError(res.listaErroresValidacion);
-        }
-      });
+    this.galeriaService.guardarGaleria(this.galeria).subscribe(res => {
+      if (res.estadoGuardado === 'CORRECTO') {
+        this.showSuccess('Género guardado correctamente');
+        this.onGaleriaGuardado.emit(this.galeria);
+      } else {
+        this.showError(res.listaErroresValidacion);
+      }
+    });
   }
 
   showSuccess(mensaje: string) {
@@ -87,28 +96,34 @@ export class GaleriaDetailComponent implements OnInit {
   }
 
   fileChangeCabecera($event, $i): void {
-    this.fileUploadService.fileChange($event, 'cabeceras-galerias').subscribe
-      (urlImagenNueva => {
+    this.fileUploadService.fileChange($event, 'cabeceras-galerias').subscribe(
+      urlImagenNueva => {
         // Emit list event
         if (this.log) {
           console.log(urlImagenNueva);
         }
         const partesURL = urlImagenNueva.split('/');
         const partes = partesURL[partesURL.length - 1].split('.');
-        const urlImagen = this.urlImageServer + 'cabeceras-galerias/' + this.util.convertToSlug(partes[0]) + '.' + partes[1];
+        const urlImagen =
+          this.urlImageServer +
+          'cabeceras-galerias/' +
+          this.util.convertToSlug(partes[0]) +
+          '.' +
+          partes[1];
         this.showSuccess('Imagen guardada correctamente');
         this.galeria.imagenes[$i] = urlImagen;
+        this.anadirImagenesSubidasEnBloque($event);
       },
       err => {
         // Log errors if any
         if (this.log) {
           console.log(err);
         }
-      });
+      }
+    );
   }
 
   multipleFileChangeCabecera($event): void {
-
     if (this.log) {
       console.log('Subiendo bloque');
     }
@@ -116,19 +131,17 @@ export class GaleriaDetailComponent implements OnInit {
     $event.files.forEach(file => {
       const temp = {
         files: []
-      }
+      };
       temp.files.push(file);
       if (this.log) {
         console.log(file);
       }
       this.fileChangeCabecera(temp, num);
-      num++
+      num++;
     });
     if (this.log) {
       console.log('Actualizando imagenes');
     }
-    this.anadirImagenesSubidasEnBloque($event);
-
   }
   //   this.fileUploadService.fileChange($event, 'cabeceras-galerias').subscribe
   //     (urlImagenNueva => {
@@ -151,23 +164,31 @@ export class GaleriaDetailComponent implements OnInit {
     if (numeroHuecos < numeroFicheros) {
       let $numeroFilas = this.numeroFilas;
 
-      while (($numeroFilas * this.galeria.columnas) < numeroFicheros) {
+      while ($numeroFilas * this.galeria.columnas < numeroFicheros) {
         $numeroFilas++;
       }
       this.numeroFilas = $numeroFilas;
     }
     $event.files.forEach(fichero => {
-
-      if (this.log) { console.log('Divididiendo'); }
+      if (this.log) {
+        console.log('Divididiendo');
+      }
       const partes = fichero.name.split('.');
 
-      const urlImagen = this.urlImageServer + 'cabeceras-galerias/' + this.util.convertToSlug(partes[0]) + '.' + partes[1];
-      if (this.galeria.imagenes[$i] == null || this.galeria.imagenes[$i] === '') {
+      const urlImagen =
+        this.urlImageServer +
+        'cabeceras-galerias/' +
+        this.util.convertToSlug(partes[0]) +
+        '.' +
+        partes[1];
+      if (
+        this.galeria.imagenes[$i] == null ||
+        this.galeria.imagenes[$i] === ''
+      ) {
         this.galeria.imagenes[$i] = urlImagen;
       }
       $i++;
     });
-
   }
 
   calcularNumeroHuecos(imagenes: string[]) {
@@ -192,7 +213,11 @@ export class GaleriaDetailComponent implements OnInit {
     if (this.log) {
       console.log(mensajeTotal);
     }
-    this.msgs.push({ severity: 'error', summary: 'ERROR', detail: mensajeTotal });
+    this.msgs.push({
+      severity: 'error',
+      summary: 'ERROR',
+      detail: mensajeTotal
+    });
   }
 
   urlChange(newValue: string) {
@@ -201,7 +226,9 @@ export class GaleriaDetailComponent implements OnInit {
 
   cambioNombre(newValue: string) {
     if (!this.customURL) {
-      this.galeria.urlGaleria = encodeURIComponent(this.util.convertToSlug(newValue));
+      this.galeria.urlGaleria = encodeURIComponent(
+        this.util.convertToSlug(newValue)
+      );
     }
   }
 
@@ -232,12 +259,23 @@ export class GaleriaDetailComponent implements OnInit {
         this.bootstrapcolumn = 'col-sm-12';
     }
 
-    if ((this.galeria.columnas * this.numeroFilas) > this.galeria.imagenes.length) {
-      for (let imagenNumero = this.galeria.imagenes.length; imagenNumero < (this.galeria.columnas * this.numeroFilas); imagenNumero++) {
+    if (
+      this.galeria.columnas * this.numeroFilas >
+      this.galeria.imagenes.length
+    ) {
+      for (
+        let imagenNumero = this.galeria.imagenes.length;
+        imagenNumero < this.galeria.columnas * this.numeroFilas;
+        imagenNumero++
+      ) {
         this.galeria.imagenes.push('');
       }
     } else {
-      for (let imagenNumero = this.galeria.imagenes.length; imagenNumero > (this.galeria.columnas * this.numeroFilas); imagenNumero--) {
+      for (
+        let imagenNumero = this.galeria.imagenes.length;
+        imagenNumero > this.galeria.columnas * this.numeroFilas;
+        imagenNumero--
+      ) {
         this.galeria.imagenes.pop();
       }
     }

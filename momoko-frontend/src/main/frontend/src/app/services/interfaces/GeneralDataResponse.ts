@@ -6,4 +6,5 @@ export interface GeneralDataResponse {
   titulosLibros: string[];
   nicksEditores: string[];
   categorias: Categoria[];
+  sagas: string[];
 }

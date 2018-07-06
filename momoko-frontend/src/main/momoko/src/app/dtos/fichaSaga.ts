@@ -7,6 +7,7 @@ import { Saga } from './saga';
 export class FichaSaga {
   saga: Saga;
   tresUltimasEntradas: EntradaSimple[];
+  tresUltimasEntradasLibros: EntradaSimple[];
   librosSaga: Libro[];
   cincoLibrosParecidos: LibroSimple[];
 }

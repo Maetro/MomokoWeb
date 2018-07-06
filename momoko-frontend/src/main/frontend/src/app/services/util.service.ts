@@ -3,23 +3,24 @@ import { environment } from 'environments/environment';
 
 @Injectable()
 export class UtilService {
-
   private log = environment.log;
 
-  constructor() { }
+  constructor() {}
 
   convertToSlug(text: string) {
     text = text.trim();
-    const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/_,:;';
-    const to = 'aaaaaeeeeeiiiiooooouuuunc------';
+    const from = 'ãàáäâẽèéëêìíïîõòóöôùúüûñç·/,:;';
+    const to = 'aaaaaeeeeeiiiiooooouuuunc-----';
     for (let i = 0, l = from.length; i < l; i++) {
       text = text.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i));
     }
-
     return text
+      .toString()
       .toLowerCase()
-      .replace(/[^\w ]+/g, '')
-      .replace(/ +/g, '-')
-      ;
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, '');
   }
 }

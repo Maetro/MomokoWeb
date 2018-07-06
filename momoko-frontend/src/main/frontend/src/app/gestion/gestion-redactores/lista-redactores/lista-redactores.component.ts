@@ -1,3 +1,5 @@
+import { EntradaUrl } from './../../../dtos/entradaurl';
+import { HerramientasService } from './../../../services/herramientas.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Redactor } from 'app/dtos/redactor';
@@ -11,7 +13,6 @@ import { RedactorService } from 'app/services/redactor.service';
   styleUrls: ['./lista-redactores.component.css']
 })
 export class ListaRedactoresComponent implements OnInit {
-
   private log = environment.log;
 
   loading: boolean;
@@ -20,14 +21,17 @@ export class ListaRedactoresComponent implements OnInit {
   redactores: Redactor[];
   selectedRedactor: Redactor;
 
-  @ViewChild(RedactorDetailComponent) redactorDetailComponent: RedactorDetailComponent;
+  @ViewChild(RedactorDetailComponent)
+  redactorDetailComponent: RedactorDetailComponent;
 
-  constructor(private redactorService: RedactorService, private fileUploadService: FileUploadService) {
+  constructor(
+    private redactorService: RedactorService,
+    private fileUploadService: FileUploadService
+  ) {
     if (this.log) {
       console.log('Builder ListaRedactoresComponent');
     }
     this.redactores = [];
-
   }
 
   getGeneros(): void {
@@ -38,17 +42,16 @@ export class ListaRedactoresComponent implements OnInit {
       redactores.forEach(redactor => {
         this.redactores = [...this.redactores, redactor];
       });
-
     });
   }
 
   ngOnInit(): void {
     if (this.log) {
-      console.log('ngOnInit Lista getRedactores')
+      console.log('ngOnInit Lista getRedactores');
     }
     this.loading = true;
     this.redactorService.getRedactores().subscribe(generosP => {
-      const redactoresList = generosP
+      const redactoresList = generosP;
       redactoresList.forEach(redactor => {
         this.redactores = [...this.redactores, redactor];
       });
@@ -68,7 +71,7 @@ export class ListaRedactoresComponent implements OnInit {
       console.log('nuevoRedactor');
     }
     this.selectedRedactor = null;
-    const redactor = new Redactor;
+    const redactor = new Redactor();
     this.selectedRedactor = redactor;
   }
 
@@ -101,5 +104,4 @@ export class ListaRedactoresComponent implements OnInit {
       console.log('onRowSelect');
     }
   }
-
 }

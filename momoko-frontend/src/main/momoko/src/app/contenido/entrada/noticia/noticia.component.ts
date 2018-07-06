@@ -53,8 +53,7 @@ export class NoticiaComponent implements OnInit, AfterViewInit {
     this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva });
     this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada });
     if (this.entrada.librosEntrada != null && this.entrada.librosEntrada.length > 0){
-      this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/libro/' + 
-      this.entrada.librosEntrada[0].urlLibro +'/noticia/' +  this.entrada.urlEntrada} );
+      this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/noticia/' +  this.entrada.urlEntrada} );
     } else {
       this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/' +  this.entrada.urlEntrada} );
     }

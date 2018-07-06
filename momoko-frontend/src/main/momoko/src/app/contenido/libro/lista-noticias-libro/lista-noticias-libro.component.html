@@ -107,13 +107,13 @@
                 <div class="col-sm-4">
                   <div class="entrada">
                     <figure class="entrada__image">
-                      <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                      <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
                         <span>
                           <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                         </span>
                       </a>
                       <div class="entrada__action">
-                        <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
+                        <a routerLink="/noticia/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
                           class="button buy-now" style="
                               font-size:11px;">
                           <span>Ver más información</span>
@@ -122,12 +122,12 @@
                     </figure>
                     <div class="entrada__detail">
                       <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
-                        <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                        <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
                       </h3>
                       <h4 class="entrada__autor">
                         {{entrada.nombreAutor}}
                       </h4>
-                      <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
+                      <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
                         Leer más
                       </a>
                     </div>
@@ -140,19 +140,19 @@
             <div class="row" *ngIf="enLista">
               <div class="categoriaEntradaLista" *ngFor="let entrada of noticias, let i = index; let first = first">
                 <div class="col-sm-4">
-                  <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}">
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}">
                     <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
                   </a>
                 </div>
                 <div class="col-sm-8">
-                  <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}">
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}">
                     <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
                   </a>
                   <span class="autor_libro"> {{entrada.nombreAutor}} </span>
 
                   <div class="descripcionlibro" [innerHTML]="entrada.resumen"> </div>
 
-                  <a routerLink="/libro/{{libro.urlLibro}}/noticia/{{entrada.urlEntrada}}" class="btn">Leer más </a>
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}" class="btn">Leer más </a>
                 </div>
                 <div class="clearfix"></div>
               </div>

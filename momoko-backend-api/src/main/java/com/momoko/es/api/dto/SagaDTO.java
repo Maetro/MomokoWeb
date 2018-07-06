@@ -8,6 +8,7 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -49,6 +50,9 @@ public class SagaDTO implements Serializable {
     /** The libros string. */
     private String librosString;
 
+    /** The entradas. */
+    private List<DatoEntradaDTO> entradasSaga;
+
     /* SOLO PARA LECTURA - NO NECESARIOS PARA GUARDADO */
 
     /** The libros saga. */
@@ -56,6 +60,15 @@ public class SagaDTO implements Serializable {
 
     /** The puntuaciones saga. */
     private List<PuntuacionDTO> puntuacionesSaga;
+
+    /** The genero id. */
+    private Set<GeneroDTO> generos;
+
+    /** The autor id. */
+    private Set<AutorDTO> autores;
+
+    /** The editorial. */
+    private EditorialDTO editorial;
 
     /**
      * Gets the saga id.
@@ -310,6 +323,38 @@ public class SagaDTO implements Serializable {
 
     public void setDominaLibros(final Boolean dominaLibros) {
         this.dominaLibros = dominaLibros;
+    }
+
+    public List<DatoEntradaDTO> getEntradasSaga() {
+        return this.entradasSaga;
+    }
+
+    public void setEntradasSaga(final List<DatoEntradaDTO> entradasSaga) {
+        this.entradasSaga = entradasSaga;
+    }
+
+    public Set<AutorDTO> getAutores() {
+        return this.autores;
+    }
+
+    public void setAutores(final Set<AutorDTO> autores) {
+        this.autores = autores;
+    }
+
+    public Set<GeneroDTO> getGeneros() {
+        return this.generos;
+    }
+
+    public void setGeneros(final Set<GeneroDTO> generos) {
+        this.generos = generos;
+    }
+
+    public EditorialDTO getEditorial() {
+        return this.editorial;
+    }
+
+    public void setEditorial(final EditorialDTO editorial) {
+        this.editorial = editorial;
     }
 
     @Override

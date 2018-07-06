@@ -1,4 +1,11 @@
-import { Component, OnInit, AfterViewInit, Input, PLATFORM_ID, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  PLATFORM_ID,
+  Inject
+} from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Entrada } from '../../../dtos/entrada';
 import { LibroSimple } from '../../../dtos/libroSimple';
@@ -14,16 +21,10 @@ declare var $: any;
   templateUrl: './analisis.component.html',
   styleUrls: ['./analisis.component.css']
 })
-
 export class AnalisisComponent implements OnInit, AfterViewInit {
-
   private log = environment.log;
 
   @Input() entrada: Entrada;
-
-  @Input() autores: string
-
-  @Input() titulo: string;
 
   @Input() librosParecidos: LibroSimple[];
 
@@ -31,10 +32,16 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
-  schema 
+  autores: string;
 
-  constructor(private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object,
-  private linkService: LinkService) { }
+  schema;
+
+  constructor(
+    private titleService: Title,
+    private metaService: Meta,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private linkService: LinkService
+  ) {}
 
   ngOnInit(): void {
     if (this.log) {
@@ -48,7 +55,8 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     });
     this.autores = this.autores.substring(0, this.autores.length - 2);
 
-    const metatituloPagina = 'Análisis libro - ' + this.entrada.librosEntrada[0].titulo;
+    const metatituloPagina =
+      'Análisis libro - ' + this.entrada.librosEntrada[0].titulo;
     this.titleService.setTitle(metatituloPagina);
     // Changing meta with name="description"
     const metadescripcion = this.entrada.fraseDescriptiva;
@@ -56,17 +64,33 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     const attributeSelector = 'name="description"';
     this.metaService.removeTag(attributeSelector);
     this.metaService.addTag(tag, false);
-    this.metaService.addTag({ name: 'og:type', content: 'article' })  
-    this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada })  
-    this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva })  
-    this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada })  
+    this.metaService.addTag({ name: 'og:type', content: 'article' });
+    this.metaService.addTag({
+      name: 'og:title',
+      content: this.entrada.tituloEntrada
+    });
+    this.metaService.addTag({
+      name: 'og:description',
+      content: this.entrada.fraseDescriptiva
+    });
+    this.metaService.addTag({
+      name: 'og:image',
+      content: this.entrada.imagenDestacada
+    });
     this.linkService.removeTag('rel=canonical');
-    this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/analisis/' + this.entrada.urlEntrada} );
+    this.linkService.addTag({
+      rel: 'canonical',
+      href: 'https://momoko.es/analisis/' + this.entrada.urlEntrada
+    });
     this.linkService.removeTag('rel=amphtml');
-    this.linkService.addTag( { rel: 'amphtml', href: 'https://momoko.es/amp/analisis/' + 
-    this.entrada.librosEntrada[0].urlLibro} );
+    this.linkService.addTag({
+      rel: 'amphtml',
+      href:
+        'https://momoko.es/amp/analisis/' +
+        this.entrada.librosEntrada[0].urlLibro
+    });
     this.schema = JSON.parse(this.entrada.jsonLD);
-  } 
+  }
 
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
@@ -102,22 +126,23 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
   }
 
   collage() {
-    $('#collage-large').removeWhitespace().collagePlus({
-      'fadeSpeed': 5000,
-      'targetHeight': 400,
-      'effect': 'effect-2',
-      'direction': 'vertical',
-      'allowPartialLastRow': true
-    });
-    $('#collage-medium').removeWhitespace().collagePlus({
-      'fadeSpeed': 5000,
-      'targetHeight': 300,
-      'effect': 'effect-2',
-      'direction': 'vertical',
-      'allowPartialLastRow': true
-    });
-  };
-
-
-
+    $('#collage-large')
+      .removeWhitespace()
+      .collagePlus({
+        fadeSpeed: 5000,
+        targetHeight: 400,
+        effect: 'effect-2',
+        direction: 'vertical',
+        allowPartialLastRow: true
+      });
+    $('#collage-medium')
+      .removeWhitespace()
+      .collagePlus({
+        fadeSpeed: 5000,
+        targetHeight: 300,
+        effect: 'effect-2',
+        direction: 'vertical',
+        allowPartialLastRow: true
+      });
+  }
 }

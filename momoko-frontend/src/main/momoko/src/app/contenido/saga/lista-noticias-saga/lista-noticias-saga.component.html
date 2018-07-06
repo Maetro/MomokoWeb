@@ -1,0 +1,55 @@
+<div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + saga.generos[0].imagenCabeceraGenero + ')'}">
+  <div class="container inner">
+    <h1 class="text-center">
+      <span *ngFor="let genero of saga.generos, let last = last;">{{genero.nombre}}
+        <span [hidden]="last">, </span>
+      </span>
+    </h1>
+  </div>
+</div>
+<app-menu-interno-saga [saga]="saga" [datosEntrada]="saga.entradasSaga" [parentType]="'NOTICIA'"></app-menu-interno-saga>
+<div class="light-wrapper">
+  <div class="container inner nopaddingbottom">
+    <div class="blog row">
+      <app-descriptor-saga [saga]="saga" [urlAnalisis]="urlAnalisis"></app-descriptor-saga>
+      <div class="col-md-8">
+        <div class="libroGenero" *ngFor="let entrada of noticias, let i = index; let first = first">
+          <div class="row bloqueNoticia">
+            <div class="col-sm-6">
+              <div class="entrada">
+                <figure class="entrada__image">
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                    <span>
+                      <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                    </span>
+                  </a>
+                  <div class="entrada__action">
+                    <a routerLink="/noticia/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}" class="button buy-now"
+                      style="
+                        font-size:11px;">
+                      <span>Ver más información</span>
+                    </a>
+                  </div>
+                </figure>
+
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="entrada__detail">
+                <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                </h3>
+                <div class="descripcionlibro" [innerHTML]="entrada.resumen"> </div>
+                <h4 class="entrada__autor">
+                  {{entrada.nombreAutor}}
+                </h4>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

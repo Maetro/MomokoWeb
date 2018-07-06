@@ -31,6 +31,9 @@ public class ObtenerFichaSagaResponse implements Serializable {
     /** The tres ultimas entradas. */
     private List<EntradaSimpleDTO> tresUltimasEntradas;
 
+    /** The tres ultimas entradas libros. */
+    private List<EntradaSimpleDTO> tresUltimasEntradasLibros;
+
     /** The cinco libros parecidos. */
     private List<LibroSimpleDTO> cincoLibrosParecidos;
 
@@ -108,6 +111,14 @@ public class ObtenerFichaSagaResponse implements Serializable {
      */
     public void setCincoLibrosParecidos(final List<LibroSimpleDTO> cincoLibrosParecidos) {
         this.cincoLibrosParecidos = cincoLibrosParecidos;
+    }
+
+    public List<EntradaSimpleDTO> getTresUltimasEntradasLibros() {
+        return this.tresUltimasEntradasLibros;
+    }
+
+    public void setTresUltimasEntradasLibros(final List<EntradaSimpleDTO> tresUltimasEntradasLibros) {
+        this.tresUltimasEntradasLibros = tresUltimasEntradasLibros;
     }
 
 }

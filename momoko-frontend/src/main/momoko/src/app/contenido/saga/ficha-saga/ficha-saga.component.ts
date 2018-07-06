@@ -6,6 +6,7 @@ import { FichaSaga } from '../../../dtos/fichaSaga';
 import { Saga } from '../../../dtos/saga';
 import { Libro } from '../../../dtos/libro';
 import { environment } from '../../../../environments/environment';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 
 @Component({
   selector: 'app-ficha-saga',
@@ -17,8 +18,10 @@ export class FichaSagaComponent implements OnInit {
 
   saga: Saga;
   librosSaga: Libro[];
-
+  entradas: EntradaSimple[];
+  entradasLibros: EntradaSimple[];
   mapaOrdinales = [];
+  urlAnalisis: string;
 
   constructor(
     private sagaService: SagaService,
@@ -31,7 +34,7 @@ export class FichaSagaComponent implements OnInit {
 
   ngOnInit() {
     if (this.log) {
-      console.log('Creando pagina de la entrada');
+      console.log('Creando pagina de la saga');
     }
     this.mapaOrdinales.push('Primer');
     this.mapaOrdinales.push('Segundo');
@@ -45,6 +48,8 @@ export class FichaSagaComponent implements OnInit {
     this.route.data.subscribe((data: { fichaSaga: FichaSaga }) => {
       this.saga = data.fichaSaga.saga;
       this.librosSaga = data.fichaSaga.librosSaga;
+      this.entradas = data.fichaSaga.tresUltimasEntradas;
+      this.entradasLibros = data.fichaSaga.tresUltimasEntradasLibros;
       this.librosSaga.sort(function(a, b) {
         if (a.ordenSaga < b.ordenSaga) {
           return -1;
@@ -91,11 +96,17 @@ export class FichaSagaComponent implements OnInit {
         name: 'og:image',
         content: this.saga.imagenSaga
       });
+      if (this.saga.entradasSaga) {
+        this.saga.entradasSaga.forEach(entrada => {
+          if (entrada.tipoEntrada === 2) {
+            this.urlAnalisis = '/analisis/' + entrada.urlEntrada;
+          }
+        });
+      }
     });
   }
 
   existeAnalisis(libro: Libro) {
-    console.log('existeAnalisis');
     let result = '';
     if (!libro.tieneAnalisis) {
       result = 'grayscale';

@@ -26,6 +26,7 @@ import com.momoko.es.api.datosestructurados.ReviewRating;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.SagaDTO;
 
 public class JsonLDUtils {
 
@@ -156,6 +157,66 @@ public class JsonLDUtils {
         final String text = dom.text();
 
         return text.split(" ").length;
+    }
+
+    public static String crearJsonLDAnalisis(final SagaDTO saga, final EntradaDTO entrada,
+            final BigDecimal puntuacion) {
+        final String jsonLDAnalisis = "";
+        // if ((saga != null) && (entrada != null)) {
+        //
+        // final BookReview bookReview = new BookReview();
+        // bookReview.setContext("http://schema.org");
+        // bookReview.setType("WebPage");
+        // bookReview.setName("Análisis saga - " + saga.getNombreSaga());
+        // bookReview.setUrl("https://momoko.es/analisis/" + entrada.getUrlEntrada());
+        //
+        // final BookMainEntity mainEntity = new BookMainEntity();
+        // mainEntity.setType("Collection");
+        //
+        // final String autoresString = MomokoUtils.generarAutoresString(libro);
+        // mainEntity.setAuthor(autoresString);
+        // if (libro.getAnoPublicacion() != null) {
+        // mainEntity.setDatePublished(libro.getAnoPublicacion().toString());
+        // }
+        // mainEntity.setImage("https://momoko.es/images/" + libro.getUrlImagen());
+        // mainEntity.setName(libro.getTitulo());
+        // if (libro.getNumeroPaginas() != null) {
+        // mainEntity.setNumberOfPages(libro.getNumeroPaginas().toString());
+        // }
+        // if (libro.getEditorial() != null) {
+        // mainEntity.setPublisher(libro.getEditorial().getNombreEditorial());
+        // }
+        //
+        // final ArrayList<Review> reviews = new ArrayList<Review>();
+        // final Review reviewMomoko = new Review();
+        // reviewMomoko.setType("Review");
+        // reviewMomoko.setAuthor(entrada.getRedactor().getNombre());
+        // reviewMomoko.setDatePublished(entrada.getFechaAlta().toString());
+        // reviewMomoko.setName(entrada.getTituloEntrada());
+        // reviewMomoko.setDescription(entrada.getResumenEntrada());
+        // // reviewMomoko.setReviewBody(entrada.getContenidoEntrada());
+        // if (puntuacion != null) {
+        // final ReviewRating ratingMomoko = new ReviewRating();
+        // ratingMomoko.setBestRating("100");
+        // ratingMomoko.setWorstRating("0");
+        // ratingMomoko.setRatingValue(puntuacion.toString());
+        // ratingMomoko.setType("Rating");
+        // reviewMomoko.setReviewRating(ratingMomoko);
+        // reviews.add(reviewMomoko);
+        // }
+        // mainEntity.setReview(reviews);
+        // bookReview.setMainEntity(mainEntity);
+        // final ObjectMapper mapper = new ObjectMapper();
+        // try {
+        // mapper.setSerializationInclusion(Include.NON_NULL);
+        // jsonLDAnalisis = mapper.writeValueAsString(bookReview);
+        // } catch (final JsonProcessingException e) {
+        // e.printStackTrace();
+        // }
+        // jsonLDAnalisis = StringUtils.replace(jsonLDAnalisis, "\"context\"", "\"@context\"");
+        // jsonLDAnalisis = StringUtils.replace(jsonLDAnalisis, "\"type\"", "\"@type\"");
+        // }
+        return jsonLDAnalisis;
     }
 
 }

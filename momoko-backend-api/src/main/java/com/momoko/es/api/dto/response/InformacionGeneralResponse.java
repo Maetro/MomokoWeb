@@ -34,6 +34,9 @@ public class InformacionGeneralResponse implements Serializable {
     /** The categorias. */
     private List<CategoriaDTO> categorias;
 
+    /** The nicks autores. */
+    private List<String> sagas;
+
     /**
      * Gets the nombres editoriales.
      *
@@ -122,11 +125,30 @@ public class InformacionGeneralResponse implements Serializable {
     /**
      * Sets the nicks autores.
      *
-     * @param nicksAutores
-     *            the new nicks autores
+     * @param nicksEditores
+     *            the new nicks editores
      */
     public void setNicksEditores(final List<String> nicksEditores) {
         this.nicksEditores = nicksEditores;
+    }
+
+    /**
+     * Gets the sagas.
+     *
+     * @return the sagas
+     */
+    public List<String> getSagas() {
+        return this.sagas;
+    }
+
+    /**
+     * Sets the sagas.
+     *
+     * @param sagas
+     *            the new sagas
+     */
+    public void setSagas(final List<String> sagas) {
+        this.sagas = sagas;
     }
 
 }

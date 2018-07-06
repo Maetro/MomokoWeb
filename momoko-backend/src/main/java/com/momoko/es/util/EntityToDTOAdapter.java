@@ -92,7 +92,7 @@ public final class EntityToDTOAdapter {
         libroDTO.setFechaAlta(libroEntity.getFechaAlta());
         libroDTO.setOrdenSaga(libroEntity.getOrdenSaga());
         if (libroEntity.getOrdenSaga() != null) {
-            libroDTO.setSaga(adaptarSaga(libroEntity.getSaga(), false));
+            libroDTO.setSaga(adaptarSaga(libroEntity.getSaga(), false, false));
         }
         if (CollectionUtils.isNotEmpty(libroEntity.getEntradas())) {
             for (final EntradaEntity entradaEntity : libroEntity.getEntradas()) {
@@ -103,6 +103,16 @@ public final class EntityToDTOAdapter {
             }
         }
         return libroDTO;
+    }
+
+    public static List<EntradaDTO> adaptarEntradas(final List<EntradaEntity> entradaEntities) {
+        final List<EntradaDTO> entradas = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(entradaEntities)) {
+            for (final EntradaEntity entradaEntity : entradaEntities) {
+                entradas.add(adaptarEntrada(entradaEntity));
+            }
+        }
+        return entradas;
     }
 
     /**
@@ -120,6 +130,9 @@ public final class EntityToDTOAdapter {
         entradaDTO.setEstadoEntrada(entradaEntity.getEstadoEntrada());
         if (entradaEntity.getLibrosEntrada() != null) {
             entradaDTO.setLibrosEntrada(adaptarLibros(entradaEntity.getLibrosEntrada()));
+        }
+        if (entradaEntity.getSagasEntrada() != null) {
+            entradaDTO.setSagasEntrada(adaptarSagas(entradaEntity.getSagasEntrada()));
         }
         entradaDTO.setNumeroComentarios(entradaEntity.getNumeroComentarios());
         entradaDTO.setOrden(entradaEntity.getOrden());
@@ -160,6 +173,13 @@ public final class EntityToDTOAdapter {
             }
             entradaDTO.setTitulosLibrosEntrada(titulos);
         }
+        if (CollectionUtils.isNotEmpty(entradaEntity.getSagasEntrada())) {
+            final List<String> nombres = new ArrayList<String>();
+            for (final SagaEntity sagaEntity : entradaEntity.getSagasEntrada()) {
+                nombres.add(sagaEntity.getNombre());
+            }
+            entradaDTO.setNombresSagasEntrada(nombres);
+        }
         entradaDTO.setEnMenu(entradaEntity.isEnMenu());
         entradaDTO.setConSidebar(entradaEntity.isConSidebar());
         entradaDTO.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
@@ -185,13 +205,31 @@ public final class EntityToDTOAdapter {
     }
 
     /**
+     * Adaptar sagas.
+     *
+     * @param sagasEntrada
+     *            the sagas entrada
+     * @return the list
+     */
+    public static List<SagaDTO> adaptarSagas(final List<SagaEntity> sagasEntrada) {
+        final List<SagaDTO> sagasDTO = new ArrayList<SagaDTO>();
+        if (CollectionUtils.isNotEmpty(sagasEntrada)) {
+            for (final SagaEntity SagaEntity : sagasEntrada) {
+                sagasDTO.add(adaptarSaga(SagaEntity, false, false));
+            }
+        }
+        return sagasDTO;
+    }
+
+    /**
      * Adaptar saga.
      *
      * @param sagaEntity
      *            saga entity
      * @return the saga DTO
      */
-    public static SagaDTO adaptarSaga(final SagaEntity sagaEntity, final boolean adaptarLibros) {
+    public static SagaDTO adaptarSaga(final SagaEntity sagaEntity, final boolean adaptarEntradas,
+            final boolean adaptarLibros) {
         final SagaDTO sagaDTO = new SagaDTO();
         sagaDTO.setSagaId(sagaEntity.getSagaId());
         sagaDTO.setNombreSaga(sagaEntity.getNombre());
@@ -209,6 +247,29 @@ public final class EntityToDTOAdapter {
             sagaDTO.setLibrosSaga(librosSaga);
             sagaDTO.setUrlsLibrosSaga(urlLibrosSaga);
         }
+        if (adaptarEntradas) {
+            final List<EntradaDTO> entradasSaga = new ArrayList<>();
+            if (CollectionUtils.isNotEmpty(sagaEntity.getEntradas())) {
+                entradasSaga.addAll(adaptarEntradas(sagaEntity.getEntradas()));
+            }
+        }
+        if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+            final Set<GeneroEntity> listaGeneros = sagaEntity.getLibros().stream().map(LibroEntity::getGeneros)
+                    .collect(HashSet::new, Set::addAll, Set::addAll);
+            sagaDTO.setGeneros(adaptarGeneros(listaGeneros));
+        }
+
+        if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+            final Set<AutorEntity> listaAutores = sagaEntity.getLibros().stream().map(LibroEntity::getAutores)
+                    .collect(HashSet::new, Set::addAll, Set::addAll);
+            sagaDTO.setAutores(adaptarAutores(listaAutores));
+        }
+
+        if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {
+            final EditorialEntity editorial = sagaEntity.getLibros().iterator().next().getEditorial();
+            sagaDTO.setEditorial(adaptarEditorial(editorial));
+        }
+
         sagaDTO.setResumen(sagaEntity.getResumen());
         sagaDTO.setNumeroVolumenes(sagaEntity.getNumeroVolumenes());
         sagaDTO.setEstaTerminada(sagaEntity.getEstaTerminada());
