@@ -1,5 +1,5 @@
 import { IndexDataService } from './../../services/index-data.service';
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterViewChecked } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
@@ -8,8 +8,6 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 declare var $: any;
-declare var window: any;
-declare var ga: any;
 
 @Component({
   selector: 'app-menu',
@@ -37,19 +35,10 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.log) {
-      console.log('Ejecutando JQuery');
-    }
     if (isPlatformBrowser(this.platformId)) {
       // Client only code.
-      if (this.log) {
-        console.log('Creando menus');
-      }
-
-      
-      setTimeout(() => $('#main-menu').smartmenus(), 1000);
+      $('#main-menu').smartmenus();
     }
-
   }
 
   buscarResultados() {
