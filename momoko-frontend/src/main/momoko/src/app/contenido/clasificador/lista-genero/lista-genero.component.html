@@ -11,14 +11,15 @@
         <div class="divide60"></div>
         <div class="blog row">
             <div class="col-sm-8 blog-content list-view">
-               
+
 
                 <div class="blog-content marginTop20">
                     <div class="blog-post">
                         <div class="row">
                             <div class="libroGenero" *ngFor="let libro of librosGenero, let i = index; let first = first">
-                                <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
-                                <div class="col-xs-4" id="mirarAnchura{{i}}">
+                                <div class="clearfix" *ngIf="!isMobile && i % 3 == 0 && !first"></div>
+                                <div class="clearfix" *ngIf="isMobile && i % 2 == 0 && !first"></div>
+                                <div class="col-xs-6 col-sm-4" id="mirarAnchura{{i}}">
 
 
 
@@ -39,14 +40,15 @@
                                     </div>
 
                                     <!-- <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.portada"></app-libro3d> -->
-
-                                    <h3 class="titulo_libro" *ngIf="!libro.representaSaga">
-                                        <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
-                                    </h3>
-                                    <h3 class="titulo_libro" *ngIf="libro.representaSaga">
+                                    <div class="contenedorDatos">
+                                        <h3 class="titulo_libro" *ngIf="!libro.representaSaga">
+                                            <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
+                                        </h3>
+                                        <h3 class="titulo_libro" *ngIf="libro.representaSaga">
                                             <a routerLink="/saga/{{libro.urlSaga}}">{{libro.nombreSaga}}</a>
-                                    </h3>
-                                    <span class="autor_libro"> {{libro.nombreAutor}} </span>
+                                        </h3>
+                                        <span class="autor_libro"> {{libro.nombreAutor}} </span>
+                                    </div>
 
                                 </div>
 

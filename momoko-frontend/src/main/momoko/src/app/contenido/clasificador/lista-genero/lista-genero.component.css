@@ -191,4 +191,7 @@ a:focus {
   .contenedorImagenes {
     height: auto;
   }
+  .contenedorDatos{
+    text-align: center;
+  }
 }

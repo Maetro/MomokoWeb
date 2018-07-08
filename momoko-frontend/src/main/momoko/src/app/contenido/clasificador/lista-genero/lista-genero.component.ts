@@ -44,6 +44,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   numbers
 
+  isMobile:boolean; 
+
   constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
     private titleService: Title, private metaService: Meta, private util: UtilService) { }
 
@@ -82,6 +84,10 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
       // this.anchura = width - margin;
       // In a real app: dispatch action to load the details here.
     });
+
+    if (window.screen.width < 768){
+      this.isMobile = true;
+    }
   }
 
   ngOnDestroy() {

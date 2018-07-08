@@ -162,9 +162,10 @@ public class ComentarioServiceImpl implements ComentarioService {
             final ComentarioEntity comentarioPrincipal = this.comentarioRepository
                     .findOne(comentarioDTO.getComentarioId());
             final EntradaEntity entrada = comentarioPrincipal.getEntrada();
-            final String content = generarEmailNuevoComentario(comentarioPrincipal, entrada);
+            final String content = generarEmailNuevoComentario(comentarioPrincipal, entrada, entrada.getEntradaAutor().getUsuarioNick());
 
             Mail.sendEmail("Nuevo comentario en momoko.es", content, entrada.getEntradaAutor().getUsuarioEmail());
+            Mail.sendEmail("Nuevo comentario en momoko.es", content, "kizuna.owo@gmail.com");
             Mail.sendEmail("Nuevo comentario en momoko.es", content, "RMaetro@gmail.com");
 
             if (comentarioPrincipal.getComentarioReferenciaEntity() != null) {
@@ -190,10 +191,10 @@ public class ComentarioServiceImpl implements ComentarioService {
         }
     }
 
-    private String generarEmailNuevoComentario(final ComentarioEntity comentarioPrincipal, final EntradaEntity entrada)
+    private String generarEmailNuevoComentario(final ComentarioEntity comentarioPrincipal, 
+    		final EntradaEntity entrada, final String nombreDestinatario)
             throws IOException {
 
-        final String nombreDestinatario = "Ren";
         final String mailTemplate = "email-notification.html";
 
         final String content = generarEmail(comentarioPrincipal, entrada, nombreDestinatario, mailTemplate);
