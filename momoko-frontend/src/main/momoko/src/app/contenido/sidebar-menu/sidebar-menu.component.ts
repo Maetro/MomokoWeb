@@ -4,17 +4,13 @@ import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
 import { APP_DATA } from '../../app-load/app-data';
-import { isPlatformBrowser } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-
-declare var $: any;
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  selector: 'app-sidebar-menu',
+  templateUrl: './sidebar-menu.component.html',
+  styleUrls: ['./sidebar-menu.component.css']
 })
-export class MenuComponent implements OnInit {
+export class SidebarMenuComponent implements OnInit {
 
 
   private log = environment.log;
@@ -43,7 +39,13 @@ export class MenuComponent implements OnInit {
     this.busqueda = "";
   }
 
+  getMenuIdentifier(cont: number): string{
+    return "#menu-" + cont;
+  }
 
+  getSubmenuIdentifier(cont: number): string{
+    return "menu-" + cont;
+  }
 
 }
 
