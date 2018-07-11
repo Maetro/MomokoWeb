@@ -21,6 +21,8 @@ export class SidebarMenuComponent implements OnInit {
 
   isLoggedIn = false;
 
+  maxheight = 1000;
+
   menu: Menu[];
 
   constructor(
@@ -31,6 +33,7 @@ export class SidebarMenuComponent implements OnInit {
 
   ngOnInit() {
     this.menu = APP_DATA.menu;
+    this.maxheight = screen.availHeight;
   }
 
   buscarResultados() {

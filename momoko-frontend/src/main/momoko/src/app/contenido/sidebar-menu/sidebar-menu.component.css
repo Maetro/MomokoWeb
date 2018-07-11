@@ -75,11 +75,6 @@
     margin-left: 0px;
   }
 
-  .nav-side-menu ul .sub-menu li:nth-child(even),
-  .nav-side-menu li .sub-menu li:nth-child(even) {
-    background-color: #ffffff;
-  }
-
   .nav-side-menu ul .sub-menu li:hover,
   .nav-side-menu li .sub-menu li:hover {
     background-color: #f3f4f5;
@@ -151,6 +146,7 @@
 
 .menuMobile{
     display:none;
+    overflow-y: auto;
 }
 
 @media(max-width: 1280px) {
@@ -158,7 +154,7 @@
         display:block;
         position: fixed;
         top: 0px;
-        overflow: hidden;
+        overflow-y: auto;
         z-index:2000;
     }
 }
