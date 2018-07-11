@@ -11,7 +11,7 @@
             <ul id="menu-content" class="menu-content collapse out">
                 <ng-container *ngFor="let menuPart of menu, let cont = index">
                   <li *ngIf="!menuPart.generos.length">
-                    <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
+                    <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active" (click)="closeMenu()">
                       
                       {{menuPart.nombre}}
                     </a>
@@ -22,7 +22,7 @@
                   <ul class="sub-menu collapse" [id]="getSubmenuIdentifier(cont)" *ngIf="menuPart.generos.length">
                       <li *ngFor="let genero of menuPart.generos">
                         
-                        <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active">
+                        <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active" (click)="closeMenu()">
                           <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" /> {{genero.nombre}} </a>
                       </li>
                     </ul>

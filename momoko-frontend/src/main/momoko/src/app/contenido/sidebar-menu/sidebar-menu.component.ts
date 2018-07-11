@@ -5,6 +5,8 @@ import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
 import { APP_DATA } from '../../app-load/app-data';
 
+declare var $: any;
+
 @Component({
   selector: 'app-sidebar-menu',
   templateUrl: './sidebar-menu.component.html',
@@ -45,6 +47,10 @@ export class SidebarMenuComponent implements OnInit {
 
   getSubmenuIdentifier(cont: number): string{
     return "menu-" + cont;
+  }
+
+  closeMenu(){
+    $('.toggle-btn').click();
   }
 
 }
