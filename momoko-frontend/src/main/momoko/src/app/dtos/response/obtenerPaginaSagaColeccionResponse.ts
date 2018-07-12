@@ -1,4 +1,4 @@
-import { DatoEntrada } from './../datoEntrada';
+import { DatoEntrada } from '../datoEntrada';
 import { EntradaSimple } from "../entradaSimple";
 import { Saga } from "../saga";
 

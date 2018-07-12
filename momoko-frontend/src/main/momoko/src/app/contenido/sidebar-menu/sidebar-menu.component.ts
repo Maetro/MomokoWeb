@@ -1,4 +1,4 @@
-import { IndexDataService } from './../../services/index-data.service';
+import { IndexDataService } from '../../services/index-data.service';
 import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterViewChecked } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';

@@ -1,4 +1,4 @@
-import { LinkService } from './../../../services/link.service';
+import { LinkService } from '../../../services/link.service';
 import {
   Component,
   OnInit,

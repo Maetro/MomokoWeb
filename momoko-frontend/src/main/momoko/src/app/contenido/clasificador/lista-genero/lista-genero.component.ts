@@ -7,7 +7,7 @@ import { LibroSimple } from '../../../dtos/libroSimple';
 import { ObtenerPaginaGeneroResponse } from '../../../dtos/response/obtenerPaginaGeneroResponse';
 import { ClasificadorService } from '../../../services/clasificador.service';
 import { UtilService } from '../../../services/util/util.service';
-import { EntradaSimple } from './../../../dtos/entradaSimple';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 
 
 
@@ -46,6 +46,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   isMobile:boolean; 
 
+  enLista:boolean;
+
   constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
     private titleService: Title, private metaService: Meta, private util: UtilService) { }
 
@@ -53,6 +55,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     if (this.log) {
       console.log('Creando pagina del genero');
     }
+    this.enLista = true;
     this.suscriptor = this.route.params.subscribe(params => {
       this.url = params['url']; // (+) converts string 'id' to a number
       if (this.log) {
@@ -85,10 +88,13 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
       // In a real app: dispatch action to load the details here.
     });
 
-    if (window.screen.width < 768){
-      this.isMobile = true;
-    }
+ 
   }
+
+  activarEnLista(value: boolean) {
+    this.enLista = value;
+  }
+
 
   ngOnDestroy() {
     this.suscriptor.unsubscribe();

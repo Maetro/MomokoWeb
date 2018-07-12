@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.GeneroDTO;
@@ -23,6 +24,7 @@ import com.momoko.es.backend.model.entity.CategoriaEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.GeneroEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
+import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.entity.SagaEntity;
 import com.momoko.es.backend.model.repository.CategoriaRepository;
 import com.momoko.es.backend.model.repository.EntradaRepository;
@@ -134,6 +136,7 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
+    @Transactional
     public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GeneroDTO generoDTO, final int numElements,
             final Integer numeroPagina) {
         final List<LibroSimpleDTO> resultado = new ArrayList<>();
@@ -146,7 +149,11 @@ public class GeneroServiceImpl implements GeneroService {
         for (final EntradaEntity entradaEntity : listaEntities) {
             if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
                 final LibroEntity libro = entradaEntity.getLibrosEntrada().iterator().next();
-                final LibroSimpleDTO libroSimple = ConversionUtils.obtenerLibroSimpleDTO(libro, null);
+                PuntuacionEntity puntuacion = null;
+                if (CollectionUtils.isNotEmpty(libro.getPuntuaciones())) {
+                    puntuacion = libro.getPuntuaciones().iterator().next();
+                }
+                final LibroSimpleDTO libroSimple = ConversionUtils.obtenerLibroSimpleDTO(libro, puntuacion);
                 libroSimple.setRepresentaSaga(false);
                 libroSimple.setUrlSaga(null);
                 libroSimple.setNombreSaga(null);
@@ -154,7 +161,11 @@ public class GeneroServiceImpl implements GeneroService {
             } else {
                 final SagaEntity saga = entradaEntity.getSagasEntrada().iterator().next();
                 final LibroEntity libro = saga.getLibros().iterator().next();
-                final LibroSimpleDTO libroSimple = ConversionUtils.obtenerLibroSimpleDTO(libro, null);
+                PuntuacionEntity puntuacion = null;
+                if (CollectionUtils.isNotEmpty(saga.getPuntuaciones())) {
+                    puntuacion = saga.getPuntuaciones().iterator().next();
+                }
+                final LibroSimpleDTO libroSimple = ConversionUtils.obtenerLibroSimpleDTO(libro, puntuacion);
                 libroSimple.setRepresentaSaga(true);
                 libroSimple.setUrlSaga(saga.getUrlSaga());
                 libroSimple.setNombreSaga(saga.getNombre());

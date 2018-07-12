@@ -1,4 +1,4 @@
-import { ResultadoBusqueda } from './../../../dtos/resultadoBusqueda';
+import { ResultadoBusqueda } from '../../../dtos/resultadoBusqueda';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { ClasificadorService } from '../../../services/clasificador.service';

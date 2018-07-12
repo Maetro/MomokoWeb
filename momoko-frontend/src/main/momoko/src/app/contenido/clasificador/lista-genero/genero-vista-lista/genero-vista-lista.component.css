@@ -1,0 +1,89 @@
+.paginas-pagination {
+  padding: 60px 0;
+}
+
+.paginas-pagination ul.page-numbers {
+  list-style: none;
+  padding: 0;
+  display: block;
+}
+
+.paginas-pagination ul.page-numbers li {
+  display: inline-block;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers {
+  padding: 13px 15px 10px;
+  margin-right: 10px;
+  display: block;
+  background-color: white;
+  line-height: 1;
+  box-shadow: 0 2px 10px rgba(192, 221, 238, 0.7);
+  font-weight: 700;
+  color: #616161;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers.current {
+  background-color: #e3b015;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers.current {
+  color: white;
+}
+
+.marginBottom50{
+  margin-bottom: 50px;
+}
+
+a {
+  color: #040404;
+}
+
+
+.resumenContainer {
+  margin-top: 15px;
+}
+
+.sagaMarker {
+  position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 14px;
+    color: #fff;
+    line-height: 50px;
+    text-align: center;
+    background: #fe5f5f;
+    z-index: 2;
+    transition: all .3s ease 0s;
+    top: 34px;
+    left: 23px;
+    font-weight: bold;
+}
+
+i.fa.fa-eye {
+  margin-right: 10px;
+}
+
+.btn{
+  margin-top: 10px;
+  padding: 8px 10px 8px;
+}
+
+::ng-deep .contenedorDatos .circle p{
+  font-size: 35px !important;
+}
+
+::ng-deep .circle{
+  float: right;
+  margin: 0px !important;
+  height: 60px !important;
+  width: 60px !important;
+  border-radius: 60px !important;
+}
+
+::ng-deep .inner-circle{
+  margin: -27.5px 0px 0px -27.5px !important;
+  height: 55px !important;
+  width: 55px !important;
+}

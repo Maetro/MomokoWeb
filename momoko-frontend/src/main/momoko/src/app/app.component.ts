@@ -1,4 +1,4 @@
-import { environment } from './../environments/environment';
+import { environment } from '../environments/environment';
 import { Component, Inject, PLATFORM_ID } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import {

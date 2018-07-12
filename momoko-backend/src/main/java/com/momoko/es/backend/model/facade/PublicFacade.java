@@ -92,7 +92,6 @@ import com.momoko.es.backend.model.service.TrackService;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
-import com.momoko.es.util.Mail;
 import com.momoko.es.util.NotFoundException;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
@@ -334,6 +333,8 @@ public class PublicFacade {
 
         if (numeroPagina == null) {
             numeroPagina = 0;
+        } else {
+            numeroPagina--;
         }
         final GeneroDTO generoDTO = this.generoService.obtenerGeneroPorUrl(urlGenero);
         final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO,

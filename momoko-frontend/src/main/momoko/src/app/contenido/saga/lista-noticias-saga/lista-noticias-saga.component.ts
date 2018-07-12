@@ -1,4 +1,4 @@
-import { DatoEntrada } from './../../../dtos/datoEntrada';
+import { DatoEntrada } from '../../../dtos/datoEntrada';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { EntradaSimple } from '../../../dtos/entradaSimple';

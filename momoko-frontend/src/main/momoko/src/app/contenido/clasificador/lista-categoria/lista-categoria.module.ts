@@ -1,4 +1,4 @@
-import { PaginationModule } from './../pagination/pagination.module';
+import { PaginationModule } from '../pagination/pagination.module';
 import { ListaCategoriaComponent } from './lista-categoria.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';

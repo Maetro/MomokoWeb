@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
-import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -35,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;

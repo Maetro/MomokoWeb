@@ -54,6 +54,9 @@ public class LibroSimpleDTO implements Serializable {
     /** The nombre saga. */
     private String nombreSaga;
 
+    /** The resumen. */
+    private String resumen;
+
     /**
      * Gets the titulo.
      *
@@ -280,6 +283,25 @@ public class LibroSimpleDTO implements Serializable {
      */
     public void setNombreSaga(final String nombreSaga) {
         this.nombreSaga = nombreSaga;
+    }
+
+    /**
+     * Gets the resumen.
+     *
+     * @return the resumen
+     */
+    public String getResumen() {
+        return this.resumen;
+    }
+
+    /**
+     * Sets the resumen.
+     *
+     * @param resumen
+     *            the new resumen
+     */
+    public void setResumen(final String resumen) {
+        this.resumen = resumen;
     }
 
 }

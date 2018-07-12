@@ -11,4 +11,5 @@ export class LibroSimple {
     representaSaga: boolean;
     urlSaga: boolean;
     nombreSaga: string;
+    resumen: string;
 }
