@@ -46,6 +46,7 @@ import { ObtenerListaEditoralResolverService } from './services/resolvers/obtene
 import { FormsModule } from '@angular/forms';
 import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
 import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obtener-saga-miscelaneos.resolver.service';
+import { Globals } from './app.globals';
 
 export const PROVIDERS = [
     ObtenerIndexDataResolverService,
@@ -76,7 +77,8 @@ export const PROVIDERS = [
     ObtenerListaEditorResolverService,
     ObtenerListaEditoralResolverService,
     ObtenerSagaNoticiasResolverService,
-    ObtenerSagaMiscelaneosResolverService
+    ObtenerSagaMiscelaneosResolverService,
+    Globals
 ];
 
 export const MODULES = [

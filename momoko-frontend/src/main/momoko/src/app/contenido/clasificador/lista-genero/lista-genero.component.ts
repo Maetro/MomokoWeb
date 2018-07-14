@@ -9,6 +9,7 @@ import { GenrePageResponse } from '../../../dtos/genre/genrePageResponse';
 import { ClasificadorService } from '../../../services/clasificador.service';
 import { UtilService } from '../../../services/util/util.service';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
+import { Globals } from '../../../app.globals';
 
 
 
@@ -59,6 +60,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     private router: Router,
     private titleService: Title, 
     private metaService: Meta, 
+    private globals: Globals,
     private util: UtilService) { }
 
   ngOnInit() {
@@ -66,7 +68,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
       console.log('Creando pagina del genero');
     }
     this.enLista = true;
-    this.orderby = OrderType.DATE;
+    this.orderby = this.globals.orderType;
     this.suscriptor = this.route.params.subscribe(params => {
       this.url = params['url_genero']; // (+) converts string 'id' to a number
       this.numeroPagina = params['numero_pagina'];
@@ -126,8 +128,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
   }
 
   cambiarOrden() {
-    
-    console.log('Aqui');
+    this.globals.orderType = this.orderby;
     this.clasificadorService.getGenrePage(this.url, this.numeroPagina, this.orderby).subscribe(generoPageResponse => {
       this.librosGenero = generoPageResponse.nueveLibrosGenero;
     });

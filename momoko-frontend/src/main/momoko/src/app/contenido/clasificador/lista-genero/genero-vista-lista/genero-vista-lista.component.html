@@ -1,4 +1,4 @@
-<div class="blog-content marginTop20">
+<div class="blog-content separatop40">
     <div class="blog-post">
         <div class="row">
             <div class="libroGenero" *ngFor="let libro of librosGenero, let i = index; let first = first">
@@ -62,7 +62,7 @@
     </nav>
 
     <ng-template #else1Block>
-        <a routerLink="/genero/{{genero.urlGenero}}">
+        <a routerLink="/genero/{{genero.urlGenero}}/1">
             <span class="page-numbers">1</span>
         </a>
     </ng-template>

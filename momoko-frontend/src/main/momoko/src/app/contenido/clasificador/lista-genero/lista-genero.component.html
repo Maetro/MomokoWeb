@@ -32,12 +32,13 @@
 
                 </div>
                 <div class="clearfix"></div>
-                <app-genero-vista-grid *ngIf="!enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers"></app-genero-vista-grid>
-                <app-genero-vista-lista *ngIf="enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers"></app-genero-vista-lista>
+                <app-genero-vista-grid *ngIf="!enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers" [orderby]="orderby"></app-genero-vista-grid>
+                <app-genero-vista-lista *ngIf="enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers" [orderby]="orderby"></app-genero-vista-lista>
                 <!-- /.blog-content -->
             </div>
-            <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
-
+            <div style="margin-top: 20px;">
+                <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
+            </div>
         </div>
         <!-- /.blog -->
 

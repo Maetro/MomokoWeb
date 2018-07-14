@@ -103,6 +103,14 @@ const appRoutes = [
     }
   },
   {
+    path: 'genero/:url_genero/:numero_pagina/:order_type',
+    loadChildren:
+      './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
+    resolve: {
+      paginaGeneroResponse: ObtenerListaGeneroResolverService
+    }
+  },
+  {
     path: 'genero/:url_genero/:numero_pagina',
     loadChildren:
       './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
