@@ -1,7 +1,7 @@
 import { DatoEntrada } from './datoEntrada';
 import { Libro } from './libro';
 import { Autor } from './autor';
-import { Genero } from './genero';
+import { Genero } from './genre/genero';
 import { Editorial } from './editorial';
 
 export class Saga {

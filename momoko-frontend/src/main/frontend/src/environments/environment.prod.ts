@@ -24,7 +24,7 @@ export const environment = {
   obtenerLibroUrl: 'https://momoko.es/public/libro/',
   addComentarioUrl: 'https://momoko.es/public/comentario/add',
   obtenerVideoUrl: 'https://momoko.es/public/video/',
-  getGeneroUrl: 'https://momoko.es/public/genero/',
+  getGeneroUrl: 'https://momoko.es/public/genre/',
   initDataUrl: 'https://momoko.es/public/initData/',
   addGaleriaUrl: 'https://momoko.es/modelo/galerias/add',
   galeriasUrl: 'https://momoko.es/modelo/galerias',

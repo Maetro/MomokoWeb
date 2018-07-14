@@ -4,25 +4,24 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.dto.response;
+package com.momoko.es.api.dto.genre;
 
 import java.io.Serializable;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 
 /**
  * The Class ObtenerPaginaGeneroResponse.
  */
-public class ObtenerPaginaGeneroResponse implements Serializable {
+public class GenrePageResponse implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1668326554240492058L;
 
     /** The libro. */
-    private GeneroDTO genero;
+    private GenreDTO genero;
 
     /** The tres ultimas entradas. */
     private List<EntradaSimpleDTO> tresUltimasEntradasConLibro;
@@ -37,7 +36,7 @@ public class ObtenerPaginaGeneroResponse implements Serializable {
      *
      * @return the genero
      */
-    public GeneroDTO getGenero() {
+    public GenreDTO getGenero() {
         return this.genero;
     }
 
@@ -47,7 +46,7 @@ public class ObtenerPaginaGeneroResponse implements Serializable {
      * @param genero
      *            the new genero
      */
-    public void setGenero(final GeneroDTO genero) {
+    public void setGenero(final GenreDTO genero) {
         this.genero = genero;
     }
 

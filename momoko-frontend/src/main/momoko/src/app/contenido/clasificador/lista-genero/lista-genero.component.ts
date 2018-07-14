@@ -1,10 +1,11 @@
+import { OrderType } from './../../../dtos/enums/ordertype';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
-import { Genero } from '../../../dtos/genero';
+import { Genero } from '../../../dtos/genre/genero';
 import { LibroSimple } from '../../../dtos/libroSimple';
-import { ObtenerPaginaGeneroResponse } from '../../../dtos/response/obtenerPaginaGeneroResponse';
+import { GenrePageResponse } from '../../../dtos/genre/genrePageResponse';
 import { ClasificadorService } from '../../../services/clasificador.service';
 import { UtilService } from '../../../services/util/util.service';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
@@ -48,20 +49,34 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   enLista:boolean;
 
-  constructor(private clasificadorService: ClasificadorService, private route: ActivatedRoute, private router: Router,
-    private titleService: Title, private metaService: Meta, private util: UtilService) { }
+  orderby: OrderType;
+
+  numeroPagina: number;
+
+  constructor(
+    private clasificadorService: ClasificadorService,
+    private route: ActivatedRoute, 
+    private router: Router,
+    private titleService: Title, 
+    private metaService: Meta, 
+    private util: UtilService) { }
 
   ngOnInit() {
     if (this.log) {
       console.log('Creando pagina del genero');
     }
     this.enLista = true;
+    this.orderby = OrderType.DATE;
     this.suscriptor = this.route.params.subscribe(params => {
-      this.url = params['url']; // (+) converts string 'id' to a number
+      this.url = params['url_genero']; // (+) converts string 'id' to a number
+      this.numeroPagina = params['numero_pagina'];
+      if (!this.numeroPagina){
+        this.numeroPagina = 1;
+      }
       if (this.log) {
         console.log(this.url);
       }
-      this.route.data.subscribe((data: { paginaGeneroResponse: ObtenerPaginaGeneroResponse }) => {
+      this.route.data.subscribe((data: { paginaGeneroResponse: GenrePageResponse }) => {
         this.genero = data.paginaGeneroResponse.genero;
         this.util.removeAllTags(this.metaService);
         this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
@@ -108,6 +123,14 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   mirarAnchura(): number {
     return 236;
+  }
+
+  cambiarOrden() {
+    
+    console.log('Aqui');
+    this.clasificadorService.getGenrePage(this.url, this.numeroPagina, this.orderby).subscribe(generoPageResponse => {
+      this.librosGenero = generoPageResponse.nueveLibrosGenero;
+    });
   }
 
 }

@@ -29,7 +29,7 @@ import org.apache.commons.lang.builder.ToStringBuilder;
  */
 @Entity
 @Table(name = "genero", indexes = { @Index(name = "urlGenero", columnList = "urlGenero", unique = true) })
-public class GeneroEntity {
+public class GenreEntity {
 
     /** The autor id. */
     @JoinColumn(name = "genero_id")
@@ -328,10 +328,10 @@ public class GeneroEntity {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GeneroEntity)) {
+        if (!(other instanceof GenreEntity)) {
             return false;
         }
-        final GeneroEntity castOther = (GeneroEntity) other;
+        final GenreEntity castOther = (GenreEntity) other;
         return new EqualsBuilder().append(this.generoId, castOther.generoId).isEquals();
     }
 

@@ -13,6 +13,8 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
+import com.momoko.es.api.dto.genre.GenreDTO;
+
 /**
  * The Class MenuDTO.
  */
@@ -30,7 +32,7 @@ public class MenuDTO implements Serializable, Comparable<MenuDTO> {
     private String url;
 
     /** The generos. */
-    private List<GeneroDTO> generos;
+    private List<GenreDTO> generos;
 
     /**
      * Gets the nombre.
@@ -75,7 +77,7 @@ public class MenuDTO implements Serializable, Comparable<MenuDTO> {
      *
      * @return the generos
      */
-    public List<GeneroDTO> getGeneros() {
+    public List<GenreDTO> getGeneros() {
         return this.generos;
     }
 
@@ -85,7 +87,7 @@ public class MenuDTO implements Serializable, Comparable<MenuDTO> {
      * @param generos
      *            the new generos
      */
-    public void setGeneros(final List<GeneroDTO> generos) {
+    public void setGeneros(final List<GenreDTO> generos) {
         this.generos = generos;
     }
 

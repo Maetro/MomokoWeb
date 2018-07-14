@@ -38,7 +38,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
@@ -46,7 +45,6 @@ import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.InitDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
@@ -55,6 +53,7 @@ import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.ResultadoBusquedaDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
@@ -66,7 +65,6 @@ import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaSagaColeccionResponse;
@@ -83,7 +81,7 @@ import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EditorialService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.EtiquetaService;
-import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.GenreService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.SagaService;
@@ -120,7 +118,7 @@ public class PublicFacade {
     private ValidadorService validadorService;
 
     @Autowired(required = false)
-    private GeneroService generoService;
+    private GenreService generoService;
 
     @Autowired(required = false)
     private StorageService almacenImagenes;
@@ -316,55 +314,21 @@ public class PublicFacade {
 
     }
 
-    @GetMapping(path = "/genero/{url-genero}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaGeneroResponse obtenerGeneroPagina(
-            @PathVariable("url-genero") final String urlGenero,
-            @PathVariable("numero-pagina") final Integer numeroPagina,
+    @GetMapping(path = "/categoria/{url-categoria}")
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
+            @PathVariable("url-categoria") final String urlCategoria,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
 
-        return obtenerGenero(urlGenero, userAgent, numeroPagina);
-
-    }
-
-    @GetMapping(path = "/genero/{url-genero}")
-    public @ResponseBody ObtenerPaginaGeneroResponse obtenerGenero(@PathVariable("url-genero") final String urlGenero,
-            @RequestHeader(value = "User-Agent") final String userAgent, Integer numeroPagina) {
-        final ObtenerPaginaGeneroResponse generoResponse = new ObtenerPaginaGeneroResponse();
-
-        if (numeroPagina == null) {
-            numeroPagina = 0;
-        } else {
-            numeroPagina--;
+        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlCategoria);
         }
-        final GeneroDTO generoDTO = this.generoService.obtenerGeneroPorUrl(urlGenero);
-        final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO,
-                9, numeroPagina);
-        final Integer numeroLibros = this.libroService.obtenerNumeroLibrosConAnalisisGenero(generoDTO);
-        for (final LibroSimpleDTO libroSimpleDTO : librosGenero) {
-            if (libroSimpleDTO.getPortada() != null) {
-                try {
-                    libroSimpleDTO.setPortada(
-                            this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, false));
-
-                    final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
-                            .getImageDimensions(libroSimpleDTO.getPortada());
-                    libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
-                    libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
-
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        final List<EntradaSimpleDTO> tresUltimasEntradasConLibro = this.entradaService
-                .obtenerTresUltimasEntradasPopularesConLibro();
-
-        generoResponse.setGenero(generoDTO);
-        generoResponse.setNumeroLibros(numeroLibros);
-        generoResponse.setNueveLibrosGenero(librosGenero);
-        generoResponse.setTresUltimasEntradasConLibro(tresUltimasEntradasConLibro);
-        return generoResponse;
+        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
 
     }
 
@@ -379,24 +343,6 @@ public class PublicFacade {
         if (request == null) {
             request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(numeroPagina);
-            request.setOrdenarPor("fecha");
-            request.setUrlElemento(urlCategoria);
-        }
-        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
-
-    }
-
-    @GetMapping(path = "/categoria/{url-categoria}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
-            @PathVariable("url-categoria") final String urlCategoria,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
-            @RequestHeader(value = "User-Agent") final String userAgent) {
-
-        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
-        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
-        if (request == null) {
-            request = new ObtenerPaginaElementoRequest();
-            request.setNumeroPagina(1);
             request.setOrdenarPor("fecha");
             request.setUrlElemento(urlCategoria);
         }
@@ -937,8 +883,8 @@ public class PublicFacade {
             }
             if (CollectionUtils.isNotEmpty(generos)) {
 
-                final List<GeneroDTO> generosDTO = this.buscadorService.buscarGeneros(etiquetas);
-                for (final GeneroDTO generoDTO : generosDTO) {
+                final List<GenreDTO> generosDTO = this.buscadorService.buscarGeneros(etiquetas);
+                for (final GenreDTO generoDTO : generosDTO) {
                     final ResultadoBusquedaDTO resultado = new ResultadoBusquedaDTO();
                     resultado.setTitulo(generoDTO.getNombre());
                     resultado.setHtmlDescripcion("El género: " + generoDTO.getNombre());
@@ -1064,7 +1010,7 @@ public class PublicFacade {
     @RequestMapping(method = RequestMethod.GET, path = "/test")
     public String test() throws Exception {
 
-        final GeneroDTO generoDTO = new GeneroDTO();
+        final GenreDTO generoDTO = new GenreDTO();
         generoDTO.setUrlGenero("manga");
         final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO,
                 9, 0);
@@ -1130,7 +1076,7 @@ public class PublicFacade {
         final List<LibroDTO> librosSimples = this.libroService.recuperarLibros();
         final List<EtiquetaDTO> etiquetas = this.etiquetaService.obtenerTodasEtiquetas();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
-        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        final List<GenreDTO> generos = this.generoService.getAllGenres();
 
         final Date fechaActualizacionEntradaReciente = obtenerFechaActualizacionMasReciente(ultimasEntradas);
         final Date obtenerFechaLibroMasReciente = obtenerFechaLibroMasReciente(librosSimples);
@@ -1187,7 +1133,7 @@ public class PublicFacade {
             nrOfURLs++;
         }
 
-        for (final GeneroDTO genero : generos) {
+        for (final GenreDTO genero : generos) {
             url = urlPagina + "/genero/" + genero.getUrlGenero();
             final List<LibroSimpleDTO> libros = this.libroService.obtenerLibrosConAnalisisGeneroPorFecha(genero, 9, 1);
             if (CollectionUtils.isNotEmpty(libros)) {

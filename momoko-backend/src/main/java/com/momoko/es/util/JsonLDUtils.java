@@ -24,9 +24,9 @@ import com.momoko.es.api.datosestructurados.Publisher;
 import com.momoko.es.api.datosestructurados.Review;
 import com.momoko.es.api.datosestructurados.ReviewRating;
 import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 
 public class JsonLDUtils {
 
@@ -51,7 +51,7 @@ public class JsonLDUtils {
             bookReview.setType("WebPage");
             bookReview.setName("Análisis libro - " + libro.getTitulo());
             bookReview.setUrl("https://momoko.es/analisis/" + entrada.getUrlEntrada());
-            GeneroDTO genero = null;
+            GenreDTO genero = null;
 
             if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
                 genero = libro.getGeneros().iterator().next();

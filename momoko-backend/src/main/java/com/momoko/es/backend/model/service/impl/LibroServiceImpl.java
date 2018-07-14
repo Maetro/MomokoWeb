@@ -29,16 +29,16 @@ import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.exceptions.NoExisteGeneroException;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
-import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.entity.GenreEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.repository.AutorRepository;
@@ -135,7 +135,7 @@ public class LibroServiceImpl implements LibroService {
             final EditorialEntity editorialObra = this.editorialService
                     .obtenerEditorialOCrear(libroEntity.getEditorial());
             libroEntity.setEditorial(editorialObra);
-            final Set<GeneroEntity> generosObra = obtenerGenerosObra(libroEntity);
+            final Set<GenreEntity> generosObra = obtenerGenerosObra(libroEntity);
             libroEntity.setGeneros(generosObra);
 
             // libroEntity.
@@ -162,12 +162,12 @@ public class LibroServiceImpl implements LibroService {
 
     }
 
-    private Set<GeneroEntity> obtenerGenerosObra(final LibroEntity libroEntity) throws NoExisteGeneroException {
-        final Set<GeneroEntity> generosObra = new HashSet<GeneroEntity>();
+    private Set<GenreEntity> obtenerGenerosObra(final LibroEntity libroEntity) throws NoExisteGeneroException {
+        final Set<GenreEntity> generosObra = new HashSet<GenreEntity>();
         if (CollectionUtils.isNotEmpty(libroEntity.getGeneros())) {
-            for (final GeneroEntity genero : libroEntity.getGeneros()) {
+            for (final GenreEntity genero : libroEntity.getGeneros()) {
 
-                final GeneroEntity generoBD = this.generoRepository
+                final GenreEntity generoBD = this.generoRepository
                         .findOneByNombreAndFechaBajaIsNull(genero.getNombre());
                 if (generoBD == null) {
                     throw new NoExisteGeneroException("No existe el genero seleccionado en la BD");
@@ -277,8 +277,8 @@ public class LibroServiceImpl implements LibroService {
                 libroDTO.setPortadaWidth(alturaAnchura.getAnchura());
                 final String url = this.almacenImagenes.getUrlImageServer();
                 libroDTO.setUrlImagen(url + libroEntity.getUrlImagen());
-                final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
-                for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                final Set<GenreDTO> generosImagenes = new HashSet<GenreDTO>();
+                for (final GenreDTO generoDTO : libroDTO.getGeneros()) {
                     generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
                     generosImagenes.add(generoDTO);
                 }
@@ -306,9 +306,9 @@ public class LibroServiceImpl implements LibroService {
 
     @Override
     public List<LibroSimpleDTO> obtenerLibrosParecidos(final LibroDTO libro, final int numeroLibros) {
-        final Set<GeneroEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
+        final Set<GenreEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
         final List<Integer> idsGeneros = new ArrayList<Integer>();
-        for (final GeneroEntity generoEntity : generos) {
+        for (final GenreEntity generoEntity : generos) {
             idsGeneros.add(generoEntity.getGeneroId());
         }
 
@@ -329,7 +329,7 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GeneroDTO genero, final int numeroLibros,
+    public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GenreDTO genero, final int numeroLibros,
             final int pagina) {
 
         final List<Integer> idsGeneros = new ArrayList<Integer>();
@@ -343,7 +343,7 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public Integer obtenerNumeroLibrosConAnalisisGenero(final GeneroDTO generoDTO) {
+    public Integer obtenerNumeroLibrosConAnalisisGenero(final GenreDTO generoDTO) {
         final Long numeroResultados = this.entradaRepository
                 .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
                         Arrays.asList(generoDTO.getGeneroId()));
@@ -368,8 +368,8 @@ public class LibroServiceImpl implements LibroService {
 
                     libroDTO.setUrlImagen(
                             this.almacenImagenes.obtenerMiniatura(libroDTO.getUrlImagen(), 200, 310, true));
-                    final Set<GeneroDTO> generosImagenes = new HashSet<GeneroDTO>();
-                    for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                    final Set<GenreDTO> generosImagenes = new HashSet<GenreDTO>();
+                    for (final GenreDTO generoDTO : libroDTO.getGeneros()) {
                         generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
                         generosImagenes.add(generoDTO);
                     }

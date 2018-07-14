@@ -1,3 +1,4 @@
+import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ListaGeneroComponent } from './lista-genero.component';
@@ -11,16 +12,10 @@ import { GeneroVistaListaComponent } from './genero-vista-lista/genero-vista-lis
   imports: [
     CommonModule,
     ComunesModule,
+    FormsModule,
     RouterModule.forChild([
-      {
-        path: ':numero_pagina',
-        component: ListaGeneroComponent,
-        resolve: {
-          paginaGeneroResponse: ObtenerListaGeneroResolverService
-        }
-      },
       { path: '', component: ListaGeneroComponent, pathMatch: 'full'},
-    ])
+    ]),
   ],
   declarations: [ListaGeneroComponent, GeneroVistaGridComponent, GeneroVistaListaComponent]
 })

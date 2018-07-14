@@ -14,6 +14,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.momoko.es.api.dto.genre.GenreDTO;
+
 /**
  * The Class SagaDTO.
  *
@@ -62,7 +64,7 @@ public class SagaDTO implements Serializable {
     private List<PuntuacionDTO> puntuacionesSaga;
 
     /** The genero id. */
-    private Set<GeneroDTO> generos;
+    private Set<GenreDTO> generos;
 
     /** The autor id. */
     private Set<AutorDTO> autores;
@@ -341,11 +343,11 @@ public class SagaDTO implements Serializable {
         this.autores = autores;
     }
 
-    public Set<GeneroDTO> getGeneros() {
+    public Set<GenreDTO> getGeneros() {
         return this.generos;
     }
 
-    public void setGeneros(final Set<GeneroDTO> generos) {
+    public void setGeneros(final Set<GenreDTO> generos) {
         this.generos = generos;
     }
 

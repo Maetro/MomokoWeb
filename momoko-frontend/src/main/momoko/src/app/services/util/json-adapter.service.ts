@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Editorial } from '../../dtos/editorial';
-import { Genero } from '../../dtos/genero';
+import { Genero } from '../../dtos/genre/genero';
 import { Autor } from '../../dtos/autor';
 import { Libro } from '../../dtos/libro';
 import { environment } from '../../../environments/environment';

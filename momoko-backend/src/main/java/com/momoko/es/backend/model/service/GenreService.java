@@ -9,17 +9,19 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.genre.GenrePageResponse;
+import com.momoko.es.api.enums.OrderType;
 
-public interface GeneroService {
+public interface GenreService {
 
     /**
      * Obtener todos generos.
      *
      * @return the list
      */
-    List<GeneroDTO> obtenerTodosGeneros();
+    List<GenreDTO> getAllGenres();
 
     /**
      * Guardar genero.
@@ -29,7 +31,7 @@ public interface GeneroService {
      * @return the genero dto
      * @throws Exception
      */
-    GeneroDTO guardarGenero(GeneroDTO generoDTO) throws Exception;
+    GenreDTO saveGenre(GenreDTO generoDTO) throws Exception;
 
     /**
      * Obtener categoria por url.
@@ -46,7 +48,7 @@ public interface GeneroService {
      *            the url genero
      * @return the genero dto
      */
-    GeneroDTO obtenerGeneroPorUrl(String urlGenero);
+    GenreDTO obtenerGeneroPorUrl(String urlGenero);
 
     /**
      * Obtener lista categorias.
@@ -62,7 +64,7 @@ public interface GeneroService {
      *            the categoria dto
      * @return the list
      */
-    List<GeneroDTO> obtenerGenerosCategoria(CategoriaDTO categoriaDTO);
+    List<GenreDTO> obtenerGenerosCategoria(CategoriaDTO categoriaDTO);
 
     /**
      * Obtener libros con analisis genero por fecha.
@@ -75,7 +77,34 @@ public interface GeneroService {
      *            the numero pagina
      * @return the list
      */
-    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GeneroDTO generoDTO, int numElements,
+    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GenreDTO generoDTO, int numElements,
             Integer numeroPagina);
+
+    /**
+     * Obtener libros con analisis genero por nota.
+     *
+     * @param generoDTO
+     *            the genero dto
+     * @param numElements
+     *            the num elements
+     * @param numeroPagina
+     *            the numero pagina
+     * @return the list
+     */
+    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorNota(GenreDTO generoDTO, int numElements,
+            Integer numeroPagina);
+
+    /**
+     * Gets the genre page.
+     *
+     * @param genreUrl
+     *            the genre url
+     * @param pageNumber
+     *            the page number
+     * @param tipoOrden
+     *            the tipo orden
+     * @return the genre page
+     */
+    GenrePageResponse getGenrePage(String genreUrl, Integer pageNumber, OrderType tipoOrden);
 
 }

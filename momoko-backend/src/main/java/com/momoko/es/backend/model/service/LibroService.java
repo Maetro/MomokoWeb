@@ -10,9 +10,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 
 /**
@@ -88,7 +88,7 @@ public interface LibroService {
      *            the pagina
      * @return the list
      */
-    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GeneroDTO genero, int numeroLibros, int pagina);
+    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GenreDTO genero, int numeroLibros, int pagina);
 
     /**
      * Obtener numero libros con analisis genero.
@@ -97,7 +97,7 @@ public interface LibroService {
      *            the genero dto
      * @return the integer
      */
-    public Integer obtenerNumeroLibrosConAnalisisGenero(GeneroDTO generoDTO);
+    public Integer obtenerNumeroLibrosConAnalisisGenero(GenreDTO generoDTO);
 
     /**
      * Obtener libros.

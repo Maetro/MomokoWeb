@@ -3,7 +3,8 @@ import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { LibroSimple } from '../../../../dtos/libroSimple';
-import { Genero } from '../../../../dtos/genero';
+import { Genero } from '../../../../dtos/genre/genero';
+import { OrderType } from '../../../../dtos/enums/ordertype';
 
 
 @Component({
@@ -20,7 +21,7 @@ export class GeneroVistaGridComponent implements OnInit, OnDestroy {
   @Input() genero: Genero;
   @Input() librosGenero: LibroSimple[];
   @Input() numbers: any;
-  
+  @Input() orderby: OrderType;
 
   constructor() { }
 

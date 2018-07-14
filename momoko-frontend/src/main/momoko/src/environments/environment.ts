@@ -32,7 +32,7 @@ export const environment = {
   obtenerLibroUrl: 'http://localhost:5000/public/libro/',
   addComentarioUrl: 'http://localhost:5000/public/comentario/add',
   obtenerVideoUrl: 'http://localhost:5000/public/video/',
-  getGeneroUrl: 'http://localhost:5000/public/genero/',
+  getGenreUrl: 'http://localhost:5000/public/genre/',
   initDataUrl: 'http://localhost:5000/public/initData',
   addGaleriaUrl: 'http://localhost:5000/modelo/galerias/add',
   galeriasUrl: 'http://localhost:5000/modelo/galerias',

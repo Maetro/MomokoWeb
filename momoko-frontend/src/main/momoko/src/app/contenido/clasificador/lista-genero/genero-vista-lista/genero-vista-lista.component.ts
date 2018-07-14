@@ -1,9 +1,10 @@
+import { OrderType } from './../../../../dtos/enums/ordertype';
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { LibroSimple } from '../../../../dtos/libroSimple';
-import { Genero } from '../../../../dtos/genero';
+import { Genero } from '../../../../dtos/genre/genero';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class GeneroVistaListaComponent implements OnInit, OnDestroy {
   @Input() genero: Genero;
   @Input() librosGenero: LibroSimple[];
   @Input() numbers: any;
+  @Input() orderby: OrderType;
   
 
   constructor() { }

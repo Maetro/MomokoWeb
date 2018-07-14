@@ -10,16 +10,28 @@
     <div class="container inner tp0">
         <div class="blog row">
             <div class="col-sm-8 blog-content list-view">
-                <div class="product-layout-view active row">
-                        <a [class.active]="enLista" (click)="activarEnLista(true)" title="List Layout">
-                                <i class="fa fa-list-ul" aria-hidden="true"></i>
-                            </a>
-                        <a [class.active]="!enLista" (click)="activarEnLista(false)" title="Grid Layout">
-                            <i class="fa fa-th" aria-hidden="true"></i>
-                        </a>
-                        
-                        </div>
+                <div class="product-layout-view active row leftBlock">
 
+                    <a [class.active]="enLista" (click)="activarEnLista(true)" title="List Layout">
+                        <i class="fa fa-list-ul" aria-hidden="true"></i>
+                    </a>
+                    <a [class.active]="!enLista" (click)="activarEnLista(false)" title="Grid Layout">
+                        <i class="fa fa-th" aria-hidden="true"></i>
+                    </a>
+
+                </div>
+
+                <div class="product-layout-view active row rightBlock">
+                    <div class="selectOrderBlock">
+                        <select name="orderby" class="orderby" [(ngModel)]="orderby" (change)="cambiarOrden()">
+                            <option value="date" selected="selected">Ordenado por fecha</option>
+                            <option value="score">Ordenado por nota</option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="clearfix"></div>
                 <app-genero-vista-grid *ngIf="!enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers"></app-genero-vista-grid>
                 <app-genero-vista-lista *ngIf="enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers"></app-genero-vista-lista>
                 <!-- /.blog-content -->

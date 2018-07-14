@@ -36,10 +36,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.configuration.MomokoConfiguracion;
@@ -399,7 +399,7 @@ public class AMPFacade {
                         + "<amp-accordion layout=\"container\" disable-session-states=\"\" class=\"ampstart-dropdown\"> <section>"
                         + "            <header>" + menuDTO.getNombre() + "</header>"
                         + "            <ul class=\"ampstart-dropdown-items list-reset m0 p0\">");
-                for (final GeneroDTO generoDTO : menuDTO.getGeneros()) {
+                for (final GenreDTO generoDTO : menuDTO.getGeneros()) {
                     builder.append("<li class=\"ampstart-dropdown-item\">"
                             + "                <a href=\"https://momoko.es/genero/" + generoDTO.getUrlGenero()
                             + "\" class=\"menulink\">" + "                    <amp-img class=\"amp-sidebar-image\""

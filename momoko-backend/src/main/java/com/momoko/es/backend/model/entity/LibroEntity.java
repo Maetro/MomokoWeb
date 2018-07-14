@@ -61,7 +61,7 @@ public class LibroEntity {
     /** The genero id. */
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "libro_genero", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "generoId", referencedColumnName = "generoId"))
-    private Set<GeneroEntity> generos;
+    private Set<GenreEntity> generos;
 
     /** The url libro. */
     private String urlLibro;
@@ -210,7 +210,7 @@ public class LibroEntity {
      *
      * @return the generos
      */
-    public Set<GeneroEntity> getGeneros() {
+    public Set<GenreEntity> getGeneros() {
         return this.generos;
     }
 
@@ -220,7 +220,7 @@ public class LibroEntity {
      * @param generos
      *            the new generos
      */
-    public void setGeneros(final Set<GeneroEntity> generos) {
+    public void setGeneros(final Set<GenreEntity> generos) {
         this.generos = generos;
     }
 
