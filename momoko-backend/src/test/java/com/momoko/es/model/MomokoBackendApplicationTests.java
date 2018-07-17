@@ -6,18 +6,17 @@
  */
 package com.momoko.es.model;
 
-import com.momoko.es.backend.ModelApplication;
+import com.momoko.es.backend.MomokoBackendApplication;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = ModelApplication.class)
-public class ModelApplicationTests {
+@SpringBootTest(classes = MomokoBackendApplication.class)
+public class MomokoBackendApplicationTests {
 
 
     @Autowired(required = false)
