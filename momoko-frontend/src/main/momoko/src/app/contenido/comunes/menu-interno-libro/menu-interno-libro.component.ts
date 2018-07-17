@@ -14,16 +14,20 @@ export class MenuInternoLibroComponent implements OnInit {
 
   urlVideo: string;
   urlAnalisis: string;
-  hayVideo = false;
+  urlNoticia: string;
+  urlMiscelaneo: string;
   hayAnalisis = false;
-  hayNoticias = false;
-  hayGuia = false;
+  numNoticias = 0;
+  numMiscelaneos = 0;
+  numVideos = 0;
   esSaga = false;
   menuLibroExtra: DatoEntrada[];
 
+  @Input() parentType: string;
+  @Input() datosEntrada: DatoEntrada[];
   @Input() libro: Libro;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     if (this.log) {
@@ -32,12 +36,16 @@ export class MenuInternoLibroComponent implements OnInit {
     if (this.libro.saga != null) {
       this.esSaga = true;
     }
-    if (this.libro.entradasLibro.length > 0) {
-      this.libro.entradasLibro.forEach(entrada => {
+    if (this.datosEntrada.length > 0) {
+      if (this.log) {
+        console.log('Iniciando menu');
+      }
+      this.datosEntrada.forEach(entrada => {
         switch (entrada.tipoEntrada) {
           // 1 - NOTICIA
           case 1: {
-            this.hayNoticias = true;
+            this.numNoticias++;
+            this.urlNoticia = entrada.urlEntrada;
             break;
           }
           // 2 - ANALISIS
@@ -46,11 +54,16 @@ export class MenuInternoLibroComponent implements OnInit {
             this.urlAnalisis = entrada.urlEntrada;
             break;
           }
-          // 3 - VIDEO
+          // 3 - MISCELANEO
           case 3: {
-            this.hayVideo = true;
-            this.urlVideo = entrada.urlEntrada;
+            this.numMiscelaneos++;
+            this.urlMiscelaneo = entrada.urlEntrada;
             break;
+          }
+          // 4 -VIDEO
+          case 4: {
+            this.numVideos++;
+            this.urlVideo = entrada.urlEntrada;
           }
           default: {
             break;
@@ -63,11 +76,25 @@ export class MenuInternoLibroComponent implements OnInit {
           this.menuLibroExtra.push(entrada);
         }
       });
+
     }
   }
 
-  isActive(instruction: any[]): boolean {
+  isActive(instruction: string): boolean {
     // Set the second parameter to true if you want to require an exact match.
-    return this.router.isActive(this.router.createUrlTree(instruction), false);
+    console.log(instruction);
+    let isActive = false;
+    if (this.parentType == 'MISCELANEO'){
+      const actualUrl = this.router.url;
+      const divided = actualUrl.split('/');
+      if (divided.length == 1){
+        isActive = instruction === this.parentType;
+      } else {
+        isActive = divided[1] === instruction;
+      }
+    } else {
+      isActive = instruction === this.parentType;
+    }
+    return isActive;
   }
 }

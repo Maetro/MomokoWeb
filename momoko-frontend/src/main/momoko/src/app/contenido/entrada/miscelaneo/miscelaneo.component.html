@@ -4,7 +4,7 @@
   <div *ngIf="entrada.librosEntrada?.length > 0; else elseBlock" class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
     <div class="container inner">
       <div class="textoCabecera">
-        <span> Misceláneos </span>
+        <span> {{entrada.tituloEntrada}} </span>
       </div>
     </div>
   </div>
@@ -12,7 +12,7 @@
     <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
       <div class="container inner">
         <div class="textoCabecera">
-          <span> Misceláneos </span>
+          <span> {{entrada.tituloEntrada}} </span>
         </div>
       </div>
       <!-- /.container -->
@@ -20,8 +20,7 @@
   </ng-template>
 
 
-  <app-menu-interno-libro *ngIf="entrada.librosEntrada?.length > 0" [libro]="entrada.librosEntrada[0]"></app-menu-interno-libro>
-  <app-menu-interno-saga *ngIf="entrada.sagasEntrada?.length > 0" [datosEntrada]="entrada.datosEntrada" [parentType]="'MISCELANEO'"></app-menu-interno-saga>
+  <app-menu-interno-libro *ngIf="entrada.librosEntrada?.length > 0" [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'MISCELANEO'"></app-menu-interno-libro>
   <div class="container inner tp0">
 
     <div class="divide60"></div>

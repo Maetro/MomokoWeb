@@ -1,4 +1,4 @@
-import { OrderType } from './../../../../dtos/enums/ordertype';
+import { OrderType } from '../../../../dtos/enums/ordertype';
 import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';

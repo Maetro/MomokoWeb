@@ -13,20 +13,42 @@
           </a>
         </li>
         <li class="nav-item" *ngIf="hayAnalisis">
-          <a routerLinkActive="active" routerLink="/analisis/{{urlAnalisis}}" [class.active]="isActive(['analisis', urlAnalisis])">
+          <a routerLinkActive="active" routerLink="/analisis/{{urlAnalisis}}" [class.active]="isActive('ANALISIS')">
             <u>Análisis</u>
           </a>
         </li>
-        <li class="nav-item" *ngIf="hayNoticias">
-          <a class="nav-link link-noticia" routerLinkActive="active" routerLink="/libro/{{libro.urlLibro}}/noticias/">
-            <u>Noticias </u>
+        <li class="nav-item" *ngIf="numNoticias == 1">
+          <a class="nav-link link-noticia" routerLink="/{{urlNoticia}}" [class.active]="isActive('NOTICIA')">
+            <u>Noticias</u>
           </a>
         </li>
-        <li class="nav-item" *ngIf="hayGuia">
-          <a class="nav-link disabled" routerLink="/libro/guia-personajes/{{libro.urlLibro}}">Guía de personajes </a>
+        <li class="nav-item" *ngIf="numNoticias > 1">
+          <a class="nav-link link-noticia" routerLink="/noticias-libro/{{libro.urlLibro}}" [class.active]="isActive('NOTICIA')">
+            <u>Noticias</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numMiscelaneos == 1">
+          <a class="nav-link link-noticia" routerLink="/{{urlMiscelaneo}}" [class.active]="isActive('MISCELANEO')">
+            <u>Miscelaneos</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numMiscelaneos > 1">
+          <a class="nav-link link-noticia" routerLink="/miscelaneos-libro/{{libro.urlLibro}}" [class.active]="isActive('MISCELANEO')">
+            <u>Miscelaneos</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numVideos == 1">
+          <a class="nav-link link-noticia" routerLink="/{{urlVideo}}" [class.active]="isActive('VIDEO')">
+            <u>Vídeos</u>
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="numVideos > 1">
+          <a class="nav-link link-noticia" routerLink="/videos-libro/{{libro.urlLibro}}" [class.active]="isActive('VIDEO')">
+            <u>Vídeos</u>
+          </a>
         </li>
         <li class="nav-item" *ngFor="let datoEntrada of menuLibroExtra, let last = last;">
-          <a class="nav-link" routerLink="/libro/{{libro.urlLibro}}/{{datoEntrada.urlMenuLibro}}/{{datoEntrada.urlEntrada}}" [class.active]="isActive(['libro', libro.urlLibro, datoEntrada.urlMenuLibro, datoEntrada.urlEntrada])">
+          <a class="nav-link" routerLink="/{{datoEntrada.urlMenuLibro}}/{{datoEntrada.urlEntrada}}" [class.active]="isActive(datoEntrada.urlMenuLibro)">
             <u>{{datoEntrada.nombreMenuLibro}}</u>
           </a>
         </li>

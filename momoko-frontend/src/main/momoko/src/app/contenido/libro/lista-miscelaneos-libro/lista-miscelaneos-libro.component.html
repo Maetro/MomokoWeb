@@ -1,0 +1,189 @@
+<div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + libro.generos[0].imagenCabeceraGenero + ')'}">
+  <div class="container inner">
+    <h1 class="text-center">
+      <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
+        <span [hidden]="last">, </span>
+      </span>
+    </h1>
+  </div>
+</div>
+<app-menu-interno-libro [libro]="libro"></app-menu-interno-libro>
+<div class="light-wrapper">
+  <div class="container inner nopaddingbottom">
+    <div class="blog row">
+      <div class="col-md-4" id="mirarAnchura">
+        <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.urlImagen"></app-libro3d>
+        <div class="post__share" data-title="" data-text="" data-image="http://demo.tokomoo.com/pustaka/buku/wp-content/uploads/sites/3/2016/10/Book_003.jpg"
+          data-url="http://demo.tokomoo.com/pustaka/buku/product/since-youve-been-gone/" data-width="640" data-height="480">
+          <strong></strong>
+          <div class="row">
+            <div class="col-md-12 bloqueRedes">
+              <a href="" class="facebook s_facebook">
+                <i class="fa fa-facebook"></i>
+                <span class="label">Facebook</span>
+              </a>
+              <a href="" class="twitter s_twitter">
+                <i class="fa fa-twitter"></i>
+                <span class="label">Twitter</span>
+              </a>
+              <a href="" class="google-plus s_plus">
+                <i class="fa fa-google-plus"></i>
+                <span class="label">Google+</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="row">
+          <div class="col-md-9">
+            <div class="etiquetaLibro">
+              <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
+                <span [hidden]="last"> / </span>
+              </span>
+            </div>
+            <h1 class="post-title">{{libro.titulo}} </h1>
+            <p class="titulo_original"> {{libro.tituloOriginal}} </p>
+            <div class="autor_libro" *ngFor="let autor of libro.autores"> {{autor.nombre}} </div>
+          </div>
+          <div class="col-md-3" *ngIf="libro.notaMomoko">
+            <app-nota-circular [nota]="libro.notaMomoko"></app-nota-circular>
+          </div>
+          <div class="col-md-12">
+            <p> {{libro.resumen}} </p>
+          </div>
+          <div class="col-md-12">
+            <div class="datos editorial" *ngIf="libro.editorial.nombreEditorial">
+              <b>EDITORIAL: </b>
+              <span class="info">{{libro.editorial.nombreEditorial}}</span>
+            </div>
+            <div class="datos anoEdicion" *ngIf="libro.anoEdicion">
+              <b>AÑO DE EDICIÓN: </b>
+              <span class="info">{{libro.anoEdicion}}</span>
+            </div>
+            <div class="datos anoPublicacion" *ngIf="libro.anoPublicacion">
+              <b>AÑO DE PUBLICACIÓN: </b>
+              <span class="info">{{libro.anoPublicacion}}</span>
+            </div>
+            <div class="datos numPaginas" *ngIf="libro.numeroPaginas">
+              <b>Nº PÁGINAS: </b>
+              <span class="info">{{libro.numeroPaginas}}</span>
+            </div>
+          </div>
+          <div class="col-md-12 marginTop40" *ngIf="libro.enlaceAmazon">
+            <a class="amazon" href="http://amzn.to/2tpXpDd" target="_blank" title="Compra  en Amazon">
+              <span class="btnComprarAmazon">Comprar libro &gt;</span>
+              <img src="https://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Comprar amazon" title="Amazon">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="light-wrapper">
+  <div class="container inner tp0">
+    <div class="divide60"></div>
+    <div class="blog row">
+      <div class="col-sm-12 blog-content list-view">
+        <div class="row">
+          <div class="col-sm-9">
+            <div class="product-layout-view active">
+              <a class="active" (click)="desactivarEnLista()" title="Grid Layout">
+                <i class="fa fa-th" aria-hidden="true"></i>
+              </a>
+              <a class="iconomono" (click)="activarEnLista()" title="List Layout">
+                <i class="fa fa-list-ul" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="blog-content marginTop20">
+          <div class="blog-post">
+            <div class="row" *ngIf="!enLista">
+              <div class="libroGenero" *ngFor="let entrada of noticias, let i = index; let first = first">
+                <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
+                <div class="col-sm-4">
+                  <div class="entrada">
+                    <figure class="entrada__image">
+                      <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">
+                        <span>
+                          <img src="{{entrada.imagenEntrada}}" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                        </span>
+                      </a>
+                      <div class="entrada__action">
+                        <a routerLink="/noticia/{{entrada.urlEntrada}}" title="Ver más información sobre {{entrada.tituloEntrada}}"
+                          class="button buy-now" style="
+                              font-size:11px;">
+                          <span>Ver más información</span>
+                        </a>
+                      </div>
+                    </figure>
+                    <div class="entrada__detail">
+                      <h3 class="entrada__title" title="{{entrada.tituloEntrada}}">
+                        <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}">{{entrada.tituloEntrada}}</a>
+                      </h3>
+                      <h4 class="entrada__autor">
+                        {{entrada.nombreAutor}}
+                      </h4>
+                      <a routerLink="/noticia/{{entrada.urlEntrada}}" title="{{entrada.tituloEntrada}}" class="btn_leer_mas">
+                        Leer más
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+            <div class="row" *ngIf="enLista">
+              <div class="categoriaEntradaLista" *ngFor="let entrada of noticias, let i = index; let first = first">
+                <div class="col-sm-4">
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}">
+                    <img src="{{entrada.imagenEntrada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
+                  </a>
+                </div>
+                <div class="col-sm-8">
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}">
+                    <h3 class="titulo_libro"> {{entrada.tituloEntrada}} </h3>
+                  </a>
+                  <span class="autor_libro"> {{entrada.nombreAutor}} </span>
+
+                  <div class="descripcionlibro" [innerHTML]="entrada.resumen"> </div>
+
+                  <a routerLink="/noticia/{{entrada.urlEntrada}}" class="btn">Leer más </a>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+
+            </div>
+
+            <!--   <nav class="paginas-pagination">
+                    <ul class="page-numbers">
+                      <li *ngFor="let number of numbers">
+                        <a>
+                          <span class="page-numbers" (click)="loadPage(number)">{{number}}</span>
+                        </a>
+                      </li>
+                      <li>
+                        <a class="next page-numbers" href="#">→</a>
+                      </li>
+                    </ul>
+                  </nav>-->
+
+
+
+
+            <!-- /.page-navi -->
+            <div class="clearfix"></div>
+          </div>
+          <!-- /.blog-content -->
+        </div>
+
+
+      </div>
+      <!-- /.blog -->
+
+    </div>
+  </div>

@@ -30,7 +30,7 @@ const appRoutes = [
     }
   },
   {
-    path: 'libro/:url/noticias',
+    path: 'noticias-libro/:url-libro',
     loadChildren:
       './contenido/libro/lista-noticias-libro/lista-noticias-libro.module#ListaNoticiasLibroModule',
     resolve: {

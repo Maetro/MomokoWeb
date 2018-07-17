@@ -335,7 +335,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
             final EntradaDTO entradaDTO) {
-        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        final Set<DatoEntradaDTO> datosEntradas = new HashSet<>();
         final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
         final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
         if (CollectionUtils.isNotEmpty(librosEntrada)) {
@@ -353,13 +353,12 @@ public class EntradaServiceImpl implements EntradaService {
                         datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
                         datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
                         datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
-                        listaDatosEntradas.add(datoEntrada);
+                        datosEntradas.add(datoEntrada);
                     }
                 }
 
                 if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
                     for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
-                        libroDTO.setEntradasLibro(listaDatosEntradas);
                         librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
 
                         final PuntuacionEntity puntuacion = this.puntuacionRepository
@@ -386,6 +385,7 @@ public class EntradaServiceImpl implements EntradaService {
 
                 }
             }
+            entradaDTO.setDatosEntrada(new ArrayList<>(datosEntradas));
         }
     }
 

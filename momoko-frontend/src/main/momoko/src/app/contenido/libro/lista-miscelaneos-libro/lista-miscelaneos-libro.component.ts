@@ -8,11 +8,11 @@ import { Title, Meta } from '@angular/platform-browser';
 import { ObtenerPaginaColeccionLibroResponse } from '../../../dtos/response/obtenerPaginaLibroNoticiasResponse';
 
 @Component({
-  selector: 'app-lista-noticias-libro',
-  templateUrl: './lista-noticias-libro.component.html',
-  styleUrls: ['./lista-noticias-libro.component.css']
+  selector: 'app-lista-miscelaneos-libro',
+  templateUrl: './lista-miscelaneos-libro.component.html',
+  styleUrls: ['./lista-miscelaneos-libro.component.css']
 })
-export class ListaNoticiasLibroComponent implements OnInit {
+export class ListaMiscelaneosLibroComponent implements OnInit {
 
   private log = environment.log;
 

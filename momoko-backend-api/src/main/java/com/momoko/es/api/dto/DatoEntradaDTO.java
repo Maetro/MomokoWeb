@@ -8,6 +8,8 @@ package com.momoko.es.api.dto;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.momoko.es.api.enums.TipoEntrada;
@@ -125,6 +127,24 @@ public class DatoEntradaDTO implements Serializable {
                 .append("tipoEntrada", TipoEntrada.obtenerTipoEntrada(this.tipoEntrada).getNombre())
                 .append("urlEntrada", this.urlEntrada).append("enMenu", this.enMenu)
                 .append("nombreMenuLibro", this.nombreMenuLibro).append("urlMenuLibro", this.urlMenuLibro).toString();
+    }
+
+    @Override
+    public boolean equals(final Object other) {
+        if (!(other instanceof DatoEntradaDTO)) {
+            return false;
+        }
+        final DatoEntradaDTO castOther = (DatoEntradaDTO) other;
+        return new EqualsBuilder().append(this.tipoEntrada, castOther.tipoEntrada)
+                .append(this.urlEntrada, castOther.urlEntrada).append(this.enMenu, castOther.enMenu)
+                .append(this.nombreMenuLibro, castOther.nombreMenuLibro)
+                .append(this.urlMenuLibro, castOther.urlMenuLibro).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this.tipoEntrada).append(this.urlEntrada).append(this.enMenu)
+                .append(this.nombreMenuLibro).append(this.urlMenuLibro).toHashCode();
     }
 
 }

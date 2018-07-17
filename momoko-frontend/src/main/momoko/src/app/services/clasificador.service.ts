@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import { GenrePageResponse } from '../dtos/genre/genrePageResponse';
 import { ObtenerPaginaCategoriaResponse } from '../dtos/response/obtenerPaginaCategoriaResponse';
 import { ObtenerPaginaEtiquetaResponse } from '../dtos/response/obtenerPaginaEtiquetaResponse';
-import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { ObtenerPaginaColeccionLibroResponse } from '../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
 import { ObtenerPaginaRedactorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
 import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
@@ -22,6 +22,7 @@ export class ClasificadorService {
   getCategoriaUrl = environment.getCategoriaUrl;
   getEtiquetaUrl = environment.getEtiquetaUrl;
   getNoticiasLibroUrl = environment.getNoticiasLibroUrl;
+  getMiscelaneosLibroUrl = environment.getMiscelaneosLibroUrl;
   getBusquedaUrl = environment.getBusquedaUrl;
   getEditorUrl = environment.getEditorUrl;
   getEditorialUrl = environment.getEditorialUrl;
@@ -89,24 +90,41 @@ export class ClasificadorService {
     return res;
   }
 
-  getPaginaNoticiasLibro(urlLibro): Observable<ObtenerPaginaLibroNoticiasResponse> {
+  getPaginaNoticiasLibro(urlLibro): Observable<ObtenerPaginaColeccionLibroResponse> {
     if (this.log) {
       console.log(urlLibro);
     }
-    return this.http.get<ObtenerPaginaLibroNoticiasResponse>(this.getNoticiasLibroUrl + urlLibro).map(this.obtenerNoticiasLibroDeRespuesta)
+    return this.http.get<ObtenerPaginaColeccionLibroResponse>(this.getNoticiasLibroUrl + urlLibro).map(this.obtenerColeccionLibroDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getPaginaNoticiasLibroPage(urlLibro, numeroPagina): Observable<ObtenerPaginaLibroNoticiasResponse> {
+  getPaginaNoticiasLibroPage(urlLibro, numeroPagina): Observable<ObtenerPaginaColeccionLibroResponse> {
     if (this.log) {
       console.log(urlLibro);
     }
-    return this.http.get<ObtenerPaginaLibroNoticiasResponse>(this.getNoticiasLibroUrl + urlLibro + '/' + numeroPagina)
-      .map(this.obtenerNoticiasLibroDeRespuesta)
+    return this.http.get<ObtenerPaginaColeccionLibroResponse>(this.getNoticiasLibroUrl + urlLibro + '/' + numeroPagina)
+      .map(this.obtenerColeccionLibroDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerNoticiasLibroDeRespuesta(res: ObtenerPaginaLibroNoticiasResponse) {
+  getPaginaMiscelaneosLibro(urlLibro): Observable<ObtenerPaginaColeccionLibroResponse> {
+    if (this.log) {
+      console.log(urlLibro);
+    }
+    return this.http.get<ObtenerPaginaColeccionLibroResponse>(this.getMiscelaneosLibroUrl + urlLibro).map(this.obtenerColeccionLibroDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getPaginaMiscelaneosLibroPage(urlLibro, numeroPagina): Observable<ObtenerPaginaColeccionLibroResponse> {
+    if (this.log) {
+      console.log(urlLibro);
+    }
+    return this.http.get<ObtenerPaginaColeccionLibroResponse>(this.getMiscelaneosLibroUrl + urlLibro + '/' + numeroPagina)
+      .map(this.obtenerColeccionLibroDeRespuesta)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerColeccionLibroDeRespuesta(res: ObtenerPaginaColeccionLibroResponse) {
     return res;
   }
 
@@ -114,8 +132,8 @@ export class ClasificadorService {
     if (this.log) {
       console.log(parametrosBusqueda);
     }
-    return this.http.get<ObtenerPaginaLibroNoticiasResponse>(this.getBusquedaUrl + parametrosBusqueda)
-      .map(this.obtenerNoticiasLibroDeRespuesta)
+    return this.http.get<ObtenerPaginaColeccionLibroResponse>(this.getBusquedaUrl + parametrosBusqueda)
+      .map(this.obtenerColeccionLibroDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 

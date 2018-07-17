@@ -6,7 +6,7 @@ import { ClasificadorService } from '../clasificador.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class ObtenerLibroNoticiasResolverService implements Resolve<ObtenerPaginaColeccionLibroResponse> {
+export class ObtenerLibroMiscelaneosResolverService implements Resolve<ObtenerPaginaColeccionLibroResponse> {
 
   private log = environment.log;
 
@@ -14,7 +14,7 @@ export class ObtenerLibroNoticiasResolverService implements Resolve<ObtenerPagin
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaColeccionLibroResponse> {
     if (this.log) {
-      console.log('Obteniendo lista noticias libro');
+      console.log('Obteniendo lista miscelaneos libro');
     }
     const url = route.paramMap.get('url-libro');
     const numeroPagina = route.paramMap.get('numero_pagina');
