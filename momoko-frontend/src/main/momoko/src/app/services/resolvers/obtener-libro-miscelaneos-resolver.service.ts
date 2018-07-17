@@ -19,7 +19,7 @@ export class ObtenerLibroMiscelaneosResolverService implements Resolve<ObtenerPa
     const url = route.paramMap.get('url-libro');
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
-      return this.clasificadorService.getPaginaNoticiasLibroPage(url, numeroPagina).take(1).map(libroNoticias => {
+      return this.clasificadorService.getPaginaMiscelaneosLibroPage(url, numeroPagina).take(1).map(libroNoticias => {
         if (libroNoticias.libro != null) {
           return libroNoticias;
         } else { // url not found
@@ -28,7 +28,7 @@ export class ObtenerLibroMiscelaneosResolverService implements Resolve<ObtenerPa
         }
       });
     } else {
-      return this.clasificadorService.getPaginaNoticiasLibro(url).take(1).map(libroNoticias => {
+      return this.clasificadorService.getPaginaMiscelaneosLibro(url).take(1).map(libroNoticias => {
         if (libroNoticias.libro != null) {
           return libroNoticias;
         } else { // url not found

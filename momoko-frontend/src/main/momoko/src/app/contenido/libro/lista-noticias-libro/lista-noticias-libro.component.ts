@@ -1,3 +1,4 @@
+import { DatoEntrada } from './../../../dtos/datoEntrada';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
@@ -19,6 +20,7 @@ export class ListaNoticiasLibroComponent implements OnInit {
   libro: Libro;
   noticias: EntradaSimple[];
   numeroEntradas: number;
+  datosEntrada: DatoEntrada[];
   anchura: number;
   enLista: boolean;
   constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router,
@@ -36,6 +38,7 @@ export class ListaNoticiasLibroComponent implements OnInit {
       this.libro = noticiasLibro.noticiasLibro.libro;
       this.noticias = noticiasLibro.noticiasLibro.noticias;
       this.numeroEntradas = noticiasLibro.noticiasLibro.numeroEntradas;
+      this.datosEntrada = noticiasLibro.noticiasLibro.datoEntrada;
       let autores = '';
       this.libro.autores.forEach(autor => {
         autores = autores + autor.nombre + ', '

@@ -6,18 +6,25 @@
  */
 package com.momoko.es.backend.model.facade;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
+import com.momoko.es.api.dto.response.*;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.TipoVisitaEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
+import com.momoko.es.api.exceptions.UserNotFoundException;
+import com.momoko.es.api.google.GoogleSearch;
+import com.momoko.es.api.google.Item;
+import com.momoko.es.backend.model.service.*;
+import com.momoko.es.util.ConversionUtils;
+import com.momoko.es.util.NotFoundException;
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapGenerator;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,72 +35,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.InitDataDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
-import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.MenuDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.ResultadoBusquedaDTO;
-import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.dto.request.NuevoComentarioRequest;
-import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
-import com.momoko.es.api.dto.response.GuardarComentarioResponse;
-import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
-import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;
-import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
-import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaSagaColeccionResponse;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.TipoEntrada;
-import com.momoko.es.api.enums.TipoVisitaEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
-import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
-import com.momoko.es.api.exceptions.UserNotFoundException;
-import com.momoko.es.api.google.GoogleSearch;
-import com.momoko.es.api.google.Item;
-import com.momoko.es.backend.model.service.BuscadorService;
-import com.momoko.es.backend.model.service.ComentarioService;
-import com.momoko.es.backend.model.service.EditorialService;
-import com.momoko.es.backend.model.service.EntradaService;
-import com.momoko.es.backend.model.service.EtiquetaService;
-import com.momoko.es.backend.model.service.GenreService;
-import com.momoko.es.backend.model.service.IndexService;
-import com.momoko.es.backend.model.service.LibroService;
-import com.momoko.es.backend.model.service.SagaService;
-import com.momoko.es.backend.model.service.StorageService;
-import com.momoko.es.backend.model.service.TrackService;
-import com.momoko.es.backend.model.service.UserService;
-import com.momoko.es.backend.model.service.ValidadorService;
-import com.momoko.es.util.ConversionUtils;
-import com.momoko.es.util.NotFoundException;
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapGenerator;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
@@ -574,7 +522,7 @@ public class PublicFacade {
         final LibroDTO libro = this.libroService.obtenerLibro(urlLibro).getLibro();
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
         int numeroEntradas = 0;
-
+        Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
             if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.NOTICIA.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
@@ -592,7 +540,9 @@ public class PublicFacade {
 
                 numeroEntradas++;
             }
+            datosEntrada.add(datoEntradaDTO);
         }
+        paginaLibroNoticiasResponse.setDatoEntrada(new ArrayList<>(datosEntrada));
         paginaLibroNoticiasResponse.setLibro(libro);
         paginaLibroNoticiasResponse.setNoticias(noticias);
         paginaLibroNoticiasResponse.setNumeroEntradas(numeroEntradas);

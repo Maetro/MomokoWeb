@@ -82,7 +82,6 @@ export class MenuInternoLibroComponent implements OnInit {
 
   isActive(instruction: string): boolean {
     // Set the second parameter to true if you want to require an exact match.
-    console.log(instruction);
     let isActive = false;
     if (this.parentType == 'MISCELANEO'){
       const actualUrl = this.router.url;
