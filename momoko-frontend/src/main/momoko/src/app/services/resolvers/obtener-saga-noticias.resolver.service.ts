@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ObtenerPaginaLibroNoticiasResponse } from '../../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import {
   Resolve,
   Router,
@@ -9,11 +8,11 @@ import {
 import { environment } from '../../../environments/environment';
 import { ClasificadorService } from '../clasificador.service';
 import { Observable } from 'rxjs/Observable';
-import { ObtenerPaginaNoticiasSagaResponse } from '../../dtos/response/obtenerPaginaNoticiasSagaResponse';
+import { ObtenerPaginaColeccionSagaResponse } from '../../dtos/response/obtenerPaginaSagaColeccionResponse';
 
 @Injectable()
 export class ObtenerSagaNoticiasResolverService
-  implements Resolve<ObtenerPaginaNoticiasSagaResponse> {
+  implements Resolve<ObtenerPaginaColeccionSagaResponse> {
   private log = environment.log;
 
   constructor(
@@ -24,7 +23,7 @@ export class ObtenerSagaNoticiasResolverService
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
-  ): Observable<ObtenerPaginaNoticiasSagaResponse> {
+  ): Observable<ObtenerPaginaColeccionSagaResponse> {
     if (this.log) {
       console.log('Obteniendo lista noticias saga');
     }
@@ -32,9 +31,9 @@ export class ObtenerSagaNoticiasResolverService
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
       return this.clasificadorService.getPaginaNoticiasSagaPage(url, numeroPagina).take(1)
-        .map(sagaNoticias => {
-          if (sagaNoticias.saga != null) {
-            return sagaNoticias;
+        .map(noticiasSaga => {
+          if (noticiasSaga.saga != null) {
+            return noticiasSaga;
           } else {
             // url not found
             this.router.navigate(['/not-found']);
@@ -42,9 +41,9 @@ export class ObtenerSagaNoticiasResolverService
           }
         });
     } else {
-      return this.clasificadorService.getPaginaNoticiasSaga(url).take(1).map(sagaNoticias => {
-          if (sagaNoticias.saga != null) {
-            return sagaNoticias;
+      return this.clasificadorService.getPaginaNoticiasSaga(url).take(1).map(noticiasSaga => {
+          if (noticiasSaga.saga != null) {
+            return noticiasSaga;
           } else {
             // url not found
             this.router.navigate(['/not-found']);

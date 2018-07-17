@@ -16,6 +16,8 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.momoko.es.api.dto.genre.GenreDTO;
+
 /**
  * The Class LibroDTO.
  */
@@ -37,7 +39,7 @@ public class LibroDTO implements Serializable {
     private EditorialDTO editorial;
 
     /** The genero id. */
-    private Set<GeneroDTO> generos;
+    private Set<GenreDTO> generos;
 
     /** The titulo. */
     private String titulo;
@@ -186,7 +188,7 @@ public class LibroDTO implements Serializable {
      *
      * @return the generos
      */
-    public Set<GeneroDTO> getGeneros() {
+    public Set<GenreDTO> getGeneros() {
         return this.generos;
     }
 
@@ -253,7 +255,7 @@ public class LibroDTO implements Serializable {
      * @param generos
      *            the new generos
      */
-    public void setGeneros(final Set<GeneroDTO> generos) {
+    public void setGeneros(final Set<GenreDTO> generos) {
         this.generos = generos;
     }
 

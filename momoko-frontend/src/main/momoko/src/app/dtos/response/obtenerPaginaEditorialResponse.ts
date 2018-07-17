@@ -1,5 +1,5 @@
-import { Editorial } from './../editorial';
-import { Genero } from "../genero";
+import { Editorial } from '../editorial';
+import { Genero } from "../genre/genero";
 import { EntradaSimple } from "../entradaSimple";
 import { LibroSimple } from "../libroSimple";
 

@@ -14,7 +14,7 @@ import { environment } from '../../../environments/environment';
   </div>
 </div>
   `,
-  styles: []
+  styles: ['.logo {margin: 115px auto 50px;}']
 })
 export class HeaderComponent implements OnInit {
   private log = environment.log;

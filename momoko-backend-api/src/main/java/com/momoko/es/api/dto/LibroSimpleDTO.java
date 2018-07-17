@@ -45,6 +45,18 @@ public class LibroSimpleDTO implements Serializable {
     /** The visitas. */
     private Integer visitas;
 
+    /** The representa saga. */
+    private boolean representaSaga;
+
+    /** The url saga. */
+    private String urlSaga;
+
+    /** The nombre saga. */
+    private String nombreSaga;
+
+    /** The resumen. */
+    private String resumen;
+
     /**
      * Gets the titulo.
      *
@@ -214,6 +226,82 @@ public class LibroSimpleDTO implements Serializable {
      */
     public void setVisitas(final Integer visitas) {
         this.visitas = visitas;
+    }
+
+    /**
+     * Checks if is representa saga.
+     *
+     * @return true, if is representa saga
+     */
+    public boolean isRepresentaSaga() {
+        return this.representaSaga;
+    }
+
+    /**
+     * Sets the representa saga.
+     *
+     * @param representaSaga
+     *            the new representa saga
+     */
+    public void setRepresentaSaga(final boolean representaSaga) {
+        this.representaSaga = representaSaga;
+    }
+
+    /**
+     * Gets the url saga.
+     *
+     * @return the url saga
+     */
+    public String getUrlSaga() {
+        return this.urlSaga;
+    }
+
+    /**
+     * Sets the url saga.
+     *
+     * @param urlSaga
+     *            the new url saga
+     */
+    public void setUrlSaga(final String urlSaga) {
+        this.urlSaga = urlSaga;
+    }
+
+    /**
+     * Gets the nombre saga.
+     *
+     * @return the nombre saga
+     */
+    public String getNombreSaga() {
+        return this.nombreSaga;
+    }
+
+    /**
+     * Sets the nombre saga.
+     *
+     * @param nombreSaga
+     *            the new nombre saga
+     */
+    public void setNombreSaga(final String nombreSaga) {
+        this.nombreSaga = nombreSaga;
+    }
+
+    /**
+     * Gets the resumen.
+     *
+     * @return the resumen
+     */
+    public String getResumen() {
+        return this.resumen;
+    }
+
+    /**
+     * Sets the resumen.
+     *
+     * @param resumen
+     *            the new resumen
+     */
+    public void setResumen(final String resumen) {
+        this.resumen = resumen;
     }
 
 }

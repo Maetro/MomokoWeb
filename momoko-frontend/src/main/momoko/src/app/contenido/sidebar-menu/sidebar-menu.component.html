@@ -1,0 +1,38 @@
+<div style='float:right; width: 100%;' class="menuMobile">
+<div class="nav-side-menu" [style.max-height.px]="maxheight">
+    <div class="brand">
+      <a routerLink="/" (click)="closeMenu()">
+        <img src="https://momoko.es/images/logo_momoko.png" alt="Logotipo de momoko.es" style="width:160px;"/>
+      </a>
+    </div>
+    <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+  
+        <div class="menu-list">
+  
+            <ul id="menu-content" class="menu-content collapse out">
+                <ng-container *ngFor="let menuPart of menu, let cont = index">
+                    <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active" (click)="closeMenu()">
+                  <li *ngIf="!menuPart.generos.length">
+                      <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active" (click)="closeMenu()">   
+                      {{menuPart.nombre}}
+                      </a>
+                  </li></a>
+                  <li *ngIf="menuPart.generos.length" data-toggle="collapse" [attr.data-target]="getMenuIdentifier(cont)" class="collapsed">
+                        <a> {{menuPart.nombre}} <span class="arrow"></span></a>
+                    </li>
+                  <ul class="sub-menu collapse" [id]="getSubmenuIdentifier(cont)" *ngIf="menuPart.generos.length">
+                      <ng-container *ngFor="let genero of menuPart.generos">
+                          <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active" (click)="closeMenu()">
+                      <li>  
+                        <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active" (click)="closeMenu()">
+                          <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" /> {{genero.nombre}} </a>
+                      </li>
+                    </a>
+                    </ng-container>
+                    </ul>
+                  </ng-container>
+                
+            </ul>
+     </div>
+</div>
+</div>

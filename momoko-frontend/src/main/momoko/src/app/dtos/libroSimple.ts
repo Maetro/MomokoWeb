@@ -8,4 +8,8 @@ export class LibroSimple {
     portadaWidth: number;
     portadaHeight: number;
     visitas: number;
+    representaSaga: boolean;
+    urlSaga: boolean;
+    nombreSaga: string;
+    resumen: string;
 }

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Libro } from '../dtos/libro';
-import { Genero } from '../dtos/genero';
+import { Genero } from '../dtos/genre/genero';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { Observable } from 'rxjs/Observable';
 import { FichaLibro } from '../dtos/fichaLibro';
 import { GuardarLibroResponse } from '../dtos/response/guardarLibroResponse';
-import { GuardarGeneroResponse } from '../dtos/response/guardarGeneroResponse';
+import { GuardarGeneroResponse } from '../dtos/genre/guardarGeneroResponse';
 import { JsonAdapterService } from './util/json-adapter.service';
 
 @Injectable()

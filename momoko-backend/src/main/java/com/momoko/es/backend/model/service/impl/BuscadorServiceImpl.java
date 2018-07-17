@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.backend.model.entity.CategoriaEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
-import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.entity.GenreEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.repository.CategoriaRepository;
 import com.momoko.es.backend.model.repository.EntradaRepository;
@@ -62,8 +62,8 @@ public class BuscadorServiceImpl implements BuscadorService {
     }
 
     @Override
-    public List<GeneroDTO> buscarGeneros(final List<String> generosUrls) {
-        final List<GeneroEntity> entidadesGeneros = this.generoRepository.findByUrlGeneroIn(generosUrls);
+    public List<GenreDTO> buscarGeneros(final List<String> generosUrls) {
+        final List<GenreEntity> entidadesGeneros = this.generoRepository.findByUrlGeneroIn(generosUrls);
         return EntityToDTOAdapter.adaptarGeneros(entidadesGeneros);
     }
 

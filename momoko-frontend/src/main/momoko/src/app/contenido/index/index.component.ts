@@ -1,4 +1,4 @@
-import { UtilService } from './../../services/util/util.service';
+import { UtilService } from '../../services/util/util.service';
 import { Component, OnInit, AfterViewInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { EntradaSimple } from '../../dtos/entradaSimple';

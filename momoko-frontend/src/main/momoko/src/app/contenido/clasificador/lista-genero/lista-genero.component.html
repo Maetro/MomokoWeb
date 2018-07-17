@@ -8,86 +8,37 @@
 
     </div>
     <div class="container inner tp0">
-        <div class="divide60"></div>
         <div class="blog row">
             <div class="col-sm-8 blog-content list-view">
-                <div class="row">
-                    <div class="col-sm-9">
-                        <div class="product-layout-view active">
-                            <a class="active" href="#" title="Grid Layout">
-                                <i class="fa fa-th" aria-hidden="true"></i>
-                            </a>
-                            <!-- <a class="iconomono" href="#" title="List Layout">
-                  <i class="fa fa-list-ul" aria-hidden="true"></i>
-                </a> -->
-                        </div>
-                    </div>
-                    <!-- <div class="col-sm-3">
-              <select class="ui-paginator-rpp-options ui-widget ui-state-default" (change)="onChangeOrder($event)">
-  
-                <option value="1">Orden por fecha </option>
-                <option value="2">Popularidad</option>
-              </select>
-              <br />
-              <br />
-            </div> -->
+                <div class="product-layout-view active row leftBlock">
+
+                    <a [class.active]="enLista" (click)="activarEnLista(true)" title="List Layout">
+                        <i class="fa fa-list-ul" aria-hidden="true"></i>
+                    </a>
+                    <a [class.active]="!enLista" (click)="activarEnLista(false)" title="Grid Layout">
+                        <i class="fa fa-th" aria-hidden="true"></i>
+                    </a>
+
                 </div>
 
-                <div class="blog-content marginTop20">
-                    <div class="blog-post">
-                        <div class="row">
-                            <div class="libroGenero" *ngFor="let libro of librosGenero, let i = index; let first = first">
-                                <div class="clearfix" *ngIf="i % 3 == 0 && !first"></div>
-                                <div class="col-sm-4" id="mirarAnchura{{i}}">
-
-
-
-                                    <div class="contenedorImagenes">
-                                        <a routerLink="/libro/{{libro.urlLibro}}">
-                                            <span class="helper over"></span>
-                                            <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} "/>
-                                        </a>
-                                    </div>
-                                    <!-- <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.portada"></app-libro3d> -->
-
-                                    <h3 class="titulo_libro">
-                                        <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
-                                    </h3>
-                                    <span class="autor_libro"> {{libro.nombreAutor}} </span>
-
-                                </div>
-
-                            </div>
-
-                        </div>
+                <div class="product-layout-view active row rightBlock">
+                    <div class="selectOrderBlock">
+                        <select name="orderby" class="orderby" [(ngModel)]="orderby" (change)="cambiarOrden()">
+                            <option value="date" selected="selected">Ordenado por fecha</option>
+                            <option value="score">Ordenado por nota</option>
+                        </select>
                     </div>
 
-                    <nav class="paginas-pagination">
-                        <ul class="page-numbers">
-                            <li *ngFor="let number of numbers">
-                                <a *ngIf="number > 1; else else1Block" routerLink="/genero/{{genero.urlGenero}}/{{number}}">
-                                    <span class="page-numbers">{{number}}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="next page-numbers" href="#">→</a>
-                            </li>
-                        </ul>
-                    </nav>
 
-                    <ng-template #else1Block>
-                        <a routerLink="/genero/{{genero.urlGenero}}">
-                            <span class="page-numbers">1</span>
-                        </a>
-                    </ng-template>
-
-                    <!-- /.page-navi -->
-                    <div class="clearfix"></div>
                 </div>
+                <div class="clearfix"></div>
+                <app-genero-vista-grid *ngIf="!enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers" [orderby]="orderby"></app-genero-vista-grid>
+                <app-genero-vista-lista *ngIf="enLista" [genero]="genero" [librosGenero]="librosGenero" [numbers]="numbers" [orderby]="orderby"></app-genero-vista-lista>
                 <!-- /.blog-content -->
             </div>
-            <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
-
+            <div style="margin-top: 20px;">
+                <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
+            </div>
         </div>
         <!-- /.blog -->
 

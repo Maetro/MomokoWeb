@@ -20,12 +20,12 @@ import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
 import com.momoko.es.api.enums.TipoEntrada;
@@ -85,7 +85,7 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorCreacionGenero> validarGenero(final GeneroDTO generoDTO) {
+    public List<ErrorCreacionGenero> validarGenero(final GenreDTO generoDTO) {
         final List<ErrorCreacionGenero> listaErrores = new ArrayList<>();
 
         if (StringUtils.isEmpty(generoDTO.getNombre())) {
@@ -122,7 +122,7 @@ public class ValidadorServiceImpl implements ValidadorService {
         }
         if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideoONoticia(entradaDTO)
                 && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
-                && CollectionUtils.isEmpty(entradaDTO.getSagasEntrada())) {
+                && CollectionUtils.isEmpty(entradaDTO.getNombresSagasEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
         if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {

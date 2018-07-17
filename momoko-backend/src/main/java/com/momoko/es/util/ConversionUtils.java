@@ -277,6 +277,7 @@ public class ConversionUtils {
         }
         libroSimpleDTO.setPortada(libro.getUrlImagen());
         libroSimpleDTO.setTitulo(libro.getTitulo());
+        libroSimpleDTO.setResumen(libro.getResumen());
         libroSimpleDTO.setUrlLibro(libro.getUrlLibro());
         libroSimpleDTO.setFechaAlta(libro.getFechaAlta());
         return libroSimpleDTO;

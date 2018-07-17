@@ -13,6 +13,7 @@ import { FormsModule } from '@angular/forms';
 import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.component';
 import { EntradasSidebarComponent } from './sidebar/entradas-sidebar/entradas-sidebar.component';
 import { MobileSidebarComponent } from './mobile-sidebar/mobile-sidebar.component';
+import { TruncatePipe } from './truncate-pipe/truncate.pipe';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule],
@@ -27,7 +28,8 @@ import { MobileSidebarComponent } from './mobile-sidebar/mobile-sidebar.componen
     NotaCircularComponent,
     MenuInternoSagaComponent,
     EntradasSidebarComponent,
-    MobileSidebarComponent
+    MobileSidebarComponent,
+    TruncatePipe
   ],
   exports: [
     TagCategoriaComponent,
@@ -37,7 +39,8 @@ import { MobileSidebarComponent } from './mobile-sidebar/mobile-sidebar.componen
     SobreAutorComponent,
     NotaCircularComponent,
     MenuInternoSagaComponent,
-    MobileSidebarComponent
+    MobileSidebarComponent,
+    TruncatePipe
   ]
 })
 export class ComunesModule {}

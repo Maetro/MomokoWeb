@@ -23,10 +23,10 @@ import org.springframework.stereotype.Service;
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
 import com.momoko.es.backend.model.entity.EntradaEntity;
@@ -40,7 +40,7 @@ import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.repository.SuscripcionRepository;
 import com.momoko.es.backend.model.repository.VideoRepository;
 import com.momoko.es.backend.model.repository.VisitaRepository;
-import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.GenreService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
@@ -71,7 +71,7 @@ public class IndexServiceImpl implements IndexService {
     private VideoRepository videoRepository;
 
     @Autowired(required = false)
-    private GeneroService generoService;
+    private GenreService generoService;
 
     @Autowired(required = false)
     private LibroService libroService;
@@ -185,7 +185,7 @@ public class IndexServiceImpl implements IndexService {
     @Override
     @Cacheable("menu")
     public List<MenuDTO> obtenerMenu() {
-        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        final List<GenreDTO> generos = this.generoService.getAllGenres();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
         Collections.sort(categorias);
         final List<MenuDTO> menu = new ArrayList<MenuDTO>();
@@ -194,8 +194,8 @@ public class IndexServiceImpl implements IndexService {
             menuPart.setNombre(categoria.getNombreCategoria());
             menuPart.setUrl(categoria.getUrlCategoria());
             menuPart.setOrden(categoria.getOrden());
-            final List<GeneroDTO> generosCategoria = new ArrayList<GeneroDTO>();
-            for (final GeneroDTO generoDTO : generos) {
+            final List<GenreDTO> generosCategoria = new ArrayList<GenreDTO>();
+            for (final GenreDTO generoDTO : generos) {
                 if (generoDTO.getCategoria().equals(categoria)) {
                     final Integer numeroLibros = this.libroService.obtenerNumeroLibrosConAnalisisGenero(generoDTO);
                     if (numeroLibros > 0) {
@@ -214,9 +214,9 @@ public class IndexServiceImpl implements IndexService {
     public LibroEntradaSimpleDTO obtenerUltimoComicAnalizado() {
         final LibroEntradaSimpleDTO libroEntradaSimpleDTO = new LibroEntradaSimpleDTO();
         final CategoriaDTO categoria = this.generoService.obtenerCategoriaPorUrl("comics-novelas-graficas");
-        final List<GeneroDTO> generos = this.generoService.obtenerGenerosCategoria(categoria);
+        final List<GenreDTO> generos = this.generoService.obtenerGenerosCategoria(categoria);
         final List<Integer> idsGeneros = new ArrayList<Integer>();
-        for (final GeneroDTO generoDTO : generos) {
+        for (final GenreDTO generoDTO : generos) {
             idsGeneros.add(generoDTO.getGeneroId());
         }
 

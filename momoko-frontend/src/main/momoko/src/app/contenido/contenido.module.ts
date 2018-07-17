@@ -8,9 +8,7 @@ import { FooterComponent } from './footer/footer.component';
 import { SuscripcionService } from '../services/suscripcion.service';
 import { FormsModule } from '@angular/forms';
 
-import { PageSolicitudComponent } from './estaticas/page-solicitud/page-solicitud.component';
-import { PageNotFoundComponent } from './estaticas/page-not-found/page-not-found.component';
-import { PageCriteriosComponent } from './estaticas/page-criterios/page-criterios.component';
+import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 
 @NgModule({
   imports: [
@@ -18,8 +16,8 @@ import { PageCriteriosComponent } from './estaticas/page-criterios/page-criterio
     RouterModule,
     FormsModule
   ],
-  declarations: [HeaderComponent, MenuComponent, FooterComponent],
+  declarations: [HeaderComponent, MenuComponent, SidebarMenuComponent, FooterComponent],
   providers: [SuscripcionService],
-  exports: [HeaderComponent, MenuComponent, FooterComponent]
+  exports: [HeaderComponent, MenuComponent, SidebarMenuComponent, FooterComponent]
 })
 export class ContenidoModule { } 

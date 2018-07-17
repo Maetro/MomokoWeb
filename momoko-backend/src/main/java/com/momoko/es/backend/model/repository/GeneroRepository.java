@@ -10,12 +10,12 @@ import java.util.List;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.entity.GenreEntity;
 
 /**
  * The Interface GeneroRepository.
  */
-public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> {
+public interface GeneroRepository extends CrudRepository<GenreEntity, Integer> {
 
     /**
      * Find by nombre.
@@ -24,8 +24,8 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      *            the nombre
      * @return the list
      */
-    List<GeneroEntity> findByNombre(String nombre);
-
+    List<GenreEntity> findByNombre(String nombre);
+    
     /**
      * Find one by url genero and fecha baja is null order by fecha alta desc.
      *
@@ -33,7 +33,7 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      *            the url genero
      * @return the genero entity
      */
-    GeneroEntity findOneByUrlGeneroAndFechaBajaIsNull(String urlGenero);
+    GenreEntity findOneByUrlGeneroAndFechaBajaIsNull(String urlGenero);
 
     /**
      * Find one by nombre.
@@ -42,7 +42,7 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      *            the nombre
      * @return the list
      */
-    GeneroEntity findOneByNombreAndFechaBajaIsNull(String nombre);
+    GenreEntity findOneByNombreAndFechaBajaIsNull(String nombre);
 
     /**
      * Find by categoria.
@@ -51,7 +51,7 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      *            the categoria
      * @return the list
      */
-    List<GeneroEntity> findByCategoriaUrlCategoriaAndFechaBajaIsNull(String urlCategoria);
+    List<GenreEntity> findByCategoriaUrlCategoriaAndFechaBajaIsNull(String urlCategoria);
 
     /**
      * Find by url genero in.
@@ -60,6 +60,6 @@ public interface GeneroRepository extends CrudRepository<GeneroEntity, Integer> 
      *            the generos urls
      * @return the list
      */
-    List<GeneroEntity> findByUrlGeneroIn(List<String> generosUrls);
+    List<GenreEntity> findByUrlGeneroIn(List<String> generosUrls);
 
 }

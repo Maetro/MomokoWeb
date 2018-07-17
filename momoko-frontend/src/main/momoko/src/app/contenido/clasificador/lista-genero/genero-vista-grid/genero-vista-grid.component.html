@@ -1,0 +1,66 @@
+<div class="blog-content separatop40">
+        <div class="blog-post">
+            <div class="row">
+                <div class="libroGenero" *ngFor="let libro of librosGenero, let i = index; let first = first">
+                    <div class="clearfix" *ngIf="!isMobile && i % 3 == 0 && !first"></div>
+                    <div class="clearfix" *ngIf="isMobile && i % 2 == 0 && !first"></div>
+                    <div class="col-xs-6 col-sm-4" id="mirarAnchura{{i}}">
+
+
+
+                        <div class="contenedorImagenes" *ngIf="libro.representaSaga">
+                            <div class="sagaMarker">
+                                SAGA
+                            </div>
+                            <a routerLink="/saga/{{libro.urlSaga}}">
+                                <span class="helper over"></span>
+                                <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} " />
+                            </a>
+                        </div>
+                        <div class="contenedorImagenes" *ngIf="!libro.representaSaga">
+                            <a routerLink="/libro/{{libro.urlLibro}}">
+                                <span class="helper over"></span>
+                                <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}} " />
+                            </a>
+                        </div>
+
+                        <!-- <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.portada"></app-libro3d> -->
+                        <div class="contenedorDatos">
+                            <h3 class="titulo_libro" *ngIf="!libro.representaSaga">
+                                <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
+                            </h3>
+                            <h3 class="titulo_libro" *ngIf="libro.representaSaga">
+                                <a routerLink="/saga/{{libro.urlSaga}}">{{libro.nombreSaga}}</a>
+                            </h3>
+                            <span class="autor_libro"> {{libro.nombreAutor}} </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <nav class="paginas-pagination">
+            <ul class="page-numbers">
+                <li *ngFor="let number of numbers">
+                    <a *ngIf="number > 1; else else1Block" routerLink="/genero/{{genero.urlGenero}}/{{number}}">
+                        <span class="page-numbers">{{number}}</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="next page-numbers" href="#">→</a>
+                </li>
+            </ul>
+        </nav>
+
+        <ng-template #else1Block>
+            <a routerLink="/genero/{{genero.urlGenero}}/1/">
+                <span class="page-numbers">1</span>
+            </a>
+        </ng-template>
+
+        <!-- /.page-navi -->
+        <div class="clearfix"></div>
+    </div>

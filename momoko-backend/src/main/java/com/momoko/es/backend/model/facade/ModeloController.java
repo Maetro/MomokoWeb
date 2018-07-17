@@ -32,16 +32,16 @@ import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EntradaUrlDTO;
 import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.genre.GuardarGeneroResponse;
 import com.momoko.es.api.dto.response.AnadirPuntuacionResponse;
 import com.momoko.es.api.dto.response.GuardarEditorialResponse;
 import com.momoko.es.api.dto.response.GuardarEntradaResponse;
 import com.momoko.es.api.dto.response.GuardarGaleriaResponse;
-import com.momoko.es.api.dto.response.GuardarGeneroResponse;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
 import com.momoko.es.api.dto.response.GuardarRedactorResponse;
 import com.momoko.es.api.dto.response.GuardarSagaResponse;
@@ -60,7 +60,7 @@ import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
 import com.momoko.es.backend.model.service.EditorialService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.GaleriaService;
-import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.GenreService;
 import com.momoko.es.backend.model.service.HerramientasService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.PuntuacionService;
@@ -83,7 +83,7 @@ public class ModeloController {
     private SagaService sagaService;
 
     @Autowired(required = false)
-    private GeneroService generoService;
+    private GenreService generoService;
 
     @Autowired(required = false)
     private EntradaService entradaService;
@@ -113,8 +113,8 @@ public class ModeloController {
     }
 
     @GetMapping(path = "/generos")
-    public @ResponseBody Iterable<GeneroDTO> getAllGeneros() {
-        return this.generoService.obtenerTodosGeneros();
+    public @ResponseBody Iterable<GenreDTO> getAllGeneros() {
+        return this.generoService.getAllGenres();
     }
 
     @GetMapping(path = "/redactores")
@@ -238,16 +238,16 @@ public class ModeloController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/generos/add")
-    ResponseEntity<GuardarGeneroResponse> addGenero(@RequestBody final GeneroDTO generoDTO) {
+    ResponseEntity<GuardarGeneroResponse> addGenero(@RequestBody final GenreDTO generoDTO) {
 
         // Validar
         final List<ErrorCreacionGenero> listaErrores = this.validadorService.validarGenero(generoDTO);
 
         // Guardar
-        GeneroDTO genero = null;
+        GenreDTO genero = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
-                genero = this.generoService.guardarGenero(generoDTO);
+                genero = this.generoService.saveGenre(generoDTO);
             } catch (final Exception e) {
                 e.printStackTrace();
                 listaErrores.add(ErrorCreacionGenero.GENERO_YA_EXISTE);

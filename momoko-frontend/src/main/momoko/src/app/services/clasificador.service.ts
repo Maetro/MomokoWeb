@@ -1,15 +1,16 @@
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { ObtenerPaginaGeneroResponse } from '../dtos/response/obtenerPaginaGeneroResponse';
+import { GenrePageResponse } from '../dtos/genre/genrePageResponse';
 import { ObtenerPaginaCategoriaResponse } from '../dtos/response/obtenerPaginaCategoriaResponse';
 import { ObtenerPaginaEtiquetaResponse } from '../dtos/response/obtenerPaginaEtiquetaResponse';
 import { ObtenerPaginaLibroNoticiasResponse } from '../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { ObtenerPaginaBusquedaResponse } from '../dtos/response/obtenerPaginaBusquedaResponse';
 import { ObtenerPaginaRedactorResponse } from '../dtos/response/obtenerPaginaEditorResponse';
 import { ObtenerPaginaEditorialResponse } from '../dtos/response/obtenerPaginaEditorialResponse';
-import { ObtenerPaginaNoticiasSagaResponse } from '../dtos/response/obtenerPaginaNoticiasSagaResponse';
+import { ObtenerPaginaColeccionSagaResponse } from '../dtos/response/obtenerPaginaSagaColeccionResponse';
+import { OrderType } from '../dtos/enums/ordertype';
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class ClasificadorService {
  
   private log = environment.log;
 
-  getGeneroUrl = environment.getGeneroUrl;
+  getGenreUrl = environment.getGenreUrl;
   getCategoriaUrl = environment.getCategoriaUrl;
   getEtiquetaUrl = environment.getEtiquetaUrl;
   getNoticiasLibroUrl = environment.getNoticiasLibroUrl;
@@ -25,28 +26,22 @@ export class ClasificadorService {
   getEditorUrl = environment.getEditorUrl;
   getEditorialUrl = environment.getEditorialUrl;
   getNoticiasSagaUrl = environment.getNoticiasSagaUrl;
+  getMiscelaneosSagaUrl = environment.getMiscelaneosSagaUrl;
 
 
   constructor(private http: HttpClient) { }
 
-  getGenero(urlGenero): Observable<ObtenerPaginaGeneroResponse> {
+  getGenrePage(urlGenero, numeroPagina, order: OrderType): Observable<GenrePageResponse> {
     if (this.log) {
-      console.log(urlGenero);
+      console.log("SERVER: " + this.getGenreUrl + urlGenero + '/' + numeroPagina + "/" + order);
     }
-    return this.http.get<ObtenerPaginaGeneroResponse>(this.getGeneroUrl + urlGenero).map(this.obtenerEntradaDeRespuesta)
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
-  }
-
-  getGeneroPage(urlGenero, numeroPagina): Observable<ObtenerPaginaGeneroResponse> {
-    if (this.log) {
-      console.log(urlGenero);
-    }
-    return this.http.get<ObtenerPaginaGeneroResponse>(this.getGeneroUrl + urlGenero + '/' + numeroPagina)
+    return this.http.get<GenrePageResponse>(this.getGenreUrl + urlGenero + '/' + numeroPagina + "/" + order)
       .map(this.obtenerEntradaDeRespuesta)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerEntradaDeRespuesta(res: ObtenerPaginaGeneroResponse) {
+
+  private obtenerEntradaDeRespuesta(res: GenrePageResponse) {
     return res;
   }
 
@@ -166,24 +161,41 @@ export class ClasificadorService {
     return res;
   }
 
-  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaNoticiasSagaResponse> {
+  getPaginaNoticiasSaga(urlEditorial): Observable<ObtenerPaginaColeccionSagaResponse> {
     if (this.log) {
       console.log(urlEditorial);
     }
-    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getNoticiasSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaColeccionResponse)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaNoticiasSagaResponse> {
+  getPaginaNoticiasSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaColeccionSagaResponse> {
     if (this.log) {
       console.log(urlEditorial);
     }
-    return this.http.get<ObtenerPaginaNoticiasSagaResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
-      .map(this.obtenerObtenerPaginaSagaNoticiasResponse)
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getNoticiasSagaUrl + urlEditorial + '/' + numeroPagina)
+      .map(this.obtenerObtenerPaginaSagaColeccionResponse)
       .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
   }
 
-  private obtenerObtenerPaginaSagaNoticiasResponse(res: ObtenerPaginaNoticiasSagaResponse) {
+  getPaginaMiscelaneosSaga(urlEditorial): Observable<ObtenerPaginaColeccionSagaResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getMiscelaneosSagaUrl + urlEditorial).map(this.obtenerObtenerPaginaSagaColeccionResponse)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  getPaginaMiscelaneosSagaPage(urlEditorial, numeroPagina): Observable<ObtenerPaginaColeccionSagaResponse> {
+    if (this.log) {
+      console.log(urlEditorial);
+    }
+    return this.http.get<ObtenerPaginaColeccionSagaResponse>(this.getMiscelaneosSagaUrl + urlEditorial + '/' + numeroPagina)
+      .map(this.obtenerObtenerPaginaSagaColeccionResponse)
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+  }
+
+  private obtenerObtenerPaginaSagaColeccionResponse(res: ObtenerPaginaColeccionSagaResponse) {
     return res;
   }
 

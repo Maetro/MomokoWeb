@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class HerramientasServiceImpl implements HerramientasService {
     private EtiquetaService etiquetaService;
 
     @Autowired
-    private GeneroService generoService;
+    private GenreService generoService;
 
     @Autowired
     private UserService userService;
@@ -53,7 +54,7 @@ public class HerramientasServiceImpl implements HerramientasService {
 
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
         entradasUrl = addUrlsCategorias(entradasUrl, categorias);
-        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        final List<GenreDTO> generos = this.generoService.getAllGenres();
         entradasUrl = addUrlsGeneros(entradasUrl, generos);
         final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
         entradasUrl = addUrlsEntradas(entradasUrl, entradas);
@@ -282,11 +283,11 @@ public class HerramientasServiceImpl implements HerramientasService {
         return entradasUrl;
     }
 
-    private List<EntradaUrlDTO> addUrlsGeneros(final List<EntradaUrlDTO> entradasUrl, final List<GeneroDTO> generos) {
+    private List<EntradaUrlDTO> addUrlsGeneros(final List<EntradaUrlDTO> entradasUrl, final List<GenreDTO> generos) {
         String url;
         String metaDescription;
         String title;
-        for (final GeneroDTO genero : generos) {
+        for (final GenreDTO genero : generos) {
             final EntradaUrlDTO entradaUrlDTO = new EntradaUrlDTO();
             url = "/genero/" + genero.getUrlGenero();
             entradaUrlDTO.setEntradaId(genero.getGeneroId());

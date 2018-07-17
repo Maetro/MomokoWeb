@@ -259,10 +259,9 @@ public interface EntradaService {
     /*
      * Eliminar etiqueta.
      *
-     * @param urlEntrada
-     *            the url entrada
-     * @param etiquetaId
-     *            the etiqueta id
+     * @param urlEntrada the url entrada
+     *
+     * @param etiquetaId the etiqueta id
      */
     void eliminarEtiqueta(String urlEntrada, Integer etiquetaId);
 

@@ -1,0 +1,36 @@
+.main-menu-header .dropdown-menu{
+    display: block;
+    max-height: 0;
+    transition: max-height 0.60s ease-out;
+    opacity: 0;
+    overflow: hidden;
+}
+
+.main-menu-header:hover .dropdown-menu{
+    visibility: visible;
+    max-height: 1000px;
+    opacity: 1;
+    display: block;
+}
+
+.navbar-nav .dropdown-menu>li>a {
+    white-space: nowrap;
+}
+
+.navbar-nav:not(.sm-collapsible) ul {
+    margin-top: 0px;
+}
+
+.navbar{
+    position: fixed;
+}
+
+.menuDesktop{
+    display:block;
+}
+
+@media(max-width: 1280px) {
+    .menuDesktop{
+        display:none;
+    }
+}

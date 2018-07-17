@@ -25,8 +25,8 @@ import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConID;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
 import com.momoko.es.api.exceptions.NoSeEncuentranLibrosSagaException;
@@ -198,8 +198,8 @@ public class SagaServiceImpl implements SagaService {
         final SagaDTO sagaDTO = EntityToDTOAdapter.adaptarSaga(sagaEntity, true, true);
         if (CollectionUtils.isNotEmpty(sagaDTO.getGeneros())) {
             final String url = this.almacenImagenes.getUrlImageServer();
-            for (final GeneroDTO generoDTO : sagaDTO.getGeneros()) {
-                generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
+            for (final GenreDTO genreDTO : sagaDTO.getGeneros()) {
+                genreDTO.setImagenCabeceraGenero(url + genreDTO.getImagenCabeceraGenero());
             }
         }
         try {

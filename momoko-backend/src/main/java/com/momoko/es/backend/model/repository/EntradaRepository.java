@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
-import com.momoko.es.backend.model.entity.SagaEntity;
 
 /**
  * The Interface EntradaRepository.
@@ -82,7 +81,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      * @return the list
      */
     List<EntradaEntity> findByLibrosEntradaIn(List<LibroEntity> librosEntrada, Pageable limit);
-    
+
     @Query("select e from EntradaEntity e inner join e.sagasEntrada s where s.sagaId IN :sagaIds and e.fechaBaja IS NULL ORDER by e.fechaAlta DESC")
     List<EntradaEntity> findBySagasEntradaIn(@Param("sagaIds") List<Integer> sagaIds, Pageable limit);
 
@@ -239,4 +238,51 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     @Query("select distinct e from EntradaEntity e join e.librosEntrada l join l.editorial ed WHERE ed.urlEditorial = :urlEditorial AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
     List<EntradaEntity> obtenerEntradasEditorialPorFecha(@Param("urlEditorial") String urlEditorial, Pageable pageable);
 
+    /**
+     * Obtener analisis sagas y libros por genero y fecha.
+     *
+     * @param urlGenero
+     *            the url genero
+     * @param initElement
+     *            the init element
+     * @param endElement
+     *            the end element
+     * @return the list
+     */
+    @Query(value = "select distinct e.* from entrada e " + "left join entrada_saga es on es.entrada_id = e.entrada_id "
+            + "left join entrada_libro el on e.entrada_id = el.entrada_id "
+            + "left join saga s on s.saga_id = es.saga_id " + "left join libro l on l.saga_id = s.saga_id "
+            + "left join libro l2 on l2.libro_id = el.libro_id "
+            + "left join libro_genero lg on lg.libro_id = l.libro_id " + "or lg.libro_id = l2.libro_id "
+            + "left join genero g on lg.genero_id = g.genero_id " + "where e.tipo_entrada = 2 "
+            + "and g.url_genero like :urlGenero " + "and e.fecha_alta <= now() " + "and e.fecha_baja is null "
+            + "order by e.fecha_alta desc " + "limit :initElement, :endElement", nativeQuery = true)
+    List<EntradaEntity> obtenerAnalisisSagasYLibrosPorGeneroYFecha(@Param("urlGenero") String urlGenero,
+            @Param("initElement") Integer initElement, @Param("endElement") Integer endElement);
+
+    /**
+     * Obtener analisis sagas ylibros por genero y nota.
+     *
+     * @param urlGenero
+     *            the url genero
+     * @param initElement
+     *            the init element
+     * @param endElement
+     *            the end element
+     * @return the list
+     */
+    @Query(value = "select distinct e.* from entrada e "
+            + "            left join entrada_libro el on e.entrada_id = el.entrada_id  "
+            + "            left join libro l on l.libro_id = el.libro_id"
+            + "            left join entrada_saga es on es.entrada_id = e.entrada_id "
+            + "            left join saga s on s.saga_id = es.saga_id "
+            + "            left join libro l2 on l2.saga_id = s.saga_id "
+            + "            left join libro_genero lg on lg.libro_id = l.libro_id or lg.libro_id = l2.libro_id "
+            + "            left join genero g on lg.genero_id = g.genero_id "
+            + "            inner join puntuacion p on p.libro_id = l.libro_id or s.saga_id = p.saga_id"
+            + "            where e.tipo_entrada = 2 "
+            + "            and g.url_genero like :urlGenero and e.fecha_alta <= now() and e.fecha_baja is null "
+            + "            order by p.valor desc limit :initElement, :endElement", nativeQuery = true)
+    List<EntradaEntity> obtenerAnalisisSagasYlibrosPorGeneroYNota(@Param("urlGenero") String urlGenero,
+            @Param("initElement") Integer initElement, @Param("endElement") Integer endElement);
 }

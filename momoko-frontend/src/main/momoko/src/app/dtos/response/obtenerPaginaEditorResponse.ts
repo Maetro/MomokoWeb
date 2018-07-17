@@ -1,4 +1,4 @@
-import { Genero } from "../genero";
+import { Genero } from "../genre/genero";
 import { EntradaSimple } from "../entradaSimple";
 import { LibroSimple } from "../libroSimple";
 import { User } from "../user";

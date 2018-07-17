@@ -20,11 +20,11 @@ import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.backend.model.entity.AutorEntity;
 import com.momoko.es.backend.model.entity.CategoriaEntity;
 import com.momoko.es.backend.model.entity.ComentarioEntity;
@@ -32,7 +32,7 @@ import com.momoko.es.backend.model.entity.EditorialEntity;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.EtiquetaEntity;
 import com.momoko.es.backend.model.entity.GaleriaEntity;
-import com.momoko.es.backend.model.entity.GeneroEntity;
+import com.momoko.es.backend.model.entity.GenreEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
 import com.momoko.es.backend.model.entity.PuntuacionEntity;
 import com.momoko.es.backend.model.entity.SagaEntity;
@@ -259,9 +259,9 @@ public final class DTOToEntityAdapter {
      *            the generos
      * @return the establece
      */
-    public static Set<GeneroEntity> adaptarGeneros(final Set<GeneroDTO> generos) {
-        final Set<GeneroEntity> generosEntities = new HashSet<>();
-        for (final GeneroDTO generoDTO : generos) {
+    public static Set<GenreEntity> adaptarGeneros(final Set<GenreDTO> generos) {
+        final Set<GenreEntity> generosEntities = new HashSet<>();
+        for (final GenreDTO generoDTO : generos) {
             generosEntities.add(adaptarGenero(generoDTO));
         }
         return generosEntities;
@@ -274,9 +274,9 @@ public final class DTOToEntityAdapter {
      *            the generos
      * @return the list
      */
-    public static List<GeneroEntity> adaptarGeneros(final List<GeneroDTO> generos) {
-        final List<GeneroEntity> generosEntities = new ArrayList<>();
-        for (final GeneroDTO generoDTO : generos) {
+    public static List<GenreEntity> adaptarGeneros(final List<GenreDTO> generos) {
+        final List<GenreEntity> generosEntities = new ArrayList<>();
+        for (final GenreDTO generoDTO : generos) {
             generosEntities.add(adaptarGenero(generoDTO));
         }
         return generosEntities;
@@ -289,8 +289,8 @@ public final class DTOToEntityAdapter {
      *            the genero dto
      * @return the genero entity
      */
-    public static GeneroEntity adaptarGenero(final GeneroDTO generoDTO) {
-        final GeneroEntity entity = new GeneroEntity();
+    public static GenreEntity adaptarGenero(final GenreDTO generoDTO) {
+        final GenreEntity entity = new GenreEntity();
         entity.setGeneroId(generoDTO.getGeneroId());
         entity.setNombre(generoDTO.getNombre());
         entity.setUrlGenero(generoDTO.getUrlGenero());

@@ -1,11 +1,11 @@
-import { DatoEntrada } from './../../../dtos/datoEntrada';
+import { DatoEntrada } from '../../../dtos/datoEntrada';
 import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { Saga } from '../../../dtos/saga';
-import { ObtenerPaginaNoticiasSagaResponse } from '../../../dtos/response/obtenerPaginaNoticiasSagaResponse';
+import { ObtenerPaginaColeccionSagaResponse } from '../../../dtos/response/obtenerPaginaSagaColeccionResponse';
 
 
 @Component({
@@ -33,13 +33,13 @@ export class ListaNoticiasSagaComponent implements OnInit {
 
     this.enLista = false;
     this.route.data.subscribe(
-      (noticiasSaga: {
-        noticiasSaga: ObtenerPaginaNoticiasSagaResponse;
+      (coleccionSaga: {
+        coleccionSaga: ObtenerPaginaColeccionSagaResponse;
       }) => {
-        this.saga = noticiasSaga.noticiasSaga.saga;
-        this.noticias = noticiasSaga.noticiasSaga.noticias;
-        this.numeroEntradas = noticiasSaga.noticiasSaga.numeroEntradas;
-        this.datosEntrada = noticiasSaga.noticiasSaga.datosEntrada;
+        this.saga = coleccionSaga.coleccionSaga.saga;
+        this.noticias = coleccionSaga.coleccionSaga.entradas;
+        this.numeroEntradas = coleccionSaga.coleccionSaga.numeroEntradas;
+        this.datosEntrada = coleccionSaga.coleccionSaga.datosEntrada;
         let autores = '';
         this.saga.autores.forEach(autor => {
           autores = autores + autor.nombre + ', ';

@@ -1,5 +1,5 @@
-import { IndexDataService } from './../../services/index-data.service';
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input } from '@angular/core';
+import { IndexDataService } from '../../services/index-data.service';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterViewChecked } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
@@ -8,15 +8,14 @@ import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 declare var $: any;
-declare var window: any;
-declare var ga: any;
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.css']
 })
-export class MenuComponent implements OnInit, AfterViewInit {
+export class MenuComponent implements OnInit {
+
 
   private log = environment.log;
 
@@ -36,22 +35,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
     this.menu = APP_DATA.menu;
   }
 
-  ngAfterViewInit(): void {
-    if (this.log) {
-      console.log('Ejecutando JQuery');
-    }
-    if (isPlatformBrowser(this.platformId)) {
-      // Client only code.
-      if (this.log) {
-        console.log('Creando menus');
-      }
-
-      
-      setTimeout(() => $('#main-menu').smartmenus(), 1000);
-    }
-
-  }
-
   buscarResultados() {
     if (this.log) {
       console.log('Buscar: ' + this.busqueda);
@@ -61,4 +44,6 @@ export class MenuComponent implements OnInit, AfterViewInit {
   }
 
 
+
 }
+

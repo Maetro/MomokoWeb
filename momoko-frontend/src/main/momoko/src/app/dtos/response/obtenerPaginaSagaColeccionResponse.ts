@@ -1,13 +1,12 @@
-import { DatoEntrada } from './../datoEntrada';
-import { Libro } from "../libro";
+import { DatoEntrada } from '../datoEntrada';
 import { EntradaSimple } from "../entradaSimple";
 import { Saga } from "../saga";
 
 
 
-export class ObtenerPaginaNoticiasSagaResponse {
+export class ObtenerPaginaColeccionSagaResponse {
       saga: Saga;
       datosEntrada: DatoEntrada[];
-      noticias: EntradaSimple[];
+      entradas: EntradaSimple[];
       numeroEntradas: number;
 }

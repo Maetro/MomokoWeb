@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.dto.response;
+package com.momoko.es.api.dto.genre;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +13,6 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
 
@@ -29,7 +28,7 @@ public class GuardarGeneroResponse implements Serializable {
     EstadoGuardadoEnum estadoGuardado;
 
     /** The libro dto. */
-    GeneroDTO generoDTO;
+    GenreDTO generoDTO;
 
     /**
      * Gets the lista errores validacion.
@@ -74,7 +73,7 @@ public class GuardarGeneroResponse implements Serializable {
      *
      * @return the genero dto
      */
-    public GeneroDTO getGeneroDTO() {
+    public GenreDTO getGeneroDTO() {
         return this.generoDTO;
     }
 
@@ -84,7 +83,7 @@ public class GuardarGeneroResponse implements Serializable {
      * @param generoDTO
      *            the new genero dto
      */
-    public void setGeneroDTO(final GeneroDTO generoDTO) {
+    public void setGeneroDTO(final GenreDTO generoDTO) {
         this.generoDTO = generoDTO;
     }
 

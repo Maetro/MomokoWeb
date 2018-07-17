@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
-import javax.transaction.Transactional;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -35,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.dto.AnchuraAlturaDTO;
@@ -44,11 +44,11 @@ import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
@@ -77,7 +77,7 @@ import com.momoko.es.backend.model.repository.UsuarioRepository;
 import com.momoko.es.backend.model.repository.VideoRepository;
 import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EntradaService;
-import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.GenreService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
 import com.momoko.es.backend.model.service.impl.util.FileSystemStorageHelper;
@@ -127,7 +127,7 @@ public class EntradaServiceImpl implements EntradaService {
     private ComentarioService comentarioService;
 
     @Autowired
-    private GeneroService generoService;
+    private GenreService generoService;
 
     @Autowired
     private MomokoConfiguracion momokoConfiguracion;
@@ -185,9 +185,9 @@ public class EntradaServiceImpl implements EntradaService {
                 obtenerEntradaAsociadaASagas(respuesta, entradaEntity, entradaDTO);
                 if (CollectionUtils.isNotEmpty(entradaDTO.getSagasEntrada())
                         && CollectionUtils.isNotEmpty(entradaDTO.getSagasEntrada().iterator().next().getGeneros())) {
-                    final Set<GeneroDTO> generos = entradaDTO.getSagasEntrada().iterator().next().getGeneros();
+                    final Set<GenreDTO> generos = entradaDTO.getSagasEntrada().iterator().next().getGeneros();
                     final String url = this.almacenImagenes.getUrlImageServer();
-                    for (final GeneroDTO generoDTO : generos) {
+                    for (final GenreDTO generoDTO : generos) {
                         generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
                     }
                 }
@@ -260,8 +260,8 @@ public class EntradaServiceImpl implements EntradaService {
             if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
                 for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
                     final String url = this.almacenImagenes.getUrlImageServer();
-                    final Set<GeneroDTO> generosImagenes = new HashSet<>();
-                    for (final GeneroDTO generoDTO : libroDTO.getGeneros()) {
+                    final Set<GenreDTO> generosImagenes = new HashSet<GenreDTO>();
+                    for (final GenreDTO generoDTO : libroDTO.getGeneros()) {
                         generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
                         generosImagenes.add(generoDTO);
                     }
@@ -1064,9 +1064,9 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(final CategoriaDTO categoriaDTO,
             final int numeroEntradas, final int pagina) {
-        final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
-        final List<Integer> generosIds = new ArrayList<>();
-        for (final GeneroDTO generoDTO : listaGeneros) {
+        final List<GenreDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
+        final List<Integer> generosIds = new ArrayList<Integer>();
+        for (final GenreDTO generoDTO : listaGeneros) {
             generosIds.add(generoDTO.getGeneroId());
         }
         final List<EntradaEntity> listaEntities = this.entradaRepository
@@ -1077,9 +1077,9 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public Integer obtenerNumeroEntradasCategoria(final CategoriaDTO categoriaDTO) {
-        final List<GeneroDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
-        final List<Integer> generosIds = new ArrayList<>();
-        for (final GeneroDTO generoDTO : listaGeneros) {
+        final List<GenreDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
+        final List<Integer> generosIds = new ArrayList<Integer>();
+        for (final GenreDTO generoDTO : listaGeneros) {
             generosIds.add(generoDTO.getGeneroId());
         }
         final Long numeroEntradas = this.entradaRepository
@@ -1163,7 +1163,7 @@ public class EntradaServiceImpl implements EntradaService {
         final List<Integer> idsGenero = new ArrayList<>();
         final List<EntradaDTO> entradas = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
-            for (final GeneroDTO genero : libro.getGeneros()) {
+            for (final GenreDTO genero : libro.getGeneros()) {
                 idsGenero.add(genero.getGeneroId());
             }
             final List<EntradaEntity> entradasEntity = this.entradaRepository

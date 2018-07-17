@@ -1,4 +1,4 @@
-import { DescriptorSagaModule } from './../comunes/descriptor-saga/descriptor-saga.module';
+import { DescriptorSagaModule } from '../comunes/descriptor-saga/descriptor-saga.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ComunesModule } from '../../comunes/comunes.module';

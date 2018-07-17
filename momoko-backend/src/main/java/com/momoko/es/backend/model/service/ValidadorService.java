@@ -9,6 +9,7 @@ package com.momoko.es.backend.model.service;
 import java.util.List;
 
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.errores.*;
 
@@ -39,7 +40,7 @@ public interface ValidadorService {
      * @param generoDTO the genero dto
      * @return the list
      */
-    List<ErrorCreacionGenero> validarGenero(GeneroDTO generoDTO);
+    List<ErrorCreacionGenero> validarGenero(GenreDTO generoDTO);
 
     /**
      * Validar entrada.

@@ -11,8 +11,8 @@ import java.util.Iterator;
 import org.apache.commons.collections4.CollectionUtils;
 
 import com.momoko.es.api.dto.AutorDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 
 public class MomokoUtils {
 
@@ -79,9 +79,9 @@ public class MomokoUtils {
     public static String generarGenerosString(final LibroDTO libroDTO) {
         String generosString = "";
         if (CollectionUtils.isNotEmpty(libroDTO.getGeneros())) {
-            final Iterator<GeneroDTO> iterator = libroDTO.getGeneros().iterator();
+            final Iterator<GenreDTO> iterator = libroDTO.getGeneros().iterator();
             while (iterator.hasNext()) {
-                final GeneroDTO autor = iterator.next();
+                final GenreDTO autor = iterator.next();
                 generosString += autor.getNombre();
                 if (iterator.hasNext()) {
                     generosString += ", ";

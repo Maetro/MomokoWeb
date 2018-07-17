@@ -11,8 +11,8 @@ import java.util.List;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 
 /**
  * The Interface BuscadorService.
@@ -44,7 +44,7 @@ public interface BuscadorService {
      *            the generos urls
      * @return the list
      */
-    List<GeneroDTO> buscarGeneros(List<String> generosUrls);
+    List<GenreDTO> buscarGeneros(List<String> generosUrls);
 
     /**
      * Buscar categorias.

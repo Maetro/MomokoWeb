@@ -1,5 +1,5 @@
 import { MiscelaneoSagaComponent } from './miscelaneo-saga/miscelaneo-saga.component';
-import { ComunesModule } from './../comunes/comunes.module';
+import { ComunesModule } from '../comunes/comunes.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EntradaComponent } from './entrada.component';

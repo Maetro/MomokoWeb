@@ -1,4 +1,4 @@
-import { LinkService } from './../../../services/link.service';
+import { LinkService } from '../../../services/link.service';
 import {
   Component,
   OnInit,
@@ -82,7 +82,7 @@ export class MiscelaneoSagaComponent implements OnInit, AfterViewInit {
     this.linkService.removeTag('rel=amphtml');
     this.linkService.addTag({
       rel: 'amphtml',
-      href: 'https://momoko.es/amp/' + this.entrada.urlEntrada
+      href: 'https://momoko.es/amp/miscelaneo/' + this.entrada.urlEntrada
     });
     this.schema = JSON.parse(this.entrada.jsonLD);
   }

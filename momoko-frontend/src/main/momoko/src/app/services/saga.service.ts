@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from './../../environments/environment';
+import { environment } from '../../environments/environment';
 import { Cookie } from 'ng2-cookies';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';

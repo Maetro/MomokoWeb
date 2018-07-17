@@ -26,7 +26,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,11 +35,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.momoko.es.api.dto.AnchuraAlturaDTO;
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
@@ -48,7 +45,6 @@ import com.momoko.es.api.dto.EditorialDTO;
 import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GeneroDTO;
 import com.momoko.es.api.dto.InitDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
@@ -57,9 +53,9 @@ import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.ResultadoBusquedaDTO;
 import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
-import com.momoko.es.api.dto.request.ObtenerPaginaGeneroRequest;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
@@ -69,10 +65,9 @@ import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaGeneroResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaSagaNoticiasResponse;
+import com.momoko.es.api.dto.response.ObtenerPaginaSagaColeccionResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
@@ -86,7 +81,7 @@ import com.momoko.es.backend.model.service.ComentarioService;
 import com.momoko.es.backend.model.service.EditorialService;
 import com.momoko.es.backend.model.service.EntradaService;
 import com.momoko.es.backend.model.service.EtiquetaService;
-import com.momoko.es.backend.model.service.GeneroService;
+import com.momoko.es.backend.model.service.GenreService;
 import com.momoko.es.backend.model.service.IndexService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.SagaService;
@@ -95,7 +90,6 @@ import com.momoko.es.backend.model.service.TrackService;
 import com.momoko.es.backend.model.service.UserService;
 import com.momoko.es.backend.model.service.ValidadorService;
 import com.momoko.es.util.ConversionUtils;
-import com.momoko.es.util.Mail;
 import com.momoko.es.util.NotFoundException;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
@@ -124,7 +118,7 @@ public class PublicFacade {
     private ValidadorService validadorService;
 
     @Autowired(required = false)
-    private GeneroService generoService;
+    private GenreService generoService;
 
     @Autowired(required = false)
     private StorageService almacenImagenes;
@@ -288,13 +282,6 @@ public class PublicFacade {
         return respuesta;
     }
 
-    @GetMapping(path = "/test")
-    public @ResponseBody String obtenerVideo() {
-        final String response = this.passwordEncoder.encode("test");
-        // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
-        return response;
-    }
-
     @RequestMapping(method = RequestMethod.POST, path = "/comentario/add")
     ResponseEntity<GuardarComentarioResponse> addComentario(@RequestBody final NuevoComentarioRequest comentario) {
 
@@ -323,90 +310,7 @@ public class PublicFacade {
             respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
         }
 
-        Mail.sendEmail("Nuevo comentario en momoko",
-                "Hay un nuevo comentario en momoko en la entrada: " + comentario.getEntradaId(), "RMaetro@gmail.com");
-        Mail.sendEmail("Nuevo comentario en momoko",
-                "Hay un nuevo comentario en momoko en la entrada: " + comentario.getEntradaId(),
-                "kizuna.owo@gmail.com");
         return new ResponseEntity<GuardarComentarioResponse>(respuesta, HttpStatus.OK);
-
-    }
-
-    @GetMapping(path = "/genero/{url-genero}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaGeneroResponse obtenerGeneroPagina(
-            @PathVariable("url-genero") final String urlGenero,
-            @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestHeader(value = "User-Agent") final String userAgent) {
-        final ObtenerPaginaGeneroResponse categoriaResponse = new ObtenerPaginaGeneroResponse();
-        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
-
-        final ObtenerPaginaGeneroRequest request = new ObtenerPaginaGeneroRequest();
-        request.setNumeroPagina(numeroPagina);
-        request.setOrdenarPor("fecha");
-        request.setUrlGenero(urlGenero);
-
-        return obtenerGenero(urlGenero, request, userAgent);
-
-    }
-
-    @GetMapping(path = "/genero/{url-genero}")
-    public @ResponseBody ObtenerPaginaGeneroResponse obtenerGenero(@PathVariable("url-genero") final String urlGenero,
-            @RequestBody(required = false) ObtenerPaginaGeneroRequest request,
-            @RequestHeader(value = "User-Agent") final String userAgent) {
-        final ObtenerPaginaGeneroResponse generoResponse = new ObtenerPaginaGeneroResponse();
-        if (request == null) {
-            request = new ObtenerPaginaGeneroRequest();
-            request.setNumeroPagina(1);
-            request.setOrdenarPor("fecha");
-            request.setUrlGenero(urlGenero);
-        }
-        final GeneroDTO generoDTO = this.generoService.obtenerGeneroPorUrl(urlGenero);
-        final List<LibroSimpleDTO> librosGenero = this.libroService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO, 9,
-                request.getNumeroPagina() - 1);
-        final Integer numeroLibros = this.libroService.obtenerNumeroLibrosConAnalisisGenero(generoDTO);
-        for (final LibroSimpleDTO libroSimpleDTO : librosGenero) {
-            if (libroSimpleDTO.getPortada() != null) {
-                try {
-                    libroSimpleDTO.setPortada(
-                            this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, false));
-
-                    final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
-                            .getImageDimensions(libroSimpleDTO.getPortada());
-                    libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
-                    libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
-
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        final List<EntradaSimpleDTO> tresUltimasEntradasConLibro = this.entradaService
-                .obtenerTresUltimasEntradasPopularesConLibro();
-
-        generoResponse.setGenero(generoDTO);
-        generoResponse.setNumeroLibros(numeroLibros);
-        generoResponse.setNueveLibrosGenero(librosGenero);
-        generoResponse.setTresUltimasEntradasConLibro(tresUltimasEntradasConLibro);
-        return generoResponse;
-
-    }
-
-    @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
-            @PathVariable("url-categoria") final String urlCategoria,
-            @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
-            @RequestHeader(value = "User-Agent") final String userAgent) {
-        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
-        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
-        if (request == null) {
-            request = new ObtenerPaginaElementoRequest();
-            request.setNumeroPagina(numeroPagina);
-            request.setOrdenarPor("fecha");
-            request.setUrlElemento(urlCategoria);
-        }
-        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
 
     }
 
@@ -421,6 +325,24 @@ public class PublicFacade {
         if (request == null) {
             request = new ObtenerPaginaElementoRequest();
             request.setNumeroPagina(1);
+            request.setOrdenarPor("fecha");
+            request.setUrlElemento(urlCategoria);
+        }
+        return obtenerCategoriaResponse(urlCategoria, request, categoriaResponse, entradasCategoria);
+
+    }
+
+    @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
+            @PathVariable("url-categoria") final String urlCategoria,
+            @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) {
+        final ObtenerPaginaCategoriaResponse categoriaResponse = new ObtenerPaginaCategoriaResponse();
+        final List<EntradaSimpleDTO> entradasCategoria = new ArrayList<EntradaSimpleDTO>();
+        if (request == null) {
+            request = new ObtenerPaginaElementoRequest();
+            request.setNumeroPagina(numeroPagina);
             request.setOrdenarPor("fecha");
             request.setUrlElemento(urlCategoria);
         }
@@ -678,42 +600,29 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/noticias-saga/{url-saga}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaSagaNoticiasResponse obtenerNoticiasSagaPagina(
+    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerNoticiasSagaPagina(
             @PathVariable("url-saga") final String urlSaga, @PathVariable("numero-pagina") final Integer numeroPagina,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
-        final ObtenerPaginaSagaNoticiasResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaNoticiasResponse();
+        final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaColeccionResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
-        if (request == null) {
-            request = new ObtenerPaginaElementoRequest();
-            request.setNumeroPagina(numeroPagina);
-            request.setOrdenarPor("fecha");
-            request.setUrlElemento(urlSaga);
-        }
-        return obtenerPaginaSagaNoticiasResponse(urlSaga, request, paginaSagaNoticiasResponse, noticias);
+        return obtenerPaginaSagaNoticiasResponse(urlSaga, paginaSagaNoticiasResponse, noticias);
 
     }
 
     @GetMapping(path = "/noticias-saga/{url-saga}")
-    public @ResponseBody ObtenerPaginaSagaNoticiasResponse obtenerNoticiasSaga(
+    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerNoticiasSaga(
             @PathVariable("url-saga") final String urlSaga,
-            @RequestBody(required = false) ObtenerPaginaElementoRequest request,
+            @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
-        final ObtenerPaginaSagaNoticiasResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaNoticiasResponse();
+        final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaColeccionResponse();
         final List<EntradaSimpleDTO> noticias = new ArrayList<EntradaSimpleDTO>();
-        if (request == null) {
-            request = new ObtenerPaginaElementoRequest();
-            request.setNumeroPagina(1);
-            request.setOrdenarPor("fecha");
-            request.setUrlElemento(urlSaga);
-        }
-        return obtenerPaginaSagaNoticiasResponse(urlSaga, request, paginaSagaNoticiasResponse, noticias);
+        return obtenerPaginaSagaNoticiasResponse(urlSaga, paginaSagaNoticiasResponse, noticias);
 
     }
 
-    private ObtenerPaginaSagaNoticiasResponse obtenerPaginaSagaNoticiasResponse(final String urlSaga,
-            final ObtenerPaginaElementoRequest request,
-            final ObtenerPaginaSagaNoticiasResponse paginaSagaNoticiasResponse, final List<EntradaSimpleDTO> noticias)
+    private ObtenerPaginaSagaColeccionResponse obtenerPaginaSagaNoticiasResponse(final String urlSaga,
+            final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse, final List<EntradaSimpleDTO> noticias)
             throws NoSeEncuentraElementoConUrl {
         final SagaDTO saga = this.sagaService.obtenerSaga(urlSaga);
         final List<DatoEntradaDTO> entradasSimples = saga.getEntradasSaga();
@@ -739,7 +648,61 @@ public class PublicFacade {
         }
         paginaSagaNoticiasResponse.setSaga(saga);
         paginaSagaNoticiasResponse.setDatosEntrada(entradasSimples);
-        paginaSagaNoticiasResponse.setNoticias(noticias);
+        paginaSagaNoticiasResponse.setEntradas(noticias);
+        paginaSagaNoticiasResponse.setNumeroEntradas(numeroEntradas);
+        return paginaSagaNoticiasResponse;
+    }
+
+    @GetMapping(path = "/miscelaneos-saga/{url-saga}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerMiscelaneosSagaPagina(
+            @PathVariable("url-saga") final String urlSaga, @PathVariable("numero-pagina") final Integer numeroPagina,
+            @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
+        final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaColeccionResponse();
+        final List<EntradaSimpleDTO> miscelaneos = new ArrayList<EntradaSimpleDTO>();
+        return obtenerPaginaSagaMiscelaneoResponse(urlSaga, paginaSagaNoticiasResponse, miscelaneos);
+
+    }
+
+    @GetMapping(path = "/miscelaneos-saga/{url-saga}")
+    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerMiscelaneosSaga(
+            @PathVariable("url-saga") final String urlSaga,
+            @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
+            @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
+        final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse = new ObtenerPaginaSagaColeccionResponse();
+        final List<EntradaSimpleDTO> miscelaneos = new ArrayList<EntradaSimpleDTO>();
+        return obtenerPaginaSagaMiscelaneoResponse(urlSaga, paginaSagaNoticiasResponse, miscelaneos);
+
+    }
+
+    private ObtenerPaginaSagaColeccionResponse obtenerPaginaSagaMiscelaneoResponse(final String urlSaga,
+            final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse,
+            final List<EntradaSimpleDTO> miscelaneos) throws NoSeEncuentraElementoConUrl {
+        final SagaDTO saga = this.sagaService.obtenerSaga(urlSaga);
+        final List<DatoEntradaDTO> entradasSimples = saga.getEntradasSaga();
+        int numeroEntradas = 0;
+
+        for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
+            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
+                final EntradaSimpleDTO entradaSimple = this.entradaService
+                        .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
+                if (entradaSimple.getImagenEntrada() != null) {
+                    try {
+                        entradaSimple.setImagenEntrada(this.almacenImagenes
+                                .obtenerMiniatura(entradaSimple.getImagenEntrada(), 370, 208, true));
+                    } catch (final IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                miscelaneos.add(entradaSimple);
+
+                numeroEntradas++;
+            }
+        }
+        paginaSagaNoticiasResponse.setSaga(saga);
+        paginaSagaNoticiasResponse.setDatosEntrada(entradasSimples);
+        paginaSagaNoticiasResponse.setEntradas(miscelaneos);
         paginaSagaNoticiasResponse.setNumeroEntradas(numeroEntradas);
         return paginaSagaNoticiasResponse;
     }
@@ -920,8 +883,8 @@ public class PublicFacade {
             }
             if (CollectionUtils.isNotEmpty(generos)) {
 
-                final List<GeneroDTO> generosDTO = this.buscadorService.buscarGeneros(etiquetas);
-                for (final GeneroDTO generoDTO : generosDTO) {
+                final List<GenreDTO> generosDTO = this.buscadorService.buscarGeneros(etiquetas);
+                for (final GenreDTO generoDTO : generosDTO) {
                     final ResultadoBusquedaDTO resultado = new ResultadoBusquedaDTO();
                     resultado.setTitulo(generoDTO.getNombre());
                     resultado.setHtmlDescripcion("El género: " + generoDTO.getNombre());
@@ -1011,20 +974,6 @@ public class PublicFacade {
         return etiquetaResponse;
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/r/collect")
-    public @ResponseBody String anotarVisita(@RequestParam final Map<String, String> allRequestParams,
-            final ModelMap model) throws Exception {
-        this.trackService.enviarVisitaAPagina("/r/collect", allRequestParams);
-        return "OK";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/collect")
-    public @ResponseBody String anotarVisita2(@RequestParam final Map<String, String> allRequestParams,
-            final ModelMap model) throws Exception {
-        this.trackService.enviarVisitaAPagina("/collect", allRequestParams);
-        return "OK";
-    }
-
     @RequestMapping(method = RequestMethod.GET, path = "/generarURLsEtiquetas")
     void generarURLsEtiquetas() throws Exception {
         final List<EtiquetaDTO> etiquetas = this.etiquetaService.obtenerTodasEtiquetas();
@@ -1058,9 +1007,14 @@ public class PublicFacade {
         return "DONE";
     }
 
-    @RequestMapping(method = RequestMethod.GET, path = "/email")
-    void testEmail() throws Exception {
-        Mail.sendEmail("Test email", "Contenido", "RMaetro@gmail.com");
+    @RequestMapping(method = RequestMethod.GET, path = "/test")
+    public String test() throws Exception {
+
+        final GenreDTO generoDTO = new GenreDTO();
+        generoDTO.setUrlGenero("manga");
+        final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO,
+                9, 0);
+        return librosGenero.toString();
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarRedirects")
@@ -1122,7 +1076,7 @@ public class PublicFacade {
         final List<LibroDTO> librosSimples = this.libroService.recuperarLibros();
         final List<EtiquetaDTO> etiquetas = this.etiquetaService.obtenerTodasEtiquetas();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();
-        final List<GeneroDTO> generos = this.generoService.obtenerTodosGeneros();
+        final List<GenreDTO> generos = this.generoService.getAllGenres();
 
         final Date fechaActualizacionEntradaReciente = obtenerFechaActualizacionMasReciente(ultimasEntradas);
         final Date obtenerFechaLibroMasReciente = obtenerFechaLibroMasReciente(librosSimples);
@@ -1179,7 +1133,7 @@ public class PublicFacade {
             nrOfURLs++;
         }
 
-        for (final GeneroDTO genero : generos) {
+        for (final GenreDTO genero : generos) {
             url = urlPagina + "/genero/" + genero.getUrlGenero();
             final List<LibroSimpleDTO> libros = this.libroService.obtenerLibrosConAnalisisGeneroPorFecha(genero, 9, 1);
             if (CollectionUtils.isNotEmpty(libros)) {

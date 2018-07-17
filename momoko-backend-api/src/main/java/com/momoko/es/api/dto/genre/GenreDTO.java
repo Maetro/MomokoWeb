@@ -4,7 +4,7 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.api.dto;
+package com.momoko.es.api.dto.genre;
 
 import java.io.Serializable;
 
@@ -13,10 +13,12 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import com.momoko.es.api.dto.CategoriaDTO;
+
 /**
  * The Class GeneroDTO.
  */
-public class GeneroDTO implements Serializable, Comparable<GeneroDTO> {
+public class GenreDTO implements Serializable, Comparable<GenreDTO> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6734916350484920824L;
@@ -160,10 +162,10 @@ public class GeneroDTO implements Serializable, Comparable<GeneroDTO> {
      */
     @Override
     public boolean equals(final Object other) {
-        if (!(other instanceof GeneroDTO)) {
+        if (!(other instanceof GenreDTO)) {
             return false;
         }
-        final GeneroDTO castOther = (GeneroDTO) other;
+        final GenreDTO castOther = (GenreDTO) other;
         return new EqualsBuilder().append(this.generoId, castOther.generoId).append(this.nombre, castOther.nombre)
                 .isEquals();
     }
@@ -188,7 +190,7 @@ public class GeneroDTO implements Serializable, Comparable<GeneroDTO> {
         return new ToStringBuilder(this).append("generoId", this.generoId).append("nombre", this.nombre).toString();
     }
 
-    public int compareTo(final GeneroDTO other) {
+    public int compareTo(final GenreDTO other) {
         return new CompareToBuilder().append(this.nombre, other.nombre).toComparison();
     }
 
