@@ -6,8 +6,10 @@ import com.momoko.es.api.exceptions.security.domain.ResetPasswordForm;
 import com.momoko.es.backend.security.common.MomokoProperties;
 import com.momoko.es.backend.model.entity.security.AbstractUser;
 import com.momoko.es.backend.model.entity.security.AbstractUserRepository;
+import com.momoko.es.backend.security.common.util.LecUtils;
 import com.momoko.es.backend.security.common.util.UserUtils;
 import com.momoko.es.backend.security.mail.MailSender;
+import com.momoko.es.backend.security.mail.MomokoMailData;
 import com.momoko.es.util.MomokoUtils;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.apache.commons.lang3.StringUtils;
@@ -114,7 +116,7 @@ public abstract class MomokoService
     protected U createAdminUser() {
 
         // fetch data about the user to be created
-        Admin initialAdmin = properties.getAdmin();
+        MomokoProperties.Admin initialAdmin = properties.getAdmin();
 
         log.info("Creating the first admin user: " + initialAdmin.getUsername());
 
@@ -256,7 +258,7 @@ public abstract class MomokoService
     protected void sendVerificationMail(final U user, String verifyLink) {
 
         // send the mail
-        mailSender.send(LemonMailData.of(user.getEmail(),
+        mailSender.send(MomokoMailData.of(user.getEmail(),
                 LexUtils.getMessage("com.naturalprogrammer.spring.verifySubject"),
                 LexUtils.getMessage(
                         "com.naturalprogrammer.spring.verifyEmail",	verifyLink)));
@@ -391,7 +393,7 @@ public abstract class MomokoService
     public void mailForgotPasswordLink(U user, String forgotPasswordLink) {
 
         // send the mail
-        mailSender.send(LemonMailData.of(user.getEmail(),
+        mailSender.send(MomokoMailData.of(user.getEmail(),
                 LexUtils.getMessage("com.naturalprogrammer.spring.forgotPasswordSubject"),
                 LexUtils.getMessage("com.naturalprogrammer.spring.forgotPasswordEmail",
                         forgotPasswordLink)));
@@ -590,7 +592,7 @@ public abstract class MomokoService
      */
     protected void mailChangeEmailLink(U user, String changeEmailLink) {
 
-        mailSender.send(LemonMailData.of(user.getNewEmail(),
+        mailSender.send(MomokoMailData.of(user.getNewEmail(),
                 LexUtils.getMessage(
                         "com.naturalprogrammer.spring.changeEmailSubject"),
                 LexUtils.getMessage(
