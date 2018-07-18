@@ -6,48 +6,7 @@
  */
 package com.momoko.es.backend.model.service.impl;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
-
-import com.momoko.es.api.dto.AnchuraAlturaDTO;
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.SagaDTO;
+import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
@@ -59,33 +18,30 @@ import com.momoko.es.api.youtube.list.YoutubeVideoList;
 import com.momoko.es.api.youtube.video.Item;
 import com.momoko.es.api.youtube.video.VideoYoutube;
 import com.momoko.es.backend.configuration.MomokoConfiguracion;
-import com.momoko.es.backend.model.entity.EntradaEntity;
-import com.momoko.es.backend.model.entity.EtiquetaEntity;
-import com.momoko.es.backend.model.entity.GaleriaEntity;
-import com.momoko.es.backend.model.entity.LibroEntity;
-import com.momoko.es.backend.model.entity.PuntuacionEntity;
-import com.momoko.es.backend.model.entity.SagaEntity;
-import com.momoko.es.backend.model.entity.UsuarioEntity;
-import com.momoko.es.backend.model.entity.VideoEntity;
-import com.momoko.es.backend.model.repository.EntradaRepository;
-import com.momoko.es.backend.model.repository.EtiquetaRepository;
-import com.momoko.es.backend.model.repository.GaleriaRepository;
-import com.momoko.es.backend.model.repository.LibroRepository;
-import com.momoko.es.backend.model.repository.PuntuacionRepository;
-import com.momoko.es.backend.model.repository.SagaRepository;
-import com.momoko.es.backend.model.repository.UsuarioRepository;
-import com.momoko.es.backend.model.repository.VideoRepository;
-import com.momoko.es.backend.model.service.ComentarioService;
-import com.momoko.es.backend.model.service.EntradaService;
-import com.momoko.es.backend.model.service.GenreService;
-import com.momoko.es.backend.model.service.LibroService;
-import com.momoko.es.backend.model.service.StorageService;
+import com.momoko.es.backend.model.entity.*;
+import com.momoko.es.backend.model.repository.*;
+import com.momoko.es.backend.model.service.*;
 import com.momoko.es.backend.model.service.impl.util.FileSystemStorageHelper;
-import com.momoko.es.util.ConversionUtils;
-import com.momoko.es.util.DTOToEntityAdapter;
-import com.momoko.es.util.EntityToDTOAdapter;
-import com.momoko.es.util.JsonLDUtils;
-import com.momoko.es.util.MomokoUtils;
+import com.momoko.es.util.*;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
+
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The Class EntradaServiceImpl.
@@ -159,6 +115,13 @@ public class EntradaServiceImpl implements EntradaService {
         obtenerImagenesContenidasEntrada(entradaDTO);
         response.setEntrada(entradaDTO);
         return response;
+    }
+
+    public List<EntradaDTO> obtenerDatosEntradasLibro(final Integer libroId){
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<>();
+
+        List<EntradaEntity> entradas = this.entradaRepository.findAllByLibrosEntradaIdIn(Arrays.asList(libroId), Calendar.getInstance().getTime());
+        return EntityToDTOAdapter.adaptarEntradas(entradas);
     }
 
     @Override
@@ -300,38 +263,24 @@ public class EntradaServiceImpl implements EntradaService {
      *            the respuesta
      * @param entradaEntity
      *            the entrada entity
-     * @param listaDatosEntradas
-     *            the lista datos entradas
-     * @param librosParecidos
-     *            the libros parecidos
      * @param entradaDTO
      *            the entrada dto
      */
     public void obtenerEntradaAsociadaASagas(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
             final EntradaDTO entradaDTO) {
-        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        
         final List<SagaEntity> sagasEntrada = entradaEntity.getSagasEntrada();
         if (CollectionUtils.isNotEmpty(sagasEntrada)) {
             final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findBySagasEntradaIn(
                     sagasEntrada.stream().map(SagaEntity::getSagaId).collect(Collectors.toList()),
                     new PageRequest(0, 99));
 
-            if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                Collections.sort(entradasRelacionadas);
-                for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
-                    final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                    datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
-                    datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
-                    datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
-                    datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
-                    datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
-                    listaDatosEntradas.add(datoEntrada);
-                }
-                entradaDTO.setDatosEntrada(listaDatosEntradas);
-            }
-
+            List<DatoEntradaDTO> listaDatosEntradas = ConversionUtils.obtenerDatosEntradaFromEntradaEntityList(entradasRelacionadas);
+            entradaDTO.setDatosEntrada(listaDatosEntradas);
         }
     }
+
+
 
     public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
             final EntradaDTO entradaDTO) {

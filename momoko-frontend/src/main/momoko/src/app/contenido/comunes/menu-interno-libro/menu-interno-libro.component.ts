@@ -81,19 +81,7 @@ export class MenuInternoLibroComponent implements OnInit {
   }
 
   isActive(instruction: string): boolean {
-    // Set the second parameter to true if you want to require an exact match.
-    let isActive = false;
-    if (this.parentType == 'MISCELANEO'){
-      const actualUrl = this.router.url;
-      const divided = actualUrl.split('/');
-      if (divided.length == 1){
-        isActive = instruction === this.parentType;
-      } else {
-        isActive = divided[1] === instruction;
-      }
-    } else {
-      isActive = instruction === this.parentType;
-    }
-    return isActive;
+    // Set the second parameter to true if you want to require an exact match. 
+      return instruction === this.parentType;
   }
 }

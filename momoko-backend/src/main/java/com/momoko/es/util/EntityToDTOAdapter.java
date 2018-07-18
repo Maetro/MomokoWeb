@@ -66,6 +66,10 @@ public final class EntityToDTOAdapter {
         return usuario;
     }
 
+    public static LibroDTO adaptarLibro(final LibroEntity libroEntity){
+        return EntityToDTOAdapter.adaptarLibro(libroEntity, false);
+    }
+
     /**
      * Adaptar libro.
      *
@@ -73,7 +77,7 @@ public final class EntityToDTOAdapter {
      *            the libro entity
      * @return the libro dto
      */
-    public static LibroDTO adaptarLibro(final LibroEntity libroEntity) {
+    public static LibroDTO adaptarLibro(final LibroEntity libroEntity, boolean adaptarEntradas) {
         final LibroDTO libroDTO = new LibroDTO();
         libroDTO.setAnoEdicion(libroEntity.getAnoEdicion());
         libroDTO.setCitaLibro(libroEntity.getCitaLibro());
@@ -98,8 +102,13 @@ public final class EntityToDTOAdapter {
             for (final EntradaEntity entradaEntity : libroEntity.getEntradas()) {
                 if (TipoEntrada.ANALISIS.getValue().equals(entradaEntity.getTipoEntrada())) {
                     libroDTO.setTieneAnalisis(true);
-                    break;
+                    if (!adaptarEntradas) {
+                        break;
+                    }
                 }
+            }
+            if (adaptarEntradas){
+                libroDTO.setEntradasLibro(ConversionUtils.obtenerDatosEntradaFromEntradaEntityList(libroEntity.getEntradas()));
             }
         }
         return libroDTO;
@@ -421,13 +430,6 @@ public final class EntityToDTOAdapter {
         return etiquetaDTO;
     }
 
-    /**
-     * Adaptar etiqueta.
-     *
-     * @param etiquetaEntity
-     *            etiqueta entity
-     * @return the etiqueta DTO
-     */
     public static GaleriaDTO adaptarGaleria(final GaleriaEntity galeriaEntity) {
         final GaleriaDTO galeriaDTO = new GaleriaDTO();
         galeriaDTO.setGaleriaId(galeriaEntity.getGaleriaId());

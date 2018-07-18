@@ -100,6 +100,8 @@ public interface StorageService {
      */
     AnchuraAlturaDTO getImageDimensions(String urlImagen) throws IOException;
 
+    AnchuraAlturaDTO getImageDimensionsThumbnail(String urlImagen) throws IOException;;
+
     /**
      * Gets the url image server.
      *
@@ -145,5 +147,6 @@ public interface StorageService {
      * @return the template folder
      */
     String getTemplateFolder();
+
 
 }

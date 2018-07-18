@@ -21,6 +21,7 @@ import com.momoko.es.api.google.GoogleSearch;
 import com.momoko.es.api.google.Item;
 import com.momoko.es.backend.model.service.*;
 import com.momoko.es.util.ConversionUtils;
+import com.momoko.es.util.MomokoThumbnailUtils;
 import com.momoko.es.util.NotFoundException;
 import com.redfin.sitemapgenerator.ChangeFreq;
 import com.redfin.sitemapgenerator.WebSitemapGenerator;
@@ -176,7 +177,7 @@ public class PublicFacade {
     public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro,
             final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
 
-        final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerLibro(urlLibro);
+        final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerFichaLibroResponse(urlLibro);
         final String ip = getClientIp(request);
         if (respuesta.getLibro() != null) {
             respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
@@ -519,12 +520,42 @@ public class PublicFacade {
             final ObtenerPaginaElementoRequest request,
             final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
             final List<EntradaSimpleDTO> noticias) {
-        final LibroDTO libro = this.libroService.obtenerLibro(urlLibro).getLibro();
+        LibroDTO libroRaw = this.libroService.obtenerLibroConEntradas(urlLibro);
+        final LibroDTO libro = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroRaw);
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
-        int numeroEntradas = 0;
+
         Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
+        addDatosEntradaLibroTipo(noticias, entradasSimples, datosEntrada, TipoEntrada.NOTICIA);
+        if (noticias.size() == 0 && libro.getSaga() != null){
+            List<String> urlsLibrosSaga = this.sagaService.obtenerListaUrlsLibros(libro.getSaga().getSagaId());
+            final List<LibroDTO> librosSaga = this.libroService.obtenerLibros(urlsLibrosSaga);
+            librosSaga.forEach(libroSaga -> {
+                if (!libroSaga.getUrlLibro().equals(libro.getUrlLibro())){
+                    final List<DatoEntradaDTO> entradasSimplesHermano = libro.getEntradasLibro();
+                    addDatosEntradaLibroTipo(noticias, entradasSimplesHermano, datosEntrada, TipoEntrada.NOTICIA);
+                }
+            });
+            if (noticias.size() == 0){
+                try {
+                    SagaDTO sagaLibro = this.sagaService.obtenerSaga(libro.getSaga().getUrlSaga());
+                    List<DatoEntradaDTO> entradasSaga = sagaLibro.getEntradasSaga();
+                    addDatosEntradaLibroTipo(noticias, entradasSaga, datosEntrada, TipoEntrada.NOTICIA);
+
+                } catch (NoSeEncuentraElementoConUrl noSeEncuentraElementoConUrl) {
+                    noSeEncuentraElementoConUrl.printStackTrace();
+                }
+            }
+        }
+        paginaLibroNoticiasResponse.setDatoEntrada(new ArrayList<>(datosEntrada));
+        paginaLibroNoticiasResponse.setLibro(libro);
+        paginaLibroNoticiasResponse.setNoticias(noticias);
+        paginaLibroNoticiasResponse.setNumeroEntradas(noticias.size());
+        return paginaLibroNoticiasResponse;
+    }
+
+    private void addDatosEntradaLibroTipo(List<EntradaSimpleDTO> noticias, List<DatoEntradaDTO> entradasSimples, Set<DatoEntradaDTO> datosEntrada, TipoEntrada tipoEntrada) {
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
-            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.NOTICIA.getValue())) {
+            if (datoEntradaDTO.getTipoEntrada().equals(tipoEntrada.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
                         .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
                 if (entradaSimple.getImagenEntrada() != null) {
@@ -538,15 +569,63 @@ public class PublicFacade {
 
                 noticias.add(entradaSimple);
 
-                numeroEntradas++;
             }
             datosEntrada.add(datoEntradaDTO);
         }
-        paginaLibroNoticiasResponse.setDatoEntrada(new ArrayList<>(datosEntrada));
-        paginaLibroNoticiasResponse.setLibro(libro);
-        paginaLibroNoticiasResponse.setNoticias(noticias);
-        paginaLibroNoticiasResponse.setNumeroEntradas(numeroEntradas);
-        return paginaLibroNoticiasResponse;
+    }
+
+
+    @GetMapping(path = "/miscelaneos-libro/{url-libro}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibroPagina(
+            @PathVariable("url-libro") final String urlLibro, @PathVariable("numero-pagina") final Integer numeroPagina) {
+
+        return obtenerPaginaLibroMiscelaneosResponse(urlLibro, numeroPagina);
+
+    }
+
+    @GetMapping(path = "/miscelaneos-libro/{url-libro}")
+    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibro(
+            @PathVariable("url-libro") final String urlLibro,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+
+        return obtenerPaginaLibroMiscelaneosResponse(urlLibro, 1);
+
+    }
+
+    private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroMiscelaneosResponse(final String urlLibro, final Integer numeroPagina ) {
+        ObtenerPaginaLibroNoticiasResponse response = new ObtenerPaginaLibroNoticiasResponse();
+        LibroDTO libroRaw = this.libroService.obtenerLibroConEntradas(urlLibro);
+        final LibroDTO libro = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroRaw);
+        final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
+
+        Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
+        List<EntradaSimpleDTO> miscelaneos = new ArrayList<>();
+        addDatosEntradaLibroTipo(miscelaneos, entradasSimples, datosEntrada, TipoEntrada.MISCELANEOS);
+        if (miscelaneos.size() == 0 && libro.getSaga() != null){
+            List<String> urlsLibrosSaga = this.sagaService.obtenerListaUrlsLibros(libro.getSaga().getSagaId());
+            final List<LibroDTO> librosSaga = this.libroService.obtenerLibros(urlsLibrosSaga);
+            librosSaga.forEach(libroSaga -> {
+                if (!libroSaga.getUrlLibro().equals(libro.getUrlLibro())){
+                    final List<DatoEntradaDTO> entradasSimplesHermano = libro.getEntradasLibro();
+                    addDatosEntradaLibroTipo(miscelaneos, entradasSimplesHermano, datosEntrada, TipoEntrada.MISCELANEOS);
+                }
+            });
+            if (miscelaneos.size() == 0){
+                try {
+                    SagaDTO sagaLibro = this.sagaService.obtenerSaga(libro.getSaga().getUrlSaga());
+                    List<DatoEntradaDTO> entradasSaga = sagaLibro.getEntradasSaga();
+                    addDatosEntradaLibroTipo(miscelaneos, entradasSaga, datosEntrada, TipoEntrada.MISCELANEOS);
+
+                } catch (NoSeEncuentraElementoConUrl noSeEncuentraElementoConUrl) {
+                    noSeEncuentraElementoConUrl.printStackTrace();
+                }
+            }
+        }
+        response.setDatoEntrada(new ArrayList<>(datosEntrada));
+        response.setLibro(libro);
+        response.setNoticias(miscelaneos);
+        response.setNumeroEntradas(miscelaneos.size());
+        return response;
     }
 
     @GetMapping(path = "/noticias-saga/{url-saga}/{numero-pagina}")
@@ -886,19 +965,6 @@ public class PublicFacade {
 
     }
 
-    /**
-     * Obtener categoria response.
-     *
-     * @param urlCategoria
-     *            the url categoria
-     * @param request
-     *            the request
-     * @param etiquetaResponse
-     *            the categoria response
-     * @param entradasCategoria
-     *            the entradas categoria
-     * @return the obtener pagina categoria response
-     */
     private ObtenerPaginaEtiquetaResponse obtenerEtiquetaResponse(final String urlEtiqueta,
             final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
             final List<EntradaSimpleDTO> entradasEtiqueta) {

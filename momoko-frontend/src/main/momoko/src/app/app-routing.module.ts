@@ -19,6 +19,7 @@ import { ObtenerListaEditoralResolverService } from './services/resolvers/obtene
 import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
 import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
 import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obtener-saga-miscelaneos.resolver.service';
+import { ObtenerLibroMiscelaneosResolverService } from './services/resolvers/obtener-libro-miscelaneos-resolver.service';
 
 const appRoutes = [
   {
@@ -43,6 +44,14 @@ const appRoutes = [
       './contenido/saga/lista-noticias-saga/lista-noticias-saga.module#ListaNoticiasSagaModule',
     resolve: {
       coleccionSaga: ObtenerSagaNoticiasResolverService
+    }
+  },
+  {
+    path: 'miscelaneos-libro/:url-libro',
+    loadChildren:
+      './contenido/libro/lista-miscelaneos-libro/lista-miscelaneos-libro.module#ListaMiscelaneosLibroModule',
+    resolve: {
+      coleccionLibro: ObtenerLibroMiscelaneosResolverService
     }
   },
   {

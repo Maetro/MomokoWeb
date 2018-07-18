@@ -15,4 +15,4 @@ import { ListaMiscelaneosLibroComponent } from './lista-miscelaneos-libro.compon
   ],
   declarations: [ListaMiscelaneosLibroComponent]
 })
-export class ListaNoticiasLibroModule { }
+export class ListaMiscelaneosLibroModule { }

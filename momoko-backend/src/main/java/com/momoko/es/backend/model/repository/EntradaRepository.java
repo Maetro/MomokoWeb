@@ -45,6 +45,12 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     EntradaEntity findFirstByUrlEntrada(String urlEntrada);
 
+    @Query("SELECT e FROM EntradaEntity e INNER JOIN e.librosEntrada l " +
+            " WHERE e.fechaAlta < :ahora " +
+            " AND l.libroId in :libroIds " +
+            " AND e.fechaBaja is NULL ORDER by e.fechaAlta DESC")
+    List<EntradaEntity> findAllByLibrosEntradaIdIn(@Param("libroIds") List<Integer> libroIds, @Param("ahora") Date ahora);
+
     /**
      * Find by etiquetas.
      *

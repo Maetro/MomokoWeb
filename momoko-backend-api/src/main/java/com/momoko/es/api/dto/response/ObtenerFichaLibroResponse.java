@@ -9,6 +9,7 @@ package com.momoko.es.api.dto.response;
 import java.io.Serializable;
 import java.util.List;
 
+import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
@@ -29,6 +30,8 @@ public class ObtenerFichaLibroResponse implements Serializable {
 
     /** The cinco libros parecidos. */
     private List<LibroSimpleDTO> cincoLibrosParecidos;
+
+    private List<DatoEntradaDTO> datosEntrada;
 
     /**
      * Gets the libro.
@@ -87,4 +90,11 @@ public class ObtenerFichaLibroResponse implements Serializable {
         this.cincoLibrosParecidos = cincoLibrosParecidos;
     }
 
+    public List<DatoEntradaDTO> getDatosEntrada() {
+        return datosEntrada;
+    }
+
+    public void setDatosEntrada(List<DatoEntradaDTO> datosEntrada) {
+        this.datosEntrada = datosEntrada;
+    }
 }

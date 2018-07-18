@@ -6,6 +6,7 @@ import { LibroService } from '../../../services/libro.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title, Meta } from '@angular/platform-browser';
 import { ObtenerPaginaColeccionLibroResponse } from '../../../dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { DatoEntrada } from '../../../dtos/datoEntrada';
 
 @Component({
   selector: 'app-lista-miscelaneos-libro',
@@ -19,6 +20,7 @@ export class ListaMiscelaneosLibroComponent implements OnInit {
   libro: Libro;
   noticias: EntradaSimple[];
   numeroEntradas: number;
+  datosEntrada: DatoEntrada[];
   anchura: number;
   enLista: boolean;
   constructor(private libroService: LibroService, private route: ActivatedRoute, private router: Router,
@@ -32,10 +34,11 @@ export class ListaMiscelaneosLibroComponent implements OnInit {
     const margin = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
     this.anchura = width - margin;
     this.enLista = false;
-    this.route.data.subscribe((noticiasLibro: { noticiasLibro: ObtenerPaginaColeccionLibroResponse }) => {
-      this.libro = noticiasLibro.noticiasLibro.libro;
-      this.noticias = noticiasLibro.noticiasLibro.noticias;
-      this.numeroEntradas = noticiasLibro.noticiasLibro.numeroEntradas;
+    this.route.data.subscribe((coleccionLibro: { coleccionLibro: ObtenerPaginaColeccionLibroResponse }) => {
+      this.libro = coleccionLibro.coleccionLibro.libro;
+      this.noticias = coleccionLibro.coleccionLibro.noticias;
+      this.numeroEntradas = coleccionLibro.coleccionLibro.numeroEntradas;
+      this.datosEntrada = coleccionLibro.coleccionLibro.datoEntrada;
       let autores = '';
       this.libro.autores.forEach(autor => {
         autores = autores + autor.nombre + ', '

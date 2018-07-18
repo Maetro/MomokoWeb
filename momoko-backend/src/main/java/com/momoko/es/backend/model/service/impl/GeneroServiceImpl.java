@@ -85,7 +85,7 @@ public class GeneroServiceImpl implements GenreService {
                             this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, false));
 
                     final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
-                            .getImageDimensions(libroSimpleDTO.getPortada());
+                            .getImageDimensionsThumbnail(libroSimpleDTO.getPortada());
                     libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
                     libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
 
