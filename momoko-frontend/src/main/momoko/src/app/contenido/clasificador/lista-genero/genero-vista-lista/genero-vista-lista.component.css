@@ -74,20 +74,3 @@ i.fa.fa-eye {
   padding: 8px 10px 8px;
 }
 
-::ng-deep .contenedorDatos .circle p{
-  font-size: 35px !important;
-}
-
-::ng-deep .circle{
-  float: right;
-  margin: 0px !important;
-  height: 60px !important;
-  width: 60px !important;
-  border-radius: 60px !important;
-}
-
-::ng-deep .inner-circle{
-  margin: -27.5px 0px 0px -27.5px !important;
-  height: 55px !important;
-  width: 55px !important;
-}
