@@ -823,11 +823,11 @@ public class PublicFacade {
                     generos.add(generoUrl.trim());
                     order.add(urlPart.trim());
                 } else if (urlPart.contains("resena/")) {
-                    final String entradaUrl = urlPart.split("opiniones/")[1];
+                    final String entradaUrl = urlPart.split("resena/")[1];
                     entradas.add(entradaUrl.trim());
                     order.add(entradaUrl.trim());
                 } else if (urlPart.contains("analisis/")) {
-                    final String entradaUrl = urlPart.split("opiniones/")[1];
+                    final String entradaUrl = urlPart.split("analisis/")[1];
                     entradas.add(entradaUrl.trim());
                     order.add(entradaUrl.trim());
                 } else if (urlPart.contains("opiniones/")) {
@@ -1063,10 +1063,16 @@ public class PublicFacade {
         if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
             builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " "
                     + "/opiniones/" + entradaDTO.getUrlEntrada()).append(";<br/>");
+            builder.append("/amp/analisis/" + entradaDTO.getUrlEntrada() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
         } else {
             builder.append("/analisis/" + entradaDTO.getUrlAntigua() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
                     .append(";<br/>");
             builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            builder.append("/amp/analisis/" + entradaDTO.getUrlAntigua() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            builder.append("/amp/analisis/" + entradaDTO.getUrlEntrada() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
                     .append(";<br/>");
         }
     }

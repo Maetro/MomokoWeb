@@ -181,7 +181,10 @@ public class AMPFacade {
     public String adaptarVideosYoutubeAmp(String body) {
         while (body.contains("<iframe ")) {
             final String bloqueVideo = StringUtils.substringBetween(body, "<iframe ", ">");
-            final String video = StringUtils.substringBetween(bloqueVideo, "src=\"", "\"");
+            String video = StringUtils.substringBetween(bloqueVideo, "src=\"", "\"");
+            if (video.contains("?")){
+                video = video.split("\\?")[0];
+            }
             final String[] partes = video.split("/");
             final String ampVideo = "<amp-youtube data-videoid=\"" + partes[partes.length - 1] + "\""
                     + "    layout=\"responsive\"" + "    width=\"480\" height=\"270\"></amp-youtube>";
