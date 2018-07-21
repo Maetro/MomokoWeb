@@ -105,7 +105,7 @@ public class LibroDTO implements Serializable {
     private Integer ordenSaga;
 
     /** The tiene analisis. */
-    private boolean tieneAnalisis;
+    private boolean tieneOpinion;
 
     /**
      * Gets the libro id.
@@ -587,18 +587,18 @@ public class LibroDTO implements Serializable {
      *
      * @return true, if is tiene analisis
      */
-    public boolean isTieneAnalisis() {
-        return this.tieneAnalisis;
+    public boolean isTieneOpinion() {
+        return this.tieneOpinion;
     }
 
     /**
      * Sets the tiene analisis.
      *
-     * @param tieneAnalisis
+     * @param tieneOpinion
      *            the new tiene analisis
      */
-    public void setTieneOpinion(final boolean tieneAnalisis) {
-        this.tieneAnalisis = tieneAnalisis;
+    public void setTieneOpinion(final boolean tieneOpinion) {
+        this.tieneOpinion = tieneOpinion;
     }
 
     /*
