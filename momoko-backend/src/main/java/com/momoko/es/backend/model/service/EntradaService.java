@@ -274,4 +274,7 @@ public interface EntradaService {
      *            the etiqueta id
      */
     void anadirEtiqueta(String urlEntrada, Integer etiquetaId);
+
+
+    EntradaDTO obtenerEntrada(String urlEntrada);
 }

@@ -1060,20 +1060,27 @@ public class PublicFacade {
     }
 
     private void generateOpinionRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        LibroDTO libro = null;
+        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+            libro = entradaDTO.getLibrosEntrada().iterator().next();
+        }
         if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
             builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " "
                     + "/opiniones/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-            builder.append("/amp/analisis/" + entradaDTO.getUrlEntrada() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
+            if (libro != null) {
+                builder.append("/amp/analisis/" + libro.getUrlLibro() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
+                        .append(";<br/>");
+            }
         } else {
             builder.append("/analisis/" + entradaDTO.getUrlAntigua() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
                     .append(";<br/>");
             builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
                     .append(";<br/>");
-            builder.append("/amp/analisis/" + entradaDTO.getUrlAntigua() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
-            builder.append("/amp/analisis/" + entradaDTO.getUrlEntrada() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
+            if (libro != null) {
+                builder.append("/amp/analisis/" + libro.getUrlLibro() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
+                        .append(";<br/>");
+            }
+
         }
     }
 

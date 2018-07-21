@@ -73,10 +73,10 @@ public class AMPFacade {
     @Autowired
     private IndexService indexService;
 
-    @GetMapping("/opiniones/{url-libro}")
+    @GetMapping("/opiniones/{url-entrada}")
     @Cacheable("opinionesAMP")
     public @ResponseBody String getOpinionesAMP(final HttpServletRequest request, final HttpServletResponse response,
-                                                @PathVariable("url-libro") final String urlLibro) {
+                                                @PathVariable("url-entrada") final String urlEntrada) {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -88,7 +88,7 @@ public class AMPFacade {
         try {
             content = readFile(this.almacenImagenes.getTemplateFolder() + "/" + "analisis.html",
                     StandardCharsets.UTF_8);
-            final EntradaDTO opinion = this.libroService.obtenerOpinionesLibro(urlLibro);
+            final EntradaDTO opinion = this.entradaService.obtenerEntrada(urlEntrada);
             if (CollectionUtils.isNotEmpty(opinion.getLibrosEntrada())) {
                 final LibroDTO libro = opinion.getLibrosEntrada().iterator().next();
                 final BigDecimal puntuacion = this.libroService.obtenerPuntucionMomokoLibro(libro.getUrlLibro());

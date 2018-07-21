@@ -92,8 +92,7 @@ export class AnalisisSagaComponent implements OnInit, AfterViewInit {
     this.linkService.addTag({
       rel: 'amphtml',
       href:
-        'https://momoko.es/amp/opiniones/' +
-        this.entrada.librosEntrada[0].urlLibro
+        'https://momoko.es/amp/opiniones/' + this.entrada.urlEntrada
     });
     this.schema = JSON.parse(this.entrada.jsonLD);
   }
