@@ -597,7 +597,7 @@ public class LibroDTO implements Serializable {
      * @param tieneAnalisis
      *            the new tiene analisis
      */
-    public void setTieneAnalisis(final boolean tieneAnalisis) {
+    public void setTieneOpinion(final boolean tieneAnalisis) {
         this.tieneAnalisis = tieneAnalisis;
     }
 

@@ -7,7 +7,7 @@
 package com.momoko.es.api.enums;
 
 public enum TipoEntrada {
-    NOTICIA(1, "Noticia"), ANALISIS(2, "Análisis"), MISCELANEOS(3, "Misceláneos"), VIDEO(4, "Vídeo");
+    NOTICIA(1, "Noticia"), OPINIONES(2, "Opiniones"), MISCELANEOS(3, "Misceláneos"), VIDEO(4, "Vídeo"), ESPECIAL(5, "Especial");
 
     private final Integer value;
     private final String nombre;
@@ -39,13 +39,16 @@ public enum TipoEntrada {
             resultado = TipoEntrada.NOTICIA;
             break;
         case 2:
-            resultado = TipoEntrada.ANALISIS;
+            resultado = TipoEntrada.OPINIONES;
             break;
         case 3:
             resultado = TipoEntrada.MISCELANEOS;
             break;
         case 4:
             resultado = TipoEntrada.VIDEO;
+            break;
+        case 5:
+            resultado = TipoEntrada.ESPECIAL;
             break;
         default:
             resultado = TipoEntrada.MISCELANEOS;

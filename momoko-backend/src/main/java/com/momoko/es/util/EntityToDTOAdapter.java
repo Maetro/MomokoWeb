@@ -100,8 +100,8 @@ public final class EntityToDTOAdapter {
         }
         if (CollectionUtils.isNotEmpty(libroEntity.getEntradas())) {
             for (final EntradaEntity entradaEntity : libroEntity.getEntradas()) {
-                if (TipoEntrada.ANALISIS.getValue().equals(entradaEntity.getTipoEntrada())) {
-                    libroDTO.setTieneAnalisis(true);
+                if (TipoEntrada.OPINIONES.getValue().equals(entradaEntity.getTipoEntrada())) {
+                    libroDTO.setTieneOpinion(true);
                     if (!adaptarEntradas) {
                         break;
                     }

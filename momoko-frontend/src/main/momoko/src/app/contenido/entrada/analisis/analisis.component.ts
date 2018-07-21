@@ -45,7 +45,7 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     if (this.log) {
-      console.log('Generando pagina analisis');
+      console.log('Generando pagina opiniones');
     }
     this.autores = '';
     this.entrada.librosEntrada.forEach(libro => {
@@ -54,10 +54,15 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
       });
     });
     this.autores = this.autores.substring(0, this.autores.length - 2);
-
+    if (this.entrada.fechaAlta.valueOf() > new Date('2018/07/15').valueOf()){
+      const metatituloPagina = this.entrada.tituloEntrada;
+      this.titleService.setTitle(metatituloPagina);
+    } else {
     const metatituloPagina =
       'Análisis libro - ' + this.entrada.librosEntrada[0].titulo;
-    this.titleService.setTitle(metatituloPagina);
+      this.titleService.setTitle(metatituloPagina);
+    }
+   
     // Changing meta with name="description"
     const metadescripcion = this.entrada.fraseDescriptiva;
     const tag = { name: 'description', content: metadescripcion };
@@ -80,13 +85,13 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     this.linkService.removeTag('rel=canonical');
     this.linkService.addTag({
       rel: 'canonical',
-      href: 'https://momoko.es/analisis/' + this.entrada.urlEntrada
+      href: 'https://momoko.es/opiniones/' + this.entrada.urlEntrada
     });
     this.linkService.removeTag('rel=amphtml');
     this.linkService.addTag({
       rel: 'amphtml',
       href:
-        'https://momoko.es/amp/analisis/' +
+        'https://momoko.es/amp/opiniones/' +
         this.entrada.librosEntrada[0].urlLibro
     });
     this.schema = JSON.parse(this.entrada.jsonLD);

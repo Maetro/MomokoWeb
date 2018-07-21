@@ -331,7 +331,7 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public Integer obtenerNumeroLibrosConAnalisisGenero(final GenreDTO generoDTO) {
         final Long numeroResultados = this.entradaRepository
-                .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+                .findNumberEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
                         Arrays.asList(generoDTO.getGeneroId()));
         return numeroResultados.intValue();
     }
@@ -370,12 +370,12 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public EntradaDTO obtenerAnalisisLibro(final String urlLibro) {
+    public EntradaDTO obtenerOpinionesLibro(final String urlLibro) {
         final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
         final List<EntradaEntity> entradas = libroEntity.getEntradas();
         EntradaDTO analisisLibro = null;
         for (final EntradaEntity entradaEntity : entradas) {
-            if (TipoEntrada.ANALISIS.getValue().equals(entradaEntity.getTipoEntrada())) {
+            if (TipoEntrada.OPINIONES.getValue().equals(entradaEntity.getTipoEntrada())) {
                 analisisLibro = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
                 break;
             }

@@ -315,8 +315,8 @@ public class EntradaServiceImpl implements EntradaService {
                         if (puntuacion != null) {
                             libroDTO.setNotaMomoko(puntuacion.getValor());
                         }
-                        if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
-                            final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libroDTO, entradaDTO,
+                        if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
+                            final String jsonLD = JsonLDUtils.crearJsonLDOpiniones(libroDTO, entradaDTO,
                                     puntuacion.getValor());
                             entradaDTO.setJsonLD(jsonLD);
                         }
@@ -1023,7 +1023,7 @@ public class EntradaServiceImpl implements EntradaService {
             generosIds.add(generoDTO.getGeneroId());
         }
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds,
+                .findEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds,
                         new PageRequest(pagina - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
@@ -1036,7 +1036,7 @@ public class EntradaServiceImpl implements EntradaService {
             generosIds.add(generoDTO.getGeneroId());
         }
         final Long numeroEntradas = this.entradaRepository
-                .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds);
+                .findNumberEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(generosIds);
         return numeroEntradas.intValue();
     }
 
@@ -1112,7 +1112,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public List<EntradaDTO> obtenerAnalisisGeneros(final LibroDTO libro) {
+    public List<EntradaDTO> obtenerOpinionesGeneros(final LibroDTO libro) {
         final List<Integer> idsGenero = new ArrayList<Integer>();
         final List<EntradaDTO> entradas = new ArrayList<EntradaDTO>();
         if (CollectionUtils.isNotEmpty(libro.getGeneros())) {
@@ -1120,7 +1120,7 @@ public class EntradaServiceImpl implements EntradaService {
                 idsGenero.add(genero.getGeneroId());
             }
             final List<EntradaEntity> entradasEntity = this.entradaRepository
-                    .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGenero,
+                    .findEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGenero,
                             new PageRequest(0, 4));
             for (final EntradaEntity entradaEntity : entradasEntity) {
                 boolean entradaValida = true;

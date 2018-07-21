@@ -179,9 +179,9 @@ public class HerramientasServiceImpl implements HerramientasService {
             final EntradaUrlDTO entradaUrlDTO = new EntradaUrlDTO();
             TipoEntrada tipoEntrada = TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada());
             switch (tipoEntrada){
-                case ANALISIS:
-                    url = "/analisis/" + entrada.getUrlEntrada();
-                    title = "Análisis libro - " + entrada.getLibrosEntrada().get(0).getTitulo();
+                case OPINIONES:
+                    url = "/opiniones/" + entrada.getUrlEntrada();
+                    title = "Reseña libro - " + entrada.getLibrosEntrada().get(0).getTitulo();
                     break;
                 case NOTICIA:
                     url = "/" + entrada.getUrlEntrada();

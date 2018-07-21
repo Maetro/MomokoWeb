@@ -117,7 +117,7 @@ public interface LibroService {
      *            the url libro
      * @return the list
      */
-    public EntradaDTO obtenerAnalisisLibro(String urlLibro);
+    public EntradaDTO obtenerOpinionesLibro(String urlLibro);
 
     /**
      * Obtener puntucion libro.

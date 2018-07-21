@@ -117,7 +117,7 @@ public class PublicFacade {
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
         stopWatch.stop();
         stopWatch.start("obtenerUltimasFichas");
-        final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
+        final List<LibroSimpleDTO> ultimasOpiniones = this.indexService.obtenerUltimasFichas();
         stopWatch.stop();
         stopWatch.start("obtenerUltimoComicAnalizado");
         final LibroEntradaSimpleDTO ultimoComicAnalizado = this.indexService.obtenerUltimoComicAnalizado();
@@ -127,7 +127,7 @@ public class PublicFacade {
         obtenerIndexDataResponseDTO.setUltimasEntradas(ultimasEntradas);
         obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
-        obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
+        obtenerIndexDataResponseDTO.setUltimasOpiniones(ultimasOpiniones);
         stopWatch.stop();
         log.debug(stopWatch.prettyPrint());
         return obtenerIndexDataResponseDTO;
@@ -823,11 +823,15 @@ public class PublicFacade {
                     generos.add(generoUrl.trim());
                     order.add(urlPart.trim());
                 } else if (urlPart.contains("resena/")) {
-                    final String entradaUrl = urlPart.split("resena/")[1];
+                    final String entradaUrl = urlPart.split("opiniones/")[1];
                     entradas.add(entradaUrl.trim());
                     order.add(entradaUrl.trim());
                 } else if (urlPart.contains("analisis/")) {
-                    final String entradaUrl = urlPart.split("analisis/")[1];
+                    final String entradaUrl = urlPart.split("opiniones/")[1];
+                    entradas.add(entradaUrl.trim());
+                    order.add(entradaUrl.trim());
+                } else if (urlPart.contains("opiniones/")) {
+                    final String entradaUrl = urlPart.split("opiniones/")[1];
                     entradas.add(entradaUrl.trim());
                     order.add(entradaUrl.trim());
                 } else if (urlPart.contains("noticia/")) {
@@ -1028,7 +1032,7 @@ public class PublicFacade {
 
         final GenreDTO generoDTO = new GenreDTO();
         generoDTO.setUrlGenero("manga");
-        final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO,
+        final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConOpinionesGeneroPorFecha(generoDTO,
                 9, 0);
         return librosGenero.toString();
     }
@@ -1039,27 +1043,48 @@ public class PublicFacade {
         final StringBuilder builder = new StringBuilder();
         final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
         for (final EntradaDTO entradaDTO : entradas) {
-            if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
-                final LibroDTO libro = entradaDTO.getLibrosEntrada().iterator().next();
-                if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-                    builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(";<br/>");
-                } else {
-                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlAntigua() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-                    builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(";<br/>");
-                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-                    builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(";<br/>");
+            if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
+                generateOpinionRedirects(builder, entradaDTO);
+            } else if (TipoEntrada.MISCELANEOS.getValue().equals(entradaDTO.getTipoEntrada())){
+               if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())){
+                   generateMiscRedirects(builder, entradaDTO);
+               }
+            } else if (TipoEntrada.NOTICIA.getValue().equals(entradaDTO.getTipoEntrada())){
+                if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())){
+                    generateNewsRedirects(builder, entradaDTO);
                 }
             }
         }
         System.out.println(builder.toString());
         return builder.toString();
+    }
+
+    private void generateOpinionRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+            builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " "
+                    + "/opiniones/" + entradaDTO.getUrlEntrada()).append(";<br/>");
+        } else {
+            builder.append("/analisis/" + entradaDTO.getUrlAntigua() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+        }
+    }
+
+    private void generateMiscRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+            builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+        }
+    }
+
+    private void generateNewsRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+            builder.append("/noticia/" + entradaDTO.getUrlAntigua() + " " + "/noticia/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/arreglarEtiquetas")

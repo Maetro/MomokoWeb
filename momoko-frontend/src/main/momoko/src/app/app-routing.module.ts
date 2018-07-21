@@ -63,16 +63,6 @@ const appRoutes = [
     }
   },
   {
-    path: 'libro/:url_libro/miscelaneo/:url_entrada',
-    redirectTo: '/:url_entrada',
-    pathMatch: 'full'
-  },
-  {
-    path: 'libro/:url_libro/noticia/:url_entrada',
-    redirectTo: 'noticia/:url_entrada',
-    pathMatch: 'full'
-  },
-  {
     path: 'saga/:url_saga',
     loadChildren:
       './contenido/saga/ficha-saga/ficha-saga.module#FichaSagaModule',
@@ -112,14 +102,6 @@ const appRoutes = [
     }
   },
   {
-    path: 'genero/:url_genero/:numero_pagina/:order_type',
-    loadChildren:
-      './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
-    resolve: {
-      paginaGeneroResponse: ObtenerListaGeneroResolverService
-    }
-  },
-  {
     path: 'genero/:url_genero/:numero_pagina',
     loadChildren:
       './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
@@ -143,8 +125,11 @@ const appRoutes = [
       paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
     }
   },
+  { path: 'analisis/:url-entrada',
+    redirectTo: 'opiniones/:url-entrada',
+  },
   {
-    path: 'analisis/:url_entrada',
+    path: 'opiniones/:url_entrada',
     loadChildren: './contenido/entrada/entrada.module#EntradaModule',
     resolve: {
       obtenerEntradaResponse: ObtenerResenaResolverService

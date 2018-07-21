@@ -138,8 +138,8 @@ public class ConversionUtils {
                         if (TipoEntrada.NOTICIA.getNombre().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("noticia");
                         }
-                        if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
-                            entradaSimple.setBloque("analisis");
+                        if (TipoEntrada.OPINIONES.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("opiniones");
                         }
                         if (TipoEntrada.MISCELANEOS.getNombre().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("miscelaneo");
@@ -169,8 +169,8 @@ public class ConversionUtils {
                         entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
                     } else {
 
-                        if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
-                            entradaSimple.setBloque("analisis");
+                        if (TipoEntrada.OPINIONES.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("opiniones");
                         }
 
                     }

@@ -221,7 +221,7 @@ public class IndexServiceImpl implements IndexService {
         }
 
         final EntradaEntity ultimoComicAnalisis = this.entradaRepository
-                .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
+                .findEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
                         new PageRequest(0, 1))
                 .iterator().next();
 

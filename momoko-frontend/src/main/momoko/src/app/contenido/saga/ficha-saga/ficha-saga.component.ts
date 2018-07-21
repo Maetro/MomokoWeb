@@ -99,7 +99,7 @@ export class FichaSagaComponent implements OnInit {
       if (this.saga.entradasSaga) {
         this.saga.entradasSaga.forEach(entrada => {
           if (entrada.tipoEntrada === 2) {
-            this.urlAnalisis = '/analisis/' + entrada.urlEntrada;
+            this.urlAnalisis = '/opiniones/' + entrada.urlEntrada;
           }
         });
       }
@@ -108,7 +108,7 @@ export class FichaSagaComponent implements OnInit {
 
   existeAnalisis(libro: Libro) {
     let result = '';
-    if (!libro.tieneAnalisis) {
+    if (!libro.tieneOpinion) {
       result = 'grayscale';
     }
     return result;

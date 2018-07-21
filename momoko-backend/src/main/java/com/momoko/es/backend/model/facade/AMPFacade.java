@@ -73,10 +73,10 @@ public class AMPFacade {
     @Autowired
     private IndexService indexService;
 
-    @GetMapping("/analisis/{url-libro}")
-    @Cacheable("analisisAMP")
-    public @ResponseBody String getAnalisisAMP(final HttpServletRequest request, final HttpServletResponse response,
-            @PathVariable("url-libro") final String urlLibro) {
+    @GetMapping("/opiniones/{url-libro}")
+    @Cacheable("opinionesAMP")
+    public @ResponseBody String getOpinionesAMP(final HttpServletRequest request, final HttpServletResponse response,
+                                                @PathVariable("url-libro") final String urlLibro) {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -88,35 +88,35 @@ public class AMPFacade {
         try {
             content = readFile(this.almacenImagenes.getTemplateFolder() + "/" + "analisis.html",
                     StandardCharsets.UTF_8);
-            final EntradaDTO analisis = this.libroService.obtenerAnalisisLibro(urlLibro);
-            if (CollectionUtils.isNotEmpty(analisis.getLibrosEntrada())) {
-                final LibroDTO libro = analisis.getLibrosEntrada().iterator().next();
+            final EntradaDTO opinion = this.libroService.obtenerOpinionesLibro(urlLibro);
+            if (CollectionUtils.isNotEmpty(opinion.getLibrosEntrada())) {
+                final LibroDTO libro = opinion.getLibrosEntrada().iterator().next();
                 final BigDecimal puntuacion = this.libroService.obtenerPuntucionMomokoLibro(libro.getUrlLibro());
-                final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(libro, analisis, puntuacion);
+                final String jsonLD = JsonLDUtils.crearJsonLDOpiniones(libro, opinion, puntuacion);
                 content = replaceTagInContent("${jsonLD}", jsonLD, content);
                 content = replaceTagInContent("${related}", generarRelated(libro), content);
                 content = replaceTagInContent("${meta-titulo}", "Análisis de " + libro.getTitulo(), content);
             }
-            if (CollectionUtils.isNotEmpty(analisis.getSagasEntrada())) {
-                final SagaDTO saga = analisis.getSagasEntrada().iterator().next();
+            if (CollectionUtils.isNotEmpty(opinion.getSagasEntrada())) {
+                final SagaDTO saga = opinion.getSagasEntrada().iterator().next();
                 final BigDecimal puntuacion = this.sagaService.obtenerPuntucionMomokoSaga(saga.getUrlSaga());
-                final String jsonLD = JsonLDUtils.crearJsonLDAnalisis(saga, analisis, puntuacion);
+                final String jsonLD = JsonLDUtils.crearJsonLDOpiniones(saga, opinion, puntuacion);
                 content = replaceTagInContent("${jsonLD}", jsonLD, content);
                 content = replaceTagInContent("${related}", generarRelated(saga), content);
             }
             content = replaceTagInContent("${menu}", generarMenu(), content);
 
-            content = replaceTagInContent("${titulo}", analisis.getTituloEntrada(), content);
-            content = replaceTagInContent("${autor}", analisis.getEditorNombre(), content);
-            content = replaceTagInContent("${resumen}", analisis.getResumenEntrada(), content);
+            content = replaceTagInContent("${titulo}", opinion.getTituloEntrada(), content);
+            content = replaceTagInContent("${autor}", opinion.getEditorNombre(), content);
+            content = replaceTagInContent("${resumen}", opinion.getResumenEntrada(), content);
 
-            content = replaceTagInContent("${urlCanonical}", "https://momoko.es/analisis/" + analisis.getUrlEntrada(),
+            content = replaceTagInContent("${urlCanonical}", "https://momoko.es/opiniones/" + opinion.getUrlEntrada(),
                     content);
-            final String miniatura = this.almacenImagenes.obtenerMiniatura(analisis.getImagenDestacada(), 1280, 768,
+            final String miniatura = this.almacenImagenes.obtenerMiniatura(opinion.getImagenDestacada(), 1280, 768,
                     true);
             content = replaceTagInContent("${imagen-entrada}", miniatura, content);
-            this.entradaService.obtenerGaleriasEntradaAmp(analisis);
-            String body = analisis.getContenidoEntrada();
+            this.entradaService.obtenerGaleriasEntradaAmp(opinion);
+            String body = opinion.getContenidoEntrada();
             /*
              * <amp-youtube data-videoid="mGENRKrdoGY" layout="responsive" width="480" height="270"></amp-youtube>
              */
@@ -150,7 +150,7 @@ public class AMPFacade {
 
                 if (!imagen.contains("http")) {
                     final String imageServer = this.almacenImagenes.getUrlImageServer();
-                    anchuraAltura = this.almacenImagenes.getImageDimensions(imageServer + imagen);
+                    anchuraAltura = this.almacenImagenes.getImageDimensionsThumbnail(imageServer + imagen);
                     imagen = this.almacenImagenes.getUrlImageServer() + imagen;
                 } else {
                     if (imagen.contains("http://momoko.es")) {
@@ -334,13 +334,13 @@ public class AMPFacade {
 
     private String generarRelated(final LibroDTO libro) {
 
-        final List<EntradaDTO> ultimosAnalisis = this.entradaService.obtenerAnalisisGeneros(libro);
+        final List<EntradaDTO> ultimasOpiniones = this.entradaService.obtenerOpinionesGeneros(libro);
         final StringBuilder builder = new StringBuilder();
-        if (ultimosAnalisis.size() > 0) {
+        if (ultimasOpiniones.size() > 0) {
             builder.append("<section class=\"ampstart-related-section mb4 px3\">"
                     + "        <h2 class=\"h3 mb1\">Estos análisis puede que también te interesen:</h2>"
                     + "        <ul class=\"ampstart-related-section-items list-reset flex flex-wrap m0\">");
-            for (final EntradaDTO entradaDTO : ultimosAnalisis) {
+            for (final EntradaDTO entradaDTO : ultimasOpiniones) {
                 String imagen = entradaDTO.getImagenDestacada();
                 final String urlLibro = entradaDTO.getLibrosEntrada().iterator().next().getUrlLibro();
                 try {
@@ -349,7 +349,7 @@ public class AMPFacade {
                     e.printStackTrace();
                 }
                 builder.append("<li class=\"col-12 sm-col-4 md-col-4 lg-col-4 pr2 py2\">");
-                builder.append("<a href=\"https://momoko.es/amp/analisis/" + urlLibro
+                builder.append("<a href=\"https://momoko.es/amp/opiniones/" + urlLibro
                         + "\" target=\"_blank\" class=\"inline-block p1\" aria-label=\"Link to "
                         + entradaDTO.getTituloEntrada() + "\">");
                 builder.append("<figure class=\"ampstart-image-with-caption m0 relative mb4\">");
