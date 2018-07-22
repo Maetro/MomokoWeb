@@ -1,0 +1,141 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "name": "momoko",
+      "type": "com.momoko.es.commons.MomokoProperties"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "name": "momoko.admin",
+      "sourceMethod": "getAdmin()",
+      "type": "com.momoko.es.commons.MomokoProperties$Admin"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "name": "momoko.cors",
+      "sourceMethod": "getCors()",
+      "type": "com.momoko.es.commons.MomokoProperties$Cors"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "name": "momoko.jwt",
+      "sourceMethod": "getJwt()",
+      "type": "com.momoko.es.commons.MomokoProperties$Jwt"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "name": "momoko.recaptcha",
+      "sourceMethod": "getRecaptcha()",
+      "type": "com.momoko.es.commons.MomokoProperties$Recaptcha"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Admin",
+      "name": "momoko.admin.password",
+      "description": "Password of the initial Admin user to be created",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Admin",
+      "name": "momoko.admin.username",
+      "description": "Login ID of the initial Admin user to be created",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "defaultValue": "http:\/\/localhost:9000",
+      "name": "momoko.application-url",
+      "description": "Client web application's base URL.\n Used in the verification link mailed to the users, etc.",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Cors",
+      "name": "momoko.cors.allowed-headers",
+      "description": "Request headers to be allowed, e.g. content-type,accept,origin,x-requested-with,...",
+      "type": "java.lang.String[]"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Cors",
+      "defaultValue": [
+        "GET",
+        "HEAD",
+        "POST",
+        "PUT",
+        "DELETE",
+        "TRACE",
+        "OPTIONS",
+        "PATCH"
+      ],
+      "name": "momoko.cors.allowed-methods",
+      "description": "Methods to be allowed, e.g. GET,POST,...",
+      "type": "java.lang.String[]"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Cors",
+      "name": "momoko.cors.allowed-origins",
+      "description": "Comma separated whitelisted URLs for CORS.\n Should contain the applicationURL at the minimum.\n Not providing this property would disable CORS configuration.",
+      "type": "java.lang.String[]"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Cors",
+      "name": "momoko.cors.exposed-headers",
+      "description": "Response headers that you want to expose to the client JavaScript programmer, e.g. Lemon-Authorization.\n I don't think we need to mention here the headers that we don't want to access through JavaScript.\n Still, by default, we have provided most of the common headers.\n  \n <br>\n See <a href=\"http:\/\/stackoverflow.com\/questions\/25673089\/why-is-access-control-expose-headers-needed#answer-25673446\">\n here<\/a> to know why this could be needed.",
+      "type": "java.lang.String[]"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Cors",
+      "defaultValue": 3600,
+      "name": "momoko.cors.max-age",
+      "description": "CORS <code>maxAge<\/code> long property",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Jwt",
+      "defaultValue": 864000000,
+      "name": "momoko.jwt.expiration-millis",
+      "description": "Default expiration milliseconds",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Jwt",
+      "name": "momoko.jwt.secret",
+      "description": "Secret for signing JWT",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Jwt",
+      "defaultValue": 120000,
+      "name": "momoko.jwt.short-lived-millis",
+      "description": "Expiration milliseconds for short-lived tokens and cookies",
+      "type": "java.lang.Integer"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "defaultValue": "http:\/\/localhost:9000\/social-login-success?token=",
+      "name": "momoko.oauth2-authentication-success-url",
+      "description": "The default URL to redirect to after\n a user logs in using OAuth2\/OpenIDConnect",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Recaptcha",
+      "name": "momoko.recaptcha.secretkey",
+      "description": "Google ReCaptcha Secret Key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties$Recaptcha",
+      "name": "momoko.recaptcha.sitekey",
+      "description": "Google ReCaptcha Site Key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "com.momoko.es.commons.MomokoProperties",
+      "name": "momoko.shared",
+      "description": "Any shared properties you want to pass to the \n client should begin with lemon.shared.",
+      "type": "java.util.Map<java.lang.String,java.lang.Object>"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\MomokoFieldError.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\MomokoExceptionsAutoConfiguration.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\handlers\AbstractExceptionHandler.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\handlers\MultiErrorExceptionHandler.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\MultiErrorException.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\ErrorResponse.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\handlers\AbstractBadRequestExceptionHandler.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\handlers\ExplicitConstraintViolationExceptionHandler.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\util\LexUtils.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\handlers\WebExchangeBindExceptionHandler.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\ErrorResponseComposer.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\ExplicitConstraintViolationException.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\handlers\ConstraintViolationExceptionHandler.java
+C:\Users\RMaet\git\MomokoWeb\momoko-backend-exceptions\src\main\java\com\momoko\es\exceptions\VersionException.java

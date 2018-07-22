@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.momoko.es</groupId>
+    <artifactId>momoko-backend-jpa</artifactId>
+    <packaging>jar</packaging>
+
+    <name>momoko-backend-jpa</name>
+    <description>Helper library for Spring Boot JPA Web Applications</description>
+    <version>0.13.4-SNAPSHOT</version>
+
+    <parent>
+        <artifactId>parent</artifactId>
+        <groupId>com.momoko.es</groupId>
+        <version>0.13.4-SNAPSHOT</version>
+    </parent>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.momoko.es</groupId>
+            <artifactId>momoko-backend-commons</artifactId>
+            <version>0.13.4-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+        </dependency>
+
+
+    </dependencies>
+
+</project>

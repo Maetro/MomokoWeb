@@ -1,0 +1,7 @@
+com.momoko.es.commons
+com.momoko.es.commons.domain
+com.momoko.es.commons.handlers
+com.momoko.es.commons.mail
+com.momoko.es.commons.security
+com.momoko.es.commons.util
+com.momoko.es.commons.validation

@@ -1,0 +1,14 @@
+com\momoko\es\exceptions\handlers\AbstractBadRequestExceptionHandler.class
+com\momoko\es\exceptions\handlers\ExplicitConstraintViolationExceptionHandler.class
+com\momoko\es\exceptions\MomokoExceptionsAutoConfiguration.class
+com\momoko\es\exceptions\MultiErrorException.class
+com\momoko\es\exceptions\util\LexUtils.class
+com\momoko\es\exceptions\ErrorResponse.class
+com\momoko\es\exceptions\handlers\AbstractExceptionHandler.class
+com\momoko\es\exceptions\handlers\MultiErrorExceptionHandler.class
+com\momoko\es\exceptions\ErrorResponseComposer.class
+com\momoko\es\exceptions\ExplicitConstraintViolationException.class
+com\momoko\es\exceptions\MomokoFieldError.class
+com\momoko\es\exceptions\handlers\WebExchangeBindExceptionHandler.class
+com\momoko\es\exceptions\handlers\ConstraintViolationExceptionHandler.class
+com\momoko\es\exceptions\VersionException.class
