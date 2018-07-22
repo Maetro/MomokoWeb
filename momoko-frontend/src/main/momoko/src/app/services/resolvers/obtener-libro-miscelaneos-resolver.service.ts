@@ -6,7 +6,7 @@ import { ClasificadorService } from '../clasificador.service';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
-export class ObtenerLibroNoticiasResolverService implements Resolve<ObtenerPaginaColeccionLibroResponse> {
+export class ObtenerLibroMiscelaneosResolverService implements Resolve<ObtenerPaginaColeccionLibroResponse> {
 
   private log = environment.log;
 
@@ -14,12 +14,12 @@ export class ObtenerLibroNoticiasResolverService implements Resolve<ObtenerPagin
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerPaginaColeccionLibroResponse> {
     if (this.log) {
-      console.log('Obteniendo lista noticias libro');
+      console.log('Obteniendo lista miscelaneos libro');
     }
     const url = route.paramMap.get('url-libro');
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
-      return this.clasificadorService.getPaginaNoticiasLibroPage(url, numeroPagina).take(1).map(libroNoticias => {
+      return this.clasificadorService.getPaginaMiscelaneosLibroPage(url, numeroPagina).take(1).map(libroNoticias => {
         if (libroNoticias.libro != null) {
           return libroNoticias;
         } else { // url not found
@@ -28,7 +28,7 @@ export class ObtenerLibroNoticiasResolverService implements Resolve<ObtenerPagin
         }
       });
     } else {
-      return this.clasificadorService.getPaginaNoticiasLibro(url).take(1).map(libroNoticias => {
+      return this.clasificadorService.getPaginaMiscelaneosLibro(url).take(1).map(libroNoticias => {
         if (libroNoticias.libro != null) {
           return libroNoticias;
         } else { // url not found

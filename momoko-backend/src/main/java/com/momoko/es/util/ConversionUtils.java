@@ -16,16 +16,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.regex.Pattern;
 
+import com.momoko.es.api.dto.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -39,11 +33,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.InfoAdicionalDTO;
-import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.UsuarioBasicoDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.backend.model.entity.EntradaEntity;
 import com.momoko.es.backend.model.entity.LibroEntity;
@@ -149,8 +138,8 @@ public class ConversionUtils {
                         if (TipoEntrada.NOTICIA.getNombre().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("noticia");
                         }
-                        if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
-                            entradaSimple.setBloque("analisis");
+                        if (TipoEntrada.OPINIONES.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("opiniones");
                         }
                         if (TipoEntrada.MISCELANEOS.getNombre().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("miscelaneo");
@@ -180,8 +169,8 @@ public class ConversionUtils {
                         entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
                     } else {
 
-                        if (TipoEntrada.ANALISIS.getNombre().equals(entradaSimple.getTipoEntrada())) {
-                            entradaSimple.setBloque("analisis");
+                        if (TipoEntrada.OPINIONES.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                            entradaSimple.setBloque("opiniones");
                         }
 
                     }
@@ -512,6 +501,24 @@ public class ConversionUtils {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         final String arrayToJson = mapper.writeValueAsString(lista);
         return arrayToJson;
+    }
+
+    public static List<DatoEntradaDTO> obtenerDatosEntradaFromEntradaEntityList(List<EntradaEntity> entradasList) {
+        final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
+        if (CollectionUtils.isNotEmpty(entradasList)) {
+            Collections.sort(entradasList);
+            for (final EntradaEntity entradaRelacionadaEntity : entradasList) {
+                final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
+                datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
+                datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
+                listaDatosEntradas.add(datoEntrada);
+            }
+
+        }
+        return listaDatosEntradas;
     }
 
 }

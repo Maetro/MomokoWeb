@@ -109,7 +109,7 @@ public class ObtenerIndexDataReponseDTO implements Serializable {
      * @param ultimosAnalisis
      *            the new ultimos analisis
      */
-    public void setUltimosAnalisis(final List<LibroSimpleDTO> ultimosAnalisis) {
+    public void setUltimasOpiniones(final List<LibroSimpleDTO> ultimosAnalisis) {
         this.ultimosAnalisis = ultimosAnalisis;
     }
 

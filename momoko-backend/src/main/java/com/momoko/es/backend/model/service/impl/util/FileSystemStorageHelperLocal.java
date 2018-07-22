@@ -101,8 +101,8 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
     }
 
     @Override
-    public String getThumbnail(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer width,
-            final Integer height, final boolean recortar) throws IOException {
+    public String getThumbnail(final String tipoAlmacenamiento, final String fileNameOriginal, Integer width,
+            Integer height, final boolean recortar) throws IOException {
         String miniatura = "";
         final String[] trozos = fileNameOriginal.split("\\.")[0].split("/");
         String fileName = trozos[trozos.length - 1];
@@ -119,8 +119,8 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
             final float destinationAspectRatio = (float) width / height;
             final Scalr.Mode resizeMode = sourceAspectRatio > destinationAspectRatio ? Scalr.Mode.FIT_TO_HEIGHT
                     : Scalr.Mode.FIT_TO_WIDTH;
-            BufferedImage scaledImg = Scalr.resize(imageToScale, Method.ULTRA_QUALITY, resizeMode, width, height,
-                    Scalr.OP_ANTIALIAS);
+
+            BufferedImage scaledImg = Scalr.resize(imageToScale, Method.ULTRA_QUALITY, resizeMode, width, height);
 
             if (recortar && ((scaledImg.getWidth() - width) >= 0) && ((scaledImg.getHeight() - height) >= 0)) {
                 scaledImg = Scalr.crop(scaledImg, (scaledImg.getWidth() - width) / 2,
@@ -128,7 +128,6 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
             }
             final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
             ImageIO.write(scaledImg, "jpg", newName);
-//            createJpegWithPredefinedCompression(tipoAlmacenamiento, fileNameNuevo, scaledImg, newName);
         }
         miniatura = this.momokoConfiguracion.getDirectorios().getRemote().getUrlImages() + tipoAlmacenamiento + "/"
                 + fileNameNuevo;

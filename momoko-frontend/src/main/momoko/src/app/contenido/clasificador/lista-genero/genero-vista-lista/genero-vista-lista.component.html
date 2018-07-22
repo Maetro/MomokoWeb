@@ -23,7 +23,7 @@
                     <div class="col-xs-7 col-sm-9">
                         <div class="contenedorDatos">
                             <div class="bloqueNota" *ngIf="libro.nota">
-                                <app-nota-circular [nota]="libro.nota"></app-nota-circular>
+                                <app-nota-circular-pequena [nota]="libro.nota"></app-nota-circular-pequena>
                             </div>
                             <h3 class="titulo_libro" *ngIf="!libro.representaSaga">
                                 <a routerLink="/libro/{{libro.urlLibro}}">{{libro.titulo}}</a>
@@ -36,9 +36,9 @@
                             <div class="resumenContainer">
                                 {{libro.resumen | truncate : 400 : true }}
                             </div>
-                            <a *ngIf="libro.representaSaga" routerLink="/saga/{{libro.urlSaga}}" title="Análisis libro {{libro.titulo}}" class="btn">
+                            <a *ngIf="libro.representaSaga" routerLink="/saga/{{libro.urlSaga}}" title="Reseña libro {{libro.titulo}}" class="btn">
                                 <i class="fa fa-eye"></i>Ver saga</a>
-                            <a *ngIf="!libro.representaSaga" routerLink="/libro/{{libro.urlLibro}}" title="Análisis libro {{libro.titulo}}" class="btn">
+                            <a *ngIf="!libro.representaSaga" routerLink="/libro/{{libro.urlLibro}}" title="Reseña libro {{libro.titulo}}" class="btn">
                                 <i class="fa fa-eye"></i>Ver libro</a>
                         </div>
                     </div>

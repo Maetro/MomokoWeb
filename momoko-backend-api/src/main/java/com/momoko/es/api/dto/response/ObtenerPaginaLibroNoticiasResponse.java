@@ -1,7 +1,8 @@
 /**
  * ObtenerPaginaLibroNoticiasResponse.java 19-dic-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.api.dto.response;
@@ -9,6 +10,7 @@ package com.momoko.es.api.dto.response;
 import java.io.Serializable;
 import java.util.List;
 
+import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroDTO;
 
@@ -25,6 +27,8 @@ public class ObtenerPaginaLibroNoticiasResponse implements Serializable {
 
     /** The tres ultimas entradas. */
     private List<EntradaSimpleDTO> noticias;
+
+    private List<DatoEntradaDTO> datoEntrada;
 
     /** The numero entradas. */
     private Integer numeroEntradas;
@@ -53,4 +57,11 @@ public class ObtenerPaginaLibroNoticiasResponse implements Serializable {
         this.numeroEntradas = numeroEntradas;
     }
 
+    public List<DatoEntradaDTO> getDatoEntrada() {
+        return datoEntrada;
+    }
+
+    public void setDatoEntrada(List<DatoEntradaDTO> datoEntrada) {
+        this.datoEntrada = datoEntrada;
+    }
 }

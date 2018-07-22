@@ -17,7 +17,7 @@ export class ObtenerEntradaResolverService implements Resolve<ObtenerEntradaResp
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<ObtenerEntradaResponse> {
     if (this.log) {
-      console.log('Obteniendo analisis 1');
+      console.log('Obteniendo opiniones 1');
     }
     const url = route.paramMap.get('url');
 

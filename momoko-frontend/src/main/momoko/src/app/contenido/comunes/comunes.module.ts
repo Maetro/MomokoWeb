@@ -14,6 +14,7 @@ import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.
 import { EntradasSidebarComponent } from './sidebar/entradas-sidebar/entradas-sidebar.component';
 import { MobileSidebarComponent } from './mobile-sidebar/mobile-sidebar.component';
 import { TruncatePipe } from './truncate-pipe/truncate.pipe';
+import { NotaCircularPequenaComponent } from './nota-circular-pequena/nota-circular-pequena.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, FormsModule],
@@ -26,6 +27,7 @@ import { TruncatePipe } from './truncate-pipe/truncate.pipe';
     MenuInternoLibroComponent,
     SobreAutorComponent,
     NotaCircularComponent,
+    NotaCircularPequenaComponent,
     MenuInternoSagaComponent,
     EntradasSidebarComponent,
     MobileSidebarComponent,
@@ -38,6 +40,7 @@ import { TruncatePipe } from './truncate-pipe/truncate.pipe';
     MenuInternoLibroComponent,
     SobreAutorComponent,
     NotaCircularComponent,
+    NotaCircularPequenaComponent,
     MenuInternoSagaComponent,
     MobileSidebarComponent,
     TruncatePipe

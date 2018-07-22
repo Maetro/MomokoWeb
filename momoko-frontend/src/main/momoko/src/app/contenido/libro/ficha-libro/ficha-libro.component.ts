@@ -1,3 +1,4 @@
+import { DatoEntrada } from './../../../dtos/datoEntrada';
 import {
   Component,
   OnInit,
@@ -36,6 +37,8 @@ export class FichaLibroComponent implements OnInit {
 
   tresUltimasEntradas: EntradaSimple[];
 
+  datosEntrada: DatoEntrada[];
+
   tituloSeccionLibros = 'Otros libros parecidos';
 
   constructor(
@@ -63,6 +66,7 @@ export class FichaLibroComponent implements OnInit {
       this.libro = data.fichaLibro.libro;
       this.librosParecidos = data.fichaLibro.cincoLibrosParecidos;
       this.tresUltimasEntradas = data.fichaLibro.tresUltimasEntradas;
+      this.datosEntrada = data.fichaLibro.datosEntrada;
       let autores = '';
       this.libro.autores.forEach(autor => {
         autores = autores + autor.nombre + ', ';

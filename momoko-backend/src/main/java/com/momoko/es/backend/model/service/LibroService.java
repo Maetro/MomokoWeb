@@ -58,6 +58,8 @@ public interface LibroService {
      */
     public List<String> obtenerListaTitulosLibros();
 
+    public LibroDTO obtenerLibroConEntradas(String urlLibro);
+
     /**
      * Obtener libro.
      *
@@ -65,7 +67,7 @@ public interface LibroService {
      *            the url libro
      * @return the libro dto
      */
-    public ObtenerFichaLibroResponse obtenerLibro(String urlLibro);
+    public ObtenerFichaLibroResponse obtenerFichaLibroResponse(String urlLibro);
 
     /**
      * Obtener libros parecidos.
@@ -115,7 +117,7 @@ public interface LibroService {
      *            the url libro
      * @return the list
      */
-    public EntradaDTO obtenerAnalisisLibro(String urlLibro);
+    public EntradaDTO obtenerOpinionesLibro(String urlLibro);
 
     /**
      * Obtener puntucion libro.

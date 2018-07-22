@@ -39,6 +39,7 @@ export const environment = {
   getCategoriaUrl: 'http://localhost:5000/public/categoria/',
   getEtiquetaUrl: 'http://localhost:5000/public/etiqueta/',
   getNoticiasLibroUrl: 'http://localhost:5000/public/noticias-libro/',
+  getMiscelaneosLibroUrl: 'http://localhost:5000/public/miscelaneos-libro/',
   getNoticiasSagaUrl: 'http://localhost:5000/public/noticias-saga/',
   getMiscelaneosSagaUrl: 'http://localhost:5000/public/miscelaneos-saga/', 
   suscripcionUrl: 'http://localhost:5000/public/suscribirse/',

@@ -32,7 +32,7 @@ export class TagCategoriaComponent implements OnInit {
     }
     if (this.nombreCategoria === 'Noticia') {
       this.colorCategoria = 'orange';
-    } else if (this.nombreCategoria === 'Análisis') {
+    } else if (this.nombreCategoria === 'Opiniones') {
       this.colorCategoria = 'black';
     } else if (this.nombreCategoria === 'Misceláneos') {
       this.colorCategoria = 'blue';

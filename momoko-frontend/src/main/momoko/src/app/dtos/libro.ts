@@ -28,5 +28,5 @@ export class Libro {
   notaMomoko: number;
   visitas: number;
   ordenSaga: number;
-  tieneAnalisis: boolean;
+  tieneOpinion: boolean;
 }

@@ -45,6 +45,12 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      */
     EntradaEntity findFirstByUrlEntrada(String urlEntrada);
 
+    @Query("SELECT e FROM EntradaEntity e INNER JOIN e.librosEntrada l " +
+            " WHERE e.fechaAlta < :ahora " +
+            " AND l.libroId in :libroIds " +
+            " AND e.fechaBaja is NULL ORDER by e.fechaAlta DESC")
+    List<EntradaEntity> findAllByLibrosEntradaIdIn(@Param("libroIds") List<Integer> libroIds, @Param("ahora") Date ahora);
+
     /**
      * Find by etiquetas.
      *
@@ -147,7 +153,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      * @return the list
      */
     @Query("select distinct e from EntradaEntity e join e.librosEntrada l join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL ORDER BY e.fechaAlta DESC")
-    List<EntradaEntity> findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+    List<EntradaEntity> findEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
             @Param("generoIds") List<Integer> generoIds, Pageable pageable);
 
     /**
@@ -158,7 +164,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
      * @return the long
      */
     @Query("select COUNT(e) from EntradaEntity e join e.librosEntrada l join l.generos g WHERE g.generoId IN :generoIds AND e.tipoEntrada = 2 AND e.fechaBaja IS NULL")
-    Long findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+    Long findNumberEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
             @Param("generoIds") List<Integer> generoIds);
 
     /**

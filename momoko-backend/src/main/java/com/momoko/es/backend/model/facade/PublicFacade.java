@@ -6,18 +6,26 @@
  */
 package com.momoko.es.backend.model.facade;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
+import com.momoko.es.api.dto.response.*;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.TipoVisitaEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
+import com.momoko.es.api.exceptions.UserNotFoundException;
+import com.momoko.es.api.google.GoogleSearch;
+import com.momoko.es.api.google.Item;
+import com.momoko.es.backend.model.service.*;
+import com.momoko.es.util.ConversionUtils;
+import com.momoko.es.util.MomokoThumbnailUtils;
+import com.momoko.es.util.NotFoundException;
+import com.redfin.sitemapgenerator.ChangeFreq;
+import com.redfin.sitemapgenerator.WebSitemapGenerator;
+import com.redfin.sitemapgenerator.WebSitemapUrl;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,72 +36,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.InitDataDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
-import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.MenuDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.ResultadoBusquedaDTO;
-import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.dto.request.NuevoComentarioRequest;
-import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
-import com.momoko.es.api.dto.response.GuardarComentarioResponse;
-import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
-import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;
-import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
-import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
-import com.momoko.es.api.dto.response.ObtenerPaginaSagaColeccionResponse;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.TipoEntrada;
-import com.momoko.es.api.enums.TipoVisitaEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
-import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
-import com.momoko.es.api.exceptions.UserNotFoundException;
-import com.momoko.es.api.google.GoogleSearch;
-import com.momoko.es.api.google.Item;
-import com.momoko.es.backend.model.service.BuscadorService;
-import com.momoko.es.backend.model.service.ComentarioService;
-import com.momoko.es.backend.model.service.EditorialService;
-import com.momoko.es.backend.model.service.EntradaService;
-import com.momoko.es.backend.model.service.EtiquetaService;
-import com.momoko.es.backend.model.service.GenreService;
-import com.momoko.es.backend.model.service.IndexService;
-import com.momoko.es.backend.model.service.LibroService;
-import com.momoko.es.backend.model.service.SagaService;
-import com.momoko.es.backend.model.service.StorageService;
-import com.momoko.es.backend.model.service.TrackService;
-import com.momoko.es.backend.model.service.UserService;
-import com.momoko.es.backend.model.service.ValidadorService;
-import com.momoko.es.util.ConversionUtils;
-import com.momoko.es.util.NotFoundException;
-import com.redfin.sitemapgenerator.ChangeFreq;
-import com.redfin.sitemapgenerator.WebSitemapGenerator;
-import com.redfin.sitemapgenerator.WebSitemapUrl;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
@@ -168,7 +117,7 @@ public class PublicFacade {
         final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
         stopWatch.stop();
         stopWatch.start("obtenerUltimasFichas");
-        final List<LibroSimpleDTO> ultimosAnalisis = this.indexService.obtenerUltimasFichas();
+        final List<LibroSimpleDTO> ultimasOpiniones = this.indexService.obtenerUltimasFichas();
         stopWatch.stop();
         stopWatch.start("obtenerUltimoComicAnalizado");
         final LibroEntradaSimpleDTO ultimoComicAnalizado = this.indexService.obtenerUltimoComicAnalizado();
@@ -178,7 +127,7 @@ public class PublicFacade {
         obtenerIndexDataResponseDTO.setUltimasEntradas(ultimasEntradas);
         obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
-        obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimosAnalisis);
+        obtenerIndexDataResponseDTO.setUltimasOpiniones(ultimasOpiniones);
         stopWatch.stop();
         log.debug(stopWatch.prettyPrint());
         return obtenerIndexDataResponseDTO;
@@ -228,7 +177,7 @@ public class PublicFacade {
     public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro,
             final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
 
-        final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerLibro(urlLibro);
+        final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerFichaLibroResponse(urlLibro);
         final String ip = getClientIp(request);
         if (respuesta.getLibro() != null) {
             respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
@@ -571,12 +520,42 @@ public class PublicFacade {
             final ObtenerPaginaElementoRequest request,
             final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
             final List<EntradaSimpleDTO> noticias) {
-        final LibroDTO libro = this.libroService.obtenerLibro(urlLibro).getLibro();
+        LibroDTO libroRaw = this.libroService.obtenerLibroConEntradas(urlLibro);
+        final LibroDTO libro = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroRaw);
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
-        int numeroEntradas = 0;
 
+        Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
+        addDatosEntradaLibroTipo(noticias, entradasSimples, datosEntrada, TipoEntrada.NOTICIA);
+        if (noticias.size() == 0 && libro.getSaga() != null){
+            List<String> urlsLibrosSaga = this.sagaService.obtenerListaUrlsLibros(libro.getSaga().getSagaId());
+            final List<LibroDTO> librosSaga = this.libroService.obtenerLibros(urlsLibrosSaga);
+            librosSaga.forEach(libroSaga -> {
+                if (!libroSaga.getUrlLibro().equals(libro.getUrlLibro())){
+                    final List<DatoEntradaDTO> entradasSimplesHermano = libro.getEntradasLibro();
+                    addDatosEntradaLibroTipo(noticias, entradasSimplesHermano, datosEntrada, TipoEntrada.NOTICIA);
+                }
+            });
+            if (noticias.size() == 0){
+                try {
+                    SagaDTO sagaLibro = this.sagaService.obtenerSaga(libro.getSaga().getUrlSaga());
+                    List<DatoEntradaDTO> entradasSaga = sagaLibro.getEntradasSaga();
+                    addDatosEntradaLibroTipo(noticias, entradasSaga, datosEntrada, TipoEntrada.NOTICIA);
+
+                } catch (NoSeEncuentraElementoConUrl noSeEncuentraElementoConUrl) {
+                    noSeEncuentraElementoConUrl.printStackTrace();
+                }
+            }
+        }
+        paginaLibroNoticiasResponse.setDatoEntrada(new ArrayList<>(datosEntrada));
+        paginaLibroNoticiasResponse.setLibro(libro);
+        paginaLibroNoticiasResponse.setNoticias(noticias);
+        paginaLibroNoticiasResponse.setNumeroEntradas(noticias.size());
+        return paginaLibroNoticiasResponse;
+    }
+
+    private void addDatosEntradaLibroTipo(List<EntradaSimpleDTO> noticias, List<DatoEntradaDTO> entradasSimples, Set<DatoEntradaDTO> datosEntrada, TipoEntrada tipoEntrada) {
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
-            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.NOTICIA.getValue())) {
+            if (datoEntradaDTO.getTipoEntrada().equals(tipoEntrada.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
                         .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
                 if (entradaSimple.getImagenEntrada() != null) {
@@ -590,13 +569,63 @@ public class PublicFacade {
 
                 noticias.add(entradaSimple);
 
-                numeroEntradas++;
+            }
+            datosEntrada.add(datoEntradaDTO);
+        }
+    }
+
+
+    @GetMapping(path = "/miscelaneos-libro/{url-libro}/{numero-pagina}")
+    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibroPagina(
+            @PathVariable("url-libro") final String urlLibro, @PathVariable("numero-pagina") final Integer numeroPagina) {
+
+        return obtenerPaginaLibroMiscelaneosResponse(urlLibro, numeroPagina);
+
+    }
+
+    @GetMapping(path = "/miscelaneos-libro/{url-libro}")
+    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibro(
+            @PathVariable("url-libro") final String urlLibro,
+            @RequestBody(required = false) ObtenerPaginaElementoRequest request) {
+
+        return obtenerPaginaLibroMiscelaneosResponse(urlLibro, 1);
+
+    }
+
+    private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroMiscelaneosResponse(final String urlLibro, final Integer numeroPagina ) {
+        ObtenerPaginaLibroNoticiasResponse response = new ObtenerPaginaLibroNoticiasResponse();
+        LibroDTO libroRaw = this.libroService.obtenerLibroConEntradas(urlLibro);
+        final LibroDTO libro = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroRaw);
+        final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
+
+        Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
+        List<EntradaSimpleDTO> miscelaneos = new ArrayList<>();
+        addDatosEntradaLibroTipo(miscelaneos, entradasSimples, datosEntrada, TipoEntrada.MISCELANEOS);
+        if (miscelaneos.size() == 0 && libro.getSaga() != null){
+            List<String> urlsLibrosSaga = this.sagaService.obtenerListaUrlsLibros(libro.getSaga().getSagaId());
+            final List<LibroDTO> librosSaga = this.libroService.obtenerLibros(urlsLibrosSaga);
+            librosSaga.forEach(libroSaga -> {
+                if (!libroSaga.getUrlLibro().equals(libro.getUrlLibro())){
+                    final List<DatoEntradaDTO> entradasSimplesHermano = libro.getEntradasLibro();
+                    addDatosEntradaLibroTipo(miscelaneos, entradasSimplesHermano, datosEntrada, TipoEntrada.MISCELANEOS);
+                }
+            });
+            if (miscelaneos.size() == 0){
+                try {
+                    SagaDTO sagaLibro = this.sagaService.obtenerSaga(libro.getSaga().getUrlSaga());
+                    List<DatoEntradaDTO> entradasSaga = sagaLibro.getEntradasSaga();
+                    addDatosEntradaLibroTipo(miscelaneos, entradasSaga, datosEntrada, TipoEntrada.MISCELANEOS);
+
+                } catch (NoSeEncuentraElementoConUrl noSeEncuentraElementoConUrl) {
+                    noSeEncuentraElementoConUrl.printStackTrace();
+                }
             }
         }
-        paginaLibroNoticiasResponse.setLibro(libro);
-        paginaLibroNoticiasResponse.setNoticias(noticias);
-        paginaLibroNoticiasResponse.setNumeroEntradas(numeroEntradas);
-        return paginaLibroNoticiasResponse;
+        response.setDatoEntrada(new ArrayList<>(datosEntrada));
+        response.setLibro(libro);
+        response.setNoticias(miscelaneos);
+        response.setNumeroEntradas(miscelaneos.size());
+        return response;
     }
 
     @GetMapping(path = "/noticias-saga/{url-saga}/{numero-pagina}")
@@ -801,6 +830,10 @@ public class PublicFacade {
                     final String entradaUrl = urlPart.split("analisis/")[1];
                     entradas.add(entradaUrl.trim());
                     order.add(entradaUrl.trim());
+                } else if (urlPart.contains("opiniones/")) {
+                    final String entradaUrl = urlPart.split("opiniones/")[1];
+                    entradas.add(entradaUrl.trim());
+                    order.add(entradaUrl.trim());
                 } else if (urlPart.contains("noticia/")) {
                     final String entradaUrl = urlPart.split("noticia/")[1];
                     entradas.add(entradaUrl.trim());
@@ -936,19 +969,6 @@ public class PublicFacade {
 
     }
 
-    /**
-     * Obtener categoria response.
-     *
-     * @param urlCategoria
-     *            the url categoria
-     * @param request
-     *            the request
-     * @param etiquetaResponse
-     *            the categoria response
-     * @param entradasCategoria
-     *            the entradas categoria
-     * @return the obtener pagina categoria response
-     */
     private ObtenerPaginaEtiquetaResponse obtenerEtiquetaResponse(final String urlEtiqueta,
             final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
             final List<EntradaSimpleDTO> entradasEtiqueta) {
@@ -1012,7 +1032,7 @@ public class PublicFacade {
 
         final GenreDTO generoDTO = new GenreDTO();
         generoDTO.setUrlGenero("manga");
-        final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO,
+        final List<LibroSimpleDTO> librosGenero = this.generoService.obtenerLibrosConOpinionesGeneroPorFecha(generoDTO,
                 9, 0);
         return librosGenero.toString();
     }
@@ -1023,27 +1043,61 @@ public class PublicFacade {
         final StringBuilder builder = new StringBuilder();
         final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
         for (final EntradaDTO entradaDTO : entradas) {
-            if (TipoEntrada.ANALISIS.getValue().equals(entradaDTO.getTipoEntrada())) {
-                final LibroDTO libro = entradaDTO.getLibrosEntrada().iterator().next();
-                if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-                    builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(";<br/>");
-                } else {
-                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlAntigua() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-                    builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(";<br/>");
-                    builder.append("/libro/" + libro.getUrlLibro() + "/resena/" + entradaDTO.getUrlEntrada() + " "
-                            + "/analisis/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-                    builder.append("/" + entradaDTO.getUrlEntrada() + " " + "/analisis/" + entradaDTO.getUrlEntrada())
-                            .append(";<br/>");
+            if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
+                generateOpinionRedirects(builder, entradaDTO);
+            } else if (TipoEntrada.MISCELANEOS.getValue().equals(entradaDTO.getTipoEntrada())){
+               if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())){
+                   generateMiscRedirects(builder, entradaDTO);
+               }
+            } else if (TipoEntrada.NOTICIA.getValue().equals(entradaDTO.getTipoEntrada())){
+                if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())){
+                    generateNewsRedirects(builder, entradaDTO);
                 }
             }
         }
         System.out.println(builder.toString());
         return builder.toString();
+    }
+
+    private void generateOpinionRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        LibroDTO libro = null;
+        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
+            libro = entradaDTO.getLibrosEntrada().iterator().next();
+        }
+        if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+            builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " "
+                    + "/opiniones/" + entradaDTO.getUrlEntrada()).append(";<br/>");
+            if (libro != null) {
+                builder.append("/amp/analisis/" + libro.getUrlLibro() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
+                        .append(";<br/>");
+            }
+        } else {
+            builder.append("/analisis/" + entradaDTO.getUrlAntigua() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            if (libro != null) {
+                builder.append("/amp/analisis/" + libro.getUrlLibro() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
+                        .append(";<br/>");
+            }
+
+        }
+    }
+
+    private void generateMiscRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+            builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+        }
+    }
+
+    private void generateNewsRedirects(StringBuilder builder, EntradaDTO entradaDTO) {
+        if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
+            builder.append("/noticia/" + entradaDTO.getUrlAntigua() + " " + "/noticia/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+            builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/" + entradaDTO.getUrlEntrada())
+                    .append(";<br/>");
+        }
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/arreglarEtiquetas")

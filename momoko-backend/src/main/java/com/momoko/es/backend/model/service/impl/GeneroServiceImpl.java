@@ -73,7 +73,7 @@ public class GeneroServiceImpl implements GenreService {
         final GenreDTO generoDTO = this.obtenerGeneroPorUrl(genreUrl);
         List<LibroSimpleDTO> genreBooksAndSagas = new ArrayList<>();
         if (OrderType.DATE.equals(tipoOrden)) {
-            genreBooksAndSagas = this.obtenerLibrosConAnalisisGeneroPorFecha(generoDTO, 9, pageNumber);
+            genreBooksAndSagas = this.obtenerLibrosConOpinionesGeneroPorFecha(generoDTO, 9, pageNumber);
         } else {
             genreBooksAndSagas = this.obtenerLibrosConAnalisisGeneroPorNota(generoDTO, 9, pageNumber);
         }
@@ -85,7 +85,7 @@ public class GeneroServiceImpl implements GenreService {
                             this.almacenImagenes.obtenerMiniatura(libroSimpleDTO.getPortada(), 240, 350, false));
 
                     final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
-                            .getImageDimensions(libroSimpleDTO.getPortada());
+                            .getImageDimensionsThumbnail(libroSimpleDTO.getPortada());
                     libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
                     libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
 
@@ -188,8 +188,8 @@ public class GeneroServiceImpl implements GenreService {
 
     @Override
     @Transactional
-    public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GenreDTO generoDTO, final int numElements,
-            final Integer numeroPagina) {
+    public List<LibroSimpleDTO> obtenerLibrosConOpinionesGeneroPorFecha(final GenreDTO generoDTO, final int numElements,
+                                                                        final Integer numeroPagina) {
         final List<LibroSimpleDTO> resultado = new ArrayList<>();
         final Integer initElement = numElements * numeroPagina;
         final Integer endElement = initElement + numElements;

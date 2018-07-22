@@ -209,7 +209,7 @@ public interface EntradaService {
      *            the libro
      * @return the list
      */
-    List<EntradaDTO> obtenerAnalisisGeneros(LibroDTO libro);
+    List<EntradaDTO> obtenerOpinionesGeneros(LibroDTO libro);
 
     /**
      * Obtener entradas aleatorias de tipo.
@@ -274,4 +274,7 @@ public interface EntradaService {
      *            the etiqueta id
      */
     void anadirEtiqueta(String urlEntrada, Integer etiquetaId);
+
+
+    EntradaDTO obtenerEntrada(String urlEntrada);
 }

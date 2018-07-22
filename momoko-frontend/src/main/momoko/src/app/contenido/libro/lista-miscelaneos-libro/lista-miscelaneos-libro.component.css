@@ -1,0 +1,422 @@
+.hidden {
+  display: none;
+}
+
+.page-title span {
+  color: white;
+}
+
+h1.post-title,
+h2.post-title {
+  font-size: 44px;
+  line-height: 52px;
+  margin-bottom: 0px;
+  display: inline-block;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  color: #2B2B2B;
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-family: 'Playfair Display';
+  text-transform: none;
+}
+
+h1.post-title {
+  margin-top: 40px;
+}
+
+.etiquetaLibro {
+  width: fit-content;
+  position: absolute;
+  padding: 1px 10px;
+  margin-top: 10px;
+  background-color: #367af9;
+  color: white;
+  left: -50px;
+}
+
+.titulo_original {
+  display: inline;
+  font-style: italic;
+  color: #9e9e9e;
+  letter-spacing: 0px;
+}
+
+.autor_libro {
+  font-family: 'Playfair';
+  font-size: 20px;
+  font-style: italic;
+  color: #9e9e9e;
+}
+
+.block {
+  border: 1px solid #dbae29;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.datos {
+  font-size: 13px;
+  margin-right: 10px;
+}
+
+.editorial {
+  display: inline;
+}
+
+.anoEdicion {
+  display: inline;
+}
+
+.anoPublicacion {
+  display: inline;
+}
+
+.numPaginas {
+  display: inline;
+}
+
+.amazon.abajo {
+  position: absolute;
+  bottom: 90px;
+  right: 0;
+}
+
+.amazon {
+  text-align: right;
+}
+
+.amazon img {
+  width: 96px;
+  margin-top: -1px;
+}
+
+.amazon img,
+.amazon span {
+  display: block;
+  float: left;
+}
+
+.btnComprarAmazon {
+  background: #231F20;
+  padding: 8px 25px;
+  margin-right: 10px;
+  color: #FFF;
+  border-radius: 6px;
+}
+
+.btnComprarAmazon:hover {
+  background: #DBAE27;
+}
+
+.bloqueRedes {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.post__share a {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 3px;
+  color: white;
+  line-height: 1;
+  margin-bottom: 3px;
+  font-size: 14px;
+  font-size: 0.875em;
+}
+
+.post__share a.facebook {
+  background-color: #3B5998;
+}
+
+.post__share a.twitter {
+  background-color: #55ACEE;
+}
+
+.post__share a.google-plus {
+  background-color: #E02F2F;
+}
+
+.widget-title,
+.section-title {
+  font-family: 'Josefin Sans', sans-serif;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.section-title {
+  margin-bottom: 15px;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.widget-title {
+  margin-bottom: 18px;
+  font-size: 18px;
+}
+
+.divider_line1 {
+  border-color: #EFC66E;
+  border-style: solid;
+  width: 25px;
+  margin-left: 210px;
+  border-width: 2px;
+}
+
+.blog-content h3 {
+  font-size: 30px;
+}
+
+.titulo_libro {
+  margin-bottom: 0px;
+  padding-top: 10px;
+}
+
+.product-layout-view a {
+  display: inline-block;
+  padding: 10px;
+  font-size: 20px;
+  border: 3px solid #BDBDBD;
+  line-height: .5;
+  margin-right: 10px;
+  border-radius: 10px;
+}
+
+.product-layout-view a.active {
+  color: #e3b015;
+  border: 3px solid #e3b015;
+}
+
+.product-layout-view a:hover {
+  border: 3px solid #e3b015;
+}
+
+.iconomono {
+  color: #BDBDBD;
+}
+
+.separatop15 {
+  margin-top: 15px;
+}
+
+.separatop {
+  margin-top: 16px;
+}
+
+.separatop25 {
+  margin-top: 25px;
+}
+
+.separatop35 {
+  margin-top: 35px;
+}
+
+select.ui-paginator-rpp-options.ui-widget.ui-state-default {
+  display: inline-block;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  font-weight: inherit;
+  width: 100% !important;
+  height: 40px;
+  padding: 2px 15px 0;
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: inherit;
+  background: rgba(0, 0, 0, 0.05);
+  border: 0;
+  border-radius: 0;
+  resize: none;
+  vertical-align: middle;
+  box-shadow: none;
+  transition: all 150ms ease-in;
+  color: #505050 !important;
+}
+
+a:hover,
+a:focus {
+  color: #e3b015;
+}
+
+.paginas-pagination {
+  padding: 60px 0;
+}
+
+h3 a:hover,
+h3 a:focus {
+  color: #e3b015;
+  transition: color 150ms ease-in;
+}
+
+h4:hover,
+h4:focus {
+  color: #e3b015;
+  transition: color 150ms ease-in;
+}
+
+.paginas-pagination ul.page-numbers {
+  list-style: none;
+  padding: 0;
+  display: block;
+  cursor: pointer;
+}
+
+.paginas-pagination ul.page-numbers li {
+  display: inline-block;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers {
+  padding: 13px 15px 10px;
+  margin-right: 10px;
+  display: block;
+  background-color: white;
+  line-height: 1;
+  box-shadow: 0 2px 10px rgba(192, 221, 238, 0.7);
+  font-weight: 700;
+  color: #616161;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers:hover {
+  background-color: #e3b015;
+  transition: all 150ms ease-in;
+  color: white;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers.current {
+  background-color: #e3b015;
+}
+
+.paginas-pagination ul.page-numbers .page-numbers.current {
+  color: white;
+}
+
+.descripcionlibro {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.clearfix {
+  margin-bottom: 50px;
+}
+
+.autor_libro {
+  font-family: 'Playfair';
+  font-size: 20px;
+  font-style: italic;
+  color: #9e9e9e;
+}
+
+.page-numbers li {
+  margin-bottom: 10px;
+}
+
+.tituloBloque h2 {
+  color: #2a2c2b;
+  font-size: 22px;
+  margin: 10px 0 15px;
+  text-align: center;
+}
+
+.tituloBloque h2::after {
+  content: '';
+  width: 40px;
+  border-bottom: 4px solid #EFC66E;
+  display: block;
+  padding: 3px;
+  margin: 0 auto;
+}
+
+.entrada__image {
+  margin: 0 0 20px;
+  box-shadow: 0 5px 20px -3px rgba(0, 0, 0, 0.2);
+  position: relative;
+  transition: transform .3s ease;
+}
+
+.entrada__image>a {
+  overflow: hidden;
+  display: block;
+  height: 208px;
+}
+
+.entrada__image img {
+  max-width: 100%;
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: .3s ease;
+}
+
+.entrada__action {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  opacity: 0;
+  transition: .3s ease;
+}
+
+.buy-now {
+  color: #dbae27;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 8px 15px 5px;
+  font-weight: 600;
+  border-radius: 40px;
+  line-height: 1;
+  font-size: 11px;
+  border: 3px solid;
+}
+
+.entrada:hover .entrada__action {
+  opacity: 1;
+}
+
+.btn_leer_mas {
+  margin: 5px auto 0;
+  text-align: center;
+  color: #686868;
+}
+
+.entrada__title a {
+  color: rgb(43, 43, 43);
+}
+
+.entrada__title {
+  margin-bottom: 0px;
+  font-size: 20px;
+  padding-top: 10px;
+}
+
+.entrada__autor {
+  font-family: 'Playfair';
+  font-size: 20px;
+  font-style: italic;
+  color: #9e9e9e;
+  cursor: pointer;
+}
+
+h3.entrada__title a {
+  font-size: 25px;
+}
+
+.parallax .inner {
+  padding-top: 70px;
+  padding-bottom: 60px;
+}

@@ -19,6 +19,7 @@ import { ObtenerListaEditoralResolverService } from './services/resolvers/obtene
 import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
 import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
 import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obtener-saga-miscelaneos.resolver.service';
+import { ObtenerLibroMiscelaneosResolverService } from './services/resolvers/obtener-libro-miscelaneos-resolver.service';
 
 const appRoutes = [
   {
@@ -30,7 +31,7 @@ const appRoutes = [
     }
   },
   {
-    path: 'libro/:url/noticias',
+    path: 'noticias-libro/:url-libro',
     loadChildren:
       './contenido/libro/lista-noticias-libro/lista-noticias-libro.module#ListaNoticiasLibroModule',
     resolve: {
@@ -46,22 +47,20 @@ const appRoutes = [
     }
   },
   {
+    path: 'miscelaneos-libro/:url-libro',
+    loadChildren:
+      './contenido/libro/lista-miscelaneos-libro/lista-miscelaneos-libro.module#ListaMiscelaneosLibroModule',
+    resolve: {
+      coleccionLibro: ObtenerLibroMiscelaneosResolverService
+    }
+  },
+  {
     path: 'miscelaneos-saga/:url-saga',
     loadChildren:
       './contenido/saga/lista-miscelaneos-saga/lista-miscelaneos-saga.module#ListaMiscelaneosSagaModule',
     resolve: {
       coleccionSaga: ObtenerSagaMiscelaneosResolverService
     }
-  },
-  {
-    path: 'libro/:url_libro/miscelaneo/:url_entrada',
-    redirectTo: '/:url_entrada',
-    pathMatch: 'full'
-  },
-  {
-    path: 'libro/:url_libro/noticia/:url_entrada',
-    redirectTo: 'noticia/:url_entrada',
-    pathMatch: 'full'
   },
   {
     path: 'saga/:url_saga',
@@ -103,14 +102,6 @@ const appRoutes = [
     }
   },
   {
-    path: 'genero/:url_genero/:numero_pagina/:order_type',
-    loadChildren:
-      './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
-    resolve: {
-      paginaGeneroResponse: ObtenerListaGeneroResolverService
-    }
-  },
-  {
     path: 'genero/:url_genero/:numero_pagina',
     loadChildren:
       './contenido/clasificador/lista-genero/lista-genero.module#ListaGeneroModule',
@@ -134,8 +125,11 @@ const appRoutes = [
       paginaEtiquetaResponse: ObtenerListaEtiquetaResolverService
     }
   },
+  { path: 'analisis/:url-entrada',
+    redirectTo: 'opiniones/:url-entrada',
+  },
   {
-    path: 'analisis/:url_entrada',
+    path: 'opiniones/:url_entrada',
     loadChildren: './contenido/entrada/entrada.module#EntradaModule',
     resolve: {
       obtenerEntradaResponse: ObtenerResenaResolverService

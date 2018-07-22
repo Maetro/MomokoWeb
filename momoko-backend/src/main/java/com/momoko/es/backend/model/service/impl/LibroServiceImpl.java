@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.momoko.es.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -50,10 +51,6 @@ import com.momoko.es.backend.model.repository.PuntuacionRepository;
 import com.momoko.es.backend.model.service.EditorialService;
 import com.momoko.es.backend.model.service.LibroService;
 import com.momoko.es.backend.model.service.StorageService;
-import com.momoko.es.util.ConversionUtils;
-import com.momoko.es.util.DTOToEntityAdapter;
-import com.momoko.es.util.EntityToDTOAdapter;
-import com.momoko.es.util.MomokoUtils;
 
 /**
  * The Class LibroServiceImpl.
@@ -61,33 +58,40 @@ import com.momoko.es.util.MomokoUtils;
 @Service
 public class LibroServiceImpl implements LibroService {
 
-    @Autowired(required = false)
-    private EditorialService editorialService;
+    private final EditorialService editorialService;
+
+    private final LibroRepository libroRepository;
+
+    private final EntradaRepository entradaRepository;
+
+    private final AutorRepository autorRepository;
+
+    private final EditorialRepository editorialRepository;
+
+    private final StorageService almacenImagenes;
+
+    private final PuntuacionRepository puntuacionRepository;
+
+    private final GeneroRepository generoRepository;
 
     @Autowired(required = false)
-    private LibroRepository libroRepository;
-
-    @Autowired(required = false)
-    private EntradaRepository entradaRepository;
-
-    @Autowired(required = false)
-    private AutorRepository autorRepository;
-
-    @Autowired(required = false)
-    private EditorialRepository editorialRepository;
-
-    @Autowired(required = false)
-    private StorageService almacenImagenes;
-
-    @Autowired(required = false)
-    private PuntuacionRepository puntuacionRepository;
-
-    @Autowired
-    private GeneroRepository generoRepository;
+    public LibroServiceImpl(EditorialService editorialService, LibroRepository libroRepository,
+                            EntradaRepository entradaRepository, AutorRepository autorRepository,
+                            EditorialRepository editorialRepository, StorageService almacenImagenes,
+                            PuntuacionRepository puntuacionRepository, GeneroRepository generoRepository) {
+        this.editorialService = editorialService;
+        this.libroRepository = libroRepository;
+        this.entradaRepository = entradaRepository;
+        this.autorRepository = autorRepository;
+        this.editorialRepository = editorialRepository;
+        this.almacenImagenes = almacenImagenes;
+        this.puntuacionRepository = puntuacionRepository;
+        this.generoRepository = generoRepository;
+    }
 
     @Override
     public List<LibroDTO> recuperarLibros() {
-        final List<LibroDTO> listaLibros = new ArrayList<LibroDTO>();
+        final List<LibroDTO> listaLibros = new ArrayList<>();
         final Iterable<LibroEntity> libroEntityIterable = this.libroRepository.findAll();
         final String urlImageServer = this.almacenImagenes.getUrlImageServer();
         for (final LibroEntity libroEntity : libroEntityIterable) {
@@ -235,9 +239,16 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public ObtenerFichaLibroResponse obtenerLibro(final String urlLibro) {
+    public LibroDTO obtenerLibroConEntradas(String urlLibro) {
+        LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
+        return EntityToDTOAdapter.adaptarLibro(libroEntity, true);
+    }
+
+    @Override
+    public ObtenerFichaLibroResponse obtenerFichaLibroResponse(final String urlLibro) {
         final ObtenerFichaLibroResponse respuesta = new ObtenerFichaLibroResponse();
         final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
+        respuesta.setDatosEntrada(ConversionUtils.obtenerDatosEntradaFromEntradaEntityList(libroEntity.getEntradas()));
         if (libroEntity != null) {
             final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
                     .findByLibrosEntradaIn(Arrays.asList(libroEntity), new PageRequest(0, 4));
@@ -256,36 +267,9 @@ public class LibroServiceImpl implements LibroService {
 
             respuesta.setTresUltimasEntradas(entradasBasicas);
 
-            final List<DatoEntradaDTO> listaDatosEntradas = new ArrayList<DatoEntradaDTO>();
-            if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                for (final EntradaEntity entradaEntity : entradasRelacionadas) {
-                    final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                    datoEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
-                    datoEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
-                    datoEntrada.setEnMenu(entradaEntity.isEnMenu());
-                    datoEntrada.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
-                    datoEntrada.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
-                    listaDatosEntradas.add(datoEntrada);
-                }
-            }
-
-            final LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libroEntity);
-            try {
-                final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
-                        .getImageDimensions(libroEntity.getUrlImagen());
-                libroDTO.setPortadaHeight(alturaAnchura.getAltura());
-                libroDTO.setPortadaWidth(alturaAnchura.getAnchura());
-                final String url = this.almacenImagenes.getUrlImageServer();
-                libroDTO.setUrlImagen(url + libroEntity.getUrlImagen());
-                final Set<GenreDTO> generosImagenes = new HashSet<GenreDTO>();
-                for (final GenreDTO generoDTO : libroDTO.getGeneros()) {
-                    generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
-                    generosImagenes.add(generoDTO);
-                }
-                libroDTO.setGeneros(generosImagenes);
-            } catch (final IOException e) {
-                e.printStackTrace();
-            }
+            final List<DatoEntradaDTO> listaDatosEntradas = ConversionUtils.obtenerDatosEntradaFromEntradaEntityList(entradasRelacionadas);
+            LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libroEntity);
+            libroDTO = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
             // Nota Momoko del libro
             final PuntuacionEntity puntuacionEntity = this.puntuacionRepository
                     .findOneByEsPuntuacionMomokoAndLibro(true, libroEntity);
@@ -304,10 +288,12 @@ public class LibroServiceImpl implements LibroService {
         return respuesta;
     }
 
+
+
     @Override
     public List<LibroSimpleDTO> obtenerLibrosParecidos(final LibroDTO libro, final int numeroLibros) {
         final Set<GenreEntity> generos = DTOToEntityAdapter.adaptarGeneros(libro.getGeneros());
-        final List<Integer> idsGeneros = new ArrayList<Integer>();
+        final List<Integer> idsGeneros = new ArrayList<>();
         for (final GenreEntity generoEntity : generos) {
             idsGeneros.add(generoEntity.getGeneroId());
         }
@@ -315,6 +301,7 @@ public class LibroServiceImpl implements LibroService {
         final List<LibroEntity> listaLibrosParecidos = this.libroRepository
                 .findLibrosParecidosByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros, libro.getLibroId(),
                         PageRequest.of(0, numeroLibros));
+
         final List<Integer> listaLibrosIds = new ArrayList<>();
         final List<PuntuacionEntity> listaPuntuaciones = this.puntuacionRepository
                 .findByEsPuntuacionMomokoAndLibroLibroIdIn(true, listaLibrosIds);
@@ -345,7 +332,7 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public Integer obtenerNumeroLibrosConAnalisisGenero(final GenreDTO generoDTO) {
         final Long numeroResultados = this.entradaRepository
-                .findNumberEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
+                .findNumberEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(
                         Arrays.asList(generoDTO.getGeneroId()));
         return numeroResultados.intValue();
     }
@@ -384,12 +371,12 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
-    public EntradaDTO obtenerAnalisisLibro(final String urlLibro) {
+    public EntradaDTO obtenerOpinionesLibro(final String urlLibro) {
         final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlLibro);
         final List<EntradaEntity> entradas = libroEntity.getEntradas();
         EntradaDTO analisisLibro = null;
         for (final EntradaEntity entradaEntity : entradas) {
-            if (TipoEntrada.ANALISIS.getValue().equals(entradaEntity.getTipoEntrada())) {
+            if (TipoEntrada.OPINIONES.getValue().equals(entradaEntity.getTipoEntrada())) {
                 analisisLibro = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
                 break;
             }

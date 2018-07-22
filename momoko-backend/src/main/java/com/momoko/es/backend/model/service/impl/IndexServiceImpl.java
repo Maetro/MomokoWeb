@@ -221,9 +221,8 @@ public class IndexServiceImpl implements IndexService {
         }
 
         final EntradaEntity ultimoComicAnalisis = this.entradaRepository
-                .findEntradaAnalisisLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
-                        PageRequest.of(0, 1))
-                .iterator().next();
+                .findEntradaOpinionesLibroByGenerosAndFechaBajaIsNullOrderByFechaAltaDesc(idsGeneros,
+                        PageRequest.of(0, 1)).iterator().next();
 
         final LibroEntity ultimoComicAnalizado = ultimoComicAnalisis.getLibrosEntrada().iterator().next();
 
@@ -236,7 +235,7 @@ public class IndexServiceImpl implements IndexService {
                         296, 405, false);
                 libroSimpleDTO.setPortada(thumbnail);
                 final AnchuraAlturaDTO alturaAnchura = this.almacenImagenes
-                        .getImageDimensions(libroSimpleDTO.getPortada());
+                        .getImageDimensionsThumbnail(libroSimpleDTO.getPortada());
                 libroSimpleDTO.setPortadaHeight(alturaAnchura.getAltura());
                 libroSimpleDTO.setPortadaWidth(alturaAnchura.getAnchura());
             } catch (final IOException e) {

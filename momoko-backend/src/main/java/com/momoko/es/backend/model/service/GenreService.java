@@ -77,8 +77,8 @@ public interface GenreService {
      *            the numero pagina
      * @return the list
      */
-    List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(GenreDTO generoDTO, int numElements,
-            Integer numeroPagina);
+    List<LibroSimpleDTO> obtenerLibrosConOpinionesGeneroPorFecha(GenreDTO generoDTO, int numElements,
+                                                                 Integer numeroPagina);
 
     /**
      * Obtener libros con analisis genero por nota.

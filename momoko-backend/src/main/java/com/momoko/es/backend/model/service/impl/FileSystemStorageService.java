@@ -126,11 +126,13 @@ public class FileSystemStorageService implements StorageService {
      *             Signals that an I/O exception has occurred.
      */
     @Override
-    public AnchuraAlturaDTO getImageDimensions(final String filename, final String tipoAlmacenamiento)
+    public AnchuraAlturaDTO getImageDimensions(String filename, final String tipoAlmacenamiento)
             throws IOException {
-
+        if(filename.contains(" ")){
+            filename = filename.replaceAll(" ", "%20");
+        }
         final File locationOriginal = this.getFileSystemHelper().descargarImagen(
-                this.getFileSystemHelper().getImageServerLocation(tipoAlmacenamiento) + "/" + filename, filename);
+                this.getFileSystemHelper().getImageServerLocation(tipoAlmacenamiento) + filename, filename);
         final AnchuraAlturaDTO resultado = new AnchuraAlturaDTO();
         if (locationOriginal.exists()) {
             final InputStream imagenOriginalInputStream = new FileInputStream(locationOriginal);
@@ -157,7 +159,6 @@ public class FileSystemStorageService implements StorageService {
     public AnchuraAlturaDTO getImageDimensions(final String urlImagen) throws IOException {
         final String[] lista = urlImagen.split("/");
         final int elementos = lista.length;
-        // TODO: Corregir
         String tipoAlmacenamiento = "";
         String temp = lista[elementos - 2];
         for (int i = elementos - 2; !temp.equals("images"); i--) {
@@ -167,8 +168,26 @@ public class FileSystemStorageService implements StorageService {
             }
             temp = lista[i];
         }
-        tipoAlmacenamiento = tipoAlmacenamiento.substring(7, tipoAlmacenamiento.length() - 1);
+
         return getImageDimensions(lista[elementos - 1], tipoAlmacenamiento);
+    }
+
+    @Override
+    public AnchuraAlturaDTO getImageDimensionsThumbnail(final String urlImagen) throws IOException {
+        final String[] lista = urlImagen.split("/");
+        final int elementos = lista.length;
+        String tipoAlmacenamiento = "";
+        String temp = lista[elementos - 2];
+        for (int i = elementos - 2; !temp.equals("images"); i--) {
+            tipoAlmacenamiento = lista[i] + "/" + tipoAlmacenamiento;
+            if (i == 0) {
+                break;
+            }
+            temp = lista[i];
+        }
+
+        tipoAlmacenamiento = tipoAlmacenamiento.substring(7, tipoAlmacenamiento.length() - 1);
+        return getImageDimensions(lista[elementos - 1], tipoAlmacenamiento + "/");
     }
 
     @Override
