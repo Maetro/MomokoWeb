@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.momoko.es.commons.MomokoCommonsAutoConfiguration
