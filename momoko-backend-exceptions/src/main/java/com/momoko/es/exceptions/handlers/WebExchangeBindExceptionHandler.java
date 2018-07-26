@@ -32,6 +32,6 @@ public class WebExchangeBindExceptionHandler extends AbstractExceptionHandler<We
 	
 	@Override
 	public String getMessage(WebExchangeBindException ex) {
-		return LexUtils.getMessage("com.naturalprogrammer.spring.validationError");
+		return LexUtils.getMessage("com.momoko.es.validationError");
 	}
 }

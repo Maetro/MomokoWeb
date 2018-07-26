@@ -22,6 +22,9 @@ spring:
     restart.enabled: false
     livereload.enabled: false
 
+server:
+  port: 5000
+
 server.servlet.session.persistent: false
 
 # Spring Lemon related properties

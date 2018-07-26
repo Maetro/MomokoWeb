@@ -33,10 +33,10 @@ implements ConstraintValidator<RetypePassword, RetypePasswordForm> {
 			// field-level properties: password, retypePassword
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(
-						"{com.naturalprogrammer.spring.different.passwords}")
+						"{com.momoko.es.different.passwords}")
 						.addPropertyNode("password").addConstraintViolation()
 				   .buildConstraintViolationWithTemplate(
-						"{com.naturalprogrammer.spring.different.passwords}")
+						"{com.momoko.es.different.passwords}")
 						.addPropertyNode("retypePassword").addConstraintViolation();
 			
 			return false;	

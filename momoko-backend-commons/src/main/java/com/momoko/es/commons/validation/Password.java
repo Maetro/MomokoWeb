@@ -18,14 +18,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Sanjay Patel
  *
  */
-@NotBlank(message="{com.naturalprogrammer.spring.blank.password}")
+@NotBlank(message="{com.momoko.es.blank.password}")
 @Size(min=UserUtils.PASSWORD_MIN, max=UserUtils.PASSWORD_MAX,
-	message="{com.naturalprogrammer.spring.invalid.password.size}")
+	message="{com.momoko.es.invalid.password.size}")
 @Retention(RUNTIME)
 @Constraint(validatedBy = { })
 public @interface Password {
 	
-	String message() default "{com.naturalprogrammer.spring.invalid.password.size}";
+	String message() default "{com.momoko.es.invalid.password.size}";
 
 	Class<?>[] groups() default { };
 

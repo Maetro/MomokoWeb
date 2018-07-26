@@ -265,9 +265,9 @@ public abstract class MomokoService
 		
 		// send the mail
 		mailSender.send(MomokoMailData.of(user.getEmail(),
-			LexUtils.getMessage("com.naturalprogrammer.spring.verifySubject"),
+			LexUtils.getMessage("com.momoko.es.verifySubject"),
 			LexUtils.getMessage(
-				"com.naturalprogrammer.spring.verifyEmail",	verifyLink)));
+				"com.momoko.es.verifyEmail",	verifyLink)));
 	}	
 
 	
@@ -282,7 +282,7 @@ public abstract class MomokoService
 		
 		// must be unverified
 		LexUtils.validate(user.getRoles().contains(UserUtils.Role.UNVERIFIED),
-				"com.naturalprogrammer.spring.alreadyVerified").go();	
+				"com.momoko.es.alreadyVerified").go();
 
 		// send the verification mail
 		sendVerificationMail(user);
@@ -328,14 +328,14 @@ public abstract class MomokoService
 		
 		// ensure that he is unverified
 		LexUtils.validate(user.hasRole(UserUtils.Role.UNVERIFIED),
-				"com.naturalprogrammer.spring.alreadyVerified").go();	
+				"com.momoko.es.alreadyVerified").go();
 		
 		JWTClaimsSet claims = jwtService.parseToken(verificationCode, JwtService.VERIFY_AUDIENCE, user.getCredentialsUpdatedMillis());
 		
 		LecUtils.ensureAuthority(
 				claims.getSubject().equals(user.getId().toString()) &&
 				claims.getClaim("email").equals(user.getEmail()),
-				"com.naturalprogrammer.spring.wrong.verificationCode");
+				"com.momoko.es.wrong.verificationCode");
 		
 		user.getRoles().remove(UserUtils.Role.UNVERIFIED); // make him verified
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
@@ -400,8 +400,8 @@ public abstract class MomokoService
 		
 		// send the mail
 		mailSender.send(MomokoMailData.of(user.getEmail(),
-				LexUtils.getMessage("com.naturalprogrammer.spring.forgotPasswordSubject"),
-				LexUtils.getMessage("com.naturalprogrammer.spring.forgotPasswordEmail",
+				LexUtils.getMessage("com.momoko.es.forgotPasswordSubject"),
+				LexUtils.getMessage("com.momoko.es.forgotPasswordEmail",
 					forgotPasswordLink)));
 	}
 	
@@ -484,7 +484,7 @@ public abstract class MomokoService
 		LexUtils.validate("changePasswordForm.oldPassword",
 			passwordEncoder.matches(changePasswordForm.getOldPassword(),
 					oldPassword),
-			"com.naturalprogrammer.spring.wrong.password").go();
+			"com.momoko.es.wrong.password").go();
 		
 		// sets the password
 		user.setPassword(passwordEncoder.encode(changePasswordForm.getPassword()));
@@ -547,7 +547,7 @@ public abstract class MomokoService
 		LexUtils.validate("updatedUser.password",
 			passwordEncoder.matches(updatedUser.getPassword(),
 									user.getPassword()),
-			"com.naturalprogrammer.spring.wrong.password").go();
+			"com.momoko.es.wrong.password").go();
 
 		// preserves the new email id
 		user.setNewEmail(updatedUser.getNewEmail());
@@ -600,9 +600,9 @@ public abstract class MomokoService
 		
 		mailSender.send(MomokoMailData.of(user.getNewEmail(),
 				LexUtils.getMessage(
-				"com.naturalprogrammer.spring.changeEmailSubject"),
+				"com.momoko.es.changeEmailSubject"),
 				LexUtils.getMessage(
-				"com.naturalprogrammer.spring.changeEmailEmail",
+				"com.momoko.es.changeEmailEmail",
 				 changeEmailLink)));
 	}
 
@@ -620,12 +620,12 @@ public abstract class MomokoService
 		UserDto<ID> currentUser = MomokoUtils.currentUser();
 		
 		LexUtils.validate(userId.equals(currentUser.getId()),
-			"com.naturalprogrammer.spring.wrong.login").go();
+			"com.momoko.es.wrong.login").go();
 		
 		U user = userRepository.findById(userId).orElseThrow(LexUtils.notFoundSupplier());
 		
 		LexUtils.validate(StringUtils.isNotBlank(user.getNewEmail()),
-				"com.naturalprogrammer.spring.blank.newEmail").go();
+				"com.momoko.es.blank.newEmail").go();
 		
 		JWTClaimsSet claims = jwtService.parseToken(changeEmailCode,
 				JwtService.CHANGE_EMAIL_AUDIENCE,
@@ -634,12 +634,12 @@ public abstract class MomokoService
 		LecUtils.ensureAuthority(
 				claims.getSubject().equals(user.getId().toString()) &&
 				claims.getClaim("newEmail").equals(user.getNewEmail()),
-				"com.naturalprogrammer.spring.wrong.changeEmailCode");
+				"com.momoko.es.wrong.changeEmailCode");
 		
 		// Ensure that the email would be unique 
 		LexUtils.validate(
 				!userRepository.findByEmail(user.getNewEmail()).isPresent(),
-				"com.naturalprogrammer.spring.duplicate.email").go();	
+				"com.momoko.es.duplicate.email").go();
 		
 		// update the fields
 		user.setEmail(user.getNewEmail());
@@ -708,7 +708,7 @@ public abstract class MomokoService
 		String username = optionalUsername.orElse(currentUser.getUsername());
 		
 		LecUtils.ensureAuthority(currentUser.getUsername().equals(username) ||
-				currentUser.isGoodAdmin(), "com.naturalprogrammer.spring.notGoodAdminOrSameUser");
+				currentUser.isGoodAdmin(), "com.momoko.es.notGoodAdminOrSameUser");
 		
 		return LecUtils.TOKEN_PREFIX +
 				jwtService.createToken(JwtService.AUTH_AUDIENCE, username,

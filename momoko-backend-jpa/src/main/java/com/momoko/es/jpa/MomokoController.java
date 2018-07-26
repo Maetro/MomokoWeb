@@ -25,13 +25,6 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
-/**
- * The Momoko API. See the
- * <a href="https://github.com/naturalprogrammer/spring-momoko#documentation-and-resources">
- * API documentation</a> for details.
- * 
- * @author Sanjay Patel
- */
 public abstract class MomokoController
 	<U extends AbstractUser<U,ID>, ID extends Serializable> {
 

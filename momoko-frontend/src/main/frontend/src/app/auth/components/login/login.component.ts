@@ -91,4 +91,14 @@ export class LoginComponent implements OnInit {
       });
     this.alertStyle = 'alert alert-success';
   }
+
+  facebookLogin() {
+    window.open('http://localhost:5000/oauth2/authorization/facebook', '_blank',
+      'height=700,width=700,status=yes,toolbar=no,menubar=no,location=no');
+  }
+
+  googleLogin() {
+    window.open('http://localhost:5000/oauth2/authorization/google', '_blank',
+      'height=700,width=700,status=yes,toolbar=no,menubar=no,location=no');
+  }
 }

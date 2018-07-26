@@ -1,0 +1,143 @@
+<div class="{{alertStyle}}" role="alert" *ngIf="loginStatus.code != ''">{{loginStatus.message}}</div>
+
+<div class="light-wrapper">
+
+  <div class="parallax page-title inverse-wrapper parallax2">
+    <div class="container inner">
+      <h1 class="text-center">Inicia sesión </h1>
+    </div>
+    <!-- /.container -->
+
+  </div>
+
+  <div class="container inner tp0">
+    <div class="divide60"></div>
+    <div class="blog row">
+      <div class="col-sm-8 blog-content list-view">
+        <!-- /.page-navi -->
+        <div class="clearfix"></div>
+      </div>
+      <!-- /.blog-content -->
+
+      <div class="row login">
+        <div class="col-sm-5">
+          <h3> ES GENIAL TENERTE DE VUELTA </h3>
+          <div class="divider_inner divider_line1" style="border-color:#EFC66E;border-style: solid;width: 50px;border-width: 2px;"></div>
+          <form class="form-horizontal" (ngSubmit)="onLogin()" #loginForm="ngForm" novalidate [hidden]="authenticated">
+            <div class="form-row login-username separatop25">
+              <label for="username"> Nombre de usuario o email
+                <span class="required">*</span>
+              </label>
+              <input id="email" required [(ngModel)]="model.usuarioEmail" name="email" #email="ngModel" type="text" class="woocommerce-Input woocommerce-Input--text input-text"
+                placeholder="Tu nombre de Usuario /Email">
+            </div>
+            <div class="form-row login-password">
+              <label for="password">Contraseña
+                <span class="required">*</span>
+              </label>
+              <input type="password" id="password" required [(ngModel)]="model.usuarioContrasena" name="password" #password="ngModel" class="woocommerce-Input woocommerce-Input--text input-text"
+                placeholder="Tu contraseña">
+              <div [hidden]="password.valid || password.pristine" class="alert alert-danger">
+                Password is required
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6 separatop15">
+                <label for="rememberme" class="inline">
+                  <input class="woocommerce-Input woocommerce-Input--checkbox" name="rememberme" type="checkbox" id="rememberme" value="forever"> Recuérdame </label>
+              </div>
+              <div class="col-sm-6 derecha">
+                <button type="submit" class="btn btn-success" [disabled]="!loginForm.form.valid"> Iniciar sesión </button>
+              </div>
+            </div>
+
+            <div class="derecha separatop15">
+              <a class="lostpassword" href="#">¿Has olvidado la contraseña?</a>
+            </div>
+          </form>
+          <div class="btn-group" role="group" aria-label="Social Login" style="display:block">
+            <button class="btn btn-default" (click)="facebookLogin()">Facebook</button>
+            <button class="btn btn-default" (click)="googleLogin()">Google</button>
+          </div>
+        </div>
+
+        <div class="col-sm-6 bordeizquierdadashed separalados">
+          <h3> ¿QUIERES CREAR UNA CUENTA? </h3>
+
+          <div class="divider_inner divider_line1" style="border-color:#EFC66E;border-style: solid;width: 50px;border-width: 2px;"></div>
+          <form class="form-horizontal" (ngSubmit)="onRegister()" #registerForm="ngForm" novalidate>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-row login-username separatop25">
+                  <label for="username"> Nombre de usuario
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="firstname" required [(ngModel)]="nuevoUsuario.usuarioLogin" name="firstname" #firstname="ngModel"
+                    class="woocommerce-Input woocommerce-Input--text input-text" placeholder="Tu nombre de Usuario ">
+                </div>
+                <div [hidden]="firstname.valid || firstname.pristine" class="alert alert-danger">
+                  El nombre de usuario es obligatorio.
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-row login-username separatop25">
+                  <label for="username"> Email
+                    <span class="required">*</span>
+                  </label>
+                  <input type="email" id="emailR" placeholder="Email" required [(ngModel)]="nuevoUsuario.usuarioEmail" name="emailR" #emailR="ngModel"
+                    class="woocommerce-Input woocommerce-Input--text input-text">
+                </div>
+                <div [hidden]="emailR.valid || emailR.pristine" class="alert alert-danger">
+                  El email es obligatorio.
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-row login-username separatop25">
+                  <label for="username"> Contraseña
+                    <span class="required">*</span>
+                  </label>
+                  <input class="woocommerce-Input woocommerce-Input--text input-text" placeholder="Contraseña "
+                    type="password"  id="passwordR" required [(ngModel)]="nuevoUsuario.usuarioContrasena"
+                    name="passwordR" #passwordR="ngModel">
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="form-row login-username separatop25">
+                  <label for="username"> Repite tu contraseña
+                    <span class="required">*</span>
+                  </label>
+                  <input type="password" id="passwordRR" class="woocommerce-Input woocommerce-Input--text input-text" required
+                  [(ngModel)]="nuevoUsuario.usuarioRepiteContrasena" placeholder="Contraseña otra vez" name="passwordRR" #passwordRR="ngModel">
+                </div>
+
+              </div>
+            </div>
+
+
+            <div class="row separatop15">
+
+              <div class="col-sm-9">
+                <p class="lostpassword"> *Al registrarte en Momoko te suscribiremos automáticamente a nuestra newsletter. No te preocupes, no usaremos
+                  tus datos con fines comerciales. </p>
+              </div>
+
+              <div class="col-sm-3">
+                <a class="btn derecha"> REGÍSTRATE </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- /.blog -->
+  </div>
+  <!-- /.container -->
+</div>
+<!-- /.light-wrapper -->
+

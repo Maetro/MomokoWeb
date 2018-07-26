@@ -40,7 +40,7 @@ implements UserDetailsService {
 		// delegates to findUserByUsername
 		U user = findUserByUsername(username)
 			.orElseThrow(() -> new UsernameNotFoundException(
-				LexUtils.getMessage("com.naturalprogrammer.spring.userNotFound", username)));
+				LexUtils.getMessage("com.momoko.es.userNotFound", username)));
 
 		log.debug("Loaded user having username: " + username);
 

@@ -8,3 +8,10 @@ momoko-backend-commons/target/
 momoko-backend-exceptions/target/
 momoko-backend-jpa/target/
 momoko-backend-rest/target/
+*.classpath
+*.project
+momoko-backend-jpa/.settings/
+momoko-backend-exceptions/.settings/
+momoko-backend-rest/.settings/
+momoko-backend-commons/.settings/
+*.factorypath

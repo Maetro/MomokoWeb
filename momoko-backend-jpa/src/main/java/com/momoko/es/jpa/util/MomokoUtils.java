@@ -172,7 +172,7 @@ public class MomokoUtils {
 		long issueTime = (long) claims.getClaim(JwtService.MOMOKO_IAT);
 
 		LecUtils.ensureCredentials(issueTime >= user.getCredentialsUpdatedMillis(),
-				"com.naturalprogrammer.spring.obsoleteToken");
+				"com.momoko.es.obsoleteToken");
 	}
 	
 	

@@ -6,7 +6,7 @@ spring:
     hibernate:
       use-new-id-generator-mappings: false
   datasource:
-    url: jdbc:mysql://localhost:3306/momokologin?useSSL=false
+    url: jdbc:mysql://localhost:3306/momokobd?useSSL=false
     username: root
     password:
   security:
@@ -17,18 +17,18 @@ spring:
             user-info-uri: https://graph.facebook.com/me?fields=email,name,verified 
         registration:
           google:
-            client-id: 1011974249454-6gq0hr01gqh3cndoqnss5r69tkk2nd84.apps.googleusercontent.com
-            client-secret: saDA6Cj60wipncFM-hzBD-C6
+            client-id: 720469847940-k8urpge03m9cn055mhi4mae4nn1p843m.apps.googleusercontent.com
+            client-secret: jgwe1NMipdo79Mfwkjd08WiW
           facebook:
-            client-id: 1234020186718741
-            client-secret: 0c0abaf685a83e879e8e48b1167c96ab
+            client-id: 233668646673605
+            client-secret: 33b17e044ee6a4fa383f46ec6e28ea1d
 
 logging:
   level:
     root: INFO
     org.springframework: INFO
     org.springframework.security.oauth2.client: DEBUG
-    com.naturalprogrammer: DEBUG
+    com.momoko.es: DEBUG
   #file: D:\\tmp\\dev-log.txt
 
 momoko:
@@ -39,7 +39,7 @@ momoko:
   cors:
     # Comma separated values of CORS allowedOrigins
     # If this property is not given, CORS is not configured
-    allowed-origins: http://localhost:9000, http://localhost:8080
+    allowed-origins: http://localhost:9000
     
   recaptcha:
     sitekey: 6LdwxRcUAAAAABkhOGWQXhl9FsR27D5YUJRuGzx0
@@ -50,3 +50,20 @@ momoko:
     secret: 1932018EDB37B85D50C77191EF8C0E10
     # expiration-millis: 864000000 # 10 days
     # short-lived-millis: 120000   # two minutes
+
+momoko-configuracion:
+  es-servidor-local: true
+  imagen-default: imagenes-destacadas/generica-libreria.jpg
+  directorios:
+    remote:
+      urlSitemap: http://momoko.local
+      urlFiles: http://momoko.local/images
+      urlTemplates: http://momoko.local/templates
+      urlImages: http://momoko.local/images/
+      urlUpload: http://momoko.local/
+    local:
+      urlSitemap: D:\XAMPP\htdocs\momoko
+      urlFiles: D:\XAMPP\htdocs\momoko\images
+      urlTemplates: D:\XAMPP\htdocs\momoko\templates
+      urlImages: http://momoko.local/images/
+      urlUpload: http://momoko.local/

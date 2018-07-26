@@ -1,4 +1,4 @@
-package com.momoko.es;//package com.naturalprogrammer.spring.momokodemo;
+package com.momoko.es;//package com.momoko.es.momokodemo;
 //
 //import static org.hamcrest.Matchers.containsString;
 //import static org.hamcrest.Matchers.hasItems;
@@ -16,10 +16,10 @@ package com.momoko.es;//package com.naturalprogrammer.spring.momokodemo;
 //import org.springframework.test.web.servlet.MvcResult;
 //
 //import com.fasterxml.jackson.core.JsonProcessingException;
-//import com.naturalprogrammer.spring.momoko.forms.NonceForm;
-//import com.naturalprogrammer.spring.momoko.security.MomokoSecurityConfig;
-//import com.naturalprogrammer.spring.momoko.util.MomokoUtils;
-//import com.naturalprogrammer.spring.momokodemo.entities.User;
+//import com.momoko.es.momoko.forms.NonceForm;
+//import com.momoko.es.momoko.security.MomokoSecurityConfig;
+//import com.momoko.es.momoko.util.MomokoUtils;
+//import com.momoko.es.momokodemo.entities.User;
 //
 //public class LoginWithNonceMvcTests extends AbstractMvcTests {
 //	

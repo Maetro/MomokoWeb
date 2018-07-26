@@ -7,7 +7,6 @@
 package com.momoko.es.model;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +16,7 @@ import java.security.Principal;
 
 @EnableAutoConfiguration
 @Configuration
-@EnableOAuth2Sso
+//@EnableOAuth2Sso
 @RestController
 public class ClientApplication {
 

@@ -46,7 +46,7 @@ public class LexUtils {
 		
 		NOT_FOUND_EXCEPTION
 			.httpStatus(HttpStatus.NOT_FOUND)
-			.validate(false, "com.naturalprogrammer.spring.notFound");
+			.validate(false, "com.momoko.es.notFound");
 		
 		log.info("NOT_FOUND_EXCEPTION built");		
 	}
@@ -115,7 +115,7 @@ public class LexUtils {
 	public static <T> void ensureFound(T entity) {
 		
 		LexUtils.validate(entity != null,
-			"com.naturalprogrammer.spring.notFound")
+			"com.momoko.es.notFound")
 			.httpStatus(HttpStatus.NOT_FOUND).go();
 	}
 

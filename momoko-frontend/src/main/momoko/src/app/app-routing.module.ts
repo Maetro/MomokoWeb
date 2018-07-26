@@ -168,7 +168,14 @@ const appRoutes = [
     }
   },
   {
-    path: '',
+    path: 'index',
+    loadChildren: './contenido/index/index.module#IndexModule',
+    resolve: {
+      obtenerIndexDataResponse: ObtenerIndexDataResolverService
+    }
+  },
+  {
+    path: 'index',
     loadChildren: './contenido/index/index.module#IndexModule',
     resolve: {
       obtenerIndexDataResponse: ObtenerIndexDataResolverService

@@ -36,6 +36,6 @@ public class ConstraintViolationExceptionHandler<E extends ConstraintViolationEx
 	
 	@Override
 	public String getMessage(E ex) {
-		return LexUtils.getMessage("com.naturalprogrammer.spring.validationError");
+		return LexUtils.getMessage("com.momoko.es.validationError");
 	}
 }

@@ -1,47 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.momoko.es</groupId>
-    <artifactId>momoko-backend-jpa</artifactId>
-    <packaging>jar</packaging>
+	<groupId>com.momoko.es</groupId>
+	<artifactId>momoko-backend-jpa</artifactId>
+	<packaging>jar</packaging>
 
-    <name>momoko-backend-jpa</name>
-    <description>Helper library for Spring Boot JPA Web Applications</description>
-    <version>0.13.4-SNAPSHOT</version>
+	<name>momoko-backend-jpa</name>
+	<description>Helper library for Spring Boot JPA Web Applications</description>
+	<version>0.13.4-SNAPSHOT</version>
 
-    <parent>
-        <artifactId>parent</artifactId>
-        <groupId>com.momoko.es</groupId>
-        <version>0.13.4-SNAPSHOT</version>
-    </parent>
+	<parent>
+		<artifactId>parent</artifactId>
+		<groupId>com.momoko.es</groupId>
+		<version>0.13.4-SNAPSHOT</version>
+	</parent>
 
-    <dependencies>
+	<dependencies>
 
-        <dependency>
-            <groupId>com.momoko.es</groupId>
-            <artifactId>momoko-backend-commons</artifactId>
-            <version>0.13.4-SNAPSHOT</version>
-        </dependency>
+		<dependency>
+			<groupId>com.momoko.es</groupId>
+			<artifactId>momoko-backend-commons</artifactId>
+			<version>0.13.4-SNAPSHOT</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>com.momoko.es</groupId>
+			<artifactId>momoko-backend-api</artifactId>
+			<version>0.13.4-SNAPSHOT</version>
+		</dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
 
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
 
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+		</dependency>
 
-    </dependencies>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code</groupId>
+			<artifactId>sitemapgen4j</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.apis</groupId>
+			<artifactId>google-api-services-customsearch</artifactId>
+			<version>v1-rev59-1.23.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.imgscalr</groupId>
+			<artifactId>imgscalr-lib</artifactId>
+			<version>4.2</version>
+		</dependency>
+
+	</dependencies>
 
 </project>

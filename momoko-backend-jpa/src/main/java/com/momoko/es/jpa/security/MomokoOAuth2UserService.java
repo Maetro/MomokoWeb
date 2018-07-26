@@ -56,10 +56,10 @@ public class MomokoOAuth2UserService<U extends AbstractUser<U,ID>, ID extends Se
 		
 		Map<String, Object> attributes = oath2User.getAttributes();
 		String email = momokoService.getOAuth2Email(registrationId, attributes);
-		LexUtils.validate(email != null, "com.naturalprogrammer.spring.oauth2EmailNeeded", registrationId).go();
+		LexUtils.validate(email != null, "com.momoko.es.oauth2EmailNeeded", registrationId).go();
 		
 		boolean emailVerified = momokoService.getOAuth2AccountVerified(registrationId, attributes);
-		LexUtils.validate(emailVerified, "com.naturalprogrammer.spring.oauth2EmailNotVerified", registrationId).go();
+		LexUtils.validate(emailVerified, "com.momoko.es.oauth2EmailNotVerified", registrationId).go();
 		
     	U user = userDetailsService.findUserByUsername(email).orElseGet(()  -> {
     		

@@ -1,3 +1,4 @@
+import { AuthModule } from './contenido/auth/auth.module';
 import { TestService } from './services/test.service';
 import { PageCriteriosComponent } from './contenido/estaticas/page-criterios/page-criterios.component';
 import { LibroService } from './services/libro.service';
@@ -91,4 +92,5 @@ export const MODULES = [
     AppLoadModule,
     FormsModule,
     EstaticasModule,
+    AuthModule,
     AppRoutingModule];

@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 @Constraint(validatedBy=RetypePasswordValidator.class)
 public @interface RetypePassword {
  
-    String message() default "{com.naturalprogrammer.spring.different.passwords}";
+    String message() default "{com.momoko.es.different.passwords}";
 
     Class[] groups() default {};
     

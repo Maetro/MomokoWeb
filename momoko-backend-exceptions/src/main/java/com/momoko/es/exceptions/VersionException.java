@@ -18,6 +18,6 @@ public class VersionException extends RuntimeException {
 	public VersionException(String entityName, String entityId) {
 		
 		super(LexUtils.getMessage(
-			"es.momoko.es.versionException", entityName, entityId));
+			"com.momoko.es.versionException", entityName, entityId));
 	}
 }

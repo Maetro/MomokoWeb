@@ -110,10 +110,10 @@ public class JwtService {
 			JWTClaimsSet claims = jwtProcessor.process(token, null);
 			LecUtils.ensureAuthority(audience != null &&
 					claims.getAudience().contains(audience),
-						"com.naturalprogrammer.spring.wrong.audience");
+						"com.momoko.es.wrong.audience");
 			
 			LecUtils.ensureAuthority(claims.getExpirationTime().after(new Date()),
-					"com.naturalprogrammer.spring.expiredToken");
+					"com.momoko.es.expiredToken");
 			
 			return claims;
 			
@@ -132,7 +132,7 @@ public class JwtService {
 		
 		long issueTime = (long) claims.getClaim(MOMOKO_IAT);
 		LecUtils.ensureAuthority(issueTime >= issuedAfter,
-				"com.naturalprogrammer.spring.obsoleteToken");
+				"com.momoko.es.obsoleteToken");
 
 		return claims;
 	}	

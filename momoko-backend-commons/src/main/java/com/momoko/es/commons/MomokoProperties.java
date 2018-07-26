@@ -27,13 +27,13 @@ public class MomokoProperties {
 	 * Client web application's base URL.
 	 * Used in the verification link mailed to the users, etc.
 	 */
-    private String applicationUrl = "http://localhost:9000";
+    private String applicationUrl = "http://localhost:4200";
     
 	/**
 	 * The default URL to redirect to after
 	 * a user logs in using OAuth2/OpenIDConnect
 	 */
-    private String oauth2AuthenticationSuccessUrl = "http://localhost:9000/social-login-success?token=";
+    private String oauth2AuthenticationSuccessUrl = "http://localhost:4200/auth/social-login-success?token=";
 
     /**
 	 * Recaptcha related properties
