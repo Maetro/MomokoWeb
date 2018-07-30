@@ -11,11 +11,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * The Interface UsuarioRepositoryImpl.
  */
 public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Integer> {
+
+    Optional<UsuarioEntity> findById(Integer id);
 
     UsuarioEntity findByUsuarioEmail(String email);
 
@@ -29,5 +32,7 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Integer
     List<UsuarioEntity> findAllByUsuarioRolIdIs(Integer rolId);
 
     UsuarioEntity findFirstByUsuarioUrl(String urlUsuario);
+
+    Optional<UsuarioEntity> findByEmail(String email);
 
 }

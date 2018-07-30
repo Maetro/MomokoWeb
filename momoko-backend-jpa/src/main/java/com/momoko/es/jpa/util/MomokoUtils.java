@@ -7,10 +7,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.MomokoPrincipal;
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.exceptions.VersionException;
 import com.momoko.es.jpa.domain.AbstractUser;
 import com.momoko.es.jpa.domain.VersionedEntity;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -72,7 +74,7 @@ public class MomokoUtils {
 	/**
 	 * Gets the current-user
 	 */
-	public static <ID extends Serializable> UserDto<ID> currentUser() {
+	public static <ID extends Serializable> UsuarioDTO<ID> currentUser() {
 		
 		// get the authentication object
 		Authentication auth = SecurityContextHolder
@@ -85,13 +87,12 @@ public class MomokoUtils {
 
 	/**
 	 * Signs a user in
-	 * 
+	 *
 	 * @param user
 	 */
-	public static <U extends AbstractUser<U,ID>, ID extends Serializable>
-	void login(U user) {
+	public static void login(UsuarioEntity user) {
 		
-		MomokoPrincipal<ID> principal = new MomokoPrincipal<>(user.toUserDto());
+		MomokoPrincipal principal = new MomokoPrincipal(user.toUserDto());
 
 		Authentication authentication = // make the authentication object
 	    	new UsernamePasswordAuthenticationToken(principal, null, principal.getAuthorities());
@@ -108,8 +109,7 @@ public class MomokoUtils {
 	 * @param original
 	 * @param updated
 	 */
-	public static <U extends AbstractUser<U,ID>, ID extends Serializable>
-	void ensureCorrectVersion(VersionedEntity<U,ID> original, VersionedEntity<U,ID> updated) {
+	public static void ensureCorrectVersion(VersionedEntity original, VersionedEntity updated) {
 		
 		if (original.getVersion() != updated.getVersion())
 			throw new VersionException(original.getClass().getSimpleName(), original.getId().toString());
@@ -166,8 +166,7 @@ public class MomokoUtils {
 	 * Throws BadCredentialsException if 
 	 * user's credentials were updated after the JWT was issued
 	 */
-	public static <U extends AbstractUser<U,ID>, ID extends Serializable>
-	void ensureCredentialsUpToDate(JWTClaimsSet claims, U user) {
+	public static void ensureCredentialsUpToDate(JWTClaimsSet claims, UsuarioEntity user) {
 		
 		long issueTime = (long) claims.getClaim(JwtService.MOMOKO_IAT);
 

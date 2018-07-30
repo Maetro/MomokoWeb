@@ -7,18 +7,21 @@
 package com.momoko.es.jpa.model.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
-import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.model.util.NotFoundException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * The Interface UserService.
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     /**
      * Crear usuario.
@@ -111,4 +114,6 @@ public interface UserService {
      * @return the redactor dto
      */
     public RedactorDTO findRedactorByUrl(String urlRedactor) throws UserNotFoundException;
+
+    UsuarioEntity findByUsuarioEmail(String username);
 }

@@ -2,7 +2,7 @@ package com.momoko.es;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.entities.User;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,9 +21,9 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 	
 	private static final String NEW_EMAIL = "new.email@example.com";
 	
-	private User form() {
-		
-		User user = new User();
+	private UsuarioEntity form() {
+
+		UsuarioEntity user = new UsuarioEntity();
 		user.setPassword(USER_PASSWORD);
 		user.setNewEmail(NEW_EMAIL);
 		
@@ -40,8 +40,8 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(204));
 		
 		verify(mailSender).send(any());
-		
-		User updatedUser = userRepository.findById(UNVERIFIED_USER_ID).get();
+
+		UsuarioEntity updatedUser = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		Assert.assertEquals(NEW_EMAIL, updatedUser.getNewEmail());
 		Assert.assertEquals(UNVERIFIED_USER_EMAIL, updatedUser.getEmail());
 	}
@@ -58,7 +58,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 				.content(MomokoUtils.toJson(form())))
 				.andExpect(status().is(204));
 		
-		User updatedUser = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity updatedUser = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		Assert.assertEquals(NEW_EMAIL, updatedUser.getNewEmail());
 	}	
 	
@@ -92,7 +92,7 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		
 		verify(mailSender, never()).send(any());
 
-		User updatedUser = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity updatedUser = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		Assert.assertNull(updatedUser.getNewEmail());
 	}
 	
@@ -128,14 +128,14 @@ public class RequestEmailChangeMvcTests extends AbstractMvcTests {
 		mvc.perform(post("/api/core/users/{id}/email-change-request", UNVERIFIED_USER_ID)
 				.contentType(MediaType.APPLICATION_JSON)
 				.header(LecUtils.TOKEN_REQUEST_HEADER_NAME, tokens.get(UNVERIFIED_USER_ID))
-				.content(MomokoUtils.toJson(new User())))
+				.content(MomokoUtils.toJson(new UsuarioEntity())))
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(2)))
 				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
 						"updatedUser.newEmail",
 						"updatedUser.password")));
     	
-		User updatedUser = new User();
+		UsuarioEntity updatedUser = new UsuarioEntity();
 		updatedUser.setPassword("");
 		updatedUser.setNewEmail("");
 		

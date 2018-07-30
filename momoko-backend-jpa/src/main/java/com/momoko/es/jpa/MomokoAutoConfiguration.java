@@ -7,11 +7,14 @@ import com.momoko.es.commons.validation.RetypePasswordValidator;
 import com.momoko.es.exceptions.ErrorResponseComposer;
 import com.momoko.es.exceptions.MomokoExceptionsAutoConfiguration;
 import com.momoko.es.jpa.domain.AbstractUser;
-import com.momoko.es.jpa.domain.AbstractUserRepository;
 import com.momoko.es.jpa.domain.MomokoAuditorAware;
 import com.momoko.es.jpa.exceptions.DefaultExceptionHandlerControllerAdvice;
 import com.momoko.es.jpa.exceptions.MomokoErrorAttributes;
 import com.momoko.es.jpa.exceptions.MomokoErrorController;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.model.repository.UsuarioRepository;
+import com.momoko.es.jpa.model.service.UserService;
+import com.momoko.es.jpa.model.service.impl.UserServiceImpl;
 import com.momoko.es.jpa.security.*;
 import com.momoko.es.jpa.util.MomokoUtils;
 import com.momoko.es.jpa.validation.CaptchaValidator;
@@ -102,11 +105,10 @@ public class MomokoAutoConfiguration {
 	 */	
 	@Bean
 	@ConditionalOnMissingBean(AuditorAware.class)
-	public <U extends AbstractUser<U,ID>, ID extends Serializable>
-    AuditorAware<U> auditorAware(AbstractUserRepository<U,ID> userRepository) {
+	public AuditorAware<UsuarioEntity> auditorAware(UsuarioRepository userRepository) {
 		
         log.info("Configuring MomokoAuditorAware");
-		return new MomokoAuditorAware<U, ID>(userRepository);
+		return new MomokoAuditorAware(userRepository);
 	}
 
 	/**
@@ -115,7 +117,7 @@ public class MomokoAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(DefaultExceptionHandlerControllerAdvice.class)
 	public <T extends Throwable>
-	DefaultExceptionHandlerControllerAdvice<T> defaultExceptionHandlerControllerAdvice(ErrorResponseComposer<T> errorResponseComposer) {
+	DefaultExceptionHandlerControllerAdvice<T> defaultExceptionHandlerControllerAdvice(ErrorResponseComposer errorResponseComposer) {
 		
         log.info("Configuring DefaultExceptionHandlerControllerAdvice");       
 		return new DefaultExceptionHandlerControllerAdvice<T>(errorResponseComposer);
@@ -127,7 +129,7 @@ public class MomokoAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(ErrorAttributes.class)
 	public <T extends Throwable>
-    ErrorAttributes errorAttributes(ErrorResponseComposer<T> errorResponseComposer) {
+    ErrorAttributes errorAttributes(ErrorResponseComposer errorResponseComposer) {
 		
         log.info("Configuring MomokoErrorAttributes");
 		return new MomokoErrorAttributes<T>(errorResponseComposer);
@@ -152,7 +154,7 @@ public class MomokoAutoConfiguration {
 	@Bean
 	@ConditionalOnMissingBean(AuthenticationSuccessHandler.class)
 	public AuthenticationSuccessHandler authenticationSuccessHandler(
-            ObjectMapper objectMapper, MomokoService<?, ?> momokoService, MomokoProperties properties) {
+            ObjectMapper objectMapper, MomokoService momokoService, MomokoProperties properties) {
 		
         log.info("Configuring AuthenticationSuccessHandler");       
 		return new AuthenticationSuccessHandler(objectMapper, momokoService, properties);
@@ -192,17 +194,6 @@ public class MomokoAutoConfiguration {
     	return new SimpleUrlAuthenticationFailureHandler();
     }	
 
-	/**
-	 * Configures UserDetailsService if missing
-	 */
-	@Bean
-	@ConditionalOnMissingBean(UserDetailsService.class)
-	public <U extends AbstractUser<U,ID>, ID extends Serializable>
-	UserDetailsService userDetailService(AbstractUserRepository<U, ID> userRepository) {
-		
-        log.info("Configuring MomokoUserDetailsService");       
-		return new MomokoUserDetailsService<U, ID>(userRepository);
-	}
 
 	/**
 	 * Configures MomokoCorsConfig if missing and momoko.cors.allowed-origins is provided
@@ -221,7 +212,7 @@ public class MomokoAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(MomokoOidcUserService.class)
-	public MomokoOidcUserService momokoOidcUserService(MomokoOAuth2UserService<?, ?> momokoOAuth2UserService) {
+	public MomokoOidcUserService momokoOidcUserService(MomokoOAuth2UserService momokoOAuth2UserService) {
 		
         log.info("Configuring MomokoOidcUserService");       
 		return new MomokoOidcUserService(momokoOAuth2UserService);
@@ -232,14 +223,13 @@ public class MomokoAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(MomokoOAuth2UserService.class)
-	public <U extends AbstractUser<U,ID>, ID extends Serializable>
-		MomokoOAuth2UserService<U,ID> momokoOAuth2UserService(
-			MomokoUserDetailsService<U, ?> userDetailsService,
-			MomokoService<U, ?> momokoService,
+	public MomokoOAuth2UserService momokoOAuth2UserService(
+			UsuarioRepository usuarioRepository,
+			MomokoService momokoService,
 			PasswordEncoder passwordEncoder) {
-		
-        log.info("Configuring MomokoOAuth2UserService");       
-		return new MomokoOAuth2UserService<U,ID>(userDetailsService, momokoService, passwordEncoder);
+
+        log.info("Configuring MomokoOAuth2UserService");
+		return new MomokoOAuth2UserService(usuarioRepository, momokoService, passwordEncoder);
 	}
 
 	/**
@@ -247,15 +237,14 @@ public class MomokoAutoConfiguration {
 	 */
 	@Bean
 	@ConditionalOnMissingBean(JwtAuthenticationProvider.class)
-	public <U extends AbstractUser<U,ID>, ID extends Serializable>
-		JwtAuthenticationProvider<U,ID> jwtAuthenticationProvider(
+	public JwtAuthenticationProvider jwtAuthenticationProvider(
 			JwtService jwtService,
-			MomokoUserDetailsService<U, ID> userDetailsService) {
-		
-        log.info("Configuring JwtAuthenticationProvider");       
-		return new JwtAuthenticationProvider<U,ID>(jwtService, userDetailsService);
-	}	
-	
+			UserService userService) {
+
+        log.info("Configuring JwtAuthenticationProvider");
+		return new JwtAuthenticationProvider(jwtService, userService);
+	}
+
 	/**
 	 * Configures MomokoSecurityConfig if missing
 	 */
@@ -304,7 +293,7 @@ public class MomokoAutoConfiguration {
 	 * Configures UniqueEmailValidator if missing
 	 */
 	@Bean
-	public UniqueEmailValidator uniqueEmailValidator(AbstractUserRepository<?, ?> userRepository) {
+	public UniqueEmailValidator uniqueEmailValidator(UsuarioRepository userRepository) {
 		
         log.info("Configuring UniqueEmailValidator");       
 		return new UniqueEmailValidator(userRepository);		

@@ -6,23 +6,31 @@
  */
 package com.momoko.es.jpa.model.service.impl;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
+import com.momoko.es.commons.security.MomokoPrincipal;
+import com.momoko.es.exceptions.util.LexUtils;
+import com.momoko.es.jpa.domain.AbstractUser;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
-import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.enums.TipoUsuario;
 import com.momoko.es.api.exceptions.EmailExistsException;
 import com.momoko.es.api.exceptions.UserNotFoundException;
@@ -45,6 +53,8 @@ import com.momoko.es.jpa.model.util.NotFoundException;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private static final Log log = LogFactory.getLog(UserServiceImpl.class);
+
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -56,6 +66,21 @@ public class UserServiceImpl implements UserService {
 
     @Autowired(required = false)
     private StorageService almacenImagenes;
+
+    @Override
+    public MomokoPrincipal loadUserByUsername(String username)
+            throws UsernameNotFoundException {
+
+        log.debug("Loading user having username: " + username);
+
+        // delegates to findUserByUsername
+        UsuarioEntity user = usuarioRepository.findByEmail(username).orElse(null);
+
+        log.debug("Loaded user having username: " + username);
+
+        return new MomokoPrincipal(EntityToDTOAdapter.adaptarUsuario(user));
+    }
+
 
     @Override
     public UsuarioDTO crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
@@ -234,4 +259,8 @@ public class UserServiceImpl implements UserService {
         return ConversionUtils.getRedactorFromUsuario(usuarioBD);
     }
 
+    @Override
+    public UsuarioEntity findByUsuarioEmail(String username) {
+        return usuarioRepository.findByUsuarioEmail(username);
+    }
 }

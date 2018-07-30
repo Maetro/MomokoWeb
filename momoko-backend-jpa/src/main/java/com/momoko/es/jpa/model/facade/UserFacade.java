@@ -6,37 +6,21 @@
  */
 package com.momoko.es.jpa.model.facade;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
-import com.momoko.es.api.dto.UsuarioDTO;
-import com.momoko.es.api.dto.response.RegistrarUsuarioResponse;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.dto.response.StringResponseDTO;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionUsuario;
-import com.momoko.es.api.exceptions.EmailExistsException;
-import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.jpa.model.service.UserService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 
@@ -60,39 +44,39 @@ public class UserFacade {
         return new StringResponseDTO(currentPrincipalName);
     }
 
-    @GetMapping(path = "/nuevo")
-    public @ResponseBody RegistrarUsuarioResponse
-            addNewUser(@RequestBody final RegistroNuevoUsuarioDTO nuevoUsuarioRequest) {
-
-        final boolean usuarioValido = this.validadorService.validarUsuario(nuevoUsuarioRequest);
-
-        final List<ErrorCreacionUsuario> listaErrores = new ArrayList<ErrorCreacionUsuario>();
-
-        final UsuarioDTO nuevoUsuario = new UsuarioDTO();
-        nuevoUsuario.setUsuarioEmail(nuevoUsuarioRequest.getEmail());
-        nuevoUsuario.setUsuarioNick(nuevoUsuarioRequest.getNombre());
-        nuevoUsuario.setUsuarioContrasena(nuevoUsuarioRequest.getContrasena());
-        nuevoUsuario.setUsuarioLogin(nuevoUsuarioRequest.getNick());
-        nuevoUsuario.setUsuarioRolId(1);
-        UsuarioDTO usuario;
-        try {
-            usuario = this.usuarioService.crearUsuario(nuevoUsuario);
-            nuevoUsuario.setUsuarioId(usuario.getUsuarioId());
-        } catch (final EmailExistsException e) {
-            listaErrores.add(ErrorCreacionUsuario.EMAIL_YA_EXISTE);
-        }
-
-        final RegistrarUsuarioResponse respuesta = new RegistrarUsuarioResponse();
-        respuesta.setUsuarioDTO(nuevoUsuario);
-        respuesta.setListaErroresValidacion(listaErrores);
-
-        if ((nuevoUsuario != null) && CollectionUtils.isEmpty(listaErrores)) {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
-        } else {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
-        }
-        return respuesta;
-    }
+//    @GetMapping(path = "/nuevo")
+//    public @ResponseBody RegistrarUsuarioResponse
+//            addNewUser(@RequestBody final RegistroNuevoUsuarioDTO nuevoUsuarioRequest) {
+//
+//        final boolean usuarioValido = this.validadorService.validarUsuario(nuevoUsuarioRequest);
+//
+//        final List<ErrorCreacionUsuario> listaErrores = new ArrayList<ErrorCreacionUsuario>();
+//
+//        final UsuarioDTO nuevoUsuario = new UsuarioDTO();
+//        nuevoUsuario.setUsuarioEmail(nuevoUsuarioRequest.getEmail());
+//        nuevoUsuario.setUsuarioNick(nuevoUsuarioRequest.getNombre());
+//        nuevoUsuario.setUsuarioContrasena(nuevoUsuarioRequest.getContrasena());
+//        nuevoUsuario.setUsuarioLogin(nuevoUsuarioRequest.getNick());
+//        nuevoUsuario.setUsuarioRolId(1);
+//        UsuarioDTO usuario;
+//        try {
+//            usuario = this.usuarioService.crearUsuario(nuevoUsuario);
+//            nuevoUsuario.setUsuarioId(usuario.getUsuarioId());
+//        } catch (final EmailExistsException e) {
+//            listaErrores.add(ErrorCreacionUsuario.EMAIL_YA_EXISTE);
+//        }
+//
+//        final RegistrarUsuarioResponse respuesta = new RegistrarUsuarioResponse();
+//        respuesta.setUsuarioDTO(nuevoUsuario);
+//        respuesta.setListaErroresValidacion(listaErrores);
+//
+//        if ((nuevoUsuario != null) && CollectionUtils.isEmpty(listaErrores)) {
+//            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+//        } else {
+//            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+//        }
+//        return respuesta;
+//    }
 
     @GetMapping(path = "/usuarios")
     public @ResponseBody Iterable<UsuarioDTO> getAllUsers() {
@@ -107,32 +91,32 @@ public class UserFacade {
         return "registration";
     }
 
-    @PostMapping(value = "/signup")
-    public ResponseEntity<RegistrarUsuarioResponse> processSignup(final ModelMap model,
-            @RequestBody final UsuarioDTO reqUser) throws EmailExistsException, UserNotFoundException {
-        UsuarioDTO nuevoUsuario = null;
-        boolean existeUsuario = false;
-        final RegistrarUsuarioResponse response = new RegistrarUsuarioResponse();
-        final List<ErrorCreacionUsuario> listaErroresValidacion = new ArrayList<ErrorCreacionUsuario>();
-        existeUsuario = this.usuarioService.doesEmailExist(reqUser.getUsuarioEmail()) != null;
-
-        if (existeUsuario) {
-            listaErroresValidacion.add(ErrorCreacionUsuario.EMAIL_YA_EXISTE);
-        } else {
-            nuevoUsuario = new UsuarioDTO();
-            nuevoUsuario.setUsuarioEmail(reqUser.getUsuarioEmail());
-            nuevoUsuario.setUsuarioContrasena(this.passwordEncoder.encode(reqUser.getUsuarioContrasena()));
-            nuevoUsuario.setUsuarioLogin(reqUser.getUsuarioLogin());
-            nuevoUsuario.setUsuarioNick(reqUser.getUsuarioLogin());
-            nuevoUsuario.setUsuarioFechaRegistro(Calendar.getInstance().getTime());
-            nuevoUsuario.setUsuarioRolId(2);
-            final UsuarioDTO persistedUser = this.usuarioService.crearUsuario(nuevoUsuario);
-
-            response.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
-            response.setUsuarioDTO(persistedUser);
-        }
-        response.setListaErroresValidacion(listaErroresValidacion);
-        return new ResponseEntity<RegistrarUsuarioResponse>(response, HttpStatus.OK);
-    }
+//    @PostMapping(value = "/signup")
+//    public ResponseEntity<RegistrarUsuarioResponse> processSignup(final ModelMap model,
+//            @RequestBody final UsuarioDTO reqUser) throws EmailExistsException, UserNotFoundException {
+//        UsuarioDTO nuevoUsuario = null;
+//        boolean existeUsuario = false;
+//        final RegistrarUsuarioResponse response = new RegistrarUsuarioResponse();
+//        final List<ErrorCreacionUsuario> listaErroresValidacion = new ArrayList<ErrorCreacionUsuario>();
+//        existeUsuario = this.usuarioService.doesEmailExist(reqUser.getUsuarioEmail()) != null;
+//
+//        if (existeUsuario) {
+//            listaErroresValidacion.add(ErrorCreacionUsuario.EMAIL_YA_EXISTE);
+//        } else {
+//            nuevoUsuario = new UsuarioDTO();
+//            nuevoUsuario.setUsuarioEmail(reqUser.getUsuarioEmail());
+//            nuevoUsuario.setUsuarioContrasena(this.passwordEncoder.encode(reqUser.getUsuarioContrasena()));
+//            nuevoUsuario.setUsuarioLogin(reqUser.getUsuarioLogin());
+//            nuevoUsuario.setUsuarioNick(reqUser.getUsuarioLogin());
+//            nuevoUsuario.setUsuarioFechaRegistro(Calendar.getInstance().getTime());
+//            nuevoUsuario.setUsuarioRolId(2);
+//            final UsuarioDTO persistedUser = this.usuarioService.crearUsuario(nuevoUsuario);
+//
+//            response.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+//            response.setUsuarioDTO(persistedUser);
+//        }
+//        response.setListaErroresValidacion(listaErroresValidacion);
+//        return new ResponseEntity<RegistrarUsuarioResponse>(response, HttpStatus.OK);
+//    }
 
 }

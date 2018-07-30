@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
 /**
  * Spring Security Principal, implementing both OidcUser, UserDetails
  */
-public class MomokoPrincipal<ID extends Serializable> implements OidcUser, UserDetails, CredentialsContainer {
+public class MomokoPrincipal implements OidcUser, UserDetails, CredentialsContainer {
 
 	private static final long serialVersionUID = -7849730155307434535L;
 
-	private final UserDto<ID> userDto;
+	private final UsuarioDTO usuarioDTO;
 	
 	private Map<String, Object> attributes;
 	private String name;
@@ -30,30 +30,30 @@ public class MomokoPrincipal<ID extends Serializable> implements OidcUser, UserD
 	private OidcUserInfo userInfo;
 	private OidcIdToken idToken;
 	
-	public UserDto<ID> currentUser() {
-		return userDto;
+	public UsuarioDTO currentUser() {
+		return usuarioDTO;
 	}
 
-	public MomokoPrincipal(UserDto<ID> userDto) {
-		this.userDto = userDto;
+	public MomokoPrincipal(UsuarioDTO usuarioDTO) {
+		this.usuarioDTO = usuarioDTO;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
-		Set<String> roles = userDto.getRoles();
+		Set<String> roles = usuarioDTO.getRoles();
 		
 		Collection<MomokoGrantedAuthority> authorities = roles.stream()
 				.map(role -> new MomokoGrantedAuthority("ROLE_" + role))
 				.collect(Collectors.toCollection(() ->
 					new ArrayList<MomokoGrantedAuthority>(roles.size() + 2)));
 		
-		if (userDto.isGoodUser()) {
+		if (usuarioDTO.isGoodUser()) {
 			
 			authorities.add(new MomokoGrantedAuthority("ROLE_"
 					+ LecUtils.GOOD_USER));
 			
-			if (userDto.isGoodAdmin())
+			if (usuarioDTO.isGoodAdmin())
 				authorities.add(new MomokoGrantedAuthority("ROLE_"
 					+ LecUtils.GOOD_ADMIN));
 		}
@@ -66,13 +66,13 @@ public class MomokoPrincipal<ID extends Serializable> implements OidcUser, UserD
 	@Override
 	public String getPassword() {
 
-		return userDto.getPassword();
+		return usuarioDTO.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
 
-		return userDto.getUsername();
+		return usuarioDTO.getUsername();
 	}
 
 	@Override
@@ -101,16 +101,16 @@ public class MomokoPrincipal<ID extends Serializable> implements OidcUser, UserD
 
 	@Override
 	public void eraseCredentials() {
-		
-		userDto.setPassword(null);
+
+		usuarioDTO.setPassword(null);
 		attributes = null;
 		claims = null;
 		userInfo = null;
 		idToken = null;
 	}
 
-	public UserDto<ID> getUserDto() {
-		return userDto;
+	public UsuarioDTO getUserDto() {
+		return usuarioDTO;
 	}
 
 	@Override

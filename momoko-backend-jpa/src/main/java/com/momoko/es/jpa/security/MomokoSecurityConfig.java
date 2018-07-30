@@ -1,6 +1,7 @@
 package com.momoko.es.jpa.security;
 
 import com.momoko.es.commons.MomokoProperties;
+import com.momoko.es.jpa.model.service.UserService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,29 +27,29 @@ public class MomokoSecurityConfig extends WebSecurityConfigurerAdapter {
 	private static final Log log = LogFactory.getLog(MomokoSecurityConfig.class);
 
 	private MomokoProperties properties;
-	private UserDetailsService userDetailsService;
+	private UserService userService;
 	private AuthenticationSuccessHandler authenticationSuccessHandler;
 	private AuthenticationFailureHandler authenticationFailureHandler;
 	private MomokoOidcUserService oidcUserService;
-	private MomokoOAuth2UserService<?, ?> oauth2UserService;
+	private MomokoOAuth2UserService oauth2UserService;
 	private OAuth2AuthenticationSuccessHandler<?> oauth2AuthenticationSuccessHandler;
 	private OAuth2AuthenticationFailureHandler oauth2AuthenticationFailureHandler;
-	private JwtAuthenticationProvider<?,?> jwtAuthenticationProvider;
+	private JwtAuthenticationProvider jwtAuthenticationProvider;
 	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	public void createMomokoSecurityConfig(MomokoProperties properties, UserDetailsService userDetailsService,
+	public void createMomokoSecurityConfig(MomokoProperties properties, UserService userService,
 			AuthenticationSuccessHandler authenticationSuccessHandler, AuthenticationFailureHandler authenticationFailureHandler,
 			MomokoOidcUserService oidcUserService,
-			MomokoOAuth2UserService<?, ?> oauth2UserService,
+			MomokoOAuth2UserService oauth2UserService,
 			OAuth2AuthenticationSuccessHandler<?> oauth2AuthenticationSuccessHandler,
 			OAuth2AuthenticationFailureHandler oauth2AuthenticationFailureHandler,
-			JwtAuthenticationProvider<?,?> jwtAuthenticationProvider,
+			JwtAuthenticationProvider jwtAuthenticationProvider,
 			PasswordEncoder passwordEncoder
 			) {
 
 		this.properties = properties;
-		this.userDetailsService = userDetailsService;
+		this.userService = userService;
 		this.authenticationSuccessHandler = authenticationSuccessHandler;
 		this.authenticationFailureHandler = authenticationFailureHandler;
 		this.oidcUserService = oidcUserService;
@@ -222,7 +223,7 @@ public class MomokoSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
   
-        auth.userDetailsService(userDetailsService)
+        auth.userDetailsService(userService)
         	.passwordEncoder(passwordEncoder).and()
         	.authenticationProvider(jwtAuthenticationProvider);
     }

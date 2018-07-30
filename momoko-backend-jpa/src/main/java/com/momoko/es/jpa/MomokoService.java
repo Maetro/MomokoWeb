@@ -8,11 +8,14 @@ import com.momoko.es.commons.mail.MomokoMailData;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.UserDto;
 import com.momoko.es.commons.security.UserEditPermission;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.exceptions.util.LexUtils;
 import com.momoko.es.jpa.domain.AbstractUser;
-import com.momoko.es.jpa.domain.AbstractUserRepository;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.model.repository.UsuarioRepository;
+import com.momoko.es.jpa.model.service.UserService;
 import com.momoko.es.jpa.util.MomokoUtils;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.apache.commons.lang3.StringUtils;
@@ -47,31 +50,29 @@ import java.util.Optional;
  */
 @Validated
 @Transactional(propagation=Propagation.SUPPORTS, readOnly=true)
-public abstract class MomokoService
-	<U extends AbstractUser<U,ID>, ID extends Serializable> {
+public abstract class MomokoService {
 
     private static final Log log = LogFactory.getLog(MomokoService.class);
     
 	private MomokoProperties properties;
 	private PasswordEncoder passwordEncoder;
     private MailSender mailSender;
-	private AbstractUserRepository<U, ID> userRepository;
-	private UserDetailsService userDetailsService;
+	private UsuarioRepository usuarioRepository;
+	private UserService userService;
 	private JwtService jwtService;
 
 	@Autowired
 	public void createMomokoService(MomokoProperties properties,
 			PasswordEncoder passwordEncoder,
-			MailSender<?> mailSender,
-			AbstractUserRepository<U, ID> userRepository,
-			UserDetailsService userDetailsService,
+			MailSender<?> mailSender, UsuarioRepository usuarioRepository,
+			UserService userService,
 			JwtService jwtService) {
 		
 		this.properties = properties;
 		this.passwordEncoder = passwordEncoder;
 		this.mailSender = mailSender;
-		this.userRepository = userRepository;
-		this.userDetailsService = userDetailsService;
+		this.usuarioRepository = usuarioRepository;
+		this.userService = userService;
 		this.jwtService = jwtService;
 		
 		log.info("Created");
@@ -103,14 +104,14 @@ public abstract class MomokoService
 		try {
 			
 			// Check if the user already exists
-			userDetailsService
+			userService
 				.loadUserByUsername(properties.getAdmin().getUsername());
 			
 		} catch (UsernameNotFoundException e) {
 			
 			// Doesn't exist. So, create it.
-	    	U user = createAdminUser();
-	    	userRepository.save(user);			
+	    	UsuarioEntity user = createAdminUser();
+			usuarioRepository.save(user);
 		}
 	}
 
@@ -119,7 +120,7 @@ public abstract class MomokoService
 	 * Creates the initial Admin user.
 	 * Override this if needed.
 	 */
-    protected U createAdminUser() {
+    protected UsuarioEntity createAdminUser() {
 		
     	// fetch data about the user to be created
     	MomokoProperties.Admin initialAdmin = properties.getAdmin();
@@ -127,7 +128,7 @@ public abstract class MomokoService
     	log.info("Creating the first admin user: " + initialAdmin.getUsername());
 
     	// create the user
-    	U user = newUser();
+		UsuarioEntity user = newUser();
     	user.setEmail(initialAdmin.getUsername());
 		user.setPassword(passwordEncoder.encode(
 			properties.getAdmin().getPassword()));
@@ -147,7 +148,7 @@ public abstract class MomokoService
 	 * }
 	 * </pre>
 	 */
-    public abstract U newUser();
+    public abstract UsuarioEntity newUser();
 
 
 	/**
@@ -173,7 +174,7 @@ public abstract class MomokoService
 		sharedProperties.put("reCaptchaSiteKey", properties.getRecaptcha().getSitekey());
 		sharedProperties.put("shared", properties.getShared());
 		
-		UserDto<ID> currentUser = MomokoUtils.currentUser();
+		UsuarioDTO currentUser = MomokoUtils.currentUser();
 		if (currentUser != null)
 			addAuthHeader(response, currentUser.getUsername(),
 				expirationMillis.orElse(properties.getJwt().getExpirationMillis()));
@@ -189,12 +190,12 @@ public abstract class MomokoService
 	 */
 	@Validated(UserUtils.SignUpValidation.class)
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public void signup(@Valid U user) {
+	public void signup(@Valid UsuarioEntity user) {
 		
 		log.debug("Signing up user: " + user);
 
 		initUser(user); // sets right all fields of the user
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		// if successfully committed
 		MomokoUtils.afterCommit(() -> {
@@ -209,7 +210,7 @@ public abstract class MomokoService
 	 * Initializes the user based on the input data,
 	 * e.g. encrypts the password
 	 */
-	protected void initUser(U user) {
+	protected void initUser(UsuarioEntity user) {
 		
 		log.debug("Initializing user: " + user);
 
@@ -221,7 +222,7 @@ public abstract class MomokoService
 	/**
 	 * Makes a user unverified
 	 */
-	protected void makeUnverified(U user) {
+	protected void makeUnverified(UsuarioEntity user) {
 		
 		user.getRoles().add(UserUtils.Role.UNVERIFIED);
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
@@ -232,7 +233,7 @@ public abstract class MomokoService
 	/**
 	 * Sends verification mail to a unverified user.
 	 */
-	protected void sendVerificationMail(final U user) {
+	protected void sendVerificationMail(final UsuarioEntity user) {
 		try {
 			
 			log.debug("Sending verification mail to: " + user);
@@ -261,7 +262,7 @@ public abstract class MomokoService
 	 * Sends verification mail to a unverified user.
 	 * Override this method if you're using a different MailData
 	 */
-	protected void sendVerificationMail(final U user, String verifyLink) {
+	protected void sendVerificationMail(final UsuarioEntity user, String verifyLink) {
 		
 		// send the mail
 		mailSender.send(MomokoMailData.of(user.getEmail(),
@@ -275,7 +276,7 @@ public abstract class MomokoService
 	 * Resends verification mail to the user.
 	 */
 	@UserEditPermission
-	public void resendVerificationMail(U user) {
+	public void resendVerificationMail(UsuarioEntity user) {
 
 		// The user must exist
 		LexUtils.ensureFound(user);
@@ -292,17 +293,17 @@ public abstract class MomokoService
 	/**
 	 * Fetches a user by email
 	 */
-	public U fetchUserByEmail(@Valid @Email @NotBlank String email) {
+	public UsuarioEntity fetchUserByEmail(@Valid @Email @NotBlank String email) {
 		
 		log.debug("Fetching user by email: " + email);
-		return processUser(userRepository.findByEmail(email).orElse(null));
+		return processUser(usuarioRepository.findByEmail(email).orElse(null));
 	}
 
 	
 	/**
 	 * Returns a non-null, processed user for the client.
 	 */
-	public U processUser(U user) {
+	public UsuarioEntity processUser(UsuarioEntity user) {
 		
 		log.debug("Fetching user: " + user);
 
@@ -320,11 +321,11 @@ public abstract class MomokoService
 	 * Verifies the email id of current-user
 	 */
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public void verifyUser(ID userId, String verificationCode) {
+	public void verifyUser(Integer userId, String verificationCode) {
 		
 		log.debug("Verifying user ...");
 
-		U user = userRepository.findById(userId).orElseThrow(LexUtils.notFoundSupplier());
+		UsuarioEntity user = usuarioRepository.findById(userId).orElseThrow(LexUtils.notFoundSupplier());
 		
 		// ensure that he is unverified
 		LexUtils.validate(user.hasRole(UserUtils.Role.UNVERIFIED),
@@ -339,7 +340,7 @@ public abstract class MomokoService
 		
 		user.getRoles().remove(UserUtils.Role.UNVERIFIED); // make him verified
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		// after successful commit,
 		MomokoUtils.afterCommit(() -> {
@@ -362,7 +363,7 @@ public abstract class MomokoService
 		log.debug("Processing forgot password for email: " + email);
 		
 		// fetch the user record from database
-		U user = userRepository.findByEmail(email)
+		UsuarioEntity user = usuarioRepository.findByEmail(email)
 				.orElseThrow(LexUtils.notFoundSupplier());
 
 		mailForgotPasswordLink(user);
@@ -374,7 +375,7 @@ public abstract class MomokoService
 	 * 
 	 * @param user
 	 */
-	public void mailForgotPasswordLink(U user) {
+	public void mailForgotPasswordLink(UsuarioEntity user) {
 		
 		log.debug("Mailing forgot password link to user: " + user);
 
@@ -396,7 +397,7 @@ public abstract class MomokoService
 	 * 
 	 * Override this method if you're using a different MailData
 	 */
-	public void mailForgotPasswordLink(U user, String forgotPasswordLink) {
+	public void mailForgotPasswordLink(UsuarioEntity user, String forgotPasswordLink) {
 		
 		// send the mail
 		mailSender.send(MomokoMailData.of(user.getEmail(),
@@ -419,7 +420,7 @@ public abstract class MomokoService
 		String email = claims.getSubject();
 		
 		// fetch the user
-		U user = userRepository.findByEmail(email).orElseThrow(LexUtils.notFoundSupplier());
+		UsuarioEntity user = usuarioRepository.findByEmail(email).orElseThrow(LexUtils.notFoundSupplier());
 		MomokoUtils.ensureCredentialsUpToDate(claims, user);
 		
 		// sets the password
@@ -427,7 +428,7 @@ public abstract class MomokoService
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
 		//user.setForgotPasswordCode(null);
 		
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		// after successful commit,
 		MomokoUtils.afterCommit(() -> {
@@ -446,7 +447,7 @@ public abstract class MomokoService
 	@UserEditPermission
 	@Validated(UserUtils.UpdateValidation.class)
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public UserDto<ID> updateUser(U user, @Valid U updatedUser) {
+	public UsuarioDTO updateUser(UsuarioEntity user, @Valid UsuarioEntity updatedUser) {
 		
 		log.debug("Updating user: " + user);
 
@@ -455,11 +456,11 @@ public abstract class MomokoService
 
 		// delegates to updateUserFields
 		updateUserFields(user, updatedUser, MomokoUtils.currentUser());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		log.debug("Updated user: " + user);
 		
-		UserDto<ID> userDto = user.toUserDto();
+		UsuarioDTO userDto = user.toUserDto();
 		userDto.setPassword(null);
 		return userDto;
 	}
@@ -470,13 +471,13 @@ public abstract class MomokoService
 	 */
 	@UserEditPermission
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public String changePassword(U user, @Valid ChangePasswordForm changePasswordForm) {
+	public String changePassword(UsuarioEntity user, @Valid ChangePasswordForm changePasswordForm) {
 		
 		log.debug("Changing password for user: " + user);
 		
 		// Get the old password of the logged in user (logged in user may be an ADMIN)
-		UserDto<ID> currentUser = MomokoUtils.currentUser();
-		U loggedIn = userRepository.findById(currentUser.getId()).get();
+		UsuarioDTO currentUser = MomokoUtils.currentUser();
+		UsuarioEntity loggedIn = usuarioRepository.findById(currentUser.getUsuarioId()).orElse(null);
 		String oldPassword = loggedIn.getPassword();
 
 		// checks
@@ -489,7 +490,7 @@ public abstract class MomokoService
 		// sets the password
 		user.setPassword(passwordEncoder.encode(changePasswordForm.getPassword()));
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 
 		log.debug("Changed password for user: " + user);
 		return user.toUserDto().getUsername();
@@ -499,13 +500,13 @@ public abstract class MomokoService
 	/**
 	 * Updates the fields of the users. Override this if you have more fields.
 	 */
-	protected void updateUserFields(U user, U updatedUser, UserDto<ID> currentUser) {
+	protected void updateUserFields(UsuarioEntity user, UsuarioEntity updatedUser, UsuarioDTO currentUser) {
 
 		log.debug("Updating user fields for user: " + user);
 
 		// Another good admin must be logged in to edit roles
 		if (currentUser.isGoodAdmin() &&
-		   !currentUser.getId().equals(user.getId())) { 
+		   !currentUser.getUserId().equals(user.getId())) {
 			
 			log.debug("Updating roles for user: " + user);
 
@@ -538,7 +539,7 @@ public abstract class MomokoService
 	@UserEditPermission
 	@Validated(UserUtils.ChangeEmailValidation.class)
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public void requestEmailChange(U user, @Valid U updatedUser) {
+	public void requestEmailChange(UsuarioEntity user, @Valid UsuarioEntity updatedUser) {
 		
 		log.debug("Requesting email change: " + user);
 
@@ -552,7 +553,7 @@ public abstract class MomokoService
 		// preserves the new email id
 		user.setNewEmail(updatedUser.getNewEmail());
 		//user.setChangeEmailCode(MomokoUtils.uid());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		// after successful commit, mails a link to the user
 		MomokoUtils.afterCommit(() -> mailChangeEmailLink(user));
@@ -564,7 +565,7 @@ public abstract class MomokoService
 	/**
 	 * Mails the change-email verification link to the user.
 	 */
-	protected void mailChangeEmailLink(U user) {
+	protected void mailChangeEmailLink(UsuarioEntity user) {
 		
 		String changeEmailCode = jwtService.createToken(JwtService.CHANGE_EMAIL_AUDIENCE,
 				user.getId().toString(), properties.getJwt().getExpirationMillis(),
@@ -596,7 +597,7 @@ public abstract class MomokoService
 	 * 
 	 * Override this method if you're using a different MailData
 	 */
-	protected void mailChangeEmailLink(U user, String changeEmailLink) {
+	protected void mailChangeEmailLink(UsuarioEntity user, String changeEmailLink) {
 		
 		mailSender.send(MomokoMailData.of(user.getNewEmail(),
 				LexUtils.getMessage(
@@ -612,17 +613,17 @@ public abstract class MomokoService
 	 */
 	@PreAuthorize("isAuthenticated()")
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public void changeEmail(ID userId, @Valid @NotBlank String changeEmailCode) {
+	public void changeEmail(Integer userId, @Valid @NotBlank String changeEmailCode) {
 		
 		log.debug("Changing email of current user ...");
 
 		// fetch the current-user
-		UserDto<ID> currentUser = MomokoUtils.currentUser();
+		UsuarioDTO currentUser = MomokoUtils.currentUser();
 		
-		LexUtils.validate(userId.equals(currentUser.getId()),
+		LexUtils.validate(userId.equals(currentUser.getUserId()),
 			"com.momoko.es.wrong.login").go();
-		
-		U user = userRepository.findById(userId).orElseThrow(LexUtils.notFoundSupplier());
+
+		UsuarioEntity user = usuarioRepository.findById(userId).orElseThrow(LexUtils.notFoundSupplier());
 		
 		LexUtils.validate(StringUtils.isNotBlank(user.getNewEmail()),
 				"com.momoko.es.blank.newEmail").go();
@@ -638,7 +639,7 @@ public abstract class MomokoService
 		
 		// Ensure that the email would be unique 
 		LexUtils.validate(
-				!userRepository.findByEmail(user.getNewEmail()).isPresent(),
+				!usuarioRepository.findByEmail(user.getNewEmail()).isPresent(),
 				"com.momoko.es.duplicate.email").go();
 		
 		// update the fields
@@ -651,7 +652,7 @@ public abstract class MomokoService
 		if (user.hasRole(UserUtils.Role.UNVERIFIED))
 			user.getRoles().remove(UserUtils.Role.UNVERIFIED);
 		
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		// after successful commit,
 		MomokoUtils.afterCommit(() -> {
@@ -678,7 +679,7 @@ public abstract class MomokoService
 	 * Extracts additional fields, e.g. name from user attributes received from OAuth2 provider, e.g. Google
 	 * Override this if you introduce more user fields, e.g. name
 	 */
-	public void fillAdditionalFields(String clientId, U user, Map<String, Object> attributes) {
+	public void fillAdditionalFields(String clientId, UsuarioEntity user, Map<String, Object> attributes) {
 		
 	}
 
@@ -704,7 +705,7 @@ public abstract class MomokoService
 	public String fetchNewToken(Optional<Long> expirationMillis,
 			Optional<String> optionalUsername) {
 		
-		UserDto<ID> currentUser = MomokoUtils.currentUser();
+		UsuarioDTO currentUser = MomokoUtils.currentUser();
 		String username = optionalUsername.orElse(currentUser.getUsername());
 		
 		LecUtils.ensureAuthority(currentUser.getUsername().equals(username) ||
@@ -720,16 +721,16 @@ public abstract class MomokoService
 	 * Saves the user
 	 */
 	@Transactional(propagation=Propagation.REQUIRED, readOnly=false)
-	public void save(U user) {
+	public void save(UsuarioEntity user) {
 		
-		userRepository.save(user);
+		usuarioRepository.save(user);
 	}
 	
 	
 	/**
 	 * Hides the confidential fields before sending to client
 	 */
-	protected void hideConfidentialFields(U user) {
+	protected void hideConfidentialFields(UsuarioEntity user) {
 		
 		user.setPassword(null); // JsonIgnore didn't work
 		

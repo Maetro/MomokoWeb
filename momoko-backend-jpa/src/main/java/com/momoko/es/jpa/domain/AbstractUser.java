@@ -3,8 +3,10 @@ package com.momoko.es.jpa.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.commons.validation.Password;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.validation.Captcha;
 import com.momoko.es.jpa.validation.UniqueEmail;
 
@@ -20,10 +22,7 @@ import java.util.Set;
  * @author Sanjay Patel
  */
 @MappedSuperclass
-public class AbstractUser
-	<U extends AbstractUser<U,ID>,
-	 ID extends Serializable>
-extends VersionedEntity<U, ID> {
+public class AbstractUser extends VersionedEntity {
 	
 	// email
 	@JsonView(UserUtils.SignupInput.class)
@@ -68,7 +67,6 @@ extends VersionedEntity<U, ID> {
 	 * to check whether the current-user has the given permission
 	 * on this entity. 
 	 */
-	@Override
 	public boolean hasPermission(UserDto<?> currentUser, String permission) {
 		
 		return UserUtils.hasPermission(getId(), currentUser, permission);		
@@ -87,11 +85,10 @@ extends VersionedEntity<U, ID> {
 	/**
 	 * Makes a User DTO
 	 */
-	public UserDto<ID> toUserDto() {
-		
-		UserDto<ID> userDto = new UserDto<>();
-		
-		userDto.setId(getId());
+	public UsuarioDTO toUserDto() {
+
+		UsuarioDTO userDto = new UsuarioDTO();
+
 		userDto.setUsername(email);
 		userDto.setPassword(password);
 		userDto.setRoles(roles);
@@ -116,7 +113,7 @@ extends VersionedEntity<U, ID> {
 	 * Override this to supply any additional fields to the user DTO,
 	 * e.g. name
 	 */
-	protected Serializable toTag() {
+	public Serializable toTag() {
 		
 		return null;
 	}

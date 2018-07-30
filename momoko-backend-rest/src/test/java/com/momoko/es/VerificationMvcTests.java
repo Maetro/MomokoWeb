@@ -2,7 +2,7 @@ package com.momoko.es;
 
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.entities.User;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,9 +106,9 @@ public class VerificationMvcTests extends AbstractMvcTests {
 		
 		// Credentials updated after the verification token is issued
 		Thread.sleep(1L);
-		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		mvc.perform(post("/api/core/users/{userId}/verification", UNVERIFIED_USER_ID)
                 .param("code", verificationCode)

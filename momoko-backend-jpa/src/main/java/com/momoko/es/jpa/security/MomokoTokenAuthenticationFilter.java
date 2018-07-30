@@ -22,57 +22,57 @@ public class MomokoTokenAuthenticationFilter extends OncePerRequestFilter {
 
     private static final Log log = LogFactory.getLog(MomokoTokenAuthenticationFilter.class);
 
-	private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-	public MomokoTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
-		
-		this.authenticationManager = authenticationManager;
-		log.info("Created");
-	}
+    public MomokoTokenAuthenticationFilter(AuthenticationManager authenticationManager) {
 
-	/**
-	 * Checks if a "Bearer " token is present
-	 */
-	protected boolean tokenPresent(HttpServletRequest request) {
-		
-		String header = request.getHeader(LecUtils.TOKEN_REQUEST_HEADER_NAME);
-		return header != null && header.startsWith(LecUtils.TOKEN_PREFIX);
-	}	
+        this.authenticationManager = authenticationManager;
+        log.info("Created");
+    }
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		
-		log.debug("Inside MomokoTokenAuthenticationFilter ...");
-		
-    	if (tokenPresent(request)) {
-			
-			log.debug("Found a token");
-			
-		    String token = request.getHeader(LecUtils.TOKEN_REQUEST_HEADER_NAME).substring(7);
-		    JwtAuthenticationToken authRequest = new JwtAuthenticationToken(token);
-		    
-		    try {
-		    	
-		    	Authentication auth = authenticationManager.authenticate(authRequest);
-		    	SecurityContextHolder.getContext().setAuthentication(auth);
-		    	
-				log.debug("Token authentication successful");
-				    		    	
-		    } catch (Exception e) {
-		    	
-				log.debug("Token authentication failed - " + e.getMessage());
-				
-		    	response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
-						"Authentication Failed: " + e.getMessage());
-		    	
-		    	return;
-		    }
-		    
-		} else
-		
-			log.debug("Token authentication skipped");
-		
-		filterChain.doFilter(request, response);
-	}
+    /**
+     * Checks if a "Bearer " token is present
+     */
+    protected boolean tokenPresent(HttpServletRequest request) {
+
+        String header = request.getHeader(LecUtils.TOKEN_REQUEST_HEADER_NAME);
+        return header != null && header.startsWith(LecUtils.TOKEN_PREFIX);
+    }
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        log.debug("Inside MomokoTokenAuthenticationFilter ...");
+
+        if (tokenPresent(request)) {
+
+            log.debug("Found a token");
+
+            String token = request.getHeader(LecUtils.TOKEN_REQUEST_HEADER_NAME).substring(7);
+            JwtAuthenticationToken authRequest = new JwtAuthenticationToken(token);
+
+            try {
+
+                Authentication auth = authenticationManager.authenticate(authRequest);
+                SecurityContextHolder.getContext().setAuthentication(auth);
+
+                log.debug("Token authentication successful");
+
+            } catch (Exception e) {
+
+                log.debug("Token authentication failed - " + e.getMessage());
+
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
+                        "Authentication Failed: " + e.getMessage());
+
+                return;
+            }
+
+        } else
+
+            log.debug("Token authentication skipped");
+
+        filterChain.doFilter(request, response);
+    }
 }

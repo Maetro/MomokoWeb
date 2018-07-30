@@ -2,7 +2,7 @@ package com.momoko.es;
 
 import com.momoko.es.commons.mail.MailSender;
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.repositories.UserRepository;
+import com.momoko.es.jpa.model.repository.UsuarioRepository;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +36,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public abstract class AbstractMvcTests {
 	
-	protected static final long ADMIN_ID = 101L;
-	protected static final long UNVERIFIED_ADMIN_ID = 102L;
-	protected static final long BLOCKED_ADMIN_ID = 103L;
+	protected static final Integer ADMIN_ID = 101;
+	protected static final Integer UNVERIFIED_ADMIN_ID = 102;
+	protected static final Integer BLOCKED_ADMIN_ID = 103;
 	
-	protected static final long USER_ID = 104L;
-	protected static final long UNVERIFIED_USER_ID = 105L;
-	protected static final long BLOCKED_USER_ID = 106L;
+	protected static final Integer USER_ID = 104;
+	protected static final Integer UNVERIFIED_USER_ID = 105;
+	protected static final Integer BLOCKED_USER_ID = 106;
 	
 	protected static final String ADMIN_EMAIL = "admin@example.com";
 	protected static final String ADMIN_PASSWORD = "admin!";
@@ -50,13 +50,13 @@ public abstract class AbstractMvcTests {
 	protected static final String USER_PASSWORD = "Sanjay99!";
 	protected static final String UNVERIFIED_USER_EMAIL = "unverifieduser@example.com";
 	
-	protected Map<Long, String> tokens = new HashMap<>(6);
+	protected Map<Integer, String> tokens = new HashMap<>(6);
 	
     @Autowired
     protected MockMvc mvc;
     
     @Autowired
-    protected UserRepository userRepository;
+    protected UsuarioRepository usuarioRepository;
     
     @SpyBean
     protected MailSender<?> mailSender;

@@ -1,11 +1,6 @@
-/**
- * UsuarioEntity.java 04-jun-2017
- *
- * Copyright 2017 RAMON CASARES.
- * @author Ramon.Casares.Porto@gmail.com
- */
 package com.momoko.es.jpa.model.entity;
 
+import com.momoko.es.jpa.domain.AbstractUser;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -14,17 +9,10 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-/**
- * The Class UsuarioEntity.
- *
- * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
- */
 @Entity
 @Table(name = "usuario")
-public class UsuarioEntity extends AuditoriaBasica {
+public class UsuarioEntity extends AbstractUser{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer usuarioId;
 
     /** The usuario login. */
@@ -102,12 +90,20 @@ public class UsuarioEntity extends AuditoriaBasica {
     /** The youtube. */
     private String youtube;
 
+    public UsuarioEntity() {
+    }
+
+    public UsuarioEntity(String email, String password, String login) {
+        this.email = email;
+        this.password = password;
+        this.usuarioLogin = usuarioLogin;
+    }
+
     /**
      * Gets the usuario alta.
      *
      * @return the usuario alta
      */
-    @Override
     public String getUsuarioAlta() {
         return this.usuarioAlta;
     }
@@ -118,7 +114,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioAlta
      *            the new usuario alta
      */
-    @Override
     public void setUsuarioAlta(final String usuarioAlta) {
         this.usuarioAlta = usuarioAlta;
     }
@@ -128,7 +123,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      *
      * @return the fecha alta
      */
-    @Override
     public Date getFechaAlta() {
         return this.fechaAlta;
     }
@@ -139,7 +133,7 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param fechaAlta
      *            the new fecha alta
      */
-    @Override
+
     public void setFechaAlta(final Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
@@ -149,7 +143,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      *
      * @return the usuario modificacion
      */
-    @Override
     public String getUsuarioModificacion() {
         return this.usuarioModificacion;
     }
@@ -160,7 +153,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioModificacion
      *            the new usuario modificacion
      */
-    @Override
     public void setUsuarioModificacion(final String usuarioModificacion) {
         this.usuarioModificacion = usuarioModificacion;
     }
@@ -170,7 +162,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      *
      * @return the fecha modificacion
      */
-    @Override
     public Date getFechaModificacion() {
         return this.fechaModificacion;
     }
@@ -181,7 +172,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param fechaModificacion
      *            the new fecha modificacion
      */
-    @Override
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
     }
@@ -191,7 +181,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      *
      * @return the usuario baja
      */
-    @Override
     public String getUsuarioBaja() {
         return this.usuarioBaja;
     }
@@ -202,7 +191,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param usuarioBaja
      *            the new usuario baja
      */
-    @Override
     public void setUsuarioBaja(final String usuarioBaja) {
         this.usuarioBaja = usuarioBaja;
     }
@@ -212,7 +200,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      *
      * @return the fecha baja
      */
-    @Override
     public Date getFechaBaja() {
         return this.fechaBaja;
     }
@@ -223,7 +210,6 @@ public class UsuarioEntity extends AuditoriaBasica {
      * @param fechaBaja
      *            the new fecha baja
      */
-    @Override
     public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
     }

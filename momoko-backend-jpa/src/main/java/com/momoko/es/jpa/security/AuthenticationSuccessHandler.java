@@ -3,6 +3,7 @@ package com.momoko.es.jpa.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momoko.es.commons.MomokoProperties;
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.jpa.MomokoService;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.apache.commons.logging.Log;
@@ -28,10 +29,10 @@ public class AuthenticationSuccessHandler
 	private static final Log log = LogFactory.getLog(AuthenticationSuccessHandler.class);
 	
     private ObjectMapper objectMapper;
-    private MomokoService<?, ?> momokoService;
+    private MomokoService momokoService;
     private long defaultExpirationMillis;
     
-	public AuthenticationSuccessHandler(ObjectMapper objectMapper, MomokoService<?, ?> momokoService, MomokoProperties properties) {
+	public AuthenticationSuccessHandler(ObjectMapper objectMapper, MomokoService momokoService, MomokoProperties properties) {
 		
 		this.objectMapper = objectMapper;
 		this.momokoService = momokoService;
@@ -57,7 +58,7 @@ public class AuthenticationSuccessHandler
     			defaultExpirationMillis : Long.valueOf(expirationMillisStr);
  
     	// get the current-user
-    	UserDto<?> currentUser = MomokoUtils.currentUser();
+    	UsuarioDTO<Integer> currentUser = MomokoUtils.currentUser();
 
     	momokoService.addAuthHeader(response, currentUser.getUsername(), expirationMillis);
     	

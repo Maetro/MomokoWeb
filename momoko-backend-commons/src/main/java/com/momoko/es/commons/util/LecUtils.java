@@ -8,6 +8,7 @@ import com.github.fge.jsonpatch.JsonPatch;
 import com.github.fge.jsonpatch.JsonPatchException;
 import com.momoko.es.commons.security.MomokoPrincipal;
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.exceptions.util.LexUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -51,12 +52,12 @@ public class LecUtils {
 	 * @param auth
 	 * @return
 	 */
-	public static <ID extends Serializable> UserDto<ID> currentUser(Authentication auth) {
+	public static <ID extends Serializable> UsuarioDTO<ID> currentUser(Authentication auth) {
 		
 	    if (auth != null) {
 	      Object principal = auth.getPrincipal();
-	      if (principal instanceof MomokoPrincipal<?>) {
-	        return ((MomokoPrincipal<ID>) principal).currentUser();
+	      if (principal instanceof MomokoPrincipal) {
+	        return ((MomokoPrincipal) principal).currentUser();
 	      }
 	    }
 	    return null;	  

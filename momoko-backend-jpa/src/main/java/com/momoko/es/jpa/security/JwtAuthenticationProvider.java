@@ -4,6 +4,8 @@ import com.momoko.es.commons.security.JwtAuthenticationToken;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.MomokoPrincipal;
 import com.momoko.es.jpa.domain.AbstractUser;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.model.service.UserService;
 import com.momoko.es.jpa.util.MomokoUtils;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.apache.commons.logging.Log;
@@ -17,18 +19,17 @@ import java.io.Serializable;
 /**
  * Authentication provider for JWT token authentication
  */
-public class JwtAuthenticationProvider
-<U extends AbstractUser<U,ID>, ID extends Serializable> implements AuthenticationProvider {
+public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private static final Log log = LogFactory.getLog(JwtAuthenticationProvider.class);
 
 	private final JwtService jwtService;
-	private MomokoUserDetailsService<U, ID> userDetailsService;
+	private UserService userService;
 	
-	public JwtAuthenticationProvider(JwtService jwtService, MomokoUserDetailsService<U, ID> userDetailsService) {
+	public JwtAuthenticationProvider(JwtService jwtService, UserService userService) {
 
 		this.jwtService = jwtService;
-		this.userDetailsService = userDetailsService;
+		this.userService = userService;
 		
 		log.debug("Created");
 	}
@@ -43,13 +44,14 @@ public class JwtAuthenticationProvider
 		JWTClaimsSet claims = jwtService.parseToken(token, JwtService.AUTH_AUDIENCE);
 		
         String username = claims.getSubject();
-        U user = userDetailsService.findUserByUsername(username)
-        		.orElseThrow(() -> new UsernameNotFoundException(username));
-
+		UsuarioEntity user = userService.findByUsuarioEmail(username);
+		if (user == null){
+			throw new UsernameNotFoundException(username);
+		}
         log.debug("User found ...");
 
         MomokoUtils.ensureCredentialsUpToDate(claims, user);
-        MomokoPrincipal<ID> principal = new MomokoPrincipal<ID>(user.toUserDto());
+        MomokoPrincipal principal = new MomokoPrincipal(user.toUserDto());
         		
         return new JwtAuthenticationToken(principal, token, principal.getAuthorities());
 	}

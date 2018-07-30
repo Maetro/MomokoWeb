@@ -31,7 +31,7 @@ public class PuntuacionEntity {
 
     /** The autor. */
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "id")
     private UsuarioEntity autor;
 
     /** The comentario. */

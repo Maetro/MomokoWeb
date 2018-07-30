@@ -14,11 +14,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The Class EntradaEntity.
- *
- * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
- */
 @Entity
 @Table(name = "entrada", indexes = { @Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true) })
 public class EntradaEntity implements Comparable<EntradaEntity> {
@@ -26,7 +21,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     private @Id @GeneratedValue Integer entradaId;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "id")
     private UsuarioEntity entradaAutor;
 
     /** The url entrada. */

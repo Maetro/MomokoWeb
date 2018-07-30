@@ -2,7 +2,7 @@ package com.momoko.es;
 
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.entities.User;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,9 +25,9 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 	@Before
 	public void setUp() {
 		
-		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setNewEmail(NEW_EMAIL);
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		changeEmailCode = jwtService.createToken(
 				JwtService.CHANGE_EMAIL_AUDIENCE,
@@ -46,7 +46,7 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 				.andExpect(header().string(LecUtils.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID));
 		
-		User updatedUser = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity updatedUser = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		Assert.assertNull(updatedUser.getNewEmail());
 		Assert.assertEquals(NEW_EMAIL, updatedUser.getEmail());
 		
@@ -116,9 +116,9 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 
 		// credentials updated after the request for email change was made
 		Thread.sleep(1L);
-		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		// A new auth token is needed, because old one would be obsolete!
 		String authToken = login(UNVERIFIED_USER_EMAIL, USER_PASSWORD);
@@ -153,9 +153,9 @@ public class ChangeEmailMvcTests extends AbstractMvcTests {
 	public void testChangeEmailNonUniqueEmail() throws Exception {
 		
 		// Some other user changed to the same email
-		User user = userRepository.findById(ADMIN_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(ADMIN_ID).get();
 		user.setEmail(NEW_EMAIL);
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		mvc.perform(post("/api/core/users/{id}/email", UNVERIFIED_USER_ID)
                 .param("code", changeEmailCode)

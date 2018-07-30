@@ -8,10 +8,12 @@ import com.momoko.es.commons.domain.ChangePasswordForm;
 import com.momoko.es.commons.domain.ResetPasswordForm;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.exceptions.util.LexUtils;
 import com.momoko.es.jpa.domain.AbstractUser;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -25,19 +27,18 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class MomokoController
-	<U extends AbstractUser<U,ID>, ID extends Serializable> {
+public abstract class MomokoController{
 
 	private static final Log log = LogFactory.getLog(MomokoController.class);
 
     private long jwtExpirationMillis;
     private JwtService jwtService;
-	private MomokoService<U, ID> momokoService;
+	private MomokoService momokoService;
 	
 	@Autowired
 	public void createMomokoController(
 			MomokoProperties properties,
-			MomokoService<U, ID> momokoService,
+			MomokoService momokoService,
 			JwtService jwtService) {
 		
 		this.jwtExpirationMillis = properties.getJwt().getExpirationMillis();
@@ -82,8 +83,8 @@ public abstract class MomokoController
 	 */
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
-	public UserDto<ID> signup(@RequestBody @JsonView(UserUtils.SignupInput.class) U user,
-			HttpServletResponse response) {
+	public UsuarioDTO signup(@RequestBody @JsonView(UserUtils.SignupInput.class) UsuarioEntity user,
+								 HttpServletResponse response) {
 		
 		log.debug("Signing up: " + user);
 		momokoService.signup(user);
@@ -98,7 +99,7 @@ public abstract class MomokoController
 	 */
 	@PostMapping("/users/{id}/resend-verification-mail")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void resendVerificationMail(@PathVariable("id") U user) {
+	public void resendVerificationMail(@PathVariable("id") UsuarioEntity user) {
 		
 		log.debug("Resending verification mail for: " + user);
 		momokoService.resendVerificationMail(user);
@@ -110,8 +111,8 @@ public abstract class MomokoController
 	 * Verifies current-user
 	 */
 	@PostMapping("/users/{id}/verification")
-	public UserDto<ID> verifyUser(
-			@PathVariable ID id,
+	public UsuarioDTO<Integer> verifyUser(
+			@PathVariable Integer id,
 			@RequestParam String code,
 			HttpServletResponse response) {
 		
@@ -138,7 +139,7 @@ public abstract class MomokoController
 	 * Resets password after it's forgotten
 	 */
 	@PostMapping("/reset-password")
-	public UserDto<ID> resetPassword(
+	public UsuarioDTO<Integer> resetPassword(
 			@RequestBody ResetPasswordForm form,
 			HttpServletResponse response) {
 		
@@ -153,7 +154,7 @@ public abstract class MomokoController
 	 * Fetches a user by email
 	 */
 	@PostMapping("/users/fetch-by-email")
-	public U fetchUserByEmail(@RequestParam String email) {
+	public UsuarioEntity fetchUserByEmail(@RequestParam String email) {
 		
 		log.debug("Fetching user by email: " + email);						
 		return momokoService.fetchUserByEmail(email);
@@ -164,7 +165,7 @@ public abstract class MomokoController
 	 * Fetches a user by ID
 	 */	
 	@GetMapping("/users/{id}")
-	public U fetchUserById(@PathVariable("id") U user) {
+	public UsuarioEntity fetchUserById(@PathVariable("id") UsuarioEntity user) {
 		
 		log.debug("Fetching user: " + user);				
 		return momokoService.processUser(user);
@@ -175,8 +176,8 @@ public abstract class MomokoController
 	 * Updates a user
 	 */
 	@PatchMapping("/users/{id}")
-	public UserDto<ID> updateUser(
-			@PathVariable("id") U user,
+	public UsuarioDTO<Integer> updateUser(
+			@PathVariable("id") UsuarioEntity user,
 			@RequestBody String patch,
 			HttpServletResponse response)
 			throws JsonProcessingException, IOException, JsonPatchException {
@@ -185,8 +186,8 @@ public abstract class MomokoController
 		
 		// ensure that the user exists
 		LexUtils.ensureFound(user);
-		U updatedUser = LecUtils.applyPatch(user, patch); // create a patched form
-		UserDto<ID> userDto = momokoService.updateUser(user, updatedUser);
+		UsuarioEntity updatedUser = LecUtils.applyPatch(user, patch); // create a patched form
+		UsuarioDTO<Integer> userDto = momokoService.updateUser(user, updatedUser);
 		
 		// Send a new token for logged in user in the response
 		userWithToken(response);
@@ -201,7 +202,7 @@ public abstract class MomokoController
 	 */
 	@PostMapping("/users/{id}/password")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void changePassword(@PathVariable("id") U user,
+	public void changePassword(@PathVariable("id") UsuarioEntity user,
 			@RequestBody ChangePasswordForm changePasswordForm,
 			HttpServletResponse response) {
 		
@@ -217,8 +218,8 @@ public abstract class MomokoController
 	 */
 	@PostMapping("/users/{id}/email-change-request")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void requestEmailChange(@PathVariable("id") U user,
-								   @RequestBody U updatedUser) {
+	public void requestEmailChange(@PathVariable("id") UsuarioEntity user,
+								   @RequestBody UsuarioEntity updatedUser) {
 		
 		log.debug("Requesting email change ... ");				
 		momokoService.requestEmailChange(user, updatedUser);
@@ -229,8 +230,8 @@ public abstract class MomokoController
 	 * Changes the email
 	 */
 	@PostMapping("/users/{userId}/email")
-	public UserDto<ID> changeEmail(
-			@PathVariable ID userId,
+	public UsuarioDTO<Integer> changeEmail(
+			@PathVariable Integer userId,
 			@RequestParam String code,
 			HttpServletResponse response) {
 		
@@ -259,9 +260,9 @@ public abstract class MomokoController
 	/**
 	 * returns the current user and a new authorization token in the response
 	 */
-	protected UserDto<ID> userWithToken(HttpServletResponse response) {
-		
-		UserDto<ID> currentUser = MomokoUtils.currentUser();
+	protected UsuarioDTO<Integer> userWithToken(HttpServletResponse response) {
+
+		UsuarioDTO<Integer> currentUser = MomokoUtils.currentUser();
 		momokoService.addAuthHeader(response, currentUser.getUsername(), jwtExpirationMillis);
 		return currentUser;
 	}

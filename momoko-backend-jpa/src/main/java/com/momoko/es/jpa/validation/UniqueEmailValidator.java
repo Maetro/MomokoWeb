@@ -1,6 +1,6 @@
 package com.momoko.es.jpa.validation;
 
-import com.momoko.es.jpa.domain.AbstractUserRepository;
+import com.momoko.es.jpa.model.repository.UsuarioRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -17,9 +17,9 @@ implements ConstraintValidator<UniqueEmail, String> {
 
 	private static final Log log = LogFactory.getLog(UniqueEmailValidator.class);
 
-	private AbstractUserRepository<?,?> userRepository;
+	private UsuarioRepository userRepository;
 
-	public UniqueEmailValidator(AbstractUserRepository<?, ?> userRepository) {
+	public UniqueEmailValidator(UsuarioRepository userRepository) {
 		
 		this.userRepository = userRepository;
 		log.info("Created");

@@ -2,7 +2,7 @@ package com.momoko.es;
 
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.commons.util.UserUtils;
-import com.momoko.es.entities.User;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.junit.Assert;
 import org.junit.Test;
@@ -69,7 +69,7 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
 				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL));
 		
-		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		
 		// Ensure that data changed properly
 		Assert.assertEquals(UNVERIFIED_USER_EMAIL, user.getEmail());
@@ -107,7 +107,7 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.roles[0]").value("ADMIN"))
 				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL));
 		
-		User user = userRepository.findById(UNVERIFIED_USER_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
     	
 		// Ensure that data changed properly
 		Assert.assertEquals(UNVERIFIED_USER_EMAIL, user.getEmail());

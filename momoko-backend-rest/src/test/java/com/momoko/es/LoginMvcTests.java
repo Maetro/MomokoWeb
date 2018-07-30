@@ -1,7 +1,7 @@
 package com.momoko.es;
 
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.entities.User;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;
@@ -67,9 +67,9 @@ public class LoginMvcTests extends AbstractMvcTests {
 		
 		// credentials updated
 		// Thread.sleep(1001L);		
-		User user = userRepository.findById(ADMIN_ID).get();
+		UsuarioEntity user = usuarioRepository.findById(ADMIN_ID).get();
 		user.setCredentialsUpdatedMillis(System.currentTimeMillis());
-		userRepository.save(user);
+		usuarioRepository.save(user);
 		
 		mvc.perform(get("/api/core/ping")
 				.header(LecUtils.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))

@@ -23,7 +23,7 @@ import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.UsuarioDTO;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.model.entity.AutorEntity;
 import com.momoko.es.jpa.model.entity.CategoriaEntity;

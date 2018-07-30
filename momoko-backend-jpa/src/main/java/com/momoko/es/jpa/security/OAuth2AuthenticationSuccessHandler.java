@@ -3,6 +3,7 @@ package com.momoko.es.jpa.security;
 import com.momoko.es.commons.MomokoProperties;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -39,7 +40,7 @@ public class OAuth2AuthenticationSuccessHandler<ID extends Serializable>
 	protected String determineTargetUrl(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		UserDto<ID> currentUser = MomokoUtils.currentUser();
+		UsuarioDTO<Integer> currentUser = MomokoUtils.currentUser();
 		
 		String shortLivedAuthToken = jwtService.createToken(
 				JwtService.AUTH_AUDIENCE,

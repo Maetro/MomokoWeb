@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author Sanjay Patel
  */
 @MappedSuperclass
-public abstract class VersionedEntity<U extends AbstractUser<U,ID>, ID extends Serializable> extends MomokoEntity<U, ID> {
+public abstract class VersionedEntity extends MomokoEntity {
 
 	private static final long serialVersionUID = 4310555782328370192L;
 	

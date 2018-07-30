@@ -99,14 +99,14 @@ public class MomokoCommonsAutoConfiguration {
 	 * Configures an SmtpMailSender when the property
 	 * <code>spring.mail.host</code> is defined.
 	 */
-	@Bean
-	@ConditionalOnMissingBean(MailSender.class)
-	@ConditionalOnProperty("spring.mail.host")
-	public MailSender<?> smtpMailSender(JavaMailSender javaMailSender) {
-		
-        log.info("Configuring SmtpMailSender");       
-		return new SmtpMailSender(javaMailSender);
-	}
+//	@Bean
+//	@ConditionalOnMissingBean(MailSender.class)
+//	@ConditionalOnProperty("spring.mail.host")
+//	public MailSender<?> smtpMailSender(JavaMailSender javaMailSender) {
+//
+//        log.info("Configuring SmtpMailSender");
+//		return new SmtpMailSender(javaMailSender);
+//	}
 	
 	@Bean
 	public LecUtils lecUtils(ObjectMapper objectMapper) {

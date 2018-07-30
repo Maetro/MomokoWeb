@@ -1,8 +1,8 @@
 package com.momoko.es.services;
 
-import com.momoko.es.commons.security.UserDto;
-import com.momoko.es.entities.User;
+import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.jpa.MomokoService;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.stereotype.Service;
@@ -10,39 +10,38 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class MyService extends MomokoService<User, Long> {
+public class MyService extends MomokoService {
 
 	public static final String ADMIN_NAME = "Administrator";
 
 	@Override
-    public User newUser() {
-        return new User();
+    public UsuarioEntity newUser() {
+        return new UsuarioEntity();
     }
 
 	@Override
-    protected void updateUserFields(User user, User updatedUser, UserDto<Long> currentUser) {
+    protected void updateUserFields(UsuarioEntity user, UsuarioEntity updatedUser, UsuarioDTO currentUser) {
 
         super.updateUserFields(user, updatedUser, currentUser);
 
-        user.setName(updatedUser.getName());
+		user.setUsuarioLogin(updatedUser.getUsuarioLogin());
 
         MomokoUtils.afterCommit(() -> {
-            if (currentUser.getId().equals(user.getId()))
+            if (currentUser.getUserId().equals(user.getId()))
                 currentUser.setTag(user.toTag());
         });
     }
     
     @Override
-    protected User createAdminUser() {
-    	
-    	User user = super.createAdminUser(); 
-    	user.setName(ADMIN_NAME);
+    protected UsuarioEntity createAdminUser() {
+
+		UsuarioEntity user = super.createAdminUser();
+    	user.setUsuarioLogin(ADMIN_NAME);
     	return user;
     }
     
-    
-    @Override
-    public void fillAdditionalFields(String registrationId, User user, Map<String, Object> attributes) {
+
+    public void fillAdditionalFields(String registrationId, UsuarioEntity user, Map<String, Object> attributes) {
     	
     	String nameKey;
     	
@@ -57,9 +56,9 @@ public class MyService extends MomokoService<User, Long> {
 			break;
 			
 		default:
-			throw new UnsupportedOperationException("Fetching name from " + registrationId + " login not supprrted");
+			throw new UnsupportedOperationException("Fetching name from " + registrationId + " login not supported");
     	}
     	
-    	user.setName((String) attributes.get(nameKey));
+    	user.setUsuarioLogin((String) attributes.get(nameKey));
     }
 }

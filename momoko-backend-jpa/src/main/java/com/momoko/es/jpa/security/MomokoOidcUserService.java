@@ -15,9 +15,9 @@ public class MomokoOidcUserService extends OidcUserService {
 	
 	private static final Log log = LogFactory.getLog(MomokoOidcUserService.class);
 
-	private MomokoOAuth2UserService<?, ?> oauth2UserService;
+	private MomokoOAuth2UserService oauth2UserService;
 
-	public MomokoOidcUserService(MomokoOAuth2UserService<?, ?> oauth2UserService) {
+	public MomokoOidcUserService(MomokoOAuth2UserService oauth2UserService) {
 
 		this.oauth2UserService = oauth2UserService;
 		log.debug("Created");
@@ -27,7 +27,7 @@ public class MomokoOidcUserService extends OidcUserService {
 	public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
 		
 		OidcUser oidcUser = super.loadUser(userRequest);
-		MomokoPrincipal<?> principal = oauth2UserService.buildPrincipal(oidcUser,
+		MomokoPrincipal principal = oauth2UserService.buildPrincipal(oidcUser,
 			userRequest.getClientRegistration().getRegistrationId());
 		
 		principal.setClaims(oidcUser.getClaims());
