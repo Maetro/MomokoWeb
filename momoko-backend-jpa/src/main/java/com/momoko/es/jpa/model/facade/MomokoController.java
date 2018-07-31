@@ -1,4 +1,4 @@
-package com.momoko.es.jpa;
+package com.momoko.es.jpa.model.facade;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -7,27 +7,29 @@ import com.momoko.es.commons.MomokoProperties;
 import com.momoko.es.commons.domain.ChangePasswordForm;
 import com.momoko.es.commons.domain.ResetPasswordForm;
 import com.momoko.es.commons.security.JwtService;
-import com.momoko.es.commons.security.UserDto;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.exceptions.util.LexUtils;
-import com.momoko.es.jpa.domain.AbstractUser;
+import com.momoko.es.jpa.MomokoService;
 import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Map;
 import java.util.Optional;
 
-public abstract class MomokoController{
+@Controller
+@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
+@RequestMapping(path = "/api/core")
+public class MomokoController{
 
 	private static final Log log = LogFactory.getLog(MomokoController.class);
 

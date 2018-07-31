@@ -39,7 +39,7 @@ momoko:
   cors:
     # Comma separated values of CORS allowedOrigins
     # If this property is not given, CORS is not configured
-    allowed-origins: http://localhost:4200, http://localhost:9000
+    allowed-origins: http://localhost:4200, http://localhost:9000, http://localhost:8080
     
   recaptcha:
     sitekey: 6LdwxRcUAAAAABkhOGWQXhl9FsR27D5YUJRuGzx0

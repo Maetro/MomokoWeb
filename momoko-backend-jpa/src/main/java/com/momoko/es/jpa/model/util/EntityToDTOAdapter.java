@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.momoko.es.commons.util.UserUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -57,6 +58,24 @@ public final class EntityToDTOAdapter {
         final UsuarioDTO usuario = new UsuarioDTO();
         usuario.setUsuarioId(nuevoUsuario.getUsuarioId());
         usuario.setUsuarioLogin(nuevoUsuario.getUsuarioLogin());
+
+
+        usuario.setUsername(nuevoUsuario.getEmail());
+        usuario.setPassword(nuevoUsuario.getPassword());
+        usuario.setRoles(nuevoUsuario.getRoles());
+        usuario.setTag(nuevoUsuario.toTag());
+
+        boolean unverified = nuevoUsuario.hasRole(UserUtils.Role.UNVERIFIED);
+        boolean blocked = nuevoUsuario.hasRole(UserUtils.Role.BLOCKED);
+        boolean admin = nuevoUsuario.hasRole(UserUtils.Role.ADMIN);
+        boolean goodUser = !(unverified || blocked);
+        boolean goodAdmin = goodUser && admin;
+
+        usuario.setAdmin(admin);
+        usuario.setBlocked(blocked);
+        usuario.setGoodAdmin(goodAdmin);
+        usuario.setGoodUser(goodUser);
+        usuario.setUnverified(unverified);
         usuario.setUsuarioEmail(nuevoUsuario.getUsuarioEmail());
         usuario.setUsuarioFechaRegistro(nuevoUsuario.getUsuarioFechaRegistro());
         usuario.setUsuarioNick(nuevoUsuario.getUsuarioNick());

@@ -74,7 +74,8 @@ public class UserServiceImpl implements UserService {
         log.debug("Loading user having username: " + username);
 
         // delegates to findUserByUsername
-        UsuarioEntity user = usuarioRepository.findByEmail(username).orElse(null);
+        UsuarioEntity user = usuarioRepository.findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
 
         log.debug("Loaded user having username: " + username);
 

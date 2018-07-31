@@ -3,6 +3,7 @@ package com.momoko.es;
 import com.momoko.es.commons.mail.MailSender;
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.jpa.model.repository.UsuarioRepository;
+import com.momoko.es.jpa.security.MomokoSecurityConfig;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,9 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,11 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @SpringBootTest({
-	"logging.level.com.naturalprogrammer=ERROR", // logging.level.root=ERROR does not work: https://stackoverflow.com/questions/49048298/springboottest-not-overriding-logging-level
-	"logging.level.org.springframework=ERROR",
+	"logging.level.com.momoko.es=INFO", // logging.level.root=ERROR does not work: https://stackoverflow.com/questions/49048298/springboottest-not-overriding-logging-level
+	"logging.level.org.springframework=INFO",
 	"momoko.recaptcha.sitekey="
 })
 @AutoConfigureMockMvc(secure=false)
+@ComponentScan(basePackages = "com.momoko.es.jpa")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.HSQL)
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
 public abstract class AbstractMvcTests {
