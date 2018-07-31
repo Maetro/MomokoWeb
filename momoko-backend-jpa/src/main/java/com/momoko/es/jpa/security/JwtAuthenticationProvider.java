@@ -1,5 +1,6 @@
 package com.momoko.es.jpa.security;
 
+import com.momoko.es.api.exceptions.UserNotFoundException;
 import com.momoko.es.commons.security.JwtAuthenticationToken;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.MomokoPrincipal;
@@ -44,11 +45,15 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 		JWTClaimsSet claims = jwtService.parseToken(token, JwtService.AUTH_AUDIENCE);
 		
         String username = claims.getSubject();
-		UsuarioEntity user = userService.findByUsuarioEmail(username);
-		if (user == null){
+
+		UsuarioEntity user = null;
+		try {
+			user = userService.findByUsuarioEmail(username);
+		} catch (UserNotFoundException e) {
 			throw new UsernameNotFoundException(username);
 		}
-        log.debug("User found ...");
+
+		log.debug("User found ...");
 
         MomokoUtils.ensureCredentialsUpToDate(claims, user);
         MomokoPrincipal principal = new MomokoPrincipal(user.toUserDto());

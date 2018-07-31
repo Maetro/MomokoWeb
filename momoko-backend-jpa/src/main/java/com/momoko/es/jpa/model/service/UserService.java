@@ -115,5 +115,5 @@ public interface UserService extends UserDetailsService {
      */
     public RedactorDTO findRedactorByUrl(String urlRedactor) throws UserNotFoundException;
 
-    UsuarioEntity findByUsuarioEmail(String username);
+    UsuarioEntity findByUsuarioEmail(String username) throws UserNotFoundException;
 }
