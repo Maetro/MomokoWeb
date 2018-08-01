@@ -36,7 +36,7 @@ public class VerificationMvcTests extends AbstractMvcTests {
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andExpect(header().string(LecUtils.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))
+				.andExpect(jsonPath("$.userId").value(UNVERIFIED_USER_ID))
 				.andExpect(jsonPath("$.roles").value(hasSize(0)))
 				.andExpect(jsonPath("$.unverified").value(false))
 				.andExpect(jsonPath("$.goodUser").value(true));

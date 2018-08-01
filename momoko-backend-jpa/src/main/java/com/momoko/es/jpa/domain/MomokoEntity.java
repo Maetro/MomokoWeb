@@ -20,13 +20,13 @@ import java.io.Serializable;
 public class MomokoEntity extends AbstractAuditable<UsuarioEntity, Integer> implements PermissionEvaluatorEntity {
 
 	private static final long serialVersionUID = -8151190931948396443L;
-	
+
 	/**
 	 * Whether the given user has the given permission for
 	 * this entity. Override this method where you need.
 	 */
 	@Override
-	public boolean hasPermission(UsuarioDTO<?> currentUser, String permission) {
+	public boolean hasPermission(UsuarioDTO<Integer> currentUser, String permission) {
 		return false;
 	}
 }

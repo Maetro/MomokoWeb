@@ -29,8 +29,7 @@ import java.util.Optional;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
-@RequestMapping(path = "/api/core",
-		produces= MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/core")
 public class MomokoController{
 
 	private static final Log log = LogFactory.getLog(MomokoController.class);
@@ -69,7 +68,7 @@ public class MomokoController{
 	 * current-user data and an Authorization token as a response header.
 	 */
 	@GetMapping("/context")
-	public Map<String, Object> getContext(
+	public @ResponseBody Map<String, Object> getContext(
 			@RequestParam Optional<Long> expirationMillis,
 			HttpServletResponse response) {
 
@@ -87,7 +86,7 @@ public class MomokoController{
 	 */
 	@PostMapping("/users")
 	@ResponseStatus(HttpStatus.CREATED)
-	public UsuarioDTO signup(@RequestBody @JsonView(UserUtils.SignupInput.class) UsuarioEntity user,
+	public @ResponseBody UsuarioDTO signup(@RequestBody @JsonView(UserUtils.SignupInput.class) UsuarioEntity user,
 								 HttpServletResponse response) {
 		
 		log.debug("Signing up: " + user);
@@ -115,7 +114,7 @@ public class MomokoController{
 	 * Verifies current-user
 	 */
 	@PostMapping("/users/{id}/verification")
-	public UsuarioDTO<Integer> verifyUser(
+	public @ResponseBody UsuarioDTO<Integer> verifyUser(
 			@PathVariable Integer id,
 			@RequestParam String code,
 			HttpServletResponse response) {
@@ -143,7 +142,7 @@ public class MomokoController{
 	 * Resets password after it's forgotten
 	 */
 	@PostMapping("/reset-password")
-	public UsuarioDTO<Integer> resetPassword(
+	public @ResponseBody UsuarioDTO<Integer> resetPassword(
 			@RequestBody ResetPasswordForm form,
 			HttpServletResponse response) {
 		
@@ -158,7 +157,7 @@ public class MomokoController{
 	 * Fetches a user by email
 	 */
 	@PostMapping("/users/fetch-by-email")
-	public UsuarioEntity fetchUserByEmail(@RequestParam String email) {
+	public @ResponseBody UsuarioEntity fetchUserByEmail(@RequestParam String email) {
 		
 		log.debug("Fetching user by email: " + email);						
 		return momokoService.fetchUserByEmail(email);
@@ -169,7 +168,7 @@ public class MomokoController{
 	 * Fetches a user by ID
 	 */	
 	@GetMapping("/users/{id}")
-	public UsuarioEntity fetchUserById(@PathVariable("id") UsuarioEntity user) {
+	public @ResponseBody UsuarioEntity fetchUserById(@PathVariable("id") UsuarioEntity user) {
 		
 		log.debug("Fetching user: " + user);				
 		return momokoService.processUser(user);
@@ -180,7 +179,7 @@ public class MomokoController{
 	 * Updates a user
 	 */
 	@PatchMapping("/users/{id}")
-	public UsuarioDTO<Integer> updateUser(
+	public @ResponseBody UsuarioDTO<Integer> updateUser(
 			@PathVariable("id") UsuarioEntity user,
 			@RequestBody String patch,
 			HttpServletResponse response)
@@ -234,7 +233,7 @@ public class MomokoController{
 	 * Changes the email
 	 */
 	@PostMapping("/users/{userId}/email")
-	public UsuarioDTO<Integer> changeEmail(
+	public @ResponseBody UsuarioDTO<Integer> changeEmail(
 			@PathVariable Integer userId,
 			@RequestParam String code,
 			HttpServletResponse response) {
@@ -251,7 +250,7 @@ public class MomokoController{
 	 * Fetch a new token - for session sliding, switch user etc.
 	 */
 	@PostMapping("/fetch-new-auth-token")
-	public Map<String, String> fetchNewToken(
+	public @ResponseBody Map<String, String> fetchNewToken(
 			@RequestParam Optional<Long> expirationMillis,
 			@RequestParam Optional<String> username,
 			HttpServletResponse response) {

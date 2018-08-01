@@ -29,7 +29,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(status().is(422))
 				.andExpect(jsonPath("$.errors[*].field").value(hasSize(4)))
 				.andExpect(jsonPath("$.errors[*].field").value(hasItems(
-					"user.email", "user.password", "user.name")));
+					"user.email", "user.password", "user.usuarioLogin")));
 
 		verify(mailSender, never()).send(any());
 	}
@@ -44,9 +44,9 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.content(MomokoUtils.toJson(user)))
 				.andExpect(status().is(201))
 				.andExpect(header().string(LecUtils.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.id").exists())
+				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.username").value("user.foo@example.com"))
+				.andExpect(jsonPath("$.usuarioEmail").value("user.foo@example.com"))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
 				.andExpect(jsonPath("$.tag.name").value("UsuarioEntity Foo"))

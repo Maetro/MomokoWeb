@@ -1,5 +1,5 @@
 [
-  {"op": "replace", "path": "/name", "value": "Edited name"},
+  {"op": "replace", "path": "/usuarioLogin", "value": "Edited name"},
   {"op": "replace", "path": "/email", "value": "should.not@get.replaced"},
   {"op": "replace", "path": "/roles", "value": ["ADMIN"]},
   {"op": "replace", "path": "/version", "value": 1}  

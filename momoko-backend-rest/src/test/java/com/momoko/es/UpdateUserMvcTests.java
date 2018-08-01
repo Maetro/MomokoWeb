@@ -67,7 +67,7 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
-				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL));
+				.andExpect(jsonPath("$.usuarioEmail").value(UNVERIFIED_USER_EMAIL));
 		
 		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
 		
@@ -101,11 +101,11 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
 				.content(userPatch))
 				.andExpect(status().is(200))
 				.andExpect(header().string(LecUtils.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.id").value(UNVERIFIED_USER_ID))
+				.andExpect(jsonPath("$.userId").value(UNVERIFIED_USER_ID))
 				.andExpect(jsonPath("$.tag.name").value(UPDATED_NAME))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("ADMIN"))
-				.andExpect(jsonPath("$.username").value(UNVERIFIED_USER_EMAIL));
+				.andExpect(jsonPath("$.usuarioEmail").value(UNVERIFIED_USER_EMAIL));
 		
 		UsuarioEntity user = usuarioRepository.findById(UNVERIFIED_USER_ID).get();
     	

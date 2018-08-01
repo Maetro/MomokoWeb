@@ -94,6 +94,6 @@ public abstract class AbstractMvcTests {
 		mvc.perform(get("/api/core/context")
 				.header(LecUtils.TOKEN_REQUEST_HEADER_NAME, token))
 				.andExpect(status().is(200))
-				.andExpect(jsonPath("$.user.id").value(UNVERIFIED_USER_ID));
+				.andExpect(jsonPath("$.user.userId").value(UNVERIFIED_USER_ID));
 	}
 }

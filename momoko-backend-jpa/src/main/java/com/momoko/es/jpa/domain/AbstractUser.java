@@ -61,15 +61,16 @@ public class AbstractUser extends VersionedEntity {
 	public final boolean hasRole(String role) {
 		return roles.contains(role);
 	}	
-	
+
 	/**
 	 * Called by spring security permission evaluator
 	 * to check whether the current-user has the given permission
-	 * on this entity. 
+	 * on this entity.
 	 */
-	public boolean hasPermission(UserDto<?> currentUser, String permission) {
-		
-		return UserUtils.hasPermission(getId(), currentUser, permission);		
+	@Override
+	public boolean hasPermission(UsuarioDTO<Integer> currentUser, String permission) {
+
+		return UserUtils.hasPermission(getId(), currentUser, permission);
 	}
 
 	

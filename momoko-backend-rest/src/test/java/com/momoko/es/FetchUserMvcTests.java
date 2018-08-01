@@ -22,7 +22,7 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.email").doesNotExist())
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.credentialsUpdatedAt").doesNotExist())
-				.andExpect(jsonPath("$.name").value("Admin 1"));
+				.andExpect(jsonPath("$.usuarioLogin").value("Admin 1"));
 	}
 
 	@Test
@@ -36,7 +36,7 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.email").value(ADMIN_EMAIL))
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.credentialsUpdatedAt").doesNotExist())
-				.andExpect(jsonPath("$.name").value("Admin 1"));
+				.andExpect(jsonPath("$.usuarioLogin").value("Admin 1"));
 		
 		// Another user logged in
 		mvc.perform(get("/api/core/users/{id}", ADMIN_ID)
@@ -70,7 +70,7 @@ public class FetchUserMvcTests extends AbstractMvcTests {
 				.andExpect(jsonPath("$.id").value(ADMIN_ID))
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.credentialsUpdatedAt").doesNotExist())
-				.andExpect(jsonPath("$.name").value("Admin 1"));
+				.andExpect(jsonPath("$.usuarioLogin").value("Admin 1"));
 	}
 
 	@Test

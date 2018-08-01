@@ -1,6 +1,7 @@
 package com.momoko.es.commons.util;
 
 import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -43,7 +44,7 @@ public class UserUtils {
 	public interface SignupInput {
 	}
 
-	public static <ID> boolean hasPermission(ID id, UserDto<?> currentUser, String permission) {
+	public static <ID> boolean hasPermission(Integer id, UsuarioDTO<Integer> currentUser, String permission) {
 
 		log.debug("Computing " + permission + " permission for User " + id + "\n  Logged in user: " + currentUser);
 
@@ -52,7 +53,7 @@ public class UserUtils {
 			if (currentUser == null)
 				return false;
 
-			boolean isSelf = currentUser.getId().equals(id);
+			boolean isSelf = currentUser.getUserId().equals(id);
 			return isSelf || currentUser.isGoodAdmin(); // self or admin;
 		}
 

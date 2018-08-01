@@ -25,7 +25,7 @@ public class LoginMvcTests extends AbstractMvcTests {
                 .header("contentType",  MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(200))
 				.andExpect(header().string(LecUtils.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
-				.andExpect(jsonPath("$.id").value(ADMIN_ID))
+				.andExpect(jsonPath("$.userId").value(ADMIN_ID))
 				.andExpect(jsonPath("$.password").doesNotExist())
 				.andExpect(jsonPath("$.username").value("admin@example.com"))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
@@ -102,7 +102,7 @@ public class LoginMvcTests extends AbstractMvcTests {
 		mvc.perform(get("/api/core/context")
 				.header(LecUtils.TOKEN_REQUEST_HEADER_NAME, tokens.get(ADMIN_ID)))
 				.andExpect(status().is(200))
-				.andExpect(jsonPath("$.user.id").value(ADMIN_ID));
+				.andExpect(jsonPath("$.user.userId").value(ADMIN_ID));
 	}
 
 	@Test

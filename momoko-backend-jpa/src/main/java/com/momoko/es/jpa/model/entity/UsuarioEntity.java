@@ -1,11 +1,18 @@
 package com.momoko.es.jpa.model.entity;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.momoko.es.commons.security.UserDto;
+import com.momoko.es.commons.security.UsuarioDTO;
+import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.jpa.domain.AbstractUser;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +20,16 @@ import java.util.List;
 @Table(name = "usuario")
 public class UsuarioEntity extends AbstractUser{
 
+    public static final int NAME_MIN = 1;
+    public static final int NAME_MAX = 50;
+
     private Integer usuarioId;
 
     /** The usuario login. */
+    @JsonView(UserUtils.SignupInput.class)
+    @NotBlank(message = "{blank.name}", groups = {UserUtils.SignUpValidation.class, UserUtils.UpdateValidation.class})
+    @Size(min=NAME_MIN, max=NAME_MAX, groups = {UserUtils.SignUpValidation.class, UserUtils.UpdateValidation.class})
+    @Column(nullable = false, length = NAME_MAX)
     private String usuarioLogin;
 
     /** The usuario contrasena. */
@@ -96,7 +110,7 @@ public class UsuarioEntity extends AbstractUser{
     public UsuarioEntity(String email, String password, String login) {
         this.email = email;
         this.password = password;
-        this.usuarioLogin = usuarioLogin;
+        this.usuarioLogin = login;
     }
 
     /**
@@ -660,6 +674,59 @@ public class UsuarioEntity extends AbstractUser{
                 .append("usuarioClaveActivacion", this.usuarioClaveActivacion)
                 .append("usuarioStatus", this.usuarioStatus).append("usuarioNombreVisible", this.usuarioNombreVisible)
                 .append("usuarioRolId", this.usuarioRolId).toString();
+    }
+
+    @Override
+    public Tag toTag() {
+
+        Tag tag = new Tag();
+        tag.setName(usuarioLogin);
+        return tag;
+    }
+
+    /**
+     * Makes a User DTO
+     */
+    @Override
+    public UsuarioDTO toUserDto() {
+
+        UsuarioDTO userDto = new UsuarioDTO();
+
+        userDto.setUsuarioId(getId());
+        userDto.setUserId(getId());
+        userDto.setUsername(email);
+        userDto.setUsuarioEmail(email);
+        userDto.setPassword(password);
+        userDto.setRoles(roles);
+        userDto.setTag(toTag());
+
+        boolean unverified = hasRole(UserUtils.Role.UNVERIFIED);
+        boolean blocked = hasRole(UserUtils.Role.BLOCKED);
+        boolean admin = hasRole(UserUtils.Role.ADMIN);
+        boolean goodUser = !(unverified || blocked);
+        boolean goodAdmin = goodUser && admin;
+
+        userDto.setAdmin(admin);
+        userDto.setBlocked(blocked);
+        userDto.setGoodAdmin(goodAdmin);
+        userDto.setGoodUser(goodUser);
+        userDto.setUnverified(unverified);
+
+        return userDto;
+    }
+
+    public static class Tag implements Serializable {
+
+        private static final long serialVersionUID = -2129078111926834670L;
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 
 }

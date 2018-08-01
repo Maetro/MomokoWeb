@@ -56,10 +56,12 @@ public final class EntityToDTOAdapter {
      */
     public static UsuarioDTO adaptarUsuario(final UsuarioEntity nuevoUsuario) {
         final UsuarioDTO usuario = new UsuarioDTO();
-        usuario.setUsuarioId(nuevoUsuario.getUsuarioId());
+        usuario.setUsuarioId(nuevoUsuario.getId());
+        usuario.setUserId(nuevoUsuario.getId());
         usuario.setUsuarioLogin(nuevoUsuario.getUsuarioLogin());
 
-
+        usuario.setUserId(nuevoUsuario.getId());
+        usuario.setUsuarioId(nuevoUsuario.getId());
         usuario.setUsername(nuevoUsuario.getEmail());
         usuario.setPassword(nuevoUsuario.getPassword());
         usuario.setRoles(nuevoUsuario.getRoles());
