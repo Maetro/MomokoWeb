@@ -4,3 +4,10 @@
 *.iml
 momoko-checker/.settings/org.eclipse.wst.common.project.facet.core.xml
 momoko-checker/.settings/org.springframework.ide.eclipse.prefs
+*.classpath
+momoko-backend-commons/.settings/
+*.project
+momoko-backend-exceptions/.settings/
+momoko-backend-jpa/.settings/
+momoko-backend-rest/.settings/
+*.factorypath
