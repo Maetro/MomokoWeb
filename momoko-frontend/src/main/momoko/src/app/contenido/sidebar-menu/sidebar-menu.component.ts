@@ -3,7 +3,9 @@ import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterView
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
+import { isPlatformBrowser } from '@angular/common';
 import { APP_DATA } from '../../app-load/app-data';
+
 
 declare var $: any;
 
@@ -33,7 +35,9 @@ export class SidebarMenuComponent implements OnInit {
 
   ngOnInit() {
     this.menu = APP_DATA.menu;
-    this.maxheight = screen.availHeight;
+    if (isPlatformBrowser(this.platformId)) {
+      this.maxheight = screen.availHeight;
+    }
   }
 
   buscarResultados() {
