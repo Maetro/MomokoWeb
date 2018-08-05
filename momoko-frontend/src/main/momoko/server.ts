@@ -14,7 +14,7 @@ enableProdMode();
 // Express server
 const app = express();
 
-// const ROOT = path.join(path.resolve(__dirname, '..'));
+const ROOT = path.join(path.resolve(__dirname, '..'));
 const PORT = process.env.PORT || 4000;
 const DIST_FOLDER = join(process.cwd(), 'dist');
 
@@ -60,14 +60,14 @@ app.get(
 );
 
 
-// function cacheControl(req, res, next) {
-//   // instruct browser to revalidate in 60 seconds
-//   res.header('Cache-Control', 'max-age=60');
-//   next();
-// }
+function cacheControl(req, res, next) {
+  // instruct browser to revalidate in 60 seconds
+  res.header('Cache-Control', 'max-age=60');
+  next();
+}
 
-// app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
-// app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
+app.use('/assets', cacheControl, express.static(path.join(__dirname, 'assets'), {maxAge: 30}));
+app.use(cacheControl, express.static(path.join(ROOT, 'dist/client'), {index: false}));
 
 const cache = {};
 
@@ -97,7 +97,7 @@ function ngApp(req, res) {
     async: false,
     baseUrl: baseUrl,
     requestUrl: req.originalUrl,
-    originUrl: `http://localhost:3000`
+    originUrl: `http://localhost:${PORT}`
   },(err, html) => {
     cache[url] = [Date.now()+180000,html];
     res.status(200).send(html);
