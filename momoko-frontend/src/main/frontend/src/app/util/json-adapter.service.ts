@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Libro } from 'app/dtos/libro';
-import { Editorial } from 'app/dtos/editorial';
-import { Autor } from 'app/dtos/autor';
-import { Genero } from 'app/dtos/genero';
+import { Libro } from '../dtos/libro';
+import { Editorial } from '../dtos/editorial';
+import { Autor } from '../dtos/autor';
+import { Genero } from '../dtos/genero';
 import { environment } from 'environments/environment';
 
 @Injectable()

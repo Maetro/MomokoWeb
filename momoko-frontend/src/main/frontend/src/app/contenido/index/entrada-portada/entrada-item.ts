@@ -1,4 +1,4 @@
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { Type } from '@angular/core';
 
 export class EntradaItem {

@@ -1,4 +1,4 @@
-import { Entrada } from 'app/dtos/entrada';
+import { Entrada } from '../entrada';
 
 export class GuardarEntradaResponse {
   estadoGuardado: string;

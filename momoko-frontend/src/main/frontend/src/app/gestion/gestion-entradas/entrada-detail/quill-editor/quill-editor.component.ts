@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Columna } from 'app/gestion/gestion-entradas/columna';
+import { Columna } from '../../columna';
 
 @Component({
   selector: 'app-quill-editor',

@@ -6,15 +6,14 @@
  */
 package com.momoko.es.jpa.model.entity;
 
+import com.momoko.es.jpa.model.entity.filter.FilterBook;
+import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The Class LibroEntity.
@@ -92,6 +91,13 @@ public class LibroEntity {
 
     @ManyToMany(mappedBy = "librosEntrada")
     private List<EntradaEntity> entradas;
+
+    @OneToMany(
+            mappedBy = "book",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<FilterBook> filters = new ArrayList<>();
 
     /** The usuario alta. */
     private String usuarioAlta;
@@ -609,6 +615,27 @@ public class LibroEntity {
      */
     public void setUrlAntigua(final String urlAntigua) {
         this.urlAntigua = urlAntigua;
+    }
+
+    public void addFilter(FilterEntity filter) {
+        FilterBook filterBook = new FilterBook(filter, this);
+        filters.add(filterBook);
+        filter.getFilterBooks().add(filterBook);
+    }
+
+    public void removeFilter(FilterEntity filter) {
+        for (Iterator<FilterBook> iterator = filters.iterator();
+             iterator.hasNext(); ) {
+            FilterBook filterBook = iterator.next();
+
+            if (filterBook.getBook().equals(this) &&
+                    filterBook.getFilter().equals(filter)) {
+                iterator.remove();
+                filterBook.getFilter().getFilterBooks().remove(filterBook);
+                filterBook.setBook(null);
+                filterBook.setFilter(null);
+            }
+        }
     }
 
     /*

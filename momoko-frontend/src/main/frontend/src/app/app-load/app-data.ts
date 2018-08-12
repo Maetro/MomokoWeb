@@ -1,4 +1,4 @@
-import { InitData } from 'app/dtos/initData';
+import { InitData } from '../dtos/initData';
 
 export let APP_DATA = new InitData;
 

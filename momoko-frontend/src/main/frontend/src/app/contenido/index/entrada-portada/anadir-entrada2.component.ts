@@ -1,7 +1,7 @@
 import { Component, AfterViewInit, OnDestroy, Input, ViewChild, ComponentFactoryResolver } from '@angular/core';
-import { EntradaItem } from 'app/contenido/index/entrada-portada/entrada-item';
-import { AnadirEntradaDirective } from 'app/contenido/index/entrada-portada/anadir-entrada.directive';
-import { EntradaPortada } from 'app/contenido/index/entrada-portada/entrada-portada.model';
+import { EntradaItem } from './entrada-item';
+import { AnadirEntradaDirective } from './anadir-entrada.directive';
+import { EntradaPortada } from './entrada-portada.model';
 
 @Component({
   selector: 'app-anadir-entrada2',

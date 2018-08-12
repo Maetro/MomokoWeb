@@ -1,7 +1,7 @@
-import { Etiqueta } from './../etiqueta';
-import { LibroSimple } from 'app/dtos/libroSimple';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { Categoria } from 'app/dtos/categoria';
+import { Etiqueta } from '../etiqueta';
+import { LibroSimple } from '../libroSimple';
+import { EntradaSimple } from '../entradaSimple';
+import { Categoria } from '../categoria';
 
 export class ObtenerPaginaEtiquetaResponse {
 

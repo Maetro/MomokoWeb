@@ -1,6 +1,6 @@
 
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { Categoria } from 'app/dtos/categoria';
+import { EntradaSimple } from '../entradaSimple';
+import { Categoria } from '../categoria';
 
 export class ObtenerPaginaCategoriaResponse {
 

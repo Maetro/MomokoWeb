@@ -1,7 +1,7 @@
-import { GaleriaService } from './../../../services/galeria.service';
-import { UtilService } from './../../../services/util.service';
+import { GaleriaService } from '../../../services/galeria.service';
+import { UtilService } from '../../../services/util.service';
 
-import { Etiqueta } from 'app/dtos/etiqueta';
+import { Etiqueta } from '../../../dtos/etiqueta';
 import {
   Component,
   OnInit,
@@ -10,16 +10,16 @@ import {
   EventEmitter,
   ViewChild
 } from '@angular/core';
-import { Entrada } from 'app/dtos/entrada';
-import { EntradaService } from 'app/services/entrada.service';
+import { Entrada } from '../../../dtos/entrada';
+import { EntradaService } from '../../../services/entrada.service';
 
 import { Message, Dropdown } from 'primeng/primeng';
-import { GeneralDataService } from 'app/services/general-data.service';
+import { GeneralDataService } from '../../../services/general-data.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
 
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { Libro } from 'app/dtos/libro';
-import { Galeria } from 'app/dtos/galeria';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { Libro } from '../../../dtos/libro';
+import { Galeria } from '../../../dtos/galeria';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { environment } from 'environments/environment';
 
@@ -27,8 +27,8 @@ declare var Quill: any;
 declare var $: any;
 
 import { ImageResize } from 'quill-image-resize-module';
-import { Fila } from 'app/gestion/gestion-entradas/fila';
-import { Columna } from 'app/gestion/gestion-entradas/columna';
+import { Fila } from '../fila';
+import { Columna } from '../columna';
 import { Event } from '@angular/router/src/events';
 const Parchment = Quill.import('parchment');
 Quill.register('imageResize', ImageResize);

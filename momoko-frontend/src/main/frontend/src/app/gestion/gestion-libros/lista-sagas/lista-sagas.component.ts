@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Saga } from 'app/dtos/saga';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { SagaService } from 'app/services/saga.service';
-import { UtilService } from 'app/services/util.service';
+import { Saga } from '../../../dtos/saga';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { SagaService } from '../../../services/saga.service';
+import { UtilService } from '../../../services/util.service';
 
 @Component({
   selector: 'app-lista-sagas',

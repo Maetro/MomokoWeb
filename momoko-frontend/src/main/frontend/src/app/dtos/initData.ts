@@ -1,4 +1,4 @@
-import { Menu } from 'app/dtos/menu';
+import { Menu } from './menu';
 
 export class InitData {
   menu: Menu[];

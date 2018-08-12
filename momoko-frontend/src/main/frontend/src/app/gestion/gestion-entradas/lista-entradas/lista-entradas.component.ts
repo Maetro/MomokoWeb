@@ -1,19 +1,19 @@
-import { Etiqueta } from 'app/dtos/etiqueta';
-import { EntradaDetailComponent } from './../entrada-detail/entrada-detail.component';
-import { Entrada } from 'app/dtos/entrada';
+import { Etiqueta } from '../../../dtos/etiqueta';
+import { EntradaDetailComponent } from '../entrada-detail/entrada-detail.component';
+import { Entrada } from '../../../dtos/entrada';
 import { Component, OnInit, ViewChild } from '@angular/core';
 
-import { EntradaService } from 'app/services/entrada.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { EntradaService } from '../../../services/entrada.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 
 declare var Quill: any;
 declare var $: any;
 
 import { ImageResize } from 'quill-image-resize-module';
 import { environment } from 'environments/environment';
-import { Fila } from 'app/gestion/gestion-entradas/fila';
-import { Columna } from 'app/gestion/gestion-entradas/columna';
+import { Fila } from '../fila';
+import { Columna } from '../columna';
 const Parchment = Quill.import('parchment');
 Quill.register('imageResize', ImageResize);
 

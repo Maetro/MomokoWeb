@@ -1,10 +1,10 @@
-import { EntradaService } from 'app/services/entrada.service';
+import { EntradaService } from '../entrada.service';
 import { Injectable } from '@angular/core';
 import { Resolve, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
-import { Entrada } from 'app/dtos/entrada';
+import { Entrada } from '../../dtos/entrada';
 import { Observable } from 'rxjs/Observable';
-import { VideoService } from 'app/services/video.service';
-import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
+import { VideoService } from '../video.service';
+import { ObtenerEntradaResponse } from '../../dtos/response/obtenerEntradaResponse';
 import { environment } from 'environments/environment';
 
 @Injectable()

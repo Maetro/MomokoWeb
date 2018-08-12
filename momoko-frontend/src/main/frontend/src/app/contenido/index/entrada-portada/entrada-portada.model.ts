@@ -1,4 +1,4 @@
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 
 export interface EntradaPortada {
 

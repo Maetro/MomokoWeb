@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { environment } from 'environments/environment';
 
 declare var $: any;

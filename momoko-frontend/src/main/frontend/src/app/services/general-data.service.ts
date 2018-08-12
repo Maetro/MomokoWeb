@@ -2,7 +2,7 @@
 import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { GeneralDataResponse } from './interfaces/GeneralDataResponse';
 
@@ -29,7 +29,7 @@ export class GeneralDataService {
     }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     this.resultados = this.http.get(this.informacionGeneralUrl, { headers: headers })
       .map(this.extractData)

@@ -1,17 +1,17 @@
 import { Component, Input, Output, OnInit, EventEmitter, OnChanges, SimpleChange, style } from '@angular/core';
-import { Libro } from './../../../dtos/libro';
-import { Genero } from './../../../dtos/genero';
-import { LibroService } from './../../../services/libro.service';
-import { FileUploadService } from './../../../services/fileUpload.service';
-import { GeneralDataService } from './../../../services/general-data.service';
+import { Libro } from '../../../dtos/libro';
+import { Genero } from '../../../dtos/genero';
+import { LibroService } from '../../../services/libro.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { GeneralDataService } from '../../../services/general-data.service';
 
 import { MultiSelectModule } from 'primeng/primeng';
 import { Message } from 'primeng/components/common/api';
 import { GrowlModule } from 'primeng/primeng';
 import { SelectItem } from 'primeng/primeng';
 import { CompleterService, CompleterData } from 'ng2-completer';
-import { UtilService } from 'app/services/util.service';
-import { Autor } from 'app/dtos/autor';
+import { UtilService } from '../../../services/util.service';
+import { Autor } from '../../../dtos/autor';
 import { environment } from 'environments/environment';
 
 @Component({

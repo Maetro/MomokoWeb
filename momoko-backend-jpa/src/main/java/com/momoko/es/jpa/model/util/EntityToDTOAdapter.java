@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.momoko.es.commons.util.UserUtils;
+import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
@@ -556,7 +557,7 @@ public final class EntityToDTOAdapter {
      * @return the list
      */
     public static List<GaleriaDTO> adaptarGalerias(final List<GaleriaEntity> galerias) {
-        final List<GaleriaDTO> listaDTO = new ArrayList<GaleriaDTO>();
+        final List<GaleriaDTO> listaDTO = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(galerias)) {
             for (final GaleriaEntity galeriaEntity : galerias) {
                 final GaleriaDTO galeriaDTO = adaptarGaleria(galeriaEntity);
@@ -565,5 +566,33 @@ public final class EntityToDTOAdapter {
         }
         return listaDTO;
     }
+
+    public static List<com.momoko.es.api.dto.filter.FilterDTO> adaptFilters(Set<FilterEntity> filterEntities) {
+        List<com.momoko.es.api.dto.filter.FilterDTO> filterDTO = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(filterEntities)){
+            for (FilterEntity filterEntity : filterEntities) {
+                filterDTO.add(adaptFilter(filterEntity));
+            }
+        }
+        return filterDTO;
+
+    }
+
+    public static com.momoko.es.api.dto.filter.FilterDTO adaptFilter(FilterEntity filterEntity) {
+        com.momoko.es.api.dto.filter.FilterDTO filterDTO = new com.momoko.es.api.dto.filter.FilterDTO();
+        if (filterEntity.getPossibleValues() != null) {
+            filterDTO.setPossibleValues(ConversionUtils.divide(filterEntity.getPossibleValues(), ";"));
+        }
+        if (CollectionUtils.isNotEmpty(filterEntity.getApplicableGenres())){
+            filterDTO.setGenres(EntityToDTOAdapter.adaptarGeneros(filterEntity.getApplicableGenres()));
+        }
+        filterDTO.setFilterType(filterEntity.getType());
+        filterDTO.setReferencedProperty(filterEntity.getReferencedProperty());
+        filterDTO.setNameFilter(filterEntity.getNameFilter());
+        filterDTO.setUrlFilter(filterEntity.getUrlFilter());
+        filterDTO.setFilterId(filterEntity.getFilterId());
+        return filterDTO;
+    }
+
 
 }

@@ -1,4 +1,4 @@
-import { Galeria } from 'app/dtos/galeria';
+import { Galeria } from '../galeria';
 
 export class GuardarGaleriaResponse {
   estadoGuardado: string;

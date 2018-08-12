@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { EntradaSimple } from '../../dtos/entradaSimple';
 import { environment } from 'environments/environment';
 
 @Component({

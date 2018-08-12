@@ -1,4 +1,4 @@
-import { SuscripcionService } from './../services/suscripcion.service';
+import { SuscripcionService } from '../services/suscripcion.service';
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { environment } from 'environments/environment';
 

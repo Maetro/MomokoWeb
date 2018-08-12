@@ -14,6 +14,8 @@ public class UserUtils {
 	public static final int UUID_LENGTH = 36;
 	public static final int PASSWORD_MAX = 50;
 	public static final int PASSWORD_MIN = 6;
+	public static final int URL_MIN = 3;
+	public static final int URL_MAX = 100;
 
 	/**
 	 * Role constants. To allow extensibility, this couldn't be made an enum
@@ -59,4 +61,6 @@ public class UserUtils {
 
 		return false;
 	}
+
+	
 }

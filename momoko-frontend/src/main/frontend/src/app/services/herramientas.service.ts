@@ -18,7 +18,7 @@ export class HerramientasService {
   getUrlsEntradas(): Observable<EntradaUrl[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      Authorization: 'Bearer ' + Cookie.get('access_token')
+      Authorization: Cookie.get('access_token')
     });
     return this.http
       .get<EntradaUrl[]>(this.getEntradasUrl, { headers: headers })

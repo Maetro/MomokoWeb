@@ -1,10 +1,10 @@
-import { UtilService } from 'app/services/util.service';
-import { environment } from './../../environments/environment';
+import { UtilService } from './util.service';
+import { environment } from 'environments/environment';
 import { Injectable, OnInit } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { Headers, RequestOptions } from '@angular/http';
 
-import { Observable } from 'rxjs/Rx';
+import { Observable } from 'rxjs';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -49,7 +49,7 @@ export class FileUploadService {
           headersF.append('Accept', 'application/json');
           headersF.append(
             'Authorization',
-            'Bearer ' + Cookie.get('access_token')
+            Cookie.get('access_token')
           );
           const optionsF = new RequestOptions({ headers: headersF });
           this.http
@@ -73,7 +73,7 @@ export class FileUploadService {
       formData.append('tipoSubida', tipoSubida);
       const headers = new Headers();
       headers.append('Accept', 'application/json');
-      headers.append('Authorization', 'Bearer ' + Cookie.get('access_token'));
+      headers.append('Authorization', Cookie.get('access_token'));
       const options = new RequestOptions({ headers: headers });
       return this.http
         .post(this.uploadUrl, formData, options)

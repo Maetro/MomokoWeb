@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IndexData } from 'app/dtos/indexData';
+import { IndexData } from '../dtos/indexData';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
-import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResponse';
+import { ObtenerIndexDataResponse } from '../dtos/response/obtenerIndexDataResponse';
 
 @Injectable()
 export class IndexDataService {

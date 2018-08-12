@@ -1,4 +1,4 @@
-import { Libro } from 'app/dtos/libro';
+import { Libro } from '../libro';
 
 export class GuardarLibroResponse {
   estadoGuardado: string

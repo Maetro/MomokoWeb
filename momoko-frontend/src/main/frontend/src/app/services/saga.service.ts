@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from './../../environments/environment';
+import { environment } from 'environments/environment';
 import { Cookie } from 'ng2-cookies';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Saga } from 'app/dtos/saga';
-import { GuardarSagaResponse } from 'app/dtos/response/guardarSagaResponse';
+import { Saga } from '../dtos/saga';
+import { GuardarSagaResponse } from '../dtos/response/guardarSagaResponse';
 
 @Injectable()
 export class SagaService {
@@ -22,7 +22,7 @@ export class SagaService {
   getSagas(): Observable<Saga[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     if (this.log) {
       console.log(Cookie.get('access_token'));
@@ -47,7 +47,7 @@ export class SagaService {
   guardarSaga(saga: Saga): Observable<GuardarSagaResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
 
     return this.http

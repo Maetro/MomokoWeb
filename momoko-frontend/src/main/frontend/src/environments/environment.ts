@@ -21,7 +21,7 @@ export const environment = {
   addGeneroUrl: 'http://localhost:5000/modelo/generos/add',
   informacionGeneralUrl: 'http://localhost:5000/modelo/informacionGeneral',
   singUpURL: 'http://localhost:5000/account/signup',
-  oauthTokenUrl: 'http://localhost:5000/oauth/token',
+  oauthTokenUrl: 'http://localhost:5000/api/core/login',
   accountTokenUrl: 'http://localhost:5000/account/token',
   getEntradaUrl: 'http://localhost:5000/public/entrada/',
   getEntradaAdminUrl: 'http://localhost:5000/modelo/entrada/',
@@ -45,5 +45,8 @@ export const environment = {
   addRedactorUrl: 'http://localhost:5000/modelo/redactor/add',
   editorialesUrl: 'http://localhost:5000/modelo/editoriales',
   addEditorialUrl: 'http://localhost:5000/modelo/editorial/add',
-  getEntradasUrl: 'http://localhost:5000/modelo/entradasUrls'
+  getEntradasUrl: 'http://localhost:5000/modelo/entradasUrls',
+  filtersUrl: 'http://localhost:5000/modelo/filter/',
+  addFilterUrl: 'http://localhost:5000/modelo/filter/add',
+  getFilter: 'http://localhost:5000/modelo/filter/',
 };

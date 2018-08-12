@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ClasificadorService } from 'app/services/clasificador.service';
+import { ClasificadorService } from '../clasificador.service';
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
-import { ObtenerPaginaGeneroResponse } from 'app/dtos/response/obtenerPaginaGeneroResponse';
-import { ObtenerPaginaCategoriaResponse } from 'app/dtos/response/obtenerPaginaCategoriaResponse';
+import { ObtenerPaginaGeneroResponse } from '../../dtos/response/obtenerPaginaGeneroResponse';
+import { ObtenerPaginaCategoriaResponse } from '../../dtos/response/obtenerPaginaCategoriaResponse';
 import { environment } from 'environments/environment';
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Galeria } from 'app/dtos/galeria';
-import { GaleriaService } from 'app/services/galeria.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { GaleriaDetailComponent } from 'app/gestion/gestion-galerias/galeria-detail/galeria-detail.component';
+import { Galeria } from '../../../dtos/galeria';
+import { GaleriaService } from '../../../services/galeria.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { GaleriaDetailComponent } from '../galeria-detail/galeria-detail.component';
 import { environment } from 'environments/environment';
 
 @Component({

@@ -1,12 +1,12 @@
-import { PlantillaComentarioComponent } from 'app/contenido/analisis/plantilla-comentario/plantilla-comentario.component';
-import { Comentario } from 'app/dtos/comentario';
+import { PlantillaComentarioComponent } from '../plantilla-comentario/plantilla-comentario.component';
+import { Comentario } from '../../../dtos/comentario';
 import { Component, OnInit, Input, ElementRef, ViewChild, Renderer2 } from '@angular/core';
-import { ComentarioRequest } from 'app/dtos/request/comentarioRequest';
+import { ComentarioRequest } from '../../../dtos/request/comentarioRequest';
 import { NgForm } from '@angular/forms';
 import { Message } from 'primeng/components/common/api';
 import { GrowlModule } from 'primeng/primeng';
-import { ComentariosService } from 'app/services/comentarios.service';
-import { Entrada } from 'app/dtos/entrada';
+import { ComentariosService } from '../../../services/comentarios.service';
+import { Entrada } from '../../../dtos/entrada';
 import { ScrollToService } from 'ng2-scroll-to-el';
 import { environment } from 'environments/environment';
 

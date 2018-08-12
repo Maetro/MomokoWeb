@@ -55,7 +55,7 @@ public class CheckerController {
         //
     }
 
-    // nohup java -jar -Xms64m -Xmx512m -Dspring.profiles.active=server -Dspring.datasource.password=DLlCfAjs1
+    // nohup java -jar -Xms64m -Xmx512m -Dspring.profiles.active=server -Dspring.datasource.password=
     // backend-0.8.1-SNAPSHOT.jar
 
     @Scheduled(fixedRate = 5000)

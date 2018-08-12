@@ -1,4 +1,4 @@
-import { Categoria } from 'app/dtos/categoria';
+import { Categoria } from './categoria';
 
 export class Genero {
   generoId: number;

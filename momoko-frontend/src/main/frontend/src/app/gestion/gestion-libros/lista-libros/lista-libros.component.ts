@@ -1,11 +1,11 @@
 
-import { Editorial } from './../../../dtos/editorial';
+import { Editorial } from '../../../dtos/editorial';
 import { Component, OnInit } from '@angular/core';
-import { Libro } from './../../../dtos/libro';
-import { Genero } from './../../../dtos/genero';
-import { Autor } from './../../../dtos/autor';
-import { LibroService } from './../../../services/libro.service';
-import { FileUploadService } from './../../../services/fileUpload.service';
+import { Libro } from '../../../dtos/libro';
+import { Genero } from '../../../dtos/genero';
+import { Autor } from '../../../dtos/autor';
+import { LibroService } from '../../../services/libro.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
 
 import { DataTableModule, SharedModule } from 'primeng/primeng';
 import { environment } from 'environments/environment';

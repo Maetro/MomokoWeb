@@ -33,11 +33,6 @@ import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
-/**
- * Useful helper methods
- * 
- * @author Sanjay Patel
- */
 public class MomokoUtils {
 	
 	private static final Log log = LogFactory.getLog(MomokoUtils.class);

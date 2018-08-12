@@ -6,37 +6,17 @@
  */
 package com.momoko.es.jpa.model.util;
 
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.commons.security.UsuarioDTO;
+import com.momoko.es.jpa.model.entity.*;
+import com.momoko.es.jpa.model.entity.filter.FilterEntity;
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.commons.collections4.CollectionUtils;
-
-import com.momoko.es.api.dto.AutorDTO;
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.commons.security.UsuarioDTO;
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.jpa.model.entity.AutorEntity;
-import com.momoko.es.jpa.model.entity.CategoriaEntity;
-import com.momoko.es.jpa.model.entity.ComentarioEntity;
-import com.momoko.es.jpa.model.entity.EditorialEntity;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
-import com.momoko.es.jpa.model.entity.EtiquetaEntity;
-import com.momoko.es.jpa.model.entity.GaleriaEntity;
-import com.momoko.es.jpa.model.entity.GenreEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
-import com.momoko.es.jpa.model.entity.SagaEntity;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
 
 /**
  * The Class DTOToEntityAdapter.
@@ -143,7 +123,7 @@ public final class DTOToEntityAdapter {
      *            the libros entrada
      * @return the list
      */
-    private static List<LibroEntity> adaptarLibros(final List<LibroDTO> librosEntrada) {
+    public static List<LibroEntity> adaptarLibros(final List<LibroDTO> librosEntrada) {
 
         final List<LibroEntity> librosEntity = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(librosEntrada)) {
@@ -162,7 +142,7 @@ public final class DTOToEntityAdapter {
      *            the sagas entrada
      * @return the list
      */
-    private static List<SagaEntity> adaptarSagas(final List<SagaDTO> sagasEntrada) {
+    public static List<SagaEntity> adaptarSagas(final List<SagaDTO> sagasEntrada) {
 
         final List<SagaEntity> sagasEntity = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(sagasEntrada)) {
@@ -428,5 +408,32 @@ public final class DTOToEntityAdapter {
         puntuacionEntity.setEsPuntuacionMomoko(puntuacionDTO.isEsPuntuacionMomoko());
         return puntuacionEntity;
     }
+
+
+    public static List<FilterEntity> adaptFilters(Set<com.momoko.es.api.dto.filter.FilterDTO> filterDTOs) {
+        List<FilterEntity> filterEntities = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(filterDTOs)){
+            for (com.momoko.es.api.dto.filter.FilterDTO filterDTO : filterDTOs) {
+                filterEntities.add(adaptFilter(filterDTO));
+            }
+        }
+        return filterEntities;
+
+    }
+
+    public static FilterEntity adaptFilter(com.momoko.es.api.dto.filter.FilterDTO filterDTO) {
+        FilterEntity filterEntity = new FilterEntity();
+        if (CollectionUtils.isNotEmpty(filterDTO.getPossibleValues())) {
+            filterEntity.setPossibleValues(ConversionUtils.join(filterDTO.getPossibleValues()));
+        }
+        filterEntity.setType(filterDTO.getFilterType());
+        filterEntity.setNameFilter(filterDTO.getNameFilter());
+        filterEntity.setReferencedProperty(filterDTO.getReferencedProperty());
+        filterEntity.setUrlFilter(filterDTO.getUrlFilter());
+        filterEntity.setFilterId(filterDTO.getFilterId());
+        return filterEntity;
+    }
+
+
 
 }

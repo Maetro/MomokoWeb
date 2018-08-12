@@ -1,12 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { environment } from 'environments/environment';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { Etiqueta } from 'app/dtos/etiqueta';
-import { ClasificadorService } from 'app/services/clasificador.service';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
+import { Etiqueta } from '../../../dtos/etiqueta';
+import { ClasificadorService } from '../../../services/clasificador.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Title, Meta } from '@angular/platform-browser';
-import { ObtenerPaginaEtiquetaResponse } from 'app/dtos/response/obtenerPaginaEtiquetaResponse';
+import { ObtenerPaginaEtiquetaResponse } from '../../../dtos/response/obtenerPaginaEtiquetaResponse';
 
 @Component({
   selector: 'app-lista-etiqueta',

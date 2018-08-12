@@ -12,10 +12,10 @@ import { ListaGenerosComponent } from './lista-generos/lista-generos.component';
 import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule,
   SharedModule, DropdownModule } from 'primeng/primeng';
 
-import { LibroService } from './../../services/libro.service';
-import { FileUploadService } from './../../services/fileUpload.service';
+import { LibroService } from '../../services/libro.service';
+import { FileUploadService } from '../../services/fileUpload.service';
 import { GeneroDetailComponent } from './genero-detail/genero-detail.component';
-import { JsonAdapterService } from 'app/util/json-adapter.service';
+import { JsonAdapterService } from '../../util/json-adapter.service';
 import { ListaSagasComponent } from './lista-sagas/lista-sagas.component';
 import { SagaService } from '../../services/saga.service';
 import { SagaDetailComponent } from './saga-detail/saga-detail.component';

@@ -1,4 +1,4 @@
-import { Comentario } from 'app/dtos/comentario';
+import { Comentario } from '../comentario';
 
 export class GuardarComentarioResponse {
   estadoGuardado: string;

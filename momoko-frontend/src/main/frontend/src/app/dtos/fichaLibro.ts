@@ -1,6 +1,6 @@
 import { LibroSimple } from './libroSimple';
 import { EntradaSimple } from './entradaSimple';
-import { Libro } from 'app/dtos/libro';
+import { Libro } from './libro';
 
 export class FichaLibro {
   libro: Libro;

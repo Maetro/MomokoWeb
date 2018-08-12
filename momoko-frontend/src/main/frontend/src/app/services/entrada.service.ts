@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Entrada } from 'app/dtos/entrada';
+import { Entrada } from '../dtos/entrada';
 import { HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Observable';
-import { GuardarEntradaResponse } from 'app/dtos/response/guardarEntradaResponse';
-import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { GuardarEntradaResponse } from '../dtos/response/guardarEntradaResponse';
+import { ObtenerEntradaResponse } from '../dtos/response/obtenerEntradaResponse';
+import { EntradaSimple } from '../dtos/entradaSimple';
 
 @Injectable()
 export class EntradaService {
@@ -31,7 +31,7 @@ export class EntradaService {
   getEntradaAdmin(urlEntrada): Observable<Entrada> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, { headers: headers })
       .map(this.obtenerEntrada)
@@ -53,7 +53,7 @@ export class EntradaService {
   getAllEntradas(): Observable<EntradaSimple[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     if (this.log) {
       console.log(Cookie.get('access_token'));
@@ -69,7 +69,7 @@ export class EntradaService {
   guardarEntrada(entrada: Entrada): Observable<GuardarEntradaResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
 
     return this.http

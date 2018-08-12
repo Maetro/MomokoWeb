@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { InfoAdicional } from 'app/dtos/infoAdicional';
+import { InfoAdicional } from '../../../dtos/infoAdicional';
 
 @Component({
   selector: 'app-info-adicional',

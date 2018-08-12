@@ -1,6 +1,6 @@
 import { User } from './user';
 import { Etiqueta } from './etiqueta';
-import { Libro } from 'app/dtos/libro';
+import { Libro } from './libro';
 
 export class Entrada {
   entradaId: number;

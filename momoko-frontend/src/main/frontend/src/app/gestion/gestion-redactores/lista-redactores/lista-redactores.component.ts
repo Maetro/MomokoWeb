@@ -1,11 +1,11 @@
-import { EntradaUrl } from './../../../dtos/entradaurl';
-import { HerramientasService } from './../../../services/herramientas.service';
+import { EntradaUrl } from '../../../dtos/entradaurl';
+import { HerramientasService } from '../../../services/herramientas.service';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Redactor } from 'app/dtos/redactor';
+import { Redactor } from '../../../dtos/redactor';
 import { RedactorDetailComponent } from '../redactor-detail/redactor-detail.component';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { RedactorService } from 'app/services/redactor.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { RedactorService } from '../../../services/redactor.service';
 
 @Component({
   selector: 'app-lista-redactores',

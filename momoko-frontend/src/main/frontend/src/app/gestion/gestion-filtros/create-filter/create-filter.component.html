@@ -1,0 +1,119 @@
+<div class="container">
+  <p-growl [(value)]="msgs"></p-growl>
+  <div class="row">
+      <div class="col-xs-12">
+        <div>
+          <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
+        </div>
+      </div>
+    </div>
+  <div class="form-container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="vanilla vanilla-form" novalidate="novalidate">
+          <div class="row">
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Nombre del filtro: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <label>
+                  <input type="text" [(ngModel)]="filter.nameFilter" (ngModelChange)="changeName($event)" placeholder="Escribe aquí el nombre del filtro"
+                  />
+                </label>
+              </div>
+              <!--/.form-field -->
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Url del filtro: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <label>
+                  <input type="text" [(ngModel)]="filter.urlFilter" placeholder="Escribe aquí la url del filtro" />
+                </label>
+              </div>
+              <!--/.form-field -->
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Tipo de filtro: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <p-dropdown [options]="filterTypes" [(ngModel)]="filterTypeSelected" [style]="{'width':'400px'}"></p-dropdown>
+              </div>
+              <!--/.form-field -->
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Géneros: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <p-multiSelect [options]="genres" [(ngModel)]="filter.genres" optionLabel="nombre" [defaultLabel]="'Todos'" [style]="{'width':'400px'}"></p-multiSelect>
+              </div>
+              <!--/.form-field -->
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Propidad a la que referencian: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+                <p-dropdown [options]="refencedValueOptions" [(ngModel)]="referencedValueSelected" [style]="{'width':'400px'}"></p-dropdown>
+              </div>
+              <!--/.form-field -->
+            </div>
+          </div>
+
+          <div class="row" *ngIf="needToDefineCustomValues()">
+            <div class="col-sm-12 rp10">
+              <div class="form-field">
+                <h4> Valores filtro: </h4>
+              </div>
+            </div>
+            <div class="col-sm-12 lp10">
+              <div class="form-field">
+
+                <p-chips [(ngModel)]="filterValues"></p-chips>
+
+              </div>
+              <!--/.form-field -->
+            </div>
+          </div>
+
+          <div class="col-sm-12 rp10 botonInferior">
+            <div>
+              <input type="submit" class="btn btn-forest" value="Crear filtro" (click)="saveFilter()" data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
+          </div>
+          <footer class="notification-box"></footer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

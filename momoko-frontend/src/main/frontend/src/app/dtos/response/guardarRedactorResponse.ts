@@ -1,4 +1,4 @@
-import { Redactor } from 'app/dtos/redactor';
+import { Redactor } from '../redactor';
 
 
 export class GuardarRedactorResponse {

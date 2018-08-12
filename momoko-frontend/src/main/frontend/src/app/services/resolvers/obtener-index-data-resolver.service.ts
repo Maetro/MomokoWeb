@@ -8,6 +8,7 @@ import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse
 import { ObtenerIndexDataResponse } from 'app/dtos/response/obtenerIndexDataResponse';
 import { IndexDataService } from 'app/services/index-data.service';
 import { environment } from 'environments/environment';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class ObtenerIndexDataResolverService implements Resolve<ObtenerIndexDataResponse> {

@@ -1,7 +1,7 @@
-import { Editorial } from 'app/dtos/editorial';
-import { Categoria } from './../../../dtos/categoria';
-import { LibroService } from './../../../services/libro.service';
-import { Genero } from './../../../dtos/genero';
+import { Editorial } from '../../../dtos/editorial';
+import { Categoria } from '../../../dtos/categoria';
+import { LibroService } from '../../../services/libro.service';
+import { Genero } from '../../../dtos/genero';
 import {
   Component,
   OnInit,
@@ -11,13 +11,13 @@ import {
   SimpleChange
 } from '@angular/core';
 import { Message } from 'primeng/primeng';
-import { GeneralDataService } from 'app/services/general-data.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
+import { GeneralDataService } from '../../../services/general-data.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
 import { GrowlModule, SelectItem } from 'primeng/primeng';
 
-import { UtilService } from 'app/services/util.service';
+import { UtilService } from '../../../services/util.service';
 import { environment } from 'environments/environment';
-import { EditorialService } from 'app/services/editorial.service';
+import { EditorialService } from '../../../services/editorial.service';
 
 @Component({
   selector: 'app-editorial-detail',

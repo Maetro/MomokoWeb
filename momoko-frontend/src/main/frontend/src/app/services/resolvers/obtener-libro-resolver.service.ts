@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { LibroService } from 'app/services/libro.service';
+import { LibroService } from '../libro.service';
 import { Observable } from 'rxjs/Observable';
-import { FichaLibro } from 'app/dtos/fichaLibro';
+import { FichaLibro } from '../../dtos/fichaLibro';
 import { environment } from 'environments/environment';
 
 @Injectable()

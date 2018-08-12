@@ -1,4 +1,4 @@
-import { Categoria } from 'app/dtos/categoria';
+import { Categoria } from '../../dtos/categoria';
 
 export interface GeneralDataResponse {
   nombresEditoriales: string[];

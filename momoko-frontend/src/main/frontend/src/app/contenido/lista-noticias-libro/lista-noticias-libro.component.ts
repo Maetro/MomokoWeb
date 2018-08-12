@@ -1,9 +1,9 @@
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { Libro } from './../../dtos/libro';
+import { EntradaSimple } from '../../dtos/entradaSimple';
+import { Libro } from '../../dtos/libro';
 import { Component, OnInit } from '@angular/core';
-import { LibroService } from 'app/services/libro.service';
+import { LibroService } from '../../services/libro.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObtenerPaginaLibroNoticiasResponse } from 'app/dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { ObtenerPaginaLibroNoticiasResponse } from '../../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { environment } from 'environments/environment';
 import { Title } from '@angular/platform-browser';
 

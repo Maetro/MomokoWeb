@@ -1,11 +1,11 @@
-import { EntradaSimple } from './../../../dtos/entradaSimple';
-import { LibroSimple } from 'app/dtos/libroSimple';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
+import { LibroSimple } from '../../../dtos/libroSimple';
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Genero } from 'app/dtos/genero';
+import { Genero } from '../../../dtos/genero';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObtenerPaginaGeneroResponse } from 'app/dtos/response/obtenerPaginaGeneroResponse';
-import { ClasificadorService } from 'app/services/clasificador.service';
+import { ObtenerPaginaGeneroResponse } from '../../../dtos/response/obtenerPaginaGeneroResponse';
+import { ClasificadorService } from '../../../services/clasificador.service';
 import { environment } from 'environments/environment';
 import { Title } from '@angular/platform-browser';
 

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Galeria } from 'app/dtos/galeria';
+import { Galeria } from '../dtos/galeria';
 import { Observable } from 'rxjs/Observable';
-import { GuardarGaleriaResponse } from 'app/dtos/response/guardarGaleriaResponse';
+import { GuardarGaleriaResponse } from '../dtos/response/guardarGaleriaResponse';
 import { HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { HttpClient } from '@angular/common/http';
-import { JsonAdapterService } from 'app/util/json-adapter.service';
+import { JsonAdapterService } from '../util/json-adapter.service';
 import { environment } from 'environments/environment';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class GaleriaService {
   guardarGaleria(galeria: Galeria): Observable<GuardarGaleriaResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
       });
     return this.http
       .post(this.addGaleriaUrl, JSON.stringify(galeria), { headers: headers })
@@ -37,7 +37,7 @@ export class GaleriaService {
   getGalerias(): Observable<Galeria[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
       });
     return this.http.get<Galeria[]>(this.galeriasUrl, {headers: headers}).map(this.extractGalerias)
     .catch(error => Observable.throw(error || 'Server error'));

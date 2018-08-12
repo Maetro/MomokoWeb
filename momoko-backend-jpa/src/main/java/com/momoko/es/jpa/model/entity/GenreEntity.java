@@ -6,6 +6,7 @@
  */
 package com.momoko.es.jpa.model.entity;
 
+import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -63,6 +64,9 @@ public class GenreEntity {
     /** The libros autor. */
     @ManyToMany(cascade = CascadeType.MERGE, mappedBy = "generos", fetch = FetchType.LAZY)
     private Set<LibroEntity> librosGenero;
+
+    @ManyToMany(mappedBy = "applicableGenres")
+    private Set<FilterEntity> filters;
 
     /**
      * Gets the genero_id.

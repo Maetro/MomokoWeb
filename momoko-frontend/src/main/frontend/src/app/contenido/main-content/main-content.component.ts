@@ -1,11 +1,11 @@
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { EntradaSimple } from '../../dtos/entradaSimple';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EntradaService } from 'app/services/entrada.service';
+import { EntradaService } from '../../services/entrada.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Entrada } from 'app/dtos/entrada';
-import { LibroSimple } from 'app/dtos/libroSimple';
-import { Comentario } from 'app/dtos/comentario';
-import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
+import { Entrada } from '../../dtos/entrada';
+import { LibroSimple } from '../../dtos/libroSimple';
+import { Comentario } from '../../dtos/comentario';
+import { ObtenerEntradaResponse } from '../../dtos/response/obtenerEntradaResponse';
 import { environment } from 'environments/environment';
 
 @Component({

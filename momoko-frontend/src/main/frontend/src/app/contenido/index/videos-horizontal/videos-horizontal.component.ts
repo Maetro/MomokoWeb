@@ -1,5 +1,5 @@
 
-import { VideoYoutube } from 'app/services/youtube-api/youtube';
+import { VideoYoutube } from '../../../services/youtube-api/youtube';
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { environment } from 'environments/environment';
 

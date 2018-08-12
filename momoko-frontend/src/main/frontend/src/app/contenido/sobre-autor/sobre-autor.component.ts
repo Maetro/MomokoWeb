@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { User } from 'app/dtos/user';
+import { User } from '../../dtos/user';
 import { environment } from 'environments/environment';
 
 @Component({

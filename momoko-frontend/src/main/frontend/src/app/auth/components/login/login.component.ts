@@ -1,14 +1,14 @@
-import { NewUser } from './../../dtos/login';
+import { NewUser } from '../../dtos/login';
 import { Component, OnInit } from '@angular/core';
 
 
 import { Router } from '@angular/router';
-import { LoginStatus, Login, SignupStatus } from 'app/auth/dtos/login';
-import { AuthService } from 'app/auth/services/auth.service';
+import { LoginStatus, Login, SignupStatus } from '../../dtos/login';
+import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
-import { StringInfo } from 'app/dtos/string';
+import { StringInfo } from '../../../dtos/string';
 import { environment } from 'environments/environment';
 
 @Component({

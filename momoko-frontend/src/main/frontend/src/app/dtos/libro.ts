@@ -1,7 +1,7 @@
 import { Genero } from './genero';
 import { Editorial } from './editorial';
 import { Autor } from './autor';
-import { DatoEntrada } from 'app/dtos/datoEntrada';
+import { DatoEntrada } from './datoEntrada';
 
 
 export class Libro {

@@ -189,7 +189,7 @@ public class GeneroServiceImpl implements GenreService {
     @Override
     @Transactional
     public List<LibroSimpleDTO> obtenerLibrosConOpinionesGeneroPorFecha(final GenreDTO generoDTO, final int numElements,
-            final Integer numeroPagina) {
+                                                                        final Integer numeroPagina) {
         final List<LibroSimpleDTO> resultado = new ArrayList<>();
         final Integer initElement = numElements * numeroPagina;
         final Integer endElement = initElement + numElements;
@@ -230,7 +230,7 @@ public class GeneroServiceImpl implements GenreService {
     @Override
     @Transactional
     public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorNota(final GenreDTO generoDTO, final int numElements,
-            final Integer numeroPagina) {
+                                                                      final Integer numeroPagina) {
         final List<LibroSimpleDTO> resultado = new ArrayList<>();
         final Integer initElement = numElements * numeroPagina;
         final Integer endElement = initElement + numElements;

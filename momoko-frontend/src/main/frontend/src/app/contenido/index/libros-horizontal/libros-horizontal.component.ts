@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { LibroSimple } from 'app/dtos/libroSimple';
+import { LibroSimple } from '../../../dtos/libroSimple';
 import { environment } from 'environments/environment';
 
 @Component({

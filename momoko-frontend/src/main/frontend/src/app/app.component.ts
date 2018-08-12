@@ -1,4 +1,4 @@
-import { GeneralDataService } from 'app/services/general-data.service';
+import { GeneralDataService } from './services/general-data.service';
 
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';

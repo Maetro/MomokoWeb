@@ -320,7 +320,7 @@ public class LibroServiceImpl implements LibroService {
 
     @Override
     public List<LibroSimpleDTO> obtenerLibrosConAnalisisGeneroPorFecha(final GenreDTO genero, final int numeroLibros,
-            final int pagina) {
+                                                                       final int pagina) {
 
         final List<Integer> idsGeneros = new ArrayList<>();
 

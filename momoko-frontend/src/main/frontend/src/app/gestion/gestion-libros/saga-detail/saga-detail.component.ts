@@ -1,14 +1,14 @@
-import { SagaService } from './../../../services/saga.service';
+import { SagaService } from '../../../services/saga.service';
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Saga } from 'app/dtos/saga';
+import { Saga } from '../../../dtos/saga';
 import { Message } from 'primeng/components/common/api';
-import { UtilService } from 'app/services/util.service';
-import { GeneralDataService } from 'app/services/general-data.service';
+import { UtilService } from '../../../services/util.service';
+import { GeneralDataService } from '../../../services/general-data.service';
 import { GrowlModule } from 'primeng/primeng';
-import { LibroService } from 'app/services/libro.service';
-import { Libro } from 'app/dtos/libro';
-import { FileUploadService } from 'app/services/fileUpload.service';
+import { LibroService } from '../../../services/libro.service';
+import { Libro } from '../../../dtos/libro';
+import { FileUploadService } from '../../../services/fileUpload.service';
 import { SelectItem } from 'primeng/components/common/selectitem';
 
 

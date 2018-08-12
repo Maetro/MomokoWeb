@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { Editorial } from 'app/dtos/editorial';
+import { Editorial } from '../dtos/editorial';
 import { Cookie } from 'ng2-cookies';
-import { GuardarEditorialResponse } from 'app/dtos/response/guardarEditorialResponse';
+import { GuardarEditorialResponse } from '../dtos/response/guardarEditorialResponse';
 
 @Injectable()
 export class EditorialService {
@@ -21,7 +21,7 @@ export class EditorialService {
     }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      Authorization: 'Bearer ' + Cookie.get('access_token')
+      Authorization: Cookie.get('access_token')
     });
     return this.http
       .get<Editorial[]>(this.editorialesUrl, { headers: headers })
@@ -36,7 +36,7 @@ export class EditorialService {
   guardarEditorial(editorial: Editorial): Observable<GuardarEditorialResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      Authorization: 'Bearer ' + Cookie.get('access_token')
+      Authorization: Cookie.get('access_token')
     });
     return this.http
       .post(this.addEditorialUrl, JSON.stringify(editorial), {

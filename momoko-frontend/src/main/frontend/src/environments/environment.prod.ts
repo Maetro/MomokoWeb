@@ -16,7 +16,7 @@ export const environment = {
   addGeneroUrl: 'https://momoko.es/modelo/generos/add',
   informacionGeneralUrl: 'https://momoko.es/modelo/informacionGeneral',
   singUpURL: 'https://momoko.es/account/signup',
-  oauthTokenUrl: 'https://momoko.es/oauth/token',
+  oauthTokenUrl: 'https://momoko.es/api/core/login',
   accountTokenUrl: 'https://momoko.es/account/token',
   getEntradaUrl: 'https://momoko.es/public/entrada/',
   getEntradaAdminUrl: 'https://momoko.es/modelo/entrada/',
@@ -40,5 +40,8 @@ export const environment = {
   addRedactorUrl: 'https://momoko.es/modelo/redactor/add',
   editorialesUrl: 'https://momoko.es/modelo/editoriales',
   addEditorialUrl: 'https://momoko.es/modelo/editorial/add',
-  getEntradasUrl: 'https://momoko.es/modelo/entradasUrls'
+  getEntradasUrl: 'https://momoko.es/modelo/entradasUrls',
+  filtersUrl: 'https://momoko.es/modelo/filter/',
+  addFilterUrl: 'https://momoko.es/modelo/filter/add',
+  getFilter: 'https://momoko.es/modelo/filter/',
 };

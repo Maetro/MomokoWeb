@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ComentarioRequest } from 'app/dtos/request/comentarioRequest';
+import { ComentarioRequest } from '../dtos/request/comentarioRequest';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
-import { GuardarComentarioResponse } from 'app/dtos/response/guardarComentarioResponse';
+import { GuardarComentarioResponse } from '../dtos/response/guardarComentarioResponse';
 import { Cookie } from 'ng2-cookies';
 import { environment } from 'environments/environment';
 

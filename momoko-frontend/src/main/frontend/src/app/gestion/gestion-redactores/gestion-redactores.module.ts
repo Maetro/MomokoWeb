@@ -1,27 +1,15 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ListaRedactoresComponent } from './lista-redactores/lista-redactores.component';
-import {
-  InputTextModule,
-  FileUploadModule,
-  MultiSelectModule,
-  GrowlModule,
-  DataTableModule,
-  SharedModule,
-  DropdownModule
-} from 'primeng/primeng';
-
-import { LibroService } from './../../services/libro.service';
-import { FileUploadService } from './../../services/fileUpload.service';
-import { JsonAdapterService } from 'app/util/json-adapter.service';
-import { SagaService } from '../../services/saga.service';
-import { PickListModule } from 'primeng/components/picklist/picklist';
-import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Ng2CompleterModule } from 'ng2-completer';
+import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
+import { PickListModule } from 'primeng/components/picklist/picklist';
+// tslint:disable-next-line:max-line-length
+import { DataTableModule, DropdownModule, FileUploadModule, GrowlModule, InputTextModule, MultiSelectModule, SharedModule } from 'primeng/primeng';
+import { RedactorService } from '../../services/redactor.service';
+import { ListaRedactoresComponent } from './lista-redactores/lista-redactores.component';
 import { RedactorDetailComponent } from './redactor-detail/redactor-detail.component';
-import { RedactorService } from 'app/services/redactor.service';
-import { HerramientasService } from '../../services/herramientas.service';
+
 
 @NgModule({
   imports: [

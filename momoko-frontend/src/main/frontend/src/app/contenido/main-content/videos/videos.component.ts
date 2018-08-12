@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { Entrada } from 'app/dtos/entrada';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { Entrada } from '../../../dtos/entrada';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { DomSanitizer, SafeUrl, Title, Meta } from '@angular/platform-browser';
-import { LibroSimple } from 'app/dtos/libroSimple';
+import { LibroSimple } from '../../../dtos/libroSimple';
 import { environment } from 'environments/environment';
 
 declare var $: any;

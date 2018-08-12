@@ -1,4 +1,4 @@
-import { Saga } from 'app/dtos/saga';
+import { Saga } from '../saga';
 
 export class GuardarSagaResponse {
   estadoGuardado: string

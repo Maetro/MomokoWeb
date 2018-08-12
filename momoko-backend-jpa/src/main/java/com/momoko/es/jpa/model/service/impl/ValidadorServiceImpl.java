@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.momoko.es.api.dto.filter.enums.FilterRuleType;
+import com.momoko.es.api.enums.errores.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,16 +31,6 @@ import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
 import com.momoko.es.api.enums.TipoEntrada;
-import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
-import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
-import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
-import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
-import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
-import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
-import com.momoko.es.api.enums.errores.ErrorCreacionRedactor;
-import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
-import com.momoko.es.api.enums.errores.ErrorPublicarComentario;
 import com.momoko.es.jpa.model.service.ValidadorService;
 
 /**
@@ -251,5 +243,23 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionEditorial.FALTA_NOMBRE);
         }
         return listaErrores;
+    }
+
+    @Override
+    public List<FilterCreationError> validateFilter(com.momoko.es.api.dto.filter.FilterDTO filterDTO) {
+        final List<FilterCreationError> errorList = new ArrayList<>();
+        if (StringUtils.isEmpty(filterDTO.getNameFilter())) {
+            errorList.add(FilterCreationError.MISSING_NAME);
+        }
+        if (StringUtils.isEmpty(filterDTO.getUrlFilter())) {
+            errorList.add(FilterCreationError.MISSING_URL);
+        }
+        if (filterDTO.getFilterType() == null) {
+            errorList.add(FilterCreationError.MISSING_TYPE);
+        }
+        if (filterDTO.getFilterType() == FilterRuleType.ENUM && CollectionUtils.isEmpty(filterDTO.getPossibleValues())) {
+            errorList.add(FilterCreationError.MISSING_ENUM_DEFINITION);
+        }
+        return errorList;
     }
 }

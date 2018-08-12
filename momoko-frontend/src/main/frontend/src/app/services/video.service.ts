@@ -2,7 +2,7 @@ import { environment } from 'environments/environment';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient } from '@angular/common/http';
-import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
+import { ObtenerEntradaResponse } from '../dtos/response/obtenerEntradaResponse';
 
 @Injectable()
 export class VideoService {

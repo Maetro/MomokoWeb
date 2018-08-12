@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from './../../environments/environment';
+import { environment } from 'environments/environment';
 import { Cookie } from 'ng2-cookies';
 import { RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Redactor } from 'app/dtos/redactor';
-import { GuardarRedactorResponse } from 'app/dtos/response/guardarRedactorResponse';
+import { Redactor } from '../dtos/redactor';
+import { GuardarRedactorResponse } from '../dtos/response/guardarRedactorResponse';
 
 @Injectable()
 export class RedactorService {
@@ -24,7 +24,7 @@ export class RedactorService {
     }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     return this.http.get<Redactor[]>(this.redactoresUrl, { headers: headers }).map(this.extractRedactores)
       .catch(error => Observable.throw(error || 'Server error'));
@@ -38,7 +38,7 @@ export class RedactorService {
   guardarRedactor(redactor: Redactor): Observable<GuardarRedactorResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
 
     return this.http

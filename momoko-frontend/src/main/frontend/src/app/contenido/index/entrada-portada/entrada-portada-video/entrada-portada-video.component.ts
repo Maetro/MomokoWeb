@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { EntradaPortada } from 'app/contenido/index/entrada-portada/entrada-portada.model';
+import { EntradaSimple } from '../../../../dtos/entradaSimple';
+import { EntradaPortada } from '../entrada-portada.model';
 import { environment } from 'environments/environment';
 
 @Component({

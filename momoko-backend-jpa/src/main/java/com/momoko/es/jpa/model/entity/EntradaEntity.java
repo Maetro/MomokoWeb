@@ -21,7 +21,7 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     private @Id @GeneratedValue Integer entradaId;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "usuario_id")
     private UsuarioEntity entradaAutor;
 
     /** The url entrada. */

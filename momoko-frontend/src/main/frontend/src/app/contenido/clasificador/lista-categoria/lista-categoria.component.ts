@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ObtenerPaginaCategoriaResponse } from 'app/dtos/response/obtenerPaginaCategoriaResponse';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { Categoria } from 'app/dtos/categoria';
-import { ClasificadorService } from 'app/services/clasificador.service';
+import { ObtenerPaginaCategoriaResponse } from '../../../dtos/response/obtenerPaginaCategoriaResponse';
+import { EntradaSimple } from '../../../dtos/entradaSimple';
+import { Categoria } from '../../../dtos/categoria';
+import { ClasificadorService } from '../../../services/clasificador.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { environment } from 'environments/environment';

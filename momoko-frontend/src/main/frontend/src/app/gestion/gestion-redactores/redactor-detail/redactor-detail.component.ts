@@ -1,16 +1,12 @@
-import { Redactor } from 'app/dtos/redactor';
-import { Categoria } from './../../../dtos/categoria';
-import { LibroService } from './../../../services/libro.service';
-import { Genero } from './../../../dtos/genero';
-import { Component, OnInit, Input, Output, EventEmitter, SimpleChange } from '@angular/core';
-import { Message } from 'primeng/primeng';
-import { GeneralDataService } from 'app/services/general-data.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { GrowlModule, SelectItem } from 'primeng/primeng';
-
-import { UtilService } from 'app/services/util.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { environment } from 'environments/environment';
-import { RedactorService } from 'app/services/redactor.service';
+import { Message } from 'primeng/primeng';
+import { Redactor } from '../../../dtos/redactor';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { GeneralDataService } from '../../../services/general-data.service';
+import { RedactorService } from '../../../services/redactor.service';
+import { UtilService } from '../../../services/util.service';
+
 
 @Component({
   selector: 'app-redactor-detail',

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Libro } from 'app/dtos/libro';
+import { Libro } from '../../dtos/libro';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'environments/environment';
 

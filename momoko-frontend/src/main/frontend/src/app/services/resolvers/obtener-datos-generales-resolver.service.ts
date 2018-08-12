@@ -1,9 +1,10 @@
 import { Resolve, Router, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { IndexData } from 'app/dtos/indexData';
-import { IndexDataService } from 'app/services/index-data.service';
+import { IndexData } from '../../dtos/indexData';
+import { IndexDataService } from '../index-data.service';
 import { environment } from 'environments/environment';
+import 'rxjs/add/operator/take';
 
 @Injectable()
 export class ObtenerDatosGeneralesResolverService implements Resolve<IndexData> {

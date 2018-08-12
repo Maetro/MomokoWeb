@@ -3,9 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import 'rxjs/add/operator/toPromise';
 
 import { environment } from 'environments/environment';
-import { IndexData } from 'app/dtos/indexData';
-import { APP_DATA } from 'app/app-load/app-data';
-import { InitData } from 'app/dtos/initData';
+import { IndexData } from '../dtos/indexData';
+import { APP_DATA } from './app-data';
+import { InitData } from '../dtos/initData';
 
 @Injectable()
 export class AppLoadService {

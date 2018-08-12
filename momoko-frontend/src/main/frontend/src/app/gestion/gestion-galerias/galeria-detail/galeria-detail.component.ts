@@ -1,4 +1,4 @@
-import { environment } from './../../../../environments/environment';
+import { environment } from 'environments/environment';
 import {
   Component,
   OnInit,
@@ -7,12 +7,12 @@ import {
   EventEmitter,
   ViewChild
 } from '@angular/core';
-import { Galeria } from 'app/dtos/galeria';
+import { Galeria } from '../../../dtos/galeria';
 import { Message } from 'primeng/primeng';
-import { GaleriaService } from 'app/services/galeria.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { UtilService } from 'app/services/util.service';
-import { GeneralDataService } from 'app/services/general-data.service';
+import { GaleriaService } from '../../../services/galeria.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { UtilService } from '../../../services/util.service';
+import { GeneralDataService } from '../../../services/general-data.service';
 
 const NUM = 12;
 

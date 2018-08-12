@@ -13,11 +13,6 @@ import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import java.util.Collection;
 import java.util.List;
 
-/**
- * The Interface EntradaService.
- *
- * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
- */
 public interface EntradaService {
 
     /**

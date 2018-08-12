@@ -1,10 +1,10 @@
-import { APP_DATA } from './../app-load/app-data';
-import { AuthService } from 'app/auth/services/auth.service';
+import { APP_DATA } from '../app-load/app-data';
+import { AuthService } from '../auth/services/auth.service';
 import { Component, OnInit, AfterViewChecked, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
-import { IndexDataService } from 'app/services/index-data.service';
-import { Menu } from 'app/dtos/menu';
+import { IndexDataService } from '../services/index-data.service';
+import { Menu } from '../dtos/menu';
 import { environment } from 'environments/environment';
 
 declare var $: any;
@@ -26,8 +26,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.authService.checkLoginStatus();
-    // this.authService.checkCredentials();
-    // this.isLoggedIn = true;
+
     this.authService.isLoggedIn.subscribe(loginStatus => {
       if (this.log) {
         console.log('is logged In?');
@@ -36,6 +35,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
       $('#main-menu').smartmenus();
     });
     this.menu = APP_DATA.menu;
+    this.authService.checkCredentials();
   }
 
   ngAfterViewInit(): void {

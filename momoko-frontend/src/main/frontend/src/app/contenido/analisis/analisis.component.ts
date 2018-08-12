@@ -1,11 +1,11 @@
-import { Comentario } from 'app/dtos/comentario';
+import { Comentario } from '../../dtos/comentario';
 import { Router } from '@angular/router';
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
-import { Entrada } from 'app/dtos/entrada';
-import { EntradaService } from 'app/services/entrada.service';
+import { Entrada } from '../../dtos/entrada';
+import { EntradaService } from '../../services/entrada.service';
 import { ActivatedRoute } from '@angular/router';
-import { Libro } from 'app/dtos/libro';
-import { LibroSimple } from 'app/dtos/libroSimple';
+import { Libro } from '../../dtos/libro';
+import { LibroSimple } from '../../dtos/libroSimple';
 import { environment } from 'environments/environment';
 import { Title, Meta } from '@angular/platform-browser';
 

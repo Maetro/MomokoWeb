@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { ClasificadorService } from 'app/services/clasificador.service';
-import { ObtenerPaginaCategoriaResponse } from 'app/dtos/response/obtenerPaginaCategoriaResponse';
-import { ObtenerPaginaLibroNoticiasResponse } from 'app/dtos/response/obtenerPaginaLibroNoticiasResponse';
+import { ClasificadorService } from '../clasificador.service';
+import { ObtenerPaginaCategoriaResponse } from '../../dtos/response/obtenerPaginaCategoriaResponse';
+import { ObtenerPaginaLibroNoticiasResponse } from '../../dtos/response/obtenerPaginaLibroNoticiasResponse';
 import { Observable } from 'rxjs/Observable';
 import { environment } from 'environments/environment';
 

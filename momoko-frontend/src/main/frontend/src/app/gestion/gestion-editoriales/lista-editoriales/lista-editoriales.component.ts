@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
-import { Editorial } from 'app/dtos/editorial';
+import { Editorial } from '../../../dtos/editorial';
 import { EditorialDetailComponent } from '../editorial-detail/editorial-detail.component';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { EditorialService } from 'app/services/editorial.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { EditorialService } from '../../../services/editorial.service';
 
 @Component({
   selector: 'app-lista-editoriales',

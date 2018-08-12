@@ -1,9 +1,9 @@
-import { GeneroDetailComponent } from './../genero-detail/genero-detail.component';
+import { GeneroDetailComponent } from '../genero-detail/genero-detail.component';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { LibroService } from 'app/services/libro.service';
-import { FileUploadService } from 'app/services/fileUpload.service';
-import { Genero } from 'app/dtos/genero';
+import { LibroService } from '../../../services/libro.service';
+import { FileUploadService } from '../../../services/fileUpload.service';
+import { Genero } from '../../../dtos/genero';
 import { environment } from 'environments/environment';
 
 

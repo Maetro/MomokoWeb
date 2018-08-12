@@ -1,4 +1,4 @@
-import { User } from 'app/dtos/user';
+import { User } from './user';
 
 export class Galeria {
   galeriaId: number;

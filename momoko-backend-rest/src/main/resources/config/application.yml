@@ -32,8 +32,7 @@ momoko:
 
   # First ADMIN user
   admin:
-    username: admin@example.com
-    password: admin!
+    username: rmaetro@gmail.com
     
    # Spring Lemon flags
    # enabled:

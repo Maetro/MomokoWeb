@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { Login } from 'app/auth/dtos/login';
+import { Login } from '../../dtos/login';
 import { environment } from 'environments/environment';
 
 @Component({

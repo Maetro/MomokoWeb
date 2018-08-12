@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, OnDestroy, AfterViewInit } from '@angular/core';
-import { Entrada } from 'app/dtos/entrada';
-import { Libro } from 'app/dtos/libro';
-import { LibroService } from 'app/services/libro.service';
+import { Entrada } from '../../dtos/entrada';
+import { Libro } from '../../dtos/libro';
+import { LibroService } from '../../services/libro.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LibroSimple } from 'app/dtos/libroSimple';
-import { FichaLibro } from 'app/dtos/fichaLibro';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
+import { LibroSimple } from '../../dtos/libroSimple';
+import { FichaLibro } from '../../dtos/fichaLibro';
+import { EntradaSimple } from '../../dtos/entradaSimple';
 import { environment } from 'environments/environment';
 import { Title, Meta } from '@angular/platform-browser';
 

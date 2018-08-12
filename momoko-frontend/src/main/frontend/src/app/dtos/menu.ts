@@ -1,4 +1,4 @@
-import { Genero } from 'app/dtos/genero';
+import { Genero } from './genero';
 
 export class Menu {
   nombre: string;

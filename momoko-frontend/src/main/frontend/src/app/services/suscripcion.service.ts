@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { ObtenerEntradaResponse } from 'app/dtos/response/obtenerEntradaResponse';
+import { ObtenerEntradaResponse } from '../dtos/response/obtenerEntradaResponse';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'environments/environment';
 

@@ -1,0 +1,57 @@
+package com.momoko.es.jpa.model.facade.administration;
+
+import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.dto.filter.SaveFilterResponse;
+import com.momoko.es.api.service.FilterService;
+import com.momoko.es.jpa.model.service.ValidadorService;
+import com.momoko.es.jpa.util.MomokoUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@Controller
+@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4000", "https://www.momoko.es" })
+@RequestMapping(path = "/modelo")
+public class FilterController {
+
+    @Autowired(required = false)
+    private ValidadorService validadorService;
+
+    @Autowired(required = false)
+    private FilterService filterService;
+
+    @GetMapping(path = "/filter")
+    public @ResponseBody
+    List<FilterDTO> getAllFilters() {
+        final List<FilterDTO> filters = this.filterService.getAllFilters();
+        return filters;
+    }
+
+    @GetMapping(path = "/filter/{urlFilter}")
+    public @ResponseBody
+    FilterDTO getFilter(@PathVariable("urlFilter") String urlFilter) {
+        final FilterDTO filter = this.filterService.getFilterByUrl(urlFilter);
+        return filter;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/filter/add")
+    ResponseEntity<SaveFilterResponse> guardarRedactor(@RequestBody final FilterDTO filterDTO) {
+        SaveFilterResponse response = new SaveFilterResponse();
+        try {
+            response = this.filterService.saveFilter(filterDTO);
+        } catch (Exception e) {
+            response.setErrorMessage(e);
+            return new ResponseEntity<SaveFilterResponse>(response, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<SaveFilterResponse>(response, HttpStatus.OK);
+
+    }
+
+
+}

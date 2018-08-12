@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Comentario } from 'app/dtos/comentario';
+import { Comentario } from '../../../dtos/comentario';
 import { environment } from 'environments/environment';
 
 @Component({

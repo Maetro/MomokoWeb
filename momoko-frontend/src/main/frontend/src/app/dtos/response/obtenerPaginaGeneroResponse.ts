@@ -1,6 +1,6 @@
-import { LibroSimple } from 'app/dtos/libroSimple';
-import { EntradaSimple } from 'app/dtos/entradaSimple';
-import { Genero } from 'app/dtos/genero';
+import { LibroSimple } from '../libroSimple';
+import { EntradaSimple } from '../entradaSimple';
+import { Genero } from '../genero';
 
 export class ObtenerPaginaGeneroResponse {
 

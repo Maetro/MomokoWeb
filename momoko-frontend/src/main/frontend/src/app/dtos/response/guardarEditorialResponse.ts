@@ -1,4 +1,4 @@
-import { Editorial } from 'app/dtos/editorial';
+import { Editorial } from '../editorial';
 
 export class GuardarEditorialResponse {
   estadoGuardado: string;

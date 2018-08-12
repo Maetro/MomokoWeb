@@ -1,4 +1,4 @@
-import { Columna } from 'app/gestion/gestion-entradas/columna';
+import { Columna } from './columna';
 
 
 export class Fila {

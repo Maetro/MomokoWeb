@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { NewUser, SignupStatus } from 'app/auth/dtos/login';
-import { AuthService } from 'app/auth/services/auth.service';
+import { NewUser, SignupStatus } from '../../dtos/login';
+import { AuthService } from '../../services/auth.service';
 import { environment } from 'environments/environment';
 
 

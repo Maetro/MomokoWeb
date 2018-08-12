@@ -11,16 +11,16 @@ import {
   PaginatorModule
 } from 'primeng/primeng';
 
-import { LibroService } from './../../services/libro.service';
-import { FileUploadService } from './../../services/fileUpload.service';
-import { JsonAdapterService } from 'app/util/json-adapter.service';
+import { LibroService } from '../../services/libro.service';
+import { FileUploadService } from '../../services/fileUpload.service';
+import { JsonAdapterService } from '../../util/json-adapter.service';
 import { SagaService } from '../../services/saga.service';
 import { PickListModule } from 'primeng/components/picklist/picklist';
 import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
 import { FormsModule } from '@angular/forms';
 import { Ng2CompleterModule } from 'ng2-completer';
-import { RedactorService } from 'app/services/redactor.service';
-import { EditorialService } from 'app/services/editorial.service';
+import { RedactorService } from '../../services/redactor.service';
+import { EditorialService } from '../../services/editorial.service';
 import { ListaEditorialesComponent } from './lista-editoriales/lista-editoriales.component';
 import { EditorialDetailComponent } from './editorial-detail/editorial-detail.component';
 import { EditorModule } from 'primeng/editor';
