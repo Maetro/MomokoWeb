@@ -1,14 +1,15 @@
-import { NewUser, LoginStatus, Login, SignupStatus } from './../../dtos/login';
+import { NewUser } from '../../dtos/login';
 import { Component, OnInit } from '@angular/core';
 
 
 import { Router } from '@angular/router';
-
+import { LoginStatus, Login, SignupStatus } from '../../dtos/login';
+import { AuthService } from '../../services/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import { Cookie } from 'ng2-cookies';
 import { environment } from '../../../../../environments/environment';
-import { AuthService } from '../../services/auth.service';
+
 
 @Component({
   selector: 'app-login',
@@ -33,40 +34,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // const headers = new HttpHeaders({
-    //   'Content-type': 'application/json',
-    //   'Authorization': 'Bearer ' + Cookie.get('access_token')
-    // });
-    // this.http.get('http://192.168.43.117:5000/login/me', { headers: headers }).subscribe(
-    //   (data: StringInfo) => {
-    //     if (this.log) {
-    //       console.log(data);
-    //     }
-    //     // Read the result field from the JSON response.
-    //     this.user = this.user = data.response;
-    //     this.authenticated = true;
-    //     this.authService.checkCredentials();
-    //   }, err => {
-    //     if (this.log) {
-    //       console.log('Usuario no autenticado');
-    //     }
-    //   });
-
-    // this.getLibros();
   }
-
-
 
   onLogin() {
     this.authService.obtainAccessToken(this.model);
-    // this.initLogin();
-    // this.authService.login(this.model)
-    //   .subscribe((status: LoginStatus) => {
-    //     this.loginStatus = status;
-    //     if (status.code === 'FAILURE') {
-    //       this.alertStyle = 'alert alert-danger';
-    //     }
-    //   });
   }
 
   onLogout() {

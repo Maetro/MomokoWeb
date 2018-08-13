@@ -6,6 +6,7 @@
  */
 package com.momoko.es.jpa.model.facade;
 
+import com.momoko.es.commons.security.UserAdminPermission;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +37,7 @@ public class FileUploadFacadeImpl implements FileUploadFacade {
         this.storageService = storageService;
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/upload")
     public @ResponseBody StringResponseDTO handleFileUpload(@RequestParam("uploadFile") final MultipartFile[] files,
             @RequestParam("tipoSubida") final String tipoSubida) {

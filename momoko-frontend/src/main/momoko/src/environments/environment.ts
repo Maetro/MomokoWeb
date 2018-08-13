@@ -23,7 +23,7 @@ export const environment = {
   addGeneroUrl: 'http://localhost:5000/modelo/generos/add',
   informacionGeneralUrl: 'http://localhost:5000/modelo/informacionGeneral',
   singUpURL: 'http://localhost:5000/account/signup',
-  oauthTokenUrl: 'http://localhost:5000/oauth/token',
+  oauthTokenUrl: 'http://localhost:5000/api/core/login',
   accountTokenUrl: 'http://localhost:5000/account/token',
   getEntradaUrl: 'http://localhost:5000/public/entrada/',
   getEntradaZonaUrl: 'http://localhost:5000/public/zona/',

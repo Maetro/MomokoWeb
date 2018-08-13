@@ -15,11 +15,6 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 import javax.persistence.*;
 import java.util.*;
 
-/**
- * The Class LibroEntity.
- *
- * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
- */
 @Entity
 @Table(name = "libro", indexes = { @Index(name = "urlLibro", columnList = "urlLibro", unique = true) })
 public class LibroEntity {

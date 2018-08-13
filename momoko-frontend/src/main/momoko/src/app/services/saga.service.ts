@@ -26,7 +26,7 @@ export class SagaService {
   getSagas(): Observable<Saga[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     if (this.log) {
       console.log(Cookie.get('access_token'));
@@ -61,7 +61,7 @@ export class SagaService {
   guardarSaga(saga: Saga): Observable<GuardarSagaResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
 
     return this.http

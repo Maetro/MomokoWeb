@@ -80,6 +80,26 @@
           <li>
             <a routerLink="/auth/login" routerLinkActive="active" *ngIf="isLoggedIn === false">Login</a>
           </li>
+          <!-- <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
+          <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
+
+          <li class="main-menu-header">
+            <a routerLink="/gestion" routerLinkActive="active" *ngIf="isLoggedIn === true">Administrar</a>
+            <ul class="dropdown-menu double">
+              <li>
+                <a routerLink="/admin/lista-entradas" routerLinkActive="active">Entradas</a>
+                <a routerLink="/admin/lista-libros" routerLinkActive="active">Libros</a>
+                <a routerLink="/admin/lista-sagas" routerLinkActive="active">Sagas</a>
+                <a routerLink="/admin/lista-generos" routerLinkActive="active">Géneros</a>
+                <a routerLink="/admin/lista-galerias" routerLinkActive="active">Galerias</a>
+                <a routerLink="/admin/lista-redactores" routerLinkActive="active">Redactores</a>
+                <a routerLink="/admin/lista-editoriales" routerLinkActive="active">Editoriales</a>
+                <a routerLink="/admin/lista-filtros" routerLinkActive="active">Filtros</a>
+                <a routerLink="/admin/gestor-urls" routerLinkActive="active">Herramientas</a>
+                <a (click)="onLogout()">Desconectarse</a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </div>
       <!--/.nav-collapse -->

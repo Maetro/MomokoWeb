@@ -734,7 +734,7 @@ public abstract class MomokoService {
 		
 		user.setPassword(null); // JsonIgnore didn't work
 		
-		if (!user.hasPermission(MomokoUtils.currentUser(), UserUtils.Permission.EDIT))
+		if (!user.hasPermission(MomokoUtils.currentUser(), UserUtils.Permission.ADMIN))
 			user.setEmail(null);
 		
 		log.debug("Hid confidential fields for user: " + user);

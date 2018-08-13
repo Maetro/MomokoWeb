@@ -30,6 +30,7 @@ public class UserUtils {
 	public interface Permission {
 
 		static final String EDIT = "edit";
+		static final String ADMIN = "admin";
 	}
 
 	// validation groups
@@ -50,17 +51,16 @@ public class UserUtils {
 
 		log.debug("Computing " + permission + " permission for User " + id + "\n  Logged in user: " + currentUser);
 
-		if (permission.equals("edit")) {
+		if (permission.equals("admin")) {
 
 			if (currentUser == null)
 				return false;
 
-			boolean isSelf = currentUser.getUserId().equals(id);
-			return isSelf || currentUser.isGoodAdmin(); // self or admin;
+			return currentUser.isGoodAdmin();
 		}
 
 		return false;
 	}
 
-	
+
 }

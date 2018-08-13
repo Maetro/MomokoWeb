@@ -1,5 +1,4 @@
 
-
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
 
@@ -13,8 +12,9 @@ import { Observer } from 'rxjs/Observer';
 import { Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
+import { NewUser, SignupStatus, LoginStatus, Login } from '../dtos/login';
 import { environment } from '../../../../environments/environment';
-import { SignupStatus, NewUser, LoginStatus, Login } from '../dtos/login';
+
 
 @Injectable()
 export class AuthService {
@@ -57,16 +57,15 @@ export class AuthService {
     }
     params.append('username', login.usuarioEmail);
     params.append('password', login.usuarioContrasena);
-    params.append('grant_type', 'password');
-    params.append('client_id', 'healthapp');
+    params.append('expirationMillis', '864000000');
     const headers = new Headers({
-      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8', 'Authorization': 'Basic ' +
-        btoa('healthapp:HeAltH@!23')
+      'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
     });
     const options = new RequestOptions({ headers: headers });
 
     return this.http.post(this.oauthTokenUrl, params.toString(), options)
       .map(res => {
+        console.log('RESPONSE LOGIN');
         this.saveToken(res.json());
         return new LoginStatus('SUCCESS', 'Login Successful');
       })
@@ -78,10 +77,10 @@ export class AuthService {
   saveToken(token: any) {
     if (this.log) {
       console.log('Obteniendo token de autenticacion');
-      console.log(token.expires_in);
+      console.log(token);
     }
-    const expireDate = new Date().getTime() + (24000 * token.expires_in);
-    Cookie.set('access_token', token.access_token, expireDate);
+    const expireDate = new Date().getTime() + (24000 * token.get('expires'));
+    Cookie.set('access_token', token.get('momoko-authorization'), expireDate);
     Cookie.set('role', token.role);
     this.changeLoginStatus(true);
     if (token.role === 'ROLE_ADMIN') {
@@ -135,7 +134,7 @@ export class AuthService {
         if (this.log) {
           console.log('autenticado');
         }
-        this.saveToken(res.json());
+        this.saveToken(res.headers);
         return new LoginStatus('SUCCESS', 'Login Successful')
       })
       .subscribe(
@@ -153,9 +152,7 @@ export class AuthService {
     if (this.log) {
       console.log('checkCredentials');
     }
-    if (!Cookie.check('access_token')) {
-      this.router.navigate(['/auth/login']);
-    } else {
+    if (Cookie.check('access_token')) {
       this.isLoggedIn = new Observable(observer =>
         this.observer = observer
       );
@@ -165,7 +162,8 @@ export class AuthService {
 
   logout() {
     Cookie.delete('access_token');
-    this.router.navigate(['/auth/login']);
+    this.changeLoginStatus(false);
+    this.router.navigate(['/']);
   }
 
 }

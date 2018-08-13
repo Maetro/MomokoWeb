@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
-import { SignupStatus, NewUser } from '../../dtos/login';
+
+import { NewUser, SignupStatus } from '../../dtos/login';
 import { AuthService } from '../../services/auth.service';
+import { environment } from 'environments/environment';
+
 
 @Component({
   selector: 'app-user-registration',

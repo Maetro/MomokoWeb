@@ -36,7 +36,7 @@ export class LibroService {
     }
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     this.librosList = new Array();
     return this.http.get(this.librosUrl, { headers: headers }).toPromise().then((resp: Response) => {
@@ -62,7 +62,7 @@ export class LibroService {
   guardarLibro(libro: Libro): Observable<GuardarLibroResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     return this.http
       .post<GuardarLibroResponse>(this.addLibroUrl, JSON.stringify(libro), { headers: headers })
@@ -77,7 +77,7 @@ export class LibroService {
   guardarGenero(genero: Genero): Observable<GuardarGeneroResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     return this.http
       .post(this.addGeneroUrl, JSON.stringify(genero), { headers: headers })
@@ -92,7 +92,7 @@ export class LibroService {
   getGeneros(): Observable<Genero[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     return this.http.get<Genero[]>(this.generosUrl, { headers: headers }).map(this.extractGeneros)
       .catch(error => Observable.throw(error || 'Server error'));

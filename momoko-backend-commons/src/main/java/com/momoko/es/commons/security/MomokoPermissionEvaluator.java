@@ -1,6 +1,7 @@
 package com.momoko.es.commons.security;
 
 import com.momoko.es.commons.util.LecUtils;
+import com.momoko.es.commons.util.UserUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.PermissionEvaluator;
@@ -28,18 +29,11 @@ public class MomokoPermissionEvaluator implements PermissionEvaluator {
 	@Override
 	public boolean hasPermission(Authentication auth,
 			Object targetDomainObject, Object permission) {
-		
-		log.debug("Checking whether " + auth
-			+ "\n  has " + permission + " permission for "
-			+ targetDomainObject);
-		
-		if (targetDomainObject == null)	// if no domain object is provided,
-			return true;				// let's pass, allowing the service method
-										// to throw a more sensible error message
-		
-		// Let's delegate to the entity's hasPermission method
-		PermissionEvaluatorEntity entity = (PermissionEvaluatorEntity) targetDomainObject;
-		return entity.hasPermission(LecUtils.currentUser(auth), (String) permission);
+
+		UsuarioDTO<Integer> user =  LecUtils.currentUser(auth);
+		log.debug("Checking whether " + user.getUsuarioEmail()
+				+ "\n  has " + permission + " permission");
+		return UserUtils.hasPermission(user.getUserId(), user, (String) permission);
 	}
 
 	

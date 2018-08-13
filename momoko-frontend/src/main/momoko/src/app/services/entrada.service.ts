@@ -39,7 +39,7 @@ export class EntradaService {
   getEntradaAdmin(urlEntrada): Observable<Entrada> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, { headers: headers })
       .map(this.obtenerEntrada)
@@ -61,7 +61,7 @@ export class EntradaService {
   getAllEntradas(): Observable<EntradaSimple[]> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
     if (this.log) {
       console.log(Cookie.get('access_token'));
@@ -77,7 +77,7 @@ export class EntradaService {
   guardarEntrada(entrada: Entrada): Observable<GuardarEntradaResponse> {
     const headers = new HttpHeaders({
       'Content-type': 'application/json',
-      'Authorization': 'Bearer ' + Cookie.get('access_token')
+      'Authorization': Cookie.get('access_token')
     });
 
     return this.http

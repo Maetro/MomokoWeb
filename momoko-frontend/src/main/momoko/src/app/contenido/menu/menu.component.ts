@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { APP_DATA } from '../../app-load/app-data';
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth/services/auth.service';
 
 declare var $: any;
 
@@ -27,12 +28,22 @@ export class MenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private indexDataService: IndexDataService, 
+    private authService: AuthService,
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 
   ngOnInit() {
     this.menu = APP_DATA.menu;
+    this.authService.checkLoginStatus();
+
+    this.authService.isLoggedIn.subscribe(loginStatus => {
+      if (this.log) {
+        console.log('is logged In?');
+      }
+      this.isLoggedIn = loginStatus;
+    });
+    this.menu = APP_DATA.menu;
+    this.authService.checkCredentials();
   }
 
   buscarResultados() {
@@ -43,6 +54,10 @@ export class MenuComponent implements OnInit {
     this.busqueda = "";
   }
 
+  onLogout() {
+    this.authService.logout();
+    this.authService.checkCredentials();
+  }
 
 
 }

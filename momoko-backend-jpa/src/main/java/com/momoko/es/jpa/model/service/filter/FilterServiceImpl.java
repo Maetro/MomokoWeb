@@ -1,15 +1,20 @@
 package com.momoko.es.jpa.model.service.filter;
 
+import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.FilterCreationError;
 import com.momoko.es.api.service.FilterService;
+import com.momoko.es.commons.security.UserAdminPermission;
 import com.momoko.es.commons.security.UserEditPermission;
 import com.momoko.es.jpa.model.entity.GenreEntity;
+import com.momoko.es.jpa.model.entity.LibroEntity;
+import com.momoko.es.jpa.model.entity.filter.FilterBook;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.repository.GeneroRepository;
+import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterRepository;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import com.momoko.es.jpa.model.util.ConversionUtils;
@@ -37,6 +42,9 @@ public class FilterServiceImpl implements FilterService {
     @Autowired(required = false)
     private GeneroRepository genreRepository;
 
+    @Autowired(required = false)
+    private LibroRepository libroRepository;
+
 
     @Override
     public List<FilterDTO> getAllFilters() {
@@ -45,7 +53,7 @@ public class FilterServiceImpl implements FilterService {
     }
 
     @Override
-    @UserEditPermission
+    @UserAdminPermission
     public SaveFilterResponse saveFilter(FilterDTO filterDTO) throws Exception {
         SaveFilterResponse response = new SaveFilterResponse();
         // Validar
@@ -91,6 +99,15 @@ public class FilterServiceImpl implements FilterService {
         FilterEntity oldFilter = filterRepository.findById(filterDTO.getFilterId()).orElseThrow(() ->
                 new InstanceNotFoundException("No se encuentra el filtro con el id: " + filterDTO.getFilterId()));
         setApplicableGenresToFilter(filterDTO, oldFilter);
+        if (CollectionUtils.isNotEmpty(filterDTO.getBooks())){
+            List<String> urlsList = filterDTO.getBooks().stream().map(LibroDTO::getUrlLibro).collect(Collectors.toList());
+            List<LibroEntity> books = this.libroRepository.findByUrlLibroIn(urlsList);
+            List<FilterBook> filterBooks = new ArrayList<>();
+            for (LibroEntity book : books) {
+                filterBooks.add(new FilterBook(oldFilter, book));
+            }
+            oldFilter.setFilterBooks(filterBooks);
+        }
         oldFilter.setNameFilter(filterDTO.getNameFilter());
         oldFilter.setUrlFilter(filterDTO.getUrlFilter());
         oldFilter.setPossibleValues(ConversionUtils.join(filterDTO.getPossibleValues()));
