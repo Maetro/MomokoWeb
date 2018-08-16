@@ -118,6 +118,11 @@ const appRoutes = [
     }
   },
   {
+    path: 'gestion',
+    loadChildren:
+      './contenido/gestion/gestion.module#GestionModule'
+  },
+  {
     path: 'tag/:url_etiqueta',
     loadChildren:
       './contenido/clasificador/lista-etiqueta/lista-etiqueta.module#ListaEtiquetaModule',
