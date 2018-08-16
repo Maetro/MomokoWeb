@@ -1,27 +1,28 @@
-import { ObtenerListaCategoriaResolverService } from './services/resolvers/obtener-lista-categoria-resolver.service';
-import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtener-libro-noticias-resolver.service';
-import { ObtenerResenaResolverService } from './services/resolvers/obtener-resena-resolver.service';
-import { ObtenerEntradaZonaResolverService } from './services/resolvers/obtener-entrada-zona-resolver.service';
-import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-resolver.service';
-import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
-import { ObtenerVideoResolverService } from './services/resolvers/obtener-video-resolver.service';
-import { ObtenerListaGeneroResolverService } from './services/resolvers/obtener-lista-genero-resolver.service';
-import { ObtenerListaEtiquetaResolverService } from './services/resolvers/obtener-etiqueta-resolver.service';
-import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtener-lista-busqueda-resolver.service';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardService } from './contenido/auth/services/auth-guard.service';
+import { PageCriteriosComponent } from './contenido/estaticas/page-criterios/page-criterios.component';
 import { PageNotFoundComponent } from './contenido/estaticas/page-not-found/page-not-found.component';
 import { PageSolicitudComponent } from './contenido/estaticas/page-solicitud/page-solicitud.component';
-import { PageCriteriosComponent } from './contenido/estaticas/page-criterios/page-criterios.component';
 import { ObtenerEntradaResolverService } from './services/resolvers/obtener-entrada-resolver.service';
+import { ObtenerEntradaZonaResolverService } from './services/resolvers/obtener-entrada-zona-resolver.service';
+import { ObtenerListaEtiquetaResolverService } from './services/resolvers/obtener-etiqueta-resolver.service';
 import { ObtenerIndexDataResolverService } from './services/resolvers/obtener-index-data-resolver.service';
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { ObtenerListaEditoralResolverService } from './services/resolvers/obtener-lista-editoral-resolver.service';
-import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
-import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
-import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obtener-saga-miscelaneos.resolver.service';
 import { ObtenerLibroMiscelaneosResolverService } from './services/resolvers/obtener-libro-miscelaneos-resolver.service';
+import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtener-libro-noticias-resolver.service';
+import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
+import { ObtenerListaBusquedaResolverService } from './services/resolvers/obtener-lista-busqueda-resolver.service';
+import { ObtenerListaCategoriaResolverService } from './services/resolvers/obtener-lista-categoria-resolver.service';
+import { ObtenerListaEditorResolverService } from './services/resolvers/obtener-lista-editor-resolver.service';
+import { ObtenerListaEditoralResolverService } from './services/resolvers/obtener-lista-editoral-resolver.service';
+import { ObtenerListaGeneroResolverService } from './services/resolvers/obtener-lista-genero-resolver.service';
+import { ObtenerResenaResolverService } from './services/resolvers/obtener-resena-resolver.service';
+import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obtener-saga-miscelaneos.resolver.service';
+import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
+import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-resolver.service';
+import { ObtenerVideoResolverService } from './services/resolvers/obtener-video-resolver.service';
 
-const appRoutes = [
+const appRoutes: Routes = [
   {
     path: 'categoria/:url_categoria',
     loadChildren:
@@ -37,6 +38,11 @@ const appRoutes = [
     resolve: {
       noticiasLibro: ObtenerLibroNoticiasResolverService
     }
+  },
+  {
+    path: 'gestion',
+    loadChildren: 'app/contenido/gestion/gestion.module#GestionModule',
+    canLoad: [AuthGuardService]
   },
   {
     path: 'noticias-saga/:url-saga',
@@ -116,11 +122,6 @@ const appRoutes = [
     resolve: {
       paginaGeneroResponse: ObtenerListaGeneroResolverService
     }
-  },
-  {
-    path: 'gestion',
-    loadChildren:
-      './contenido/gestion/gestion.module#GestionModule'
   },
   {
     path: 'tag/:url_etiqueta',
