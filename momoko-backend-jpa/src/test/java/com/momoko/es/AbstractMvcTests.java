@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -35,9 +36,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 	"momoko.recaptcha.sitekey="
 })
 @AutoConfigureMockMvc(secure=false)
-@ComponentScan(basePackages = "com.momoko.es.jpa")
+@ComponentScan(basePackages = "com.momoko.es")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.HSQL)
 @Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
+@ActiveProfiles("test")
 public abstract class AbstractMvcTests {
 	
 	protected static final Integer ADMIN_ID = 101;
