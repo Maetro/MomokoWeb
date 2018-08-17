@@ -30,7 +30,6 @@
 		<module>momoko-backend-commons</module>
 		<module>momoko-backend-jpa</module>
         <module>momoko-backend-api</module>
-		<module>momoko-backend-rest</module>
 		<!--<module>momoko-backend</module>-->
     	<!--<module>momoko-checker</module>-->
 

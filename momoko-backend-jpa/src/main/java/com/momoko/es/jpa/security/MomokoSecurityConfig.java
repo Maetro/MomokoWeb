@@ -15,13 +15,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.Http403ForbiddenEntryPoint;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-/**
- * Security configuration class. Extend it in the
- * application, and make a configuration class. Override
- * protected methods, if you need any customization.
- * 
- * @author Sanjay Patel
- */
 public class MomokoSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final Log log = LogFactory.getLog(MomokoSecurityConfig.class);

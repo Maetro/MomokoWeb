@@ -1,12 +1,12 @@
 package com.momoko.es.jpa;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.momoko.es.MomokoSecurityConfigImpl;
 import com.momoko.es.commons.MomokoProperties;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.validation.RetypePasswordValidator;
 import com.momoko.es.exceptions.ErrorResponseComposer;
 import com.momoko.es.exceptions.MomokoExceptionsAutoConfiguration;
-import com.momoko.es.jpa.domain.AbstractUser;
 import com.momoko.es.jpa.domain.MomokoAuditorAware;
 import com.momoko.es.jpa.exceptions.DefaultExceptionHandlerControllerAdvice;
 import com.momoko.es.jpa.exceptions.MomokoErrorAttributes;
@@ -14,7 +14,6 @@ import com.momoko.es.jpa.exceptions.MomokoErrorController;
 import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.model.repository.UsuarioRepository;
 import com.momoko.es.jpa.model.service.UserService;
-import com.momoko.es.jpa.model.service.impl.UserServiceImpl;
 import com.momoko.es.jpa.security.*;
 import com.momoko.es.jpa.util.MomokoUtils;
 import com.momoko.es.jpa.validation.CaptchaValidator;
@@ -41,13 +40,11 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -245,15 +242,12 @@ public class MomokoAutoConfiguration {
 		return new JwtAuthenticationProvider(jwtService, userService);
 	}
 
-	/**
-	 * Configures MomokoSecurityConfig if missing
-	 */
 	@Bean
 	@ConditionalOnMissingBean(MomokoSecurityConfig.class)
 	public MomokoSecurityConfig momokoSecurityConfig() {
 		
         log.info("Configuring MomokoSecurityConfig");       
-		return new MomokoSecurityConfig();
+		return new MomokoSecurityConfigImpl();
 	}
 	
 	/**
