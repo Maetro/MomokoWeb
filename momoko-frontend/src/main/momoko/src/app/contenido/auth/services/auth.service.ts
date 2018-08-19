@@ -1,28 +1,23 @@
 
+import {throwError as observableThrowError,  Observable ,  Observer ,  BehaviorSubject, of } from 'rxjs';
+
+import {catchError,  map } from 'rxjs/operators';
+
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions } from '@angular/http';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/delay';
-
-
-import { Observer } from 'rxjs/Observer';
 import { Headers } from '@angular/http';
 import { Router } from '@angular/router';
 import { Cookie } from 'ng2-cookies';
 import { NewUser, SignupStatus, LoginStatus, Login } from '../dtos/login';
 import { environment } from '../../../../environments/environment';
 
-
 @Injectable()
 export class AuthService {
 
   log = environment.log;
 
-  isLoggedIn: Observable<boolean>;
-  private observer: Observer<boolean>;
+  isLoggedIn = new BehaviorSubject<boolean>(this.checkCredentials());
+
 
   user = { name: 'Guest' };
   redirectUrl: string;
@@ -32,14 +27,9 @@ export class AuthService {
   headers = new Headers({ 'Content-Type': 'application/json' });
 
   constructor(private http: Http, private router: Router) {
-    this.isLoggedIn = new Observable(observer =>
-      this.observer = observer
-    );
   }
 
-  checkLoginStatus(): Observable<boolean> {
-    return this.isLoggedIn;
-  }
+
 
   signup(newUser: NewUser): Promise<SignupStatus> {
     const options = new RequestOptions({ headers: this.headers });
@@ -47,7 +37,7 @@ export class AuthService {
     return this.http.post(this.singUpUrl, newUser, options)
       .toPromise()
       .then(res => res.json())
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: any) => observableThrowError(error.json().error || 'Server error'));
   }
 
   login(login: Login): Observable<LoginStatus> {
@@ -63,15 +53,15 @@ export class AuthService {
     });
     const options = new RequestOptions({ headers: headers });
 
-    return this.http.post(this.oauthTokenUrl, params.toString(), options)
-      .map(res => {
+    return this.http.post(this.oauthTokenUrl, params.toString(), options).pipe(
+      map(res => {
         console.log('RESPONSE LOGIN');
         this.saveToken(res.json());
         return new LoginStatus('SUCCESS', 'Login Successful');
-      })
-      .catch((error: any) => {
-        return Observable.of(new LoginStatus('FAILURE', 'Username or password is incorrect. Please try again!'));
-      });
+      }),
+      catchError((error: any) => {
+        return of(new LoginStatus('FAILURE', 'Username or password is incorrect. Please try again!'));
+      }));
   }
 
   saveToken(token: any) {
@@ -83,10 +73,15 @@ export class AuthService {
     Cookie.set('access_token', token.get('momoko-authorization'), expireDate);
     Cookie.set('role', token.role);
     this.changeLoginStatus(true);
+    debugger;
+    let urlDestination = '/';
+    if (this.redirectUrl != null){
+      urlDestination = this.redirectUrl;
+    }
     if (token.role === 'ROLE_ADMIN') {
-      this.router.navigate(['/']);
+      this.router.navigate([urlDestination]);
     } else {
-      this.router.navigate(['/']);
+      this.router.navigate([urlDestination]);
     }
 
   }
@@ -97,10 +92,11 @@ export class AuthService {
   //   this.changeLoginStatus(false);
   // }
 
-  changeLoginStatus(status: boolean) {
-    if (this.observer !== undefined) {
-      this.observer.next(status);
+  changeLoginStatus(status: boolean): boolean {
+    if (this.isLoggedIn !== undefined) {
+      this.isLoggedIn.next(status);
     };
+    return status;
   }
 
   token(): void {
@@ -113,7 +109,7 @@ export class AuthService {
       .toPromise()
       .then(response => {
       })
-      .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+      .catch((error: any) => observableThrowError(error.json().error || 'Server error'));
   }
 
   // BORRAME
@@ -129,14 +125,14 @@ export class AuthService {
     });
     const options = new RequestOptions({ headers: headers });
 
-    this.http.post(this.oauthTokenUrl, params.toString(), options)
-      .map(res => {
+    this.http.post(this.oauthTokenUrl, params.toString(), options).pipe(
+      map(res => {
         if (this.log) {
           console.log('autenticado');
         }
         this.saveToken(res.headers);
         return new LoginStatus('SUCCESS', 'Login Successful')
-      })
+      }))
       .subscribe(
       data => { if (this.log) { console.log(data); } },
       err => alert('Invalid Credentials'));
@@ -148,20 +144,22 @@ export class AuthService {
   //   this.router.navigate(['/']);
   // }
 
-  checkCredentials() {
+  checkCredentials(): boolean {
+    let result = false;
     if (this.log) {
       console.log('checkCredentials');
+      console.log(Cookie.check('access_token'));
+      console.log(Cookie.get('access_token'));
     }
     if (Cookie.check('access_token')) {
-      this.isLoggedIn = new Observable(observer =>
-        this.observer = observer
-      );
-      this.changeLoginStatus(true);
+      result = this.changeLoginStatus(true);
     }
+    return result;
   }
 
   logout() {
     Cookie.delete('access_token');
+    Cookie.delete('role');
     this.changeLoginStatus(false);
     this.router.navigate(['/']);
   }

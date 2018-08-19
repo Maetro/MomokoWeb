@@ -6,6 +6,7 @@ import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@a
 import { IndexDataService } from '../index-data.service';
 import { Observable } from 'rxjs';
 import { Cookie } from 'ng2-cookies';
+import {map, take} from 'rxjs/operators';
 
 @Injectable()
 export class ObtenerIndexDataResolverService implements Resolve<ObtenerIndexDataResponse> {
@@ -20,14 +21,16 @@ export class ObtenerIndexDataResolverService implements Resolve<ObtenerIndexData
       
     }
 
-    return this.indexDataService.getIndexData().take(1).map(indexData => {
+    return this.indexDataService.getIndexData().pipe(
+      take(1),
+      map(indexData => {
       if (indexData.librosMasVistos != null) {
         return indexData;
       } else { // url not found
         this.router.navigate(['/not-found']);
         return null;
       }
-    });
+    }),);
   }
 
 }

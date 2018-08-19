@@ -1,10 +1,13 @@
+
+import {throwError as observableThrowError, empty as observableEmpty,  Observable } from 'rxjs';
+
+import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Entrada } from '../dtos/entrada';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/empty'
-import 'rxjs/add/observable/throw';
+
+
 
 import { ObtenerEntradaResponse } from '../dtos/response/obtenerEntradaResponse';
 import { EntradaSimple } from '../dtos/entradaSimple';
@@ -30,10 +33,9 @@ export class EntradaService {
   getEntrada(urlEntrada): Observable<ObtenerEntradaResponse> {
 
     let url = this.getEntradaUrl + urlEntrada;
-    return this.http.get<ObtenerEntradaResponse>(url).map(this.obtenerEntradaDeRespuesta)
-      .catch((error: HttpErrorResponse) => {
-        this.router.navigate(['/not-found']);
-        return Observable.empty<ObtenerEntradaResponse>()});
+    return this.http.get<ObtenerEntradaResponse>(url).pipe(
+      map(this.obtenerEntradaDeRespuesta),
+      catchError(error => observableThrowError(error || 'Server error')),);
   }
 
   getEntradaAdmin(urlEntrada): Observable<Entrada> {
@@ -41,9 +43,9 @@ export class EntradaService {
       'Content-type': 'application/json',
       'Authorization': Cookie.get('access_token')
     });
-    return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, { headers: headers })
-      .map(this.obtenerEntrada)
-      .catch((error: HttpErrorResponse) => Observable.empty<Entrada>());
+    return this.http.get<Entrada>(this.getEntradaAdminUrl + urlEntrada, { headers: headers }).pipe(
+      map(this.obtenerEntrada),
+      catchError(error => observableThrowError(error || 'Server error')),);
   }
 
   private obtenerEntradaDeRespuesta(res: ObtenerEntradaResponse) {
@@ -66,8 +68,8 @@ export class EntradaService {
     if (this.log) {
       console.log(Cookie.get('access_token'));
     }
-    return this.http.get<EntradaSimple[]>(this.entradasUrl, { headers: headers }).map(this.obtenerEntradasDeRespuesta)
-      .catch(error => Observable.throw(error || 'Server error'));
+    return this.http.get<EntradaSimple[]>(this.entradasUrl, { headers: headers }).pipe(map(this.obtenerEntradasDeRespuesta),
+      catchError(error => observableThrowError(error || 'Server error')),);
   }
 
   private obtenerEntradasDeRespuesta(res: EntradaSimple[]) {
@@ -81,9 +83,9 @@ export class EntradaService {
     });
 
     return this.http
-      .post(this.addEntradaUrl, JSON.stringify(entrada), { headers: headers })
-      .map(this.obtenerRespuestaGuardadoEntrada)
-      .catch(error => Observable.throw(error || 'Server error'));
+      .post(this.addEntradaUrl, JSON.stringify(entrada), { headers: headers }).pipe(
+      map(this.obtenerRespuestaGuardadoEntrada),
+      catchError(error => observableThrowError(error || 'Server error')),);
   }
 
   private obtenerRespuestaGuardadoEntrada(res: GuardarEntradaResponse) {

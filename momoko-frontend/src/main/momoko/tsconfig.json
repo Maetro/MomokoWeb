@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "baseUrl": "./src",
     "declaration": false,
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
@@ -14,6 +15,10 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "module": "es2015"
+  },
+  "angularCompilerOptions": {
+    "preserveWhitespaces": false
   }
 }

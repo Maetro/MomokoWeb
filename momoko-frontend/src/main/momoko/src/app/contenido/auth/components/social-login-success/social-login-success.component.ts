@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { environment } from '../../../../../environments/environment';
 import { Login } from '../../dtos/login';
 import { AuthService } from '../../services/auth.service';
-import { HttpClient, HttpHeaders } from '../../../../../../node_modules/@angular/common/http';
-import { Router, ActivatedRoute } from '../../../../../../node_modules/@angular/router';
-import { Cookie } from '../../../../../../node_modules/ng2-cookies';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Cookie } from 'ng2-cookies';
 
 
 @Component({

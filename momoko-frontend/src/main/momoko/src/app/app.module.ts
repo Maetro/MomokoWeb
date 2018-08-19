@@ -10,7 +10,7 @@ import { PROVIDERS, MODULES } from './app.imports';
   declarations: [AppComponent],
   imports: [
     MODULES,
-    BrowserModule.withServerTransition({ appId: 'momoko-app' }),
+    BrowserModule.withServerTransition({ appId: 'ng-universal-demo' }),
     Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
   ],
   providers: [

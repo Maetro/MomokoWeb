@@ -34,16 +34,14 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
     this.menu = APP_DATA.menu;
-    this.authService.checkLoginStatus();
 
     this.authService.isLoggedIn.subscribe(loginStatus => {
       if (this.log) {
         console.log('is logged In?');
-      }
+      }   
       this.isLoggedIn = loginStatus;
     });
     this.menu = APP_DATA.menu;
-    this.authService.checkCredentials();
   }
 
   buscarResultados() {

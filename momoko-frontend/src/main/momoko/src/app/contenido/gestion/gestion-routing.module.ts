@@ -5,32 +5,32 @@ import { CreateFilterComponent } from './gestion-filtros/create-filter/create-fi
 import { EditFilterComponent } from './gestion-filtros/edit-filter/edit-filter.component';
 import { FilterListComponent } from './gestion-filtros/filter-list/filter-list.component';
 import { GestionComponent } from './gestion.component';
+import { ListaEntradasComponent } from './gestion-entradas/lista-entradas/lista-entradas.component';
 
 const adminRoutes: Routes = [
   {
     path: '',
     component: GestionComponent,
     canActivate: [AuthGuardService],
-    children: [
-      {
-        path: '',
-        canActivateChild: [AuthGuardService],
-        children: [
-          { path: '', component: GestionComponent }
-        ]
-      },
-      {
-        path: 'filter',
-        canActivateChild: [AuthGuardService],
-        children: [
-          { path: '', component: FilterListComponent},
-          { path: 'list', redirectTo: '/gestion/filter'},
-          { path: 'nuevo-filtro', component: CreateFilterComponent},
-          { path: 'editar-filtro/:url', component: EditFilterComponent}
-        ]
-      }
-    ]
-  }
+  },
+  {
+    path: 'lista-filtros',
+    canActivate: [AuthGuardService],
+    component: FilterListComponent
+  },
+  {
+    path: 'nuevo-filtro',
+    canActivate: [AuthGuardService],
+    component: CreateFilterComponent
+  },
+  {
+    path: 'editar-filtro/:url',
+    component: EditFilterComponent,
+  },
+  {
+    path: 'lista-entradas',
+    component: ListaEntradasComponent
+  },
 ];
 
 @NgModule({

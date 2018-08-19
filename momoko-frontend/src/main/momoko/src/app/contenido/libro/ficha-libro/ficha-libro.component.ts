@@ -1,4 +1,4 @@
-import { DatoEntrada } from './../../../dtos/datoEntrada';
+import { DatoEntrada } from '../../../dtos/datoEntrada';
 import {
   Component,
   OnInit,

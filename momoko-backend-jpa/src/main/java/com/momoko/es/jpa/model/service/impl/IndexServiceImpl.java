@@ -143,6 +143,7 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
+    @Cacheable("mostSeenBooks")
     public List<LibroSimpleDTO> obtenerLibrosMasVistos() {
         final Calendar c = Calendar.getInstance();
         c.add(Calendar.MONTH, -1);

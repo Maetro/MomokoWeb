@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
-import { ScrollToService } from 'ng2-scroll-to-el';
 import { AppLoadModule } from './app-load/app-load.module';
 import { AppRoutingModule } from './app-routing.module';
 import { Globals } from './app.globals';
@@ -38,6 +37,9 @@ import { TestService } from './services/test.service';
 import { JsonAdapterService } from './services/util/json-adapter.service';
 import { UtilService } from './services/util/util.service';
 import { VideoService } from './services/video.service';
+import { AuthGuardService } from './contenido/auth/services/auth-guard.service';
+import { AuthRoutingModule } from './contenido/auth/auth-app-routing.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 export const PROVIDERS = [
@@ -52,7 +54,6 @@ export const PROVIDERS = [
     VideoService,
     ObtenerEntradaResolverService,
     EntradaService,
-    ScrollToService,
     ObtenerLibroNoticiasResolverService,
     ObtenerLibroResolverService,
     LibroService,
@@ -71,10 +72,12 @@ export const PROVIDERS = [
     ObtenerSagaNoticiasResolverService,
     ObtenerSagaMiscelaneosResolverService,
     ObtenerLibroMiscelaneosResolverService,
+    AuthGuardService,
     Globals
 ];
 
 export const MODULES = [
+    BrowserAnimationsModule,
     ContenidoModule,
     RouterModule,
     HttpClientModule,
@@ -83,4 +86,5 @@ export const MODULES = [
     FormsModule,
     EstaticasModule,
     AuthModule,
+    AuthRoutingModule,
     AppRoutingModule];

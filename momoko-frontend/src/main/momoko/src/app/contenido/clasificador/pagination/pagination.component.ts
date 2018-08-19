@@ -1,5 +1,6 @@
 import {Component, OnInit, OnChanges, Input, Output, EventEmitter} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, range} from 'rxjs';
+import { map, filter, toArray } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -34,10 +35,10 @@ export class PaginationComponent implements OnInit, OnChanges {
 
   getPages(offset: number, limit: number, size: number) {
     this.totalPages = this.getTotalPages(limit, size);
-    this.pages = Observable.range(-this.range, this.range * 2 + 1)
-      .map(offset => Number(this.currentPage) + offset)
-      .filter(page => this.isValidPageNumber(page, this.totalPages))
-      .toArray();
+    this.pages = range(-this.range, this.range * 2 + 1).pipe(
+      map(offset => Number(this.currentPage) + offset),
+      filter(page => this.isValidPageNumber(page, this.totalPages)),
+      toArray(),);
   }
 
   isValidPageNumber(page: number, totalPages: number): boolean {

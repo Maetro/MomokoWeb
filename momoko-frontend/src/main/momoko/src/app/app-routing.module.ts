@@ -24,6 +24,11 @@ import { ObtenerVideoResolverService } from './services/resolvers/obtener-video-
 
 const appRoutes: Routes = [
   {
+    path: 'gestion',
+    loadChildren: 'app/contenido/gestion/gestion.module#GestionModule',
+    canLoad: [AuthGuardService]
+  },
+  {
     path: 'categoria/:url_categoria',
     loadChildren:
       './contenido/clasificador/lista-categoria/lista-categoria.module#ListaCategoriaModule',
@@ -38,11 +43,6 @@ const appRoutes: Routes = [
     resolve: {
       noticiasLibro: ObtenerLibroNoticiasResolverService
     }
-  },
-  {
-    path: 'gestion',
-    loadChildren: 'app/contenido/gestion/gestion.module#GestionModule',
-    canLoad: [AuthGuardService]
   },
   {
     path: 'noticias-saga/:url-saga',

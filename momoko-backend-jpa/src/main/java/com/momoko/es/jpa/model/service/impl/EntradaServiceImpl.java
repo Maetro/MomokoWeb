@@ -324,6 +324,9 @@ public class EntradaServiceImpl implements EntradaService {
                     .obtenerDatosEntradaFromEntradaEntityList(entradasRelacionadas);
             entradaDTO.setDatosEntrada(listaDatosEntradas);
         }
+        if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
+            entradaDTO.setJsonLD("{}");
+        }
     }
 
     public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,

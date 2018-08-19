@@ -8,7 +8,7 @@ export const environment = {
   //URLS app
   momokoUrl: 'https://momoko.es/',
   serverUrl: 'https://momoko.es/',
-  uploadUrl: 'https://www.cambiame.none/upload.php',
+  uploadUrl: 'https://momoko.es/modelo/upload',
   urlFiles: 'https://momoko.es/images/',
   entradasUrl: 'https://momoko.es/modelo/entradas',
   librosUrl: 'https://momoko.es/modelo/libros',
@@ -45,5 +45,8 @@ export const environment = {
   getSagaUrl: 'https://momoko.es/public/saga/',
   getEditorialUrl: 'https://momoko.es/public/editorial/',
   getEditorUrl: 'https://momoko.es/public/redactor/',
-  testUrl: 'https://momoko.es/public/redirect'
+  testUrl: 'https://momoko.es/public/redirect',
+  filtersUrl: 'https://momoko.es/modelo/filter/',
+  addFilterUrl: 'https://momoko.es/modelo/filter/add',
+  getFilter: 'https://momoko.es/modelo/filter/',
 };

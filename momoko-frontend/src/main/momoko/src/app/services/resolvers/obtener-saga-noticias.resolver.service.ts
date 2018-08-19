@@ -7,8 +7,9 @@ import {
 } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { ClasificadorService } from '../clasificador.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { ObtenerPaginaColeccionSagaResponse } from '../../dtos/response/obtenerPaginaSagaColeccionResponse';
+import { map, take } from 'rxjs/operators';
 
 @Injectable()
 export class ObtenerSagaNoticiasResolverService
@@ -18,7 +19,7 @@ export class ObtenerSagaNoticiasResolverService
   constructor(
     private clasificadorService: ClasificadorService,
     private router: Router
-  ) { }
+  ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
@@ -30,18 +31,24 @@ export class ObtenerSagaNoticiasResolverService
     const url = route.paramMap.get('url-saga');
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
-      return this.clasificadorService.getPaginaNoticiasSagaPage(url, numeroPagina).take(1)
-        .map(noticiasSaga => {
-          if (noticiasSaga.saga != null) {
-            return noticiasSaga;
-          } else {
-            // url not found
-            this.router.navigate(['/not-found']);
-            return null;
-          }
-        });
+      return this.clasificadorService
+        .getPaginaNoticiasSagaPage(url, numeroPagina)
+        .pipe(
+          take(1),
+          map(noticiasSaga => {
+            if (noticiasSaga.saga != null) {
+              return noticiasSaga;
+            } else {
+              // url not found
+              this.router.navigate(['/not-found']);
+              return null;
+            }
+          })
+        );
     } else {
-      return this.clasificadorService.getPaginaNoticiasSaga(url).take(1).map(noticiasSaga => {
+      return this.clasificadorService.getPaginaNoticiasSaga(url).pipe(
+        take(1),
+        map(noticiasSaga => {
           if (noticiasSaga.saga != null) {
             return noticiasSaga;
           } else {
@@ -49,7 +56,8 @@ export class ObtenerSagaNoticiasResolverService
             this.router.navigate(['/not-found']);
             return null;
           }
-        });
+        })
+      );
     }
   }
 }

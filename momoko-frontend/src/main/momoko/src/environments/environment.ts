@@ -13,7 +13,7 @@ export const environment = {
   //URLS app
   momokoUrl: 'http://localhost:4200/',
   serverUrl: 'http://localhost:5000/',
-  uploadUrl: 'http://localhost/upload.php',
+  uploadUrl: 'http://localhost:5000/modelo/upload',
   urlFiles: 'http://momoko.local/images/',
   entradasUrl: 'http://localhost:5000/modelo/entradas',
   librosUrl: 'http://localhost:5000/modelo/libros',
@@ -50,5 +50,8 @@ export const environment = {
   getSagaUrl: 'http://localhost:5000/public/saga/',
   getEditorialUrl: 'http://localhost:5000/public/editorial/',
   getEditorUrl: 'http://localhost:5000/public/redactor/',
-  testUrl: 'http://localhost:5000/public/redirect'
+  testUrl: 'http://localhost:5000/public/redirect',
+  filtersUrl: 'http://localhost:5000/modelo/filter/',
+  addFilterUrl: 'http://localhost:5000/modelo/filter/add',
+  getFilter: 'http://localhost:5000/modelo/filter/',
 };

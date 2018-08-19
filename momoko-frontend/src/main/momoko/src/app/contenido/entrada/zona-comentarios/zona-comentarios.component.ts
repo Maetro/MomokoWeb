@@ -7,7 +7,6 @@ import { ComentarioRequest } from '../../../dtos/request/comentarioRequest';
 import { ComentariosService } from '../../../services/comentarios.service';
 import { NgForm } from '@angular/forms';
 import { Message } from 'primeng/components/common/api';
-import { ScrollToService } from 'ng2-scroll-to-el';
 
 @Component({
   selector: 'app-zona-comentarios',
@@ -34,7 +33,7 @@ export class ZonaComentariosComponent implements OnInit {
 
   mostrarError = false;
 
-  constructor(private comentariosService: ComentariosService, private scrollService: ScrollToService) {
+  constructor(private comentariosService: ComentariosService) {
     this.nuevoComentario = new ComentarioRequest;
 
   }
@@ -66,14 +65,9 @@ export class ZonaComentariosComponent implements OnInit {
       console.log('Padre');
       console.log(comentario);
     }
-    this.scrollToElement(element);
     this.comentarioSeleccionado = true;
     this.comentarioAResponder = comentario;
     this.nuevoComentario.comentarioRespuesta = comentario.comentarioId;
-  }
-
-  scrollToElement(element) {
-    this.scrollService.scrollTo(element);
   }
 
   cerrarComentario() {

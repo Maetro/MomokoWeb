@@ -3,9 +3,10 @@ import { environment } from '../../../environments/environment';
 import { GenrePageResponse } from '../../dtos/genre/genrePageResponse';
 import { Resolve, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { ClasificadorService } from '../clasificador.service';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { OrderType } from '../../dtos/enums/ordertype';
 import { Globals } from '../../app.globals';
+import {map, take} from 'rxjs/operators';
 
 @Injectable()
 export class ObtenerListaGeneroResolverService implements Resolve<GenrePageResponse> {
@@ -24,14 +25,14 @@ export class ObtenerListaGeneroResolverService implements Resolve<GenrePageRespo
     if (!numeroPagina) {
       numeroPagina = "1";
     }
-    return this.clasificadorService.getGenrePage(url, numeroPagina,  this.globals.orderType).take(1).map(genero => {
+    return this.clasificadorService.getGenrePage(url, numeroPagina,  this.globals.orderType).pipe(take(1),map(genero => {
       if (genero.genero != null) {
         return genero;
       } else { // url not found
         this.router.navigate(['/not-found']);
         return null;
       }
-    });
+    }),);
 
   }
 

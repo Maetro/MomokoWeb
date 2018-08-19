@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Resolve, Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ClasificadorService } from '../clasificador.service';
 import { ObtenerPaginaRedactorResponse } from '../../dtos/response/obtenerPaginaEditorResponse';
-
+import {map, take} from 'rxjs/operators';
 
 
 @Injectable()
@@ -22,23 +22,23 @@ export class ObtenerListaEditorResolverService implements Resolve<ObtenerPaginaR
     const url = route.paramMap.get('url_redactor');
     const numeroPagina = route.paramMap.get('numero_pagina');
     if (numeroPagina) {
-      return this.clasificadorService.getEditorPage(url, numeroPagina).take(1).map(redactor => {
+      return this.clasificadorService.getEditorPage(url, numeroPagina).pipe(take(1),map(redactor => {
         if (redactor.redactor != null) {
           return redactor;
         } else { // url not found
           this.router.navigate(['/not-found']);
           return null;
         }
-      });
+      }),);
     } else {
-      return this.clasificadorService.getEditor(url).take(1).map(redactor => {
+      return this.clasificadorService.getEditor(url).pipe(take(1),map(redactor => {
         if (redactor.redactor != null) {
           return redactor;
         } else { // url not found
           this.router.navigate(['/not-found']);
           return null;
         }
-      });
+      }),);
     }
   }
 

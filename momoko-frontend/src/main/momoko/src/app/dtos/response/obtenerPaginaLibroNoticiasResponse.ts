@@ -1,4 +1,4 @@
-import { DatoEntrada } from './../datoEntrada';
+import { DatoEntrada } from '../datoEntrada';
 import { Libro } from "../libro";
 import { EntradaSimple } from "../entradaSimple";
 
