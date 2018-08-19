@@ -1,0 +1,226 @@
+<p-growl [(value)]="msgs"></p-growl>
+<div *ngIf="redactor" class="form-container">
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="vanilla vanilla-form" novalidate="novalidate">
+        <div class="row">
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Nombre del redactor: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.nombre" (ngModelChange)="cambioNombre($event)" placeholder="Escribe aquí el nombre del redactor" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Url del redactor: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.urlRedactor" placeholder="Escribe aquí la URL del redactor" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Nick del redactor: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.nick" placeholder="Escribe aquí la URL del redactor" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Email: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.email" placeholder="user@ejemplo.com" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Cargo: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.cargo" placeholder="Escribe aquí el cargo del redactor" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Descripción del redactor: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.descripcion" placeholder="Escribe aquí la descripcion del redactor" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Twitter: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.twitter" placeholder="https://twitter.com/user" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Facebook: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.facebook" placeholder="https://www.facebook.com/user" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Instagram: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.instagram" placeholder="https://www.instagram.com/user" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Youtube: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.youtube" placeholder="https://www.youtube.com/user" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 rp10">
+            <div class="form-field">
+              <h4> Página web: </h4>
+            </div>
+          </div>
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <label>
+                <input type="text" [(ngModel)]="redactor.paginaweb" placeholder="https://www.ejemplo.com" />
+              </label>
+            </div>
+            <!--/.form-field -->
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <h2 class="section-title widget-title  margen_superior">Imagen de cabecera del redactor</h2>
+              <img src="{{redactor.imagenCabeceraRedactor}}" alt="Cabecera redactor - {{redactor.nombre}}" />
+              <p-fileUpload name="cabeceraFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeCabecera($event)" chooseLabel="Subir imagen"
+                auto="auto" maxFileSize="1000000">
+
+                <ng-template pTemplate="content">
+                  <div>Arrastra aquí la imagen que quieras subir.</div>
+                </ng-template>
+              </p-fileUpload>
+            </div>
+          </div>
+
+          <div class="divide10"></div>
+
+          <div class="col-sm-12 lp10">
+            <div class="form-field">
+              <h2 class="section-title widget-title  margen_superior">Avatar</h2>
+              <img class="imagen-avatar" src="{{redactor.avatarRedactor}}" alt="Icono redactor - {{redactor.nombre}}" />
+              <p-fileUpload name="iconoFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeAvatar($event)" chooseLabel="Subir imagen"
+                auto="auto" maxFileSize="1000000">
+
+                <ng-template pTemplate="content">
+                  <div>Arrastra aquí la imagen que quieras subir.</div>
+                </ng-template>
+              </p-fileUpload>
+            </div>
+          </div>
+
+          <div class="col-sm-12 rp10 botonInferior">
+            <div [hidden]="!esRedactorNuevo">
+              <input type="submit" class="btn btn-forest" value="Crear redactor" (click)="guardarRedactor()" data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
+            <div [hidden]="esRedactorNuevo">
+              <input type="submit" class="btn btn-forest" value="Actualizar redactor" (click)="guardarRedactor()" data-error="Fix errors" data-processing="Sending..."
+                data-success="Thank you!">
+            </div>
+          </div>
+          <footer class="notification-box"></footer>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>

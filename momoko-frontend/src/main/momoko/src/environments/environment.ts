@@ -54,4 +54,8 @@ export const environment = {
   filtersUrl: 'http://localhost:5000/modelo/filter/',
   addFilterUrl: 'http://localhost:5000/modelo/filter/add',
   getFilter: 'http://localhost:5000/modelo/filter/',
+  editorialesUrl: 'http://localhost:5000/modelo/editoriales',
+  addEditorialUrl: 'http://localhost:5000/modelo/editorial/add',
+  redactoresUrl: 'http://localhost:5000/modelo/redactores',
+  addRedactorUrl: 'http://localhost:5000/modelo/redactor/add',
 };

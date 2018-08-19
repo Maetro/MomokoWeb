@@ -40,7 +40,7 @@ import { VideoService } from './services/video.service';
 import { AuthGuardService } from './contenido/auth/services/auth-guard.service';
 import { AuthRoutingModule } from './contenido/auth/auth-app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
 
 export const PROVIDERS = [
     ObtenerIndexDataResolverService,
@@ -85,6 +85,7 @@ export const MODULES = [
     AppLoadModule,
     FormsModule,
     EstaticasModule,
+    AngularFontAwesomeModule,
     AuthModule,
     AuthRoutingModule,
     AppRoutingModule];

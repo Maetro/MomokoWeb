@@ -1,7 +1,7 @@
 export const environment = {
-  production: false,
+  production: true,
 
-  log: true,
+  log: false,
 
   // URLS app
   momokoUrl: 'https://momoko.es/',

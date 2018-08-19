@@ -16,7 +16,7 @@ import { GrowlModule } from 'primeng/components/growl/growl';
 import { FormsModule } from '@angular/forms';
 
 // Import library module
-import { NgxJsonLdModule } from 'ngx-json-ld';
+import { NgxJsonLdModule } from '@ngx-lite/json-ld';
 import { RedactorInfoModule } from '../comun/redactor-info/redactor-info.module';
 import { AnalisisSagaComponent } from './analisis-saga/analisis-saga.component';
 import { NoticiaSagaComponent } from './noticia-saga/noticia-saga.component';

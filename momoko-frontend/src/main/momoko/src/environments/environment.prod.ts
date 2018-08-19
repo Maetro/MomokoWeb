@@ -49,4 +49,8 @@ export const environment = {
   filtersUrl: 'https://momoko.es/modelo/filter/',
   addFilterUrl: 'https://momoko.es/modelo/filter/add',
   getFilter: 'https://momoko.es/modelo/filter/',
+  editorialesUrl: 'https://momoko.es/modelo/editoriales',
+  addEditorialUrl: 'https://momoko.es/modelo/editorial/add',
+  redactoresUrl: 'http://momoko.es/modelo/redactores',
+  addRedactorUrl: 'http://momoko.es/modelo/redactor/add',
 };

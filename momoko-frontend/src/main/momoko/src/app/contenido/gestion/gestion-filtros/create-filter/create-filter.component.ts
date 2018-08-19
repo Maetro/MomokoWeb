@@ -135,4 +135,8 @@ export class CreateFilterComponent implements OnInit {
     return this.filterService.needToDefineCustomValues(this.filter);
   }
 
+  changeFilterType(){
+    console.log('changeFilterType');
+  }
+
 }
