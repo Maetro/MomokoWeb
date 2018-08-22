@@ -47,11 +47,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
 
-/**
- * Spring Momoko Auto Configuration
- * 
- * @author Sanjay Patel
- */
 @Configuration
 @EnableSpringDataWebSupport
 @EnableTransactionManagement
