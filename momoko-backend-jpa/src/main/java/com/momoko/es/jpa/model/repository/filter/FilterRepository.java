@@ -13,9 +13,11 @@ public interface FilterRepository extends CrudRepository<FilterEntity, Integer>{
 
     Set<FilterEntity> findAll();
 
-    public List<FilterEntity> findAllByApplicableGenresIn(List<GenreEntity> genres);
+    public Set<FilterEntity> findAllByApplicableGenresIn(List<GenreEntity> genres);
 
     FilterEntity findOneByUrlFilterIs(String urlFilter);
+
+    public Set<FilterEntity> findAllByApplicableGenresIsNull();
 
 //    @Query("select distinct l from FilterEntity l join l.filterbooks fb"
 //            + " WHERE e.tipoEntrada = 2 AND g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL"

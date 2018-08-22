@@ -9,7 +9,7 @@ import { LibroDetailComponent } from './libro-detail/libro-detail.component';
 import { ListaLibrosComponent } from './lista-libros/lista-libros.component';
 
 import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule,
-  SharedModule, DropdownModule } from 'primeng/primeng';
+  SharedModule, DropdownModule, MessageService } from 'primeng/primeng';
 
 import { PickListModule } from 'primeng/components/picklist/picklist';
 import { CheckboxModule } from 'primeng/components/checkbox/checkbox';
@@ -17,6 +17,11 @@ import { LibroService } from '../../../services/libro.service';
 import { FileUploadService } from '../services/file-upload.service';
 import { JsonAdapterService } from '../../../services/util/json-adapter.service';
 import { SagaService } from '../../../services/saga.service';
+import { BookListComponent } from './book-list/book-list.component';
+
+import { BookService } from './book.service';
+import { TableModule } from 'primeng/table';
+import { BookFormComponent } from './book-form/book-form.component';
 
 @NgModule({
   imports: [
@@ -32,13 +37,16 @@ import { SagaService } from '../../../services/saga.service';
     SharedModule,
     PickListModule,
     Ng2CompleterModule,
+    TableModule
   ],
   declarations: [
     LibroDetailComponent,
-    ListaLibrosComponent
+    ListaLibrosComponent,
+    BookListComponent,
+    BookFormComponent
   ],
   providers: [
-    LibroService, FileUploadService, JsonAdapterService, SagaService
+    LibroService, FileUploadService, JsonAdapterService, SagaService, BookService
   ],
   entryComponents: [ListaLibrosComponent]
 })

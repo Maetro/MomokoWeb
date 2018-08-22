@@ -1,6 +1,6 @@
 /**
  * StringToListAdpater.java 25-oct-2017
- *
+ * <p>
  * Copyright 2017 .
  * Departamento de Sistemas
  */
@@ -118,7 +118,7 @@ public class ConversionUtils {
      * @return the list
      */
     public static List<EntradaSimpleDTO> obtenerEntradasBasicas(final List<EntradaEntity> listaEntities,
-            final boolean obtenerComentarios) {
+                                                                final boolean obtenerComentarios) {
         final List<EntradaSimpleDTO> entradasSimples = new ArrayList<EntradaSimpleDTO>();
         if (CollectionUtils.isNotEmpty(listaEntities)) {
             for (final EntradaEntity entrada : listaEntities) {
@@ -185,7 +185,7 @@ public class ConversionUtils {
      * @return the entrada simple dto
      */
     public static EntradaSimpleDTO obtenerEntradaSimpleDTO(final EntradaEntity entrada,
-            final boolean obtenerComentarios) {
+                                                           final boolean obtenerComentarios) {
         final EntradaSimpleDTO entradaSimpleDTO = new EntradaSimpleDTO();
         entradaSimpleDTO.setTituloEntrada(entrada.getTituloEntrada());
         entradaSimpleDTO.setNombreAutor(entrada.getEntradaAutor().getUsuarioNick());
@@ -233,7 +233,7 @@ public class ConversionUtils {
      * @return the list
      */
     public static List<LibroSimpleDTO> obtenerLibrosBasicos(final List<LibroEntity> listaLibros,
-            final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro) {
+                                                            final Map<LibroEntity, PuntuacionEntity> mapaPuntacionMomokoPorLibro) {
         final List<LibroSimpleDTO> librosSimples = new ArrayList<LibroSimpleDTO>();
         if (CollectionUtils.isNotEmpty(listaLibros)) {
             for (final LibroEntity libro : listaLibros) {
@@ -253,7 +253,7 @@ public class ConversionUtils {
      * @return the libro simple dto
      */
     public static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro,
-            final PuntuacionEntity puntuacionEntity) {
+                                                       final PuntuacionEntity puntuacionEntity) {
         final LibroSimpleDTO libroSimpleDTO = new LibroSimpleDTO();
         libroSimpleDTO.setNombreAutor(libro.getAutores().iterator().next().getNombre());
         if (puntuacionEntity != null) {
@@ -323,7 +323,7 @@ public class ConversionUtils {
      */
     @SuppressWarnings("unchecked")
     public static <T, P> Map<P, T> crearMapaDeListaPorValor(final List<T> lista, final String campo,
-            final Class<P> keyClass, final Class<T> objectClass) {
+                                                            final Class<P> keyClass, final Class<T> objectClass) {
         final Map<P, T> mapa = new HashMap<P, T>();
         if (CollectionUtils.isNotEmpty(lista)) {
             for (final T t : lista) {
@@ -516,4 +516,21 @@ public class ConversionUtils {
         return listaDatosEntradas;
     }
 
+    public static List<LibroDTO> getDataForBookAdminTable(List<LibroEntity> bookEntities) {
+        List<LibroDTO> books = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(bookEntities)) {
+            for (LibroEntity bookEntity : bookEntities) {
+                LibroDTO bookDTO = new LibroDTO();
+                bookDTO.setLibroId(bookEntity.getLibroId());
+                bookDTO.setTitulo(bookEntity.getTitulo());
+                bookDTO.setEditorial(EntityToDTOAdapter.adaptarEditorial(bookEntity.getEditorial()));
+                bookDTO.setAutoresString(MomokoUtils.generarAutoresString(bookEntity));
+                bookDTO.setGenerosString(MomokoUtils.generarGenerosString(bookEntity));
+                bookDTO.setAnoEdicion(bookEntity.getAnoEdicion());
+                bookDTO.setUrlLibro(bookEntity.getUrlLibro());
+                books.add(bookDTO);
+            }
+        }
+        return books;
+    }
 }

@@ -1,7 +1,6 @@
 package com.momoko.es.commons.security;
 
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.commons.util.UserUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.access.PermissionEvaluator;

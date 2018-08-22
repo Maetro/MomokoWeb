@@ -41,6 +41,8 @@ import { AuthGuardService } from './contenido/auth/services/auth-guard.service';
 import { AuthRoutingModule } from './contenido/auth/auth-app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import {ToastModule} from 'primeng/toast';
+import { MessageService } from 'primeng/primeng';
 
 export const PROVIDERS = [
     ObtenerIndexDataResolverService,
@@ -73,6 +75,7 @@ export const PROVIDERS = [
     ObtenerSagaMiscelaneosResolverService,
     ObtenerLibroMiscelaneosResolverService,
     AuthGuardService,
+    MessageService,
     Globals
 ];
 
@@ -84,6 +87,7 @@ export const MODULES = [
     HttpModule,
     AppLoadModule,
     FormsModule,
+    ToastModule,
     EstaticasModule,
     AngularFontAwesomeModule,
     AuthModule,

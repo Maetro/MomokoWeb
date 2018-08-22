@@ -17,6 +17,9 @@ import java.util.List;
 
 public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
 
+    @Override
+    List<LibroEntity> findAll();
+
     List<LibroEntity> findByTitulo(String titulo);
 
     @Query("SELECT l.titulo FROM LibroEntity l")

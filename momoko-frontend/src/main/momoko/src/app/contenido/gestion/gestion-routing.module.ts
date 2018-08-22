@@ -12,6 +12,8 @@ import { ListaLibrosComponent } from './gestion-libros/lista-libros/lista-libros
 import { ListaGaleriasComponent } from './gestion-galerias/lista-galerias/lista-galerias.component';
 import { ListaEditorialesComponent } from './gestion-editoriales/lista-editoriales/lista-editoriales.component';
 import { ListaRedactoresComponent } from './gestion-redactores/lista-redactores/lista-redactores.component';
+import { BookListComponent } from './gestion-libros/book-list/book-list.component';
+import { BookFormComponent } from './gestion-libros/book-form/book-form.component';
 
 const adminRoutes: Routes = [
   {
@@ -33,6 +35,21 @@ const adminRoutes: Routes = [
     path: 'editar-filtro/:url',
     canActivate: [AuthGuardService],
     component: EditFilterComponent,
+  },
+  {
+    path: 'lista-libros',
+    canActivate: [AuthGuardService],
+    component: BookListComponent
+  },
+  {
+    path: 'nuevo-libro',
+    canActivate: [AuthGuardService],
+    component: BookFormComponent
+  },
+  {
+    path: 'editar-libro/:url',
+    canActivate: [AuthGuardService],
+    component: BookFormComponent,
   },
   {
     path: 'lista-entradas',

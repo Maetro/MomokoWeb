@@ -56,6 +56,8 @@ import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
 import com.momoko.es.jpa.model.util.MomokoThumbnailUtils;
 import com.momoko.es.jpa.model.util.MomokoUtils;
 
+import javax.transaction.Transactional;
+
 /**
  * The Class LibroServiceImpl.
  */
@@ -390,6 +392,14 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public BigDecimal obtenerPuntucionMomokoLibro(final String urlLibro) {
         return this.puntuacionRepository.findOneByEsPuntuacionMomokoAndLibroUrl(urlLibro);
+    }
+
+    @Override
+    @Transactional
+    public List<LibroDTO> getAllBooks() {
+        List<LibroEntity> bookEntities = this.libroRepository.findAll();
+        List<LibroDTO> books = ConversionUtils.getDataForBookAdminTable(bookEntities);
+        return books;
     }
 
 }

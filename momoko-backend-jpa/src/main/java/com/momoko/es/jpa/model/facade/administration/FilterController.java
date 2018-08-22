@@ -53,5 +53,14 @@ public class FilterController {
 
     }
 
+    @GetMapping(path = "/filter/genre/{urlGenre}")
+    public @ResponseBody
+    List<FilterDTO> getFilter(@PathVariable("urlGenre") List<String> urlGenre) {
+        final List<FilterDTO> filters = this.filterService.getFiltersAppliedByGenreUrl(urlGenre);
+        return filters;
+    }
+
+
+
 
 }

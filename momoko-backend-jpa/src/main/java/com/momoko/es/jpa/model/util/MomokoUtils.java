@@ -10,6 +10,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momoko.es.api.dto.AutorDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.jpa.model.entity.AutorEntity;
+import com.momoko.es.jpa.model.entity.GenreEntity;
+import com.momoko.es.jpa.model.entity.LibroEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -110,6 +113,22 @@ public class MomokoUtils {
         return generosString;
     }
 
+
+    public static String generarGenerosString(final LibroEntity libroEntity) {
+        String generosString = "";
+        if (CollectionUtils.isNotEmpty(libroEntity.getGeneros())) {
+            Iterator<GenreEntity> iterator = libroEntity.getGeneros().iterator();
+            while (iterator.hasNext()) {
+                final GenreEntity autor = iterator.next();
+                generosString += autor.getNombre();
+                if (iterator.hasNext()) {
+                    generosString += ", ";
+                }
+            }
+        }
+        return generosString;
+    }
+
     /**
      * Generar autores string.
      *
@@ -123,6 +142,21 @@ public class MomokoUtils {
             final Iterator<AutorDTO> iterator = libroDTO.getAutores().iterator();
             while (iterator.hasNext()) {
                 final AutorDTO autor = iterator.next();
+                autoresString += autor.getNombre();
+                if (iterator.hasNext()) {
+                    autoresString += ", ";
+                }
+            }
+        }
+        return autoresString;
+    }
+
+    public static String generarAutoresString(final LibroEntity libro) {
+        String autoresString = "";
+        if (CollectionUtils.isNotEmpty(libro.getAutores())) {
+            Iterator<AutorEntity> iterator = libro.getAutores().iterator();
+            while (iterator.hasNext()) {
+                final AutorEntity autor = iterator.next();
                 autoresString += autor.getNombre();
                 if (iterator.hasNext()) {
                     autoresString += ", ";

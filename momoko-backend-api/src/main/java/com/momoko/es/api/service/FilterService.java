@@ -16,4 +16,6 @@ public interface FilterService {
     FilterDTO getFilterById(Integer filterId);
 
     FilterDTO getFilterByUrl(String urlFilter);
+
+    List<FilterDTO> getFiltersAppliedByGenreUrl(List<String> urlGenre);
 }

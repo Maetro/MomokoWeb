@@ -138,4 +138,13 @@ public class FilterServiceImpl implements FilterService {
         FilterEntity filterEntity = filterRepository.findOneByUrlFilterIs(urlFilter);
         return EntityToDTOAdapter.adaptFilter(filterEntity);
     }
+
+    @Override
+    public List<FilterDTO> getFiltersAppliedByGenreUrl(List<String> urlGenres) {
+        List<GenreEntity> genres = this.genreRepository.findByUrlGeneroIn(urlGenres);
+        Set<FilterEntity> filterGenre = this.filterRepository.findAllByApplicableGenresIn(genres);
+        Set<FilterEntity> genericFilters = this.filterRepository.findAllByApplicableGenresIsNull();
+        filterGenre.addAll(genericFilters);
+        return EntityToDTOAdapter.adaptFilters(filterGenre);
+    }
 }
