@@ -1,3 +1,7 @@
 #!/usr/bin/env bash
 
-sudo apt-get install -y mysql-server
+
+cd /vagrant
+mysqladmin -u root -proot create momokobd
+
+mysql -u root -proot momokobd < mysql/start_BD.sql

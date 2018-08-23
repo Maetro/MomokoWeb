@@ -1,0 +1,77 @@
+# IP which nodejs is running on
+upstream app_node {
+    server 127.0.0.1:4000;
+}
+
+upstream app_angular {
+    server 127.0.0.1:4200;
+}
+
+# nginx server instance
+server {
+    listen 80 default_server;
+    server_name momoko.es;
+    #access_log /var/log/nginx/x.log;
+
+    location / {
+        root /var/www/html;
+        index index.html index.htm index.php;
+        try_files $uri @node;
+    }
+    
+    location /images {
+        root /var/www/html;
+        index index.html index.htm index.php;
+        try_files $
+    }
+
+    location /public {
+        proxy_pass http://127.0.0.1:5000;
+    }
+
+    location /modelo {
+	proxy_pass http://127.0.0.1:5000;
+    }
+
+    location /oauth {
+	proxy_pass http://127.0.0.1:5000;
+    }
+
+    location @node {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_pass http://app_node;
+    }
+}
+
+server {
+listen 80;
+    server_name admin.momoko.es www.admin.momoko.es;
+    #access_log /var/log/nginx/x.log;
+
+    location / {
+        root /var/www/html;
+        index index.html index.htm index.php;
+        try_files $uri @sngular;
+    }
+
+    location /public {
+        proxy_pass http://127.0.0.1:5000;
+    }
+
+    location /modelo {
+        proxy_pass http://127.0.0.1:5000;
+    }
+
+    location /oauth {
+        proxy_pass http://127.0.0.1:5000;
+    }
+
+    location @angular {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-For $remote_addr;
+        proxy_pass http://app_angular;
+    }
+
+
+}
