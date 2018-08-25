@@ -119,6 +119,7 @@ export class BookFormComponent implements OnInit {
     this.libroService.guardarLibro(this.libro).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
         this.showSuccess('Libro guardado correctamente');
+        this.router.navigate(['/gestion/lista-libros']);
       } else {
         this.showError(res.listaErroresValidacion);
       }

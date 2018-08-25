@@ -6,6 +6,7 @@ package com.momoko.es.jpa.model.service.impl;
 
 import java.util.Calendar;
 
+import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -73,10 +74,10 @@ public class PuntuacionServiceImpl implements PuntuacionService {
      *            the libro
      * @return the puntuacion entity
      */
-    public PuntuacionEntity guardarPuntuacionLibro(final PuntuacionDTO puntuacionDTO, final LibroEntity libro) {
+    public PuntuacionEntity guardarPuntuacionLibro(final PuntuacionDTO puntuacionDTO, final LibroEntity libro) throws UserNotFoundException {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        final UsuarioEntity autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+        final UsuarioEntity autor = this.usuarioRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new UserNotFoundException(currentPrincipalName));;
         puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(autor));
         final PuntuacionEntity viejaPuntuacion = this.puntuacionRepository.findOnePuntuacionEntityByLibroAndAutor(libro,
                 autor);
@@ -108,14 +109,12 @@ public class PuntuacionServiceImpl implements PuntuacionService {
      *
      * @param puntuacionDTO
      *            the puntuacion dto
-     * @param libro
-     *            the libro
      * @return the puntuacion entity
      */
-    public PuntuacionEntity guardarPuntuacionSaga(final PuntuacionDTO puntuacionDTO, final SagaEntity saga) {
+    public PuntuacionEntity guardarPuntuacionSaga(final PuntuacionDTO puntuacionDTO, final SagaEntity saga) throws UserNotFoundException {
         final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         final String currentPrincipalName = authentication.getName();
-        final UsuarioEntity autor = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+        final UsuarioEntity autor = this.usuarioRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new UserNotFoundException(currentPrincipalName));
         puntuacionDTO.setAutor(ConversionUtils.obtenerUsuarioBasico(autor));
         final PuntuacionEntity viejaPuntuacion = this.puntuacionRepository.findOnePuntuacionEntityBySagaAndAutor(saga,
                 autor);

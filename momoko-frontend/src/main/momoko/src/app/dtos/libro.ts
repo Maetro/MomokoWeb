@@ -29,4 +29,5 @@ export class Libro {
   visitas: number;
   ordenSaga: number;
   tieneOpinion: boolean;
+  fechaAlta: Date
 }

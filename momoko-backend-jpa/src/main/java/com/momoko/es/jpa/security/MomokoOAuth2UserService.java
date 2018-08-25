@@ -66,7 +66,7 @@ public class MomokoOAuth2UserService extends DefaultOAuth2UserService {
 		boolean emailVerified = momokoService.getOAuth2AccountVerified(registrationId, attributes);
 		LexUtils.validate(emailVerified, "com.momoko.es.oauth2EmailNotVerified", registrationId).go();
 
-		UsuarioEntity user = usuarioRepository.findByUsuarioEmail(email);
+		UsuarioEntity user = usuarioRepository.findByEmail(email).orElse(null);
 
 		if (user == null){
 

@@ -129,4 +129,6 @@ public interface LibroService {
     public BigDecimal obtenerPuntucionMomokoLibro(String urlLibro);
 
     public List<LibroDTO> getAllBooks();
+
+    public LibroDTO getBookForModification(String urlBook);
 }

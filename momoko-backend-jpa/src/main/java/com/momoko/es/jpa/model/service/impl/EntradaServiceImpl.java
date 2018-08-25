@@ -928,7 +928,7 @@ public class EntradaServiceImpl implements EntradaService {
                                     + video.getId().getVideoId() + "&key=AIzaSyCJrWHmLXtIAri-uhpJzOh30jdtZl03dgA",
                             VideoYoutube.class);
                     final Item videoData = videoMomokoYoutube.getItems().iterator().next();
-                    final UsuarioEntity autora = this.usuarioRepository.findByUsuarioEmail("kizuna.owo@gmail.com");
+                    final UsuarioEntity autora = this.usuarioRepository.findByEmail("kizuna.owo@gmail.com").orElseThrow(null);
                     final EntradaDTO nuevaEntradaVideo = new EntradaDTO();
                     nuevaEntradaVideo.setRedactor(ConversionUtils.getRedactorFromUsuario(autora));
                     nuevaEntradaVideo.setContenidoEntrada(videoData.getSnippet().getDescription());

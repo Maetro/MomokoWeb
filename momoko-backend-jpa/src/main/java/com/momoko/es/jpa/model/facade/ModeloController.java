@@ -173,6 +173,8 @@ public class ModeloController {
                 this.puntuacionService.guardarPuntuacion(puntuacionDTO);
             } catch (final Exception e) {
                 listaErrores.add(ErrorCreacionLibro.PUNTUACION_YA_EXISTE);
+                log.error("context", e);
+
             }
         }
 

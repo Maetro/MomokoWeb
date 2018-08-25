@@ -528,6 +528,7 @@ public class ConversionUtils {
                 bookDTO.setGenerosString(MomokoUtils.generarGenerosString(bookEntity));
                 bookDTO.setAnoEdicion(bookEntity.getAnoEdicion());
                 bookDTO.setUrlLibro(bookEntity.getUrlLibro());
+                bookDTO.setFechaAlta(bookEntity.getFechaAlta());
                 books.add(bookDTO);
             }
         }

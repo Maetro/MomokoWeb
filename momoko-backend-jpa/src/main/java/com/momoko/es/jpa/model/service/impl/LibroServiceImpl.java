@@ -402,4 +402,19 @@ public class LibroServiceImpl implements LibroService {
         return books;
     }
 
+    @Override
+    public LibroDTO getBookForModification(String urlBook) {
+        final LibroEntity libroEntity = this.libroRepository.findOneByUrlLibro(urlBook);
+        LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libroEntity);
+        libroDTO = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
+        // Nota Momoko del libro
+        final PuntuacionEntity puntuacionEntity = this.puntuacionRepository
+                .findOneByEsPuntuacionMomokoAndLibro(true, libroEntity);
+        if (puntuacionEntity != null) {
+            libroDTO.setNotaMomoko(puntuacionEntity.getValor());
+            libroDTO.setComentarioNotaMomoko(puntuacionEntity.getComentario());
+        }
+        return libroDTO;
+    }
+
 }

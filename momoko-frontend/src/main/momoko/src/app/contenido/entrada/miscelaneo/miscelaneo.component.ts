@@ -41,10 +41,7 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
   tituloSeccionLibros = 'Otros libros parecidos';
 
   html:any;
-  html2:any;
   
-  test = '<iframe src="https://open.spotify.com/embed/track/1FGXVdJ5SKjf8iGuzv6e0m" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>'
-
   schema;
 
   constructor(
@@ -90,7 +87,6 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
     });
     this.schema = JSON.parse(this.entrada.jsonLD);
     this.html = this.sanitizer.bypassSecurityTrustHtml(this.entrada.contenidoEntrada);
-    this.html2 = this.sanitizer.bypassSecurityTrustHtml(this.test);
   }
 
   ngAfterViewInit(): void {

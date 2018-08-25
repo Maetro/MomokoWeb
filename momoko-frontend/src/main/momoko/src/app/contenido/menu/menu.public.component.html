@@ -77,29 +77,7 @@
             <li>
               <a href="mailto:info@momoko.es" class="btnColaborar"> COLABORA </a>
             </li>
-            <li>
-              <a routerLink="/auth/login" routerLinkActive="active" *ngIf="isLoggedIn === false">Login</a>
-            </li>
-            <!-- <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
-            <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
-  
-            <li class="main-menu-header">
-              <a routerLink="/gestion" routerLinkActive="active" *ngIf="isLoggedIn === true">Administrar</a>
-              <ul class="dropdown-menu double">
-                <li>
-                  <a routerLink="/gestion/lista-entradas" routerLinkActive="active">Entradas</a>
-                  <a routerLink="/gestion/lista-libros" routerLinkActive="active">Libros</a>
-                  <a routerLink="/gestion/lista-sagas" routerLinkActive="active">Sagas</a>
-                  <a routerLink="/gestion/lista-generos" routerLinkActive="active">Géneros</a>
-                  <a routerLink="/gestion/lista-galerias" routerLinkActive="active">Galerias</a>
-                  <a routerLink="/gestion/lista-redactores" routerLinkActive="active">Redactores</a>
-                  <a routerLink="/gestion/lista-editoriales" routerLinkActive="active">Editoriales</a>
-                  <a routerLink="/gestion/lista-filtros" routerLinkActive="active">Filtros</a>
-                  <a routerLink="/gestion/gestor-urls" routerLinkActive="active">Herramientas</a>
-                  <a (click)="onLogout()">Desconectarse</a>
-                </li>
-              </ul>
-            </li>
+                       
           </ul>
         </div>
         <!--/.nav-collapse -->

@@ -113,7 +113,7 @@ public class UserServiceImpl implements UserService {
      * @return true, if successful
      */
     private boolean emailExiste(final String email) {
-        final UsuarioEntity user = this.usuarioRepository.findByUsuarioEmail(email);
+        final UsuarioEntity user = this.usuarioRepository.findByEmail(email).orElse(null);
         return user != null;
     }
 
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UsuarioDTO doesEmailExist(final String email) throws UserNotFoundException {
         UsuarioDTO usuario = null;
-        final UsuarioEntity usuarioBD = this.usuarioRepository.findByUsuarioEmail(email);
+        final UsuarioEntity usuarioBD = this.usuarioRepository.findByEmail(email).orElse(null);
         if (usuarioBD != null) {
             usuario = EntityToDTOAdapter.adaptarUsuario(usuarioBD);
         }

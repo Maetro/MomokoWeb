@@ -36,7 +36,7 @@ public class BookController {
     public @ResponseBody
     LibroDTO getLibro(@PathVariable("urlBook") String urlBook) {
 
-        final LibroDTO libro = this.libroService.obtenerLibroConEntradas(urlBook);
+        final LibroDTO libro = this.libroService.getBookForModification(urlBook);
         return libro;
     }
 

@@ -20,8 +20,6 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Integer
 
     Optional<UsuarioEntity> findById(Integer id);
 
-    UsuarioEntity findByUsuarioEmail(String email);
-
     UsuarioEntity findByUsuarioLogin(String login);
 
     @Query("SELECT usuarioContrasena from UsuarioEntity u where u.usuarioEmail = ?1")

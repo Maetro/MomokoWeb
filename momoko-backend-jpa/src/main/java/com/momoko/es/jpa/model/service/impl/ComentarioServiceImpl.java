@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -67,7 +68,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         // TODO: Arregla esto
         if (!authentication.getName().equals("anonymousUser")) {
             final String currentPrincipalName = authentication.getName();
-            final UsuarioEntity usuario = this.usuarioRepository.findByUsuarioEmail(currentPrincipalName);
+            final UsuarioEntity usuario = this.usuarioRepository.findByEmail(currentPrincipalName).orElseThrow(() -> new UserNotFoundException(currentPrincipalName));;
             nuevoComentario.setNombreComentario(usuario.getUsuarioNick());
             nuevoComentario.setEmailComentario(currentPrincipalName);
             nuevoComentario.setPaginaWebComentario(usuario.getPaginaWeb());
@@ -93,7 +94,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         final ComentarioEntity respuesta = this.comentarioRepository.save(nuevoComentario);
 
         final String emailComentario = respuesta.getEmailComentario();
-        final UsuarioEntity usuarioComentario = this.usuarioRepository.findByUsuarioEmail(emailComentario);
+        final UsuarioEntity usuarioComentario = this.usuarioRepository.findByEmail(emailComentario).orElse(null);
         UsuarioBasicoDTO usuarioBasico = null;
         if (usuarioComentario != null) {
             usuarioBasico = ConversionUtils.obtenerUsuarioBasico(usuarioComentario);

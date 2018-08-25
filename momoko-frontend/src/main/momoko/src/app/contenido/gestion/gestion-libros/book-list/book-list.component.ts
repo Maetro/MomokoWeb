@@ -59,7 +59,8 @@ export class BookListComponent implements OnInit {
       { field: 'editorial.nombreEditorial', header: 'Nombre editorial' },
       { field: 'autoresString', header: 'Autores' },
       { field: 'generosString', header: 'Generos' },
-      { field: 'anoEdicion', header: 'Año edición' }
+      { field: 'anoEdicion', header: 'Año edición' },
+      { field: 'fechaAlta', header: 'Fecha alta' }
     ];
   }
 
