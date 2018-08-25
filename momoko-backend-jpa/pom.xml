@@ -9,12 +9,12 @@
 
 	<name>momoko-backend-jpa</name>
 	<description>Helper library for Spring Boot JPA Web Applications</description>
-	<version>0.13.4-SNAPSHOT</version>
+	<version>1.0.0</version>
 
 	<parent>
 		<artifactId>parent</artifactId>
 		<groupId>com.momoko.es</groupId>
-		<version>0.13.4-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<dependencies>
@@ -22,13 +22,13 @@
 		<dependency>
 			<groupId>com.momoko.es</groupId>
 			<artifactId>momoko-backend-commons</artifactId>
-			<version>0.13.4-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>com.momoko.es</groupId>
 			<artifactId>momoko-backend-api</artifactId>
-			<version>0.13.4-SNAPSHOT</version>
+			<version>1.0.0</version>
 		</dependency>
 
 		<dependency>

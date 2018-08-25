@@ -10,12 +10,12 @@
 
     <name>momoko-backend-commons</name>
     <description>Helper library for Spring Boot Web Applications</description>
-    <version>0.13.4-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.momoko.es</groupId>
-        <version>0.13.4-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <dependencies>
@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.momoko.es</groupId>
             <artifactId>momoko-backend-exceptions</artifactId>
-            <version>0.13.4-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
         <dependency>
@@ -71,13 +71,13 @@
         <dependency>
             <groupId>com.momoko.es</groupId>
             <artifactId>momoko-backend-exceptions</artifactId>
-            <version>0.13.4-SNAPSHOT</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.momoko.es</groupId>
             <artifactId>momoko-backend-exceptions</artifactId>
-            <version>0.13.4-SNAPSHOT</version>
+            <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
 

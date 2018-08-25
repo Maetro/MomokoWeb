@@ -16,3 +16,4 @@ momoko-backend-rest/.settings/
 momoko-backend-commons/.settings/
 *.factorypath
 devops/example/
+devops/mysql/start_BD.sql

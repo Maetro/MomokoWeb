@@ -52,7 +52,6 @@
     "ng2-cookies": "^1.0.12",
     "ngx-quill": "^3.4.0",
     "ngx-uploader": "^6.0.2",
-    "pinkie-promise": "git+https://github.com/floatdrop/pinkie-promise.git",
     "pm2": "^3.0.3",
     "primeicons": "^1.0.0-beta.10",
     "primeng": "^6.1.2",

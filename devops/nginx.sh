@@ -14,7 +14,7 @@ mysql -u root -proot momokobd < mysql/start_BD.sql
 sudo nano /etc/mysql/mysql.conf.d/mysqld.cnf
 #comment out
 #bind-address = 127.0.0.1 
-mysql -u root -proot -e "CREATE USER 'local'@'%' IDENTIFIED BY 'root';"
+mysql -u root -proot -e "CREATE USER 'root'@'%' IDENTIFIED BY 'root';"
 mysql -u root -proot -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY 'root';"
 mysql -u root -proot -e  "FLUSH PRIVILEGES;"
 
@@ -56,4 +56,17 @@ mvn clean install -DskipTests
 
 cd /home/frontend
 sudo npm install -g @angular/cli
-sudo npm install
+
+sudo npm install --prefix /var/lib/npm
+
+nohup java -jar -Xms64m -Xmx1024m -Dspring.profiles.active=pre -Dspring.datasource.password=root *.jar &
+
+
+
+
+ALTER TABLE momokobd.usuario DROP COLUMN password;
+ALTER TABLE momokobd.usuario CHANGE usuario_contrasena password varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE momokobd.usuario DROP COLUMN email;
+ALTER TABLE momokobd.usuario CHANGE usuario_email email varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+ALTER TABLE momokobd.usuario DROP COLUMN id;
+ALTER TABLE momokobd.usuario CHANGE usuario_id id int(11) NOT NULL auto_increment;

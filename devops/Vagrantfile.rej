@@ -1,0 +1,10 @@
+diff a/devops/Vagrantfile b/devops/Vagrantfile	(rejected hunks)
+@@ -43,7 +43,7 @@
+   # the path on the host to the actual folder. The second argument is
+   # the path on the guest to mount the folder. And the optional third
+   # argument is a set of non-required options.
+-  config.vm.synced_folder "D:/XAMPP/htdocs/momoko", "/var/www", owner: "www-data", group: "www-data"
++  config.vm.synced_folder "../../../Documents/clouding", "/var/www/html", owner: "www-data", group: "www-data"
+   config.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant"
+   config.vm.synced_folder "../", "/home/backend", owner: "vagrant", group: "vagrant"
+   config.vm.synced_folder "../momoko-frontend/src/main/momoko", "/home/frontend", owner: "vagrant", group: "vagrant"
