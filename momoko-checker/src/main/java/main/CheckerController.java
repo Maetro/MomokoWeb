@@ -74,7 +74,7 @@ public class CheckerController {
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
         try {
-            final String status = this.restTemplate.getForObject("http://momoko.es/public/health", String.class);
+            final String status = this.restTemplate.getForObject("https://momoko.es/public/health", String.class);
             log.info(dateFormat.format(new Date()) + ": " + this.buildProperties.getArtifact() + "-"
                     + this.buildProperties.getVersion() + ": " + status);
             if (fallando) {

@@ -73,7 +73,6 @@ export class AuthService {
     Cookie.set('access_token', token.get('momoko-authorization'), expireDate);
     Cookie.set('role', token.role);
     this.changeLoginStatus(true);
-    debugger;
     let urlDestination = '/';
     if (this.redirectUrl != null){
       urlDestination = this.redirectUrl;

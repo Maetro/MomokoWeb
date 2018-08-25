@@ -83,8 +83,8 @@
           <!-- <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
           <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
 
-          <li class="main-menu-header">
-            <a routerLink="/gestion" routerLinkActive="active" *ngIf="isLoggedIn === true">Administrar</a>
+          <li class="main-menu-header" *ngIf="isLoggedIn === true">
+            <a routerLink="/gestion" routerLinkActive="active" >Administrar</a>
             <ul class="dropdown-menu double">
               <li>
                 <a routerLink="/gestion/lista-entradas" routerLinkActive="active">Entradas</a>

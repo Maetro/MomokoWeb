@@ -48,7 +48,6 @@ export class FileUploadService {
           formDataF.append('tipoSubida', tipoSubida);
           const headersF = new Headers();
           headersF.append('Accept', 'application/json');
-          debugger;
           headersF.append(
             'Authorization',
             Cookie.get('access_token')
@@ -75,7 +74,6 @@ export class FileUploadService {
       formData.append('tipoSubida', tipoSubida);
       const headers = new Headers();
       headers.append('Accept', 'application/json');
-      debugger;
       headers.append('Authorization', Cookie.get('access_token'));
       const options = new RequestOptions({ headers: headers });
       return this.http
