@@ -147,6 +147,11 @@ public class PublicFacade {
     @Autowired(required = false)
     private PasswordEncoder passwordEncoder;
 
+    @GetMapping(path = "/health")
+    public @ResponseBody String getHealth() {
+        return "OK";
+    }
+
     @GetMapping(path = "/initData")
     public @ResponseBody InitDataDTO getInitData() {
         final StopWatch stopWatch = new StopWatch("getInitData()");

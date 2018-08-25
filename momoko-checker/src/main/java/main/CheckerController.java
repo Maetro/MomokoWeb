@@ -6,19 +6,9 @@
  */
 package main;
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-/**
- * CheckerController.java 10-mar-2018
- *
- * Copyright 2018 RAMON CASARES.
- * @author Ramon.Casares.Porto@gmail.com
- */
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.info.BuildProperties;
@@ -29,6 +19,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/**
+ * CheckerController.java 10-mar-2018
+ * <p>
+ * Copyright 2018 RAMON CASARES.
+ *
+ * @author Ramon.Casares.Porto@gmail.com
+ */
 
 @Controller
 @EnableScheduling
@@ -41,23 +43,28 @@ public class CheckerController {
 
     private static boolean fallando = false;
 
-    private final RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     public CheckerController() {
-        this.restTemplate = new RestTemplate();
+
     }
 
+    private BuildProperties buildProperties;
+
     @Autowired
-    BuildProperties buildProperties;
+    public CheckerController(BuildProperties buildProperties){
+        this.buildProperties = buildProperties;
+        this.restTemplate = new RestTemplate();
+    }
 
     @RequestMapping("/")
     @ResponseBody
     String checkStatus() {
 
-        final Status status = this.restTemplate.getForObject("https://momoko.es:5000/health", Status.class);
+        final String status = this.restTemplate.getForObject("https://momoko.es:5000/public/health", String.class);
         log.info("The time is now {}", dateFormat.format(new Date()));
-        log.info(status.getStatus());
-        return status.getStatus();
+        log.info(status);
+        return status;
         //
     }
 
@@ -67,9 +74,9 @@ public class CheckerController {
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
         try {
-            final Status status = this.restTemplate.getForObject("http://momoko.es:5000/health", Status.class);
+            final String status = this.restTemplate.getForObject("http://momoko.es/public/health", String.class);
             log.info(dateFormat.format(new Date()) + ": " + this.buildProperties.getArtifact() + "-"
-                    + this.buildProperties.getVersion() + ": " + status.getStatus());
+                    + this.buildProperties.getVersion() + ": " + status);
             if (fallando) {
                 fallando = false;
             }

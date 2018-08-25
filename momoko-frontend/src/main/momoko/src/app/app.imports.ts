@@ -91,5 +91,4 @@ export const MODULES = [
     EstaticasModule,
     AngularFontAwesomeModule,
     AuthModule,
-    AuthRoutingModule,
     AppRoutingModule];
