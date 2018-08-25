@@ -18,7 +18,7 @@ export const environment = {
   addGeneroUrl: 'https://momoko.es/modelo/generos/add',
   informacionGeneralUrl: 'https://momoko.es/modelo/informacionGeneral',
   singUpURL: 'https://momoko.es/account/signup',
-  oauthTokenUrl: 'https://momoko.es/oauth/token',
+  oauthTokenUrl: 'http://momoko.es/api/core/login',
   accountTokenUrl: 'https://momoko.es/account/token',
   getEntradaUrl: 'https://momoko.es/public/entrada/',
   getEntradaZonaUrl: 'https://momoko.es/public/zona/',
