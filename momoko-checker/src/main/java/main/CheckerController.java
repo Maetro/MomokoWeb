@@ -41,14 +41,20 @@ public class CheckerController {
 
     private static boolean fallando = false;
 
+    private final RestTemplate restTemplate;
+
+    public CheckerController() {
+        this.restTemplate = new RestTemplate();
+    }
+
     @Autowired
     BuildProperties buildProperties;
 
     @RequestMapping("/")
     @ResponseBody
     String checkStatus() {
-        final RestTemplate restTemplate = new RestTemplate();
-        final Status status = restTemplate.getForObject("https://momoko.es:5000/health", Status.class);
+
+        final Status status = this.restTemplate.getForObject("https://momoko.es:5000/health", Status.class);
         log.info("The time is now {}", dateFormat.format(new Date()));
         log.info(status.getStatus());
         return status.getStatus();
@@ -60,9 +66,8 @@ public class CheckerController {
 
     @Scheduled(fixedRate = 5000)
     public void reportCurrentTime() {
-        final RestTemplate restTemplate = new RestTemplate();
         try {
-            final Status status = restTemplate.getForObject("http://momoko.es:5000/health", Status.class);
+            final Status status = this.restTemplate.getForObject("http://momoko.es:5000/health", Status.class);
             log.info(dateFormat.format(new Date()) + ": " + this.buildProperties.getArtifact() + "-"
                     + this.buildProperties.getVersion() + ": " + status.getStatus());
             if (fallando) {
@@ -95,6 +100,13 @@ public class CheckerController {
                 }
             }
         }
+    }
+
+    @Scheduled(fixedRate = 300000)
+    public void renderIndex() {
+        this.restTemplate.getForObject("https://momoko.es/", String.class);
+        log.info(dateFormat.format(new Date()) + ": " + this.buildProperties.getArtifact() + "-"
+                + this.buildProperties.getVersion() + ": INDEX RENDERED");
     }
 
     public static void main(final String[] args) throws Exception {
