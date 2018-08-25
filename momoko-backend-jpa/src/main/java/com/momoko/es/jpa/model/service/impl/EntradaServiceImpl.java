@@ -285,12 +285,12 @@ public class EntradaServiceImpl implements EntradaService {
                                 this.almacenImagenes.obtenerMiniatura(redactor.getAvatarRedactor(), 120, 120, true));
                     } catch (final IOException e) {
                         redactor.setAvatarRedactor(
-                                ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                                ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getEmail()));
                     }
 
                 } else {
                     redactor.setAvatarRedactor(
-                            ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getUsuarioEmail()));
+                            ConversionUtils.obtenerGravatar(entradaEntity.getEntradaAutor().getEmail()));
                 }
                 entradaDTO.setRedactor(redactor);
             }
