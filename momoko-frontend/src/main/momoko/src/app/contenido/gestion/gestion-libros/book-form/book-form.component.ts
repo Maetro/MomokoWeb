@@ -63,6 +63,16 @@ export class BookFormComponent implements OnInit {
     if (this.bookUrl) {
       this.bookService.getBookByUrl(this.bookUrl).subscribe(book => {
         this.libro = book;
+        const generosLibro: Genero[] = book.generos;
+        if (generosLibro != null) {
+          generosLibro.forEach(generoLibro => {
+            this.generos.forEach(genero => {
+              if (generoLibro.generoId === genero.value) {
+                this.selectedGeneros.push(genero.value);
+              }
+            });
+          });
+        }
       });
     } else {
       this.libro = new Libro();

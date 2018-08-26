@@ -1,8 +1,11 @@
 package com.momoko.es.api.service;
 
+import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 
 public interface FilterService {
@@ -18,4 +21,10 @@ public interface FilterService {
     FilterDTO getFilterByUrl(String urlFilter);
 
     List<FilterDTO> getFiltersAppliedByGenreUrl(List<String> urlGenre);
+
+    List<FilterDTO> getBookFilterValues(List<String> bookUrl);
+
+    void saveBookFilters(final Integer libroId, LibroDTO libroAGuardar) throws InstanceNotFoundException;
+
+    List<FilterDTO> getFiltersAvaliableByUrlBookList(List<String> urlsList);
 }

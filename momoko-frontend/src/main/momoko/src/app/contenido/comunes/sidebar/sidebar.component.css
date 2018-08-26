@@ -14,6 +14,7 @@
   float: left;
   width: 40px;
   margin-top: -20px;
+  margin-right: 10px;
 }
 
 .banner {
@@ -22,4 +23,26 @@
 
 .opacidad-baja {
   opacity: 0.8;
+}
+
+::ng-deep body .ui-chkbox .ui-chkbox-box {
+  border: none !important;
+}
+
+::ng-deep .ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default {
+  background-color: #e6e6e6;
+}
+
+::ng-deep body .ui-chkbox .ui-chkbox-box.ui-state-active {
+  border-color: #e3b015;
+  background-color: #e3b015 !important;
+  color: #ffffff;
+}
+
+::ng-deep body .ui-chkbox .ui-chkbox-box.ui-state-active:not(.ui-state-disabled):hover {
+  border-color: #e3b015;
+}
+
+::ng-deep body .ui-chkbox .ui-chkbox-box.ui-state-focus {
+  border-color: #e3b015;
 }

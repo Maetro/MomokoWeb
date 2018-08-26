@@ -424,7 +424,7 @@ public final class DTOToEntityAdapter {
     public static FilterEntity adaptFilter(com.momoko.es.api.dto.filter.FilterDTO filterDTO) {
         FilterEntity filterEntity = new FilterEntity();
         if (CollectionUtils.isNotEmpty(filterDTO.getPossibleValues())) {
-            filterEntity.setPossibleValues(ConversionUtils.join(filterDTO.getPossibleValues()));
+            filterEntity.setPossibleValues(ConversionUtils.toPossibleValuesString(filterDTO.getPossibleValues()));
         }
         filterEntity.setType(filterDTO.getFilterType());
         filterEntity.setNameFilter(filterDTO.getNameFilter());

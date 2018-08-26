@@ -1,7 +1,8 @@
 /**
  * PublicFacade.java 26-oct-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.jpa.model.facade;
@@ -99,7 +100,7 @@ import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
+@CrossOrigin(origins = {"http://localhost:4200", "https://www.momoko.es", "https://momoko.es"})
 @RequestMapping(path = "/public")
 public class PublicFacade {
 
@@ -148,12 +149,14 @@ public class PublicFacade {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping(path = "/health")
-    public @ResponseBody String getHealth() {
+    public @ResponseBody
+    String getHealth() {
         return "OK";
     }
 
     @GetMapping(path = "/initData")
-    public @ResponseBody InitDataDTO getInitData() {
+    public @ResponseBody
+    InitDataDTO getInitData() {
         final StopWatch stopWatch = new StopWatch("getInitData()");
         stopWatch.start("Obtener Init Data");
         final List<MenuDTO> menu = this.indexService.obtenerMenu();
@@ -166,8 +169,9 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/indexData")
-    public @ResponseBody ObtenerIndexDataReponseDTO
-            getInfoIndex(@RequestHeader(value = "User-Agent") final String userAgent) {
+    public @ResponseBody
+    ObtenerIndexDataReponseDTO
+    getInfoIndex(@RequestHeader(value = "User-Agent") final String userAgent) {
         final StopWatch stopWatch = new StopWatch("getInfoIndex()");
         stopWatch.start("obtenerUltimasEntradas");
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
@@ -193,8 +197,9 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/entrada/{url-entrada}")
-    public @ResponseBody ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
-            final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent)
+    public @ResponseBody
+    ObtenerEntradaResponse getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada,
+                                           final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent)
             throws NotFoundException {
         ObtenerEntradaResponse respuesta = null;
         final StopWatch stopWatch = new StopWatch("getEntradaByUrl()");
@@ -225,7 +230,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/suscribirse/{email}")
-    public @ResponseBody ObtenerEntradaResponse suscribirse(@PathVariable("email") final String email) {
+    public @ResponseBody
+    ObtenerEntradaResponse suscribirse(@PathVariable("email") final String email) {
 
         this.indexService.suscribirse(email);
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
@@ -233,8 +239,9 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/libro/{url-libro}")
-    public @ResponseBody ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro,
-            final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
+    public @ResponseBody
+    ObtenerFichaLibroResponse obtenerLibro(@PathVariable("url-libro") final String urlLibro,
+                                           final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
 
         final ObtenerFichaLibroResponse respuesta = this.libroService.obtenerFichaLibroResponse(urlLibro);
         final String ip = getClientIp(request);
@@ -256,8 +263,9 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/saga/{url-saga}")
-    public @ResponseBody ObtenerFichaSagaResponse obtenerSaga(@PathVariable("url-saga") final String urlSaga,
-            final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
+    public @ResponseBody
+    ObtenerFichaSagaResponse obtenerSaga(@PathVariable("url-saga") final String urlSaga,
+                                         final HttpServletRequest request, @RequestHeader(value = "User-Agent") final String userAgent) {
 
         final ObtenerFichaSagaResponse sagaResponse = new ObtenerFichaSagaResponse();
         SagaDTO sagaDTO = null;
@@ -283,8 +291,9 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/video/{url-video}")
-    public @ResponseBody ObtenerEntradaResponse obtenerVideo(@PathVariable("url-video") final String urlVideo,
-            @RequestHeader(value = "User-Agent") final String userAgent) {
+    public @ResponseBody
+    ObtenerEntradaResponse obtenerVideo(@PathVariable("url-video") final String urlVideo,
+                                        @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerEntradaResponse respuesta = this.entradaService.obtenerEntradaVideo(urlVideo);
         // respuesta.setCincoLibrosParecidos(this.libroService.obtenerLibrosParecidos(respuesta.getLibro(), 5));
         return respuesta;
@@ -323,7 +332,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/categoria/{url-categoria}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
+    public @ResponseBody
+    ObtenerPaginaCategoriaResponse obtenerCategoria(
             @PathVariable("url-categoria") final String urlCategoria,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
@@ -341,7 +351,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/categoria/{url-categoria}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaCategoriaResponse obtenerCategoria(
+    public @ResponseBody
+    ObtenerPaginaCategoriaResponse obtenerCategoria(
             @PathVariable("url-categoria") final String urlCategoria,
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
@@ -359,7 +370,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/editorial/{url-editorial}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaEditorialResponse obtenerEditorial(
+    public @ResponseBody
+    ObtenerPaginaEditorialResponse obtenerEditorial(
             @PathVariable("url-editorial") final String urlEditorial,
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestHeader(value = "User-Agent") final String userAgent) {
@@ -374,7 +386,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/editorial/{url-editorial}")
-    public @ResponseBody ObtenerPaginaEditorialResponse obtenerEditorial(
+    public @ResponseBody
+    ObtenerPaginaEditorialResponse obtenerEditorial(
             @PathVariable("url-editorial") final String urlEditorial,
             @RequestHeader(value = "User-Agent") final String userAgent) {
 
@@ -411,7 +424,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/redactor/{url-redactor}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaRedactorResponse obtenerEditor(
+    public @ResponseBody
+    ObtenerPaginaRedactorResponse obtenerEditor(
             @PathVariable("url-redactor") final String urlRedactor,
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestHeader(value = "User-Agent") final String userAgent) {
@@ -426,7 +440,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/redactor/{url-redactor}")
-    public @ResponseBody ObtenerPaginaRedactorResponse obtenerEditor(
+    public @ResponseBody
+    ObtenerPaginaRedactorResponse obtenerEditor(
             @PathVariable("url-redactor") final String urlRedactor,
             @RequestHeader(value = "User-Agent") final String userAgent) {
 
@@ -498,19 +513,15 @@ public class PublicFacade {
     /**
      * Obtener categoria response.
      *
-     * @param urlCategoria
-     *            the url categoria
-     * @param request
-     *            the request
-     * @param categoriaResponse
-     *            the categoria response
-     * @param entradasCategoria
-     *            the entradas categoria
+     * @param urlCategoria      the url categoria
+     * @param request           the request
+     * @param categoriaResponse the categoria response
+     * @param entradasCategoria the entradas categoria
      * @return the obtener pagina categoria response
      */
     private ObtenerPaginaCategoriaResponse obtenerCategoriaResponse(final String urlCategoria,
-            final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
-            final List<EntradaSimpleDTO> entradasCategoria) {
+                                                                    final ObtenerPaginaElementoRequest request, final ObtenerPaginaCategoriaResponse categoriaResponse,
+                                                                    final List<EntradaSimpleDTO> entradasCategoria) {
         final CategoriaDTO categoriaDTO = this.generoService.obtenerCategoriaPorUrl(urlCategoria);
         if (urlCategoria.equals("noticias")) {
             entradasCategoria.addAll(this.entradaService.obtenerNoticias(request));
@@ -542,7 +553,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/noticias-libro/{url-libro}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibroPagina(
+    public @ResponseBody
+    ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibroPagina(
             @PathVariable("url-libro") final String urlLibro, @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
@@ -559,7 +571,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/noticias-libro/{url-libro}")
-    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibro(
+    public @ResponseBody
+    ObtenerPaginaLibroNoticiasResponse obtenerNoticiasLibro(
             @PathVariable("url-libro") final String urlLibro,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
@@ -576,9 +589,9 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroNoticiasResponse(final String urlLibro,
-            final ObtenerPaginaElementoRequest request,
-            final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
-            final List<EntradaSimpleDTO> noticias) {
+                                                                                  final ObtenerPaginaElementoRequest request,
+                                                                                  final ObtenerPaginaLibroNoticiasResponse paginaLibroNoticiasResponse,
+                                                                                  final List<EntradaSimpleDTO> noticias) {
         final LibroDTO libroRaw = this.libroService.obtenerLibroConEntradas(urlLibro);
         final LibroDTO libro = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroRaw);
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
@@ -613,8 +626,8 @@ public class PublicFacade {
     }
 
     private void addDatosEntradaLibroTipo(final List<EntradaSimpleDTO> noticias,
-            final List<DatoEntradaDTO> entradasSimples, final Set<DatoEntradaDTO> datosEntrada,
-            final TipoEntrada tipoEntrada) {
+                                          final List<DatoEntradaDTO> entradasSimples, final Set<DatoEntradaDTO> datosEntrada,
+                                          final TipoEntrada tipoEntrada) {
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
             if (datoEntradaDTO.getTipoEntrada().equals(tipoEntrada.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
@@ -636,7 +649,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/miscelaneos-libro/{url-libro}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibroPagina(
+    public @ResponseBody
+    ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibroPagina(
             @PathVariable("url-libro") final String urlLibro,
             @PathVariable("numero-pagina") final Integer numeroPagina) {
 
@@ -645,7 +659,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/miscelaneos-libro/{url-libro}")
-    public @ResponseBody ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibro(
+    public @ResponseBody
+    ObtenerPaginaLibroNoticiasResponse obtenerMiscelaneosLibro(
             @PathVariable("url-libro") final String urlLibro,
             @RequestBody(required = false) final ObtenerPaginaElementoRequest request) {
 
@@ -654,7 +669,7 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaLibroNoticiasResponse obtenerPaginaLibroMiscelaneosResponse(final String urlLibro,
-            final Integer numeroPagina) {
+                                                                                     final Integer numeroPagina) {
         final ObtenerPaginaLibroNoticiasResponse response = new ObtenerPaginaLibroNoticiasResponse();
         final LibroDTO libroRaw = this.libroService.obtenerLibroConEntradas(urlLibro);
         final LibroDTO libro = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroRaw);
@@ -692,7 +707,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/noticias-saga/{url-saga}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerNoticiasSagaPagina(
+    public @ResponseBody
+    ObtenerPaginaSagaColeccionResponse obtenerNoticiasSagaPagina(
             @PathVariable("url-saga") final String urlSaga, @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
@@ -703,7 +719,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/noticias-saga/{url-saga}")
-    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerNoticiasSaga(
+    public @ResponseBody
+    ObtenerPaginaSagaColeccionResponse obtenerNoticiasSaga(
             @PathVariable("url-saga") final String urlSaga,
             @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
@@ -714,7 +731,7 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaSagaColeccionResponse obtenerPaginaSagaNoticiasResponse(final String urlSaga,
-            final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse, final List<EntradaSimpleDTO> noticias)
+                                                                                 final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse, final List<EntradaSimpleDTO> noticias)
             throws NoSeEncuentraElementoConUrl {
         final SagaDTO saga = this.sagaService.obtenerSaga(urlSaga);
         final List<DatoEntradaDTO> entradasSimples = saga.getEntradasSaga();
@@ -746,7 +763,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/miscelaneos-saga/{url-saga}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerMiscelaneosSagaPagina(
+    public @ResponseBody
+    ObtenerPaginaSagaColeccionResponse obtenerMiscelaneosSagaPagina(
             @PathVariable("url-saga") final String urlSaga, @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
@@ -757,7 +775,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/miscelaneos-saga/{url-saga}")
-    public @ResponseBody ObtenerPaginaSagaColeccionResponse obtenerMiscelaneosSaga(
+    public @ResponseBody
+    ObtenerPaginaSagaColeccionResponse obtenerMiscelaneosSaga(
             @PathVariable("url-saga") final String urlSaga,
             @RequestBody(required = false) final ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) throws NoSeEncuentraElementoConUrl {
@@ -768,8 +787,8 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaSagaColeccionResponse obtenerPaginaSagaMiscelaneoResponse(final String urlSaga,
-            final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse,
-            final List<EntradaSimpleDTO> miscelaneos) throws NoSeEncuentraElementoConUrl {
+                                                                                   final ObtenerPaginaSagaColeccionResponse paginaSagaNoticiasResponse,
+                                                                                   final List<EntradaSimpleDTO> miscelaneos) throws NoSeEncuentraElementoConUrl {
         final SagaDTO saga = this.sagaService.obtenerSaga(urlSaga);
         final List<DatoEntradaDTO> entradasSimples = saga.getEntradasSaga();
         int numeroEntradas = 0;
@@ -800,7 +819,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}/{numero-pagina}")
-    public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
+    public @ResponseBody
+    ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
             @PathVariable("url-etiqueta") final String urlEtiqueta,
             @PathVariable("numero-pagina") final Integer numeroPagina,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
@@ -818,7 +838,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/etiqueta/{url-etiqueta}")
-    public @ResponseBody ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
+    public @ResponseBody
+    ObtenerPaginaEtiquetaResponse obtenerEtiqueta(
             @PathVariable("url-etiqueta") final String urlEtiqueta,
             @RequestBody(required = false) ObtenerPaginaElementoRequest request,
             @RequestHeader(value = "User-Agent") final String userAgent) {
@@ -835,7 +856,8 @@ public class PublicFacade {
     }
 
     @GetMapping(path = "/buscar/{parametros-busqueda}")
-    public @ResponseBody ObtenerPaginaBusquedaResponse obtenerBusqueda(
+    public @ResponseBody
+    ObtenerPaginaBusquedaResponse obtenerBusqueda(
             @PathVariable("parametros-busqueda") final String parametrosBusqueda,
             @RequestHeader(value = "User-Agent") final String userAgent) {
         final ObtenerPaginaBusquedaResponse busquedaResponse = new ObtenerPaginaBusquedaResponse();
@@ -1033,8 +1055,8 @@ public class PublicFacade {
     }
 
     private ObtenerPaginaEtiquetaResponse obtenerEtiquetaResponse(final String urlEtiqueta,
-            final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
-            final List<EntradaSimpleDTO> entradasEtiqueta) {
+                                                                  final ObtenerPaginaElementoRequest request, final ObtenerPaginaEtiquetaResponse etiquetaResponse,
+                                                                  final List<EntradaSimpleDTO> entradasEtiqueta) {
         final EtiquetaDTO etiquetaDTO = this.etiquetaService.obtenerEtiquetaPorUrl(urlEtiqueta);
 
         entradasEtiqueta
@@ -1074,7 +1096,8 @@ public class PublicFacade {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarURLsEditoriales")
-    public @ResponseBody String generarURLsEditoriales() throws Exception {
+    public @ResponseBody
+    String generarURLsEditoriales() throws Exception {
         final List<EditorialDTO> editoriales = this.editorialService.recuperarEditoriales();
         for (final EditorialDTO editorial : editoriales) {
             if (editorial.getUrlEditorial() == null) {
@@ -1101,7 +1124,8 @@ public class PublicFacade {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarRedirects")
-    public @ResponseBody String generarRedirects() throws Exception {
+    public @ResponseBody
+    String generarRedirects() throws Exception {
         System.out.println("Generando redirections");
         final StringBuilder builder = new StringBuilder();
         final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
@@ -1164,7 +1188,8 @@ public class PublicFacade {
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/arreglarEtiquetas")
-    public @ResponseBody String arreglarEtiquetas() {
+    public @ResponseBody
+    String arreglarEtiquetas() {
         final Map<String, List<EtiquetaDTO>> etiquetas = this.etiquetaService.arreglarEtiquetas();
 
         for (final List<EtiquetaDTO> etiquetaDTO : etiquetas.values()) {
@@ -1263,19 +1288,9 @@ public class PublicFacade {
         }
 
         for (final EntradaSimpleDTO entrada : entradasSimples) {
-            url = urlPagina + "/" + entrada.getUrlEntrada();
-            if (entrada.getFechaAlta().before(Calendar.getInstance().getTime())) {
-                if (entrada.getFechaModificacion() != null) {
-                    wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaModificacion()).priority(0.5)
-                            .changeFreq(ChangeFreq.MONTHLY).build();
-                } else {
-                    wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaAlta()).priority(0.5)
-                            .changeFreq(ChangeFreq.MONTHLY).build();
-                }
-                wsg.addUrl(wsmUrl);
-                nrOfURLs++;
-                if (entrada.getUrlLibro() != null) {
-                    url = urlPagina + "/" + entrada.getBloque() + "/" + entrada.getUrlEntrada();
+            if (entrada.getUrlLibro() == null) {
+                url = urlPagina + "/" + entrada.getUrlEntrada();
+                if (entrada.getFechaAlta().before(Calendar.getInstance().getTime())) {
                     if (entrada.getFechaModificacion() != null) {
                         wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaModificacion()).priority(0.5)
                                 .changeFreq(ChangeFreq.MONTHLY).build();
@@ -1286,11 +1301,24 @@ public class PublicFacade {
                     wsg.addUrl(wsmUrl);
                     nrOfURLs++;
                 }
+            } else {
+                url = urlPagina + "/" + entrada.getBloque() + "/" + entrada.getUrlEntrada();
+                if (entrada.getFechaModificacion() != null) {
+                    wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaModificacion()).priority(0.5)
+                            .changeFreq(ChangeFreq.MONTHLY).build();
+                } else {
+                    wsmUrl = new WebSitemapUrl.Options(url).lastMod(entrada.getFechaAlta()).priority(0.5)
+                            .changeFreq(ChangeFreq.MONTHLY).build();
+                }
+                wsg.addUrl(wsmUrl);
+                nrOfURLs++;
             }
-
         }
 
-        for (final LibroDTO libro : librosSimples) {
+
+        for (final LibroDTO libro : librosSimples)
+
+        {
             url = urlPagina + "/libro/" + libro.getUrlLibro();
 
             wsmUrl = new WebSitemapUrl.Options(url).lastMod(libro.getFechaAlta()).priority(0.5)
@@ -1300,7 +1328,10 @@ public class PublicFacade {
 
         }
 
-        for (final EtiquetaDTO etiqueta : etiquetas) {
+        for (
+                final EtiquetaDTO etiqueta : etiquetas)
+
+        {
             if (etiqueta.getUrlEtiqueta() != null) {
                 url = urlPagina + "/tag/" + etiqueta.getUrlEtiqueta();
                 wsmUrl = new WebSitemapUrl.Options(url).priority(0.4).changeFreq(ChangeFreq.MONTHLY).build();
@@ -1310,9 +1341,13 @@ public class PublicFacade {
         }
 
         // One sitemap can contain a maximum of 50,000 URLs.
-        if (nrOfURLs <= 50000) {
+        if (nrOfURLs <= 50000)
+
+        {
             wsg.write();
-        } else {
+        } else
+
+        {
             // in this case multiple files will be created and sitemap_index.xml file describing the files which will be
             // ignored
             // workaround to resolve the issue described at
@@ -1336,8 +1371,7 @@ public class PublicFacade {
     /**
      * Obtener fecha actualizacion mas reciente.
      *
-     * @param entradasSimples
-     *            the entradas simples
+     * @param entradasSimples the entradas simples
      * @return the date
      */
     private Date obtenerFechaActualizacionMasReciente(final List<EntradaSimpleDTO> entradasSimples) {
@@ -1351,10 +1385,8 @@ public class PublicFacade {
     /**
      * Obtener fecha mas reciente.
      *
-     * @param fechaMasReciente
-     *            the fecha mas reciente
-     * @param candidata
-     *            the candidata
+     * @param fechaMasReciente the fecha mas reciente
+     * @param candidata        the candidata
      * @return the date
      */
     public Date obtenerFechaMasReciente(Date fechaMasReciente, final Date candidata) {

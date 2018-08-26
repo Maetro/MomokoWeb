@@ -10,6 +10,8 @@ import { ClasificadorService } from '../../../services/clasificador.service';
 import { UtilService } from '../../../services/util/util.service';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { Globals } from '../../../app.globals';
+import { Filter } from '../../../dtos/filter/filter';
+import { FilterFrontalService } from './filter-frontal.service';
 
 
 
@@ -36,6 +38,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   librosParecidos: LibroSimple[];
 
+  filters: Filter[];
+
   tituloSeccionLibros = 'Otros libros parecidos';
 
   numeroEntradas: number;
@@ -61,7 +65,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     private titleService: Title, 
     private metaService: Meta, 
     private globals: Globals,
-    private util: UtilService) { }
+    private util: UtilService,
+    private filterFrontalService: FilterFrontalService) { }
 
   ngOnInit() {
     if (this.log) {
@@ -83,6 +88,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
         this.util.removeAllTags(this.metaService);
         this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
         this.entradasPopulares = data.paginaGeneroResponse.tresUltimasEntradasConLibro;
+        this.filters = data.paginaGeneroResponse.applicableFilters;
         const metatituloPagina = 'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros del género ' + this.genero.nombre +
           ' en momoko';
           const tag = {
@@ -132,6 +138,14 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     this.clasificadorService.getGenrePage(this.url, this.numeroPagina, this.orderby).subscribe(generoPageResponse => {
       this.librosGenero = generoPageResponse.nueveLibrosGenero;
     });
+  }
+
+  updateFilters(event: Filter[]){
+    console.log('updateFilters: ' + event);
+    this.filterFrontalService.applyFilters(this.genero.urlGenero, event).subscribe(res => {
+      this.filters = res.avaliableFiltersList;
+      this.librosGenero = res.booksSelected;
+    });;
   }
 
 }

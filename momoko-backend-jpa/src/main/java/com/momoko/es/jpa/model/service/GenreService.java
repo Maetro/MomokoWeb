@@ -8,8 +8,10 @@ package com.momoko.es.jpa.model.service;
 
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.genre.GenrePageResponse;
+import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.api.enums.OrderType;
 
 import java.util.List;
@@ -107,4 +109,5 @@ public interface GenreService {
      */
     GenrePageResponse getGenrePage(String genreUrl, Integer pageNumber, OrderType tipoOrden);
 
+    ApplyFilterResponseDTO getBooksWithFilters(String urlGenre, List<FilterDTO> appliedFilters);
 }

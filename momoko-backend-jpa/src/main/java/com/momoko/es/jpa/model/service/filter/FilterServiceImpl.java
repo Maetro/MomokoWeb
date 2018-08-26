@@ -2,30 +2,34 @@ package com.momoko.es.jpa.model.service.filter;
 
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.FilterCreationError;
 import com.momoko.es.api.service.FilterService;
 import com.momoko.es.commons.security.UserAdminPermission;
-import com.momoko.es.commons.security.UserEditPermission;
 import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
+import com.momoko.es.jpa.model.entity.filter.key.FilterBookId;
 import com.momoko.es.jpa.model.repository.GeneroRepository;
 import com.momoko.es.jpa.model.repository.LibroRepository;
+import com.momoko.es.jpa.model.repository.filter.FilterBookRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterRepository;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import com.momoko.es.jpa.model.util.DTOToEntityAdapter;
 import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -35,6 +39,9 @@ public class FilterServiceImpl implements FilterService {
 
     @Autowired(required = false)
     private FilterRepository filterRepository;
+
+    @Autowired(required = false)
+    private FilterBookRepository filterBookRepository;
 
     @Autowired(required = false)
     private ValidadorService validatorService;
@@ -110,7 +117,7 @@ public class FilterServiceImpl implements FilterService {
         }
         oldFilter.setNameFilter(filterDTO.getNameFilter());
         oldFilter.setUrlFilter(filterDTO.getUrlFilter());
-        oldFilter.setPossibleValues(ConversionUtils.join(filterDTO.getPossibleValues()));
+        oldFilter.setPossibleValues(ConversionUtils.toPossibleValuesString(filterDTO.getPossibleValues()));
         FilterEntity updatedFilter = filterRepository.save(oldFilter);
         return EntityToDTOAdapter.adaptFilter(updatedFilter);
     }
@@ -147,4 +154,76 @@ public class FilterServiceImpl implements FilterService {
         filterGenre.addAll(genericFilters);
         return EntityToDTOAdapter.adaptFilters(filterGenre);
     }
+
+    @Override
+    public List<FilterDTO> getBookFilterValues(List<String> bookUrls) {
+        final List<LibroEntity> books = this.libroRepository.findByUrlLibroIn(bookUrls);
+        List<FilterDTO> filterList = new ArrayList<>();
+        List<FilterBook> filterBooks = filterBookRepository.findAllByBookIn(books);
+        if (CollectionUtils.isNotEmpty(filterBooks)){
+            for (FilterBook filterBook : filterBooks) {
+                FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterBook.getFilter());
+                filterDTO.setValue(Arrays.asList(filterBook.getValue()));
+                filterList.add(filterDTO);
+            }
+        }
+
+        return filterList;
+    }
+
+    public void saveBookFilters(final Integer libroId, final LibroDTO libroAGuardar) throws InstanceNotFoundException {
+        if (CollectionUtils.isNotEmpty(libroAGuardar.getFilters())){
+            for (FilterDTO filter : libroAGuardar.getFilters()) {
+                if (StringUtils.isBlank(filter.getReferencedProperty()) && filter.getValue() != null){
+                    FilterBookId id = new FilterBookId(filter.getFilterId(), libroId);
+                    FilterBook oldfilter = filterBookRepository.findById(id).orElse(null);
+                    if (oldfilter != null){
+                        oldfilter.setValue(filter.getValue().get(0));
+                        this.filterBookRepository.save(oldfilter);
+                    } else {
+                        oldfilter = new FilterBook();
+                        oldfilter.setValue(filter.getValue().get(0));
+                        oldfilter.setId(id);
+                        FilterEntity filterEntity = this.filterRepository.findById(filter.getFilterId())
+                                .orElseThrow(() -> new InstanceNotFoundException("filter id: " + filter.getFilterId()));
+                        LibroEntity bookEntity = this.libroRepository.findById(libroId)
+                                .orElseThrow(() -> new InstanceNotFoundException("book id: " + libroId));
+                        oldfilter.setBook(bookEntity);
+                        oldfilter.setFilter(filterEntity);
+                        this.filterBookRepository.save(oldfilter);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<FilterDTO> getFiltersAvaliableByUrlBookList(List<String> urlsList) {
+        List<FilterDTO> filters = this.getBookFilterValues(urlsList);
+        List<FilterDTO> finalFilterList = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(filters)){
+            for (FilterDTO filterDTO : filters) {
+                NameValue namevalue = new NameValue();
+                namevalue.setValue(filterDTO.getValue().get(0));
+                namevalue.setName(filterDTO.getValue().get(0));
+                if (finalFilterList.contains(filterDTO)){
+                    FilterDTO filter = finalFilterList.get(finalFilterList.indexOf(filterDTO));
+                    if (!filter.getPossibleValues().contains(namevalue)){
+                        filter.getPossibleValues().add(namevalue);
+                    }
+                } else{
+                    FilterDTO newFilterDTO = new FilterDTO();
+                    newFilterDTO.setPossibleValues(new ArrayList<>());
+                    newFilterDTO.getPossibleValues().add(namevalue);
+                    newFilterDTO.setNameFilter(filterDTO.getNameFilter());
+                    newFilterDTO.setFilterId(filterDTO.getFilterId());
+                    newFilterDTO.setUrlFilter(filterDTO.getUrlFilter());
+                    newFilterDTO.setFilterType(filterDTO.getFilterType());
+                    finalFilterList.add(newFilterDTO);
+                }
+            }
+        }
+        return finalFilterList;
+    }
+
 }

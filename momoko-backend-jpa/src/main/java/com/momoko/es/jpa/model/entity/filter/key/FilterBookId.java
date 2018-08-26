@@ -14,6 +14,9 @@ public class FilterBookId implements Serializable {
     @Column(name = "book_id")
     private Integer bookId;
 
+    public FilterBookId(){
+    }
+
     public FilterBookId(Integer filterId, Integer bookId) {
         this.filterId = filterId;
         this.bookId = bookId;

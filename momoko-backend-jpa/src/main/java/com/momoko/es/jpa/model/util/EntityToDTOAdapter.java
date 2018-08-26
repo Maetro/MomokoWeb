@@ -581,7 +581,7 @@ public final class EntityToDTOAdapter {
     public static com.momoko.es.api.dto.filter.FilterDTO adaptFilter(FilterEntity filterEntity) {
         com.momoko.es.api.dto.filter.FilterDTO filterDTO = new com.momoko.es.api.dto.filter.FilterDTO();
         if (filterEntity.getPossibleValues() != null) {
-            filterDTO.setPossibleValues(ConversionUtils.divide(filterEntity.getPossibleValues(), ";"));
+            filterDTO.setPossibleValues(ConversionUtils.toPossibleValues(filterEntity.getPossibleValues(), ";"));
         }
         if (CollectionUtils.isNotEmpty(filterEntity.getApplicableGenres())){
             filterDTO.setGenres(EntityToDTOAdapter.adaptarGeneros(filterEntity.getApplicableGenres()));

@@ -14,7 +14,6 @@ export const environment = {
   librosUrl: 'https://momoko.es/modelo/libros',
   generosUrl: 'https://momoko.es/modelo/generos',
   addEntradaUrl: 'https://momoko.es/modelo/entradas/add',
-  addLibroUrl: 'https://momoko.es/modelo/libros/add',
   addGeneroUrl: 'https://momoko.es/modelo/generos/add',
   informacionGeneralUrl: 'https://momoko.es/modelo/informacionGeneral',
   singUpURL: 'https://momoko.es/account/signup',
@@ -49,10 +48,11 @@ export const environment = {
   filtersUrl: 'https://momoko.es/modelo/filter/',
   addFilterUrl: 'https://momoko.es/modelo/filter/add',
   getFilter: 'https://momoko.es/modelo/filter/',
+  applyFiltersUrl: 'https://momoko.es/public/applyfilter/',
 
-  booksUrl: 'https://momoko.es/modelo/book/',
-  addBookUrl: 'https://momoko.es/modelo/book/add',
-  getBook: 'https://momoko.es/modelo/book/',
+  booksUrl: 'https://momoko.es/model/book/',
+  addBookUrl: 'https://momoko.es/model/book/add',
+  getBook: 'https://momoko.es/model/book/',
 
   editorialesUrl: 'https://momoko.es/modelo/editoriales',
   addEditorialUrl: 'https://momoko.es/modelo/editorial/add',

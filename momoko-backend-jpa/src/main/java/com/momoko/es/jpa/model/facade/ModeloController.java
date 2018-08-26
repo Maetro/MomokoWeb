@@ -146,54 +146,6 @@ public class ModeloController {
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @RequestMapping(method = RequestMethod.POST, path = "/libros/add")
-    ResponseEntity<GuardarLibroResponse> add(@RequestBody final LibroDTO libroDTO) {
-
-        // Validar
-        final List<ErrorCreacionLibro> listaErrores = this.validadorService.validarLibro(libroDTO);
-
-        // Guardar
-        LibroDTO libro = null;
-        if (CollectionUtils.isEmpty(listaErrores)) {
-            try {
-                libro = this.libroService.guardarLibro(libroDTO);
-            } catch (final Exception e) {
-                e.printStackTrace();
-                listaErrores.add(ErrorCreacionLibro.TITULO_YA_EXISTE);
-            }
-        }
-
-        if ((libroDTO.getNotaMomoko() != null) && (libro != null)) {
-            final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
-            puntuacionDTO.setValor(libroDTO.getNotaMomoko());
-            puntuacionDTO.setComentario(libroDTO.getComentarioNotaMomoko());
-            puntuacionDTO.setEsPuntuacionMomoko(true);
-            puntuacionDTO.setLibroId(libro.getLibroId());
-            try {
-                this.puntuacionService.guardarPuntuacion(puntuacionDTO);
-            } catch (final Exception e) {
-                listaErrores.add(ErrorCreacionLibro.PUNTUACION_YA_EXISTE);
-                log.error("context", e);
-
-            }
-        }
-
-        // Responder
-        final GuardarLibroResponse respuesta = new GuardarLibroResponse();
-        respuesta.setLibroDTO(libro);
-        respuesta.setListaErroresValidacion(listaErrores);
-
-        if ((libro != null) && CollectionUtils.isEmpty(listaErrores)) {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
-        } else {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
-        }
-
-        return new ResponseEntity<GuardarLibroResponse>(respuesta, HttpStatus.OK);
-
-    }
-
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/sagas/add")
     ResponseEntity<GuardarSagaResponse> add(@RequestBody final SagaDTO sagaDTO) {
 

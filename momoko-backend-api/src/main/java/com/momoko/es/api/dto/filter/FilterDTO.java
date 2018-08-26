@@ -8,6 +8,7 @@ import com.momoko.es.api.dto.genre.GenreDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class FilterDTO implements Serializable {
 
@@ -27,7 +28,9 @@ public class FilterDTO implements Serializable {
 
     private String referencedProperty;
 
-    private List<String> possibleValues;
+    private List<NameValue> possibleValues;
+
+    private List<String> value;
 
     public Integer getFilterId() {
         return filterId;
@@ -77,11 +80,11 @@ public class FilterDTO implements Serializable {
         this.sagas = sagas;
     }
 
-    public List<String> getPossibleValues() {
+    public List<NameValue> getPossibleValues() {
         return possibleValues;
     }
 
-    public void setPossibleValues(List<String> possibleValues) {
+    public void setPossibleValues(List<NameValue> possibleValues) {
         this.possibleValues = possibleValues;
     }
 
@@ -99,5 +102,31 @@ public class FilterDTO implements Serializable {
 
     public void setReferencedProperty(String referencedProperty) {
         this.referencedProperty = referencedProperty;
+    }
+
+    public List<String> getValue() {
+        return value;
+    }
+
+    public void setValue(List<String> value) {
+        this.value = value;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(filterId, urlFilter);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final FilterDTO other = (FilterDTO) obj;
+        return Objects.equals(this.filterId, other.filterId)
+                && Objects.equals(this.urlFilter, other.urlFilter);
     }
 }

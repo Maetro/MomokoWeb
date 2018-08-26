@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.*;
 import org.apache.commons.collections4.CollectionUtils;
@@ -533,5 +534,33 @@ public class ConversionUtils {
             }
         }
         return books;
+    }
+
+    public static List<NameValue> toPossibleValues(String possibleValues, String separator) {
+        List<NameValue> resultado = new ArrayList<>();
+        if (StringUtils.isNotBlank(possibleValues)) {
+            final String[] separated = StringUtils.split(possibleValues, separator);
+            for (String s : separated) {
+                NameValue nameValue = new NameValue();
+                nameValue.setName(s);
+                nameValue.setValue(s);
+                resultado.add(nameValue);
+            }
+        }
+        return resultado;
+    }
+
+    public static String toPossibleValuesString(List<NameValue> possibleValues) {
+        final StringBuilder sb = new StringBuilder();
+        if (CollectionUtils.isNotEmpty(possibleValues)) {
+            final Iterator<NameValue> it = possibleValues.iterator();
+            while (it.hasNext()) {
+                sb.append(it.next().getValue());
+                if (it.hasNext()) {
+                    sb.append(SEPARATOR);
+                }
+            }
+        }
+        return sb.toString();
     }
 }

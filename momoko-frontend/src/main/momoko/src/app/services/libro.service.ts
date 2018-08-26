@@ -16,7 +16,7 @@ export class LibroService {
   private log = environment.log;
 
   private librosUrl = environment.librosUrl;
-  private addLibroUrl = environment.addLibroUrl;
+  private addBookUrl = environment.addBookUrl;
   private generosUrl = environment.generosUrl;
   private addGeneroUrl = environment.addGeneroUrl;
   private obtenerLibroUrl = environment.obtenerLibroUrl;
@@ -71,7 +71,7 @@ export class LibroService {
       Authorization: Cookie.get('access_token')
     });
     return this.http
-      .post<GuardarLibroResponse>(this.addLibroUrl, JSON.stringify(libro), {
+      .post<GuardarLibroResponse>(this.addBookUrl, JSON.stringify(libro), {
         headers: headers
       }).pipe(
       map(this.extractGuardarLibroResponse),

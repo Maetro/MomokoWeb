@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import com.momoko.es.api.dto.filter.FilterDTO;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -106,6 +107,9 @@ public class LibroDTO implements Serializable {
 
     /** The tiene analisis. */
     private boolean tieneOpinion;
+
+    private List<FilterDTO> filters;
+
 
     /**
      * Gets the libro id.
@@ -670,4 +674,11 @@ public class LibroDTO implements Serializable {
         this.ordenSaga = ordenSaga;
     }
 
+    public void setFilters(List<FilterDTO> filters) {
+        this.filters = filters;
+    }
+
+    public List<FilterDTO> getFilters() {
+        return filters;
+    }
 }

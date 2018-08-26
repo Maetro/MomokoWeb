@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { Filter } from '../../../../dtos/filter/filter';
 import { Genero } from '../../../../dtos/genre/genero';
 import { environment } from '../../../../../environments/environment';
+import { NameValue } from '../../../../dtos/filter/name-value';
 
 @Component({
   selector: 'app-filter-list',
@@ -109,11 +110,11 @@ export class FilterListComponent implements OnInit {
     return this.filterService.getStringOfFilterType(filterType);
   }
 
-  public getStringOfPossibleValues(posibleValues: string[]): string {
+  public getStringOfPossibleValues(posibleValues: NameValue[]): string {
     let result = '';
     if (posibleValues && posibleValues.length > 0) {
       posibleValues.forEach(posibleValue => {
-        result += posibleValue + ', ';
+        result += posibleValue.name + ', ';
       });
       result = result.substring(0, result.length - 2);
     }

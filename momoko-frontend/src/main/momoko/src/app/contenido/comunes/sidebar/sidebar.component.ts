@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { LibroSimple } from '../../../dtos/libroSimple';
 import { Router } from '@angular/router';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
+import { Filter } from '../../../dtos/filter/filter';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,6 +24,12 @@ export class SidebarComponent implements OnInit {
 
   @Input() tituloSeccionEntradas: string;
 
+  @Input() filters: Filter[];
+
+  @Output() onUpdateFilters: EventEmitter<Filter[]> = new EventEmitter<Filter[]>();
+
+  selectedValues: string[] = [];
+
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -35,6 +42,14 @@ export class SidebarComponent implements OnInit {
     }
     this.router.navigate(['/buscar/' + this.busqueda]);
     this.busqueda = "";
+  }
+
+  filterSearch(){
+    console.log('filterSearch');
+  }
+
+  updateFilters(){
+    this.onUpdateFilters.emit(this.filters);
   }
 
 }

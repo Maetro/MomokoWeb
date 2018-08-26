@@ -3,6 +3,7 @@ import { Editorial } from './editorial';
 import { Autor } from './autor';
 import { DatoEntrada } from './datoEntrada';
 import { Saga } from './saga';
+import { Filter } from './filter/filter';
 
 export class Libro {
   libroId: number;
@@ -29,5 +30,6 @@ export class Libro {
   visitas: number;
   ordenSaga: number;
   tieneOpinion: boolean;
-  fechaAlta: Date
+  fechaAlta: Date;
+  filters: Filter[];
 }

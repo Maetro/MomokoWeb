@@ -37,7 +37,7 @@
                 <!-- /.blog-content -->
             </div>
             <div style="margin-top: 20px;">
-                <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
+                <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros" [filters]="filters" (onUpdateFilters)="updateFilters($event)"></app-sidebar>
             </div>
         </div>
         <!-- /.blog -->

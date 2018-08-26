@@ -11,6 +11,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.filter.FilterDTO;
 
 /**
  * The Class ObtenerPaginaGeneroResponse.
@@ -28,6 +29,8 @@ public class GenrePageResponse implements Serializable {
 
     /** The nueve libros genero. */
     private List<LibroSimpleDTO> nueveLibrosGenero;
+
+    private List<FilterDTO> applicableFilters;
 
     private Integer numeroLibros;
 
@@ -105,5 +108,13 @@ public class GenrePageResponse implements Serializable {
      */
     public void setNumeroLibros(final Integer numeroLibros) {
         this.numeroLibros = numeroLibros;
+    }
+
+    public List<FilterDTO> getApplicableFilters() {
+        return applicableFilters;
+    }
+
+    public void setApplicableFilters(List<FilterDTO> applicableFilters) {
+        this.applicableFilters = applicableFilters;
     }
 }

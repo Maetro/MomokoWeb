@@ -21,7 +21,7 @@ import com.momoko.es.jpa.model.service.GenreService;
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
 @RequestMapping(path = "/public")
-public class GenreFacade {
+public class GenreController {
 
     @Autowired(required = false)
     private GenreService generoService;

@@ -1,68 +1,52 @@
 /**
  * LibroServiceImpl.java 08-jul-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.jpa.model.service.impl;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.response.GuardarLibroResponse;
+import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
+import com.momoko.es.api.exceptions.NoExisteGeneroException;
+import com.momoko.es.api.service.FilterService;
+import com.momoko.es.jpa.model.entity.*;
+import com.momoko.es.jpa.model.entity.filter.FilterBook;
+import com.momoko.es.jpa.model.entity.filter.key.FilterBookId;
+import com.momoko.es.jpa.model.repository.*;
+import com.momoko.es.jpa.model.repository.filter.FilterBookRepository;
+import com.momoko.es.jpa.model.service.*;
+import com.momoko.es.jpa.model.util.*;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import com.momoko.es.api.dto.AnchuraAlturaDTO;
-import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
-import com.momoko.es.api.enums.TipoEntrada;
-import com.momoko.es.api.exceptions.NoExisteGeneroException;
-import com.momoko.es.jpa.model.entity.AutorEntity;
-import com.momoko.es.jpa.model.entity.EditorialEntity;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
-import com.momoko.es.jpa.model.entity.GenreEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
-import com.momoko.es.jpa.model.repository.AutorRepository;
-import com.momoko.es.jpa.model.repository.EditorialRepository;
-import com.momoko.es.jpa.model.repository.EntradaRepository;
-import com.momoko.es.jpa.model.repository.GeneroRepository;
-import com.momoko.es.jpa.model.repository.LibroRepository;
-import com.momoko.es.jpa.model.repository.PuntuacionRepository;
-import com.momoko.es.jpa.model.service.EditorialService;
-import com.momoko.es.jpa.model.service.LibroService;
-import com.momoko.es.jpa.model.service.StorageService;
-import com.momoko.es.jpa.model.util.ConversionUtils;
-import com.momoko.es.jpa.model.util.DTOToEntityAdapter;
-import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
-import com.momoko.es.jpa.model.util.MomokoThumbnailUtils;
-import com.momoko.es.jpa.model.util.MomokoUtils;
-
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The Class LibroServiceImpl.
  */
 @Service
 public class LibroServiceImpl implements LibroService {
+
+    private static final Logger log = LoggerFactory.getLogger(LibroServiceImpl.class);
 
     private final EditorialService editorialService;
 
@@ -80,11 +64,20 @@ public class LibroServiceImpl implements LibroService {
 
     private final GeneroRepository generoRepository;
 
+    private final FilterService filterService;
+
+    private final ValidadorService validadorService;
+
+    private final PuntuacionService puntuacionService;
+
+
     @Autowired(required = false)
     public LibroServiceImpl(final EditorialService editorialService, final LibroRepository libroRepository,
-            final EntradaRepository entradaRepository, final AutorRepository autorRepository,
-            final EditorialRepository editorialRepository, final StorageService almacenImagenes,
-            final PuntuacionRepository puntuacionRepository, final GeneroRepository generoRepository) {
+                            final EntradaRepository entradaRepository, final AutorRepository autorRepository,
+                            final EditorialRepository editorialRepository, final StorageService almacenImagenes,
+                            final PuntuacionRepository puntuacionRepository, final GeneroRepository generoRepository,
+                            final FilterService filterService, final ValidadorService validadorService,
+                            final PuntuacionService puntuacionService ) {
         this.editorialService = editorialService;
         this.libroRepository = libroRepository;
         this.entradaRepository = entradaRepository;
@@ -93,6 +86,9 @@ public class LibroServiceImpl implements LibroService {
         this.almacenImagenes = almacenImagenes;
         this.puntuacionRepository = puntuacionRepository;
         this.generoRepository = generoRepository;
+        this.filterService = filterService;
+        this.validadorService = validadorService;
+        this.puntuacionService = puntuacionService;
     }
 
     @Override
@@ -132,6 +128,7 @@ public class LibroServiceImpl implements LibroService {
         final LibroEntity libroEntity = DTOToEntityAdapter.adaptarLibro(libroAGuardar);
         // Comprobamos si el autor existe.
         final List<LibroEntity> coincidencias = this.libroRepository.findByTitulo(libroAGuardar.getTitulo());
+
         if ((CollectionUtils.isEmpty(coincidencias)) || ((libroAGuardar.getLibroId() != null))) {
             if ((libroEntity.getLibroId() != null) && CollectionUtils.isNotEmpty(coincidencias)) {
                 if ((coincidencias.size() > 1)
@@ -148,7 +145,6 @@ public class LibroServiceImpl implements LibroService {
             final Set<GenreEntity> generosObra = obtenerGenerosObra(libroEntity);
             libroEntity.setGeneros(generosObra);
 
-            // libroEntity.
             if (libroEntity.getUrlImagen() != null) {
                 libroEntity.setUrlImagen(soloNombreImagenAPortadas(libroEntity.getUrlImagen()));
             }
@@ -164,13 +160,17 @@ public class LibroServiceImpl implements LibroService {
                 libroEntity.setUsuarioAlta(currentPrincipalName);
                 libroEntity.setFechaAlta(Calendar.getInstance().getTime());
             }
-            return EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntity));
+            LibroDTO libroGuardado = EntityToDTOAdapter.adaptarLibro(this.libroRepository.save(libroEntity));
+            this.filterService.saveBookFilters(libroGuardado.getLibroId(), libroAGuardar);
+            return libroGuardado;
 
         } else {
             throw new Exception("El titulo del libro ya se esta utilizando");
         }
 
     }
+
+
 
     private Set<GenreEntity> obtenerGenerosObra(final LibroEntity libroEntity) throws NoExisteGeneroException {
         final Set<GenreEntity> generosObra = new HashSet<GenreEntity>();
@@ -343,6 +343,12 @@ public class LibroServiceImpl implements LibroService {
     }
 
     @Override
+    public List<LibroDTO> getBooksWithUrlIn(final List<String> librosUrl) {
+        final List<LibroEntity> listaLibros = this.libroRepository.findByUrlLibroIn(librosUrl);
+        return EntityToDTOAdapter.adaptarLibros(listaLibros);
+    }
+
+    @Override
     public List<LibroDTO> obtenerLibros(final List<String> librosUrl) {
         final List<LibroEntity> listaLibros = this.libroRepository.findByUrlLibroIn(librosUrl);
         final List<LibroDTO> listaLibrosDTO = new ArrayList<>();
@@ -414,7 +420,65 @@ public class LibroServiceImpl implements LibroService {
             libroDTO.setNotaMomoko(puntuacionEntity.getValor());
             libroDTO.setComentarioNotaMomoko(puntuacionEntity.getComentario());
         }
+        if (CollectionUtils.isNotEmpty(libroDTO.getGeneros())) {
+            List<String> urlsList = libroDTO.getGeneros().stream().map(GenreDTO::getUrlGenero).collect(Collectors.toList());
+            List<FilterDTO> applicableFilters = this.filterService.getFiltersAppliedByGenreUrl(urlsList);
+            List<FilterDTO> bookFilters = this.filterService.getBookFilterValues(Arrays.asList(libroDTO.getUrlLibro()));
+            if (CollectionUtils.isNotEmpty(applicableFilters)){
+                for (FilterDTO applicableFilter : applicableFilters) {
+                    if (!bookFilters.contains(applicableFilter)){
+                        bookFilters.add(applicableFilter);
+                    }
+                }
+            }
+            libroDTO.setFilters(bookFilters);
+        }
+
         return libroDTO;
+    }
+
+    @Override
+    public GuardarLibroResponse saveBook(LibroDTO bookDTO) {
+        // Validar
+        final List<ErrorCreacionLibro> listaErrores = this.validadorService.validarLibro(bookDTO);
+
+        // Guardar
+        LibroDTO libro = null;
+        if (org.springframework.util.CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                libro = guardarLibro(bookDTO);
+            } catch (final Exception e) {
+                e.printStackTrace();
+                listaErrores.add(ErrorCreacionLibro.TITULO_YA_EXISTE);
+            }
+        }
+
+        if ((bookDTO.getNotaMomoko() != null) && (libro != null)) {
+            final PuntuacionDTO puntuacionDTO = new PuntuacionDTO();
+            puntuacionDTO.setValor(bookDTO.getNotaMomoko());
+            puntuacionDTO.setComentario(bookDTO.getComentarioNotaMomoko());
+            puntuacionDTO.setEsPuntuacionMomoko(true);
+            puntuacionDTO.setLibroId(libro.getLibroId());
+            try {
+                this.puntuacionService.guardarPuntuacion(puntuacionDTO);
+            } catch (final Exception e) {
+                listaErrores.add(ErrorCreacionLibro.PUNTUACION_YA_EXISTE);
+                log.error("context", e);
+
+            }
+        }
+
+        // Responder
+        final GuardarLibroResponse respuesta = new GuardarLibroResponse();
+        respuesta.setLibroDTO(libro);
+        respuesta.setListaErroresValidacion(listaErrores);
+
+        if ((libro != null) && org.springframework.util.CollectionUtils.isEmpty(listaErrores)) {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
+        } else {
+            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        }
+        return respuesta;
     }
 
 }

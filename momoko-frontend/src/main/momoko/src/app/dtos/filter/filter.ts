@@ -3,6 +3,7 @@ import { Libro } from '../libro';
 import { Saga } from '../saga';
 import { FilterRuleType } from './filter-rule-type.enum';
 import { Genero } from '../genre/genero';
+import { NameValue } from './name-value';
 
 export class Filter {
   filterId: number;
@@ -21,6 +22,8 @@ export class Filter {
 
   referencedProperty: string;
 
-  possibleValues: string[];
+  possibleValues: NameValue[];
+
+  value: string;
 
 }

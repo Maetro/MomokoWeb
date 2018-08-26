@@ -10,6 +10,7 @@ import { LibroService } from '../../../../services/libro.service';
 import { UtilService } from '../../../../services/util/util.service';
 import { FilterRuleType } from '../../../../dtos/filter/filter-rule-type.enum';
 import { environment } from '../../../../../environments/environment';
+import { NameValue } from '../../../../dtos/filter/name-value';
 
 @Component({
   selector: 'app-edit-filter',
@@ -59,7 +60,11 @@ export class EditFilterComponent implements OnInit {
       this.filterTypeSelected = this.filter.filterType;
       this.genres = this.filter.genres;
       this.referencedValueSelected = this.filter.referencedProperty;
-      this.filterValues = this.filter.possibleValues;
+      this.filterValues = [];
+      this.filter.possibleValues.forEach(value => {
+        this.filterValues.push(value.value);
+      });
+       ;
     });
     this.filterTypes = [];
     this.genres = [];
@@ -86,7 +91,14 @@ export class EditFilterComponent implements OnInit {
     this.filter.filterType = FilterRuleType[this.filterTypeSelected];
     this.filter.referencedProperty = this.referencedValueSelected;
     if (this.filterValues && this.filterValues.length > 0) {
-      this.filter.possibleValues = this.filterValues;
+      const possibleValues = [];
+      this.filterValues.forEach(filterValue => {
+        const value = new NameValue();
+        value.name = filterValue;
+        value.value = filterValue;
+        possibleValues.push(value);
+      });
+      this.filter.possibleValues = possibleValues;
     }
     this.filterService.saveFilter(this.filter).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {

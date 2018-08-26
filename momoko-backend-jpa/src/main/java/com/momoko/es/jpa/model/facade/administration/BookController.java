@@ -1,22 +1,28 @@
 package com.momoko.es.jpa.model.facade.administration;
 
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
+import com.momoko.es.api.dto.response.GuardarLibroResponse;
+import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
 import com.momoko.es.api.service.FilterService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
 @CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4000", "https://www.momoko.es" })
-@RequestMapping(path = "/modelo")
+@RequestMapping(path = "/model")
 public class BookController {
 
     @Autowired(required = false)
@@ -40,19 +46,14 @@ public class BookController {
         return libro;
     }
 
-//    @RequestMapping(method = RequestMethod.POST, path = "/book/add")
-//    ResponseEntity<SaveFilterResponse> guardarRedactor(@RequestBody final FilterDTO filterDTO) {
-//        SaveFilterResponse response = new SaveFilterResponse();
-//        try {
-//            response = this.libroService.saveFilter(filterDTO);
-//        } catch (Exception e) {
-//            response.setErrorMessage(e);
-//            return new ResponseEntity<SaveFilterResponse>(response, HttpStatus.BAD_REQUEST);
-//        }
-//
-//        return new ResponseEntity<SaveFilterResponse>(response, HttpStatus.OK);
-//
-//    }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @RequestMapping(method = RequestMethod.POST, path = "/book/add")
+    ResponseEntity<GuardarLibroResponse> saveBook(@RequestBody final LibroDTO bookDTO) throws Exception {
+
+        GuardarLibroResponse response = this.libroService.saveBook(bookDTO);
+        return new ResponseEntity<GuardarLibroResponse>(response, HttpStatus.OK);
+
+    }
 //
 //    @GetMapping(path = "/filter/genre/{urlGenre}")
 //    public @ResponseBody

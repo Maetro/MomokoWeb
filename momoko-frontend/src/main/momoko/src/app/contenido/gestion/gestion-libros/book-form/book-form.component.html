@@ -180,9 +180,32 @@
               <!--/.form-field -->
             </div>
           </div>
+          <div class="row">
+            <div class="col-sm-12 lp10">
+              <p-accordion>
+                <p-accordionTab header="Filtros">
+                  <div class="col-sm-4 lp20" *ngFor="let filter of libro.filters">
+                    <div *ngIf="!filter.referencedProperty">
+
+                      <h4> {{filter.nameFilter}}: </h4>
+
+                      <div class="lp40" *ngFor="let possibleValue of filter.possibleValues">
+                        <!-- <p-checkbox name="{{filter.nameFilter}}" value="{{possibleValue.value}}" [(ngModel)]="filter.value" label="{{possibleValue.name}}"></p-checkbox> -->
+                        <p-radioButton name="{{filter.nameFilter}}" value="{{possibleValue.value}}" label="{{possibleValue.name}}" [(ngModel)]="filter.value"></p-radioButton>
+                      </div>
+                      <!--/.form-field -->
+
+                    </div>
+                  </div>
+                </p-accordionTab>
+              </p-accordion>
+            </div>
+          </div>
+
+
 
           <div class="row">
-            <div class="divide10"></div>
+            <div class="divide20"></div>
           </div>
 
           <div class="row">
@@ -195,6 +218,8 @@
 
               <h4> Cita identificativa </h4>
               <textarea name="cita" [(ngModel)]="libro.citaLibro" placeholder="Type your message here..."></textarea>
+
+
               <div [hidden]="!esLibroNuevo">
                 <input type="submit" class="btn btn-forest" value="Crear libro" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
                   data-success="Thank you!">
@@ -206,6 +231,7 @@
               <footer class="notification-box"></footer>
             </div>
           </div>
+
         </div>
       </div>
 
