@@ -30,3 +30,7 @@ i.budicon-cancel-1 {
 .comment-form-wrapper {
   margin-bottom: 20px;
 }
+
+form div {
+  margin-bottom: 15px;
+}
