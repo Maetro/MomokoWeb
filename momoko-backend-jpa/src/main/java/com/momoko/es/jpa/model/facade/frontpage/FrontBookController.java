@@ -27,7 +27,7 @@ public class FrontBookController {
         this.genreService = genreService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/applyfilter/{url-genre}")
+    @PostMapping(path = "/applyfilter/{url-genre}")
     ResponseEntity<ApplyFilterResponseDTO> applyFilter(@PathVariable("url-genre") final String urlGenre,
                                                        @RequestBody final List<FilterDTO> appliedFilters) {
         ApplyFilterResponseDTO result = this.genreService.getBooksWithFilters(urlGenre, appliedFilters);

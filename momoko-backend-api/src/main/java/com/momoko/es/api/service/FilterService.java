@@ -27,4 +27,6 @@ public interface FilterService {
     void saveBookFilters(final Integer libroId, LibroDTO libroAGuardar) throws InstanceNotFoundException;
 
     List<FilterDTO> getFiltersAvaliableByUrlBookList(List<String> urlsList);
+
+    List<LibroSimpleDTO> getBookListWithAppliedFilters(String urlGenre, List<FilterDTO> appliedFilters);
 }

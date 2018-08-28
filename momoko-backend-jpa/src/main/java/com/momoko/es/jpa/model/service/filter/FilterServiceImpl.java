@@ -1,6 +1,7 @@
 package com.momoko.es.jpa.model.service.filter;
 
 import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
@@ -11,6 +12,7 @@ import com.momoko.es.api.service.FilterService;
 import com.momoko.es.commons.security.UserAdminPermission;
 import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
+import com.momoko.es.jpa.model.entity.PuntuacionEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.entity.filter.key.FilterBookId;
@@ -28,10 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.management.InstanceNotFoundException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -70,9 +69,9 @@ public class FilterServiceImpl implements FilterService {
         FilterDTO savedFilterDTO = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
-                if (filterDTO.getFilterId() != null){
+                if (filterDTO.getFilterId() != null) {
                     savedFilterDTO = updateFilter(filterDTO);
-                } else{
+                } else {
                     savedFilterDTO = createFilter(filterDTO);
                 }
             } catch (final Exception e) {
@@ -106,7 +105,7 @@ public class FilterServiceImpl implements FilterService {
         FilterEntity oldFilter = filterRepository.findById(filterDTO.getFilterId()).orElseThrow(() ->
                 new InstanceNotFoundException("No se encuentra el filtro con el id: " + filterDTO.getFilterId()));
         setApplicableGenresToFilter(filterDTO, oldFilter);
-        if (CollectionUtils.isNotEmpty(filterDTO.getBooks())){
+        if (CollectionUtils.isNotEmpty(filterDTO.getBooks())) {
             List<String> urlsList = filterDTO.getBooks().stream().map(LibroDTO::getUrlLibro).collect(Collectors.toList());
             List<LibroEntity> books = this.libroRepository.findByUrlLibroIn(urlsList);
             List<FilterBook> filterBooks = new ArrayList<>();
@@ -123,7 +122,7 @@ public class FilterServiceImpl implements FilterService {
     }
 
     private void setApplicableGenresToFilter(FilterDTO filterDTO, FilterEntity filterEntity) {
-        if (CollectionUtils.isNotEmpty(filterDTO.getGenres())){
+        if (CollectionUtils.isNotEmpty(filterDTO.getGenres())) {
             List<String> urlsList = filterDTO.getGenres().stream().map(GenreDTO::getUrlGenero).collect(Collectors.toList());
             List<GenreEntity> genresFilter = genreRepository.findByUrlGeneroIn(urlsList);
             filterEntity.setApplicableGenres(genresFilter);
@@ -160,7 +159,7 @@ public class FilterServiceImpl implements FilterService {
         final List<LibroEntity> books = this.libroRepository.findByUrlLibroIn(bookUrls);
         List<FilterDTO> filterList = new ArrayList<>();
         List<FilterBook> filterBooks = filterBookRepository.findAllByBookIn(books);
-        if (CollectionUtils.isNotEmpty(filterBooks)){
+        if (CollectionUtils.isNotEmpty(filterBooks)) {
             for (FilterBook filterBook : filterBooks) {
                 FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterBook.getFilter());
                 filterDTO.setValue(Arrays.asList(filterBook.getValue()));
@@ -172,12 +171,12 @@ public class FilterServiceImpl implements FilterService {
     }
 
     public void saveBookFilters(final Integer libroId, final LibroDTO libroAGuardar) throws InstanceNotFoundException {
-        if (CollectionUtils.isNotEmpty(libroAGuardar.getFilters())){
+        if (CollectionUtils.isNotEmpty(libroAGuardar.getFilters())) {
             for (FilterDTO filter : libroAGuardar.getFilters()) {
-                if (StringUtils.isBlank(filter.getReferencedProperty()) && filter.getValue() != null){
+                if (StringUtils.isBlank(filter.getReferencedProperty()) && filter.getValue() != null) {
                     FilterBookId id = new FilterBookId(filter.getFilterId(), libroId);
                     FilterBook oldfilter = filterBookRepository.findById(id).orElse(null);
-                    if (oldfilter != null){
+                    if (oldfilter != null) {
                         oldfilter.setValue(filter.getValue().get(0));
                         this.filterBookRepository.save(oldfilter);
                     } else {
@@ -201,17 +200,17 @@ public class FilterServiceImpl implements FilterService {
     public List<FilterDTO> getFiltersAvaliableByUrlBookList(List<String> urlsList) {
         List<FilterDTO> filters = this.getBookFilterValues(urlsList);
         List<FilterDTO> finalFilterList = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(filters)){
+        if (CollectionUtils.isNotEmpty(filters)) {
             for (FilterDTO filterDTO : filters) {
                 NameValue namevalue = new NameValue();
                 namevalue.setValue(filterDTO.getValue().get(0));
                 namevalue.setName(filterDTO.getValue().get(0));
-                if (finalFilterList.contains(filterDTO)){
+                if (finalFilterList.contains(filterDTO)) {
                     FilterDTO filter = finalFilterList.get(finalFilterList.indexOf(filterDTO));
-                    if (!filter.getPossibleValues().contains(namevalue)){
+                    if (!filter.getPossibleValues().contains(namevalue)) {
                         filter.getPossibleValues().add(namevalue);
                     }
-                } else{
+                } else {
                     FilterDTO newFilterDTO = new FilterDTO();
                     newFilterDTO.setPossibleValues(new ArrayList<>());
                     newFilterDTO.getPossibleValues().add(namevalue);
@@ -224,6 +223,96 @@ public class FilterServiceImpl implements FilterService {
             }
         }
         return finalFilterList;
+    }
+
+    @Override
+    public List<LibroSimpleDTO> getBookListWithAppliedFilters(String urlGenre, List<FilterDTO> appliedFilters) {
+        List<LibroDTO> books = new ArrayList<>();
+        List<String> bookEntities = new ArrayList<>();
+        boolean first = true;
+
+        String filterQuery = getFilterWhereSection(appliedFilters);
+        this.filterBookRepository.getBookListWithAppliedFilters(urlGenre, filterQuery);
+
+        if (CollectionUtils.isNotEmpty(appliedFilters)) {
+            for (FilterDTO appliedFilter : appliedFilters) {
+                Set<String> booksFilter = new HashSet<>();
+                for (String value : appliedFilter.getValue()) {
+                    List<String> booksValue = this.filterBookRepository.getBookListWithAppliedFilter(urlGenre,
+                            appliedFilter.getFilterId(), value);
+                    booksFilter.addAll(booksValue);
+                }
+                if (first) {
+                    bookEntities.addAll(booksFilter);
+                } else {
+                    List<String> tempBookEntities = new ArrayList<>();
+                    if (CollectionUtils.isNotEmpty(booksFilter)) {
+                        for (String libroEntity : booksFilter) {
+                            if (bookEntities.contains(libroEntity)){
+                                tempBookEntities.add(libroEntity);
+                            }
+                        }
+                    }
+                    bookEntities = tempBookEntities;
+                }
+            }
+
+        }
+        List<LibroSimpleDTO> result = new ArrayList<>();
+
+        List<LibroEntity> booksFound = this.libroRepository.findByUrlLibroIn(bookEntities);
+
+        for (LibroEntity bookEntity : booksFound) {
+            PuntuacionEntity puntuacion = null;
+            if (CollectionUtils.isNotEmpty(bookEntity.getPuntuaciones())) {
+                puntuacion = bookEntity.getPuntuaciones().iterator().next();
+            }
+            result.add(ConversionUtils.obtenerLibroSimpleDTO(bookEntity, puntuacion));
+        }
+
+        return result;
+    }
+
+
+    /*and (
+        f.filter_id = 2 and (
+            fb.value LIKE 'Marvel'
+            OR
+            fb.value LIKE 'DC Cómics'
+        )
+        and
+        l.numero_paginas BETWEEN 100 AND 200
+    )
+    */
+    private String getFilterWhereSection(List<FilterDTO> appliedFilters){
+        StringBuilder stringBuilder = new StringBuilder();
+        if (CollectionUtils.isNotEmpty(appliedFilters)){
+            Iterator<FilterDTO> filterIterator = appliedFilters.iterator();
+            stringBuilder.append("and (");
+            while(filterIterator.hasNext()){
+                FilterDTO filterDTO = filterIterator.next();
+                if (CollectionUtils.isNotEmpty(filterDTO.getValue())){
+                    Iterator<String> valueIterator = filterDTO.getValue().iterator();
+                    stringBuilder.append("f.filter_id = " + filterDTO.getFilterId());
+                    stringBuilder.append(" AND (");
+                    while (valueIterator.hasNext()){
+
+                        String value = valueIterator.next();
+                        stringBuilder.append("fb.value LIKE '" + value + "'");
+                        if (valueIterator.hasNext()){
+                            stringBuilder.append(" OR ");
+                        }
+                    }
+                    stringBuilder.append(")");
+                    if (filterIterator.hasNext()){
+                        stringBuilder.append(" AND ");
+                    }
+                }
+            }
+            stringBuilder.append(")");
+        }
+        
+        return stringBuilder.toString();
     }
 
 }

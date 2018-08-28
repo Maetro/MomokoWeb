@@ -120,18 +120,14 @@ public class GeneroServiceImpl implements GenreService {
 
     @Override
     public ApplyFilterResponseDTO getBooksWithFilters(String urlGenre, List<FilterDTO> appliedFilters) {
+        ApplyFilterResponseDTO response = new ApplyFilterResponseDTO();
         GenreDTO genreDTO = this.obtenerGeneroPorUrl(urlGenre);
-        List<LibroSimpleDTO> booksGenre = this.obtenerLibrosConOpinionesGeneroPorFecha(genreDTO, 999, 0);
-        List<String> urlsList = booksGenre.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
-        for (FilterDTO appliedFilter : appliedFilters) {
-
-
-            List<LibroDTO> books = this.libroService.getBooksWithUrlIn(urlsList);
-            for (LibroDTO book : books) {
-                
-            }
-        }
-        return null;
+        List<LibroSimpleDTO> books = this.filterService.getBookListWithAppliedFilters(urlGenre, appliedFilters);
+        List<String> urlsList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
+        List<FilterDTO> avaliableFiltersList = this.filterService.getFiltersAvaliableByUrlBookList(urlsList);
+        response.setBooksSelected(books);
+        response.setAvaliableFiltersList(avaliableFiltersList);
+        return response;
     }
 
     private List<FilterDTO> getFiltersAvaliableByGenre(GenreDTO generoDTO) {

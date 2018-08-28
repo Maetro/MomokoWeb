@@ -23,12 +23,15 @@ spring:
             client-id: 233668646673605
             client-secret: 33b17e044ee6a4fa383f46ec6e28ea1d
 
+
 logging:
   level:
     root: INFO
     org.springframework: INFO
     org.springframework.security.oauth2.client: DEBUG
     com.momoko.es: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   #file: D:\\tmp\\dev-log.txt
 
 momoko:
