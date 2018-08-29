@@ -12,8 +12,7 @@ import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { Globals } from '../../../app.globals';
 import { Filter } from '../../../dtos/filter/filter';
 import { FilterFrontalService } from './filter-frontal.service';
-
-
+import { take, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-lista-genero',
@@ -21,7 +20,6 @@ import { FilterFrontalService } from './filter-frontal.service';
   styleUrls: ['./lista-genero.component.css']
 })
 export class ListaGeneroComponent implements OnInit, OnDestroy {
-
   private log = environment.log;
 
   private url: string;
@@ -48,11 +46,11 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   numeroPaginas: number;
 
-  numbers
+  numbers;
 
-  isMobile:boolean; 
+  isMobile: boolean;
 
-  enLista:boolean;
+  enLista: boolean;
 
   orderby: OrderType;
 
@@ -60,13 +58,14 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   constructor(
     private clasificadorService: ClasificadorService,
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
-    private titleService: Title, 
-    private metaService: Meta, 
+    private titleService: Title,
+    private metaService: Meta,
     private globals: Globals,
     private util: UtilService,
-    private filterFrontalService: FilterFrontalService) { }
+    private filterFrontalService: FilterFrontalService
+  ) {}
 
   ngOnInit() {
     if (this.log) {
@@ -77,30 +76,42 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     this.suscriptor = this.route.params.subscribe(params => {
       this.url = params['url_genero']; // (+) converts string 'id' to a number
       this.numeroPagina = params['numero_pagina'];
-      if (!this.numeroPagina){
+      if (!this.numeroPagina) {
         this.numeroPagina = 1;
       }
       if (this.log) {
         console.log(this.url);
       }
-      this.route.data.subscribe((data: { paginaGeneroResponse: GenrePageResponse }) => {
-        this.genero = data.paginaGeneroResponse.genero;
-        this.util.removeAllTags(this.metaService);
-        this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
-        this.entradasPopulares = data.paginaGeneroResponse.tresUltimasEntradasConLibro;
-        this.filters = data.paginaGeneroResponse.applicableFilters;
-        const metatituloPagina = 'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros del género ' + this.genero.nombre +
-          ' en momoko';
+      this.route.data.subscribe(
+        (data: { paginaGeneroResponse: GenrePageResponse }) => {
+          this.genero = data.paginaGeneroResponse.genero;
+          this.util.removeAllTags(this.metaService);
+          this.librosGenero = data.paginaGeneroResponse.nueveLibrosGenero;
+          this.entradasPopulares =
+            data.paginaGeneroResponse.tresUltimasEntradasConLibro;
+          this.filters = data.paginaGeneroResponse.applicableFilters;
+          const metatituloPagina =
+            'Aquí encontrarás críticas, reseñas, opiniones y análisis de los libros del género ' +
+            this.genero.nombre +
+            ' en momoko';
           const tag = {
-            name: 'description', content: 'Últimas fichas de los libros del género ' + this.genero.nombre +
+            name: 'description',
+            content:
+              'Últimas fichas de los libros del género ' +
+              this.genero.nombre +
               'desde donde podras acceder a sus noticias y análisis'
           };
           this.metaService.addTag(tag, false);
-        this.titleService.setTitle(metatituloPagina);
-        this.numeroEntradas = data.paginaGeneroResponse.numeroLibros;
-        this.numeroPaginas = Math.ceil(this.numeroEntradas / this.numeroEntradasPagina);
-        this.numbers = Array(this.numeroPaginas).fill(0).map((x, i) => i + 1);
-      });
+          this.titleService.setTitle(metatituloPagina);
+          this.numeroEntradas = data.paginaGeneroResponse.numeroLibros;
+          this.numeroPaginas = Math.ceil(
+            this.numeroEntradas / this.numeroEntradasPagina
+          );
+          this.numbers = Array(this.numeroPaginas)
+            .fill(0)
+            .map((x, i) => i + 1);
+        }
+      );
 
       // const columna = document.getElementById('mirarAnchura0');
       // const width = columna.offsetWidth;
@@ -110,14 +121,11 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
       // this.anchura = width - margin;
       // In a real app: dispatch action to load the details here.
     });
-
- 
   }
 
   activarEnLista(value: boolean) {
     this.enLista = value;
   }
-
 
   ngOnDestroy() {
     this.suscriptor.unsubscribe();
@@ -135,17 +143,41 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   cambiarOrden() {
     this.globals.orderType = this.orderby;
-    this.clasificadorService.getGenrePage(this.url, this.numeroPagina, this.orderby).subscribe(generoPageResponse => {
-      this.librosGenero = generoPageResponse.nueveLibrosGenero;
-    });
+    this.clasificadorService
+      .getGenrePage(this.url, this.numeroPagina, this.orderby)
+      .subscribe(generoPageResponse => {
+        this.librosGenero = generoPageResponse.nueveLibrosGenero;
+      });
   }
 
-  updateFilters(event: Filter[]){
+  updateFilters(event: Filter[]) {
     console.log('updateFilters: ' + event);
-    this.filterFrontalService.applyFilters(this.genero.urlGenero, event).subscribe(res => {
-      this.filters = res.avaliableFiltersList;
-      this.librosGenero = res.booksSelected;
-    });;
-  }
 
+    let filtered = false;
+    this.filters.some(filter => {
+      if (filter.value && filter.value.length > 0) {
+        filtered = true;
+        return true;
+      }
+    });
+    if (filtered) {
+      this.filterFrontalService
+        .applyFilters(this.genero.urlGenero, event)
+        .subscribe(res => {
+          this.filters = res.avaliableFiltersList;
+          this.librosGenero = res.booksSelected;
+        });
+    } else {
+      return this.clasificadorService
+        .getGenrePage(this.url, this.numeroPagina, this.globals.orderType)
+        .pipe(
+          map(genero => {
+            
+              this.librosGenero = genero.nueveLibrosGenero;
+              this.filters = genero.applicableFilters;
+            
+          })
+        );
+    }
+  }
 }

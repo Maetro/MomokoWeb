@@ -16,6 +16,7 @@ import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.api.service.FilterService;
+import com.momoko.es.jpa.model.repository.filter.IDynamicFilterRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -90,6 +91,20 @@ public class GeneroServiceImpl implements GenreService {
             genreBooksAndSagas = this.obtenerLibrosConAnalisisGeneroPorNota(generoDTO, 9, pageNumber);
         }
         final Integer numeroLibros = this.libroService.obtenerNumeroLibrosConAnalisisGenero(generoDTO);
+        getCoverImagesThumbnails(genreBooksAndSagas);
+
+        final List<EntradaSimpleDTO> tresUltimasEntradasConLibro = this.entradaService
+                .obtenerTresUltimasEntradasPopularesConLibro();
+        List<FilterDTO> finalFilterList = getFiltersAvaliableByGenre(generoDTO);
+        genrePageResponse.setApplicableFilters(finalFilterList);
+        genrePageResponse.setGenero(generoDTO);
+        genrePageResponse.setNumeroLibros(numeroLibros);
+        genrePageResponse.setNueveLibrosGenero(genreBooksAndSagas);
+        genrePageResponse.setTresUltimasEntradasConLibro(tresUltimasEntradasConLibro);
+        return genrePageResponse;
+    }
+
+    private void getCoverImagesThumbnails(List<LibroSimpleDTO> genreBooksAndSagas) {
         for (final LibroSimpleDTO libroSimpleDTO : genreBooksAndSagas) {
             if (libroSimpleDTO.getPortada() != null) {
                 try {
@@ -106,16 +121,6 @@ public class GeneroServiceImpl implements GenreService {
                 }
             }
         }
-
-        final List<EntradaSimpleDTO> tresUltimasEntradasConLibro = this.entradaService
-                .obtenerTresUltimasEntradasPopularesConLibro();
-        List<FilterDTO> finalFilterList = getFiltersAvaliableByGenre(generoDTO);
-        genrePageResponse.setApplicableFilters(finalFilterList);
-        genrePageResponse.setGenero(generoDTO);
-        genrePageResponse.setNumeroLibros(numeroLibros);
-        genrePageResponse.setNueveLibrosGenero(genreBooksAndSagas);
-        genrePageResponse.setTresUltimasEntradasConLibro(tresUltimasEntradasConLibro);
-        return genrePageResponse;
     }
 
     @Override
@@ -125,8 +130,20 @@ public class GeneroServiceImpl implements GenreService {
         List<LibroSimpleDTO> books = this.filterService.getBookListWithAppliedFilters(urlGenre, appliedFilters);
         List<String> urlsList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
         List<FilterDTO> avaliableFiltersList = this.filterService.getFiltersAvaliableByUrlBookList(urlsList);
+        List<FilterDTO> finalFilterList = new ArrayList<>();
+        for (FilterDTO appliedFilter : appliedFilters) {
+            if (CollectionUtils.isNotEmpty(appliedFilter.getValue()) && avaliableFiltersList.contains(appliedFilter)){
+                finalFilterList.add(appliedFilter);
+            }
+        }
+        for (FilterDTO filterDTO : avaliableFiltersList) {
+            if (!finalFilterList.contains(filterDTO)){
+                finalFilterList.add(filterDTO);
+            }
+        }
+        getCoverImagesThumbnails(books);
         response.setBooksSelected(books);
-        response.setAvaliableFiltersList(avaliableFiltersList);
+        response.setAvaliableFiltersList(finalFilterList);
         return response;
     }
 

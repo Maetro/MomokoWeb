@@ -25,12 +25,11 @@ import java.util.List;
 public class FrontBookController {
 
     private final GenreService genreService;
-    private final IDynamicFilterRepository dynamicFilterRepository;
+
 
     @Autowired
-    public FrontBookController(GenreService genreService, IDynamicFilterRepository dynamicFilterRepository) {
+    public FrontBookController(GenreService genreService) {
         this.genreService = genreService;
-        this.dynamicFilterRepository = dynamicFilterRepository;
     }
 
     @GetMapping(path = "/hola")
@@ -51,7 +50,7 @@ public class FrontBookController {
         filter2.setReferencedProperty("numeroPaginas");
         filter2.setFilterType(FilterRuleType.BETWEEN);
         filters.add(filter2);
-        this.dynamicFilterRepository.getBookListWithAppliedFilters(filters);
+//        this.dynamicFilterRepository.getBookListWithAppliedFilters(filters);
     }
 
     @PostMapping(path = "/applyfilter/{url-genre}")

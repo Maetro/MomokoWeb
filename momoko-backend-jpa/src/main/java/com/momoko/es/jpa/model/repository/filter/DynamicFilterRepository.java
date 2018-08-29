@@ -4,6 +4,7 @@ import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
+import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.apache.commons.collections4.CollectionUtils;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.util.List;
@@ -24,7 +26,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<String> getBookListWithAppliedFilters(List<FilterDTO> filters) {
+    public List<String> getBookListWithAppliedFilters(String urlGenre, List<FilterDTO> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery criteriaQuery = criteriaBuilder.createQuery();
@@ -34,7 +36,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         criteriaQuery.select(book.get("urlLibro"));
 
 
-        Predicate whereSection = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), "comic-americano"));
+        Predicate whereSection = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre));
         if (CollectionUtils.isNotEmpty(filters)) {
             //AND
             for (FilterDTO filter : filters) {
@@ -51,6 +53,23 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         List<String> result4 = query.getResultList();
         System.out.println(result4);
         return result4;
+    }
+
+    @Override
+    public List<FilterEntity> getFilterListWithSelectedBooks(String urlGenre, List<String> urlBooks) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery<FilterEntity> criteriaQuery = criteriaBuilder.createQuery(FilterEntity.class);
+        Root filter = criteriaQuery.from(FilterEntity.class);
+        Join genre = filter.join("applicableGenres");
+        Join filterBooks = filter.join("filterBooks");
+        Join book = filterBooks.join("book");
+
+        Predicate orFirst = criteriaBuilder.or(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre),
+                criteriaBuilder.isNull(filter.get("applicableGenres")));
+        criteriaQuery.where(orFirst);
+        List<FilterEntity> result = entityManager.createQuery(criteriaQuery).getResultList();
+        return result;
     }
 
     private Predicate getPredicateForBetweenTypeFilter(CriteriaBuilder criteriaBuilder, Join book, Predicate whereSection, FilterDTO filter) {

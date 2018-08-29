@@ -20,6 +20,7 @@ import com.momoko.es.jpa.model.repository.GeneroRepository;
 import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterBookRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterRepository;
+import com.momoko.es.jpa.model.repository.filter.IDynamicFilterRepository;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import com.momoko.es.jpa.model.util.DTOToEntityAdapter;
@@ -36,20 +37,27 @@ import java.util.stream.Collectors;
 @Service
 public class FilterServiceImpl implements FilterService {
 
-    @Autowired(required = false)
-    private FilterRepository filterRepository;
+    private final FilterRepository filterRepository;
+
+    private final IDynamicFilterRepository dynamicFilterRepository;
+
+    private final FilterBookRepository filterBookRepository;
+
+    private final ValidadorService validatorService;
+
+    private final GeneroRepository genreRepository;
+
+    private final LibroRepository libroRepository;
 
     @Autowired(required = false)
-    private FilterBookRepository filterBookRepository;
-
-    @Autowired(required = false)
-    private ValidadorService validatorService;
-
-    @Autowired(required = false)
-    private GeneroRepository genreRepository;
-
-    @Autowired(required = false)
-    private LibroRepository libroRepository;
+    public FilterServiceImpl(FilterRepository filterRepository, IDynamicFilterRepository dynamicFilterRepository, FilterBookRepository filterBookRepository, ValidadorService validatorService, GeneroRepository genreRepository, LibroRepository libroRepository) {
+        this.filterRepository = filterRepository;
+        this.dynamicFilterRepository = dynamicFilterRepository;
+        this.filterBookRepository = filterBookRepository;
+        this.validatorService = validatorService;
+        this.genreRepository = genreRepository;
+        this.libroRepository = libroRepository;
+    }
 
 
     @Override
@@ -231,8 +239,9 @@ public class FilterServiceImpl implements FilterService {
         List<String> bookEntities = new ArrayList<>();
         boolean first = true;
 
-        String filterQuery = getFilterWhereSection(appliedFilters);
-        this.filterBookRepository.getBookListWithAppliedFilters(urlGenre, filterQuery);
+        List<String> urlBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(urlGenre, appliedFilters);
+
+        List<FilterEntity> filters = this.dynamicFilterRepository.getFilterListWithSelectedBooks(urlGenre, urlBooks);
 
         if (CollectionUtils.isNotEmpty(appliedFilters)) {
             for (FilterDTO appliedFilter : appliedFilters) {
@@ -271,48 +280,6 @@ public class FilterServiceImpl implements FilterService {
         }
 
         return result;
-    }
-
-
-    /*and (
-        f.filter_id = 2 and (
-            fb.value LIKE 'Marvel'
-            OR
-            fb.value LIKE 'DC Cómics'
-        )
-        and
-        l.numero_paginas BETWEEN 100 AND 200
-    )
-    */
-    private String getFilterWhereSection(List<FilterDTO> appliedFilters){
-        StringBuilder stringBuilder = new StringBuilder();
-        if (CollectionUtils.isNotEmpty(appliedFilters)){
-            Iterator<FilterDTO> filterIterator = appliedFilters.iterator();
-            stringBuilder.append("and (");
-            while(filterIterator.hasNext()){
-                FilterDTO filterDTO = filterIterator.next();
-                if (CollectionUtils.isNotEmpty(filterDTO.getValue())){
-                    Iterator<String> valueIterator = filterDTO.getValue().iterator();
-                    stringBuilder.append("f.filter_id = " + filterDTO.getFilterId());
-                    stringBuilder.append(" AND (");
-                    while (valueIterator.hasNext()){
-
-                        String value = valueIterator.next();
-                        stringBuilder.append("fb.value LIKE '" + value + "'");
-                        if (valueIterator.hasNext()){
-                            stringBuilder.append(" OR ");
-                        }
-                    }
-                    stringBuilder.append(")");
-                    if (filterIterator.hasNext()){
-                        stringBuilder.append(" AND ");
-                    }
-                }
-            }
-            stringBuilder.append(")");
-        }
-        
-        return stringBuilder.toString();
     }
 
 }
