@@ -128,22 +128,22 @@ public class GeneroServiceImpl implements GenreService {
         ApplyFilterResponseDTO response = new ApplyFilterResponseDTO();
         GenreDTO genreDTO = this.obtenerGeneroPorUrl(urlGenre);
         List<LibroSimpleDTO> books = this.filterService.getBookListWithAppliedFilters(urlGenre, appliedFilters);
-        List<String> urlsList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
-        List<FilterDTO> avaliableFiltersList = this.filterService.getFiltersAvaliableByUrlBookList(urlsList);
-        List<FilterDTO> finalFilterList = new ArrayList<>();
-        for (FilterDTO appliedFilter : appliedFilters) {
-            if (CollectionUtils.isNotEmpty(appliedFilter.getValue()) && avaliableFiltersList.contains(appliedFilter)){
-                finalFilterList.add(appliedFilter);
-            }
-        }
-        for (FilterDTO filterDTO : avaliableFiltersList) {
-            if (!finalFilterList.contains(filterDTO)){
-                finalFilterList.add(filterDTO);
-            }
-        }
-        getCoverImagesThumbnails(books);
-        response.setBooksSelected(books);
-        response.setAvaliableFiltersList(finalFilterList);
+//        List<String> urlsList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
+//       List<FilterDTO> avaliableFiltersList = this.filterService.getFiltersAvaliableByUrlBookList(urlsList);
+//        List<FilterDTO> finalFilterList = new ArrayList<>();
+//        for (FilterDTO appliedFilter : appliedFilters) {
+//            if (CollectionUtils.isNotEmpty(appliedFilter.getValue()) && avaliableFiltersList.contains(appliedFilter)){
+//                finalFilterList.add(appliedFilter);
+//            }
+//        }
+//        for (FilterDTO filterDTO : avaliableFiltersList) {
+//            if (!finalFilterList.contains(filterDTO)){
+//                finalFilterList.add(filterDTO);
+//            }
+//        }
+//        getCoverImagesThumbnails(books);
+//        response.setBooksSelected(books);
+//        response.setAvaliableFiltersList(finalFilterList);
         return response;
     }
 

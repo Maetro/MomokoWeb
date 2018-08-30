@@ -24,10 +24,10 @@ spring:
 
 logging:
   level:
-    root: ERROR
-    org.springframework: ERROR
-    org.springframework.security.oauth2.client: ERROR
-    com.momoko.es: ERROR
+    root: INFO
+    org.springframework: INFO
+    org.springframework.security.oauth2.client: DEBUG
+    com.momoko.es: DEBUG
   #file: D:\\tmp\\dev-log.txt
 
 momoko:

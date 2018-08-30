@@ -42,14 +42,15 @@ public class FrontBookController {
         filter.setNameFilter("Origen");
         filter.setFilterType(FilterRuleType.ENUM);
         filters.add(filter);
-        FilterDTO filter2 = new FilterDTO();
-        filter2.setFilterId(1);
-        filter2.setUrlFilter("logitud");
-        filter2.setValue(Arrays.asList("0-100"));
-        filter2.setNameFilter("logitud");
-        filter2.setReferencedProperty("numeroPaginas");
-        filter2.setFilterType(FilterRuleType.BETWEEN);
-        filters.add(filter2);
+//        FilterDTO filter2 = new FilterDTO();
+//        filter2.setFilterId(1);
+//        filter2.setUrlFilter("logitud");
+//        filter2.setValue(Arrays.asList("0-100"));
+//        filter2.setNameFilter("logitud");
+//        filter2.setReferencedProperty("numeroPaginas");
+//        filter2.setFilterType(FilterRuleType.BETWEEN);
+//        filters.add(filter2);
+        ApplyFilterResponseDTO result = this.genreService.getBooksWithFilters("comic-americano", filters);
 //        this.dynamicFilterRepository.getBookListWithAppliedFilters(filters);
     }
 
