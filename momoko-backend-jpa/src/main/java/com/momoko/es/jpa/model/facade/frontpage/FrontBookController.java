@@ -38,7 +38,7 @@ public class FrontBookController {
         FilterDTO filter = new FilterDTO();
         filter.setFilterId(2);
         filter.setUrlFilter("origen-americano");
-        filter.setValue(Arrays.asList("Marvel", "DC Cómics"));
+        filter.setValue(Arrays.asList("Marvel"));
         filter.setNameFilter("Origen");
         filter.setFilterType(FilterRuleType.ENUM);
         filters.add(filter);

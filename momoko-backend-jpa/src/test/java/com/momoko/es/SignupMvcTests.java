@@ -37,7 +37,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 	@Test
 	public void testSignup() throws Exception {
 
-		UsuarioEntity user = new UsuarioEntity("user.foo@example.com", "user123", "UsuarioEntity Foo");
+		UsuarioEntity user = new UsuarioEntity("alexparejapress@gmail.com", "dinosauriosatanico", "UsuarioEntity Foo");
 
 		mvc.perform(post("/api/core/users")
 				.contentType(MediaType.APPLICATION_JSON)
@@ -46,7 +46,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 				.andExpect(header().string(LecUtils.TOKEN_RESPONSE_HEADER_NAME, containsString(".")))
 				.andExpect(jsonPath("$.userId").exists())
 				.andExpect(jsonPath("$.password").doesNotExist())
-				.andExpect(jsonPath("$.usuarioEmail").value("user.foo@example.com"))
+				.andExpect(jsonPath("$.usuarioEmail").value("alexparejapress@gmail.com"))
 				.andExpect(jsonPath("$.roles").value(hasSize(1)))
 				.andExpect(jsonPath("$.roles[0]").value("UNVERIFIED"))
 				.andExpect(jsonPath("$.tag.name").value("UsuarioEntity Foo"))
@@ -59,7 +59,7 @@ public class SignupMvcTests extends AbstractMvcTests {
 		verify(mailSender).send(any());
 
 		// Ensure that password got encrypted
-		Assert.assertNotEquals("user123", usuarioRepository.findByEmail("user.foo@example.com").get().getPassword());
+		Assert.assertNotEquals("user123", usuarioRepository.findByEmail("alexparejapress@gmail.com").get().getPassword());
 	}
 
 //	@Test
