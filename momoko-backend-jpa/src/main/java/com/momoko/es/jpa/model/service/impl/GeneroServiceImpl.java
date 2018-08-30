@@ -57,7 +57,8 @@ public class GeneroServiceImpl implements GenreService {
 
     private final EntradaRepository entradaRepository;
 
-    private final EntradaService entradaService;
+    @Autowired(required = false)
+    private EntradaService entradaService;
 
     private final StorageService almacenImagenes;
 
@@ -67,13 +68,11 @@ public class GeneroServiceImpl implements GenreService {
 
     @Autowired(required = false)
     public GeneroServiceImpl(GeneroRepository genreRepository, CategoriaRepository categoriaRepository,
-                             EntradaRepository entradaRepository, EntradaService entradaService,
-                             StorageService almacenImagenes, LibroService libroService,
+                             EntradaRepository entradaRepository, StorageService almacenImagenes, LibroService libroService,
                              FilterService filterService) {
         this.genreRepository = genreRepository;
         this.categoriaRepository = categoriaRepository;
         this.entradaRepository = entradaRepository;
-        this.entradaService = entradaService;
         this.almacenImagenes = almacenImagenes;
         this.libroService = libroService;
         this.filterService = filterService;
