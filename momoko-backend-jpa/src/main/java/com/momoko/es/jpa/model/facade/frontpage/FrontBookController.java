@@ -1,6 +1,7 @@
 package com.momoko.es.jpa.model.facade.frontpage;
 
 import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
@@ -8,6 +9,7 @@ import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.service.FilterService;
 import com.momoko.es.jpa.model.repository.filter.IDynamicFilterRepository;
 import com.momoko.es.jpa.model.service.GenreService;
+import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,13 +35,16 @@ public class FrontBookController {
     }
 
     @GetMapping(path = "/hola")
-    void test(){
+    ResponseEntity<ApplyFilterResponseDTO> test(){
         List<FilterDTO> filters = new ArrayList<>();
         FilterDTO filter = new FilterDTO();
         filter.setFilterId(2);
         filter.setUrlFilter("origen-americano");
-        filter.setValue(Arrays.asList("Marvel"));
+        filter.setValue(Arrays.asList("DC Cómics"));
         filter.setNameFilter("Origen");
+        NameValue nameValue1 = new NameValue("Marvel", "Marvel");
+        NameValue nameValue2 = new NameValue("DC Cómics", "DC Cómics");;
+        filter.setPossibleValues(Arrays.asList(nameValue1, nameValue2));
         filter.setFilterType(FilterRuleType.ENUM);
         filters.add(filter);
 //        FilterDTO filter2 = new FilterDTO();
@@ -51,7 +56,8 @@ public class FrontBookController {
 //        filter2.setFilterType(FilterRuleType.BETWEEN);
 //        filters.add(filter2);
         ApplyFilterResponseDTO result = this.genreService.getBooksWithFilters("comic-americano", filters);
-//        this.dynamicFilterRepository.getBookListWithAppliedFilters(filters);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping(path = "/applyfilter/{url-genre}")

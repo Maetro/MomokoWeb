@@ -241,8 +241,6 @@ public class FilterServiceImpl implements FilterService {
 
         List<String> urlBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(urlGenre, appliedFilters);
 
-        List<FilterDTO> filters = this.dynamicFilterRepository.getFilterListWithSelectedBooks(urlGenre, urlBooks);
-
         List<LibroSimpleDTO> result = new ArrayList<>();
 
         List<LibroEntity> booksFound = this.libroRepository.findByUrlLibroIn(urlBooks);
@@ -256,6 +254,12 @@ public class FilterServiceImpl implements FilterService {
         }
 
         return result;
+    }
+
+    @Override
+    public List<FilterDTO> getFiltersByBookListAndGenre(String urlGenre, List<String> urlBooks) {
+        List<FilterDTO> filters = this.dynamicFilterRepository.getFilterListWithSelectedBooks(urlGenre, urlBooks);
+        return filters;
     }
 
 }

@@ -29,4 +29,6 @@ public interface FilterService {
     List<FilterDTO> getFiltersAvaliableByUrlBookList(List<String> urlsList);
 
     List<LibroSimpleDTO> getBookListWithAppliedFilters(String urlGenre, List<FilterDTO> appliedFilters);
+
+    List<FilterDTO> getFiltersByBookListAndGenre(String urlGenre, List<String> urlBooks);
 }
