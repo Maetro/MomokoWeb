@@ -1,22 +1,19 @@
 package com.momoko.es.jpa.model.repository.filter;
 
 import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
-import com.momoko.es.jpa.model.entity.GenreEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.util.ConversionUtils;
-import com.momoko.es.jpa.util.MomokoUtils;
+import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.*;
-
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,45 +54,18 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
     }
 
     @Override
-    public List<FilterEntity> getFilterListWithSelectedBooks(String urlGenre, List<String> urlBooks) {
+    public List<FilterDTO> getFilterListWithSelectedBooks(String urlGenre, List<String> urlBooks) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery criteriaQuery = criteriaBuilder.createQuery().distinct(true);
-//
-//        @Column(unique=true)
-//        @NotNull
-//        private String urlFilter;
-//
-//        @ManyToMany(cascade = { CascadeType.ALL })
-//        @JoinTable(
-//                name = "filter_genre",
-//                joinColumns = { @JoinColumn(name = "filter_id") },
-//                inverseJoinColumns = { @JoinColumn(name = "genre_id") }
-//        )
-//        private List<GenreEntity> applicableGenres;
-//
-//        @Enumerated(EnumType.STRING)
-//        private FilterRuleType type;
-//
-//        @OneToMany(
-//                mappedBy = "filter",
-//                cascade = CascadeType.ALL,
-//                orphanRemoval = true
-//        )
-//        private List<FilterBook> filterBooks = new ArrayList<>();
-//
-//        private String possibleValues;
-//
-//        private String referencedProperty;
+
         Root filter = criteriaQuery.from(FilterEntity.class);
-        Join genre = filter.join("applicableGenres", JoinType.LEFT);
         Join filterBooks = filter.join("filterBooks", JoinType.LEFT);
         Join book = filterBooks.join("book", JoinType.LEFT);
-
+        Join genre = book.join("generos", JoinType.LEFT);
         criteriaQuery.multiselect(filter, filterBooks);
 
-        Predicate orFirst = criteriaBuilder.or(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre),
-                genre.isNull());
+        Predicate orFirst = criteriaBuilder.equal(genre.get("urlGenero"), urlGenre);
         Predicate whereSection = criteriaBuilder.and(orFirst, book.get("urlLibro").in(urlBooks));
 
         criteriaQuery.where(whereSection);
@@ -103,10 +73,24 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         List<Object[]> filtersAndResults = entityManager.createQuery(criteriaQuery).getResultList();
         List<FilterDTO> result = new ArrayList<>();
         for (Object[] value : filtersAndResults) {
-            FilterDTO filterDTO = new FilterDTO();
+            FilterEntity filterTemp = (FilterEntity) value[0];
+            FilterBook filterBook = (FilterBook) value[1];
+            FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
+            if (result.contains(filterDTO)){
+                NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+                List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
+                if (!possibleValues.contains(nameValue)){
+                    possibleValues.add(nameValue);
+                }
+            } else {
+                filterDTO.getPossibleValues().clear();
+                NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+                filterDTO.getPossibleValues().add(nameValue);
+                result.add(filterDTO);
+            }
 
         }
-        return null;
+        return result;
     }
 
     private Predicate getPredicateForBetweenTypeFilter(CriteriaBuilder criteriaBuilder, Join book, Predicate whereSection, FilterDTO filter) {

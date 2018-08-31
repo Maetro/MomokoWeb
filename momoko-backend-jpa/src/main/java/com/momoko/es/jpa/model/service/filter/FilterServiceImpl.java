@@ -241,35 +241,11 @@ public class FilterServiceImpl implements FilterService {
 
         List<String> urlBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(urlGenre, appliedFilters);
 
-        List<FilterEntity> filters = this.dynamicFilterRepository.getFilterListWithSelectedBooks(urlGenre, urlBooks);
+        List<FilterDTO> filters = this.dynamicFilterRepository.getFilterListWithSelectedBooks(urlGenre, urlBooks);
 
-        if (CollectionUtils.isNotEmpty(appliedFilters)) {
-            for (FilterDTO appliedFilter : appliedFilters) {
-                Set<String> booksFilter = new HashSet<>();
-                for (String value : appliedFilter.getValue()) {
-                    List<String> booksValue = this.filterBookRepository.getBookListWithAppliedFilter(urlGenre,
-                            appliedFilter.getFilterId(), value);
-                    booksFilter.addAll(booksValue);
-                }
-                if (first) {
-                    bookEntities.addAll(booksFilter);
-                } else {
-                    List<String> tempBookEntities = new ArrayList<>();
-                    if (CollectionUtils.isNotEmpty(booksFilter)) {
-                        for (String libroEntity : booksFilter) {
-                            if (bookEntities.contains(libroEntity)){
-                                tempBookEntities.add(libroEntity);
-                            }
-                        }
-                    }
-                    bookEntities = tempBookEntities;
-                }
-            }
-
-        }
         List<LibroSimpleDTO> result = new ArrayList<>();
 
-        List<LibroEntity> booksFound = this.libroRepository.findByUrlLibroIn(bookEntities);
+        List<LibroEntity> booksFound = this.libroRepository.findByUrlLibroIn(urlBooks);
 
         for (LibroEntity bookEntity : booksFound) {
             PuntuacionEntity puntuacion = null;

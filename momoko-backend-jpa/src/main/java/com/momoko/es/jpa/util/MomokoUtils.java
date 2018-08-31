@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.security.MomokoPrincipal;
 import com.momoko.es.commons.security.UserDto;
@@ -197,5 +198,16 @@ public class MomokoUtils {
 					return Optional.of(cookies[i]);
 		
 		return Optional.empty();
+	}
+
+	public static String toStringInJson(Object o){
+
+		MomokoUtils.objectMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+		try {
+			return MomokoUtils.objectMapper.writeValueAsString(o);
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+			return "";
+		}
 	}
 }

@@ -9,6 +9,14 @@ public class NameValue implements Serializable {
 
     private String value;
 
+    public NameValue() {
+    }
+
+    public NameValue(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public String getName() {
         return name;
     }

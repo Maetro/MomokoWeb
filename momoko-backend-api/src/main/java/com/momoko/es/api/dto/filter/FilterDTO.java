@@ -1,9 +1,13 @@
 package com.momoko.es.api.dto.filter;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
 import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.util.MomokoHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -128,5 +132,10 @@ public class FilterDTO implements Serializable {
         final FilterDTO other = (FilterDTO) obj;
         return Objects.equals(this.filterId, other.filterId)
                 && Objects.equals(this.urlFilter, other.urlFilter);
+    }
+
+    @Override
+    public String toString() {
+        return MomokoHelper.toStringInJson(this);
     }
 }

@@ -33,7 +33,7 @@ public class BookController {
 
     @GetMapping(path = "/book")
     public @ResponseBody
-    List<LibroDTO> getAllFilters() {
+    List<LibroDTO> getAllBooks() {
         final List<LibroDTO> libros = this.libroService.getAllBooks();
         return libros;
     }
