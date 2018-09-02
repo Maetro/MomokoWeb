@@ -170,13 +170,13 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     } else {
       return this.clasificadorService
         .getGenrePage(this.url, this.numeroPagina, this.globals.orderType)
-        .pipe(
-          map(genero => {
+        .subscribe(
+          genero => {
             
               this.librosGenero = genero.nueveLibrosGenero;
               this.filters = genero.applicableFilters;
             
-          })
+          }
         );
     }
   }

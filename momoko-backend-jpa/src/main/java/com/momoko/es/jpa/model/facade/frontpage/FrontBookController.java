@@ -34,38 +34,12 @@ public class FrontBookController {
         this.genreService = genreService;
     }
 
-    @GetMapping(path = "/hola")
-    ResponseEntity<ApplyFilterResponseDTO> test(){
-        List<FilterDTO> filters = new ArrayList<>();
-        FilterDTO filter = new FilterDTO();
-        filter.setFilterId(2);
-        filter.setUrlFilter("origen-americano");
-        filter.setValue(Arrays.asList("DC Cómics"));
-        filter.setNameFilter("Origen");
-        NameValue nameValue1 = new NameValue("Marvel", "Marvel");
-        NameValue nameValue2 = new NameValue("DC Cómics", "DC Cómics");;
-        filter.setPossibleValues(Arrays.asList(nameValue1, nameValue2));
-        filter.setFilterType(FilterRuleType.ENUM);
-        filters.add(filter);
-//        FilterDTO filter2 = new FilterDTO();
-//        filter2.setFilterId(1);
-//        filter2.setUrlFilter("logitud");
-//        filter2.setValue(Arrays.asList("0-100"));
-//        filter2.setNameFilter("logitud");
-//        filter2.setReferencedProperty("numeroPaginas");
-//        filter2.setFilterType(FilterRuleType.BETWEEN);
-//        filters.add(filter2);
-        ApplyFilterResponseDTO result = this.genreService.getBooksWithFilters("comic-americano", filters);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
-
     @PostMapping(path = "/applyfilter/{url-genre}")
     ResponseEntity<ApplyFilterResponseDTO> applyFilter(@PathVariable("url-genre") final String urlGenre,
                                                        @RequestBody final List<FilterDTO> appliedFilters) {
         ApplyFilterResponseDTO result = this.genreService.getBooksWithFilters(urlGenre, appliedFilters);
 
-        return new ResponseEntity<ApplyFilterResponseDTO>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

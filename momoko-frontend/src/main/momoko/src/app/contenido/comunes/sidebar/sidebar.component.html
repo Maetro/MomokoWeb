@@ -15,7 +15,7 @@
     <!-- /.post-list -->
   </div>
 
-  <div class="sidebox widget">
+  <div class="sidebox widget" *ngIf="filters">
       <img class="imagen-buscador" src="https://momoko.es/images/fijas/icon_filters01.png" alt="Mascota filtros simples momoko" />
       <h3 class="widget-title section-title">Filtrar por</h3>
       <div *ngFor="let filter of filters">

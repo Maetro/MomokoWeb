@@ -8,4 +8,6 @@ public interface IDynamicFilterRepository {
     List<String> getBookListWithAppliedFilters(String urlGenre, List<FilterDTO> filters);
 
     List<FilterDTO> getFilterListWithSelectedBooks(String urlGenre, List<String> urlBooks);
+
+    List<FilterDTO> getFilterListByGenre(String urlGenre);
 }

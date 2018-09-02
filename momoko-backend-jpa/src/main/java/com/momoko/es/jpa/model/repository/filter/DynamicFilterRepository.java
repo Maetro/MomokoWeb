@@ -3,6 +3,7 @@ package com.momoko.es.jpa.model.repository.filter;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
+import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.util.ConversionUtils;
@@ -15,7 +16,9 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class DynamicFilterRepository implements IDynamicFilterRepository {
@@ -28,25 +31,38 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
         CriteriaQuery criteriaQuery = criteriaBuilder.createQuery();
-        Root bookFilter = criteriaQuery.from(FilterBook.class);
-        Join book = bookFilter.join("book");
-        Join genre = book.join("generos");
+        Root book = criteriaQuery.from(LibroEntity.class);
+        Join bookFilter = book.join("filters", JoinType.LEFT);
+        Join filterEntity = bookFilter.join("filter", JoinType.LEFT);
+        Join genre = book.join("generos", JoinType.LEFT);
         criteriaQuery.select(book.get("urlLibro"));
 
-
-        Predicate whereSection = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre));
+        Set<Integer> filterNumber = new HashSet<>();
+        Predicate urlGeneroFilter = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre));
+        Predicate customFilter = criteriaBuilder.disjunction();
         if (CollectionUtils.isNotEmpty(filters)) {
             //AND
             for (FilterDTO filter : filters) {
+
                 if (FilterRuleType.ENUM.equals(filter.getFilterType())) {
-                    whereSection = getPredicateForEnumTypeFilter(criteriaBuilder, bookFilter, whereSection, filter);
+                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
+                        filterNumber.add(filter.getFilterId());
+                        customFilter = getPredicateForEnumTypeFilter(criteriaBuilder, filterEntity, bookFilter, customFilter, filter);
+                    }
                 }
                 if (FilterRuleType.BETWEEN.equals(filter.getFilterType())) {
-                    whereSection = getPredicateForBetweenTypeFilter(criteriaBuilder, book, whereSection, filter);
+                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
+                        filterNumber.add(filter.getFilterId());
+                        customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
+                    }
                 }
             }
         }
-        criteriaQuery.where(whereSection);
+        urlGeneroFilter = criteriaBuilder.and(urlGeneroFilter, customFilter);
+        criteriaQuery.groupBy(book);
+        Expression count = criteriaBuilder.count(book);
+        criteriaQuery.having(criteriaBuilder.greaterThanOrEqualTo(count, filterNumber.size()));
+        criteriaQuery.where(urlGeneroFilter);
         Query query = entityManager.createQuery(criteriaQuery);
         List<String> result4 = query.getResultList();
         System.out.println(result4);
@@ -72,49 +88,90 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
         List<Object[]> filtersAndResults = entityManager.createQuery(criteriaQuery).getResultList();
         List<FilterDTO> result = new ArrayList<>();
+        adaptQueryResultToFilterDTO(filtersAndResults, result);
+        return result;
+    }
+
+    @Override
+    public List<FilterDTO> getFilterListByGenre(String urlGenre) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery().distinct(true);
+
+        Root filter = criteriaQuery.from(FilterEntity.class);
+        Join filterBooks = filter.join("filterBooks", JoinType.LEFT);
+        Join filterGenres = filter.join("applicableGenres", JoinType.LEFT);
+        Join book = filterBooks.join("book", JoinType.LEFT);
+        Join genre = book.join("generos", JoinType.LEFT);
+        criteriaQuery.multiselect(filter, filterBooks);
+
+        Predicate urlGeneroFilter = criteriaBuilder.equal(genre.get("urlGenero"), urlGenre);
+        Predicate whereSection = criteriaBuilder.or(urlGeneroFilter, filterGenres.isNull());
+
+        criteriaQuery.where(whereSection);
+
+        List<Object[]> filtersAndResults = entityManager.createQuery(criteriaQuery).getResultList();
+        List<FilterDTO> result = new ArrayList<>();
+        adaptQueryResultToFilterDTO(filtersAndResults, result);
+        return result;
+    }
+
+    private void adaptQueryResultToFilterDTO(List<Object[]> filtersAndResults, List<FilterDTO> result) {
         for (Object[] value : filtersAndResults) {
             FilterEntity filterTemp = (FilterEntity) value[0];
             FilterBook filterBook = (FilterBook) value[1];
             FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
-            if (result.contains(filterDTO)){
+            if (result.contains(filterDTO)) {
                 NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
                 List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
-                if (!possibleValues.contains(nameValue)){
+                if (!possibleValues.contains(nameValue)) {
                     possibleValues.add(nameValue);
                 }
             } else {
-                filterDTO.getPossibleValues().clear();
-                NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
-                filterDTO.getPossibleValues().add(nameValue);
+                if (filterDTO.getReferencedProperty() == null) {
+                    filterDTO.getPossibleValues().clear();
+                    NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+                    filterDTO.getPossibleValues().add(nameValue);
+                }
                 result.add(filterDTO);
             }
 
         }
-        return result;
     }
 
-    private Predicate getPredicateForBetweenTypeFilter(CriteriaBuilder criteriaBuilder, Join book, Predicate whereSection, FilterDTO filter) {
+    private Predicate getPredicateForBetweenTypeFilter(CriteriaBuilder criteriaBuilder, Root book, Predicate whereSection, FilterDTO filter) {
         if (filter.getReferencedProperty() != null) {
-            Predicate filterSection = criteriaBuilder.disjunction();
+            List<Predicate> filterList = new ArrayList<>();
             for (String value : filter.getValue()) {
                 List<String> divided = ConversionUtils.divide(value, "-");
-                filterSection = criteriaBuilder.or(filterSection, criteriaBuilder.between(book.<Integer>get(
-                        filter.getReferencedProperty()), Integer.valueOf(divided.get(0)), Integer.valueOf(divided.get(1))));
+                Predicate filterSection = criteriaBuilder.between(book.<Integer>get(
+                        filter.getReferencedProperty()), Integer.valueOf(divided.get(0)), Integer.valueOf(divided.get(1)));
+                filterList.add(filterSection);
             }
-            whereSection = criteriaBuilder.and(whereSection, filterSection);
+            Predicate finalfilterSection = criteriaBuilder.disjunction();
+            for (Predicate predicate : filterList) {
+                finalfilterSection = criteriaBuilder.or(finalfilterSection, predicate);
+            }
+            whereSection = criteriaBuilder.or(whereSection, finalfilterSection);
         }
         return whereSection;
     }
 
-    private Predicate getPredicateForEnumTypeFilter(CriteriaBuilder criteriaBuilder, Root bookFilter, Predicate whereSection, FilterDTO filter) {
+    private Predicate getPredicateForEnumTypeFilter(CriteriaBuilder criteriaBuilder, Join filterEntity, Join bookFilter, Predicate whereSection, FilterDTO filter) {
         if (CollectionUtils.isNotEmpty(filter.getValue())) {
-            Predicate filterSection = criteriaBuilder.disjunction();
-            //OR
+
+            List<Predicate> filterList = new ArrayList<>();
             for (String value : filter.getValue()) {
-                filterSection = criteriaBuilder.or(filterSection, criteriaBuilder.equal(bookFilter.get("value"), value));
+                Predicate filterSection = criteriaBuilder.equal(filterEntity.get("filterId"), filter.getFilterId());
+                filterSection = criteriaBuilder.and(filterSection, criteriaBuilder.equal(bookFilter.get("value"), value));
+                filterList.add(filterSection);
             }
 
-            whereSection = criteriaBuilder.and(whereSection, filterSection);
+            Predicate finalfilterSection = criteriaBuilder.disjunction();
+            for (Predicate predicate : filterList) {
+                finalfilterSection = criteriaBuilder.or(finalfilterSection, predicate);
+            }
+            whereSection = criteriaBuilder.or(whereSection, finalfilterSection);
         }
         return whereSection;
     }

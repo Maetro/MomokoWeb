@@ -262,4 +262,10 @@ public class FilterServiceImpl implements FilterService {
         return filters;
     }
 
+    @Override
+    public List<FilterDTO> getFilterListByGenre(String genreUrl) {
+        List<FilterDTO> filters = this.dynamicFilterRepository.getFilterListByGenre(genreUrl);
+        return filters;
+    }
+
 }

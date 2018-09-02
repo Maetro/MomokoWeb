@@ -17,6 +17,7 @@ import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.api.service.FilterService;
 import com.momoko.es.jpa.model.repository.filter.IDynamicFilterRepository;
+import com.momoko.es.jpa.model.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -40,10 +41,6 @@ import com.momoko.es.jpa.model.service.EntradaService;
 import com.momoko.es.jpa.model.service.GenreService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.StorageService;
-import com.momoko.es.jpa.model.util.ConversionUtils;
-import com.momoko.es.jpa.model.util.DTOToEntityAdapter;
-import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
-import com.momoko.es.jpa.model.util.MomokoUtils;
 
 /**
  * The Class GeneroServiceImpl.
@@ -94,7 +91,7 @@ public class GeneroServiceImpl implements GenreService {
 
         final List<EntradaSimpleDTO> tresUltimasEntradasConLibro = this.entradaService
                 .obtenerTresUltimasEntradasPopularesConLibro();
-        List<FilterDTO> finalFilterList = getFiltersAvaliableByGenre(generoDTO);
+        List<FilterDTO> finalFilterList = this.filterService.getFilterListByGenre(genreUrl);
         genrePageResponse.setApplicableFilters(finalFilterList);
         genrePageResponse.setGenero(generoDTO);
         genrePageResponse.setNumeroLibros(numeroLibros);
@@ -138,10 +135,12 @@ public class GeneroServiceImpl implements GenreService {
             }
         }
         for (FilterDTO filterDTO : filterBookList) {
-            if(!finalFilterList.contains(filterDTO)){
+            if(!finalFilterList.contains(filterDTO) && filterDTO.getPossibleValues().size() > 1){
                 finalFilterList.add(filterDTO);
             }
         }
+
+        books = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, books);
         response.setAvaliableFiltersList(finalFilterList);
         response.setBooksSelected(books);
         return response;
