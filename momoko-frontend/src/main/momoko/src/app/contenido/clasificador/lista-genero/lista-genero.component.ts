@@ -166,6 +166,11 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
         .subscribe(res => {
           this.filters = res.avaliableFiltersList;
           this.librosGenero = res.booksSelected;
+          this.numeroEntradas = res.booksSelected.length;
+          this.numeroPaginas = 1
+          this.numbers = Array(this.numeroPaginas)
+            .fill(0)
+            .map((x, i) => i + 1);
         });
     } else {
       return this.clasificadorService

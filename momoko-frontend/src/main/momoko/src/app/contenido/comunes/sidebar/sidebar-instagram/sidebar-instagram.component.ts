@@ -31,7 +31,7 @@ export class SidebarInstagramComponent implements OnInit, AfterViewInit {
         get: 'user',
         limit: 12,
         userId: 3260305017,
-        accessToken: '3260305017.b4c416e.5f99e592a4bd49afa1b256faa597146c',
+        accessToken: '3260305017.b4c416e.b1061ec74477419fa0f8e7d66bc285de',
         resolution: 'low_resolution',
         clientId: 'b4c416e8ab3f424d915b5601f5d3dd88',
         // tslint:disable-next-line:max-line-length

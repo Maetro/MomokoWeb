@@ -26,4 +26,6 @@ export class Filter {
 
   value: string;
 
+  basic: boolean;
+
 }

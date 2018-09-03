@@ -17,6 +17,27 @@
   margin-right: 10px;
 }
 
+.imagen-filtros {
+  float: left;
+  width: 40px;
+  padding: 5px;
+  margin-right: 10px;
+}
+
+.panel-body{
+  background: none;
+  margin-top:20px;
+  padding-left: 0px;
+}
+
+i.ion-chevron-up {
+  float: right;
+}
+
+i.ion-chevron-down {
+  float: right;
+}
+
 .banner {
   margin: 15px 0px;
 }

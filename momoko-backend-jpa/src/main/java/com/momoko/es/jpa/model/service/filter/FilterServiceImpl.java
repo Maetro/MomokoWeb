@@ -124,6 +124,7 @@ public class FilterServiceImpl implements FilterService {
         }
         oldFilter.setNameFilter(filterDTO.getNameFilter());
         oldFilter.setUrlFilter(filterDTO.getUrlFilter());
+        oldFilter.setBasic(filterDTO.isBasic());
         oldFilter.setPossibleValues(ConversionUtils.toPossibleValuesString(filterDTO.getPossibleValues()));
         FilterEntity updatedFilter = filterRepository.save(oldFilter);
         return EntityToDTOAdapter.adaptFilter(updatedFilter);
@@ -225,6 +226,7 @@ public class FilterServiceImpl implements FilterService {
                     newFilterDTO.setNameFilter(filterDTO.getNameFilter());
                     newFilterDTO.setFilterId(filterDTO.getFilterId());
                     newFilterDTO.setUrlFilter(filterDTO.getUrlFilter());
+                    newFilterDTO.setBasic(filterDTO.isBasic());
                     newFilterDTO.setFilterType(filterDTO.getFilterType());
                     finalFilterList.add(newFilterDTO);
                 }

@@ -15,19 +15,52 @@
     <!-- /.post-list -->
   </div>
 
-  <div class="sidebox widget" *ngIf="filters">
-      <img class="imagen-buscador" src="https://momoko.es/images/fijas/icon_filters01.png" alt="Mascota filtros simples momoko" />
-      <h3 class="widget-title section-title">Filtrar por</h3>
-      <div *ngFor="let filter of filters">
-          <h4>{{filter.nameFilter}}</h4>
-          <div class="row" style="width:250px;margin-bottom:10px">
-              <div class="col-xs-12" *ngFor="let option of filter.possibleValues">
-                <p-checkbox (onChange)="updateFilters()" name="{{filter.urlFilter}}" value="{{option.value}}" label="{{option.name}}" [(ngModel)]="filter.value" inputId="filter.urlFilter"></p-checkbox>
-              </div>
+  <div class="sidebox widget" *ngIf="basicFilter">
+    <img class="imagen-buscador" src="https://momoko.es/images/fijas/icon_filters01.png" alt="Mascota filtros simples momoko" />
+    <h3 class="widget-title section-title">Filtrar por</h3>
+    <div *ngFor="let filter of basicFilter; let last = last;">
+
+        <h4>{{filter.nameFilter}}</h4>
+        <div class="row" style="width:250px;margin-bottom:10px">
+          <div class="col-xs-12" *ngFor="let option of filter.possibleValues">
+            <p-checkbox (onChange)="updateFilters()" name="{{filter.urlFilter}}" value="{{option.value}}" label="{{option.name}}"
+              [(ngModel)]="filter.value" inputId="filter.urlFilter"></p-checkbox>
           </div>
-      </div>
-      <!-- /.post-list -->
+        </div>
+        <hr *ngIf="!last" />
+
     </div>
+    <!-- /.post-list -->
+  </div>
+  <div class="sidebox widget marginTop30">
+    <div class="panel-group" id="accordion">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="panel-title">
+            <img class="imagen-filtros" src="https://momoko.es/images/fijas/icon_filters02.png" alt="Mascota filtros simples momoko" />
+            <a data-toggle="collapse" class="panel-toggle" data-parent="#accordion" href="#collapseOne">Filtros
+              avanzados <i class="ion-chevron-up"></i></a>
+          </div>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+          <div class="panel-body">
+            <div *ngFor="let filter of advancedFilters; let last = last;">
+                <h4>{{filter.nameFilter}}</h4>
+                <div class="row" style="width:250px;margin-bottom:10px">
+                  <div class="col-xs-12" *ngFor="let option of filter.possibleValues">
+                    <p-checkbox (onChange)="updateFilters()" name="{{filter.urlFilter}}" value="{{option.value}}" label="{{option.name}}"
+                      [(ngModel)]="filter.value" inputId="filter.urlFilter"></p-checkbox>
+                  </div>
+                </div>
+                <hr *ngIf="!last" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
   <div class="sidebox widget" *ngIf="libros">
     <h3 class="widget-title section-title">{{tituloSeccionLibros}}</h3>
@@ -46,7 +79,7 @@
     <!-- /.post-list -->
   </div>
 
-  <div class="sidebox widget">
+  <div class="sidebox widget marginTop30">
     <h3 class="widget-title section-title">Ayudanos a crecer
       <img class="imagen-buscador" src="https://momoko.es/images/fijas/kofi.gif" alt="Gif for kofi patreon" />
     </h3>
@@ -77,12 +110,13 @@
       <!--<img src="assets/style/images/art/about.jpg" class="img-auto" alt=""> -->
     </figure>
     <div class="divide10"></div>
-    <p>¿Eres una editorial o un autor y quieres que hagamos una reseña de tu libro? ¿Eres redactor de contenidos y te apetece
+    <p>¿Eres una editorial o un autor y quieres que hagamos una reseña de tu libro? ¿Eres redactor de contenidos y te
+      apetece
       escribir en Momoko? ¡Ponte en contacto!
       <a href="mailto:info@momoko.es"> info@momoko.es </a>
     </p>
 
     <div class="clearfix"></div>
   </div>
-  
+
 </aside>

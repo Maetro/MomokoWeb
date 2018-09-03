@@ -24,6 +24,8 @@ public class FilterDTO implements Serializable {
 
     private FilterRuleType filterType;
 
+    private boolean basic;
+
     private List<GenreDTO> genres = new ArrayList<>();
 
     private List<LibroDTO> books = new ArrayList<>();
@@ -114,6 +116,14 @@ public class FilterDTO implements Serializable {
 
     public void setValue(List<String> value) {
         this.value = value;
+    }
+
+    public boolean isBasic() {
+        return basic;
+    }
+
+    public void setBasic(boolean basic) {
+        this.basic = basic;
     }
 
     @Override

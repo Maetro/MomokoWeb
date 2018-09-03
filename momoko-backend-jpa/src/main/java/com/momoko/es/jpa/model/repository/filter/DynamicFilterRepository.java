@@ -122,7 +122,8 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             FilterBook filterBook = (FilterBook) value[1];
             FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
             if (result.contains(filterDTO)) {
-                NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+                NameValue nameValue = getNameValue(filterBook);
+
                 List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
                 if (!possibleValues.contains(nameValue)) {
                     possibleValues.add(nameValue);
@@ -130,7 +131,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             } else {
                 if (filterDTO.getReferencedProperty() == null) {
                     filterDTO.getPossibleValues().clear();
-                    NameValue nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+                    NameValue nameValue = getNameValue(filterBook);
                     filterDTO.getPossibleValues().add(nameValue);
                 }
                 result.add(filterDTO);
@@ -139,13 +140,29 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         }
     }
 
+    private NameValue getNameValue(FilterBook filterBook) {
+        NameValue nameValue = null;
+        if (filterBook.getValue().contains("[")){
+            List<String> divided = ConversionUtils.divide("[");
+            nameValue = new NameValue(divided.get(1).replace("]","").trim(),
+                    divided.get(0).trim());
+        } else {
+            nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+        }
+        return nameValue;
+    }
+
     private Predicate getPredicateForBetweenTypeFilter(CriteriaBuilder criteriaBuilder, Root book, Predicate whereSection, FilterDTO filter) {
         if (filter.getReferencedProperty() != null) {
             List<Predicate> filterList = new ArrayList<>();
             for (String value : filter.getValue()) {
-                List<String> divided = ConversionUtils.divide(value, "-");
+                String valueToDivide = value;
+                if (value.contains("[")){
+                    valueToDivide = ConversionUtils.divide(valueToDivide, "[").get(0);
+                }
+                List<String> divided = ConversionUtils.divide(valueToDivide, "-");
                 Predicate filterSection = criteriaBuilder.between(book.<Integer>get(
-                        filter.getReferencedProperty()), Integer.valueOf(divided.get(0)), Integer.valueOf(divided.get(1)));
+                        filter.getReferencedProperty()), Integer.valueOf(divided.get(0).trim()), Integer.valueOf(divided.get(1).trim()));
                 filterList.add(filterSection);
             }
             Predicate finalfilterSection = criteriaBuilder.disjunction();

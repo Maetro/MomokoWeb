@@ -45,6 +45,8 @@ public class FilterEntity {
 
      private String referencedProperty;
 
+     private boolean isBasic;
+
      public Integer getFilterId() {
           return filterId;
      }
@@ -107,5 +109,13 @@ public class FilterEntity {
 
      public void setReferencedProperty(String referencedProperty) {
           this.referencedProperty = referencedProperty;
+     }
+
+     public boolean isBasic() {
+          return isBasic;
+     }
+
+     public void setBasic(boolean basic) {
+          isBasic = basic;
      }
 }

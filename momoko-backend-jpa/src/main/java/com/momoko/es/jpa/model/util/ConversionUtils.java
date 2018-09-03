@@ -15,6 +15,7 @@ import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.*;
+import com.momoko.es.jpa.model.entity.filter.FilterBook;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -541,13 +542,23 @@ public class ConversionUtils {
         if (StringUtils.isNotBlank(possibleValues)) {
             final String[] separated = StringUtils.split(possibleValues, separator);
             for (String s : separated) {
-                NameValue nameValue = new NameValue();
-                nameValue.setName(s);
-                nameValue.setValue(s);
+                NameValue nameValue = getNameValue(s);
                 resultado.add(nameValue);
             }
         }
         return resultado;
+    }
+
+    private static NameValue getNameValue(String value) {
+        NameValue nameValue = null;
+        if (value.contains("[")){
+            List<String> divided = ConversionUtils.divide(value, "[");
+            nameValue = new NameValue(divided.get(1).replace("]","").trim(),
+                    divided.get(0).trim());
+        } else {
+            nameValue = new NameValue(value, value);
+        }
+        return nameValue;
     }
 
     public static String toPossibleValuesString(List<NameValue> possibleValues) {

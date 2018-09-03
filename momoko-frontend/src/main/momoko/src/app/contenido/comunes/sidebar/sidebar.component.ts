@@ -11,45 +11,72 @@ import { Filter } from '../../../dtos/filter/filter';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
   private log = environment.log;
 
-  busqueda = "";
+  busqueda = '';
 
-  @Input() libros: LibroSimple[];
+  @Input()
+  libros: LibroSimple[];
 
-  @Input() tituloSeccionLibros: string;
+  @Input()
+  tituloSeccionLibros: string;
 
-  @Input() entradas: EntradaSimple[];
+  @Input()
+  entradas: EntradaSimple[];
 
-  @Input() tituloSeccionEntradas: string;
+  @Input()
+  tituloSeccionEntradas: string;
 
-  @Input() filters: Filter[];
+  _filters: Filter[];
 
-  @Output() onUpdateFilters: EventEmitter<Filter[]> = new EventEmitter<Filter[]>();
+  @Input()
+  set filters(value: Filter[]) {
+    this.basicFilter = [];
+    this.advancedFilters = [];
+    if (value && value.length > 0) {
+      value.forEach(element => {
+        if (element.basic) {
+          this.basicFilter.push(element);
+        } else {
+          this.advancedFilters.push(element);
+        }
+      });
+    }
+  }
+
+  basicFilter: Filter[];
+
+  advancedFilters: Filter[];
+
+  @Output()
+  onUpdateFilters: EventEmitter<Filter[]> = new EventEmitter<Filter[]>();
 
   selectedValues: string[] = [];
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit() {}
 
-  }
-
-  buscarResultados(){
+  buscarResultados() {
     if (this.log) {
       console.log('Buscar: ' + this.busqueda);
     }
     this.router.navigate(['/buscar/' + this.busqueda]);
-    this.busqueda = "";
+    this.busqueda = '';
   }
 
-  filterSearch(){
+  filterSearch() {
     console.log('filterSearch');
   }
 
-  updateFilters(){
-    this.onUpdateFilters.emit(this.filters);
+  updateFilters() {
+    this._filters = [];
+    this.basicFilter.forEach(element => {
+      this._filters.push(element);
+    });
+    this.advancedFilters.forEach(element => {
+      this._filters.push(element);
+    });
+    this.onUpdateFilters.emit(this._filters);
   }
-
 }

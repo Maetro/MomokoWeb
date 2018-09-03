@@ -125,22 +125,25 @@ public class GeneroServiceImpl implements GenreService {
         GenreDTO genreDTO = this.obtenerGeneroPorUrl(urlGenre);
         List<LibroSimpleDTO> books = this.filterService.getBookListWithAppliedFilters(urlGenre, appliedFilters);
 
-        List<String> urlBookList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());;
-        List<FilterDTO> filterBookList = this.filterService.getFiltersByBookListAndGenre(urlGenre, urlBookList);
-        
+        List<String> urlBookList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
+        List<FilterDTO> filterBookList = new ArrayList<>();
         List<FilterDTO> finalFilterList = new ArrayList<>();
         for (FilterDTO appliedFilter : appliedFilters) {
-            if (CollectionUtils.isNotEmpty(appliedFilter.getValue())){
+            if (CollectionUtils.isNotEmpty(appliedFilter.getValue())) {
                 finalFilterList.add(appliedFilter);
             }
         }
-        for (FilterDTO filterDTO : filterBookList) {
-            if(!finalFilterList.contains(filterDTO) && filterDTO.getPossibleValues().size() > 1){
-                finalFilterList.add(filterDTO);
-            }
-        }
+        if (urlBookList.size() > 0) {
+            filterBookList = this.filterService.getFiltersByBookListAndGenre(urlGenre, urlBookList);
 
-        books = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, books);
+            for (FilterDTO filterDTO : filterBookList) {
+                if (!finalFilterList.contains(filterDTO) && filterDTO.getPossibleValues().size() > 1) {
+                    finalFilterList.add(filterDTO);
+                }
+            }
+
+            books = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, books);
+        }
         response.setAvaliableFiltersList(finalFilterList);
         response.setBooksSelected(books);
         return response;

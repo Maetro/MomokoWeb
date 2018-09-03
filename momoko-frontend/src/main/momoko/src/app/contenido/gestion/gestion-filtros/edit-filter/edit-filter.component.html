@@ -102,6 +102,22 @@
               </div>
             </div>
 
+            <div class="row">
+              <div class="col-sm-2 marginTop10">
+                <div class="form-field">
+                  <h4> Básico: </h4>
+                </div>
+              </div>
+              <div class="col-sm-2 marginTop8">
+                <div class="form-field">
+                  <label>
+                    <p-checkbox binary="true" [(ngModel)]="filter.basic"></p-checkbox>
+                  </label>
+                </div>
+                <!--/.form-field -->
+              </div>
+            </div>
+
             <div class="col-sm-12 rp10 botonInferior">
               <div>
                 <input type="submit" class="btn btn-forest" value="Actualizar filtro" (click)="saveFilter()" data-error="Fix errors" data-processing="Sending..."

@@ -590,6 +590,7 @@ public final class EntityToDTOAdapter {
         filterDTO.setReferencedProperty(filterEntity.getReferencedProperty());
         filterDTO.setNameFilter(filterEntity.getNameFilter());
         filterDTO.setUrlFilter(filterEntity.getUrlFilter());
+        filterDTO.setBasic(filterEntity.isBasic());
         filterDTO.setFilterId(filterEntity.getFilterId());
         return filterDTO;
     }
