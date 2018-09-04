@@ -32,6 +32,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
         CriteriaQuery criteriaQuery = criteriaBuilder.createQuery();
         Root book = criteriaQuery.from(LibroEntity.class);
+        Join entradas = book.join("entradas", JoinType.INNER);
         Join bookFilter = book.join("filters", JoinType.LEFT);
         Join filterEntity = bookFilter.join("filter", JoinType.LEFT);
         Join genre = book.join("generos", JoinType.LEFT);
@@ -39,6 +40,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
         Set<Integer> filterNumber = new HashSet<>();
         Predicate urlGeneroFilter = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre));
+        Predicate entradaAnalisisFilter = criteriaBuilder.and(criteriaBuilder.equal(entradas.get("tipoEntrada"), 2));
         Predicate customFilter = criteriaBuilder.disjunction();
         if (CollectionUtils.isNotEmpty(filters)) {
             //AND
@@ -58,7 +60,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
                 }
             }
         }
-        urlGeneroFilter = criteriaBuilder.and(urlGeneroFilter, customFilter);
+        urlGeneroFilter = criteriaBuilder.and(urlGeneroFilter, customFilter, entradaAnalisisFilter);
         criteriaQuery.groupBy(book);
         Expression count = criteriaBuilder.count(book);
         criteriaQuery.having(criteriaBuilder.greaterThanOrEqualTo(count, filterNumber.size()));
