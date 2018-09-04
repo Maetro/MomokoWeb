@@ -68,6 +68,27 @@
                 }   
               ]
             },
+            "ssr-dev": {
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/app/app-routing.module.ts",
+                  "with": "src/app/app-routing.prod.module.ts"
+                },
+                {
+                  "replace": "src/app/contenido/menu/menu.component.html",
+                  "with": "src/app/contenido/menu/menu.public.component.html"
+                }   
+              ]
+            },
             "admin": {
               "optimization": true,
               "outputHashing": "all",
@@ -154,6 +175,14 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 },
+                {
+                  "replace": "src/app/app-routing.module.ts",
+                  "with": "src/app/app-routing.prod.module.ts"
+                }
+              ]
+            }, 
+            "ssr-dev": {
+              "fileReplacements": [
                 {
                   "replace": "src/app/app-routing.module.ts",
                   "with": "src/app/app-routing.prod.module.ts"

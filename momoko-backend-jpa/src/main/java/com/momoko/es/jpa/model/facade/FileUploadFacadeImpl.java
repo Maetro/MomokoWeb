@@ -26,7 +26,7 @@ import com.momoko.es.api.facade.FileUploadFacade;
 import com.momoko.es.jpa.model.service.StorageService;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "http://admin.momoko.es", "https://momoko.es" })
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
 @RequestMapping(path = "/modelo")
 public class FileUploadFacadeImpl implements FileUploadFacade {
 

@@ -27,9 +27,6 @@ export class TagCategoriaComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    if (this.log) {
-      console.log('Creando categoria tag');
-    }
     if (this.nombreCategoria === 'Noticia') {
       this.colorCategoria = 'orange';
     } else if (this.nombreCategoria === 'Opiniones') {

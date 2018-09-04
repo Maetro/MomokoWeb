@@ -19,7 +19,7 @@ import com.momoko.es.api.enums.OrderType;
 import com.momoko.es.jpa.model.service.GenreService;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es" })
+@CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
 @RequestMapping(path = "/public")
 public class GenreController {
 

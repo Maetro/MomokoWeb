@@ -20,12 +20,10 @@
     "start": "ng serve",
     "build": "ng build",
     "lint": "ng lint ng-universal-demo",
+    "build:ssr-dev": "ng build -c ssr-dev && ng run ng-universal-demo:server:ssr-dev && npm run compile:server",
     "build:client-and-server-bundles": "ng build --prod && ng run ng-universal-demo:server:production",
-    "build:prerender": "npm run build:client-and-server-bundles && npm run compile:server && npm run generate:prerender",
     "build:ssr": "npm run build:client-and-server-bundles && npm run compile:server",
     "compile:server": "tsc -p server.tsconfig.json",
-    "generate:prerender": "cd dist && node prerender",
-    "serve:prerender": "cd dist/browser && http-server",
     "serve:ssr": "node dist/server"
   },
   "private": true,
