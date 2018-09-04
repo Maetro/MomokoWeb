@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4000", "https://www.momoko.es" })
+@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es"})
 @RequestMapping(path = "/model")
 public class BookController {
 

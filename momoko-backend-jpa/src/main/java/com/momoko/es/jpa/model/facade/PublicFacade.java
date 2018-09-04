@@ -100,7 +100,7 @@ import com.redfin.sitemapgenerator.WebSitemapGenerator;
 import com.redfin.sitemapgenerator.WebSitemapUrl;
 
 @Controller
-@CrossOrigin(origins = {"http://localhost:4200", "https://www.momoko.es", "https://momoko.es"})
+@CrossOrigin(origins = {"http://localhost:4200", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
 @RequestMapping(path = "/public")
 public class PublicFacade {
 

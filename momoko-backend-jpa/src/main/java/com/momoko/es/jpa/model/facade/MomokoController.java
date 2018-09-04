@@ -28,7 +28,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Controller
-@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es" })
+@CrossOrigin(origins = { "http://localhost:4200", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es" })
 @RequestMapping(path = "/api/core")
 public class MomokoController{
 
