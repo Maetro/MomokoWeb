@@ -15,10 +15,10 @@
     <!-- /.post-list -->
   </div>
 
-  <div class="sidebox widget" *ngIf="basicFilter">
+  <div class="sidebox widget" *ngIf="basicFilters && basicFilters.length > 0">
     <img class="imagen-buscador" src="https://momoko.es/images/fijas/icon_filters01.png" alt="Mascota filtros simples momoko" />
     <h3 class="widget-title section-title">Filtrar por</h3>
-    <div *ngFor="let filter of basicFilter; let last = last;">
+    <div *ngFor="let filter of basicFilters; let last = last;">
 
         <h4>{{filter.nameFilter}}</h4>
         <div class="row" style="width:250px;margin-bottom:10px">
@@ -32,7 +32,7 @@
     </div>
     <!-- /.post-list -->
   </div>
-  <div class="sidebox widget marginTop30">
+  <div class="sidebox widget marginTop30" *ngIf="advancedFilters && advancedFilters.length > 0">
     <div class="panel-group" id="accordion">
       <div class="panel panel-default">
         <div class="panel-heading">
@@ -111,8 +111,7 @@
     </figure>
     <div class="divide10"></div>
     <p>¿Eres una editorial o un autor y quieres que hagamos una reseña de tu libro? ¿Eres redactor de contenidos y te
-      apetece
-      escribir en Momoko? ¡Ponte en contacto!
+      apetece escribir en Momoko? ¡Ponte en contacto!
       <a href="mailto:info@momoko.es"> info@momoko.es </a>
     </p>
 
