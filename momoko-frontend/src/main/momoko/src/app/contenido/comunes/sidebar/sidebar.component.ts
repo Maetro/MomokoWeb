@@ -31,12 +31,12 @@ export class SidebarComponent implements OnInit {
 
   @Input()
   set filters(value: Filter[]) {
-    this.basicFilter = [];
+    this.basicFilters = [];
     this.advancedFilters = [];
     if (value && value.length > 0) {
       value.forEach(element => {
         if (element.basic) {
-          this.basicFilter.push(element);
+          this.basicFilters.push(element);
         } else {
           this.advancedFilters.push(element);
         }
@@ -44,7 +44,7 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  basicFilter: Filter[];
+  basicFilters: Filter[];
 
   advancedFilters: Filter[];
 
@@ -71,7 +71,7 @@ export class SidebarComponent implements OnInit {
 
   updateFilters() {
     this._filters = [];
-    this.basicFilter.forEach(element => {
+    this.basicFilters.forEach(element => {
       this._filters.push(element);
     });
     this.advancedFilters.forEach(element => {
