@@ -1,13 +1,13 @@
 export class Login {
   constructor(
-    public usuarioEmail: string,
+    public email: string,
     public usuarioContrasena: string
   ) {  }
 }
 
 export class NewUser {
   public role = 0;
-  public usuarioEmail = '';
+  public email = '';
   public usuarioContrasena = '';
   public usuarioRepiteContrasena = '';
   public usuarioLogin = '';
