@@ -53,7 +53,7 @@ public class UserFacade {
 //        final List<ErrorCreacionUsuario> listaErrores = new ArrayList<ErrorCreacionUsuario>();
 //
 //        final UsuarioDTO nuevoUsuario = new UsuarioDTO();
-//        nuevoUsuario.setUsuarioEmail(nuevoUsuarioRequest.getEmail());
+//        nuevoUsuario.setEmail(nuevoUsuarioRequest.getEmail());
 //        nuevoUsuario.setUsuarioNick(nuevoUsuarioRequest.getNombre());
 //        nuevoUsuario.setUsuarioContrasena(nuevoUsuarioRequest.getContrasena());
 //        nuevoUsuario.setUsuarioLogin(nuevoUsuarioRequest.getNick());
@@ -98,13 +98,13 @@ public class UserFacade {
 //        boolean existeUsuario = false;
 //        final RegistrarUsuarioResponse response = new RegistrarUsuarioResponse();
 //        final List<ErrorCreacionUsuario> listaErroresValidacion = new ArrayList<ErrorCreacionUsuario>();
-//        existeUsuario = this.usuarioService.doesEmailExist(reqUser.getUsuarioEmail()) != null;
+//        existeUsuario = this.usuarioService.doesEmailExist(reqUser.getEmail()) != null;
 //
 //        if (existeUsuario) {
 //            listaErroresValidacion.add(ErrorCreacionUsuario.EMAIL_YA_EXISTE);
 //        } else {
 //            nuevoUsuario = new UsuarioDTO();
-//            nuevoUsuario.setUsuarioEmail(reqUser.getUsuarioEmail());
+//            nuevoUsuario.setEmail(reqUser.getEmail());
 //            nuevoUsuario.setUsuarioContrasena(this.passwordEncoder.encode(reqUser.getUsuarioContrasena()));
 //            nuevoUsuario.setUsuarioLogin(reqUser.getUsuarioLogin());
 //            nuevoUsuario.setUsuarioNick(reqUser.getUsuarioLogin());

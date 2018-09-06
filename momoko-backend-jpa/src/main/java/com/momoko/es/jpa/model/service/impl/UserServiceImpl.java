@@ -6,18 +6,14 @@
  */
 package com.momoko.es.jpa.model.service.impl;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
 import com.momoko.es.commons.security.MomokoPrincipal;
-import com.momoko.es.exceptions.util.LexUtils;
-import com.momoko.es.jpa.domain.AbstractUser;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -85,8 +81,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UsuarioDTO crearUsuario(final UsuarioDTO nuevoUsuario) throws EmailExistsException {
-        if (emailExiste(nuevoUsuario.getUsuarioEmail())) {
-            throw new EmailExistsException("Ya existe un usuario con ese email: " + nuevoUsuario.getUsuarioEmail());
+        if (emailExiste(nuevoUsuario.getEmail())) {
+            throw new EmailExistsException("Ya existe un usuario con ese email: " + nuevoUsuario.getEmail());
         }
         final UsuarioEntity usuarioEntity = DTOToEntityAdapter.adaptarUsuario(nuevoUsuario);
         return EntityToDTOAdapter.adaptarUsuario(this.usuarioRepository.save(usuarioEntity));
@@ -201,7 +197,7 @@ public class UserServiceImpl implements UserService {
         }
         usuario.setUsuarioLogin(redactorDTO.getNick());
         usuario.setUsuarioNick(redactorDTO.getNick());
-        usuario.setUsuarioEmail(redactorDTO.getEmail());
+        usuario.setEmail(redactorDTO.getEmail());
         usuario.setPaginaWeb(redactorDTO.getPaginaWeb());
         usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
         usuario.setUsuarioNombreVisible(redactorDTO.getNick());
@@ -229,7 +225,7 @@ public class UserServiceImpl implements UserService {
         final UsuarioEntity usuario = new UsuarioEntity();
         usuario.setUsuarioLogin(redactorDTO.getNick());
         usuario.setUsuarioNick(redactorDTO.getNick());
-        usuario.setUsuarioEmail(redactorDTO.getEmail());
+        usuario.setEmail(redactorDTO.getEmail());
         usuario.setUsuarioContrasena("cambiame");
         usuario.setPaginaWeb(redactorDTO.getPaginaWeb());
         usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());

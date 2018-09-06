@@ -30,7 +30,7 @@ public class MomokoPermissionEvaluator implements PermissionEvaluator {
 			Object targetDomainObject, Object permission) {
 
 		UsuarioDTO<Integer> user =  LecUtils.currentUser(auth);
-		log.debug("Checking whether " + (user != null ? user.getUsuarioEmail() : auth.getName())
+		log.debug("Checking whether " + (user != null ? user.getEmail() : auth.getName())
 				+ "\n  has " + permission + " permission");
 		if (targetDomainObject == null)	// if no domain object is provided,
 			return true;

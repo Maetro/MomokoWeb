@@ -122,7 +122,7 @@ public class ComentarioServiceImpl implements ComentarioService {
             emailsComentarios.add(comentario.getEmailComentario());
         }
         final List<UsuarioEntity> usuarios = this.usuarioRepository
-                .findAllByUsuarioEmailIn(new ArrayList<String>(emailsComentarios));
+                .findAllByEmailIn(new ArrayList<String>(emailsComentarios));
 
         final Map<String, UsuarioEntity> mapaUsuariosPorEmail = ConversionUtils.crearMapaDeListaPorValor(usuarios,
                 "usuarioEmail", String.class, UsuarioEntity.class);
@@ -168,7 +168,7 @@ public class ComentarioServiceImpl implements ComentarioService {
             final String content = generarEmailNuevoComentario(comentarioPrincipal, entrada,
                     entrada.getEntradaAutor().getUsuarioNick());
 
-            Mail.sendEmail("Nuevo comentario en momoko.es", content, entrada.getEntradaAutor().getUsuarioEmail());
+            Mail.sendEmail("Nuevo comentario en momoko.es", content, entrada.getEntradaAutor().getEmail());
             Mail.sendEmail("Nuevo comentario en momoko.es", content, "kizuna.owo@gmail.com");
             Mail.sendEmail("Nuevo comentario en momoko.es", content, "RMaetro@gmail.com");
 

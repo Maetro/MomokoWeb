@@ -22,10 +22,10 @@ public interface UsuarioRepository extends CrudRepository<UsuarioEntity, Integer
 
     UsuarioEntity findByUsuarioLogin(String login);
 
-    @Query("SELECT usuarioContrasena from UsuarioEntity u where u.usuarioEmail = ?1")
+    @Query("SELECT usuarioContrasena from UsuarioEntity u where u.email = ?1")
     String findEncodedPasswordByEmail(String usuarioEmail);
 
-    List<UsuarioEntity> findAllByUsuarioEmailIn(List<String> emails);
+    List<UsuarioEntity> findAllByEmailIn(List<String> emails);
 
     List<UsuarioEntity> findAllByUsuarioRolIdIs(Integer rolId);
 

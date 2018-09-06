@@ -79,7 +79,7 @@ public final class EntityToDTOAdapter {
         usuario.setGoodAdmin(goodAdmin);
         usuario.setGoodUser(goodUser);
         usuario.setUnverified(unverified);
-        usuario.setUsuarioEmail(nuevoUsuario.getUsuarioEmail());
+        usuario.setEmail(nuevoUsuario.getEmail());
         usuario.setUsuarioFechaRegistro(nuevoUsuario.getUsuarioFechaRegistro());
         usuario.setUsuarioNick(nuevoUsuario.getUsuarioNick());
         usuario.setUsuarioUrl(nuevoUsuario.getUsuarioUrl());

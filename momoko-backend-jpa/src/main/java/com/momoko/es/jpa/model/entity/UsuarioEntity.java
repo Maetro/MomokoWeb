@@ -1,7 +1,6 @@
 package com.momoko.es.jpa.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
-import com.momoko.es.commons.security.UserDto;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.jpa.domain.AbstractUser;
@@ -37,9 +36,6 @@ public class UsuarioEntity extends AbstractUser{
 
     /** The usuario nick. */
     private String usuarioNick;
-
-    @Column(name = "usuario_email")
-    private String usuarioEmail;
 
     /** The pagina web. */
     private String paginaWeb;
@@ -324,25 +320,6 @@ public class UsuarioEntity extends AbstractUser{
      */
     public void setUsuarioNick(final String usuarioNick) {
         this.usuarioNick = usuarioNick;
-    }
-
-    /**
-     * Obtiene usuario email.
-     *
-     * @return usuario email
-     */
-    public String getUsuarioEmail() {
-        return this.usuarioEmail;
-    }
-
-    /**
-     * Establece usuario email.
-     *
-     * @param usuarioEmail
-     *            nuevo usuario email
-     */
-    public void setUsuarioEmail(final String usuarioEmail) {
-        this.usuarioEmail = usuarioEmail;
     }
 
     /**
@@ -642,7 +619,7 @@ public class UsuarioEntity extends AbstractUser{
         return new EqualsBuilder().append(this.usuarioId, castOther.usuarioId)
                 .append(this.usuarioLogin, castOther.usuarioLogin)
                 .append(this.usuarioContrasena, castOther.usuarioContrasena)
-                .append(this.usuarioNick, castOther.usuarioNick).append(this.usuarioEmail, castOther.usuarioEmail)
+                .append(this.usuarioNick, castOther.usuarioNick).append(this.email, castOther.email)
                 .append(this.usuarioUrl, castOther.usuarioUrl)
                 .append(this.usuarioFechaRegistro, castOther.usuarioFechaRegistro)
                 .append(this.usuarioClaveActivacion, castOther.usuarioClaveActivacion)
@@ -657,7 +634,7 @@ public class UsuarioEntity extends AbstractUser{
     @Override
     public int hashCode() {
         return new HashCodeBuilder().append(this.usuarioId).append(this.usuarioLogin).append(this.usuarioContrasena)
-                .append(this.usuarioNick).append(this.usuarioEmail).append(this.usuarioUrl)
+                .append(this.usuarioNick).append(this.email).append(this.usuarioUrl)
                 .append(this.usuarioFechaRegistro).append(this.usuarioClaveActivacion).append(this.usuarioStatus)
                 .append(this.usuarioNombreVisible).append(this.usuarioRolId).toHashCode();
     }
@@ -669,7 +646,7 @@ public class UsuarioEntity extends AbstractUser{
     public String toString() {
         return new ToStringBuilder(this).append("usuarioId", this.usuarioId).append("usuarioLogin", this.usuarioLogin)
                 .append("usuarioContrasena", this.usuarioContrasena).append("usuarioNick", this.usuarioNick)
-                .append("usuarioEmail", this.usuarioEmail).append("usuarioUrl", this.usuarioUrl)
+                .append("email", this.email).append("usuarioUrl", this.usuarioUrl)
                 .append("usuarioFechaRegistro", this.usuarioFechaRegistro)
                 .append("usuarioClaveActivacion", this.usuarioClaveActivacion)
                 .append("usuarioStatus", this.usuarioStatus).append("usuarioNombreVisible", this.usuarioNombreVisible)
@@ -695,7 +672,7 @@ public class UsuarioEntity extends AbstractUser{
         userDto.setUsuarioId(getId());
         userDto.setUserId(getId());
         userDto.setUsername(email);
-        userDto.setUsuarioEmail(email);
+        userDto.setEmail(email);
         userDto.setPassword(password);
         userDto.setRoles(roles);
         userDto.setTag(toTag());

@@ -49,9 +49,19 @@ export class ZonaComentariosComponent implements OnInit {
     this.nuevoComentario.entradaId = this.entrada.entradaId;
     this.comentariosService.guardarComentario(this.nuevoComentario).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
-        this.mostrarMensaje = true;
+        this.mostrarMensaje = true;     
+        if (this.nuevoComentario.comentarioRespuesta){
+          if (!this.comentarioAResponder.comentariosHijo){
+            this.comentarioAResponder.comentariosHijo = [];
+          }
+          this.comentarioAResponder.comentariosHijo.push(res.comentario);
+        } else {
+          this.comentarios.push(res.comentario);
+        }
         this.nuevoComentario = new ComentarioRequest();
         this.comentarioAResponder = null;
+        this.comentarioSeleccionado = false;
+        this.entrada.numeroComentarios++;
         setTimeout(() => this.mostrarMensaje = false, 4000);
       } else {
         this.mostrarError = true;

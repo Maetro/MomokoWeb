@@ -310,10 +310,14 @@ public class PublicFacade {
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
                 comentarioDTO = this.comentarioService.guardarComentario(comentario);
-                this.comentarioService.enviarNotificacion(comentarioDTO);
             } catch (final Exception e) {
                 listaErrores.add(ErrorCreacionComentario.ERROR_EN_GUARDADO);
             }
+        }
+        try {
+            this.comentarioService.enviarNotificacion(comentarioDTO);
+        } catch (final Exception e) {
+            e.printStackTrace();
         }
 
         // Responder

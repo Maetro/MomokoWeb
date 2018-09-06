@@ -43,6 +43,7 @@ public class Mail {
             System.out.println("Done");
 
         } catch (final MessagingException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

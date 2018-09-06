@@ -429,7 +429,7 @@ public class ConversionUtils {
         final RedactorDTO redactorDTO = new RedactorDTO();
         redactorDTO.setUsuarioId(usuarioEntity.getUsuarioId());
         redactorDTO.setNombre(usuarioEntity.getUsuarioLogin());
-        redactorDTO.setEmail(usuarioEntity.getUsuarioEmail());
+        redactorDTO.setEmail(usuarioEntity.getEmail());
         redactorDTO.setNick(usuarioEntity.getUsuarioNick());
         redactorDTO.setImagenCabeceraRedactor(usuarioEntity.getImagenCabeceraRedactor());
         redactorDTO.setAvatarRedactor(usuarioEntity.getAvatarUrl());

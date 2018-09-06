@@ -967,7 +967,7 @@ public class EntradaServiceImpl implements EntradaService {
                     final VideoEntity videoEntity = new VideoEntity();
                     videoEntity.setDescripcion(video.getSnippet().getDescription());
                     videoEntity.setFechaAlta(Calendar.getInstance().getTime());
-                    videoEntity.setUsuarioAlta(autora.getUsuarioEmail());
+                    videoEntity.setUsuarioAlta(autora.getEmail());
                     videoEntity.setTitulo(video.getSnippet().getTitle());
                     videoEntity.setUrlVideo("https://youtu.be/" + video.getId().getVideoId());
                     videoEntity.setEntrada(entradaVideoEntity);
@@ -1018,7 +1018,7 @@ public class EntradaServiceImpl implements EntradaService {
                         final EtiquetaEntity nuevaEtiqueta = new EtiquetaEntity();
                         nuevaEtiqueta.setNombre(nombreEtiqueta.trim());
                         nuevaEtiqueta.setFechaAlta(Calendar.getInstance().getTime());
-                        nuevaEtiqueta.setUsuarioAlta(autor.getUsuarioEmail());
+                        nuevaEtiqueta.setUsuarioAlta(autor.getEmail());
                         etiquetaBD = this.etiquetaRepository.save(nuevaEtiqueta);
                     }
                     etiquetasBD.add(etiquetaBD);
@@ -1034,7 +1034,7 @@ public class EntradaServiceImpl implements EntradaService {
             entradaEntity.setLibrosEntrada(obtenerLibrosEntrada(entradaEntity.getLibrosEntrada()));
         }
         entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
-        entradaEntity.setUsuarioAlta(autor.getUsuarioEmail());
+        entradaEntity.setUsuarioAlta(autor.getEmail());
 
         if (entradaEntity.getPadreEntrada() != null) {
             final EntradaEntity padre = this.entradaRepository

@@ -28,7 +28,7 @@
               <label for="username"> Nombre de usuario o email
                 <span class="required">*</span>
               </label>
-              <input id="email" required [(ngModel)]="model.usuarioEmail" name="email" #email="ngModel" type="text" class="woocommerce-Input woocommerce-Input--text input-text"
+              <input id="email" required [(ngModel)]="model.email" name="email" #email="ngModel" type="text" class="woocommerce-Input woocommerce-Input--text input-text"
                 placeholder="Tu nombre de Usuario /Email">
             </div>
             <div class="form-row login-password">
@@ -86,7 +86,7 @@
                   <label for="username"> Email
                     <span class="required">*</span>
                   </label>
-                  <input type="email" id="emailR" placeholder="Email" required [(ngModel)]="nuevoUsuario.usuarioEmail" name="emailR" #emailR="ngModel"
+                  <input type="email" id="emailR" placeholder="Email" required [(ngModel)]="nuevoUsuario.email" name="emailR" #emailR="ngModel"
                     class="woocommerce-Input woocommerce-Input--text input-text">
                 </div>
                 <div [hidden]="emailR.valid || emailR.pristine" class="alert alert-danger">

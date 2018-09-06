@@ -38,7 +38,7 @@ public final class DTOToEntityAdapter {
         usuario.setUsuarioId(nuevoUsuario.getUsuarioId());
         usuario.setUsuarioLogin(nuevoUsuario.getUsuarioLogin());
         usuario.setUsuarioContrasena(nuevoUsuario.getUsuarioContrasena());
-        usuario.setUsuarioEmail(nuevoUsuario.getUsuarioEmail());
+        usuario.setEmail(nuevoUsuario.getEmail());
         usuario.setUsuarioFechaRegistro(nuevoUsuario.getUsuarioFechaRegistro());
         usuario.setUsuarioNick(nuevoUsuario.getUsuarioNick());
         usuario.setUsuarioUrl(nuevoUsuario.getUsuarioUrl());
@@ -345,7 +345,7 @@ public final class DTOToEntityAdapter {
     public static ComentarioEntity adaptarComentario(final ComentarioDTO comentarioDTO, final EntradaEntity entrada,
             final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
         final ComentarioEntity comentario = new ComentarioEntity();
-        comentario.setEmailComentario(autor.getUsuarioEmail());
+        comentario.setEmailComentario(autor.getEmail());
         comentario.setNombreComentario(autor.getUsuarioLogin());
         comentario.setPaginaWebComentario(autor.getPaginaWeb());
         comentario.setEntrada(entrada);

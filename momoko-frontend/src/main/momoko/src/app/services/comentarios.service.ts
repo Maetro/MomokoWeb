@@ -18,14 +18,6 @@ export class ComentariosService {
     comentarioRequest: ComentarioRequest
   ): Observable<GuardarComentarioResponse> {
     return this.http
-      .post<GuardarComentarioResponse>(this.addComentarioUrl, comentarioRequest)
-      .pipe(
-        map(this.extractGuardarComentarioResponse),
-        catchError(error => observableThrowError(error || 'Server error'))
-      );
-  }
-
-  private extractGuardarComentarioResponse(res: GuardarComentarioResponse) {
-    return res;
+      .post<GuardarComentarioResponse>(this.addComentarioUrl, comentarioRequest);
   }
 }

@@ -25,7 +25,7 @@ public class UsuarioDTO<T>{
     private String usuarioNick;
 
     /** The usuario email. */
-    private String usuarioEmail;
+    private String email;
 
     /** The usuario url. */
     private String usuarioUrl;
@@ -159,18 +159,18 @@ public class UsuarioDTO<T>{
      *
      * @return usuario email
      */
-    public String getUsuarioEmail() {
-        return usuarioEmail;
+    public String getEmail() {
+        return email;
     }
 
     /**
      * Establece usuario email.
      *
-     * @param usuarioEmail
+     * @param email
      *            nuevo usuario email
      */
-    public void setUsuarioEmail(String usuarioEmail) {
-        this.usuarioEmail = usuarioEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     /**
