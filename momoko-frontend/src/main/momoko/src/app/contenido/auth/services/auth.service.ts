@@ -45,7 +45,7 @@ export class AuthService {
     if (this.log) {
       console.log('Login');
     }
-    params.append('username', login.usuarioEmail);
+    params.append('username', login.email);
     params.append('password', login.usuarioContrasena);
     params.append('expirationMillis', '864000000');
     const headers = new Headers({
@@ -114,7 +114,7 @@ export class AuthService {
   // BORRAME
   obtainAccessToken(loginData: Login) {
     const params = new URLSearchParams();
-    params.append('username', loginData.usuarioEmail);
+    params.append('username', loginData.email);
     params.append('password', loginData.usuarioContrasena);
     params.append('grant_type', 'password');
     params.append('client_id', 'healthapp');
