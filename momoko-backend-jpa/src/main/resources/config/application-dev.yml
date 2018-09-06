@@ -28,9 +28,9 @@ logging:
   level:
     root: INFO
     org.springframework: INFO
-    org.springframework.security.oauth2.client: DEBUG
+    org.springframework.security.oauth2.client: INFO
     com.momoko.es: DEBUG
-    org.hibernate.SQL: DEBUG
+    org.hibernate.SQL: INFO
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   #file: D:\\tmp\\dev-log.txt
 

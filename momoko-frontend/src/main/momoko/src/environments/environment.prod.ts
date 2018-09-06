@@ -56,6 +56,6 @@ export const environment = {
 
   editorialesUrl: 'https://momoko.es/modelo/editoriales',
   addEditorialUrl: 'https://momoko.es/modelo/editorial/add',
-  redactoresUrl: 'http://momoko.es/modelo/redactores',
-  addRedactorUrl: 'http://momoko.es/modelo/redactor/add',
+  redactoresUrl: 'https://momoko.es/modelo/redactores',
+  addRedactorUrl: 'https://momoko.es/modelo/redactor/add',
 };

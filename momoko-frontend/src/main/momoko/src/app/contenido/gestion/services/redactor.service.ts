@@ -27,14 +27,8 @@ export class RedactorService {
       'Content-type': 'application/json',
       'Authorization': Cookie.get('access_token')
     });
-    return this.http.get<Redactor[]>(this.redactoresUrl, { headers: headers }).map(this.extractRedactores)
-      .catch(error => Observable.throw(error || 'Server error'));
+    return this.http.get<Redactor[]>(this.redactoresUrl, { headers: headers });
   }
-
-  private extractRedactores(res: Redactor[]) {
-    return res;
-  }
-
 
   guardarRedactor(redactor: Redactor): Observable<GuardarRedactorResponse> {
     const headers = new HttpHeaders({

@@ -68,6 +68,14 @@
                 }   
               ]
             },
+            "test-production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test-production.ts"
+                }
+              ]
+            },
             "ssr-dev": {
               "optimization": true,
               "outputHashing": "all",
@@ -116,6 +124,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ng-universal-demo:build:production"
+            },
+            "test-production":{
+              "browserTarget": "ng-universal-demo:build:test-production"
             }
           }
         },
