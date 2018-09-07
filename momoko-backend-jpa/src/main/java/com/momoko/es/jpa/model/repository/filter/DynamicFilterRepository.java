@@ -122,23 +122,24 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         for (Object[] value : filtersAndResults) {
             FilterEntity filterTemp = (FilterEntity) value[0];
             FilterBook filterBook = (FilterBook) value[1];
-            FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
-            if (result.contains(filterDTO)) {
-                NameValue nameValue = getNameValue(filterBook);
-
-                List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
-                if (!possibleValues.contains(nameValue)) {
-                    possibleValues.add(nameValue);
-                }
-            } else {
-                if (filterDTO.getReferencedProperty() == null) {
-                    filterDTO.getPossibleValues().clear();
+            if (filterBook != null) {
+                FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
+                if (result.contains(filterDTO)) {
                     NameValue nameValue = getNameValue(filterBook);
-                    filterDTO.getPossibleValues().add(nameValue);
-                }
-                result.add(filterDTO);
-            }
 
+                    List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
+                    if (!possibleValues.contains(nameValue)) {
+                        possibleValues.add(nameValue);
+                    }
+                } else {
+                    if (filterDTO.getReferencedProperty() == null) {
+                        filterDTO.getPossibleValues().clear();
+                        NameValue nameValue = getNameValue(filterBook);
+                        filterDTO.getPossibleValues().add(nameValue);
+                    }
+                    result.add(filterDTO);
+                }
+            }
         }
     }
 
