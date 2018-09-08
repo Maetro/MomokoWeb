@@ -69,6 +69,8 @@ public class SagaEntity {
     /** The domina libros. */
     private Boolean dominaLibros;
 
+    private Integer score;
+
     @ManyToMany(mappedBy = "sagasEntrada")
     private List<EntradaEntity> entradas;
 
@@ -408,5 +410,12 @@ public class SagaEntity {
     public void setEntradas(List<EntradaEntity> entradas) {
 		this.entradas = entradas;
 	}
-    
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
 }

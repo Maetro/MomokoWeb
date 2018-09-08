@@ -22,4 +22,5 @@ export class Saga {
   generos: Genero[];
   editorial: Editorial;
   notaMomoko: number;
+  score: number;
 }

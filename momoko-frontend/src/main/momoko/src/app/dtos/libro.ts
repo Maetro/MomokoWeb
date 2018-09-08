@@ -32,4 +32,5 @@ export class Libro {
   tieneOpinion: boolean;
   fechaAlta: Date;
   filters: Filter[];
+  score: number;
 }

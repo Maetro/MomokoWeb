@@ -3,7 +3,7 @@ package com.momoko.es.api.dto.filter;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class NameValue implements Serializable {
+public class NameValue implements Serializable, Comparable<NameValue> {
 
     private String name;
 
@@ -46,5 +46,11 @@ public class NameValue implements Serializable {
     public int hashCode() {
 
         return Objects.hash(name, value);
+    }
+
+
+    @Override
+    public int compareTo(NameValue o) {
+        return this.getValue().compareTo(o.getValue());
     }
 }

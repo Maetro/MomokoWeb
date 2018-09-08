@@ -81,6 +81,8 @@ public class LibroEntity {
     /** The visitas. */
     private Integer visitas;
 
+    private Integer score;
+
     @OneToMany(mappedBy = "libro", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PuntuacionEntity> puntuaciones = new ArrayList<PuntuacionEntity>();
 
@@ -593,13 +595,24 @@ public class LibroEntity {
         this.fechaBaja = fechaBaja;
     }
 
-    /**
-     * Gets the url antigua.
-     *
-     * @return the url antigua
-     */
     public String getUrlAntigua() {
         return this.urlAntigua;
+    }
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
+    public List<FilterBook> getFilters() {
+        return filters;
+    }
+
+    public void setFilters(List<FilterBook> filters) {
+        this.filters = filters;
     }
 
     /**

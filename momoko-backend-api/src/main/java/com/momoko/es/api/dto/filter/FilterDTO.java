@@ -91,6 +91,7 @@ public class FilterDTO implements Serializable {
     }
 
     public void setPossibleValues(List<NameValue> possibleValues) {
+        possibleValues.sort((o1, o2) -> {return o1.compareTo(o2);});
         this.possibleValues = possibleValues;
     }
 

@@ -5,6 +5,7 @@ import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
+import com.momoko.es.api.dto.filter.enums.FilterRuleType;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.FilterCreationError;
@@ -240,12 +241,34 @@ public class FilterServiceImpl implements FilterService {
         List<LibroDTO> books = new ArrayList<>();
         List<String> bookEntities = new ArrayList<>();
         boolean first = true;
-
-        List<String> urlBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(urlGenre, appliedFilters);
-
+        boolean variosGeneros = false;
+        FilterDTO filterGenre = null;
+        FilterDTO filterNumber = null;
+        for (FilterDTO appliedFilter : appliedFilters) {
+            if (FilterRuleType.GENRE.equals(appliedFilter.getFilterType())) {
+                if (CollectionUtils.isNotEmpty(appliedFilter.getValue())) {
+                    variosGeneros = true;
+                    filterGenre = appliedFilter;
+                }
+            }
+            if (FilterRuleType.NUMBER_OF_BOOKS.equals(appliedFilter.getFilterType())) {
+                if (CollectionUtils.isNotEmpty(appliedFilter.getValue())) {
+                    filterNumber = appliedFilter;
+                }
+            }
+        }
+        Collection<String> urlBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(urlGenre, appliedFilters);
+        if (variosGeneros) {
+            for (String s : filterGenre.getValue()) {
+                List<String> otherGenreBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(s, appliedFilters);
+                urlBooks = CollectionUtils.intersection(urlBooks, otherGenreBooks);
+            }
+        }
         List<LibroSimpleDTO> result = new ArrayList<>();
 
-        List<LibroEntity> booksFound = this.libroRepository.findByUrlLibroIn(urlBooks);
+        List<LibroEntity> booksFound = this.libroRepository.findByUrlLibroIn(new ArrayList<>(urlBooks));
+
+        booksFound = getBookListFilteredByNumberOfBooks(filterNumber, booksFound);
 
         for (LibroEntity bookEntity : booksFound) {
             PuntuacionEntity puntuacion = null;
@@ -256,6 +279,34 @@ public class FilterServiceImpl implements FilterService {
         }
 
         return result;
+    }
+
+    private List<LibroEntity> getBookListFilteredByNumberOfBooks(FilterDTO filterNumber, List<LibroEntity> booksFound) {
+        if (filterNumber != null){
+            List<LibroEntity> filteredBooks = new ArrayList<>();
+            for (LibroEntity libroEntity : booksFound) {
+                Integer numberOfBooks = getNumberOfBooks(libroEntity);
+                if(filterNumber.getValue().contains("1") && numberOfBooks ==1){
+                    filteredBooks.add(libroEntity);
+                } else if(filterNumber.getValue().contains("2") && numberOfBooks == 2){
+                    filteredBooks.add(libroEntity);
+                } else if(filterNumber.getValue().contains("3") && numberOfBooks == 3){
+                    filteredBooks.add(libroEntity);
+                } else if(filterNumber.getValue().contains(">3") && numberOfBooks > 3){
+                    filteredBooks.add(libroEntity);
+                }
+            }
+            booksFound = filteredBooks;
+        }
+        return booksFound;
+    }
+
+    private Integer getNumberOfBooks(LibroEntity libroEntity) {
+        Integer numberOfBooks = 1;
+        if (libroEntity.getSaga() != null){
+            numberOfBooks = libroEntity.getSaga().getLibros().size();
+        }
+        return numberOfBooks;
     }
 
     @Override

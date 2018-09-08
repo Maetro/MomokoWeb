@@ -29,9 +29,8 @@ logging:
     root: INFO
     org.springframework: INFO
     org.springframework.security.oauth2.client: INFO
-    com.momoko.es: DEBUG
-    org.hibernate.SQL: INFO
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    com.momoko.es: INFO
+    org.hibernate.SQL: DEBUG
   #file: D:\\tmp\\dev-log.txt
 
 momoko:
