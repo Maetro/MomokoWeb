@@ -3,7 +3,6 @@ package com.momoko.es.jpa.model.repository.filter;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
 import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Filter;
 
 @Repository
 public class DynamicFilterRepository implements IDynamicFilterRepository {
@@ -41,7 +39,6 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         Join genre = book.join("generos", JoinType.LEFT);
         criteriaQuery.select(book.get("urlLibro"));
 
-        Set<Integer> filterNumber = new HashSet<>();
         Predicate urlGeneroFilter = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre));
         Predicate entradaAnalisisFilter = criteriaBuilder.and(criteriaBuilder.equal(entradas.get("tipoEntrada"), 2));
         Predicate customFilter = urlGeneroFilter;
@@ -51,7 +48,6 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
                 if (FilterRuleType.ENUM.equals(filter.getFilterType())) {
                     if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        filterNumber.add(filter.getFilterId());
                         Predicate enumFilter = criteriaBuilder.disjunction();
                         enumFilter = getPredicateForEnumTypeFilter(criteriaBuilder, filterEntity, bookFilter, enumFilter, filter);
                         customFilter = criteriaBuilder.and(customFilter, enumFilter);
@@ -59,19 +55,22 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
                 }
                 if (FilterRuleType.BETWEEN.equals(filter.getFilterType())) {
                     if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        filterNumber.add(filter.getFilterId());
                         customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
                     }
                 }
-                if (FilterRuleType.NUMBER_OF_PAGES.equals(filter.getFilterType())){
+                if (FilterRuleType.NUMBER_OF_PAGES.equals(filter.getFilterType())) {
                     if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        filterNumber.add(filter.getFilterId());
                         customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
                     }
                 }
-                if (FilterRuleType.SCORE.equals(filter.getFilterType())){
+                if (FilterRuleType.PUBLISH_DATE.equals(filter.getFilterType())) {
                     if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        filterNumber.add(filter.getFilterId());
+                        customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
+                    }
+                }
+
+                if (FilterRuleType.SCORE.equals(filter.getFilterType())) {
+                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
                         customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
                     }
                 }
@@ -84,7 +83,6 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         System.out.println(result4);
         return result4;
     }
-
 
 
     @Override
@@ -107,7 +105,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         List<Object[]> filtersAndResults = entityManager.createQuery(criteriaQuery).getResultList();
 
         List<FilterDTO> result = new ArrayList<>();
-        adaptQueryResultToFilterDTO(filtersAndResults, result);
+        adaptQueryResultToFilterDTO(filtersAndResults, result, urlGenre);
         return result;
     }
 
@@ -131,15 +129,16 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
         List<Object[]> filtersAndResults = entityManager.createQuery(criteriaQuery).getResultList();
         List<FilterDTO> result = new ArrayList<>();
-        adaptQueryResultToFilterDTO(filtersAndResults, result);
+        adaptQueryResultToFilterDTO(filtersAndResults, result, urlGenre);
         return result;
     }
 
-    private void adaptQueryResultToFilterDTO(List<Object[]> filtersAndResults, List<FilterDTO> result) {
+    private void adaptQueryResultToFilterDTO(List<Object[]> filtersAndResults, List<FilterDTO> result, String urlGenre) {
         Set<NameValue> genreList = new HashSet<>();
         Set<NameValue> numberOfPages = new HashSet<>();
         Set<NameValue> numberOfBooks = new HashSet<>();
         Set<NameValue> scores = new HashSet<>();
+        Set<NameValue> publishDates = new HashSet<>();
         for (Object[] value : filtersAndResults) {
             FilterEntity filterTemp = (FilterEntity) value[0];
             FilterBook filterBook = (FilterBook) value[1];
@@ -163,10 +162,11 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
                 }
             }
             if (book != null) {
-                addGenreFilterOptions(genreList, book);
+                addGenreFilterOptions(genreList, book, urlGenre);
                 addBookLengthFilterOptions(numberOfPages, book);
                 addNumberOfBooksFilterOptions(numberOfBooks, book);
                 addScoreFilterOptions(scores, book);
+                addPublishDateFilterOptions(publishDates, book);
             }
         }
         addFilterToList(result, genreList, "genre-filter", FilterRuleType.GENRE,
@@ -176,8 +176,11 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         addFilterToList(result, numberOfBooks, "number-of-books-filter", FilterRuleType.NUMBER_OF_BOOKS,
                 1002, "Número de libros", null);
         addFilterToList(result, scores, "score-filter", FilterRuleType.SCORE,
-                1003, "Por nota","score");
+                1003, "Por nota", "score");
+        addFilterToList(result, publishDates, "publish-date", FilterRuleType.PUBLISH_DATE,
+                1004, "Fecha de publicación", "anoPublicacion");
     }
+
 
     private void addFilterToList(List<FilterDTO> result, Set<NameValue> values, String urlFilter, FilterRuleType type, int filterId, String filterName,
                                  String referencedProperty) {
@@ -198,19 +201,34 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         Integer score = book.getScore();
         if (score != null) {
             if (score < 5) {
-                scores.add(new NameValue("Libros suspensos", "0-49"));
+                scores.add(new NameValue("Libros suspensos", "0-49", 1));
             } else if (score >= 50 && score < 60) {
-                scores.add(new NameValue("5", "50-59"));
+                scores.add(new NameValue("5", "50-59", 2));
             } else if (score >= 60 && score < 70) {
-                scores.add(new NameValue("6", "60-69"));
+                scores.add(new NameValue("6", "60-69", 3));
             } else if (score >= 70 && score < 80) {
-                scores.add(new NameValue("7", "70-79"));
+                scores.add(new NameValue("7", "70-79", 4));
             } else if (score >= 80 && score < 90) {
-                scores.add(new NameValue("8", "80-89"));
+                scores.add(new NameValue("8", "80-89", 5));
             } else if (score >= 90 && score < 100) {
-                scores.add(new NameValue("9", "90-99"));
+                scores.add(new NameValue("9", "90-99", 6));
             } else if (score == 100) {
-                scores.add(new NameValue("10", "100-100"));
+                scores.add(new NameValue("10", "100-100", 7));
+            }
+        }
+    }
+
+    private void addPublishDateFilterOptions(Set<NameValue> publishDates, LibroEntity book) {
+        Integer publishDate = book.getAnoPublicacion();
+        if (publishDate != null) {
+            if (publishDate < 1799) {
+                publishDates.add(new NameValue("Hasta el S. XVIII", "0-1799", 1));
+            } else if (publishDate >= 1800 && publishDate < 1900) {
+                publishDates.add(new NameValue("Libros del S. XIX", "1800-1899", 2));
+            } else if (publishDate >= 1900 && publishDate < 2000) {
+                publishDates.add(new NameValue("Libros del S. XX", "1900-1999", 3));
+            } else if (publishDate >= 2000) {
+                publishDates.add(new NameValue("Contemporáneos", "2000-2050", 4));
             }
         }
     }
@@ -219,35 +237,37 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         Integer bookPages = book.getNumeroPaginas();
         if (bookPages != null) {
             if (bookPages < 200) {
-                numberOfPages.add(new NameValue("Menos de 200 páginas", "0-199"));
+                numberOfPages.add(new NameValue("Menos de 200 páginas", "0-199", 1));
             } else if (bookPages >= 200 && bookPages <= 400) {
-                numberOfPages.add(new NameValue("De 200 a 400 páginas", "200-400"));
+                numberOfPages.add(new NameValue("De 200 a 400 páginas", "200-400", 2));
             } else {
-                numberOfPages.add(new NameValue("Más de 400 páginas ", "401-9999"));
+                numberOfPages.add(new NameValue("Más de 400 páginas ", "401-9999", 3));
             }
         }
     }
 
     private void addNumberOfBooksFilterOptions(Set<NameValue> numberOfBooks, LibroEntity book) {
         if (book.getSaga() == null) {
-            numberOfBooks.add(new NameValue("Un solo tomo", "1"));
+            numberOfBooks.add(new NameValue("Un solo tomo", "1", 1));
         } else {
             int numberSagaBooks = book.getSaga().getLibros().size();
             if (numberSagaBooks == 1) {
-                numberOfBooks.add(new NameValue("Un solo tomo", "1"));
+                numberOfBooks.add(new NameValue("Un solo tomo", "1", 1));
             } else if (numberSagaBooks == 2) {
-                numberOfBooks.add(new NameValue("Duología", "2"));
+                numberOfBooks.add(new NameValue("Duología", "2", 2));
             } else if (numberSagaBooks == 3) {
-                numberOfBooks.add(new NameValue("Trilogía", "3"));
+                numberOfBooks.add(new NameValue("Trilogía", "3", 3));
             } else {
-                numberOfBooks.add(new NameValue("Saga", ">3"));
+                numberOfBooks.add(new NameValue("Saga", ">3", 4));
             }
         }
     }
 
-    private void addGenreFilterOptions(Set<NameValue> genreList, LibroEntity book) {
+    private void addGenreFilterOptions(Set<NameValue> genreList, LibroEntity book, String urlGenre) {
         for (GenreEntity genreEntity : book.getGeneros()) {
-            genreList.add(new NameValue(genreEntity.getNombre(), genreEntity.getUrlGenero()));
+            if (!genreEntity.getUrlGenero().equals(urlGenre)) {
+                genreList.add(new NameValue(genreEntity.getNombre(), genreEntity.getUrlGenero()));
+            }
         }
     }
 
@@ -276,7 +296,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
                         filter.getReferencedProperty()), Integer.valueOf(divided.get(0).trim()), Integer.valueOf(divided.get(1).trim()));
                 filterList.add(filterSection);
             }
-            if (filterList.size() > 1){
+            if (filterList.size() > 1) {
                 Predicate finalfilterSection = criteriaBuilder.disjunction();
                 for (Predicate predicate : filterList) {
                     finalfilterSection = criteriaBuilder.or(finalfilterSection, predicate);

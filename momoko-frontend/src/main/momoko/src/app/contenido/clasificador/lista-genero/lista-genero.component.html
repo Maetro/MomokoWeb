@@ -21,7 +21,7 @@
 
                 </div>
 
-                <div class="product-layout-view active row rightBlock">
+                <div class="product-layout-view active row rightBlock" *ngIf="!filtered">
                     <div class="selectOrderBlock">
                         <select name="orderby" class="orderby" [(ngModel)]="orderby" (change)="cambiarOrden()">
                             <option value="date" selected="selected">Ordenado por fecha</option>

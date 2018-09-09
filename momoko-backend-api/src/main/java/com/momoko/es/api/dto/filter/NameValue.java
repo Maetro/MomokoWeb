@@ -9,6 +9,8 @@ public class NameValue implements Serializable, Comparable<NameValue> {
 
     private String value;
 
+    private Integer order;
+
     public NameValue() {
     }
 
@@ -16,6 +18,13 @@ public class NameValue implements Serializable, Comparable<NameValue> {
         this.name = name;
         this.value = value;
     }
+
+    public NameValue(String name, String value, Integer order) {
+        this.name = name;
+        this.value = value;
+        this.order = order;
+    }
+
 
     public String getName() {
         return name;
@@ -31,6 +40,14 @@ public class NameValue implements Serializable, Comparable<NameValue> {
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Integer getOrder() {
+        return order;
+    }
+
+    public void setOrder(Integer order) {
+        this.order = order;
     }
 
     @Override
@@ -51,6 +68,9 @@ public class NameValue implements Serializable, Comparable<NameValue> {
 
     @Override
     public int compareTo(NameValue o) {
-        return this.getValue().compareTo(o.getValue());
+        if (this.getOrder()!= null){
+            return this.getOrder().compareTo(o.getOrder());
+        }
+        return this.getName().compareTo(o.getName());
     }
 }

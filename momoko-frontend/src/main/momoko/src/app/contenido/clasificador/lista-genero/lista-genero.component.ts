@@ -56,6 +56,8 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   numeroPagina: number;
 
+  filtered = false;
+
   constructor(
     private clasificadorService: ClasificadorService,
     private route: ActivatedRoute,
@@ -153,14 +155,14 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
   updateFilters(event: Filter[]) {
     console.log('updateFilters: ' + event);
 
-    let filtered = false;
+    this.filtered = false;
     this.filters.some(filter => {
       if (filter.value && filter.value.length > 0) {
-        filtered = true;
+        this.filtered = true;
         return true;
       }
     });
-    if (filtered) {
+    if (this.filtered) {
       this.filterFrontalService
         .applyFilters(this.genero.urlGenero, event)
         .subscribe(res => {
