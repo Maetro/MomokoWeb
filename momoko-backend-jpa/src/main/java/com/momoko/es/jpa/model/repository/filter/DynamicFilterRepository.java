@@ -21,6 +21,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static com.sun.jmx.snmp.ThreadContext.contains;
+
 @Repository
 public class DynamicFilterRepository implements IDynamicFilterRepository {
 
@@ -273,12 +275,19 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
     private NameValue getNameValue(FilterBook filterBook) {
         NameValue nameValue = null;
-        if (filterBook.getValue().contains("[")) {
+        Integer order = null;
+        String valueToDivide = filterBook.getValue();
+        if (valueToDivide.contains(")")){
+            List<String> divided = ConversionUtils.divide(")");
+            order = Integer.valueOf(divided.get(0).trim().substring(1));
+            valueToDivide = divided.get(1).trim();
+        }
+        if (valueToDivide.contains("[")) {
             List<String> divided = ConversionUtils.divide("[");
             nameValue = new NameValue(divided.get(1).replace("]", "").trim(),
-                    divided.get(0).trim());
+                    divided.get(0).trim(), order);
         } else {
-            nameValue = new NameValue(filterBook.getValue(), filterBook.getValue());
+            nameValue = new NameValue(filterBook.getValue(), filterBook.getValue(), order);
         }
         return nameValue;
     }
@@ -288,8 +297,12 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             List<Predicate> filterList = new ArrayList<>();
             for (String value : filter.getValue()) {
                 String valueToDivide = value;
+                Integer orden = null;
                 if (value.contains("[")) {
                     valueToDivide = ConversionUtils.divide(valueToDivide, "[").get(0);
+                }
+                if (value.contains(")")){
+                    valueToDivide = ConversionUtils.divide(valueToDivide, ")").get(1);
                 }
                 List<String> divided = ConversionUtils.divide(valueToDivide, "-");
                 Predicate filterSection = criteriaBuilder.between(book.<Integer>get(

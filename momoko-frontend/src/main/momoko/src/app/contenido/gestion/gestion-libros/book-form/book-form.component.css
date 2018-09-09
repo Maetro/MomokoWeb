@@ -1,7 +1,11 @@
-::ng-deep .ui-accordion-content.ui-widget-content.ng-tns-c10-2.ng-star-inserted {
-    border: none;
+.ng-star-inserted {
+    margin-bottom: 5px;
 }
 
-.lp40.ng-star-inserted {
-    margin-bottom: 5px;
+::ng-deep .ui-radiobutton-label {
+    display: inherit;
+}
+
+::ng-deep body .ui-accordion .ui-accordion-content{
+    border: none;
 }

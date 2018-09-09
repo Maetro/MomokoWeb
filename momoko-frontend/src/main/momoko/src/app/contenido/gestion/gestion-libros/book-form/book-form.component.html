@@ -2,6 +2,7 @@
   <div *ngIf="libro" class="form-container">
     <div class="row">
       <div class="col-sm-8">
+          <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
         <div class="vanilla vanilla-form" novalidate="novalidate">
           <div class="row">
             <div class="col-sm-12 rp10">
@@ -14,8 +15,7 @@
             <div class="col-sm-12 lp10">
               <div class="form-field">
                 <label>
-                  <input type="text" [(ngModel)]="libro.titulo" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título del libro"
-                  />
+                  <input type="text" [(ngModel)]="libro.titulo" (ngModelChange)="cambioTitulo($event)" placeholder="Escribe aquí el título del libro" />
                 </label>
               </div>
               <!--/.form-field -->
@@ -58,8 +58,7 @@
             <div class="col-sm-12 lp10">
               <div class="form-field">
                 <label>
-                  <input type="text" [(ngModel)]="libro.urlLibro" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url del libro"
-                  />
+                  <input type="text" [(ngModel)]="libro.urlLibro" (ngModelChange)="urlChange($event)" placeholder="Escribe aqui la url del libro" />
                 </label>
               </div>
               <!--/.form-field -->
@@ -81,7 +80,8 @@
               <div class="col-sm-12 lp10">
                 <div class="form-field">
                   <label>
-                    <ng2-completer placeholder="Escribe aquí al autor de la obra" [(ngModel)]="autor.nombre" [datasource]="nombresAutores" [minSearchLength]="3"></ng2-completer>
+                    <ng2-completer placeholder="Escribe aquí al autor de la obra" [(ngModel)]="autor.nombre"
+                      [datasource]="nombresAutores" [minSearchLength]="3"></ng2-completer>
                   </label>
                 </div>
               </div>
@@ -101,8 +101,8 @@
             <div class="col-sm-9 lp10">
               <div class="form-field">
                 <label>
-                  <ng2-completer placeholder="Nombre de la editorial" [(ngModel)]="libro.editorial.nombreEditorial" [datasource]="nombresEditoriales"
-                    [minSearchLength]="3"></ng2-completer>
+                  <ng2-completer placeholder="Nombre de la editorial" [(ngModel)]="libro.editorial.nombreEditorial"
+                    [datasource]="nombresEditoriales" [minSearchLength]="3"></ng2-completer>
                 </label>
               </div>
             </div>
@@ -175,7 +175,8 @@
 
             <div class="col-sm-9 lp10">
 
-              <p-multiSelect defaultLabel="Escoge los géneros" (onChange)="onChange($event)" [options]="generos" [(ngModel)]="selectedGeneros"></p-multiSelect>
+              <p-multiSelect defaultLabel="Escoge los géneros" (onChange)="onChange($event)" [options]="generos"
+                [(ngModel)]="selectedGeneros"></p-multiSelect>
 
               <!--/.form-field -->
             </div>
@@ -184,14 +185,15 @@
             <div class="col-sm-12 lp10">
               <p-accordion>
                 <p-accordionTab header="Filtros">
-                  <div class="col-sm-4 lp20" *ngFor="let filter of libro.filters">
+                  <div class="col-sm-4" *ngFor="let filter of libro.filters">
                     <div *ngIf="!filter.referencedProperty">
 
                       <h4> {{filter.nameFilter}}: </h4>
 
-                      <div class="lp40" *ngFor="let possibleValue of filter.possibleValues">
+                      <div *ngFor="let possibleValue of filter.possibleValues">
                         <!-- <p-checkbox name="{{filter.nameFilter}}" value="{{possibleValue.value}}" [(ngModel)]="filter.value" label="{{possibleValue.name}}"></p-checkbox> -->
-                        <p-radioButton name="{{filter.nameFilter}}" value="{{possibleValue.value}}" label="{{possibleValue.name}}" [(ngModel)]="filter.value"></p-radioButton>
+                        <p-radioButton name="{{filter.nameFilter}}" value="{{possibleValue.value}}" label="{{possibleValue.name}}"
+                          [(ngModel)]="filter.value"></p-radioButton>
                       </div>
                       <!--/.form-field -->
 
@@ -221,13 +223,14 @@
 
 
               <div [hidden]="!esLibroNuevo">
-                <input type="submit" class="btn btn-forest" value="Crear libro" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
-                  data-success="Thank you!">
+                <input type="submit" class="btn btn-forest" value="Crear libro" (click)="guardarLibro()" data-error="Fix errors"
+                  data-processing="Sending..." data-success="Thank you!">
               </div>
               <div [hidden]="esLibroNuevo">
-                <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="guardarLibro()" data-error="Fix errors" data-processing="Sending..."
-                  data-success="Thank you!">
+                <input type="submit" class="btn btn-forest" value="Actualizar ficha" (click)="guardarLibro()"
+                  data-error="Fix errors" data-processing="Sending..." data-success="Thank you!">
               </div>
+              <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
               <footer class="notification-box"></footer>
             </div>
           </div>
@@ -236,7 +239,10 @@
       </div>
 
       <aside class="col-sm-4 sidebar">
+
         <div class="sidebox widget">
+
+          
 
           <img *ngIf="libro.urlImagen" src="{{libro.urlImagen}}" alt="Portada libro - {{libro.titulo}}" />
 
@@ -245,8 +251,8 @@
           </div>
           <h2 class="section-title widget-title margen_superior">Imagen del libro </h2>
 
-          <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)" chooseLabel="Subir imagen"
-            auto="auto" maxFileSize="1000000">
+          <p-fileUpload name="myfile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChange($event)"
+            chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
 
             <ng-template pTemplate="content">
               <div>Arrastra aquí la imagen que quieras subir.</div>
@@ -291,19 +297,6 @@
             <div class="divide10"></div>
           </div>
 
-          <!-- <div class="col-sm-12 rp10">
-            <div class="form-field">
-              <h4> Comentario para nota: </h4>
-            </div>
-          </div>
-          <div class="col-sm-12 lp10">
-            <div class="form-field">
-              <label>
-                <textarea type="text" [(ngModel)]="libro.comentarioNotaMomoko" placeholder="(Opcional) Algún comentario sobre la nota"></textarea>
-              </label>
-            </div>
-            <!--/.form-field -->
-          <!--</div> -->
 
         </div>
         <!-- /.widget -->

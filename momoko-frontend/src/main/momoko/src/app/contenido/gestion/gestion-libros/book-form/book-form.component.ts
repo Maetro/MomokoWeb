@@ -120,6 +120,15 @@ export class BookFormComponent implements OnInit {
       this.listaGeneros.forEach(genero => {
         if (genero.generoId === generoSeleccionadoId) {
           this.libro.generos.push(genero);
+          const urlGenres = []
+          this.libro.generos.forEach(genre => {
+            urlGenres.push(genre.urlGenero);
+          });
+          this.bookService.getFiltersByGenres(urlGenres).subscribe(
+            response => {
+              this.libro.filters = response;
+            }
+          );
         }
       });
     });
@@ -199,6 +208,10 @@ export class BookFormComponent implements OnInit {
         this.util.convertToSlug(newValue)
       );
     }
+  }
+
+  volver(){
+    this.router.navigate(['/gestion/lista-libros']);
   }
 
   crearAutor() {

@@ -546,17 +546,24 @@ public class ConversionUtils {
                 resultado.add(nameValue);
             }
         }
+        resultado.sort((o1, o2) -> {return o1.compareTo(o2);});
         return resultado;
     }
 
     private static NameValue getNameValue(String value) {
         NameValue nameValue = null;
+        Integer order = null;
+        if (value.contains(")")){
+            List<String> divided = ConversionUtils.divide(value, ")");
+            order = Integer.valueOf(divided.get(0).trim().substring(1));
+            value = divided.get(1);
+        }
         if (value.contains("[")){
             List<String> divided = ConversionUtils.divide(value, "[");
             nameValue = new NameValue(divided.get(1).replace("]","").trim(),
-                    divided.get(0).trim());
+                    divided.get(0).trim(), order);
         } else {
-            nameValue = new NameValue(value, value);
+            nameValue = new NameValue(value, value, order);
         }
         return nameValue;
     }

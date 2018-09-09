@@ -53,9 +53,9 @@ public class FilterController {
 
     }
 
-    @GetMapping(path = "/filter/genre/{urlGenre}")
+    @PostMapping(path = "/filter/genre")
     public @ResponseBody
-    List<FilterDTO> getFilter(@PathVariable("urlGenre") List<String> urlGenre) {
+    List<FilterDTO> getFilter(@RequestBody List<String> urlGenre) {
         final List<FilterDTO> filters = this.filterService.getFiltersAppliedByGenreUrl(urlGenre);
         return filters;
     }

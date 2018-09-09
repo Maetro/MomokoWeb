@@ -5,6 +5,8 @@ import { environment } from 'environments/environment';
 import { Observable, throwError } from 'rxjs';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { map, catchError } from 'rxjs/operators';
+import { UtilService } from '../../../services/util/util.service';
+import { Filter } from '../../../dtos/filter/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -12,21 +14,19 @@ import { map, catchError } from 'rxjs/operators';
 export class BookService {
   private log = environment.log;
 
+  private serverUrl = environment.serverUrl;
   private booksUrl = environment.booksUrl;
   private addBookUrl = environment.addBookUrl;
   private getBook = environment.getBook;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private util: UtilService) {}
 
   getBooks(): Observable<Libro[]> {
     if (this.log) {
       console.log('Obteniendo Libros');
     }
-    const headers = new HttpHeaders({
-      'Content-type': 'application/json',
-      Authorization: Cookie.get('access_token')
-    });
-
+    const headers = this.util.getHeaderWithAuth();
+  
     return this.http.get<Libro[]>(this.booksUrl, { headers: headers }).pipe(
       map(this.extractBooks),
       catchError(error => throwError(error || 'Server error'))
@@ -41,19 +41,19 @@ export class BookService {
     if (this.log) {
       console.log('Obteniendo Libro: ' + urlBook);
     }
-    const headers = new HttpHeaders({
-      'Content-type': 'application/json',
-      Authorization: Cookie.get('access_token')
-    });
+
+    const headers = this.util.getHeaderWithAuth();
+
     return this.http
-      .get<Libro>(this.getBook + urlBook, { headers: headers })
-      .pipe(
-        map(this.extractBook),
-        catchError(error => throwError(error || 'Server error'))
-      );
+      .get<Libro>(this.getBook + urlBook, { headers: headers });
   }
 
-  private extractBook(res: Libro) {
-    return res;
+  getFiltersByGenres(urlGenres: string[]): Observable<Filter[]> {
+    if (this.log) {
+      console.log('getFiltersByGenres: ' + urlGenres);
+    }
+    const headers = this.util.getHeaderWithAuth();
+    return this.http.post<Filter[]>(this.serverUrl + 'modelo/filter/genre/', JSON.stringify(urlGenres), { headers: headers });
   }
+
 }

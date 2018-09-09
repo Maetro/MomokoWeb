@@ -4,5 +4,5 @@ import { OrderType } from './dtos/enums/ordertype';
 @Injectable()
 export class Globals {
   orderType: OrderType = OrderType.DATE;
-  
+  bookfilter: string;
 }

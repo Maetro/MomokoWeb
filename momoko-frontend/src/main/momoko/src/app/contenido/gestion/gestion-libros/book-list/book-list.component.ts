@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { environment } from 'environments/environment';
 import { Libro } from '../../../../dtos/libro';
 import { Genero } from '../../../../dtos/genre/genero';
 import { BookService } from '../book.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { Router } from '@angular/router';
+import { Table } from 'primeng/table';
+import { Globals } from '../../../../app.globals';
 
 @Component({
   selector: 'app-book-list',
@@ -17,6 +19,8 @@ export class BookListComponent implements OnInit {
 
   selectedBook: Libro;
 
+  @ViewChild(Table) table: Table;
+
   cols: any[];
 
   loading: boolean;
@@ -24,11 +28,14 @@ export class BookListComponent implements OnInit {
   title = 'Libros';
   books: Libro[];
 
-  constructor(private bookService: BookService, private router: Router) {
+  filter: string;
+
+  constructor(private bookService: BookService, private router: Router, private globals: Globals) {
     if (this.log) {
       console.log('Builder BookListComponent');
     }
     this.books = [];
+    this.filter = globals.bookfilter;
   }
 
   getBooks(): void {
@@ -52,6 +59,7 @@ export class BookListComponent implements OnInit {
       booksList.forEach(book => {
         this.books = [...this.books, book];
       });
+      this.table.filterGlobal(this.globals.bookfilter, 'contains');
       this.loading = false;
     });
     this.cols = [
@@ -62,6 +70,8 @@ export class BookListComponent implements OnInit {
       { field: 'anoEdicion', header: 'Año edición' },
       { field: 'fechaAlta', header: 'Fecha alta' }
     ];
+    
+
   }
 
   newBook(): void {
@@ -101,6 +111,11 @@ export class BookListComponent implements OnInit {
     if (this.log) {
       console.log('onRowSelect');
     }
+  }
+
+  onChangeFilter($event){
+    console.log($event.target.value);
+    this.globals.bookfilter = $event.target.value;
   }
 
 }

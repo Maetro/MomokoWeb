@@ -126,6 +126,8 @@ public class LibroServiceImpl implements LibroService {
     @Override
     public LibroDTO guardarLibro(final LibroDTO libroAGuardar) throws Exception {
         final LibroEntity libroEntity = DTOToEntityAdapter.adaptarLibro(libroAGuardar);
+        //Remove when puntuacion trransition is over
+        libroEntity.setScore(libroAGuardar.getNotaMomoko().intValue());
         // Comprobamos si el autor existe.
         final List<LibroEntity> coincidencias = this.libroRepository.findByTitulo(libroAGuardar.getTitulo());
 
@@ -439,6 +441,8 @@ public class LibroServiceImpl implements LibroService {
 
     @Override
     public GuardarLibroResponse saveBook(LibroDTO bookDTO) {
+
+
         // Validar
         final List<ErrorCreacionLibro> listaErrores = this.validadorService.validarLibro(bookDTO);
 

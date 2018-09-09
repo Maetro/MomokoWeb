@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { EntradaSimple } from '../../dtos/entradaSimple';
 import { Meta } from '@angular/platform-browser';
+import { Cookie } from 'ng2-cookies';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable()
 export class UtilService {
+  
   constructor() {}
 
   obtenerUrlEntradaSimple(entrada: EntradaSimple): string {
@@ -43,5 +46,13 @@ export class UtilService {
       .replace(/\-\-+/g, '-') // Replace multiple - with single -
       .replace(/^-+/, '') // Trim - from start of text
       .replace(/-+$/, '');
+  }
+
+  getHeaderWithAuth(): HttpHeaders {
+    const headers = new HttpHeaders({
+      'Content-type': 'application/json',
+      Authorization: Cookie.get('access_token')
+    });
+    return headers;
   }
 }
