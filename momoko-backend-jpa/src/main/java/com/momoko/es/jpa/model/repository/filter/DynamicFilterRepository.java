@@ -345,7 +345,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             List<Predicate> filterList = new ArrayList<>();
             for (String value : filter.getValue()) {
                 Predicate filterSection = criteriaBuilder.equal(filterEntity.get("filterId"), filter.getFilterId());
-                filterSection = criteriaBuilder.and(filterSection, criteriaBuilder.equal(bookFilter.get("value"), value));
+                filterSection = criteriaBuilder.and(filterSection, criteriaBuilder.like(bookFilter.get("value"), "%"+ value + "%"));
                 filterList.add(filterSection);
             }
 

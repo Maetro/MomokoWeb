@@ -536,7 +536,7 @@ public class ConversionUtils {
         NameValue nameValue = null;
         Integer order = null;
         if (value.contains(")")) {
-            List<String> divided = ConversionUtils.divide(value, ")");
+            List<String> divided = ConversionUtils.divide(value, ")", 2);
             order = Integer.valueOf(divided.get(0).trim().substring(1));
             value = divided.get(1);
         }

@@ -67,3 +67,7 @@ i.ion-chevron-down {
 ::ng-deep body .ui-chkbox .ui-chkbox-box.ui-state-focus {
   border-color: #e3b015;
 }
+
+::ng-deep body .ui-chkbox-label {
+  display: inherit;
+}
