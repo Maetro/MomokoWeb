@@ -3,6 +3,7 @@ package com.momoko.es.jpa.model.repository.filter;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.NameValue;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
+import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
@@ -135,6 +136,21 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         return result;
     }
 
+
+    private boolean isAcceptedFilter(String urlGenre, FilterEntity filterDTO) {
+        boolean acceptedFilter = true;
+        if (filterDTO != null && CollectionUtils.isNotEmpty(filterDTO.getApplicableGenres())) {
+            acceptedFilter = false;
+            for (GenreEntity genre : filterDTO.getApplicableGenres()) {
+                if (genre.getUrlGenero().equals(urlGenre)) {
+                    acceptedFilter = true;
+                }
+            }
+        }
+        return acceptedFilter;
+    }
+
+
     private void adaptQueryResultToFilterDTO(List<Object[]> filtersAndResults, List<FilterDTO> result, String urlGenre) {
         Set<NameValue> genreList = new HashSet<>();
         Set<NameValue> numberOfPages = new HashSet<>();
@@ -145,22 +161,24 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             FilterEntity filterTemp = (FilterEntity) value[0];
             FilterBook filterBook = (FilterBook) value[1];
             LibroEntity book = (LibroEntity) value[2];
-            if (filterBook != null) {
-                FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
-                if (result.contains(filterDTO)) {
-                    NameValue nameValue = getNameValue(filterBook);
-
-                    List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
-                    if (!possibleValues.contains(nameValue)) {
-                        possibleValues.add(nameValue);
-                    }
-                } else {
-                    if (filterDTO.getReferencedProperty() == null) {
-                        filterDTO.getPossibleValues().clear();
+            if (isAcceptedFilter(urlGenre, filterTemp)) {
+                if (filterBook != null) {
+                    FilterDTO filterDTO = EntityToDTOAdapter.adaptFilter(filterTemp);
+                    if (result.contains(filterDTO)) {
                         NameValue nameValue = getNameValue(filterBook);
-                        filterDTO.getPossibleValues().add(nameValue);
+
+                        List<NameValue> possibleValues = result.get(result.indexOf(filterDTO)).getPossibleValues();
+                        if (!possibleValues.contains(nameValue)) {
+                            possibleValues.add(nameValue);
+                        }
+                    } else {
+                        if (filterDTO.getReferencedProperty() == null) {
+                            filterDTO.getPossibleValues().clear();
+                            NameValue nameValue = getNameValue(filterBook);
+                            filterDTO.getPossibleValues().add(nameValue);
+                        }
+                        result.add(filterDTO);
                     }
-                    result.add(filterDTO);
                 }
             }
             if (book != null) {
@@ -277,17 +295,17 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         NameValue nameValue = null;
         Integer order = null;
         String valueToDivide = filterBook.getValue();
-        if (valueToDivide.contains(")")){
-            List<String> divided = ConversionUtils.divide(")");
+        if (valueToDivide.contains(")")) {
+            List<String> divided = ConversionUtils.divide(valueToDivide, ")", 2);
             order = Integer.valueOf(divided.get(0).trim().substring(1));
             valueToDivide = divided.get(1).trim();
         }
         if (valueToDivide.contains("[")) {
-            List<String> divided = ConversionUtils.divide("[");
+            List<String> divided = ConversionUtils.divide(valueToDivide , "[");
             nameValue = new NameValue(divided.get(1).replace("]", "").trim(),
                     divided.get(0).trim(), order);
         } else {
-            nameValue = new NameValue(filterBook.getValue(), filterBook.getValue(), order);
+            nameValue = new NameValue(valueToDivide, valueToDivide, order);
         }
         return nameValue;
     }
@@ -301,7 +319,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
                 if (value.contains("[")) {
                     valueToDivide = ConversionUtils.divide(valueToDivide, "[").get(0);
                 }
-                if (value.contains(")")){
+                if (value.contains(")")) {
                     valueToDivide = ConversionUtils.divide(valueToDivide, ")").get(1);
                 }
                 List<String> divided = ConversionUtils.divide(valueToDivide, "-");

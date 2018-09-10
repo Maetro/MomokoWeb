@@ -44,14 +44,15 @@ import java.util.regex.Pattern;
  */
 public class ConversionUtils {
 
-    /** The separator. */
+    /**
+     * The separator.
+     */
     public static String SEPARATOR = ";";
 
     /**
      * Join.
      *
-     * @param lista
-     *            lista
+     * @param lista lista
      * @return the string
      */
     public static String join(final List<String> lista) {
@@ -68,17 +69,22 @@ public class ConversionUtils {
         return sb.toString();
     }
 
+
+    public static List<String> divide(final String data, final String separator) {
+
+        return divide(data, separator, 0);
+    }
+
     /**
      * Divide.
      *
-     * @param data
-     *            data
+     * @param data data
      * @return the list
      */
-    public static List<String> divide(final String data, final String separator) {
+    public static List<String> divide(final String data, final String separator, final int max) {
         List<String> resultado = new ArrayList<String>();
         if (StringUtils.isNotBlank(data)) {
-            final String[] separated = StringUtils.split(data, separator);
+            final String[] separated = StringUtils.split(data, separator, max);
             resultado = new ArrayList<String>(Arrays.asList(separated));
         }
         return resultado;
@@ -87,8 +93,7 @@ public class ConversionUtils {
     /**
      * Divide.
      *
-     * @param data
-     *            data
+     * @param data data
      * @return the list
      */
     public static List<String> divide(final String data) {
@@ -98,8 +103,7 @@ public class ConversionUtils {
     /**
      * Obtener usuario basico.
      *
-     * @param autor
-     *            autor
+     * @param autor autor
      * @return the usuario basico DTO
      */
     public static UsuarioBasicoDTO obtenerUsuarioBasico(final UsuarioEntity autor) {
@@ -115,8 +119,7 @@ public class ConversionUtils {
     /**
      * Obtener entradas basicas.
      *
-     * @param listaEntities
-     *            the lista entities
+     * @param listaEntities the lista entities
      * @return the list
      */
     public static List<EntradaSimpleDTO> obtenerEntradasBasicas(final List<EntradaEntity> listaEntities,
@@ -182,8 +185,7 @@ public class ConversionUtils {
     /**
      * Obtener entrada simple dto.
      *
-     * @param entrada
-     *            the entrada
+     * @param entrada the entrada
      * @return the entrada simple dto
      */
     public static EntradaSimpleDTO obtenerEntradaSimpleDTO(final EntradaEntity entrada,
@@ -229,8 +231,7 @@ public class ConversionUtils {
     /**
      * Obtener libros basicos.
      *
-     * @param listaLibros
-     *            the lista libros
+     * @param listaLibros                 the lista libros
      * @param mapaPuntacionMomokoPorLibro
      * @return the list
      */
@@ -250,8 +251,7 @@ public class ConversionUtils {
     /**
      * Obtener libro simple dto.
      *
-     * @param libro
-     *            the libro
+     * @param libro the libro
      * @return the libro simple dto
      */
     public static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro,
@@ -272,10 +272,8 @@ public class ConversionUtils {
     /**
      * Limpiar htm ly recortar.
      *
-     * @param resumenEntrada
-     *            the resumen entrada
-     * @param size
-     *            the size
+     * @param resumenEntrada the resumen entrada
+     * @param size           the size
      * @return the string
      */
     public static String limpiarHTMLyRecortar(final String resumenEntrada, final int size) {
@@ -309,18 +307,12 @@ public class ConversionUtils {
     /**
      * Crear mapa de lista por valor.
      *
-     * @param <T>
-     *            the generic type
-     * @param <P>
-     *            the generic type
-     * @param lista
-     *            the lista
-     * @param campo
-     *            the campo
-     * @param keyClass
-     *            the key class
-     * @param objectClass
-     *            the object class
+     * @param <T>         the generic type
+     * @param <P>         the generic type
+     * @param lista       the lista
+     * @param campo       the campo
+     * @param keyClass    the key class
+     * @param objectClass the object class
      * @return the map
      */
     @SuppressWarnings("unchecked")
@@ -363,8 +355,7 @@ public class ConversionUtils {
     /**
      * Eliminar espacios seguidos.
      *
-     * @param slug
-     *            the slug
+     * @param slug the slug
      * @return the string
      */
     private static String eliminarEspaciosSeguidos(String slug) {
@@ -377,8 +368,7 @@ public class ConversionUtils {
     /**
      * Obtener gravatar.
      *
-     * @param emailComentario
-     *            the email comentario
+     * @param emailComentario the email comentario
      * @return the string
      */
     public static String obtenerGravatar(final String emailComentario) {
@@ -404,8 +394,7 @@ public class ConversionUtils {
     /**
      * Gets the redactores from usuarios.
      *
-     * @param redactoresEntity
-     *            the redactores entity
+     * @param redactoresEntity the redactores entity
      * @return the redactores from usuarios
      */
     public static List<RedactorDTO> getRedactoresFromUsuarios(final List<UsuarioEntity> redactoresEntity) {
@@ -421,8 +410,7 @@ public class ConversionUtils {
     /**
      * Gets the redactor from usuario.
      *
-     * @param usuarioEntity
-     *            the usuario entity
+     * @param usuarioEntity the usuario entity
      * @return the redactor from usuario
      */
     public static RedactorDTO getRedactorFromUsuario(final UsuarioEntity usuarioEntity) {
@@ -448,15 +436,11 @@ public class ConversionUtils {
     /**
      * De json to info adicional dto.
      *
-     * @param infoAdicionalJSON
-     *            the info adicional json
+     * @param infoAdicionalJSON the info adicional json
      * @return the list
-     * @throws JsonParseException
-     *             the json parse exception
-     * @throws JsonMappingException
-     *             the json mapping exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws JsonParseException   the json parse exception
+     * @throws JsonMappingException the json mapping exception
+     * @throws IOException          Signals that an I/O exception has occurred.
      */
     public static List<InfoAdicionalDTO> deJSONToInfoAdicionalDTO(final String infoAdicionalJSON) {
 
@@ -482,15 +466,11 @@ public class ConversionUtils {
     /**
      * De info adicional dto to json.
      *
-     * @param lista
-     *            the lista
+     * @param lista the lista
      * @return the string
-     * @throws JsonParseException
-     *             the json parse exception
-     * @throws JsonMappingException
-     *             the json mapping exception
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @throws JsonParseException   the json parse exception
+     * @throws JsonMappingException the json mapping exception
+     * @throws IOException          Signals that an I/O exception has occurred.
      */
     public static String deInfoAdicionalDTOToJSON(final List<InfoAdicionalDTO> lista)
             throws JsonParseException, JsonMappingException, IOException {
@@ -546,21 +526,23 @@ public class ConversionUtils {
                 resultado.add(nameValue);
             }
         }
-        resultado.sort((o1, o2) -> {return o1.compareTo(o2);});
+        resultado.sort((o1, o2) -> {
+            return o1.compareTo(o2);
+        });
         return resultado;
     }
 
     private static NameValue getNameValue(String value) {
         NameValue nameValue = null;
         Integer order = null;
-        if (value.contains(")")){
+        if (value.contains(")")) {
             List<String> divided = ConversionUtils.divide(value, ")");
             order = Integer.valueOf(divided.get(0).trim().substring(1));
             value = divided.get(1);
         }
-        if (value.contains("[")){
+        if (value.contains("[")) {
             List<String> divided = ConversionUtils.divide(value, "[");
-            nameValue = new NameValue(divided.get(1).replace("]","").trim(),
+            nameValue = new NameValue(divided.get(1).replace("]", "").trim(),
                     divided.get(0).trim(), order);
         } else {
             nameValue = new NameValue(value, value, order);
