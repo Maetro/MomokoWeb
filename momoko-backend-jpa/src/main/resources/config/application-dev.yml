@@ -1,10 +1,12 @@
 ## Development environment
 
 spring:
-  jpa.hibernate.ddl-auto: update
+
   jpa:
     hibernate:
       use-new-id-generator-mappings: false
+      ddl-auto: update
+    show-sql: true
   datasource:
     url: jdbc:mysql://localhost:3306/momokobd?useSSL=false
     username: root
@@ -29,8 +31,9 @@ logging:
     root: INFO
     org.springframework: INFO
     org.springframework.security.oauth2.client: INFO
-    com.momoko.es: INFO
+    com.momoko.es: DEBUG
     org.hibernate.SQL: DEBUG
+    org.hibernate.type: TRACE
   #file: D:\\tmp\\dev-log.txt
 
 momoko:

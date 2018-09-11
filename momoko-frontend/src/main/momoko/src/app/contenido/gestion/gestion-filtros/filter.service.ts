@@ -8,6 +8,7 @@ import { SelectItem } from 'primeng/primeng';
 import { environment } from '../../../../environments/environment';
 import { Filter } from '../../../dtos/filter/filter';
 import { SaveFilterResponse } from '../../../dtos/filter/SaveFilterResponse';
+import { Globals } from '../../../app.globals';
 
 @Injectable()
 export class FilterService {

@@ -13,6 +13,7 @@ import {
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { isPlatformBrowser } from '@angular/common';
 import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { Globals } from './app.globals';
 
 declare var $: any;
 
@@ -31,21 +32,26 @@ export class AppComponent implements OnInit {
   url_seguimiento: string;
 
   // Sets initial value to true to show loading spinner on first load
-  loading = true;
 
   constructor(
     private router: Router,
     //NO ELIMINAR
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    @Inject(PLATFORM_ID) private platformId: Object
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private globals: Globals
   ) {
     router.events.subscribe((event: RouterEvent) => {
       this.navigationInterceptor(event);
     });
   }
 
+  public get g(){
+    return this.globals;
+  }
+
   ngOnInit(): void {
     this.url_seguimiento = 'https://momoko.es/files/' + this.urlSeguimiento;
+    this.globals
   }
 
   buscarResultados() {
@@ -56,12 +62,12 @@ export class AppComponent implements OnInit {
 
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
-      this.loading = true;
+      this.globals.loading = true;
     }
     if (event instanceof NavigationEnd) {
       if (isPlatformBrowser(this.platformId)) {
         // Client only code.
-        this.loading = false;
+        this.globals.loading = false;
         const distanciaTop = $(document).scrollTop();
         if (this.log) {
           console.log('Distancia top: ' + distanciaTop);
@@ -79,10 +85,10 @@ export class AppComponent implements OnInit {
 
     // Set loading state to false in both of the below events to hide the spinner in case a request fails
     if (event instanceof NavigationCancel) {
-      this.loading = false;
+      this.globals.loading = false;
     }
     if (event instanceof NavigationError) {
-      this.loading = false;
+      this.globals.loading = false;
     }
   }
 }

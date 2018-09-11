@@ -5,4 +5,5 @@ import { OrderType } from './dtos/enums/ordertype';
 export class Globals {
   orderType: OrderType = OrderType.DATE;
   bookfilter: string;
+  loading: boolean;
 }

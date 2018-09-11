@@ -154,7 +154,7 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
 
   updateFilters(event: Filter[]) {
     console.log('updateFilters: ' + event);
-
+    this.globals.loading = true;
     this.filtered = false;
     this.filters.some(filter => {
       if (filter.value && filter.value.length > 0) {
@@ -173,6 +173,9 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
           this.numbers = Array(this.numeroPaginas)
             .fill(0)
             .map((x, i) => i + 1);
+          this.globals.loading = false;
+        }, error => {
+          this.globals.loading = false;
         });
     } else {
       return this.clasificadorService
@@ -182,7 +185,9 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
             
               this.librosGenero = genero.nueveLibrosGenero;
               this.filters = genero.applicableFilters;
-            
+              this.globals.loading = false;
+          }, error => {
+            this.globals.loading = false;
           }
         );
     }

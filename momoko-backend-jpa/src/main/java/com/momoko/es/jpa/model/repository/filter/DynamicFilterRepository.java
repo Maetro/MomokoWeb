@@ -16,10 +16,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Repository
@@ -32,7 +29,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
     public List<String> getBookListWithAppliedFilters(String urlGenre, List<FilterDTO> filters) {
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 
-        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery();
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery().distinct(true);
         Root book = criteriaQuery.from(LibroEntity.class);
         Join entradas = book.join("entradas", JoinType.INNER);
         Join bookFilter = book.join("filters", JoinType.LEFT);
@@ -42,47 +39,78 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
 
         Predicate urlGeneroFilter = criteriaBuilder.and(criteriaBuilder.equal(genre.get("urlGenero"), urlGenre));
         Predicate entradaAnalisisFilter = criteriaBuilder.and(criteriaBuilder.equal(entradas.get("tipoEntrada"), 2));
-        Predicate customFilter = urlGeneroFilter;
+        Predicate whereSection = criteriaBuilder.and(urlGeneroFilter, entradaAnalisisFilter);
+        List<FilterDTO> filtersToApply = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(filters)) {
-            //AND
             for (FilterDTO filter : filters) {
-
-                if (FilterRuleType.ENUM.equals(filter.getFilterType())) {
-                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        Predicate enumFilter = criteriaBuilder.disjunction();
-                        enumFilter = getPredicateForEnumTypeFilter(criteriaBuilder, filterEntity, bookFilter, enumFilter, filter);
-                        customFilter = criteriaBuilder.and(customFilter, enumFilter);
-                    }
-                }
-                if (FilterRuleType.BETWEEN.equals(filter.getFilterType())) {
-                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
-                    }
-                }
-                if (FilterRuleType.NUMBER_OF_PAGES.equals(filter.getFilterType())) {
-                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
-                    }
-                }
-                if (FilterRuleType.PUBLISH_DATE.equals(filter.getFilterType())) {
-                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
-                    }
-                }
-
-                if (FilterRuleType.SCORE.equals(filter.getFilterType())) {
-                    if (CollectionUtils.isNotEmpty(filter.getValue())) {
-                        customFilter = getPredicateForBetweenTypeFilter(criteriaBuilder, book, customFilter, filter);
-                    }
+                if (CollectionUtils.isNotEmpty(filter.getValue())) {
+                    filtersToApply.add(filter);
                 }
             }
         }
-        urlGeneroFilter = criteriaBuilder.and(customFilter, entradaAnalisisFilter);
-        criteriaQuery.where(urlGeneroFilter);
+        Iterator<FilterDTO> filterIterator = filtersToApply.iterator();
+        FilterDTO filterToApply = filterIterator.next();
+        whereSection = addApplyFilter(criteriaBuilder, book, bookFilter, filterEntity, whereSection, filterToApply);
+
+
+        criteriaQuery.where(whereSection);
         Query query = entityManager.createQuery(criteriaQuery);
-        List<String> result4 = query.getResultList();
-        System.out.println(result4);
-        return result4;
+        List<String> booksUrls = query.getResultList();
+        while (filterIterator.hasNext()){
+            booksUrls = applyInclusiveFilterToListOfBooks(booksUrls, urlGenre, filterIterator.next());
+        }
+        return booksUrls;
+    }
+
+    private List<String> applyInclusiveFilterToListOfBooks(List<String> booksUrls, String urlGenre, FilterDTO filterToApply) {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+
+        CriteriaQuery criteriaQuery = criteriaBuilder.createQuery().distinct(true);
+        Root book = criteriaQuery.from(LibroEntity.class);
+        Join entradas = book.join("entradas", JoinType.INNER);
+        Join bookFilter = book.join("filters", JoinType.LEFT);
+        Join filterEntity = bookFilter.join("filter", JoinType.LEFT);
+        Join genre = book.join("generos", JoinType.LEFT);
+        criteriaQuery.select(book.get("urlLibro"));
+        Predicate urlBooksFilter = criteriaBuilder.and(book.get("urlLibro").in(booksUrls));
+        Predicate entradaAnalisisFilter = criteriaBuilder.and(criteriaBuilder.equal(entradas.get("tipoEntrada"), 2));
+        Predicate whereSection = criteriaBuilder.and(urlBooksFilter, entradaAnalisisFilter);
+        whereSection = addApplyFilter(criteriaBuilder, book, bookFilter, filterEntity, whereSection, filterToApply);
+
+        criteriaQuery.where(whereSection);
+        Query query = entityManager.createQuery(criteriaQuery);
+        return query.getResultList();
+    }
+
+    private Predicate addApplyFilter(CriteriaBuilder criteriaBuilder, Root book, Join bookFilter, Join filterEntity, Predicate whereSection, FilterDTO filterToApply) {
+        if (FilterRuleType.ENUM.equals(filterToApply.getFilterType())) {
+            if (CollectionUtils.isNotEmpty(filterToApply.getValue())) {
+                Predicate enumFilter = criteriaBuilder.disjunction();
+                enumFilter = getPredicateForEnumTypeFilter(criteriaBuilder, filterEntity, bookFilter, enumFilter, filterToApply);
+                whereSection = criteriaBuilder.and(whereSection, enumFilter);
+            }
+        }
+        if (FilterRuleType.BETWEEN.equals(filterToApply.getFilterType())) {
+            if (CollectionUtils.isNotEmpty(filterToApply.getValue())) {
+                whereSection = getPredicateForBetweenTypeFilter(criteriaBuilder, book, whereSection, filterToApply);
+            }
+        }
+        if (FilterRuleType.NUMBER_OF_PAGES.equals(filterToApply.getFilterType())) {
+            if (CollectionUtils.isNotEmpty(filterToApply.getValue())) {
+                whereSection = getPredicateForBetweenTypeFilter(criteriaBuilder, book, whereSection, filterToApply);
+            }
+        }
+        if (FilterRuleType.PUBLISH_DATE.equals(filterToApply.getFilterType())) {
+            if (CollectionUtils.isNotEmpty(filterToApply.getValue())) {
+                whereSection = getPredicateForBetweenTypeFilter(criteriaBuilder, book, whereSection, filterToApply);
+            }
+        }
+        if (FilterRuleType.SCORE.equals(filterToApply.getFilterType())) {
+            if (CollectionUtils.isNotEmpty(filterToApply.getValue())) {
+                whereSection = getPredicateForBetweenTypeFilter(criteriaBuilder, book, whereSection, filterToApply);
+            }
+        }
+        return whereSection;
     }
 
 
@@ -299,7 +327,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             valueToDivide = divided.get(1).trim();
         }
         if (valueToDivide.contains("[")) {
-            List<String> divided = ConversionUtils.divide(valueToDivide , "[");
+            List<String> divided = ConversionUtils.divide(valueToDivide, "[");
             nameValue = new NameValue(divided.get(1).replace("]", "").trim(),
                     divided.get(0).trim(), order);
         } else {
@@ -345,7 +373,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
             List<Predicate> filterList = new ArrayList<>();
             for (String value : filter.getValue()) {
                 Predicate filterSection = criteriaBuilder.equal(filterEntity.get("filterId"), filter.getFilterId());
-                filterSection = criteriaBuilder.and(filterSection, criteriaBuilder.like(bookFilter.get("value"), "%"+ value + "%"));
+                filterSection = criteriaBuilder.and(filterSection, criteriaBuilder.like(bookFilter.get("value"), "%" + value + "%"));
                 filterList.add(filterSection);
             }
 
