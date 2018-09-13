@@ -2,12 +2,14 @@ package com.momoko.es.jpa.model.entity.filter;
 
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
 import com.momoko.es.jpa.model.entity.GenreEntity;
+import com.momoko.es.jpa.model.entity.LibroEntity;
 import org.springframework.context.annotation.FilterType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "filter")
@@ -41,11 +43,17 @@ public class FilterEntity {
      )
      private List<FilterBook> filterBooks = new ArrayList<>();
 
+     /** The libros autor. */
+     @OneToMany(fetch = FetchType.EAGER, mappedBy = "filter")
+     private Set<FilterValueEntity> filterValues;
+
      private String possibleValues;
 
      private String referencedProperty;
 
      private boolean isBasic;
+
+     private boolean isInclusive;
 
      public Integer getFilterId() {
           return filterId;
@@ -117,5 +125,21 @@ public class FilterEntity {
 
      public void setBasic(boolean basic) {
           isBasic = basic;
+     }
+
+     public boolean isInclusive() {
+          return isInclusive;
+     }
+
+     public void setInclusive(boolean inclusive) {
+          isInclusive = inclusive;
+     }
+
+     public Set<FilterValueEntity> getFilterValues() {
+          return filterValues;
+     }
+
+     public void setFilterValues(Set<FilterValueEntity> filterValues) {
+          this.filterValues = filterValues;
      }
 }
