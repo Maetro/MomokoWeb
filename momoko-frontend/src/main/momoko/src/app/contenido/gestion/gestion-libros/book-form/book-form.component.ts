@@ -73,6 +73,26 @@ export class BookFormComponent implements OnInit {
             });
           });
         }
+        if (this.libro.filters){
+          this.libro.filters.forEach(filter => {
+            if (filter.inclusive){
+              filter.stringSelectedValues = [];
+              if (filter.selectedFilterValues){
+                filter.selectedFilterValues.forEach(selectedValue => {
+                  console.log(selectedValue);
+                  console.log(filter.filterValues);
+                  filter.filterValues.forEach(value => {
+                    if(value.filterValueId === selectedValue){
+                      filter.stringSelectedValues.push(value.value);
+                    }
+                  });
+                });
+                filter.selectedFilterValues = [];
+              }
+            
+            }
+          });
+        }
       });
     } else {
       this.libro = new Libro();
@@ -135,6 +155,22 @@ export class BookFormComponent implements OnInit {
   }
 
   guardarLibro(): void {
+    if (this.libro.filters){
+      this.libro.filters.forEach(filter => {
+        if (filter.inclusive && filter.stringSelectedValues && filter.stringSelectedValues.length > 0){
+          filter.stringSelectedValues.forEach(stringvalue => {
+            filter.filterValues.forEach(possibleValue => {
+              if (possibleValue.value === stringvalue){
+                if (!filter.selectedFilterValues){
+                  filter.selectedFilterValues = [];
+                }
+                filter.selectedFilterValues.push(possibleValue.filterValueId);
+              }
+            });
+          });
+        }
+      });
+    }
     this.libroService.guardarLibro(this.libro).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
         this.showSuccess('Libro guardado correctamente');

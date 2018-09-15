@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuardService } from '../auth/services/auth-guard.service';
-import { CreateFilterComponent } from './gestion-filtros/create-filter/create-filter.component';
-import { EditFilterComponent } from './gestion-filtros/edit-filter/edit-filter.component';
 import { FilterListComponent } from './gestion-filtros/filter-list/filter-list.component';
 import { GestionComponent } from './gestion.component';
 import { ListaEntradasComponent } from './gestion-entradas/lista-entradas/lista-entradas.component';
@@ -14,6 +12,7 @@ import { ListaEditorialesComponent } from './gestion-editoriales/lista-editorial
 import { ListaRedactoresComponent } from './gestion-redactores/lista-redactores/lista-redactores.component';
 import { BookListComponent } from './gestion-libros/book-list/book-list.component';
 import { BookFormComponent } from './gestion-libros/book-form/book-form.component';
+import { FilterFormComponent } from './gestion-filtros/filter-form/filter-form.component';
 
 const adminRoutes: Routes = [
   {
@@ -29,12 +28,12 @@ const adminRoutes: Routes = [
   {
     path: 'nuevo-filtro',
     canActivate: [AuthGuardService],
-    component: CreateFilterComponent
+    component: FilterFormComponent
   },
   {
     path: 'editar-filtro/:url',
     canActivate: [AuthGuardService],
-    component: EditFilterComponent,
+    component: FilterFormComponent,
   },
   {
     path: 'lista-libros',

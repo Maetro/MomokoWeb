@@ -156,13 +156,23 @@ export class ListaGeneroComponent implements OnInit, OnDestroy {
     console.log('updateFilters: ' + event);
     this.globals.loading = true;
     this.filtered = false;
-    this.filters.some(filter => {
-      if (filter.value && filter.value.length > 0) {
+   
+    this.filters.forEach(filter => {
+      if (filter.stringSelectedValues && filter.stringSelectedValues.length > 0) {
         this.filtered = true;
-        return true;
+        filter.selectedFilterValues = [];
+        filter.filterValues.forEach(filterValue => {
+          if(filter.stringSelectedValues.indexOf(filterValue.value) !== -1){
+            if (!filter.selectedFilterValues){
+              filter.selectedFilterValues = [];
+            }
+            filter.selectedFilterValues.push(filterValue.filterValueId);
+          }
+        });
       }
     });
     if (this.filtered) {
+      
       this.filterFrontalService
         .applyFilters(this.genero.urlGenero, event)
         .subscribe(res => {

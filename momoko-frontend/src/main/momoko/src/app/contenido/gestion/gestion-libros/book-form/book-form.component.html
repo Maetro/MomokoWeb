@@ -190,10 +190,12 @@
 
                       <h4> {{filter.nameFilter}}: </h4>
 
-                      <div *ngFor="let possibleValue of filter.possibleValues">
+                      <div *ngFor="let possibleValue of filter.filterValues">
                         <!-- <p-checkbox name="{{filter.nameFilter}}" value="{{possibleValue.value}}" [(ngModel)]="filter.value" label="{{possibleValue.name}}"></p-checkbox> -->
-                        <p-radioButton name="{{filter.nameFilter}}" value="{{possibleValue.value}}" label="{{possibleValue.name}}"
-                          [(ngModel)]="filter.value"></p-radioButton>
+                        <p-radioButton *ngIf="!filter.inclusive" name="{{filter.nameFilter}}" value="{{possibleValue.filterValueId}}" label="{{possibleValue.name}}"
+                          [(ngModel)]="filter.selectedFilterValues"></p-radioButton>
+                        <p-checkbox *ngIf="filter.inclusive" name="{{filter.nameFilter}}" value="{{possibleValue.value}}" label="{{possibleValue.name}}"
+                          [(ngModel)]="filter.stringSelectedValues"></p-checkbox>
                       </div>
                       <!--/.form-field -->
 

@@ -15,95 +15,87 @@ import java.util.Set;
 @Table(name = "filter")
 public class FilterEntity {
 
-     @Id
-     @GeneratedValue
-     private Integer filterId;
+    @Id
+    @GeneratedValue
+    private Integer filterId;
 
-     private String nameFilter;
+    private String nameFilter;
 
-     @Column(unique=true)
-     @NotNull
-     private String urlFilter;
+    @Column(unique = true)
+    @NotNull
+    private String urlFilter;
 
-     @ManyToMany(cascade = { CascadeType.ALL })
-     @JoinTable(
-             name = "filter_genre",
-             joinColumns = { @JoinColumn(name = "filter_id") },
-             inverseJoinColumns = { @JoinColumn(name = "genre_id") }
-     )
-     private List<GenreEntity> applicableGenres;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "filter_genre",
+            joinColumns = {@JoinColumn(name = "filter_id")},
+            inverseJoinColumns = {@JoinColumn(name = "genre_id")}
+    )
+    private List<GenreEntity> applicableGenres;
 
-     @Enumerated(EnumType.STRING)
-     private FilterRuleType type;
+    @Enumerated(EnumType.STRING)
+    private FilterRuleType type;
 
-     @OneToMany(
-             mappedBy = "filter",
-             cascade = CascadeType.ALL,
-             orphanRemoval = true
-     )
-     private List<FilterBook> filterBooks = new ArrayList<>();
+    @OneToMany(
+            mappedBy = "filter",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private List<FilterBook> filterBooks = new ArrayList<>();
 
-     /** The libros autor. */
-     @OneToMany(fetch = FetchType.EAGER, mappedBy = "filter")
-     private Set<FilterValueEntity> filterValues;
+    /**
+     * The libros autor.
+     */
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "filter")
+    private Set<FilterValueEntity> filterValues;
 
-     private String possibleValues;
+    private String referencedProperty;
 
-     private String referencedProperty;
+    private boolean isBasic;
 
-     private boolean isBasic;
+    private boolean isInclusive;
 
-     private boolean isInclusive;
+    public Integer getFilterId() {
+        return filterId;
+    }
 
-     public Integer getFilterId() {
-          return filterId;
-     }
+    public void setFilterId(Integer filterId) {
+        this.filterId = filterId;
+    }
 
-     public void setFilterId(Integer filterId) {
-          this.filterId = filterId;
-     }
+    public String getNameFilter() {
+        return nameFilter;
+    }
 
-     public String getNameFilter() {
-          return nameFilter;
-     }
+    public void setNameFilter(String nameFilter) {
+        this.nameFilter = nameFilter;
+    }
 
-     public void setNameFilter(String nameFilter) {
-          this.nameFilter = nameFilter;
-     }
+    public String getUrlFilter() {
+        return urlFilter;
+    }
 
-     public String getUrlFilter() {
-          return urlFilter;
-     }
+    public void setUrlFilter(String urlFilter) {
+        this.urlFilter = urlFilter;
+    }
 
-     public void setUrlFilter(String urlFilter) {
-          this.urlFilter = urlFilter;
-     }
+    public List<GenreEntity> getApplicableGenres() {
+        return applicableGenres;
+    }
 
-     public List<GenreEntity> getApplicableGenres() {
-          return applicableGenres;
-     }
+    public void setApplicableGenres(List<GenreEntity> applicableGenres) {
+        this.applicableGenres = applicableGenres;
+    }
 
-     public void setApplicableGenres(List<GenreEntity> applicableGenres) {
-          this.applicableGenres = applicableGenres;
-     }
+    public List<FilterBook> getFilterBooks() {
+        return filterBooks;
+    }
 
-     public List<FilterBook> getFilterBooks() {
-          return filterBooks;
-     }
+    public void setFilterBooks(List<FilterBook> filterBooks) {
+        this.filterBooks = filterBooks;
+    }
 
-     public void setFilterBooks(List<FilterBook> filterBooks) {
-          this.filterBooks = filterBooks;
-     }
-
-     public String getPossibleValues() {
-          return possibleValues;
-     }
-
-     public void setPossibleValues(String possibleValues) {
-          this.possibleValues = possibleValues;
-     }
-
-     public FilterRuleType getType() {
+    public FilterRuleType getType() {
         return type;
     }
 
@@ -111,35 +103,35 @@ public class FilterEntity {
         this.type = type;
     }
 
-     public String getReferencedProperty() {
-          return referencedProperty;
-     }
+    public String getReferencedProperty() {
+        return referencedProperty;
+    }
 
-     public void setReferencedProperty(String referencedProperty) {
-          this.referencedProperty = referencedProperty;
-     }
+    public void setReferencedProperty(String referencedProperty) {
+        this.referencedProperty = referencedProperty;
+    }
 
-     public boolean isBasic() {
-          return isBasic;
-     }
+    public boolean isBasic() {
+        return isBasic;
+    }
 
-     public void setBasic(boolean basic) {
-          isBasic = basic;
-     }
+    public void setBasic(boolean basic) {
+        isBasic = basic;
+    }
 
-     public boolean isInclusive() {
-          return isInclusive;
-     }
+    public boolean isInclusive() {
+        return isInclusive;
+    }
 
-     public void setInclusive(boolean inclusive) {
-          isInclusive = inclusive;
-     }
+    public void setInclusive(boolean inclusive) {
+        isInclusive = inclusive;
+    }
 
-     public Set<FilterValueEntity> getFilterValues() {
-          return filterValues;
-     }
+    public Set<FilterValueEntity> getFilterValues() {
+        return filterValues;
+    }
 
-     public void setFilterValues(Set<FilterValueEntity> filterValues) {
-          this.filterValues = filterValues;
-     }
+    public void setFilterValues(Set<FilterValueEntity> filterValues) {
+        this.filterValues = filterValues;
+    }
 }

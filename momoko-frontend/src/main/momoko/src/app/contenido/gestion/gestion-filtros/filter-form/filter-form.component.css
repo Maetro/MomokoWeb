@@ -1,0 +1,17 @@
+.form-container {
+    margin: 20px 0px;
+}
+
+.col-sm-12.botonInferior {
+    padding-left: 0px;
+    margin-top: 5px;
+    margin-left: -5px;
+}
+
+::ng-deep span.ui-button-text.ui-clickable {
+    color: white !important;
+}
+
+::ng-deep span.ui-button-icon-left.ui-clickable.fa.fa-plus {
+    color: white;
+}

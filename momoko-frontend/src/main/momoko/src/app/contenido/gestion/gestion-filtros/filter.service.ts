@@ -109,15 +109,6 @@ export class FilterService {
     return refencedValueOptions;
   }
 
-  needToDefineCustomValues(filter: Filter): boolean {
-    let result = true;
-    if (filter.filterType === 'BOOLEAN') {
-      result = false;
-    }
-    return result;
-  }
-
-
   changeFilterType(){
 
   }

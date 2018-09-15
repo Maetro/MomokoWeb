@@ -3,7 +3,9 @@ package com.momoko.es.api.dto.filter;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class NameValue implements Serializable, Comparable<NameValue> {
+public class FilterValueDTO implements Serializable, Comparable<FilterValueDTO> {
+
+    private Integer filterValueId;
 
     private String name;
 
@@ -11,20 +13,23 @@ public class NameValue implements Serializable, Comparable<NameValue> {
 
     private Integer order;
 
-    public NameValue() {
+    public FilterValueDTO() {
     }
 
-    public NameValue(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public NameValue(String name, String value, Integer order) {
+    public FilterValueDTO(Integer filterValueId, String name, String value, Integer order) {
+        this.filterValueId = filterValueId;
         this.name = name;
         this.value = value;
         this.order = order;
     }
 
+    public Integer getFilterValueId() {
+        return filterValueId;
+    }
+
+    public void setFilterValueId(Integer filterValueId) {
+        this.filterValueId = filterValueId;
+    }
 
     public String getName() {
         return name;
@@ -54,9 +59,9 @@ public class NameValue implements Serializable, Comparable<NameValue> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        NameValue nameValue = (NameValue) o;
-        return Objects.equals(name, nameValue.name) &&
-                Objects.equals(value, nameValue.value);
+        FilterValueDTO filterValueDTO = (FilterValueDTO) o;
+        return Objects.equals(name, filterValueDTO.name) &&
+                Objects.equals(value, filterValueDTO.value);
     }
 
     @Override
@@ -67,7 +72,7 @@ public class NameValue implements Serializable, Comparable<NameValue> {
 
 
     @Override
-    public int compareTo(NameValue o) {
+    public int compareTo(FilterValueDTO o) {
         if (this.getOrder()!= null){
             return this.getOrder().compareTo(o.getOrder());
         }

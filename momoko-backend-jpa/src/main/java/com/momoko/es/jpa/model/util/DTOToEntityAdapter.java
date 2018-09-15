@@ -7,10 +7,12 @@
 package com.momoko.es.jpa.model.util;
 
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
+import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -423,16 +425,40 @@ public final class DTOToEntityAdapter {
 
     public static FilterEntity adaptFilter(com.momoko.es.api.dto.filter.FilterDTO filterDTO) {
         FilterEntity filterEntity = new FilterEntity();
-        if (CollectionUtils.isNotEmpty(filterDTO.getPossibleValues())) {
-            filterEntity.setPossibleValues(ConversionUtils.toPossibleValuesString(filterDTO.getPossibleValues()));
-        }
+        filterEntity.setFilterId(filterDTO.getFilterId());
         filterEntity.setType(filterDTO.getFilterType());
         filterEntity.setNameFilter(filterDTO.getNameFilter());
         filterEntity.setReferencedProperty(filterDTO.getReferencedProperty());
         filterEntity.setUrlFilter(filterDTO.getUrlFilter());
         filterEntity.setBasic(filterDTO.isBasic());
         filterEntity.setFilterId(filterDTO.getFilterId());
+        if (CollectionUtils.isNotEmpty(filterDTO.getFilterValues())) {
+            Set<FilterValueEntity> filterValues = adaptFilterValues(filterEntity, filterDTO.getFilterValues());
+        }
         return filterEntity;
+    }
+
+
+
+    public static Set<FilterValueEntity> adaptFilterValues(FilterEntity filter, List<FilterValueDTO> possibleValues) {
+        Set<FilterValueEntity> result = new HashSet<>();
+        if (CollectionUtils.isNotEmpty(possibleValues)) {
+            for (FilterValueDTO filterValueDTO : possibleValues) {
+                FilterValueEntity filterValue = adaptFilterValue(filter, filterValueDTO);
+                result.add(filterValue);
+            }
+        }
+        return result;
+    }
+
+    public static FilterValueEntity adaptFilterValue(FilterEntity filter, FilterValueDTO filterValueDTO) {
+        FilterValueEntity filterValue = new FilterValueEntity();
+        filterValue.setValue(filterValueDTO.getValue());
+        filterValue.setName(filterValueDTO.getName());
+        filterValue.setFilterOrder(filterValueDTO.getOrder());
+        filterValue.setFilterValueId(filterValueDTO.getFilterValueId());
+        filterValue.setFilter(filter);
+        return filterValue;
     }
 
 

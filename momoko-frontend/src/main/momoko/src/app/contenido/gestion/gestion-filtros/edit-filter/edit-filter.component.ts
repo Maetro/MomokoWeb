@@ -11,6 +11,7 @@ import { UtilService } from '../../../../services/util/util.service';
 import { FilterRuleType } from '../../../../dtos/filter/filter-rule-type.enum';
 import { environment } from '../../../../../environments/environment';
 import { NameValue } from '../../../../dtos/filter/name-value';
+import { FilterValue } from '../../../../dtos/filter/filter-value';
 
 @Component({
   selector: 'app-edit-filter',
@@ -40,7 +41,7 @@ export class EditFilterComponent implements OnInit {
 
   referencedValueSelected: string;
 
-  filterValues: string[];
+  filterValues: FilterValue[];
 
   genres: Genero[];
 
@@ -60,10 +61,8 @@ export class EditFilterComponent implements OnInit {
       this.filterTypeSelected = this.filter.filterType;
       this.genres = this.filter.genres;
       this.referencedValueSelected = this.filter.referencedProperty;
-      this.filterValues = [];
-      this.filter.possibleValues.forEach(value => {
-        this.filterValues.push(value.value);
-      });
+      this.filterValues = this.filter.filterValues;
+      
        ;
     });
     this.filterTypes = [];
@@ -90,16 +89,7 @@ export class EditFilterComponent implements OnInit {
   saveFilter(): void {
     this.filter.filterType = FilterRuleType[this.filterTypeSelected];
     this.filter.referencedProperty = this.referencedValueSelected;
-    if (this.filterValues && this.filterValues.length > 0) {
-      const possibleValues = [];
-      this.filterValues.forEach(filterValue => {
-        const value = new NameValue();
-        value.name = filterValue;
-        value.value = filterValue;
-        possibleValues.push(value);
-      });
-      this.filter.possibleValues = possibleValues;
-    }
+    this.filter.filterValues = this.filterValues;
     this.filterService.saveFilter(this.filter).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
         this.showSuccess('Filtro guardado correctamente');
@@ -155,7 +145,4 @@ export class EditFilterComponent implements OnInit {
     return this.filterService.getStringOfFilterType(filterType);
   }
 
-  public needToDefineCustomValues(): boolean {
-    return this.filterService.needToDefineCustomValues(this.filter);
-  }
 }

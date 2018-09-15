@@ -1,21 +1,21 @@
 package com.momoko.es.jpa.model.repository.filter;
 
-import com.momoko.es.jpa.model.entity.EntradaEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
-import com.momoko.es.jpa.model.entity.filter.key.FilterBookId;
-import org.springframework.data.domain.Pageable;
+import com.momoko.es.jpa.model.entity.filter.key.FilterBookValueId;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import java.util.Date;
+import javax.transaction.Transactional;
 import java.util.List;
 
-public interface FilterBookRepository extends CrudRepository<FilterBook, FilterBookId> {
+public interface FilterBookRepository extends CrudRepository<FilterBook, FilterBookValueId> {
 
     List<FilterBook> findAllByBookIn(List<LibroEntity> books);
 
+    List<FilterBook> removeAllByBook_LibroIdIs(Integer bookId);
 
     @Query(value = "SELECT DISTINCT l.url_libro from libro l " +
             "inner join filter_book fb on fb.book_libro_id = l.libro_id " +
@@ -50,4 +50,13 @@ public interface FilterBookRepository extends CrudRepository<FilterBook, FilterB
             "order by e.fecha_alta desc", nativeQuery = true)
     List<LibroEntity> getBookListWithAppliedFilters(@Param("urlGenero") String urlGenero,
                                                     @Param("filterQuery") String filterQuery);
+
+    @Modifying
+    @Query(value = "INSERT INTO filter_book " +
+            "(book_libro_id, filter_filter_id, value_filter_value_id) " +
+            " VALUES(:bookId, :filterId, :valueId);", nativeQuery = true)
+    @Transactional
+    public void saveBookIdFilterIdAndValueIdEntry(@Param("bookId") Integer bookId,
+                                                  @Param("filterId") Integer filterId,
+                                                  @Param("valueId") Integer valueId);
 }

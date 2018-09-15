@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class FilterBookId implements Serializable {
+public class FilterBookValueId implements Serializable {
 
     @Column(name = "filter_id")
     private Integer filterId;
@@ -14,12 +14,16 @@ public class FilterBookId implements Serializable {
     @Column(name = "book_id")
     private Integer bookId;
 
-    public FilterBookId(){
+    @Column(name = "value_id")
+    private Integer valueId;
+
+    public FilterBookValueId(){
     }
 
-    public FilterBookId(Integer filterId, Integer bookId) {
+    public FilterBookValueId(Integer filterId, Integer bookId, Integer valueId) {
         this.filterId = filterId;
         this.bookId = bookId;
+        this.valueId = valueId;
     }
 
     public Integer getFilterId() {
@@ -38,18 +42,27 @@ public class FilterBookId implements Serializable {
         this.bookId = bookId;
     }
 
+    public Integer getValueId() {
+        return valueId;
+    }
+
+    public void setValueId(Integer valueId) {
+        this.valueId = valueId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        FilterBookId that = (FilterBookId) o;
+        FilterBookValueId that = (FilterBookValueId) o;
         return Objects.equals(filterId, that.filterId) &&
-                Objects.equals(bookId, that.bookId);
+                Objects.equals(bookId, that.bookId) &&
+                Objects.equals(valueId, that.valueId);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(filterId, bookId);
+        return Objects.hash(filterId, bookId, valueId);
     }
 }

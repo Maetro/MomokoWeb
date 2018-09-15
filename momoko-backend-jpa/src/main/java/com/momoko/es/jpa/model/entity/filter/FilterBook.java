@@ -1,7 +1,7 @@
 package com.momoko.es.jpa.model.entity.filter;
 
 import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.filter.key.FilterBookId;
+import com.momoko.es.jpa.model.entity.filter.key.FilterBookValueId;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -11,7 +11,7 @@ import java.util.Objects;
 public class FilterBook {
 
     @EmbeddedId
-    private FilterBookId id;
+    private FilterBookValueId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("filterId")
@@ -21,22 +21,25 @@ public class FilterBook {
     @MapsId("bookId")
     private LibroEntity book;
 
-    private String value;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("valueId")
+    private FilterValueEntity value;
 
     public FilterBook() {
     }
 
-    public FilterBook(FilterEntity filter, LibroEntity book) {
+    public FilterBook(FilterEntity filter, LibroEntity book, FilterValueEntity filterBookValue) {
         this.filter = filter;
         this.book = book;
-        this.id = new FilterBookId(filter.getFilterId(), book.getLibroId());
+        this.id = new FilterBookValueId(filter.getFilterId(), book.getLibroId(),
+                filterBookValue.getFilterValueId());
     }
 
-    public FilterBookId getId() {
+    public FilterBookValueId getId() {
         return id;
     }
 
-    public void setId(FilterBookId id) {
+    public void setId(FilterBookValueId id) {
         this.id = id;
     }
 
@@ -56,14 +59,13 @@ public class FilterBook {
         this.book = book;
     }
 
-    public String getValue() {
+    public FilterValueEntity getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(FilterValueEntity value) {
         this.value = value;
     }
-
 
     @Override
     public boolean equals(Object o) {

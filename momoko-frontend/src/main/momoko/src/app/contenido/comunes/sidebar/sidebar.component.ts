@@ -71,6 +71,7 @@ export class SidebarComponent implements OnInit {
 
   updateFilters() {
     this._filters = [];
+    console.log('update Filters');
     this.basicFilters.forEach(element => {
       this._filters.push(element);
     });

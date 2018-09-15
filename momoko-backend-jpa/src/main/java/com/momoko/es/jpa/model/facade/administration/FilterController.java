@@ -40,7 +40,7 @@ public class FilterController {
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/filter/add")
-    ResponseEntity<SaveFilterResponse> guardarRedactor(@RequestBody final FilterDTO filterDTO) {
+    ResponseEntity<SaveFilterResponse> saveFilter(@RequestBody final FilterDTO filterDTO) {
         SaveFilterResponse response = new SaveFilterResponse();
         try {
             response = this.filterService.saveFilter(filterDTO);

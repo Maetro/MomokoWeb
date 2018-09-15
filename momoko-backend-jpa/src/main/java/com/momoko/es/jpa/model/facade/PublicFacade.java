@@ -21,7 +21,7 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.momoko.es.api.dto.filter.NameValue;
+import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
 import com.momoko.es.jpa.model.repository.filter.FilterRepository;
@@ -1130,23 +1130,7 @@ public class PublicFacade {
 
     @RequestMapping(method = RequestMethod.GET, path = "/test")
     public String test() throws Exception {
-        Set<FilterEntity> filters = this.filterRepository.findAll();
-        for (FilterEntity filter : filters) {
-            List<NameValue> values = ConversionUtils.toPossibleValues(filter.getPossibleValues(), ";");
-            if (CollectionUtils.isNotEmpty(values)) {
-                for (NameValue value : values) {
-                    FilterValueEntity filterValue = new FilterValueEntity();
-                    filterValue.setFilter(filter);
-                    filterValue.setFilterOrder(value.getOrder());
-                    filterValue.setName(value.getName());
-                    filterValue.setValueType("String");
-                    filterValue.setValue(value.getValue());
-                    this.filterValueRepository.save(filterValue);
-                }
-            }
-
-        }
-        return "OK";
+     return "OK";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarRedirects")

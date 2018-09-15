@@ -12,10 +12,11 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.*;
-import com.momoko.es.api.dto.filter.NameValue;
+import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.*;
-import com.momoko.es.jpa.model.entity.filter.FilterBook;
+import com.momoko.es.jpa.model.entity.filter.FilterEntity;
+import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -517,50 +518,20 @@ public class ConversionUtils {
         return books;
     }
 
-    public static List<NameValue> toPossibleValues(String possibleValues, String separator) {
-        List<NameValue> resultado = new ArrayList<>();
-        if (StringUtils.isNotBlank(possibleValues)) {
-            final String[] separated = StringUtils.split(possibleValues, separator);
-            for (String s : separated) {
-                NameValue nameValue = getNameValue(s);
-                resultado.add(nameValue);
+    public static List<FilterValueDTO> toPossibleValues(Set<FilterValueEntity> filterValues) {
+        List<FilterValueDTO> filterValueDTOS = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(filterValues)){
+            for (FilterValueEntity filterValue : filterValues) {
+                FilterValueDTO filterValueDTO = new FilterValueDTO();
+                filterValueDTO.setOrder(filterValue.getFilterOrder());
+                filterValueDTO.setName(filterValue.getName());
+                filterValueDTO.setValue(filterValue.getValue());
+                filterValueDTO.setFilterValueId(filterValue.getFilterValueId());
             }
         }
-        resultado.sort((o1, o2) -> {
-            return o1.compareTo(o2);
-        });
-        return resultado;
+        return filterValueDTOS;
     }
 
-    private static NameValue getNameValue(String value) {
-        NameValue nameValue = null;
-        Integer order = null;
-        if (value.contains(")")) {
-            List<String> divided = ConversionUtils.divide(value, ")", 2);
-            order = Integer.valueOf(divided.get(0).trim().substring(1));
-            value = divided.get(1);
-        }
-        if (value.contains("[")) {
-            List<String> divided = ConversionUtils.divide(value, "[");
-            nameValue = new NameValue(divided.get(1).replace("]", "").trim(),
-                    divided.get(0).trim(), order);
-        } else {
-            nameValue = new NameValue(value, value, order);
-        }
-        return nameValue;
-    }
 
-    public static String toPossibleValuesString(List<NameValue> possibleValues) {
-        final StringBuilder sb = new StringBuilder();
-        if (CollectionUtils.isNotEmpty(possibleValues)) {
-            final Iterator<NameValue> it = possibleValues.iterator();
-            while (it.hasNext()) {
-                sb.append(it.next().getValue());
-                if (it.hasNext()) {
-                    sb.append(SEPARATOR);
-                }
-            }
-        }
-        return sb.toString();
-    }
+
 }

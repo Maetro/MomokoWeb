@@ -13,10 +13,9 @@ import java.util.stream.Collectors;
 
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.filter.FilterDTO;
-import com.momoko.es.api.dto.filter.NameValue;
+import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.api.service.FilterService;
-import com.momoko.es.jpa.model.repository.filter.IDynamicFilterRepository;
 import com.momoko.es.jpa.model.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,28 +119,46 @@ public class GeneroServiceImpl implements GenreService {
     }
 
     @Override
-    public ApplyFilterResponseDTO getBooksWithFilters(String urlGenre, List<FilterDTO> appliedFilters) {
+    public ApplyFilterResponseDTO getBooksWithFilters(String urlGenre, List<FilterDTO> filters) {
         ApplyFilterResponseDTO response = new ApplyFilterResponseDTO();
         GenreDTO genreDTO = this.obtenerGeneroPorUrl(urlGenre);
-        List<LibroSimpleDTO> books = this.filterService.getBookListWithAppliedFilters(urlGenre, appliedFilters);
-
+        List<LibroSimpleDTO> books = this.filterService.getBookListWithAppliedFilters(urlGenre, filters);
+        List<FilterDTO> appliedFilters = new ArrayList<>();
+        for (FilterDTO filter : filters) {
+            if (CollectionUtils.isNotEmpty(filter.getSelectedFilterValues())){
+                appliedFilters.add(filter);
+            }
+        }
         List<String> urlBookList = books.stream().map(LibroSimpleDTO::getUrlLibro).collect(Collectors.toList());
         List<FilterDTO> filterBookList = new ArrayList<>();
         List<FilterDTO> finalFilterList = new ArrayList<>();
-        for (FilterDTO appliedFilter : appliedFilters) {
-            if (CollectionUtils.isNotEmpty(appliedFilter.getValue())) {
-                finalFilterList.add(appliedFilter);
-            }
-        }
+
         if (urlBookList.size() > 0) {
             filterBookList = this.filterService.getFiltersByBookListAndGenre(urlGenre, urlBookList);
 
             for (FilterDTO filterDTO : filterBookList) {
-                if (!finalFilterList.contains(filterDTO) && filterDTO.getPossibleValues().size() > 1) {
+                if (!finalFilterList.contains(filterDTO) &&
+                        (filterDTO.getFilterValues().size() > 1)) {
                     finalFilterList.add(filterDTO);
                 }
             }
-
+            for (FilterDTO appliedFilter : appliedFilters) {
+                if (finalFilterList.contains(appliedFilter)){
+                    finalFilterList.get(finalFilterList.indexOf(appliedFilter)).setSelectedFilterValues(appliedFilter.getSelectedFilterValues());
+                    finalFilterList.get(finalFilterList.indexOf(appliedFilter)).setStringSelectedValues(appliedFilter.getStringSelectedValues());
+                } else{
+                    List<FilterValueDTO> filterValues = new ArrayList<>();
+                    for (Integer selected : appliedFilter.getSelectedFilterValues()) {
+                        for (FilterValueDTO filterValue : appliedFilter.getFilterValues()) {
+                            if (filterValue.getFilterValueId().equals(selected)){
+                                filterValues.add(filterValue);
+                            }
+                        }
+                    }
+                    appliedFilter.setFilterValues(filterValues);
+                    finalFilterList.add(appliedFilter);
+                }
+            }
             books = MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, books);
         }
         response.setAvaliableFiltersList(finalFilterList);

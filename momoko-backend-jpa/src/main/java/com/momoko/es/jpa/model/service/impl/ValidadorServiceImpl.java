@@ -257,7 +257,7 @@ public class ValidadorServiceImpl implements ValidadorService {
         if (filterDTO.getFilterType() == null) {
             errorList.add(FilterCreationError.MISSING_TYPE);
         }
-        if (filterDTO.getFilterType() == FilterRuleType.ENUM && CollectionUtils.isEmpty(filterDTO.getPossibleValues())) {
+        if (filterDTO.getFilterType() == FilterRuleType.ENUM && CollectionUtils.isEmpty(filterDTO.getFilterValues())) {
             errorList.add(FilterCreationError.MISSING_ENUM_DEFINITION);
         }
         return errorList;

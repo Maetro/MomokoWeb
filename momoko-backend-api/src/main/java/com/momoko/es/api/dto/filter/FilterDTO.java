@@ -1,8 +1,5 @@
 package com.momoko.es.api.dto.filter;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.filter.enums.FilterRuleType;
@@ -26,6 +23,8 @@ public class FilterDTO implements Serializable {
 
     private boolean basic;
 
+    private boolean inclusive;
+
     private List<GenreDTO> genres = new ArrayList<>();
 
     private List<LibroDTO> books = new ArrayList<>();
@@ -34,9 +33,11 @@ public class FilterDTO implements Serializable {
 
     private String referencedProperty;
 
-    private List<NameValue> possibleValues;
+    private List<FilterValueDTO> filterValues;
 
-    private List<String> value;
+    private List<Integer> selectedFilterValues;
+
+    private List<String> stringSelectedValues;
 
     public Integer getFilterId() {
         return filterId;
@@ -86,13 +87,21 @@ public class FilterDTO implements Serializable {
         this.sagas = sagas;
     }
 
-    public List<NameValue> getPossibleValues() {
-        return possibleValues;
+    public List<FilterValueDTO> getFilterValues() {
+        return filterValues;
     }
 
-    public void setPossibleValues(List<NameValue> possibleValues) {
-        possibleValues.sort((o1, o2) -> {return o1.compareTo(o2);});
-        this.possibleValues = possibleValues;
+    public List<String> getStringSelectedValues() {
+        return stringSelectedValues;
+    }
+
+    public void setStringSelectedValues(List<String> stringSelectedValues) {
+        this.stringSelectedValues = stringSelectedValues;
+    }
+
+    public void setFilterValues(List<FilterValueDTO> filterValues) {
+        filterValues.sort((o1, o2) -> {return o1.compareTo(o2);});
+        this.filterValues = filterValues;
     }
 
     public FilterRuleType getFilterType() {
@@ -111,12 +120,12 @@ public class FilterDTO implements Serializable {
         this.referencedProperty = referencedProperty;
     }
 
-    public List<String> getValue() {
-        return value;
+    public List<Integer> getSelectedFilterValues() {
+        return selectedFilterValues;
     }
 
-    public void setValue(List<String> value) {
-        this.value = value;
+    public void setSelectedFilterValues(List<Integer> selectedFilterValues) {
+        this.selectedFilterValues = selectedFilterValues;
     }
 
     public boolean isBasic() {
@@ -125,6 +134,32 @@ public class FilterDTO implements Serializable {
 
     public void setBasic(boolean basic) {
         this.basic = basic;
+    }
+
+    public boolean isInclusive() {
+        return inclusive;
+    }
+
+    public void setInclusive(boolean inclusive) {
+        this.inclusive = inclusive;
+    }
+
+    public FilterDTO creteCopy() {
+        FilterDTO newFilter = new FilterDTO();
+        newFilter.filterId = this.filterId;
+        newFilter.nameFilter = this.nameFilter;
+        newFilter.urlFilter = this.urlFilter;
+        newFilter.filterType = this.filterType;
+        newFilter.basic = this.basic;
+        newFilter.inclusive = this.inclusive;
+        newFilter.genres = this.genres;
+        newFilter.books = this.books;
+        newFilter.sagas = this.sagas;
+        newFilter.referencedProperty = this.referencedProperty;
+        newFilter.filterValues = this.filterValues;
+        newFilter.selectedFilterValues = this.selectedFilterValues;
+        newFilter.stringSelectedValues = this.stringSelectedValues;
+        return newFilter;
     }
 
     @Override

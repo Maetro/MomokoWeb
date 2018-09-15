@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 import { Message, SelectItem } from 'primeng/primeng';
+
 import { FilterService } from '../filter.service';
 import { Filter } from '../../../../dtos/filter/filter';
 import { Genero } from '../../../../dtos/genre/genero';
 import { LibroService } from '../../../../services/libro.service';
 import { UtilService } from '../../../../services/util/util.service';
 import { FilterRuleType } from '../../../../dtos/filter/filter-rule-type.enum';
-import { environment } from '../../../../../environments/environment';
+import { environment } from 'environments/environment';
 import { NameValue } from '../../../../dtos/filter/name-value';
 import { FilterValue } from '../../../../dtos/filter/filter-value';
 
 @Component({
-  selector: 'app-create-filter',
-  templateUrl: './create-filter.component.html',
-  styleUrls: ['./create-filter.component.css']
+  selector: 'app-filter-form',
+  templateUrl: './filter-form.component.html',
+  styleUrls: ['./filter-form.component.css']
 })
-export class CreateFilterComponent implements OnInit {
+export class FilterFormComponent implements OnInit {
   private log = environment.log;
+
+  filterUrl: string;
 
   filter: Filter;
 
@@ -42,15 +45,33 @@ export class CreateFilterComponent implements OnInit {
 
   genres: Genero[];
 
+  cols: any[];
+
   constructor(
     private filterService: FilterService,
     private libroService: LibroService,
     private util: UtilService,
+    private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.filter = new Filter();
+
+    this.filterUrl = this.route.snapshot.paramMap.get('url');
+
+    this.cols = [
+      { field: 'order', header: 'ORDEN' },
+      { field: 'name', header: 'NOMBRE' },
+      { field: 'value', header: 'VALOR' }
+  ];
+
+    this.filterService.getFilterByUrl(this.filterUrl).subscribe(filter => {
+      this.filter = filter;
+      this.filterTypeSelected = this.filter.filterType;
+      this.genres = this.filter.genres;
+      this.referencedValueSelected = this.filter.referencedProperty;
+      this.filterValues = this.filter.filterValues;
+    });
     this.filterTypes = [];
     this.genres = [];
     this.filterTypes.push({
@@ -75,8 +96,14 @@ export class CreateFilterComponent implements OnInit {
   saveFilter(): void {
     this.filter.filterType = FilterRuleType[this.filterTypeSelected];
     this.filter.referencedProperty = this.referencedValueSelected;
+    if (this.filterValues){
+      let cont = 1;
+      this.filterValues.forEach(filter => {
+        filter.order = cont;
+        cont++;
+      });
+    }
     this.filter.filterValues = this.filterValues;
-    
     this.filterService.saveFilter(this.filter).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
         this.showSuccess('Filtro guardado correctamente');
@@ -132,8 +159,10 @@ export class CreateFilterComponent implements OnInit {
     return this.filterService.getStringOfFilterType(filterType);
   }
 
-  changeFilterType(){
-    console.log('changeFilterType');
+  addOption(){
+    const fv = new FilterValue()
+    fv.name = '';
+    fv.value = '';
+    this.filterValues.push(fv);
   }
-
 }

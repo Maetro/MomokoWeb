@@ -625,27 +625,6 @@ public class LibroEntity {
         this.urlAntigua = urlAntigua;
     }
 
-    public void addFilter(FilterEntity filter) {
-        FilterBook filterBook = new FilterBook(filter, this);
-        filters.add(filterBook);
-        filter.getFilterBooks().add(filterBook);
-    }
-
-    public void removeFilter(FilterEntity filter) {
-        for (Iterator<FilterBook> iterator = filters.iterator();
-             iterator.hasNext(); ) {
-            FilterBook filterBook = iterator.next();
-
-            if (filterBook.getBook().equals(this) &&
-                    filterBook.getFilter().equals(filter)) {
-                iterator.remove();
-                filterBook.getFilter().getFilterBooks().remove(filterBook);
-                filterBook.setBook(null);
-                filterBook.setFilter(null);
-            }
-        }
-    }
-
     /*
      * (non-Javadoc)
      *
