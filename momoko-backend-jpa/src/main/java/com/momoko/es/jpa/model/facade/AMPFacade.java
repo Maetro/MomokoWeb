@@ -274,7 +274,7 @@ public class AMPFacade {
             content = replaceTagInContent("${autor}", entrada.getEditorNombre(), content);
             content = replaceTagInContent("${resumen}", entrada.getResumenEntrada(), content);
             content = replaceTagInContent("${related}", generarRelatedMiscelaneo(otrasNoticas), content);
-            content = replaceTagInContent("${urlCanonical}", "https://momoko.es/" + entrada.getUrlEntrada(), content);
+            content = replaceTagInContent("${urlCanonical}", "https://momoko.es/noticia/" + entrada.getUrlEntrada(), content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(entrada.getImagenDestacada(), 1280, 768,
                     true);
             content = replaceTagInContent("${imagen-entrada}", miniatura, content);

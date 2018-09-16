@@ -52,11 +52,10 @@ export class NoticiaComponent implements OnInit, AfterViewInit {
     this.metaService.addTag({ name: 'og:title', content: this.entrada.tituloEntrada });
     this.metaService.addTag({ name: 'og:description', content: this.entrada.fraseDescriptiva });
     this.metaService.addTag({ name: 'og:image', content: this.entrada.imagenDestacada });
-    if (this.entrada.librosEntrada != null && this.entrada.librosEntrada.length > 0){
-      this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/noticia/' +  this.entrada.urlEntrada} );
-    } else {
-      this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/' +  this.entrada.urlEntrada} );
-    }
+    this.linkService.removeTag('rel=canonical');
+    this.linkService.addTag( { rel: 'canonical', href: 'https://momoko.es/noticia/' +  this.entrada.urlEntrada} );
+    this.linkService.removeTag('rel=amphtml');
+    this.linkService.addTag({ rel: 'amphtml', href: 'https://momoko.es/amp/noticia/' +this.entrada.urlEntrada} );
   }
 
   ngAfterViewInit(): void {
