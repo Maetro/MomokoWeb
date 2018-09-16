@@ -323,7 +323,7 @@ public class DynamicFilterRepository implements IDynamicFilterRepository {
         int cont = 10030;
         for (GenreEntity genreEntity : book.getGeneros()) {
             if (!genreEntity.getUrlGenero().equals(urlGenre)) {
-                genreList.add(new FilterValueDTO(cont++, genreEntity.getNombre(), genreEntity.getUrlGenero(), null));
+                genreList.add(new FilterValueDTO(cont + genreEntity.getGeneroId(), genreEntity.getNombre(), genreEntity.getUrlGenero(), null));
             }
         }
     }

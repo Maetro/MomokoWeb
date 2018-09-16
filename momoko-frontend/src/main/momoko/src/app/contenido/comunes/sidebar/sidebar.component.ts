@@ -75,8 +75,18 @@ export class SidebarComponent implements OnInit {
     this.basicFilters.forEach(element => {
       this._filters.push(element);
     });
-    this.advancedFilters.forEach(element => {
-      this._filters.push(element);
+    this.advancedFilters.forEach(advancedFilter => {
+      advancedFilter.selectedFilterValues = [];
+      if (advancedFilter.stringSelectedValues && advancedFilter.stringSelectedValues.length > 0){
+        advancedFilter.stringSelectedValues.forEach(stringValue => {
+          advancedFilter.filterValues.forEach(possibleValue => {
+            if (possibleValue.value === stringValue){
+              advancedFilter.selectedFilterValues.push(possibleValue.filterValueId);
+            }
+          });
+        });
+      } 
+      this._filters.push(advancedFilter);
     });
     this.onUpdateFilters.emit(this._filters);
   }

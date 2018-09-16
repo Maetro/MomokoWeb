@@ -290,10 +290,10 @@ public class FilterServiceImpl implements FilterService {
         }
         Collection<String> urlBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(urlGenre, appliedFilters);
         if (variosGeneros) {
-//            for (String s : filterGenre.getSelectedFilterValues()) {
-//                List<String> otherGenreBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(s, appliedFilters);
-//                urlBooks = CollectionUtils.intersection(urlBooks, otherGenreBooks);
-//            }
+            for (String s : filterGenre.getStringSelectedValues()) {
+                List<String> otherGenreBooks = this.dynamicFilterRepository.getBookListWithAppliedFilters(s, appliedFilters);
+                urlBooks = CollectionUtils.intersection(urlBooks, otherGenreBooks);
+            }
         }
         List<LibroSimpleDTO> result = new ArrayList<>();
 
