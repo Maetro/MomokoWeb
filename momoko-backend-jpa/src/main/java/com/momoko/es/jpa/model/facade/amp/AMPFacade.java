@@ -520,20 +520,10 @@ public class AMPFacade {
         nuevoComentario.setContenido(comment);
         nuevoComentario.setEntradaId(entrada.getEntradaId());
         ComentarioDTO comentario = this.comentarioService.guardarComentario(nuevoComentario);
-        response.addHeader("AMP-Access-Control-Allow-Source-Origin", "http://localhost:5000");
+        response.addHeader("AMP-Access-Control-Allow-Source-Origin", "https://momoko.es");
         return comentario;
 
 
     }
 
-    @RequestMapping(value = "/comment", method = RequestMethod.POST)
-    public @ResponseBody
-    String saveCommentPost(final HttpServletRequest request, final HttpServletResponse response,
-                           @RequestParam String name, @RequestParam String comment) {
-
-        System.out.println("HOLA");
-        return null;
-
-
-    }
 }
