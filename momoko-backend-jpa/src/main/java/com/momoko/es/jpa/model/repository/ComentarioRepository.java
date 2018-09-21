@@ -15,4 +15,6 @@ public interface ComentarioRepository extends CrudRepository<ComentarioEntity, I
 
     List<ComentarioEntity> findByEntradaEntradaId(Integer entradaId);
 
+    List<ComentarioEntity> findByEntradaUrlEntrada(String urlEntrada);
+
 }

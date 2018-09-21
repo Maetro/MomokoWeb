@@ -27,6 +27,8 @@ public interface ComentarioService {
      */
     public ComentarioDTO guardarComentario(NuevoComentarioRequest comentario) throws Exception;
 
+    List<ComentarioDTO> obtenerComentariosEntrada(String urlEntrada);
+
     /**
      * Obtener comentarios entrada.
      *

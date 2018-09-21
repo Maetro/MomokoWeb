@@ -145,7 +145,7 @@ public class FilterServiceImpl implements FilterService {
     }
 
     private void createFilterValue(FilterEntity updatedFilter, FilterValueDTO filterValueDTO) {
-        if (StringUtils.isBlank(filterValueDTO.getName()) || StringUtils.isBlank(filterValueDTO.getValue())) {
+        if (StringUtils.isNotBlank(filterValueDTO.getName()) || StringUtils.isNotBlank(filterValueDTO.getValue())) {
             FilterValueEntity filterValueEntity = DTOToEntityAdapter.adaptFilterValue(updatedFilter, filterValueDTO);
             this.filterValueRepository.save(filterValueEntity);
         }

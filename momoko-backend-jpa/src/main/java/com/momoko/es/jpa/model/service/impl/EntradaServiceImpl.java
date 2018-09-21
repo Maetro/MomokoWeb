@@ -1243,9 +1243,14 @@ public class EntradaServiceImpl implements EntradaService {
         this.entradaRepository.save(entrada);
     }
 
+
     @Override
     public EntradaDTO obtenerEntrada(final String urlEntrada) {
         return EntityToDTOAdapter.adaptarEntrada(this.entradaRepository.findFirstByUrlEntrada(urlEntrada));
     }
 
+    @Override
+    public List<ComentarioDTO> getEntryComments(String urlEntrada) {
+        return this.comentarioService.obtenerComentariosEntrada(urlEntrada);
+    }
 }

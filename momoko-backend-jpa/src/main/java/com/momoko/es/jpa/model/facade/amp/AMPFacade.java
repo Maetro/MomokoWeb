@@ -1,10 +1,11 @@
 /**
  * AMPFacade.java 17-mar-2018
- *
+ * <p>
  * Copyright 2018 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.jpa.model.facade;
+package com.momoko.es.jpa.model.facade.amp;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -16,38 +17,32 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.model.service.*;
+import com.momoko.es.jpa.model.util.ConversionUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-import com.momoko.es.api.dto.AnchuraAlturaDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.MenuDTO;
-import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.commons.configuration.MomokoConfiguracion;
-import com.momoko.es.jpa.model.service.EntradaService;
-import com.momoko.es.jpa.model.service.IndexService;
-import com.momoko.es.jpa.model.service.LibroService;
-import com.momoko.es.jpa.model.service.SagaService;
-import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.jpa.model.util.JsonLDUtils;
 
 @Controller
@@ -68,6 +63,9 @@ public class AMPFacade {
     private EntradaService entradaService;
 
     @Autowired
+    private ComentarioService comentarioService;
+
+    @Autowired
     private MomokoConfiguracion momokoConfiguracion;
 
     @Autowired
@@ -75,8 +73,9 @@ public class AMPFacade {
 
     @GetMapping("/opiniones/{url-entrada}")
     @Cacheable("opinionesAMP")
-    public @ResponseBody String getOpinionesAMP(final HttpServletRequest request, final HttpServletResponse response,
-            @PathVariable("url-entrada") final String urlEntrada) {
+    public @ResponseBody
+    String getOpinionesAMP(final HttpServletRequest request, final HttpServletResponse response,
+                           @PathVariable("url-entrada") final String urlEntrada) {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -89,6 +88,7 @@ public class AMPFacade {
             content = readFile(this.almacenImagenes.getTemplateFolder() + "/" + "analisis.html",
                     StandardCharsets.UTF_8);
             final EntradaDTO opinion = this.entradaService.obtenerEntrada(urlEntrada);
+            List<ComentarioDTO> comments = this.entradaService.getEntryComments(urlEntrada);
             if (CollectionUtils.isNotEmpty(opinion.getLibrosEntrada())) {
                 final LibroDTO libro = opinion.getLibrosEntrada().iterator().next();
                 final BigDecimal puntuacion = this.libroService.obtenerPuntucionMomokoLibro(libro.getUrlLibro());
@@ -131,7 +131,7 @@ public class AMPFacade {
                 body = StringUtils.replace(body, "<p><br></p>", "");
             }
             content = replaceTagInContent("${contenido}", body, content);
-
+            content = replaceTagInContent("${comments}", generarCommentsSection(comments), content);
         } catch (final IOException e) {
             e.printStackTrace();
         }
@@ -195,8 +195,9 @@ public class AMPFacade {
 
     @GetMapping("/miscelaneo/{url-entrada}")
     @Cacheable("miscelaneoAMP")
-    public @ResponseBody String getMiscelaneoAMP(final HttpServletRequest request, final HttpServletResponse response,
-            @PathVariable("url-entrada") final String urlEntrada) {
+    public @ResponseBody
+    String getMiscelaneoAMP(final HttpServletRequest request, final HttpServletResponse response,
+                            @PathVariable("url-entrada") final String urlEntrada) {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -208,7 +209,7 @@ public class AMPFacade {
         try {
             content = readFile(this.almacenImagenes.getTemplateFolder() + "/" + "miscelaneo.html",
                     StandardCharsets.UTF_8);
-
+            List<ComentarioDTO> comments = this.entradaService.getEntryComments(urlEntrada);
             final ObtenerEntradaResponse obtenerEntrada = this.entradaService.obtenerEntrada(urlEntrada, false);
             final List<EntradaDTO> otrosMiscelaneos = this.entradaService
                     .obtenerEntradasAleatoriasDeTipo(TipoEntrada.MISCELANEOS.getValue());
@@ -220,6 +221,7 @@ public class AMPFacade {
             content = replaceTagInContent("${titulo}", entrada.getTituloEntrada(), content);
             content = replaceTagInContent("${autor}", entrada.getEditorNombre(), content);
             content = replaceTagInContent("${resumen}", entrada.getResumenEntrada(), content);
+            content = replaceTagInContent("${comments}", generarCommentsSection(comments), content);
             content = replaceTagInContent("${related}", generarRelatedMiscelaneo(otrosMiscelaneos), content);
             content = replaceTagInContent("${urlCanonical}", "https://momoko.es/" + entrada.getUrlEntrada(), content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(entrada.getImagenDestacada(), 1280, 768,
@@ -249,8 +251,9 @@ public class AMPFacade {
 
     @GetMapping("/noticia/{url-entrada}")
     @Cacheable("noticiaAMP")
-    public @ResponseBody String getNoticiaAMP(final HttpServletRequest request, final HttpServletResponse response,
-            @PathVariable("url-entrada") final String urlEntrada) {
+    public @ResponseBody
+    String getNoticiaAMP(final HttpServletRequest request, final HttpServletResponse response,
+                         @PathVariable("url-entrada") final String urlEntrada) {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -263,6 +266,7 @@ public class AMPFacade {
             content = readFile(this.almacenImagenes.getTemplateFolder() + "/" + "noticia.html", StandardCharsets.UTF_8);
 
             final ObtenerEntradaResponse obtenerEntrada = this.entradaService.obtenerEntrada(urlEntrada, false);
+            List<ComentarioDTO> comments = this.entradaService.getEntryComments(urlEntrada);
             final List<EntradaDTO> otrasNoticas = this.entradaService
                     .obtenerEntradasAleatoriasDeTipo(TipoEntrada.NOTICIA.getValue());
             final EntradaDTO entrada = obtenerEntrada.getEntrada();
@@ -274,6 +278,7 @@ public class AMPFacade {
             content = replaceTagInContent("${autor}", entrada.getEditorNombre(), content);
             content = replaceTagInContent("${resumen}", entrada.getResumenEntrada(), content);
             content = replaceTagInContent("${related}", generarRelatedMiscelaneo(otrasNoticas), content);
+            content = replaceTagInContent("${comments}", generarCommentsSection(comments), content);
             content = replaceTagInContent("${urlCanonical}", "https://momoko.es/noticia/" + entrada.getUrlEntrada(), content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(entrada.getImagenDestacada(), 1280, 768,
                     true);
@@ -298,6 +303,82 @@ public class AMPFacade {
 
         response.setCharacterEncoding("utf-8");
         return content;
+    }
+
+    private String generarCommentsSection(List<ComentarioDTO> comments) {
+        StringBuilder builder = new StringBuilder();
+        if (comments.size() == 1){
+            builder.append("<h2 class=\"mb3\">" + comments.size() + " Comentario</h2>\n");
+        } else {
+            builder.append("<h2 class=\"mb3\">" + comments.size() + " Comentarios</h2>\n");
+        }
+        if (CollectionUtils.isNotEmpty(comments)) {
+            boolean first = true;
+            int number = 0;
+            DateFormat fmt = new SimpleDateFormat("dd MMM yyyy", new Locale("ES"));
+            for (ComentarioDTO comment : comments) {
+                if (comment.getComentarioPadreId() == null) {
+                    number = 0;
+                    if (first) {
+                        builder.append("      <div class=\"flex px1 pt1\">\n");
+                        first = false;
+                    } else {
+                        builder.append("      <div class=\"flex new px1 pt1\">\n");
+                    }
+                    builder.append("        <amp-img width=\"44\" height=\"44\" class=\"avatar mr1 flex-none\" alt=\"user\" src=\"" + comment.getAutor().getAvatar() + "\"></amp-img>\n" +
+                            "        <div class=\"ampstart-card p1 comment\">\n" +
+                            "          <p>\n" +
+                            "            <span class=\"user\">" + comment.getAutor().getNombre() + "</span>\n" +
+                            "            <span class=\"date\">" + fmt.format(comment.getFecha()).toUpperCase() + "</span>\n" +
+                            "          </p>\n" +
+                            "          <p>" + comment.getTextoComentario() + "</p>\n" +
+                            "        </div>\n" +
+                            "      </div>\n");
+                } else {
+                    if (number % 2 == 0) {
+                        builder.append("      <div class=\"flex px1 pt1 right\">\n" +
+                                "        <div class=\"ampstart-card p1 comment\">\n" +
+                                "          <p>\n" +
+                                "            <span class=\"user\">" + comment.getAutor().getNombre() + "</span>\n" +
+                                "            <span class=\"date\">" + fmt.format(comment.getFecha()).toUpperCase() + "</span>\n" +
+                                "          </p>\n" +
+                                "          <p>" + comment.getTextoComentario() + "</p>\n" +
+                                "        </div>\n" +
+                                "        <amp-img width=\"44\" height=\"44\" class=\"avatar mr1 flex-none\" alt=\"user\" src=\"" + comment.getAutor().getAvatar() + "\"></amp-img>\n" +
+                                "      </div>\n");
+                    } else {
+                        builder.append("      <div class=\"flex px1 pt1\">\n" +
+                                "        <amp-img width=\"44\" height=\"44\" class=\"avatar mr1 flex-none\" alt=\"user\" src=\"" + comment.getAutor().getAvatar() + "\"></amp-img>\n" +
+                                "        <div class=\"ampstart-card p1 comment\">\n" +
+                                "          <p>\n" +
+                                "            <span class=\"user\">" + comment.getAutor().getNombre() + "</span>\n" +
+                                "            <span class=\"date\">" + fmt.format(comment.getFecha()).toUpperCase() + "</span>\n" +
+                                "          </p>\n" +
+                                "          <p>" + comment.getTextoComentario() + "</p>\n" +
+                                "        </div>\n" +
+                                "      </div>\n");
+
+                    }
+                    number++;
+
+                }
+            }
+        } else {
+            builder.append("<h4>El mundo no puede vivir sin tu sabiduría.</h4>");
+        }
+        return builder.toString();
+    }
+
+    @GetMapping("/comments/{url-entrada}")
+    @Cacheable("comments")
+    public @ResponseBody
+    AmpCommentList getCommentsAMP(final HttpServletRequest request, final HttpServletResponse response,
+                                  @PathVariable("url-entrada") final String urlEntrada) {
+        final String contentType = "text/json;charset=UTF-8";
+        response.setContentType(contentType);
+        List<ComentarioDTO> comments = this.entradaService.getEntryComments(urlEntrada);
+        AmpCommentList ampCommentList = ConversionUtils.toAmpComments(comments);
+        return ampCommentList;
     }
 
     private String generarRelatedMiscelaneo(final List<EntradaDTO> otrosMiscelaneos) {
@@ -421,4 +502,38 @@ public class AMPFacade {
         return builder.toString();
     }
 
+    @RequestMapping(value = "/comment", method = RequestMethod.GET)
+    public @ResponseBody
+    ComentarioDTO saveComment(final HttpServletRequest request, final HttpServletResponse response,
+                           @RequestParam String name, @RequestParam String comment) throws Exception {
+
+        NuevoComentarioRequest nuevoComentario = new NuevoComentarioRequest();
+        nuevoComentario.setEmail(null);
+        String refferer = request.getHeader("Referer");
+        String[] splitted = refferer.split("/");
+        String url = splitted[splitted.length-1];
+        if(url.contains("?")){
+            url = url.substring(0, url.indexOf("?"));
+        }
+        EntradaDTO entrada = this.entradaService.obtenerEntrada(url);
+        nuevoComentario.setNombre(name);
+        nuevoComentario.setContenido(comment);
+        nuevoComentario.setEntradaId(entrada.getEntradaId());
+        ComentarioDTO comentario = this.comentarioService.guardarComentario(nuevoComentario);
+        response.addHeader("AMP-Access-Control-Allow-Source-Origin", "http://localhost:5000");
+        return comentario;
+
+
+    }
+
+    @RequestMapping(value = "/comment", method = RequestMethod.POST)
+    public @ResponseBody
+    String saveCommentPost(final HttpServletRequest request, final HttpServletResponse response,
+                           @RequestParam String name, @RequestParam String comment) {
+
+        System.out.println("HOLA");
+        return null;
+
+
+    }
 }

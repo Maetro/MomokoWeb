@@ -15,8 +15,9 @@ import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.*;
-import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
+import com.momoko.es.jpa.model.facade.amp.AmpComment;
+import com.momoko.es.jpa.model.facade.amp.AmpCommentList;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
@@ -33,8 +34,10 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -373,18 +376,25 @@ public class ConversionUtils {
      * @return the string
      */
     public static String obtenerGravatar(final String emailComentario) {
-        final String hash = ConversionUtils.md5Hex(emailComentario.toLowerCase());
-        String url = "https://www.gravatar.com/avatar/" + hash + "?s=120&d=404";
-        final RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> respuesta = null;
-        try {
-            respuesta = restTemplate.getForEntity(url, String.class);
-        } catch (final HttpServerErrorException e) {
-            respuesta = null;
-        } catch (final HttpClientErrorException e) {
-            respuesta = null;
-        }
-        if ((respuesta == null) || !respuesta.getStatusCode().is2xxSuccessful()) {
+        String url = "";
+        if (emailComentario != null) {
+            final String hash = ConversionUtils.md5Hex(emailComentario.toLowerCase());
+            url = "https://www.gravatar.com/avatar/" + hash + "?s=120&d=404";
+            final RestTemplate restTemplate = new RestTemplate();
+            ResponseEntity<String> respuesta = null;
+            try {
+                respuesta = restTemplate.getForEntity(url, String.class);
+            } catch (final HttpServerErrorException e) {
+                respuesta = null;
+            } catch (final HttpClientErrorException e) {
+                respuesta = null;
+            }
+            if ((respuesta == null) || !respuesta.getStatusCode().is2xxSuccessful()) {
+                final Random r = new Random();
+                final int number = r.nextInt((8 - 1) + 1) + 1;
+                url = "https://momoko.es/images/avatares/random/avatar-momoko-0" + number + ".png";
+            }
+        } else {
             final Random r = new Random();
             final int number = r.nextInt((8 - 1) + 1) + 1;
             url = "https://momoko.es/images/avatares/random/avatar-momoko-0" + number + ".png";
@@ -533,5 +543,22 @@ public class ConversionUtils {
     }
 
 
+    public static AmpCommentList toAmpComments(List<ComentarioDTO> comments) {
+        AmpCommentList ampCommentList = new AmpCommentList();
 
+        if (CollectionUtils.isNotEmpty(comments)){
+            List<AmpComment> ampCommentsList = new ArrayList<>();
+            for (ComentarioDTO comment : comments) {
+                AmpComment ampComment = new AmpComment();
+                ampComment.setName(comment.getAutor().getNombre());
+                ampComment.setAvatar(comment.getAutor().getAvatar());
+                DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                ampComment.setDate(df.format(comment.getFecha()));
+                ampComment.setText(comment.getTextoComentario());
+                ampCommentsList.add(ampComment);
+            }
+            ampCommentList.setItems(ampCommentsList);
+        }
+        return ampCommentList;
+    }
 }

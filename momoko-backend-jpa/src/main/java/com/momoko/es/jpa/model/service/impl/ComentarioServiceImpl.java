@@ -107,16 +107,30 @@ public class ComentarioServiceImpl implements ComentarioService {
             usuarioBasico = new UsuarioBasicoDTO();
             usuarioBasico.setCargo("Invitado");
             usuarioBasico.setNombre(respuesta.getNombreComentario());
-            usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(respuesta.getEmailComentario()));
+            if (respuesta.getEmailComentario() != null) {
+                usuarioBasico.setAvatar(ConversionUtils.obtenerGravatar(respuesta.getEmailComentario()));
+            }
         }
 
         return EntityToDTOAdapter.adaptarComentario(respuesta, usuarioBasico);
     }
 
     @Override
+    public List<ComentarioDTO> obtenerComentariosEntrada(final String urlEntrada) {
+        final List<ComentarioEntity> comentariosEntity = this.comentarioRepository.findByEntradaUrlEntrada(urlEntrada);
+        final List<ComentarioDTO> comentariosEntrada = getComentarioEntradaDto(comentariosEntity);
+        return comentariosEntrada;
+    }
+
+    @Override
     public List<ComentarioDTO> obtenerComentariosEntrada(final Integer entradaId) {
-        final List<ComentarioDTO> comentariosEntrada = new ArrayList<ComentarioDTO>();
         final List<ComentarioEntity> comentariosEntity = this.comentarioRepository.findByEntradaEntradaId(entradaId);
+        final List<ComentarioDTO> comentariosEntrada = getComentarioEntradaDto(comentariosEntity);
+        return comentariosEntrada;
+    }
+
+    private List<ComentarioDTO> getComentarioEntradaDto(List<ComentarioEntity> comentariosEntity) {
+        final List<ComentarioDTO> comentariosEntrada = new ArrayList<ComentarioDTO>();
         final Set<String> emailsComentarios = new HashSet<String>();
         for (final ComentarioEntity comentario : comentariosEntity) {
             emailsComentarios.add(comentario.getEmailComentario());

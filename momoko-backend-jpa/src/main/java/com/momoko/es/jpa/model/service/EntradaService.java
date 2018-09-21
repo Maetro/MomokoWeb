@@ -268,4 +268,6 @@ public interface EntradaService {
 
 
     EntradaDTO obtenerEntrada(String urlEntrada);
+
+    List<ComentarioDTO> getEntryComments(String urlEntrada);
 }
