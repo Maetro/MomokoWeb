@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Columna } from '../../columna';
 
 @Component({
@@ -14,9 +14,16 @@ export class QuillEditorComponent implements OnInit {
 
   @Input() columna: Columna;
 
+  @Output() editorData: EventEmitter<string> = new EventEmitter<string>();
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  addEditorData(event: any){
+    console.log('#editor-'+event.numeroFila + '-' + event.numeroColumna);
+    this.editorData.emit('#editor-'+event.numeroFila + '-' + event.numeroColumna);
   }
 
 }

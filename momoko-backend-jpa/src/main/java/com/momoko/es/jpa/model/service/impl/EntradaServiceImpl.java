@@ -1,7 +1,8 @@
 /**
  * EntradaServiceImpl.java 24-oct-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.jpa.model.service.impl;
@@ -27,6 +28,8 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 
+import com.momoko.es.api.util.MomokoHelper;
+import com.momoko.es.jpa.model.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,11 +84,6 @@ import com.momoko.es.jpa.model.service.GenreService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.jpa.model.service.impl.util.FileSystemStorageHelper;
-import com.momoko.es.jpa.model.util.ConversionUtils;
-import com.momoko.es.jpa.model.util.DTOToEntityAdapter;
-import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
-import com.momoko.es.jpa.model.util.JsonLDUtils;
-import com.momoko.es.jpa.model.util.MomokoUtils;
 
 /**
  * The Class EntradaServiceImpl.
@@ -312,7 +310,7 @@ public class EntradaServiceImpl implements EntradaService {
      *            the entrada dto
      */
     public void obtenerEntradaAsociadaASagas(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
-            final EntradaDTO entradaDTO) {
+                                             final EntradaDTO entradaDTO) {
 
         final List<SagaEntity> sagasEntrada = entradaEntity.getSagasEntrada();
         if (CollectionUtils.isNotEmpty(sagasEntrada)) {
@@ -330,7 +328,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
-            final EntradaDTO entradaDTO) {
+                                              final EntradaDTO entradaDTO) {
         final Set<DatoEntradaDTO> datosEntradas = new HashSet<>();
         final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
         final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
@@ -404,19 +402,27 @@ public class EntradaServiceImpl implements EntradaService {
                     "]");
 
             final String titulo = StringUtils.substringBetween(bloquelibro, "titulo=\"", "\"");
-            final String autor = StringUtils.substringBetween(bloquelibro, "autor=\"", "\"");
-            final String texto = StringUtils.substringBetween(bloquelibro, "texto=\"", "\"");
-            final String colorFondo = StringUtils.substringBetween(bloquelibro, "colorFondo=\"", "\"");
-            final String posicionLibro = StringUtils.substringBetween(bloquelibro, "posicionLibro=\"", "\"");
-            final String img = StringUtils.substringBetween(bloquelibro, "img=\"", "\" ");
-            final String code = generarBloqueLibro(img, titulo, autor, texto, colorFondo, posicionLibro);
+            LibroEntity libro = this.libroRepository.findOneByTitulo(titulo);
+            String code = generateBookTemplateCode(libro);
             entradaDTO.setContenidoEntrada(
                     StringUtils.replace(entradaDTO.getContenidoEntrada(), "[momoko-libro " + bloquelibro + "]", code));
         }
     }
 
+    private String generateBookTemplateCode(LibroEntity libro) {
+        LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libro);
+        libro.getUrlImagen();
+        MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
+        String code = "<div class=\"row bloqueLibro\">" +
+                "<div class=\"col-xs-12\">" +
+                "</div>" +
+                "</div>";
+        return code;
+
+    }
+
     private String generarBloqueLibro(final String imagen, final String titulo, final String autor, final String texto,
-            final String colorFondo, final String posicionLibro) {
+                                      final String colorFondo, final String posicionLibro) {
         final StringBuilder stringBuilder = new StringBuilder();
 
         if (colorFondo.toLowerCase().equals("negro")) {
@@ -1058,7 +1064,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaSimpleDTO> obtenerEntradasCategoriaPorFecha(final CategoriaDTO categoriaDTO,
-            final int numeroEntradas, final int pagina) {
+                                                                   final int numeroEntradas, final int pagina) {
         final List<GenreDTO> listaGeneros = this.generoService.obtenerGenerosCategoria(categoriaDTO);
         final List<Integer> generosIds = new ArrayList<Integer>();
         for (final GenreDTO generoDTO : listaGeneros) {
@@ -1138,7 +1144,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaSimpleDTO> obtenerEntradasEtiquetaPorFecha(final EtiquetaDTO etiquetaDTO,
-            final int numeroEntradas, final Integer numeroPagina) {
+                                                                  final int numeroEntradas, final Integer numeroPagina) {
 
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findEntradasByEtiquetaAndFechaBajaIsNullOrderByFechaAltaDesc(etiquetaDTO.getEtiquetaId(),
@@ -1195,7 +1201,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaSimpleDTO> obtenerEntradasEditorPorFecha(final String urlEditor, final int numeroEntradas,
-            final Integer numeroPagina) {
+                                                                final Integer numeroPagina) {
 
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(urlEditor,
@@ -1212,7 +1218,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public List<EntradaSimpleDTO> obtenerEntradasEditorialPorFecha(final String urlEditorial, final int numeroEntradas,
-            final Integer numeroPagina) {
+                                                                   final Integer numeroPagina) {
         final List<EntradaEntity> listaEntities = this.entradaRepository.obtenerEntradasEditorialPorFecha(urlEditorial,
                 PageRequest.of(numeroPagina - 1, numeroEntradas));
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);

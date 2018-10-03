@@ -5,10 +5,7 @@ import { Ng2CompleterModule } from 'ng2-completer';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { LibroDetailComponent } from './libro-detail/libro-detail.component';
-import { ListaLibrosComponent } from './lista-libros/lista-libros.component';
-
-import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule, DataTableModule,
+import { InputTextModule, FileUploadModule, MultiSelectModule, GrowlModule,
   SharedModule, DropdownModule, MessageService } from 'primeng/primeng';
 
 import { PickListModule } from 'primeng/components/picklist/picklist';
@@ -35,7 +32,6 @@ import { BookFormComponent } from './book-form/book-form.component';
     RadioButtonModule,
     AccordionModule,
     FileUploadModule,
-    DataTableModule,
     CheckboxModule,
     SharedModule,
     PickListModule,
@@ -43,14 +39,11 @@ import { BookFormComponent } from './book-form/book-form.component';
     TableModule
   ],
   declarations: [
-    LibroDetailComponent,
-    ListaLibrosComponent,
     BookListComponent,
     BookFormComponent
   ],
   providers: [
     LibroService, FileUploadService, JsonAdapterService, SagaService, BookService
-  ],
-  entryComponents: [ListaLibrosComponent]
+  ]
 })
 export class GestionLibrosModule { }

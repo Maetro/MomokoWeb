@@ -27,14 +27,7 @@ export class BookService {
     }
     const headers = this.util.getHeaderWithAuth();
   
-    return this.http.get<Libro[]>(this.booksUrl, { headers: headers }).pipe(
-      map(this.extractBooks),
-      catchError(error => throwError(error || 'Server error'))
-    );
-  }
-
-  private extractBooks(res: Libro[]) {
-    return res;
+    return this.http.get<Libro[]>(this.booksUrl, { headers: headers });
   }
 
   getBookByUrl(urlBook: string): Observable<Libro> {

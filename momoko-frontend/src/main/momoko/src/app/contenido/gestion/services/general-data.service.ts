@@ -14,7 +14,9 @@ import { Cookie } from 'ng2-cookies';
 import { catchError, map } from 'rxjs/operators';
 import { GeneralDataResponse } from '../dtos/GeneralDataResponse';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class GeneralDataService {
 
   private log = environment.log;

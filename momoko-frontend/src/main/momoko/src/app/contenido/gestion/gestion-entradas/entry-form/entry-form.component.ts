@@ -4,10 +4,11 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild
+  ViewChild,
+  HostListener
 } from '@angular/core';
 
-import { Message, Dropdown } from 'primeng/primeng';
+import { Message, Dropdown, MessageService } from 'primeng/primeng';
 
 import { SelectItem } from 'primeng/components/common/selectitem';
 
@@ -29,6 +30,8 @@ import { UtilService } from '../../../../services/util/util.service';
 import { GeneralDataService } from '../../services/general-data.service';
 import { GaleriaService } from '../../services/galeria.service';
 import { Etiqueta } from '../../../../dtos/etiqueta';
+import { EntryService } from '../entry.service';
+import { ActivatedRoute, Router } from '@angular/router';
 const Parchment = Quill.import('parchment');
 Quill.register('imageResize', ImageResize);
 
@@ -45,11 +48,11 @@ Quill.register(
 Quill.register(new Parchment.Attributor.Style('margin', 'margin', {}));
 
 @Component({
-  selector: 'app-entrada-detail',
-  templateUrl: './entrada-detail.component.html',
-  styleUrls: ['./entrada-detail.component.css']
+  selector: 'app-entry-form',
+  templateUrl: './entry-form.component.html',
+  styleUrls: ['./entry-form.component.scss']
 })
-export class EntradaDetailComponent implements OnInit, AfterViewInit {
+export class EntryFormComponent implements OnInit, AfterViewInit {
   bootstrapcolumn: string;
   numeroColumna: number;
   numeroFila: number;
@@ -59,11 +62,9 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   private log = environment.log;
 
-  @Input() entrada: Entrada;
+  entryUrl: string;
 
-  @Output()
-  onEntradaGuardada: EventEmitter<Entrada> = new EventEmitter<Entrada>();
-  @Output() onVolver: EventEmitter<Boolean> = new EventEmitter<Boolean>();
+  entrada: Entrada;
 
   msgs: Message[] = [];
   customURL = false;
@@ -98,12 +99,19 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
 
   urlImageServer = environment.urlFiles;
 
+  bookTemplateRange: any;
+  bookTemplateEditor: any;
+  selectedBookTemplate: string;
+
   constructor(
-    private entradaService: EntradaService,
+    private entryService: EntryService,
     private generalDataService: GeneralDataService,
     private fileUploadService: FileUploadService,
     private util: UtilService,
-    private galeriaService: GaleriaService
+    private galeriaService: GaleriaService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.tiposEntrada = [];
     this.tiposEntrada.push({ label: 'Noticia', value: 1 });
@@ -122,30 +130,121 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     this.nicksEditores = [];
     this.nombresSagas = [];
     this.etiquetas = [];
-    this.generalDataService.getInformacionGeneral().subscribe(
-      datos => {
+
+    this.entryUrl = this.route.snapshot.paramMap.get('url');
+    if (this.entryUrl) {
+      this.route.data.subscribe(data => {
         if (this.log) {
           console.log('Init info general');
         }
-        const libros = datos.titulosLibros;
+        const libros = data.generalData.titulosLibros;
         libros.forEach((libro: string) => {
           this.titulosLibros.push({ label: ' ' + libro, value: libro });
         });
-        const sagas = datos.sagas;
+        const sagas = data.generalData.sagas;
         sagas.forEach((saga: string) => {
           this.nombresSagas.push({ label: ' ' + saga, value: saga });
         });
-        const editores = datos.nicksEditores;
+        const editores = data.generalData.nicksEditores;
         editores.forEach((editor: string) => {
           this.nicksEditores.push({ label: ' ' + editor, value: editor });
         });
-      },
-      error => {
-        if (this.log) {
-          console.log('Error al recuperar los datos generales ', error);
+        this.entrada = data.entrada;
+        this.filas = Array();
+        const texto = data.entrada.contenidoEntrada;
+        const filas = $(texto);
+        if (texto.indexOf('class="row') !== -1) {
+          if (filas !== null && filas.length > 0) {
+            for (let i = 0; i < filas.length; i++) {
+              let filaT: Fila;
+              const fila = filas[i];
+              const columnas = $(fila.children);
+              const numeroColumnas = columnas.length;
+              if (columnas !== null && numeroColumnas > 0) {
+                filaT = new Fila(i, $(columnas[0]).html());
+                if (
+                  $(fila)
+                    .attr('class')
+                    .indexOf('light-wrapper') !== -1
+                ) {
+                  filaT.colorFondo = 1;
+                } else {
+                  filaT.colorFondo = 2;
+                }
+                const anchura = $(columnas[0])
+                  .attr('class')
+                  .substring(7);
+                filaT.columnas[0].anchura = anchura;
+                filaT.columnas[0].bootstrapcolumn = 'col-sm-' + anchura;
+                if (numeroColumnas > 1) {
+                  for (let j = 1; j < numeroColumnas; j++) {
+                    const columnaT = new Columna(j, $(columnas[j]).html());
+                    const anchuraColumna = $(columnas[j])
+                      .attr('class')
+                      .substring(7);
+                    columnaT.anchura = anchuraColumna;
+                    columnaT.bootstrapcolumn = 'col-sm-' + anchuraColumna;
+                    filaT.columnas.push(columnaT);
+                    filaT.numeroColumnas++;
+                  }
+                }
+              }
+              // this.modificarFilaPorNumeroColumnas(filaT);
+              if (filaT != null) {
+                this.filas.push(filaT);
+              }
+            }
+          }
+        } else {
+          let filaT: Fila;
+          filaT = new Fila(0, texto);
+          this.modificarFilaPorNumeroColumnas(filaT);
+          this.filas.push(filaT);
         }
-      }
-    );
+
+        const that = this;
+
+        setTimeout(function() {
+          return that.crearEditoresAsync();
+        }, 100);
+
+        data.entrada.etiquetas.forEach((etiqueta: Etiqueta) => {
+          this.etiquetas.push(etiqueta.nombreEtiqueta);
+        });
+        this.date = new Date(data.entrada.fechaAlta);
+      });
+    } else {
+      this.route.data.subscribe(data => {
+        if (this.log) {
+          console.log('Init info general');
+        }
+        const libros = data.generalData.titulosLibros;
+        libros.forEach((libro: string) => {
+          this.titulosLibros.push({ label: ' ' + libro, value: libro });
+        });
+        const sagas = data.generalData.sagas;
+        sagas.forEach((saga: string) => {
+          this.nombresSagas.push({ label: ' ' + saga, value: saga });
+        });
+        const editores = data.generalData.nicksEditores;
+        editores.forEach((editor: string) => {
+          this.nicksEditores.push({ label: ' ' + editor, value: editor });
+        });
+      });
+      this.entrada = new Entrada();
+      this.entrada.etiquetas = [];
+      this.entrada.contenidoEntrada = '';
+      this.entrada.permitirComentarios = true;
+      this.entrada.conSidebar = true;
+      this.entrada.editorNombre = 'La Insomne';
+      this.date = new Date();
+      const filas = new Array();
+      const fila = new Fila(0, '');
+      filas.push(fila);
+      this.filas = filas;
+      this.crearEditorAsync('editor-0-0', this.entrada.contenidoEntrada, 0, 0);
+    }
+
     this.es = {
       firstDayOfWeek: 1,
       dayNames: [
@@ -235,15 +334,17 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
   }
 
   showSuccess(mensaje: string) {
-    this.msgs = [];
     if (this.log) {
       console.log(mensaje);
     }
-    this.msgs.push({ severity: 'success', summary: 'OK', detail: mensaje });
+    this.messageService.add({
+      severity: 'success',
+      summary: 'OK',
+      detail: mensaje
+    });
   }
 
   showError(mensaje: string[]) {
-    this.msgs = [];
     if (this.log) {
       console.log(mensaje);
     }
@@ -254,7 +355,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     if (this.log) {
       console.log(mensajeTotal);
     }
-    this.msgs.push({
+    this.messageService.add({
       severity: 'error',
       summary: 'ERROR',
       detail: mensajeTotal
@@ -337,10 +438,10 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
       this.entrada.estadoEntrada = 1;
     }
     this.entrada.fechaAlta = this.date;
-    this.entradaService.guardarEntrada(this.entrada).subscribe(res => {
+    this.entryService.saveEntry(this.entrada).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
-        this.showSuccess('Entrada guardada correctamente');
-        this.onEntradaGuardada.emit(this.entrada);
+        this.showSuccess('Libro guardado correctamente');
+        this.router.navigate(['/gestion/lista-entradas']);
       } else {
         this.showError(res.listaErroresValidacion);
       }
@@ -479,17 +580,7 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     const customButton = document.querySelector(
       '.ql-omega-' + this.numeroFila + '-' + this.numeroColumna
     );
-    customButton.addEventListener('click', function() {
-      console.log('Add libro');
-      const range = editor.getSelection();
-      if (range) {
-        // tslint:disable-next-line:max-line-length
-        editor.insertText(
-          range.index,
-          '[momoko-libro img="imagen" titulo="" autor="" texto="Texto que acompaña al libro" colorFondo="Negro" posicionLibro="left"]'
-        );
-      }
-    });
+    this.addCustomButtonBehaviour(customButton, editor);
 
     editor.pasteHTML(this.contenidoEntrada);
     editor.on('text-change', function(delta, oldDelta, source) {
@@ -498,6 +589,31 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
       }
     });
     $(container).data('quill', editor);
+  }
+
+  private addCustomButtonBehaviour(customButton: Element, editor: any) {  
+    customButton.addEventListener('click', function () {
+      this.bookTemplateRange = editor.getSelection();
+      this.bookTemplateEditor = editor;
+      $('#bookTemplateModal').modal();
+    });
+  }
+
+  getEditorData(editor: any){
+    this.bookTemplateRange = editor.getSelection();
+    this.bookTemplateEditor = editor;
+  }
+
+  addBookTemplateToEditor(data: any){
+    console.log('hola');
+    if (this.bookTemplateRange) {
+      // tslint:disable-next-line:max-line-length
+      this.bookTemplateEditor.insertText(this.bookTemplateRange.index, '[momoko-libro titulo="'+ this.selectedBookTemplate +'"]');
+    }
+    this.bookTemplateRange = null;
+    this.bookTemplateEditor = null;
+    this.selectedBookTemplate = null;
+    $('#bookTemplateModal').modal('hide');
   }
 
   pintarColumnas(event: Event, fila: Fila) {
@@ -640,22 +756,19 @@ export class EntradaDetailComponent implements OnInit, AfterViewInit {
     const customButton = document.querySelector(
       '.ql-omega-' + numFila + '-' + numColumna
     );
-    customButton.addEventListener('click', function() {
-      console.log('Add libro');
-      const range = editor.getSelection();
-      if (range) {
-        // tslint:disable-next-line:max-line-length
-        editor.insertText(
-          range.index,
-          '[momoko-libro img="imagen" titulo="" autor="" texto="Texto que acompaña al libro" colorFondo="Negro" posicionLibro="left"]'
-        );
-      }
-    });
+    this.addCustomButtonBehaviour(customButton, editor);
     editor.pasteHTML(texto);
     $(container).data('quill', editor);
   }
 
-  volver(): void {
-    this.onVolver.emit(true);
+  volver() {
+    this.router.navigate(['/gestion/lista-entradas']);
+  }
+
+  changeEditorData(event: any){
+    console.log('changeEditorData '  + event);
+    const editor =$(event).data('quill');
+    this.bookTemplateRange = editor.getSelection();
+    this.bookTemplateEditor = editor;
   }
 }

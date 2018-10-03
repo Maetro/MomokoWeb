@@ -6,16 +6,19 @@ import { InputTextModule, MultiSelectModule, GrowlModule,  FileUploadModule, Dro
 import { ListaEntradasComponent } from './lista-entradas/lista-entradas.component';
 
 
-import { QuillModule } from 'ngx-quill'
+import { QuillModule} from 'ngx-quill'
 import { EntradaDetailComponent } from './entrada-detail/entrada-detail.component';
 import { FormsModule } from '@angular/forms';
-import { QuillEditorComponent } from './entrada-detail/quill-editor/quill-editor.component';
 import { EntradaService } from '../../../services/entrada.service';
 
 import { UtilService } from '../../../services/util/util.service';
 import { FileUploadService } from '../services/file-upload.service';
 import { GeneralDataService } from '../services/general-data.service';
 import { GaleriaService } from '../services/galeria.service';
+import { EntryListComponent } from './entry-list/entry-list.component';
+import { TableModule } from 'primeng/table';
+import { EntryFormComponent } from './entry-form/entry-form.component';
+import { QuillEditorComponent } from './entry-form/quill-editor/quill-editor.component';
 
 
 @NgModule({
@@ -31,9 +34,10 @@ import { GaleriaService } from '../services/galeria.service';
     MultiSelectModule,
     DataTableModule,
     CheckboxModule,
-    CalendarModule
+    CalendarModule,
+    TableModule
   ],
-  declarations: [ListaEntradasComponent, EntradaDetailComponent, QuillEditorComponent],
+  declarations: [ListaEntradasComponent, EntradaDetailComponent, QuillEditorComponent, EntryListComponent, EntryFormComponent],
   providers: [
     EntradaService, FileUploadService, UtilService, GeneralDataService, GaleriaService
   ],
