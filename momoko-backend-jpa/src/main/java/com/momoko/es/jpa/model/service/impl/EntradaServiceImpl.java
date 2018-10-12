@@ -414,8 +414,14 @@ public class EntradaServiceImpl implements EntradaService {
         libro.getUrlImagen();
         MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
         String code = "<div class=\"row bloqueLibro\">" +
-                "<div class=\"col-xs-12\">" +
-                "</div>" +
+                        "<div class=\"col-xs-12\">" +
+                            "<div class=\"imageBookTemplateContainer\">" +
+                                "<img src=\""+ libroDTO.getUrlImagen() +"\" alt=\"Portada libro "+  libroDTO.getTitulo() +"\"/>" +
+                            "</div>" +
+                            "<div class=\"textBookTemplateContainer\">" +
+                            "<p>" + libroDTO.getTitulo() + "</p>" +
+                            "</div>" +
+                        "</div>" +
                 "</div>";
         return code;
 
