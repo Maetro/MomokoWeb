@@ -1,17 +1,20 @@
+import { isPlatformBrowser } from '@angular/common';
 import {
-  Component,
-  OnInit,
   AfterViewInit,
+  Component,
+  Inject,
   Input,
+  OnInit,
   PLATFORM_ID,
-  Inject
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { BookTemplateItem } from 'app/contenido/comun/book-template/book-template-item';
 import { environment } from '../../../../environments/environment';
+import { Comentario } from '../../../dtos/comentario';
 import { Entrada } from '../../../dtos/entrada';
 import { LibroSimple } from '../../../dtos/libroSimple';
-import { Comentario } from '../../../dtos/comentario';
-import { Title, Meta } from '@angular/platform-browser';
-import { isPlatformBrowser } from '@angular/common';
 import { LinkService } from '../../../services/link.service';
 
 declare var $: any;
@@ -24,17 +27,29 @@ declare var $: any;
 export class AnalisisComponent implements OnInit, AfterViewInit {
   private log = environment.log;
 
-  @Input() entrada: Entrada;
+  @Input()
+  entrada: Entrada;
 
-  @Input() librosParecidos: LibroSimple[];
+  @Input()
+  librosParecidos: LibroSimple[];
 
-  @Input() comentarios: Comentario[];
+  @Input()
+  comentarios: Comentario[];
+
+  @ViewChild('book-template-angular')
+  bookTemplate: TemplateRef<any>;
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
   autores: string;
 
   schema;
+
+  content: string;
+
+  htmlContent: string[];
+
+  bookTemplates: string[];
 
   constructor(
     private titleService: Title,
@@ -54,15 +69,15 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
       });
     });
     this.autores = this.autores.substring(0, this.autores.length - 2);
-    if (this.entrada.fechaAlta.valueOf() > new Date('2018/07/15').valueOf()){
+    if (this.entrada.fechaAlta.valueOf() > new Date('2018/07/15').valueOf()) {
       const metatituloPagina = this.entrada.tituloEntrada;
       this.titleService.setTitle(metatituloPagina);
     } else {
-    const metatituloPagina =
-      'Análisis libro - ' + this.entrada.librosEntrada[0].titulo;
+      const metatituloPagina =
+        'Análisis libro - ' + this.entrada.librosEntrada[0].titulo;
       this.titleService.setTitle(metatituloPagina);
     }
-   
+
     // Changing meta with name="description"
     const metadescripcion = this.entrada.fraseDescriptiva;
     const tag = { name: 'description', content: metadescripcion };
@@ -90,10 +105,43 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     this.linkService.removeTag('rel=amphtml');
     this.linkService.addTag({
       rel: 'amphtml',
-      href:
-        'https://momoko.es/amp/opiniones/' +this.entrada.urlEntrada
+      href: 'https://momoko.es/amp/opiniones/' + this.entrada.urlEntrada
     });
     this.schema = JSON.parse(this.entrada.jsonLD);
+    this.htmlContent = new Array();
+    this.bookTemplates = new Array();
+    if (this.entrada.contenidoEntrada.indexOf('book-template-angular') != -1) {
+      let content = this.entrada.contenidoEntrada;
+      let cont = 1;
+      while (content.indexOf('book-template-angular') != -1) {
+        const begin = content.indexOf(
+          '<book-template-angular'
+        );
+        const end = content.indexOf(
+          '</book-template-angular>'
+        );
+        this.htmlContent.push(
+          content.substring(0, begin)
+        );
+        
+        const book = content.substring(begin, end);
+        this.htmlContent.push(
+          "<div id=\"bookTemplate" + cont +"\" class=\"bookTemplate" + cont +"\">Book" + cont +"</div>"
+        );
+        
+        this.bookTemplates.push(book);
+        content = content.substring(end + 24);
+        cont++;
+      }
+      this.htmlContent.push(content);
+    } else {
+      this.htmlContent.push(this.entrada.contenidoEntrada);
+    }
+    this.content = "";
+    this.htmlContent.forEach(content => {
+      this.content += content; 
+    });
+    
   }
 
   ngAfterViewInit(): void {
@@ -117,6 +165,13 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
       });
       setTimeout(() => this.crearCollage(), 2000);
     }
+    
+    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
+      let replaceCode = $($("app-book-template").get(cont-1)).html();
+      $($("app-book-template").get(cont-1)).html("");
+      $(".bookTemplate"+ cont).html(replaceCode);
+    }
+    
   }
 
   crearCollage() {

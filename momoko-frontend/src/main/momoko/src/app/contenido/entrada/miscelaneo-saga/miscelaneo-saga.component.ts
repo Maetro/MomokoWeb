@@ -5,7 +5,9 @@ import {
   AfterViewInit,
   Input,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Entrada } from '../../../dtos/entrada';
@@ -38,11 +40,20 @@ export class MiscelaneoSagaComponent implements OnInit, AfterViewInit {
 
   @Input() comentarios: Comentario[];
 
+  @ViewChild('book-template-angular')
+  bookTemplate: TemplateRef<any>;
+
   backgroundImage = '/assets/style/images/art/parallax2.jpg';
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
   schema;
+
+  content: string;
+
+  htmlContent: string[];
+
+  bookTemplates: string[];
 
   constructor(
     private titleService: Title,
@@ -107,6 +118,12 @@ export class MiscelaneoSagaComponent implements OnInit, AfterViewInit {
         videoMaxWidth: '1000px'
       });
       setTimeout(() => this.crearCollage(), 2000);
+    }
+    
+    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
+      let replaceCode = $($("app-book-template").get(cont-1)).html();
+      $($("app-book-template").get(cont-1)).html("");
+      $(".bookTemplate"+ cont).html(replaceCode);
     }
   }
 

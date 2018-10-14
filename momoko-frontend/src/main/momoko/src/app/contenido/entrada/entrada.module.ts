@@ -20,6 +20,7 @@ import { NgxJsonLdModule } from '@ngx-lite/json-ld';
 import { RedactorInfoModule } from '../comun/redactor-info/redactor-info.module';
 import { AnalisisSagaComponent } from './analisis-saga/analisis-saga.component';
 import { NoticiaSagaComponent } from './noticia-saga/noticia-saga.component';
+import { BookTemplateModule } from '../comun/book-template/book-template.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { NoticiaSagaComponent } from './noticia-saga/noticia-saga.component';
     ComunesModule,
     GrowlModule,
     FormsModule,
+    BookTemplateModule,
     RedactorInfoModule,
     NgxJsonLdModule,
     RouterModule.forChild([

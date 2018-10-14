@@ -13,7 +13,7 @@ import { UtilService } from '../../services/util/util.service';
 @Component({
   selector: 'app-entrada',
   templateUrl: './entrada.component.html',
-  styleUrls: ['./entrada.component.css']
+  styleUrls: ['./entrada.component.scss']
 })
 export class EntradaComponent implements OnInit, OnDestroy {
   private log = environment.log;

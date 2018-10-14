@@ -402,27 +402,22 @@ public class EntradaServiceImpl implements EntradaService {
                     "]");
 
             final String titulo = StringUtils.substringBetween(bloquelibro, "titulo=\"", "\"");
+            final String columnas = StringUtils.substringBetween(bloquelibro, "columnas=\"", "\"");
             LibroEntity libro = this.libroRepository.findOneByTitulo(titulo);
-            String code = generateBookTemplateCode(libro);
+            String code = generateBookTemplateCode(libro, columnas);
             entradaDTO.setContenidoEntrada(
                     StringUtils.replace(entradaDTO.getContenidoEntrada(), "[momoko-libro " + bloquelibro + "]", code));
         }
     }
 
-    private String generateBookTemplateCode(LibroEntity libro) {
+    private String generateBookTemplateCode(LibroEntity libro, String columnas) {
         LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libro);
         libro.getUrlImagen();
         MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
-        String code = "<div class=\"row bloqueLibro\">" +
-                        "<div class=\"col-xs-12\">" +
-                            "<div class=\"imageBookTemplateContainer\">" +
-                                "<img src=\""+ libroDTO.getUrlImagen() +"\" alt=\"Portada libro "+  libroDTO.getTitulo() +"\"/>" +
-                            "</div>" +
-                            "<div class=\"textBookTemplateContainer\">" +
-                            "<p>" + libroDTO.getTitulo() + "</p>" +
-                            "</div>" +
-                        "</div>" +
-                "</div>";
+        String code = "<book-template-angular anchura=\""+ libroDTO.getPortadaWidth() +
+                "\" altura=\""+ libroDTO.getPortadaHeight()+ "\" imagen=\""+ libroDTO.getUrlImagen() +
+                "\" title=\""+ libroDTO.getTitulo() +"\" autor=\""+ MomokoUtils.generarAutoresString(libroDTO) +
+                "\" url=\""+ libroDTO.getUrlLibro() +"\" columnas=\""+ columnas +"\"></book-template-angular>";
         return code;
 
     }

@@ -5,7 +5,9 @@ import {
   AfterViewInit,
   Input,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  ViewChild,
+  TemplateRef
 } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Entrada } from '../../../dtos/entrada';
@@ -36,6 +38,9 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
 
   @Input() comentarios: Comentario[];
 
+  @ViewChild('book-template-angular')
+  bookTemplate: TemplateRef<any>;
+
   backgroundImage = '/assets/style/images/art/parallax2.jpg';
 
   tituloSeccionLibros = 'Otros libros parecidos';
@@ -43,6 +48,12 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
   html:any;
   
   schema;
+
+  content: string;
+
+  htmlContent: string[];
+
+  bookTemplates: string[];
 
   constructor(
     private titleService: Title,
@@ -87,6 +98,39 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
     });
     this.schema = JSON.parse(this.entrada.jsonLD);
     this.html = this.sanitizer.bypassSecurityTrustHtml(this.entrada.contenidoEntrada);
+    this.htmlContent = new Array();
+    this.bookTemplates = new Array();
+    if (this.entrada.contenidoEntrada.indexOf('book-template-angular') != -1) {
+      let content = this.entrada.contenidoEntrada;
+      let cont = 1;
+      while (content.indexOf('book-template-angular') != -1) {
+        const begin = content.indexOf(
+          '<book-template-angular'
+        );
+        const end = content.indexOf(
+          '</book-template-angular>'
+        );
+        this.htmlContent.push(
+          content.substring(0, begin)
+        );
+        
+        const book = content.substring(begin, end);
+        this.htmlContent.push(
+          "<div id=\"bookTemplate" + cont +"\" class=\"bookTemplate" + cont +"\">Book" + cont +"</div>"
+        );
+        
+        this.bookTemplates.push(book);
+        content = content.substring(end + 24);
+        cont++;
+      }
+      this.htmlContent.push(content);
+    } else {
+      this.htmlContent.push(this.entrada.contenidoEntrada);
+    }
+    this.content = "";
+    this.htmlContent.forEach(content => {
+      this.content += content; 
+    });
   }
 
   ngAfterViewInit(): void {
@@ -109,6 +153,11 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
         videoMaxWidth: '1000px'
       });
       setTimeout(() => this.crearCollage(), 2000);
+    }
+    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
+      let replaceCode = $($("app-book-template").get(cont-1)).html();
+      $($("app-book-template").get(cont-1)).html("");
+      $(".bookTemplate"+ cont).html(replaceCode);
     }
   }
 

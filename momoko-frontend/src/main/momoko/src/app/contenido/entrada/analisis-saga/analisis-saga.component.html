@@ -130,8 +130,14 @@
                             </span>
                         </span>
                     </div>
-                    <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml">
-                    </div>
+                    <div class="cuerpo">
+                        <div [innerHTML]="content | sanitizeHtml"></div>
+                        <ng-container *ngFor="let bookTemp of bookTemplates; let i = index">
+                          <app-book-template [bookTemp]="bookTemp"></app-book-template>
+                        </ng-container>
+            
+            
+                      </div>
                     <div class="infoEntrada">
 
                         <span class="lineaHorizontalCorta"></span>

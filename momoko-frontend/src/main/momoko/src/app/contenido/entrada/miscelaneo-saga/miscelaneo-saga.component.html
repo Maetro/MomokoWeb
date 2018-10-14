@@ -39,7 +39,9 @@
                                         </em>
                                     </span>
                                 </div>
-                                <h1 class="post-title text-center">{{entrada.tituloEntrada}}</h1>
+                                <div class="tituloEntrada">
+                                    <h1>{{entrada.tituloEntrada}}</h1>
+                                  </div>
                                 <div class="meta text-center">
                                     <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
                                     <span class="author">By
@@ -50,7 +52,14 @@
                                     </span>
                                 </div>
 
-                                <div class="cuerpo" [innerHTML]="entrada.contenidoEntrada  | sanitizeHtml"></div>
+                                <div class="cuerpo">
+                                    <div [innerHTML]="content | sanitizeHtml"></div>
+                                    <ng-container *ngFor="let bookTemp of bookTemplates; let i = index">
+                                      <app-book-template [bookTemp]="bookTemp"></app-book-template>
+                                    </ng-container>
+                        
+                        
+                                  </div>
 
                                 <hr>
 

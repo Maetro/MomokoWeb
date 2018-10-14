@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Inject, PLATFORM_ID, ViewChild, TemplateRef } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { Entrada } from '../../../dtos/entrada';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
@@ -28,6 +28,9 @@ export class VideoComponent implements OnInit, AfterViewInit {
 
   @Input() comentarios: Comentario[];
 
+  @ViewChild('book-template-angular')
+  bookTemplate: TemplateRef<any>;
+
   tituloSeccionLibros = 'Otros libros parecidos';
 
   backgroundImage = '/assets/style/images/art/parallax2.jpg';
@@ -35,6 +38,12 @@ export class VideoComponent implements OnInit, AfterViewInit {
   codigoVideo: string;
 
   safeURL: SafeUrl;
+
+  content: string;
+
+  htmlContent: string[];
+
+  bookTemplates: string[];
 
   constructor(private domSanitizationService: DomSanitizer, private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object) { }
 
@@ -79,6 +88,19 @@ export class VideoComponent implements OnInit, AfterViewInit {
         videoMaxWidth: '1000px'
       });
       setTimeout(() => this.crearCollage(), 2000);
+    }
+    const columna = document.getElementById('bookTemplate1')
+    const width = columna.offsetWidth;
+    const style = window.getComputedStyle(columna);
+    // tslint:disable-next-line:radix
+    const margin = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
+    let anchura = width - margin;
+    console.log('anchura');
+    
+    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
+      let replaceCode = $($("app-book-template").get(cont-1)).html();
+      $($("app-book-template").get(cont-1)).html("");
+      $(".bookTemplate"+ cont).html(replaceCode);
     }
   }
 

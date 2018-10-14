@@ -31,6 +31,7 @@ export class Entrada {
   conSidebar: boolean;
   enMenu: boolean;
   nombreMenuLibro: string;
+  nombresSagasEntrada: string[];
   urlMenuLibro: string;
   visitas: number;
   jsonLD: string;
