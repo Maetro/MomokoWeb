@@ -226,7 +226,7 @@ public class UserServiceImpl implements UserService {
         usuario.setUsuarioLogin(redactorDTO.getNick());
         usuario.setUsuarioNick(redactorDTO.getNick());
         usuario.setEmail(redactorDTO.getEmail());
-        usuario.setUsuarioContrasena("cambiame");
+        usuario.setPassword("cambiame");
         usuario.setPaginaWeb(redactorDTO.getPaginaWeb());
         usuario.setUsuarioUrl(redactorDTO.getUrlRedactor());
         usuario.setUsuarioNombreVisible(redactorDTO.getNick());
