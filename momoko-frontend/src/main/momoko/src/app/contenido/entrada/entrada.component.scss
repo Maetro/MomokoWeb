@@ -7,3 +7,21 @@
     margin-top: 10px;
     color:#333;
 }
+
+::ng-deep table{
+
+    & th{
+        background-color: #dbae2773;
+        & p {
+            padding: 10px;
+            margin-bottom: 0px;
+        }
+
+    }
+
+    & td p {
+        padding: 10px;
+        margin-bottom: 0px;
+    }
+    
+}
