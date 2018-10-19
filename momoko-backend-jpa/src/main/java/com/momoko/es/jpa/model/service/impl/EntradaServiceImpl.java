@@ -29,6 +29,8 @@ import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 
 import com.momoko.es.api.util.MomokoHelper;
+import com.momoko.es.jpa.model.entity.*;
+import com.momoko.es.jpa.model.repository.*;
 import com.momoko.es.jpa.model.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -62,22 +64,6 @@ import com.momoko.es.api.youtube.list.YoutubeVideoList;
 import com.momoko.es.api.youtube.video.Item;
 import com.momoko.es.api.youtube.video.VideoYoutube;
 import com.momoko.es.commons.configuration.MomokoConfiguracion;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
-import com.momoko.es.jpa.model.entity.EtiquetaEntity;
-import com.momoko.es.jpa.model.entity.GaleriaEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
-import com.momoko.es.jpa.model.entity.SagaEntity;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
-import com.momoko.es.jpa.model.entity.VideoEntity;
-import com.momoko.es.jpa.model.repository.EntradaRepository;
-import com.momoko.es.jpa.model.repository.EtiquetaRepository;
-import com.momoko.es.jpa.model.repository.GaleriaRepository;
-import com.momoko.es.jpa.model.repository.LibroRepository;
-import com.momoko.es.jpa.model.repository.PuntuacionRepository;
-import com.momoko.es.jpa.model.repository.SagaRepository;
-import com.momoko.es.jpa.model.repository.UsuarioRepository;
-import com.momoko.es.jpa.model.repository.VideoRepository;
 import com.momoko.es.jpa.model.service.ComentarioService;
 import com.momoko.es.jpa.model.service.EntradaService;
 import com.momoko.es.jpa.model.service.GenreService;
@@ -129,6 +115,9 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Autowired
     private MomokoConfiguracion momokoConfiguracion;
+
+    @Autowired
+    private HtmlCodeRepository htmlCodeRepository;
 
     /**
      * Obtener entrada para gestion.
@@ -260,6 +249,7 @@ public class EntradaServiceImpl implements EntradaService {
 
             if (transformarGalerias) {
                 obtenerBloqueslibroEntrada(entradaDTO);
+                obtenerBloquesCodigoEntrada(entradaDTO);
                 obtenerGifs(entradaDTO);
             }
 
@@ -410,6 +400,9 @@ public class EntradaServiceImpl implements EntradaService {
         }
     }
 
+
+
+
     private String generateBookTemplateCode(LibroEntity libro, String columnas) {
         LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libro);
         libro.getUrlImagen();
@@ -421,6 +414,22 @@ public class EntradaServiceImpl implements EntradaService {
         return code;
 
     }
+
+
+    private void obtenerBloquesCodigoEntrada(final EntradaDTO entradaDTO) {
+
+        while (entradaDTO.getContenidoEntrada().contains("[momoko-code ")) {
+            final String bloqueCodigo = StringUtils.substringBetween(entradaDTO.getContenidoEntrada(), "[momoko-code ",
+                    "]");
+
+            final String urlCodigo = StringUtils.substringBetween(bloqueCodigo, "url=\"", "\"");
+            HtmlCodeEntity htmlCode = this.htmlCodeRepository.findOneByUrlCode(urlCodigo);
+            String code = htmlCode.getContent();
+            entradaDTO.setContenidoEntrada(
+                    StringUtils.replace(entradaDTO.getContenidoEntrada(), "[momoko-code " + bloqueCodigo + "]", code));
+        }
+    }
+
 
     private String generarBloqueLibro(final String imagen, final String titulo, final String autor, final String texto,
                                       final String colorFondo, final String posicionLibro) {
