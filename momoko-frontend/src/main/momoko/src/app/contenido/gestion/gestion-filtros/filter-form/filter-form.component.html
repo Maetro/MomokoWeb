@@ -20,7 +20,7 @@
               <div class="col-sm-12 lp10">
                 <div class="form-field">
                   <label>
-                    <input type="text" [(ngModel)]="filter.nameFilter" (ngModelChange)="changeName($event)" placeholder="Escribe aquí el nombre del filtro"
+                    <input type="text" [(ngModel)]="filter.nameFilter" (ngModelChange)="changeName($event)" placeholder="Escribe aquí el name del filtro"
                     />
                   </label>
                 </div>
@@ -52,7 +52,7 @@
               </div>
               <div class="col-sm-12 lp10">
                 <div class="form-field">
-                  <p-multiSelect [options]="genres" [(ngModel)]="filter.genres" optionLabel="nombre" [defaultLabel]="'Todos'" [style]="{'width':'400px'}"></p-multiSelect>
+                  <p-multiSelect [options]="genres" [(ngModel)]="filter.genres" optionLabel="name" [defaultLabel]="'Todos'" [style]="{'width':'400px'}"></p-multiSelect>
                 </div>
                 <!--/.form-field -->
               </div>

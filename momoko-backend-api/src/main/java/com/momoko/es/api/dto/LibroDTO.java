@@ -31,7 +31,7 @@ public class LibroDTO implements Serializable {
     private Integer libroId;
 
     /** The autor id. */
-    private Set<AutorDTO> autores;
+    private Set<AuthorDTO> autores;
 
     /** The saga id. */
     private SagaDTO saga;
@@ -135,7 +135,7 @@ public class LibroDTO implements Serializable {
      *
      * @return the autores
      */
-    public Set<AutorDTO> getAutores() {
+    public Set<AuthorDTO> getAutores() {
         return this.autores;
     }
 
@@ -145,7 +145,7 @@ public class LibroDTO implements Serializable {
      * @param autores
      *            the new autores
      */
-    public void setAutores(final Set<AutorDTO> autores) {
+    public void setAutores(final Set<AuthorDTO> autores) {
         this.autores = autores;
     }
 

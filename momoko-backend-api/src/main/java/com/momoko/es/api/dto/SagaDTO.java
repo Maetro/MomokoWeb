@@ -67,7 +67,7 @@ public class SagaDTO implements Serializable {
     private Set<GenreDTO> generos;
 
     /** The autor id. */
-    private Set<AutorDTO> autores;
+    private Set<AuthorDTO> autores;
 
     /** The editorial. */
     private EditorialDTO editorial;
@@ -335,11 +335,11 @@ public class SagaDTO implements Serializable {
         this.entradasSaga = entradasSaga;
     }
 
-    public Set<AutorDTO> getAutores() {
+    public Set<AuthorDTO> getAutores() {
         return this.autores;
     }
 
-    public void setAutores(final Set<AutorDTO> autores) {
+    public void setAutores(final Set<AuthorDTO> autores) {
         this.autores = autores;
     }
 

@@ -2,13 +2,11 @@ package com.momoko.es.jpa.model.facade.administration;
 
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.SaveFilterResponse;
-import com.momoko.es.api.service.FilterService;
+import com.momoko.es.api.service.filter.FilterService;
 import com.momoko.es.jpa.model.service.ValidadorService;
-import com.momoko.es.jpa.util.MomokoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 

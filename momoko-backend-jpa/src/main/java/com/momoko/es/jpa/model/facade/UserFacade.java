@@ -54,7 +54,7 @@ public class UserFacade {
 //
 //        final UsuarioDTO nuevoUsuario = new UsuarioDTO();
 //        nuevoUsuario.setEmail(nuevoUsuarioRequest.getEmail());
-//        nuevoUsuario.setUsuarioNick(nuevoUsuarioRequest.getNombre());
+//        nuevoUsuario.setUsuarioNick(nuevoUsuarioRequest.getName());
 //        nuevoUsuario.setUsuarioContrasena(nuevoUsuarioRequest.getContrasena());
 //        nuevoUsuario.setUsuarioLogin(nuevoUsuarioRequest.getNick());
 //        nuevoUsuario.setUsuarioRolId(1);

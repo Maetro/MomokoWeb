@@ -7,7 +7,7 @@
 package com.momoko.es.jpa.model.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.momoko.es.api.dto.AutorDTO;
+import com.momoko.es.api.dto.AuthorDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.model.entity.AutorEntity;
@@ -139,10 +139,10 @@ public class MomokoUtils {
     public static String generarAutoresString(final LibroDTO libroDTO) {
         String autoresString = "";
         if (CollectionUtils.isNotEmpty(libroDTO.getAutores())) {
-            final Iterator<AutorDTO> iterator = libroDTO.getAutores().iterator();
+            final Iterator<AuthorDTO> iterator = libroDTO.getAutores().iterator();
             while (iterator.hasNext()) {
-                final AutorDTO autor = iterator.next();
-                autoresString += autor.getNombre();
+                final AuthorDTO autor = iterator.next();
+                autoresString += autor.getName();
                 if (iterator.hasNext()) {
                     autoresString += ", ";
                 }

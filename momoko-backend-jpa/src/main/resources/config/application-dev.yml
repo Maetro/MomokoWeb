@@ -69,8 +69,8 @@ momoko-configuracion:
       urlImages: http://momoko.local/images/
       urlUpload: http://momoko.local/
     local:
-      urlSitemap: D:\XAMPP\htdocs\momoko
-      urlFiles: D:\XAMPP\htdocs\momoko\images
-      urlTemplates: D:\XAMPP\htdocs\momoko\templates
+      urlSitemap: C:\xampp\htdocs\clouding
+      urlFiles: C:\xampp\htdocs\clouding\images
+      urlTemplates: C:\xampp\htdocs\clouding\templates
       urlImages: http://momoko.local/images/
       urlUpload: http://momoko.local/

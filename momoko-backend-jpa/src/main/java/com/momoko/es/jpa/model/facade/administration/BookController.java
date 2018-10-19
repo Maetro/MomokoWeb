@@ -1,13 +1,7 @@
 package com.momoko.es.jpa.model.facade.administration;
 
 import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.dto.filter.FilterDTO;
-import com.momoko.es.api.dto.filter.SaveFilterResponse;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
-import com.momoko.es.api.service.FilterService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

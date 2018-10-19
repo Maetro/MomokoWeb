@@ -2,7 +2,7 @@
 <div class="parallax page-title inverse-wrapper parallax2 custombackground" [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
   <div class="container inner">
     <div class="generosLibro">
-      <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">{{genero.nombre}}
+      <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">{{genero.name}}
         <span [hidden]="last">, </span>
       </span>
     </div>
@@ -74,11 +74,11 @@
           <div class="infoEntrada">
             Análisis de
             <span class="autorEntrada">
-              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.name}}</a>
             </span>
             <span class="generosText">Género
               <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.name}}</a>
                 <span [hidden]="last">, </span>
               </span>
             </span>
@@ -134,11 +134,11 @@
           <div class="infoEntrada">
             Análisis de
             <span class="autorEntrada">
-              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.name}}</a>
             </span>
             <span class="generosText">Género
               <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.name}}</a>
                 <span [hidden]="last">, </span>
               </span>
             </span>

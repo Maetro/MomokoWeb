@@ -12,7 +12,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="redactor.nombre" (ngModelChange)="cambioNombre($event)" placeholder="Escribe aquí el nombre del redactor" />
+                <input type="text" [(ngModel)]="redactor.name" (ngModelChange)="cambioNombre($event)" placeholder="Escribe aquí el name del redactor" />
               </label>
             </div>
             <!--/.form-field -->
@@ -178,7 +178,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <h2 class="section-title widget-title  margen_superior">Imagen de cabecera del redactor</h2>
-              <img src="{{redactor.imagenCabeceraRedactor}}" alt="Cabecera redactor - {{redactor.nombre}}" />
+              <img src="{{redactor.imagenCabeceraRedactor}}" alt="Cabecera redactor - {{redactor.name}}" />
               <p-fileUpload name="cabeceraFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeCabecera($event)" chooseLabel="Subir imagen"
                 auto="auto" maxFileSize="1000000">
 
@@ -194,7 +194,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <h2 class="section-title widget-title  margen_superior">Avatar</h2>
-              <img class="imagen-avatar" src="{{redactor.avatarRedactor}}" alt="Icono redactor - {{redactor.nombre}}" />
+              <img class="imagen-avatar" src="{{redactor.avatarRedactor}}" alt="Icono redactor - {{redactor.name}}" />
               <p-fileUpload name="iconoFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeAvatar($event)" chooseLabel="Subir imagen"
                 auto="auto" maxFileSize="1000000">
 

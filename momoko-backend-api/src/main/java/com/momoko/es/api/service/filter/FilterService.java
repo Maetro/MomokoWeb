@@ -1,4 +1,4 @@
-package com.momoko.es.api.service;
+package com.momoko.es.api.service.filter;
 
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;

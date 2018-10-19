@@ -21,7 +21,7 @@
       <p-dataTable [value]="generos" [rows]="10" [paginator]="true" [globalFilter]="gb" resizableColumns="true"
            [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedGenero"
            (onRowSelect)="onRowSelect($event)">
-        <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+        <p-column field="name" header="Nombre" [sortable]="true"></p-column>
       </p-dataTable>
     </div>
   </div>

@@ -62,14 +62,14 @@
         <ul class="nav navbar-nav">
           <li class="main-menu-header" *ngFor="let menuPart of menu">
             <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
-              <b>{{menuPart.nombre}}</b>
+              <b>{{menuPart.name}}</b>
               <span class="caret"></span>
             </a>
 
             <ul class="dropdown-menu double" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
               <li *ngFor="let genero of menuPart.generos">
                 <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active">
-                  <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" /> {{genero.nombre}} </a>
+                  <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.name}}" /> {{genero.name}} </a>
               </li>
             </ul>
 

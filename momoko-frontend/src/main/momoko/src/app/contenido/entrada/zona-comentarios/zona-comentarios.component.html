@@ -29,7 +29,7 @@
             </a>
             <div class="info">
               <h5>
-                <a href="#">{{comentarioAResponder.autor.nombre}}</a>
+                <a href="#">{{comentarioAResponder.autor.name}}</a>
               </h5>
               <div class="meta">
                 <span class="date">{{comentarioAResponder.fecha | date:'dd MMM yyyy'}}</span>
@@ -46,7 +46,7 @@
   <p>No te preocupes, no publicaremos tu correo electrónico *</p>
   <form (ngSubmit)="onPublicarComentario()" #commentForm="ngForm" class="comment-form" name="form_name" action="#" method="post">
     <div class="name-field">
-      <input id="nombre" required [(ngModel)]="nuevoComentario.nombre" #nombre="ngModel" placeholder="Nombre*" type="text" name="nombre"
+      <input id="name" required [(ngModel)]="nuevoComentario.name" #name="ngModel" placeholder="Nombre*" type="text" name="name"
         title="Nombre*" />
     </div>
     <div class="email-field">

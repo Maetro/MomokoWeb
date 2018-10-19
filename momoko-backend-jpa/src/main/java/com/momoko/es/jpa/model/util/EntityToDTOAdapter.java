@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
@@ -18,17 +19,7 @@ import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import com.momoko.es.api.dto.AutorDTO;
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.UsuarioBasicoDTO;
+import com.momoko.es.api.dto.AuthorDTO;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.enums.TipoEntrada;
@@ -330,8 +321,8 @@ public final class EntityToDTOAdapter {
      *            autores
      * @return the establece
      */
-    private static Set<AutorDTO> adaptarAutores(final Set<AutorEntity> autores) {
-        final Set<AutorDTO> autoresDTO = new HashSet<AutorDTO>();
+    private static Set<AuthorDTO> adaptarAutores(final Set<AutorEntity> autores) {
+        final Set<AuthorDTO> autoresDTO = new HashSet<AuthorDTO>();
         for (final AutorEntity autorEntity : autores) {
             autoresDTO.add(adaptarAutor(autorEntity));
         }
@@ -345,11 +336,11 @@ public final class EntityToDTOAdapter {
      *            the autor entity
      * @return the autor dto
      */
-    public static AutorDTO adaptarAutor(final AutorEntity autorEntity) {
-        final AutorDTO autorDTO = new AutorDTO();
-        autorDTO.setAutorId(autorEntity.getAutorId());
-        autorDTO.setNombre(autorEntity.getNombre());
-        return autorDTO;
+    public static AuthorDTO adaptarAutor(final AutorEntity autorEntity) {
+        final AuthorDTO authorDTO = new AuthorDTO();
+        authorDTO.setAuthorId(autorEntity.getAutorId());
+        authorDTO.setName(autorEntity.getNombre());
+        return authorDTO;
     }
 
     /**

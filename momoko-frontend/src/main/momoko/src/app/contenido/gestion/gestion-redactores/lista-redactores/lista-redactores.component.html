@@ -20,7 +20,7 @@
       <p-dataTable [value]="redactores" [rows]="10" [paginator]="true" [globalFilter]="gb" resizableColumns="true"
            [pageLinks]="3" [rowsPerPageOptions]="[5,10,20]" selectionMode="single" [(selection)]="selectedRedactor"
            (onRowSelect)="onRowSelect($event)">
-        <p-column field="nombre" header="Nombre" [sortable]="true"></p-column>
+        <p-column field="name" header="Nombre" [sortable]="true"></p-column>
         <p-column field="urlRedactor" header="Url" [sortable]="true"></p-column>
         <p-column field="fechaUltimaEntrada" header="Fecha Última Entrada" [sortable]="true">
           <ng-template let-col let-entrada="rowData" pTemplate="body">

@@ -16,7 +16,7 @@ import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
 import com.momoko.es.api.exceptions.NoExisteGeneroException;
-import com.momoko.es.api.service.FilterService;
+import com.momoko.es.api.service.filter.FilterService;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.repository.*;
 import com.momoko.es.jpa.model.service.*;

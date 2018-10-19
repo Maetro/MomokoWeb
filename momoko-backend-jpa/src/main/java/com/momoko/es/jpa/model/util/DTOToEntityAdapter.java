@@ -212,10 +212,10 @@ public final class DTOToEntityAdapter {
      *            the autores
      * @return the establece
      */
-    public static Set<AutorEntity> adaptarAutores(final Set<AutorDTO> autores) {
+    public static Set<AutorEntity> adaptarAutores(final Set<AuthorDTO> autores) {
         final Set<AutorEntity> autoresEntities = new HashSet<>();
-        for (final AutorDTO autorDTO : autores) {
-            autoresEntities.add(adaptarAutor(autorDTO));
+        for (final AuthorDTO authorDTO : autores) {
+            autoresEntities.add(adaptarAutor(authorDTO));
         }
         return autoresEntities;
     }
@@ -223,14 +223,14 @@ public final class DTOToEntityAdapter {
     /**
      * Adaptar autor.
      *
-     * @param autorDTO
+     * @param authorDTO
      *            the autor dto
      * @return the autor entity
      */
-    public static AutorEntity adaptarAutor(final AutorDTO autorDTO) {
+    public static AutorEntity adaptarAutor(final AuthorDTO authorDTO) {
         final AutorEntity entity = new AutorEntity();
-        entity.setAutorId(autorDTO.getAutorId());
-        entity.setNombre(autorDTO.getNombre());
+        entity.setAutorId(authorDTO.getAuthorId());
+        entity.setNombre(authorDTO.getName());
         return entity;
     }
 

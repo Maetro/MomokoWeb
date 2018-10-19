@@ -239,7 +239,7 @@ public class HerramientasServiceImpl implements HerramientasService {
 
             final StringBuilder autores = new StringBuilder();
             libro.getAutores().forEach(autor -> {
-                autores.append(autor.getNombre() + ", ");
+                autores.append(autor.getName() + ", ");
             });
             String autoresString = autores.toString();
             autoresString = autoresString.substring(0, autoresString.length() - 2);

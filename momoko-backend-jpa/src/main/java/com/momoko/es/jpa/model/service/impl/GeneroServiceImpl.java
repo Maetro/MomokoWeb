@@ -15,7 +15,7 @@ import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.filter.FilterDTO;
 import com.momoko.es.api.dto.filter.FilterValueDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
-import com.momoko.es.api.service.FilterService;
+import com.momoko.es.api.service.filter.FilterService;
 import com.momoko.es.jpa.model.util.*;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
