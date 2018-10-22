@@ -1,9 +1,3 @@
-/**
- * LibroService.java 08-jul-2017
- *
- * Copyright 2017 RAMON CASARES.
- * @author Ramon.Casares.Porto@gmail.com
- */
 package com.momoko.es.jpa.model.service;
 
 import com.momoko.es.api.dto.EntradaDTO;
@@ -16,16 +10,11 @@ import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * The Interface LibroService.
- */
 public interface LibroService {
 
     public List<LibroDTO> recuperarLibros();
 
     public LibroDTO guardarLibro(LibroDTO libroAGuardar) throws Exception;
-
-    public List<String> obtenerListaNombresAutores();
 
     public List<String> obtenerListaNombresEditoriales();
 

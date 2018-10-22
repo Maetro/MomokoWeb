@@ -62,14 +62,14 @@
         <ul class="nav navbar-nav">
           <li class="main-menu-header" *ngFor="let menuPart of menu">
             <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
-              <b>{{menuPart.name}}</b>
+              <b>{{menuPart.nombre}}</b>
               <span class="caret"></span>
             </a>
 
             <ul class="dropdown-menu double" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
               <li *ngFor="let genero of menuPart.generos">
                 <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active">
-                  <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.name}}" /> {{genero.name}} </a>
+                  <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" /> {{genero.nombre}} </a>
               </li>
             </ul>
 
@@ -92,6 +92,7 @@
                 <a routerLink="/gestion/lista-sagas" routerLinkActive="active">Sagas</a>
                 <a routerLink="/gestion/lista-generos" routerLinkActive="active">Géneros</a>
                 <a routerLink="/gestion/lista-galerias" routerLinkActive="active">Galerias</a>
+                <a routerLink="/gestion/lista-autores" routerLinkActive="active">Autores</a>
                 <a routerLink="/gestion/lista-redactores" routerLinkActive="active">Redactores</a>
                 <a routerLink="/gestion/lista-editoriales" routerLinkActive="active">Editoriales</a>
                 <a routerLink="/gestion/lista-filtros" routerLinkActive="active">Filtros</a>

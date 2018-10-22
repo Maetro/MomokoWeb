@@ -1,6 +1,6 @@
 import { DatoEntrada } from './datoEntrada';
 import { Libro } from './libro';
-import { Autor } from './autor';
+import { Author } from './autor';
 import { Genero } from './genre/genero';
 import { Editorial } from './editorial';
 
@@ -18,7 +18,7 @@ export class Saga {
   tipoSaga: string;
   librosSaga: Libro[];
   entradasSaga: DatoEntrada[];
-  autores: Autor[];
+  autores: Author[];
   generos: Genero[];
   editorial: Editorial;
   notaMomoko: number;

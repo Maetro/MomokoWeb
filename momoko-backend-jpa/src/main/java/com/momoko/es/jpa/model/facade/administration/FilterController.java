@@ -1,8 +1,8 @@
 package com.momoko.es.jpa.model.facade.administration;
 
-import com.momoko.es.api.dto.filter.FilterDTO;
-import com.momoko.es.api.dto.filter.SaveFilterResponse;
-import com.momoko.es.api.service.filter.FilterService;
+import com.momoko.es.api.filter.dto.FilterDTO;
+import com.momoko.es.api.filter.response.SaveFilterResponse;
+import com.momoko.es.api.filter.service.FilterService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

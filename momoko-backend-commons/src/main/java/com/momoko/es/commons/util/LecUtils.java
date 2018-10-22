@@ -21,11 +21,6 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Useful helper methods
- * 
- * @author Sanjay Patel
- */
 public class LecUtils {
 	
 	private static final Log log = LogFactory.getLog(LecUtils.class);

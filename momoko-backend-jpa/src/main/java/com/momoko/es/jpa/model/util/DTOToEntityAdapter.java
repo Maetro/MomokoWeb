@@ -7,9 +7,12 @@
 package com.momoko.es.jpa.model.util;
 
 import com.momoko.es.api.dto.*;
-import com.momoko.es.api.dto.filter.FilterValueDTO;
+import com.momoko.es.api.author.dto.AuthorDTO;
+import com.momoko.es.api.filter.dto.FilterValueDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.commons.security.UsuarioDTO;
+import com.momoko.es.jpa.author.entity.AuthorEntity;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
@@ -212,8 +215,8 @@ public final class DTOToEntityAdapter {
      *            the autores
      * @return the establece
      */
-    public static Set<AutorEntity> adaptarAutores(final Set<AuthorDTO> autores) {
-        final Set<AutorEntity> autoresEntities = new HashSet<>();
+    public static Set<AuthorEntity> adaptarAutores(final Set<AuthorDTO> autores) {
+        final Set<AuthorEntity> autoresEntities = new HashSet<>();
         for (final AuthorDTO authorDTO : autores) {
             autoresEntities.add(adaptarAutor(authorDTO));
         }
@@ -227,10 +230,10 @@ public final class DTOToEntityAdapter {
      *            the autor dto
      * @return the autor entity
      */
-    public static AutorEntity adaptarAutor(final AuthorDTO authorDTO) {
-        final AutorEntity entity = new AutorEntity();
-        entity.setAutorId(authorDTO.getAuthorId());
-        entity.setNombre(authorDTO.getName());
+    public static AuthorEntity adaptarAutor(final AuthorDTO authorDTO) {
+        final AuthorEntity entity = new AuthorEntity();
+        entity.setAuthorId(authorDTO.getAuthorId());
+        entity.setName(authorDTO.getName());
         return entity;
     }
 
@@ -412,10 +415,10 @@ public final class DTOToEntityAdapter {
     }
 
 
-    public static List<FilterEntity> adaptFilters(Set<com.momoko.es.api.dto.filter.FilterDTO> filterDTOs) {
+    public static List<FilterEntity> adaptFilters(Set<FilterDTO> filterDTOs) {
         List<FilterEntity> filterEntities = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(filterDTOs)){
-            for (com.momoko.es.api.dto.filter.FilterDTO filterDTO : filterDTOs) {
+            for (FilterDTO filterDTO : filterDTOs) {
                 filterEntities.add(adaptFilter(filterDTO));
             }
         }
@@ -423,7 +426,7 @@ public final class DTOToEntityAdapter {
 
     }
 
-    public static FilterEntity adaptFilter(com.momoko.es.api.dto.filter.FilterDTO filterDTO) {
+    public static FilterEntity adaptFilter(FilterDTO filterDTO) {
         FilterEntity filterEntity = new FilterEntity();
         filterEntity.setFilterId(filterDTO.getFilterId());
         filterEntity.setType(filterDTO.getFilterType());

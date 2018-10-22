@@ -12,21 +12,16 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import com.momoko.es.api.dto.filter.enums.FilterRuleType;
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.author.enums.AuthorCreationError;
+import com.momoko.es.api.author.dto.AuthorDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
+import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.api.enums.errores.*;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.GaleriaDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.PuntuacionDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.RegistroNuevoUsuarioDTO;
-import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.EstadoEntradaEnum;
@@ -246,7 +241,7 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<FilterCreationError> validateFilter(com.momoko.es.api.dto.filter.FilterDTO filterDTO) {
+    public List<FilterCreationError> validateFilter(FilterDTO filterDTO) {
         final List<FilterCreationError> errorList = new ArrayList<>();
         if (StringUtils.isEmpty(filterDTO.getNameFilter())) {
             errorList.add(FilterCreationError.MISSING_NAME);
@@ -262,4 +257,18 @@ public class ValidadorServiceImpl implements ValidadorService {
         }
         return errorList;
     }
+
+    @Override
+    public List<AuthorCreationError> validateAuthor(AuthorDTO authorDTO) {
+        final List<AuthorCreationError> errorList = new ArrayList<>();
+        if (StringUtils.isEmpty(authorDTO.getName())) {
+            errorList.add(AuthorCreationError.NO_NAME);
+        }
+        if (StringUtils.isEmpty(authorDTO.getAuthorUrl())) {
+            errorList.add(AuthorCreationError.NO_URL);
+        }
+        return errorList;
+    }
+
+
 }

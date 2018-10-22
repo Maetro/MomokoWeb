@@ -12,7 +12,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.*;
-import com.momoko.es.api.dto.filter.FilterValueDTO;
+import com.momoko.es.api.filter.dto.FilterValueDTO;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
@@ -261,7 +261,7 @@ public class ConversionUtils {
     public static LibroSimpleDTO obtenerLibroSimpleDTO(final LibroEntity libro,
                                                        final PuntuacionEntity puntuacionEntity) {
         final LibroSimpleDTO libroSimpleDTO = new LibroSimpleDTO();
-        libroSimpleDTO.setNombreAutor(libro.getAutores().iterator().next().getNombre());
+        libroSimpleDTO.setNombreAutor(libro.getAutores().iterator().next().getName());
         if (puntuacionEntity != null) {
             libroSimpleDTO.setNota(puntuacionEntity.getValor());
         }

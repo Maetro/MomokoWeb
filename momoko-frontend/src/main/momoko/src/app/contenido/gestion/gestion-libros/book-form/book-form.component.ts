@@ -7,10 +7,11 @@ import { FileUploadService } from '../../services/file-upload.service';
 import { UtilService } from '../../../../services/util/util.service';
 import { GeneralDataService } from '../../services/general-data.service';
 import { LibroService } from '../../../../services/libro.service';
-import { Autor } from '../../../../dtos/autor';
+
 import { BookService } from '../book.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Editorial } from '../../../../dtos/editorial';
+import { Author } from 'app/dtos/autor';
 
 @Component({
   selector: 'app-book-form',
@@ -98,7 +99,7 @@ export class BookFormComponent implements OnInit {
       this.libro = new Libro();
       const emptyEditorial = new Editorial();
       this.libro.editorial = emptyEditorial;
-      const autor = new Autor();
+      const autor = {} as Author;
       this.libro.autores = [];
       this.libro.autores.push(autor);
       this.libro.generos = [];
@@ -251,7 +252,7 @@ export class BookFormComponent implements OnInit {
   }
 
   crearAutor() {
-    const autor = new Autor();
+    const autor = {} as Author;
     this.libro.autores.push(autor);
   }
 }

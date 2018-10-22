@@ -39,13 +39,13 @@ export class ListaMiscelaneosLibroComponent implements OnInit {
       this.noticias = coleccionLibro.coleccionLibro.noticias;
       this.numeroEntradas = coleccionLibro.coleccionLibro.numeroEntradas;
       this.datosEntrada = coleccionLibro.coleccionLibro.datoEntrada;
-      let autores = '';
-      this.libro.autores.forEach(autor => {
-        autores = autores + autor.nombre + ', '
+      let authors = '';
+      this.libro.autores.forEach(author => {
+        authors = authors + author.name + ', '
       });
-      autores = autores.substring(0, autores.length - 2);
+      authors = authors.substring(0, authors.length - 2);
       const metatituloPagina = 'Encuentra aquí las últimas noticias sobre ' + this.libro.titulo +
-      ' de ' + autores ;
+      ' de ' + authors ;
     this.titleService.setTitle(metatituloPagina);
     this.metaService.removeTag('name="og:url"');
     this.metaService.removeTag('name="og:type"');

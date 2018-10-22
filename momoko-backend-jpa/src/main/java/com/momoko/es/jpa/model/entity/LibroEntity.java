@@ -6,8 +6,8 @@
  */
 package com.momoko.es.jpa.model.entity;
 
+import com.momoko.es.jpa.author.entity.AuthorEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;
-import com.momoko.es.jpa.model.entity.filter.FilterEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -24,8 +24,8 @@ public class LibroEntity {
 
     /** The autor id. */
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "libro_autor", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "autorId"))
-    private Set<AutorEntity> autores;
+    @JoinTable(name = "libro_autor", joinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"), inverseJoinColumns = @JoinColumn(name = "autor_id", referencedColumnName = "authorId"))
+    private Set<AuthorEntity> autores;
 
     /** The saga id. */
     @ManyToOne
@@ -144,7 +144,7 @@ public class LibroEntity {
      *
      * @return the autores
      */
-    public Set<AutorEntity> getAutores() {
+    public Set<AuthorEntity> getAutores() {
         return this.autores;
     }
 
@@ -154,7 +154,7 @@ public class LibroEntity {
      * @param autores
      *            the new autores
      */
-    public void setAutores(final Set<AutorEntity> autores) {
+    public void setAutores(final Set<AuthorEntity> autores) {
         this.autores = autores;
     }
 

@@ -1,8 +1,8 @@
 package com.momoko.es.jpa.model.repository.filter;
 
-import com.momoko.es.api.dto.filter.FilterDTO;
-import com.momoko.es.api.dto.filter.FilterValueDTO;
-import com.momoko.es.api.dto.filter.enums.FilterRuleType;
+import com.momoko.es.api.filter.dto.FilterDTO;
+import com.momoko.es.api.filter.dto.FilterValueDTO;
+import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import com.momoko.es.jpa.model.entity.filter.FilterBook;

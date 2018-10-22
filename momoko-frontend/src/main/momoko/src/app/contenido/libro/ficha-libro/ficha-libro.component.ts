@@ -67,17 +67,17 @@ export class FichaLibroComponent implements OnInit {
       this.librosParecidos = data.fichaLibro.cincoLibrosParecidos;
       this.tresUltimasEntradas = data.fichaLibro.tresUltimasEntradas;
       this.datosEntrada = data.fichaLibro.datosEntrada;
-      let autores = '';
-      this.libro.autores.forEach(autor => {
-        autores = autores + autor.nombre + ', ';
+      let authors = '';
+      this.libro.autores.forEach(author => {
+        authors = authors + author.name + ', ';
       });
-      autores = autores.substring(0, autores.length - 2);
+      authors = authors.substring(0, authors.length - 2);
       const titulo = 'Ficha de libro ' + this.libro.titulo;
       const metatituloPagina =
         'Encuentra aquí toda la información sobre ' +
         this.libro.titulo +
         ' y sobre ' +
-        autores;
+        authors;
       this.titleService.setTitle(titulo);
       // Changing meta with name="description"
       const tag = { name: 'description', content: metatituloPagina };

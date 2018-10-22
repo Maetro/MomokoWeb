@@ -12,7 +12,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <label>
-                <input type="text" [(ngModel)]="genero.name" (ngModelChange)="cambioNombre($event)" placeholder="Escribe aquí el name del género" />
+                <input type="text" [(ngModel)]="genero.nombre" (ngModelChange)="cambioNombre($event)" placeholder="Escribe aquí el name del género" />
               </label>
             </div>
             <!--/.form-field -->
@@ -55,7 +55,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <h2 class="section-title widget-title  margen_superior">Imagen de cabecera del género</h2>
-              <img src="{{genero.imagenCabeceraGenero}}" alt="Cabecera genero - {{genero.name}}" />
+              <img src="{{genero.imagenCabeceraGenero}}" alt="Cabecera genero - {{genero.nombre}}" />
               <p-fileUpload name="cabeceraFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeCabecera($event)" chooseLabel="Subir imagen"
                 auto="auto" maxFileSize="1000000">
 
@@ -71,7 +71,7 @@
           <div class="col-sm-12 lp10">
             <div class="form-field">
               <h2 class="section-title widget-title  margen_superior">Icono de menú del género</h2>
-              <img class="imagen-icono" src="{{genero.iconoGenero}}" alt="Icono genero - {{genero.name}}" />
+              <img class="imagen-icono" src="{{genero.iconoGenero}}" alt="Icono genero - {{genero.nombre}}" />
               <p-fileUpload name="iconoFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeIcono($event)" chooseLabel="Subir imagen"
                 auto="auto" maxFileSize="1000000">
 

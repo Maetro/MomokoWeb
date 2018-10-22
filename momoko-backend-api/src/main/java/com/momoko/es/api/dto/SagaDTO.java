@@ -10,6 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 
+import com.momoko.es.api.author.dto.AuthorDTO;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;

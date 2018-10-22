@@ -1,8 +1,8 @@
-package com.momoko.es.api.dto.filter;
+package com.momoko.es.api.filter.dto;
 
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.filter.enums.FilterRuleType;
+import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.util.MomokoHelper;
 

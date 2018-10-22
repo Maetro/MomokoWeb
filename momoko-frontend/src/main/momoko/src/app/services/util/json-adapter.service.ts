@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Editorial } from '../../dtos/editorial';
 import { Genero } from '../../dtos/genre/genero';
-import { Autor } from '../../dtos/autor';
 import { Libro } from '../../dtos/libro';
 import { environment } from '../../../environments/environment';
+import { Author } from 'app/dtos/autor';
 
 @Injectable()
 export class JsonAdapterService {
@@ -29,13 +29,13 @@ export class JsonAdapterService {
   const editorial = this.adaptarEditorial(json.editorial);
   l.editorial = editorial;
   const autoresList = new Array();
-  let autoresString = '';
+  let authors = '';
   for (const numAutor of Object.keys(json.autores)) {
     const a = this.adaptarAutor(json.autores[numAutor]);
     autoresList.push(a);
-    autoresString = autoresString + a.nombre + ',';
+    authors = authors + a.name + ',';
   }
-  l.autoresString = autoresString.slice(0, -1);
+  l.autoresString = authors.slice(0, -1);
   l.autores = autoresList;
   const generosList = new Array();
   let generosString = '';
@@ -64,10 +64,10 @@ adaptarEditorial(json: any): Editorial {
     return genero;
   }
 
-  adaptarAutor(json: any): Autor {
-    const a = new Autor();
-    a.autorId = json.autorId;
-    a.nombre = json.nombre;
+  adaptarAutor(json: any): Author {
+    const a = {} as Author;
+    a.authorId = json.autorId;
+    a.name = json.nombre;
     return a;
   }
 }

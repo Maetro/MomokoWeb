@@ -41,7 +41,7 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
 
   tituloSeccionLibros = 'Otros libros parecidos';
 
-  autores: string;
+  authors: string;
 
   schema;
 
@@ -62,13 +62,13 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     if (this.log) {
       console.log('Generando pagina opiniones');
     }
-    this.autores = '';
+    this.authors = '';
     this.entrada.librosEntrada.forEach(libro => {
-      libro.autores.forEach(autor => {
-        this.autores += autor.nombre + ', ';
+      libro.autores.forEach(author => {
+        this.authors += author.name + ', ';
       });
     });
-    this.autores = this.autores.substring(0, this.autores.length - 2);
+    this.authors = this.authors.substring(0, this.authors.length - 2);
     if (this.entrada.fechaAlta.valueOf() > new Date('2018/07/15').valueOf()) {
       const metatituloPagina = this.entrada.tituloEntrada;
       this.titleService.setTitle(metatituloPagina);

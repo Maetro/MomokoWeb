@@ -1,8 +1,7 @@
 package com.momoko.es.api.dto.response;
 
-import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
 
 import java.util.List;
 import java.util.Objects;

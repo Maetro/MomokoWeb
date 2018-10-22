@@ -7,10 +7,10 @@
 package com.momoko.es.jpa.model.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.momoko.es.api.dto.AuthorDTO;
+import com.momoko.es.api.author.dto.AuthorDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.jpa.model.entity.AutorEntity;
+import com.momoko.es.jpa.author.entity.AuthorEntity;
 import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
 import org.apache.commons.collections4.CollectionUtils;
@@ -154,10 +154,10 @@ public class MomokoUtils {
     public static String generarAutoresString(final LibroEntity libro) {
         String autoresString = "";
         if (CollectionUtils.isNotEmpty(libro.getAutores())) {
-            Iterator<AutorEntity> iterator = libro.getAutores().iterator();
+            Iterator<AuthorEntity> iterator = libro.getAutores().iterator();
             while (iterator.hasNext()) {
-                final AutorEntity autor = iterator.next();
-                autoresString += autor.getNombre();
+                final AuthorEntity autor = iterator.next();
+                autoresString += autor.getName();
                 if (iterator.hasNext()) {
                     autoresString += ", ";
                 }

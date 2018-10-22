@@ -1,9 +1,9 @@
-package com.momoko.es.api.service.filter;
+package com.momoko.es.api.filter.service;
 
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.filter.FilterDTO;
-import com.momoko.es.api.dto.filter.SaveFilterResponse;
+import com.momoko.es.api.filter.dto.FilterDTO;
+import com.momoko.es.api.filter.response.SaveFilterResponse;
 
 import javax.management.InstanceNotFoundException;
 import java.util.List;

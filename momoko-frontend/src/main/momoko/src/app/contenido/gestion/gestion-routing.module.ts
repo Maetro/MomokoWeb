@@ -16,6 +16,7 @@ import { EntryListComponent } from './gestion-entradas/entry-list/entry-list.com
 import { EntryFormComponent } from './gestion-entradas/entry-form/entry-form.component';
 import { EntryResolverService } from './gestion-entradas/entry-resolver.service';
 import { GeneralDataResolverService } from './services/general-data-resolver';
+import { AuthorListComponent } from './author-administration/author-list/author-list.component';
 
 const adminRoutes: Routes = [
   {
@@ -37,6 +38,11 @@ const adminRoutes: Routes = [
     path: 'editar-filtro/:url',
     canActivate: [AuthGuardService],
     component: FilterFormComponent,
+  },
+  {
+    path: 'lista-autores',
+    canActivate: [AuthGuardService],
+    component: AuthorListComponent,
   },
   {
     path: 'lista-libros',

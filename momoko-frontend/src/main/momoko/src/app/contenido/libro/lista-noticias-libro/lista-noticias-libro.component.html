@@ -1,7 +1,7 @@
 <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + libro.generos[0].imagenCabeceraGenero + ')'}">
   <div class="container inner">
     <h1 class="text-center">
-      <span *ngFor="let genero of libro.generos, let last = last;">{{genero.name}}
+      <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
         <span [hidden]="last">, </span>
       </span>
     </h1>
@@ -38,7 +38,7 @@
         <div class="row">
           <div class="col-md-9">
             <div class="etiquetaLibro">
-              <span *ngFor="let genero of libro.generos, let last = last;">{{genero.name}}
+              <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
                 <span [hidden]="last"> / </span>
               </span>
             </div>

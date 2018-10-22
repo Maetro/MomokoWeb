@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
 
 /**
  * The Class ObtenerPaginaGeneroResponse.

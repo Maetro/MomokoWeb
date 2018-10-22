@@ -1,4 +1,4 @@
-package com.momoko.es.api.dto.filter;
+package com.momoko.es.api.filter.dto;
 
 import java.io.Serializable;
 import java.util.Objects;

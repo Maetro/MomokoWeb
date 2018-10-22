@@ -61,7 +61,7 @@ export class AnalisisSagaComponent implements OnInit, AfterViewInit {
     this.autores = '';
     this.entrada.librosEntrada.forEach(libro => {
       libro.autores.forEach(autor => {
-        this.autores += autor.nombre + ', ';
+        this.autores += autor.name + ', ';
       });
     });
     this.autores = this.autores.substring(0, this.autores.length - 2);

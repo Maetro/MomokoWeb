@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.momoko.es.api.author.service.AuthorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,35 +77,45 @@ public class ModeloController {
 
     private static final Logger log = LoggerFactory.getLogger(ModeloController.class);
 
-    @Autowired(required = false)
-    private LibroService libroService;
+    private final LibroService libroService;
+
+    private final AuthorService authorService;
+
+    private final SagaService sagaService;
+
+    private final GenreService generoService;
+
+    private final EntradaService entradaService;
+
+    private final ValidadorService validadorService;
+
+    private final PuntuacionService puntuacionService;
+
+    private final GaleriaService galeriaService;
+
+    private final EditorialService editorialService;
+
+    private final UserService userService;
+
+    private final HerramientasService herramientasService;
 
     @Autowired(required = false)
-    private SagaService sagaService;
-
-    @Autowired(required = false)
-    private GenreService generoService;
-
-    @Autowired(required = false)
-    private EntradaService entradaService;
-
-    @Autowired(required = false)
-    private ValidadorService validadorService;
-
-    @Autowired(required = false)
-    private PuntuacionService puntuacionService;
-
-    @Autowired(required = false)
-    private GaleriaService galeriaService;
-
-    @Autowired(required = false)
-    private EditorialService editorialService;
-
-    @Autowired(required = false)
-    private UserService userService;
-
-    @Autowired(required = false)
-    private HerramientasService herramientasService;
+    public ModeloController(ValidadorService validadorService, AuthorService authorService, SagaService sagaService,
+                            GenreService generoService, EntradaService entradaService, PuntuacionService puntuacionService,
+                            GaleriaService galeriaService, EditorialService editorialService, UserService userService,
+                            HerramientasService herramientasService, LibroService libroService) {
+        this.validadorService = validadorService;
+        this.authorService = authorService;
+        this.sagaService = sagaService;
+        this.generoService = generoService;
+        this.entradaService = entradaService;
+        this.puntuacionService = puntuacionService;
+        this.galeriaService = galeriaService;
+        this.editorialService = editorialService;
+        this.userService = userService;
+        this.herramientasService = herramientasService;
+        this.libroService = libroService;
+    }
 
     @GetMapping(path = "/libros")
     public @ResponseBody Iterable<LibroDTO> getAllLibros() {
@@ -339,7 +350,7 @@ public class ModeloController {
 
         // Responder
         final InformacionGeneralResponse respuesta = new InformacionGeneralResponse();
-        final List<String> autores = this.libroService.obtenerListaNombresAutores();
+        final List<String> autores = this.authorService.getAllAuthorNames();
         final List<String> editoriales = this.libroService.obtenerListaNombresEditoriales();
         final List<String> libros = this.libroService.obtenerListaTitulosLibros();
         final List<CategoriaDTO> categorias = this.generoService.obtenerListaCategorias();

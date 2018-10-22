@@ -1,6 +1,6 @@
 package com.momoko.es.jpa.model.facade.frontpage;
 
-import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.jpa.model.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;

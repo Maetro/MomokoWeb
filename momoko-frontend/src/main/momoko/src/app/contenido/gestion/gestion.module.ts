@@ -12,6 +12,7 @@ import { GestionSagasModule } from './gestion-sagas/gestion-sagas.module';
 import { GestionGaleriasModule } from './gestion-galerias/gestion-galerias.module';
 import { GestionRedactoresModule } from './gestion-redactores/gestion-redactores.module';
 import { GestionEditorialesModule } from './gestion-editoriales/gestion-editoriales.module';
+import { AuthorAdministrationModule } from './author-administration/author-administration.module';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { GestionEditorialesModule } from './gestion-editoriales/gestion-editoria
     GestionGenerosModule,
     GestionSagasModule,
     GestionGaleriasModule,
+    AuthorAdministrationModule,
     GestionRedactoresModule,
     GestionEditorialesModule,
     GestionRoutingModule,

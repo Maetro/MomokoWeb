@@ -1,7 +1,8 @@
-package com.momoko.es.api.dto.filter;
+package com.momoko.es.api.filter.response;
 
 import com.momoko.es.api.dto.SaveResponse;
 import com.momoko.es.api.enums.errores.FilterCreationError;
+import com.momoko.es.api.filter.dto.FilterDTO;
 
 import java.util.List;
 import java.util.Objects;

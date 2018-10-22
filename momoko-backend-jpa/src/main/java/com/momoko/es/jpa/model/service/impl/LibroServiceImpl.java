@@ -8,7 +8,8 @@
 package com.momoko.es.jpa.model.service.impl;
 
 import com.momoko.es.api.dto.*;
-import com.momoko.es.api.dto.filter.FilterDTO;
+import com.momoko.es.api.author.dto.AuthorDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
@@ -16,7 +17,10 @@ import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
 import com.momoko.es.api.exceptions.NoExisteGeneroException;
-import com.momoko.es.api.service.filter.FilterService;
+import com.momoko.es.api.author.service.AuthorService;
+import com.momoko.es.api.filter.service.FilterService;
+import com.momoko.es.jpa.author.entity.AuthorEntity;
+import com.momoko.es.jpa.author.repository.AuthorRepository;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.repository.*;
 import com.momoko.es.jpa.model.service.*;
@@ -30,6 +34,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.management.InstanceNotFoundException;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -46,11 +51,13 @@ public class LibroServiceImpl implements LibroService {
 
     private final EditorialService editorialService;
 
+    private final AuthorService authorService;
+
+    private final AuthorRepository authorRepository;
+
     private final LibroRepository libroRepository;
 
     private final EntradaRepository entradaRepository;
-
-    private final AutorRepository autorRepository;
 
     private final EditorialRepository editorialRepository;
 
@@ -68,16 +75,16 @@ public class LibroServiceImpl implements LibroService {
 
 
     @Autowired(required = false)
-    public LibroServiceImpl(final EditorialService editorialService, final LibroRepository libroRepository,
-                            final EntradaRepository entradaRepository, final AutorRepository autorRepository,
-                            final EditorialRepository editorialRepository, final StorageService almacenImagenes,
-                            final PuntuacionRepository puntuacionRepository, final GeneroRepository generoRepository,
-                            final FilterService filterService, final ValidadorService validadorService,
-                            final PuntuacionService puntuacionService ) {
+    public LibroServiceImpl(final EditorialService editorialService, AuthorService authorService, AuthorRepository authorRepository, final LibroRepository libroRepository,
+                            final EntradaRepository entradaRepository, final EditorialRepository editorialRepository,
+                            final StorageService almacenImagenes, final PuntuacionRepository puntuacionRepository,
+                            final GeneroRepository generoRepository, final FilterService filterService,
+                            final ValidadorService validadorService, final PuntuacionService puntuacionService) {
         this.editorialService = editorialService;
+        this.authorService = authorService;
+        this.authorRepository = authorRepository;
         this.libroRepository = libroRepository;
         this.entradaRepository = entradaRepository;
-        this.autorRepository = autorRepository;
         this.editorialRepository = editorialRepository;
         this.almacenImagenes = almacenImagenes;
         this.puntuacionRepository = puntuacionRepository;
@@ -136,7 +143,12 @@ public class LibroServiceImpl implements LibroService {
                     throw new Exception("El titulo del libro ya se esta utilizando");
                 }
             }
-            final Set<AutorEntity> autoresObra = obtenerOGuardarAutoresObra(libroEntity);
+            Set<AuthorDTO> authors = this.authorService.getOrSaveBookAuthorByName(libroAGuardar);
+            final Set<AuthorEntity> autoresObra = new HashSet<>();
+            for (AuthorDTO authorDTO : authors) {
+                autoresObra.add(this.authorRepository.findById(authorDTO.getAuthorId()).orElseThrow(
+                        () -> new InstanceNotFoundException("author Id: "+ authorDTO.getAuthorId())));
+            }
             libroEntity.setAutores(autoresObra);
 
             final EditorialEntity editorialObra = this.editorialService
@@ -195,44 +207,6 @@ public class LibroServiceImpl implements LibroService {
         return "portadas/" + lista[elementos - 1];
     }
 
-    /**
-     * Obtener o guardar autores obra.
-     *
-     * @param libroEntity
-     *            the libro entity
-     * @return the establece
-     */
-    public Set<AutorEntity> obtenerOGuardarAutoresObra(final LibroEntity libroEntity) {
-        final Set<AutorEntity> autoresObra = new HashSet<AutorEntity>();
-        if (CollectionUtils.isNotEmpty(libroEntity.getAutores())) {
-            for (final AutorEntity autor : libroEntity.getAutores()) {
-
-                final List<AutorEntity> autorEncontradoL = this.autorRepository.findByNombre(autor.getNombre());
-                AutorEntity autorEncontrado = null;
-                if (CollectionUtils.isEmpty(autorEncontradoL)) {
-                    // No existe el autor, lo creamos
-                    final AutorEntity nuevoAutor = new AutorEntity();
-                    nuevoAutor.setNombre(autor.getNombre());
-                    nuevoAutor.setFechaAlta(Calendar.getInstance().getTime());
-                    final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                    final String currentPrincipalName = authentication.getName();
-                    nuevoAutor.setUsuarioAlta(currentPrincipalName);
-                    nuevoAutor.setFechaAlta(Calendar.getInstance().getTime());
-                    autorEncontrado = this.autorRepository.save(nuevoAutor);
-
-                } else {
-                    autorEncontrado = autorEncontradoL.get(0);
-                }
-                autoresObra.add(autorEncontrado);
-            }
-        }
-        return autoresObra;
-    }
-
-    @Override
-    public List<String> obtenerListaNombresAutores() {
-        return this.autorRepository.findAllNombresAutores();
-    }
 
     @Override
     public List<String> obtenerListaNombresEditoriales() {

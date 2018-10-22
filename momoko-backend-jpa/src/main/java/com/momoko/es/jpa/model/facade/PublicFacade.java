@@ -21,9 +21,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.momoko.es.api.dto.filter.FilterValueDTO;
-import com.momoko.es.jpa.model.entity.filter.FilterEntity;
-import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
 import com.momoko.es.jpa.model.repository.filter.FilterRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterValueRepository;
 import org.apache.commons.collections4.CollectionUtils;

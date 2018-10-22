@@ -1,6 +1,6 @@
 import { Genero } from './genre/genero';
 import { Editorial } from './editorial';
-import { Autor } from './autor';
+import { Author } from './autor';
 import { DatoEntrada } from './datoEntrada';
 import { Saga } from './saga';
 import { Filter } from './filter/filter';
@@ -19,7 +19,7 @@ export class Libro {
   urlImagen: string;
   titulo: string;
   tituloOriginal: string;
-  autores: Autor[];
+  autores: Author[];
   autoresString: string;
   generosString: string;
   urlLibro: string;

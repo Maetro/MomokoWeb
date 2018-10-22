@@ -40,16 +40,16 @@ export class ListaMiscelaneosSagaComponent implements OnInit {
         this.miscelaneos = coleccionSaga.coleccionSaga.entradas;
         this.numeroEntradas = coleccionSaga.coleccionSaga.numeroEntradas;
         this.datosEntrada = coleccionSaga.coleccionSaga.datosEntrada;
-        let autores = '';
-        this.saga.autores.forEach(autor => {
-          autores = autores + autor.nombre + ', ';
+        let authors = '';
+        this.saga.autores.forEach(author => {
+          authors = authors + author.name + ', ';
         });
-        autores = autores.substring(0, autores.length - 2);
+        authors = authors.substring(0, authors.length - 2);
         const metatituloPagina =
           'Encuentra aquí las últimas noticias sobre ' +
           this.saga.nombreSaga +
           ' de ' +
-          autores;
+          authors;
         this.titleService.setTitle(metatituloPagina);
         this.metaService.removeTag('name="og:url"');
         this.metaService.removeTag('name="og:type"');

@@ -7,11 +7,10 @@ import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.validation.RetypePasswordValidator;
 import com.momoko.es.exceptions.ErrorResponseComposer;
 import com.momoko.es.exceptions.MomokoExceptionsAutoConfiguration;
-import com.momoko.es.jpa.domain.MomokoAuditorAware;
+import com.momoko.es.jpa.common.audition.AuditionAwareImpl;
 import com.momoko.es.jpa.exceptions.DefaultExceptionHandlerControllerAdvice;
 import com.momoko.es.jpa.exceptions.MomokoErrorAttributes;
 import com.momoko.es.jpa.exceptions.MomokoErrorController;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.model.repository.UsuarioRepository;
 import com.momoko.es.jpa.model.service.UserService;
 import com.momoko.es.jpa.security.*;
@@ -91,16 +90,16 @@ public class MomokoAutoConfiguration {
         
         return converter;
 	}
-	
+
 	/**
 	 * Configures an Auditor Aware if missing
 	 */	
 	@Bean
 	@ConditionalOnMissingBean(AuditorAware.class)
-	public AuditorAware<UsuarioEntity> auditorAware(UsuarioRepository userRepository) {
+	public AuditorAware<String> auditorAware() {
 		
-        log.info("Configuring MomokoAuditorAware");
-		return new MomokoAuditorAware(userRepository);
+        log.info("Configuring AuditionAwareImpl");
+		return new AuditionAwareImpl();
 	}
 
 	/**

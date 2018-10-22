@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * The Class AutorEntity.
+ * The Class AuthorEntity.
  */
 @Entity
 @Table(name = "genero", indexes = { @Index(name = "urlGenero", columnList = "urlGenero", unique = true) })
