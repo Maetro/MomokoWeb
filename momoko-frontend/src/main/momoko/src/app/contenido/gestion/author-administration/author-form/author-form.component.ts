@@ -3,6 +3,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Author } from 'app/dtos/autor';
 import { environment } from 'environments/environment';
+import { MessageService } from 'primeng/primeng';
+import { FileUploadService } from '../../services/file-upload.service';
+import { AuthorService } from '../service/author.service';
 
 @Component({
   selector: 'app-author-form',
@@ -18,9 +21,13 @@ export class AuthorFormComponent implements OnInit {
   
   author: Author;
 
+  submitted = false;
 
   constructor( private formBuilder: FormBuilder,
     private router: Router,
+    private messageService: MessageService,
+    private authorService: AuthorService,
+    private fileUploadService: FileUploadService,
     private route: ActivatedRoute) { 
 
   }
@@ -34,8 +41,23 @@ export class AuthorFormComponent implements OnInit {
     this.getAuthorForm();
     if (this.authorId) {
       this.route.data.subscribe(data => {
-        this.author = data.userEditRequest.user;});
-        
+        this.author = data.userEditRequest.user;
+        this.authorForm.patchValue({
+          name: this.author.name,
+          authorUrl: this.author.authorUrl,
+          birhtYear: this.author.birhtYear,
+          deathYear: this.author.deathYear,
+          birthCountry: this.author.birthCountry,
+          description: this.author.description,
+          avatar: this.author.avatar,
+          authorHeaderImage: this.author.authorHeaderImage
+        });
+      });
+    } else{
+      this.authorForm.patchValue({
+        avatar: 'https://momoko.es/images/',
+        authorHeaderImage: 'https://momoko.es/images/'
+      });      
     }
 
   }
@@ -53,8 +75,78 @@ export class AuthorFormComponent implements OnInit {
     });
   }
 
-  get f() {
+  get authorF() {
     return this.authorForm.controls;
+  }
+
+  fileChangeCabecera($event): void {
+    this.fileUploadService.fileChange($event, 'cabeceras-redactores').subscribe
+      (urlImagenNueva => {
+        // Emit list event
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        this.messageService.add({
+          severity: "success",
+          summary: "Imagen guardada correctamente",
+          detail: "Via Servidor"
+        });
+        this.authorForm.patchValue({
+          authorHeaderImage: urlImagenNueva
+        });
+      },
+      err => {
+        // Log errors if any
+        if (this.log) {
+          console.log(err);
+        }
+      });
+  }
+
+  fileChangeAvatar($event): void {
+    this.fileUploadService.fileChange($event, 'avatares').subscribe
+      (urlImagenNueva => {
+        // Emit list event
+        if (this.log) {
+          console.log(urlImagenNueva);
+        }
+        this.messageService.add({
+          severity: "success",
+          summary: "Imagen guardada correctamente",
+          detail: "Via Servidor"
+        });
+        this.authorForm.patchValue({
+          avatar: urlImagenNueva
+        });
+      },
+      err => {
+        // Log errors if any
+        if (this.log) {
+          console.log(err);
+        }
+      });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    // stop here if form is invalid
+    if (this.authorForm.invalid) {
+      return;
+    }
+    this.authorForm.controls;
+    const updateAuthorRequest = this.authorForm.getRawValue();
+    this.authorService.saveAuthor(updateAuthorRequest).subscribe(res => {
+      if (res.authorUrl === updateAuthorRequest.authorUrl) {
+        this.messageService.add({
+          severity: "success",
+          summary: "El autor se ha guardado correctamente.",
+          detail: "Via MessageService"
+        });
+        this.router.navigate(["/gestion/autores"]);
+      } else {
+        alert("ERROR!! :-(");
+      }
+    });
   }
 
 }
