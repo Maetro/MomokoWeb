@@ -100,6 +100,11 @@ const appRoutes: Routes = [
     }
   },
   {
+    path: 'autor',
+    loadChildren:
+      './contenido/clasificador/lista-autor/author-page.module#AuthorPageModule'
+  },
+  {
     path: 'editorial/:url_editorial',
     loadChildren:
       './contenido/clasificador/lista-editorial/lista-editorial.module#ListaEditorialModule',

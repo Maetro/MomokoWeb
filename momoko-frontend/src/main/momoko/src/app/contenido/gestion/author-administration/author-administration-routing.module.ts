@@ -23,7 +23,7 @@ const administrationUsersRoutes = [
       path: 'editar/:url',
       component: AuthorFormComponent,
       pathMatch: 'full',
-      resolve: { data: EditAuthorResolverService }
+      resolve: { author: EditAuthorResolverService }
     },
   ];
   

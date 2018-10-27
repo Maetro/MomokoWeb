@@ -21,6 +21,8 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.momoko.es.jpa.author.entity.AuthorEntity;
+import com.momoko.es.jpa.author.repository.AuthorRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterRepository;
 import com.momoko.es.jpa.model.repository.filter.FilterValueRepository;
 import org.apache.commons.collections4.CollectionUtils;
@@ -1120,14 +1122,17 @@ public class PublicFacade {
     }
 
     @Autowired(required = false)
-    private FilterRepository filterRepository;
-
-    @Autowired(required = false)
-    private FilterValueRepository filterValueRepository;
+    private AuthorRepository authorRepository;
 
     @RequestMapping(method = RequestMethod.GET, path = "/test")
     public String test() throws Exception {
-     return "OK";
+        for (AuthorEntity a : authorRepository.findAll()) {
+            if (StringUtils.isEmpty(a.getAuthorUrl())) {
+                a.setAuthorUrl(ConversionUtils.toSlug(a.getName()));
+                this.authorRepository.save(a);
+            }
+        }
+        return "OK";
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarRedirects")

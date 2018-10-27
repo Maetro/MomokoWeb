@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 import java.util.Set;
 
@@ -36,20 +37,20 @@ public class AuthorController {
         return authors;
     }
 
-    @GetMapping(path = "/{urlAuthor}")
+    @GetMapping(path = "/{authorUrl}")
     public @ResponseBody
-    AuthorDTO getAuthor(@PathVariable("urlAuthor") String urlAuthor) {
+    AuthorDTO getAuthor(@PathVariable("authorUrl") String authorUrl) throws InstanceNotFoundException {
 
-        final AuthorDTO author = this.authorService.getAuthorByUrl(urlAuthor);
+        final AuthorDTO author = this.authorService.getAuthorByUrl(authorUrl);
         return author;
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @RequestMapping(method = RequestMethod.POST, path = "/add")
-    ResponseEntity<SaveAuthorResponse> saveAuthor(@RequestBody final AuthorDTO authorDTO) throws Exception {
+    @RequestMapping(method = RequestMethod.POST)
+    ResponseEntity<AuthorDTO> saveAuthor(@RequestBody final AuthorDTO authorDTO) throws Exception {
 
         SaveAuthorResponse response = this.authorService.saveAuthor(authorDTO);
-        return new ResponseEntity<SaveAuthorResponse>(response, HttpStatus.OK);
+        return new ResponseEntity<AuthorDTO>(response.getAuthorDTO(), HttpStatus.OK);
 
     }
 

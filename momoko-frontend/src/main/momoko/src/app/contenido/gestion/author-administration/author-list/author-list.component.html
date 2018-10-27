@@ -11,12 +11,6 @@
     <div class="row tabla-libros">
       <div class="col-md-12">
           <p-table #dt [columns]="cols" [value]="authors" [paginator]="true" [rows]="10">
-              <ng-template pTemplate="caption">
-                  <div style="text-align: right">
-                      <i class="fa fa-search" style="margin:4px 4px 0 0"></i>
-                      <input type="text" pInputText size="50" placeholder="Filtrar" (input)="dt.filterGlobal($event.target.value, 'contains')" style="width:auto">
-                  </div>
-              </ng-template>
               <ng-template pTemplate="header" let-columns>
                   <tr>
                       <th class="grayborder" *ngFor="let col of columns" [pSortableColumn]="col.field">
@@ -24,6 +18,12 @@
                           <p-sortIcon [field]="col.field" ariaLabel="Activate to sort" ariaLabelDesc="Activate to sort in descending order" ariaLabelAsc="Activate to sort in ascending order"></p-sortIcon>
                       </th>
                   </tr>
+                  <tr>
+                    <th *ngFor="let col of columns" [ngSwitch]="col.field">
+                        <input *ngSwitchCase="'name'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                        <input *ngSwitchCase="'authorUrl'" pInputText type="text" (input)="dt.filter($event.target.value, col.field, col.filterMatchMode)">
+                    </th>
+                </tr>
               </ng-template>
               <ng-template pTemplate="body" let-author let-columns="columns">
                   <tr (click)="editAuthor(author)">

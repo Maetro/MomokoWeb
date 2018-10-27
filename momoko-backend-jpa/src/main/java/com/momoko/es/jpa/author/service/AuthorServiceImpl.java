@@ -141,5 +141,9 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
 
+    @Override
+    public AuthorDTO getAuthorById(Integer authorId) throws InstanceNotFoundException {
+        return AuthorAdapter.adaptAuthorEntity(this.authorRepository.findById(authorId).orElseThrow(() -> new InstanceNotFoundException("Author id: "+ authorId)), false);
+    }
 
 }

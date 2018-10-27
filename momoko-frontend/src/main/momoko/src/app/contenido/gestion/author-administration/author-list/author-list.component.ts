@@ -3,6 +3,7 @@ import { environment } from 'environments/environment';
 import { Author } from 'app/dtos/autor';
 import { AuthorService } from '../service/author.service';
 import { Router } from '@angular/router';
+import { SelectItem } from 'primeng/primeng';
 
 @Component({
   selector: 'app-author-list',
@@ -17,6 +18,8 @@ export class AuthorListComponent implements OnInit {
   cols: any[];
 
   loading: boolean;
+
+  options: SelectItem[];
 
   title = 'Libros';
   authors: Author[];
@@ -55,23 +58,31 @@ export class AuthorListComponent implements OnInit {
       { field: 'authorUrl', header: 'Url' },
       { filed: 'isCompleted', header: 'Información completa'}
     ];
+
+    this.options = [
+      { label: 'Todos', value: null },
+      { label: 'Completados', value: 'Completado' },
+      { label: 'Incompletos', value: 'Incompleto' }
+    ];
+
   }
 
   newAuthor(): void {
     if (this.log) {
       console.log('nuevoFilter');
     }
-    this.router.navigate(['/gestion/nuevo-autor']);
+    this.router.navigate(['/gestion/autores/nuevo']);
   }
 
   editAuthor(author: Author) {
-    this.router.navigate(['/gestion/editar-autor/' + author.authorUrl]);
+    this.router.navigate(['/gestion/autores/editar/' + author.authorUrl]);
   }
 
   volver(): void {
     if (this.log) {
       console.log('volver');
     }
+    this.router.navigate(['/gestion/autores']);
   }
 
   actualizarOAnadirFilter(author: Author): void {

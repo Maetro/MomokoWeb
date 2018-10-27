@@ -11,8 +11,8 @@
       <div class="form-group">
         <label for="author"><b>Nombre *</b></label>
         <input type="text" formControlName="name" id="name" class="form-control" [placeholder]="'Nombre del autor'"
-          [ngClass]="{ 'is-invalid': submitted && authorF.name.errors }" />
-        <div *ngIf="submitted && authorF.nick.errors" class="invalid-feedback">
+          [ngClass]="{ 'is-invalid': submitted && authorF.name.errors }" (ngModelChange)="changeName($event)" />
+        <div *ngIf="submitted && authorF.name.errors" class="invalid-feedback">
           <div *ngIf="authorF.name.errors.required">El nombre del autor no puede estar vacío</div>
         </div>
       </div>
@@ -31,27 +31,26 @@
       </div>
 
       <div class="form-group">
-        <label for="author"><b>Año de defunción</b></label>
+        <label for="deathYear"><b>Año de defunción</b></label>
         <input type="number" formControlName="deathYear" id="deathYear" class="form-control" [ngClass]="{ 'is-invalid': submitted && authorF.deathYear.errors }" />
       </div>
 
       <div class="form-group">
-        <label for="author"><b>País de nacimiento</b></label>
+        <label for="birthCountry"><b>País de nacimiento</b></label>
         <input type="text" formControlName="birthCountry" id="birthCountry" class="form-control" [placeholder]="'País del autor'"
           [ngClass]="{ 'is-invalid': submitted && authorF.birthCountry.errors }" />
 
       </div>
       <div class="form-group">
-        <label for="author"><b>Descripción Autor</b></label>
-        <input type="text" formControlName="description" id="description" class="form-control" [placeholder]="'Descripción del autor'"
-          [ngClass]="{ 'is-invalid': submitted && authorF.description.errors }" />
+        <label for="description"><b>Descripción Autor</b></label>
+        <textarea [froalaEditor] formControlName="description" [(froalaModel)]="author.description"></textarea>
       </div>
 
       <div class="form-field">
         <h2 class="section-title widget-title  margen_superior">Imagen de cabecera del autor</h2>
-        <img src="{{authorF.authorHeaderImage}}" alt="Cabecera autor - {{authorF.name}}" />
-        <p-fileUpload name="cabeceraFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeCabecera($event)" chooseLabel="Subir imagen"
-          auto="auto" maxFileSize="1000000">
+        <img src="{{authorF.authorHeaderImage.value}}" alt="Cabecera autor - {{authorF.name.value}}" />
+        <p-fileUpload name="cabeceraFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeCabecera($event)"
+          chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
 
           <ng-template pTemplate="content">
             <div>Arrastra aquí la imagen que quieras subir.</div>
@@ -61,29 +60,31 @@
 
       <div class="form-field">
         <h2 class="section-title widget-title  margen_superior">Avatar del autor</h2>
-        <img class="imagen-avatar" src="{{authorF.avatar}}" alt="Avatar autor - {{authorF.name}}" />
-        <p-fileUpload name="iconoFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeAvatar($event)" chooseLabel="Subir imagen"
-          auto="auto" maxFileSize="1000000">
+        <div class="row">
+          <div class="col-sm-6">
+            <p-fileUpload name="iconoFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeAvatar($event)"
+              chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
 
-          <ng-template pTemplate="content">
-            <div>Arrastra aquí la imagen que quieras subir.</div>
-          </ng-template>
-        </p-fileUpload>
+              <ng-template pTemplate="content">
+                <div>Arrastra aquí la imagen que quieras subir.</div>
+              </ng-template>
+            </p-fileUpload>
+          </div>
+          <div class="col-sm-6">
+            <img class="imagen-avatar" src="{{authorF.avatar.value}}" alt="Avatar autor - {{authorF.name.value}}" />
+          </div>
+        </div>
       </div>
-
-      <button type="button" class="btn btn-primary save-button" (click)="onSubmit()">
-        Guardar
-      </button>
-      <button type="button" class="btn btn-secondary" routerLink="/admin/roles">
-        Volver
-      </button>
-
+      
+        <button type="button" class="btn btn-primary save-button" (click)="onSubmit()">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-secondary" routerLink="/admin/roles">
+          Volver
+        </button>
+      
     </form>
 
 
   </div>
-</div>
-
-
-
 </div>

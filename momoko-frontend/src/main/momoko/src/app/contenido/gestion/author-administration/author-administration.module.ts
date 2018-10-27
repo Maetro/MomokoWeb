@@ -5,6 +5,8 @@ import { CheckboxModule, ChipsModule, DropdownModule, FileUploadModule, GrowlMod
 import { TableModule } from 'primeng/table';
 import { AuthorFormComponent } from './author-form/author-form.component';
 import { AuthorListComponent } from './author-list/author-list.component';
+import { AuthorAdministrationRoutingModule } from './author-administration-routing.module';
+import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 @NgModule({
   imports: [
@@ -20,7 +22,10 @@ import { AuthorListComponent } from './author-list/author-list.component';
     SharedModule,
     PickListModule,
     TableModule,
-    ChipsModule
+    ChipsModule,
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot(),
+    AuthorAdministrationRoutingModule
   ],
   declarations: [AuthorListComponent, AuthorFormComponent]
 })

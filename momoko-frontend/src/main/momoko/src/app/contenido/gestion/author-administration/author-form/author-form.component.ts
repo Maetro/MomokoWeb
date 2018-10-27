@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { MessageService } from 'primeng/primeng';
 import { FileUploadService } from '../../services/file-upload.service';
 import { AuthorService } from '../service/author.service';
+import { UtilService } from 'app/services/util/util.service';
 
 @Component({
   selector: 'app-author-form',
@@ -17,9 +18,11 @@ export class AuthorFormComponent implements OnInit {
   private log = environment.log;
 
   authorForm: FormGroup;
-  authorId: string;
+  authorUrl: string;
   
   author: Author;
+
+  customURL = false;
 
   submitted = false;
 
@@ -28,6 +31,7 @@ export class AuthorFormComponent implements OnInit {
     private messageService: MessageService,
     private authorService: AuthorService,
     private fileUploadService: FileUploadService,
+    private util: UtilService,
     private route: ActivatedRoute) { 
 
   }
@@ -37,12 +41,13 @@ export class AuthorFormComponent implements OnInit {
       console.log('Builder ListaFilteresComponent');
     }
 
-    this.authorId = this.route.snapshot.paramMap.get("id");
+    this.authorUrl = this.route.snapshot.paramMap.get("url");
     this.getAuthorForm();
-    if (this.authorId) {
+    if (this.authorUrl) {
       this.route.data.subscribe(data => {
-        this.author = data.userEditRequest.user;
+        this.author = data.author;
         this.authorForm.patchValue({
+          authorId: +this.author.authorId,
           name: this.author.name,
           authorUrl: this.author.authorUrl,
           birhtYear: this.author.birhtYear,
@@ -64,6 +69,7 @@ export class AuthorFormComponent implements OnInit {
 
   private getAuthorForm() {
     this.authorForm = this.formBuilder.group({
+      authorId: [""],
       name: ["", Validators.required],
       authorUrl:  ["", Validators.required],
       birhtYear: ["", Validators.pattern('[0-9]*')],
@@ -79,8 +85,17 @@ export class AuthorFormComponent implements OnInit {
     return this.authorForm.controls;
   }
 
+  changeName(newValue: string) {
+    if (!this.customURL) {
+      const newUrl = this.util.convertToSlug(newValue);
+      this.authorForm.patchValue({
+        authorUrl: newUrl
+      });
+    }
+  }
+
   fileChangeCabecera($event): void {
-    this.fileUploadService.fileChange($event, 'cabeceras-redactores').subscribe
+    this.fileUploadService.fileChange($event, 'author-headers').subscribe
       (urlImagenNueva => {
         // Emit list event
         if (this.log) {
@@ -104,7 +119,7 @@ export class AuthorFormComponent implements OnInit {
   }
 
   fileChangeAvatar($event): void {
-    this.fileUploadService.fileChange($event, 'avatares').subscribe
+    this.fileUploadService.fileChange($event, 'author-avatar').subscribe
       (urlImagenNueva => {
         // Emit list event
         if (this.log) {
@@ -147,6 +162,10 @@ export class AuthorFormComponent implements OnInit {
         alert("ERROR!! :-(");
       }
     });
+  }
+
+  volver(){
+    this.router.navigate(["/gestion/autores"]);
   }
 
 }
