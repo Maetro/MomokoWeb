@@ -30,7 +30,7 @@ public class AuthorEntity extends AuditableEntity {
 
     private Integer birhtYear;
 
-    private Integer deathYear;
+    private String deathYear;
 
     private String birthCountry;
 
@@ -84,11 +84,11 @@ public class AuthorEntity extends AuditableEntity {
         this.birhtYear = birhtYear;
     }
 
-    public Integer getDeathYear() {
+    public String getDeathYear() {
         return deathYear;
     }
 
-    public void setDeathYear(Integer deathYear) {
+    public void setDeathYear(String deathYear) {
         this.deathYear = deathYear;
     }
 

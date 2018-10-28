@@ -12,6 +12,11 @@
             <u>Ficha del libro</u>
           </a>
         </li>
+        <li class="nav-item">
+            <a routerLink="/autor/{{libro.autores[0].authorUrl}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <u>Autor</u>
+            </a>
+          </li>
         <li class="nav-item" *ngIf="hayAnalisis">
           <a routerLinkActive="active" routerLink="/opiniones/{{urlAnalisis}}" [class.active]="isActive('ANALISIS')">
             <u>Reseña</u>

@@ -45,7 +45,7 @@
             <h1 class="post-title">{{libro.titulo}} </h1>
             <p class="titulo_original"> {{libro.tituloOriginal}} </p>
             <div class="autor_libro">
-              <span *ngFor="let autor of libro.autores,let last = last;">{{autor.name}}
+              <span *ngFor="let autor of libro.autores,let last = last;"><a routerLink="/autor/{{autor.authorUrl}}">{{autor.name}}</a>
                 <span [hidden]="last">, </span>
               </span>
             </div>

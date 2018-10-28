@@ -29,7 +29,7 @@ public class AuthorDTO implements Serializable {
 
     private Integer birhtYear;
 
-    private Integer deathYear;
+    private String deathYear;
 
     private String birthCountry;
 
@@ -77,11 +77,11 @@ public class AuthorDTO implements Serializable {
         this.birhtYear = birhtYear;
     }
 
-    public Integer getDeathYear() {
+    public String getDeathYear() {
         return deathYear;
     }
 
-    public void setDeathYear(Integer deathYear) {
+    public void setDeathYear(String deathYear) {
         this.deathYear = deathYear;
     }
 

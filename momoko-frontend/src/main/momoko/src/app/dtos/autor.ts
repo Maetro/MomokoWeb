@@ -5,7 +5,7 @@ export interface Author {
   name: string;
   authorUrl: string;
   birhtYear: number;
-  deathYear: number;
+  deathYear: string;
   birthCountry: string;
   description: string;
   avatar: string;

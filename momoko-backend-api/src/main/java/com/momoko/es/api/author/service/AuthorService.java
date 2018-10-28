@@ -1,6 +1,7 @@
 package com.momoko.es.api.author.service;
 
 import com.momoko.es.api.author.dto.AuthorDTO;
+import com.momoko.es.api.author.response.AuthorPageResponse;
 import com.momoko.es.api.author.response.SaveAuthorResponse;
 import com.momoko.es.api.dto.LibroDTO;
 
@@ -21,4 +22,6 @@ public interface AuthorService {
     SaveAuthorResponse saveAuthor(AuthorDTO authorDTO);
 
     AuthorDTO getAuthorById(Integer authorId) throws InstanceNotFoundException;
+
+    AuthorPageResponse getAuthorAndAuthorBooksByUrl(String urlAuthor);
 }
