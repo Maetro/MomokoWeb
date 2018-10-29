@@ -188,10 +188,10 @@ public class AuthorServiceImpl implements AuthorService {
                 authorDTO.setAvatar(
                         this.storageService.obtenerMiniatura(authorDTO.getAvatar(), 170, 170, true));
             } catch (final IOException e) {
-                authorDTO.setAvatar("/assets/style/images/art/parallax2.jpg");
+                authorDTO.setAvatar("https://momoko.es/images/fijas/author_avatar_empty.jpg");
             }
         } else {
-            authorDTO.setAvatar("/assets/style/images/art/parallax2.jpg");
+            authorDTO.setAvatar("https://momoko.es/images/fijas/author_avatar_empty.jpg");
         }
         if (authorDTO.getAuthorHeaderImage() != null) {
             authorDTO.setAuthorHeaderImage(imageServer + authorDTO.getAuthorHeaderImage());

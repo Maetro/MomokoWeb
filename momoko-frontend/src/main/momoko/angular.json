@@ -67,7 +67,11 @@
                 },
                 {
                   "replace": "src/app/contenido/menu/menu.component.html",
-                  "with": "src/app/contenido/menu/menu.public.component.html"
+                  "with": "src/app/contenido/menu/menu.prod.component.html"
+                },
+                {
+                  "replace": "src/app/contenido/gestion/gestion-routing.module.ts",
+                  "with": "src/app/contenido/gestion/gestion-routing.prod.module.ts"
                 }   
               ]
             },
@@ -97,7 +101,11 @@
                 {
                   "replace": "src/app/contenido/menu/menu.component.html",
                   "with": "src/app/contenido/menu/menu.public.component.html"
-                }   
+                },
+                {
+                  "replace": "src/app/contenido/gestion/gestion-routing.module.ts",
+                  "with": "src/app/contenido/gestion/gestion-routing.prod.module.ts"
+                } 
               ]
             },
             "admin": {
@@ -192,7 +200,11 @@
                 {
                   "replace": "src/app/app-routing.module.ts",
                   "with": "src/app/app-routing.prod.module.ts"
-                }
+                },
+                {
+                  "replace": "src/app/contenido/gestion/gestion-routing.module.ts",
+                  "with": "src/app/contenido/gestion/gestion-routing.prod.module.ts"
+                } 
               ]
             }, 
             "ssr-dev": {

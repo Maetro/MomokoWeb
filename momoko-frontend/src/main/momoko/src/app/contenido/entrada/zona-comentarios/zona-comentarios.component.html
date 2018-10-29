@@ -46,7 +46,7 @@
   <p>No te preocupes, no publicaremos tu correo electrónico *</p>
   <form (ngSubmit)="onPublicarComentario()" #commentForm="ngForm" class="comment-form" name="form_name" action="#" method="post">
     <div class="name-field">
-      <input id="name" required [(ngModel)]="nuevoComentario.name" #name="ngModel" placeholder="Nombre*" type="text" name="name"
+      <input id="name" required [(ngModel)]="nuevoComentario.nombre" #name="ngModel" placeholder="Nombre*" type="text" name="name"
         title="Nombre*" />
     </div>
     <div class="email-field">
