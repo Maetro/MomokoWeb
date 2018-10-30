@@ -31,9 +31,13 @@
           <span class="deathdate" *ngIf="author.deathYear">- {{author.deathYear}}</span> 
       </div>
 
-      <div class="authorDescription">
+      <div class="authorDescription" [class.collapsed]="isCollapsed">
           <div [innerHTML]="author.description"> </div>
       </div>
+      <a class="btn" (click)="collapse()">
+          <span *ngIf="isCollapsed">Leer más</span>
+          <span *ngIf="!isCollapsed">Leer menos</span>
+      </a>
 
       <div class="blog-content marginTop20">
         <div class="blog-post">

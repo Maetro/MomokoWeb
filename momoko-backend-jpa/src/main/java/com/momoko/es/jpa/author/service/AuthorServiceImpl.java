@@ -68,8 +68,12 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorDTO getAuthorByUrl(String urlAuthor) {
         AuthorDTO authorDTO = AuthorAdapter.adaptAuthorEntity(this.authorRepository.findOneByAuthorUrlIs(urlAuthor), false);
         final String imageServer = this.storageService.getUrlImageServer();
-        authorDTO.setAvatar(imageServer + authorDTO.getAvatar());
-        authorDTO.setAuthorHeaderImage(imageServer + authorDTO.getAuthorHeaderImage());
+        if (authorDTO.getAvatar() != null) {
+            authorDTO.setAvatar(imageServer + authorDTO.getAvatar());
+        }
+        if (authorDTO.getAuthorHeaderImage() != null) {
+            authorDTO.setAuthorHeaderImage(imageServer + authorDTO.getAuthorHeaderImage());
+        }
         return authorDTO;
     }
 

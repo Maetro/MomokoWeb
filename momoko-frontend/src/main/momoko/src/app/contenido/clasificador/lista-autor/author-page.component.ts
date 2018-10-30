@@ -9,6 +9,7 @@ import { environment } from 'environments/environment';
 import { AuthorPageResponse } from './dtos/author-page-response';
 import { isPlatformBrowser } from '@angular/common';
 
+declare var $: any;
 
 @Component({
   selector: 'app-author-page',
@@ -23,6 +24,8 @@ export class AuthorPageComponent implements OnInit {
   suscriptor: any;
   authorBooks: LibroSimple[];
   author: Author;
+
+  isCollapsed= true;
 
   paginaActual: number;
 
@@ -59,6 +62,13 @@ export class AuthorPageComponent implements OnInit {
   onChangeOrder(event) {
     if (this.log) {
       console.log(event);
+    }
+  }
+
+  collapse(){
+    this.isCollapsed = !this.isCollapsed;
+    if (this.isCollapsed){
+      $('body,html').animate({scrollTop: 500},800);
     }
   }
 

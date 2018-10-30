@@ -58,13 +58,7 @@ export class AuthorFormComponent implements OnInit {
           authorHeaderImage: this.author.authorHeaderImage
         });
       });
-    } else{
-      this.authorForm.patchValue({
-        avatar: 'https://momoko.es/images/',
-        authorHeaderImage: 'https://momoko.es/images/'
-      });      
-    }
-
+    } 
   }
 
   private getAuthorForm() {
@@ -73,7 +67,7 @@ export class AuthorFormComponent implements OnInit {
       name: ["", Validators.required],
       authorUrl:  ["", Validators.required],
       birhtYear: ["", Validators.pattern('[0-9]*')],
-      deathYear: ["", Validators.pattern('[0-9]*')],
+      deathYear: [""],
       birthCountry: [""],
       description: [""],
       avatar: [""],
