@@ -55,6 +55,11 @@ export class AuthorFormComponent implements OnInit {
           birthCountry: this.author.birthCountry,
           description: this.author.description,
           avatar: this.author.avatar,
+          twitter: this.author.twitter,
+          facebook: this.author.facebook,
+          instagram: this.author.instagram,
+          youtube: this.author.youtube,
+          webpage: this.author.webpage,
           authorHeaderImage: this.author.authorHeaderImage
         });
       });
@@ -69,6 +74,11 @@ export class AuthorFormComponent implements OnInit {
       birhtYear: ["", Validators.pattern('[0-9]*')],
       deathYear: [""],
       birthCountry: [""],
+      twitter: [""],
+      facebook: [""],
+      instagram: [""],
+      youtube: [""],
+      webpage:[""],
       description: [""],
       avatar: [""],
       authorHeaderImage: [""]

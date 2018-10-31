@@ -23,20 +23,22 @@
 
       </div>
       <div class="authorName">
-          {{author.name}}
+        {{author.name}}
       </div>
       <div class="authorOrigin">
-          <span class="country" *ngIf="author.birthCountry">{{author.birthCountry}} </span> 
-          <span class="birthdate" *ngIf="author.birhtYear">{{author.birhtYear}} </span>
-          <span class="deathdate" *ngIf="author.deathYear">- {{author.deathYear}}</span> 
+        <span class="country" *ngIf="author.birthCountry">{{author.birthCountry}} </span>
+        <span class="birthdate" *ngIf="author.birhtYear">{{author.birhtYear}} </span>
+        <span class="deathdate" *ngIf="author.deathYear">- {{author.deathYear}}</span>
       </div>
-
+      <div class="authorSocial">
+        <app-social-data-icons [socialData]="author"></app-social-data-icons>
+      </div>
       <div class="authorDescription" [class.collapsed]="isCollapsed">
-          <div [innerHTML]="author.description"> </div>
+        <div [innerHTML]="author.description"> </div>
       </div>
       <a class="btn" (click)="collapse()">
-          <span *ngIf="isCollapsed">Leer más</span>
-          <span *ngIf="!isCollapsed">Leer menos</span>
+        <span *ngIf="isCollapsed">Leer más</span>
+        <span *ngIf="!isCollapsed">Leer menos</span>
       </a>
 
       <div class="blog-content marginTop20">
@@ -59,28 +61,28 @@
         <div class="blog-post">
           <!-- /.page-navi -->
           <div class="row">
-              <div class="libroGenero" *ngFor="let book of authorBooks, let i = index; let first = first">
-                  <div class="clearfix" *ngIf="!isMobile && i % 3 == 0 && !first"></div>
-                  <div class="clearfix" *ngIf="isMobile && i % 2 == 0 && !first"></div>
-                  <div class="col-xs-6 col-sm-4">
+            <div class="libroGenero" *ngFor="let book of authorBooks, let i = index; let first = first">
+              <div class="clearfix" *ngIf="!isMobile && i % 3 == 0 && !first"></div>
+              <div class="clearfix" *ngIf="isMobile && i % 2 == 0 && !first"></div>
+              <div class="col-xs-6 col-sm-4">
 
-                      <div class="contenedorImagenes">
-                          <a routerLink="/libro/{{book.urlLibro}}">
-                              <span class="helper over"></span>
-                              <img src="{{book.portada}}" alt="Portada libro - {{book.titulo}} " />
-                          </a>
-                      </div>
+                <div class="contenedorImagenes">
+                  <a routerLink="/libro/{{book.urlLibro}}">
+                    <span class="helper over"></span>
+                    <img src="{{book.portada}}" alt="Portada libro - {{book.titulo}} " />
+                  </a>
+                </div>
 
-                       <div class="contenedorDatos">
-                          <h4 class="titulo_libro">
-                              <a routerLink="/libro/{{book.urlLibro}}">{{book.titulo}}</a>
-                          </h4>
-                          <span class="autor_libro"> {{book.nombreAutor}} </span>
-                      </div>
-
-                  </div>
+                <div class="contenedorDatos">
+                  <h4 class="titulo_libro">
+                    <a routerLink="/libro/{{book.urlLibro}}">{{book.titulo}}</a>
+                  </h4>
+                  <span class="autor_libro"> {{book.nombreAutor}} </span>
+                </div>
 
               </div>
+
+            </div>
 
           </div>
         </div>

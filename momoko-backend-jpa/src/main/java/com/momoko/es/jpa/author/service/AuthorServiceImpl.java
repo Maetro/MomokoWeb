@@ -167,6 +167,11 @@ public class AuthorServiceImpl implements AuthorService {
         authorToUpdate.setDeathYear(authorDTO.getDeathYear());
         authorToUpdate.setBirthCountry(authorDTO.getBirthCountry());
         authorToUpdate.setDescription(authorDTO.getDescription());
+        authorToUpdate.setTwitter(authorDTO.getTwitter());
+        authorToUpdate.setFacebook(authorDTO.getFacebook());
+        authorToUpdate.setInstagram(authorDTO.getInstagram());
+        authorToUpdate.setYoutube(authorDTO.getYoutube());
+        authorToUpdate.setWebpage(authorDTO.getWebpage());
         authorToUpdate.setName(authorDTO.getName());
         AuthorEntity authorUpdated = this.authorRepository.save(authorToUpdate);
         return AuthorAdapter.adaptAuthorEntity(authorUpdated, false);
@@ -200,7 +205,7 @@ public class AuthorServiceImpl implements AuthorService {
         if (authorDTO.getAuthorHeaderImage() != null) {
             authorDTO.setAuthorHeaderImage(imageServer + authorDTO.getAuthorHeaderImage());
         } else {
-            authorDTO.setAuthorHeaderImage("/assets/style/images/art/parallax2.jpg");
+            authorDTO.setAuthorHeaderImage("https://momoko.es/images/fijas/cabecera_autores.jpg");
         }
 
         response.setAuthor(authorDTO);

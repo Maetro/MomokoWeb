@@ -1,0 +1,29 @@
+<div class="col-md-12">
+  <div class="post__share iconoSocial">
+    <div *ngIf="socialData.facebook" class="enlaceRedes">
+      <a class=" facebook s_facebook" href="{{socialData.facebook}}">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </div>
+    <div *ngIf="socialData.twitter" class="enlaceRedes">
+      <a class="twitter s_twitter" href="{{socialData.twitter}}">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </div>
+    <div *ngIf="socialData.instagram" class="enlaceRedes">
+      <a class="instagram s_instagram" href="{{socialData.instagram}}">
+        <i class="fa fa-instagram"></i>
+      </a>
+    </div>
+    <div *ngIf="socialData.youtube" class="enlaceRedes">
+      <a class="youtube s_youtube" href="{{socialData.youtube}}">
+        <i class="fa fa-youtube"></i>
+      </a>
+    </div>
+    <div *ngIf="socialData.webpage" class="enlaceRedes">
+      <a class="paginaweb s_paginaweb" href="{{socialData.webpage}}">
+        <span class="webspan">www</span>
+      </a>
+    </div>
+  </div>
+</div>

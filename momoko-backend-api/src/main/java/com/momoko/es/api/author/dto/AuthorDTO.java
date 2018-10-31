@@ -1,7 +1,8 @@
 /**
  * AuthorDTO.java 08-jul-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.api.author.dto;
@@ -32,6 +33,16 @@ public class AuthorDTO implements Serializable {
     private String deathYear;
 
     private String birthCountry;
+
+    private String twitter;
+
+    private String facebook;
+
+    private String instagram;
+
+    private String youtube;
+
+    private String webpage;
 
     private String description;
 
@@ -123,6 +134,46 @@ public class AuthorDTO implements Serializable {
 
     public void setAuthorBooks(Set<LibroDTO> authorBooks) {
         this.authorBooks = authorBooks;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getYoutube() {
+        return youtube;
+    }
+
+    public void setYoutube(String youtube) {
+        this.youtube = youtube;
+    }
+
+    public String getWebpage() {
+        return webpage;
+    }
+
+    public void setWebpage(String webpage) {
+        this.webpage = webpage;
     }
 
     @Override

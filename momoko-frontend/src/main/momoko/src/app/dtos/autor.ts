@@ -1,6 +1,7 @@
 import { Libro } from "./libro";
+import { SocialData } from "./abstract/socialData";
 
-export interface Author {
+export interface Author extends SocialData{
   authorId: number;
   name: string;
   authorUrl: string;

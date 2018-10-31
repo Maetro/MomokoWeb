@@ -34,6 +34,16 @@ public class AuthorEntity extends AuditableEntity {
 
     private String birthCountry;
 
+    private String twitter;
+
+    private String facebook;
+
+    private String instagram;
+
+    private String youtube;
+
+    private String webpage;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -122,6 +132,46 @@ public class AuthorEntity extends AuditableEntity {
 
     public void setAuthorHeaderImage(String authorHeaderImage) {
         this.authorHeaderImage = authorHeaderImage;
+    }
+
+    public String getTwitter() {
+        return twitter;
+    }
+
+    public void setTwitter(String twitter) {
+        this.twitter = twitter;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getYoutube() {
+        return youtube;
+    }
+
+    public void setYoutube(String youtube) {
+        this.youtube = youtube;
+    }
+
+    public String getWebpage() {
+        return webpage;
+    }
+
+    public void setWebpage(String webpage) {
+        this.webpage = webpage;
     }
 
     @Override

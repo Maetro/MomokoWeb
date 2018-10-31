@@ -310,15 +310,21 @@ h3:after {
   margin-top: 10px;
 }
 
+.authorSocial {
+  margin-top: 20px;
+  text-align: center;
+  display: inline-block;
+}
+
 .authorDescription{
-  margin-top: 50px;
+  margin-top: 10px;
   font-size: 15px;
   color: gray;
   height: auto;
   -webkit-transition: max-height 1s;
 	-moz-transition: max-height 1s;
   transition: max-height 1s;
-  max-height:2000px;
+  max-height:2500px;
   margin-bottom: 20px;
   overflow: hidden;
   &.collapsed{

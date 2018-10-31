@@ -1,5 +1,6 @@
+import { SocialData } from "./abstract/socialData";
 
-export class Redactor {
+export class Redactor extends SocialData{
     usuarioId: number;
     nombre: string;
     nick: string;
@@ -8,11 +9,6 @@ export class Redactor {
     avatarRedactor: string;
     urlRedactor: string;
     descripcion: string;
-    twitter: string;
-    facebook: string;
-    instagram: string;
-    youtube: string;
-    paginaweb: string;
     cargo: string;
     fechaAlta: Date;
     fechaUltimaEntrada: Date;

@@ -52,6 +52,11 @@ public final class AuthorAdapter {
         result.setBirthCountry(authorEntity.getBirthCountry());
         result.setDescription(authorEntity.getDescription());
         result.setName(authorEntity.getName());
+        result.setFacebook(authorEntity.getFacebook());
+        result.setInstagram(authorEntity.getInstagram());
+        result.setTwitter(authorEntity.getTwitter());
+        result.setYoutube(authorEntity.getYoutube());
+        result.setWebpage(authorEntity.getWebpage());
         return result;
     }
 
@@ -70,6 +75,11 @@ public final class AuthorAdapter {
         result.setBirthCountry(authorDTO.getBirthCountry());
         result.setDescription(authorDTO.getDescription());
         result.setName(authorDTO.getName());
+        result.setTwitter(authorDTO.getTwitter());
+        result.setFacebook(authorDTO.getFacebook());
+        result.setInstagram(authorDTO.getInstagram());
+        result.setYoutube(authorDTO.getYoutube());
+        result.setWebpage(authorDTO.getWebpage());
         return result;
     }
 }
