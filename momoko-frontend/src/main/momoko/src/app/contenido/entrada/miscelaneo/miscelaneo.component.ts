@@ -159,20 +159,11 @@ export class MiscelaneoComponent implements OnInit, AfterViewInit {
   }
 
   collage() {
-    $('#collage-large')
+    $('.collage')
       .removeWhitespace()
       .collagePlus({
         fadeSpeed: 5000,
         targetHeight: 400,
-        effect: 'effect-2',
-        direction: 'vertical',
-        allowPartialLastRow: true
-      });
-    $('#collage-medium')
-      .removeWhitespace()
-      .collagePlus({
-        fadeSpeed: 5000,
-        targetHeight: 300,
         effect: 'effect-2',
         direction: 'vertical',
         allowPartialLastRow: true
