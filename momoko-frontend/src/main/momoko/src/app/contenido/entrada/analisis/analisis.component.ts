@@ -1,16 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
-import {
-  AfterViewInit,
-  Component,
-  Inject,
-  Input,
-  OnInit,
-  PLATFORM_ID,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { BookTemplateItem } from 'app/contenido/comun/book-template/book-template-item';
 import { environment } from '../../../../environments/environment';
 import { Comentario } from '../../../dtos/comentario';
 import { Entrada } from '../../../dtos/entrada';

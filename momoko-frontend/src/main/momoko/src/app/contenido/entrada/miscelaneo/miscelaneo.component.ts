@@ -1,22 +1,12 @@
-import { LinkService } from '../../../services/link.service';
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  Input,
-  Inject,
-  PLATFORM_ID,
-  ViewChild,
-  TemplateRef
-} from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, Inject, Input, OnInit, PLATFORM_ID, TemplateRef, ViewChild } from '@angular/core';
+import { DomSanitizer, Meta, Title } from '@angular/platform-browser';
 import { environment } from '../../../../environments/environment';
+import { Comentario } from '../../../dtos/comentario';
 import { Entrada } from '../../../dtos/entrada';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { LibroSimple } from '../../../dtos/libroSimple';
-import { Title, Meta } from '@angular/platform-browser';
-import { isPlatformBrowser } from '@angular/common';
-import { Comentario } from '../../../dtos/comentario';
-import {DomSanitizer} from '@angular/platform-browser';
+import { LinkService } from '../../../services/link.service';
 
 declare var $: any;
 
