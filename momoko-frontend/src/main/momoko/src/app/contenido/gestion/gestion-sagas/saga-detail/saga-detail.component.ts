@@ -56,7 +56,7 @@ export class SagaDetailComponent implements OnInit, OnChanges {
     this.tiposSaga = [];
     this.tiposSaga.push({ label: 'Saga', value: 'Saga' });
     this.tiposSaga.push({ label: 'Colección', value: 'Coleccion' });
-    this.libroService.getLibros().then(libros => {
+    this.libroService.getLibros().subscribe(libros => {
       if (this.log) {
         console.log('Obtener libros para sagas');
       }

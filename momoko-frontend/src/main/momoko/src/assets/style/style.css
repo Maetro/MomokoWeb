@@ -4625,7 +4625,11 @@ html body.kc-css-system .kc_tabs_nav~.kc_tab:not(.ui-tabs-body-active) {
 }
 
 button.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-icon-only {
-  display: none;
+  display: block;
+}
+
+span.ui-button-icon-left.ui-clickable.pi {
+  color: white;
 }
 
 .imagenGaleria {

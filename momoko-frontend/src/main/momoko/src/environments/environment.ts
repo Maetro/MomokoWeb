@@ -16,7 +16,6 @@ export const environment = {
   uploadUrl: 'http://localhost:5000/modelo/upload',
   urlFiles: 'http://momoko.local/images/',
   entradasUrl: 'http://localhost:5000/modelo/entradas',
-  librosUrl: 'http://localhost:5000/modelo/libros',
   generosUrl: 'http://localhost:5000/modelo/generos',
   addEntradaUrl: 'http://localhost:5000/modelo/entradas/add',
   addGeneroUrl: 'http://localhost:5000/modelo/generos/add',

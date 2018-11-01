@@ -15,7 +15,7 @@ import { catchError, map } from 'rxjs/operators';
 export class LibroService {
   private log = environment.log;
 
-  private librosUrl = environment.librosUrl;
+  private serverUrl = environment.serverUrl;
   private addBookUrl = environment.addBookUrl;
   private generosUrl = environment.generosUrl;
   private addGeneroUrl = environment.addGeneroUrl;
@@ -31,27 +31,16 @@ export class LibroService {
     private jsonAdapter: JsonAdapterService
   ) {}
 
-  getLibros(): Promise<Libro[]> {
-    if (this.log) {
-      console.log('access_token: ' + Cookie.get('access_token'));
-      console.log('_ga: ' + Cookie.get('_ga'));
-    }
-    const headers = new HttpHeaders({
-      'Content-type': 'application/json',
-      Authorization: Cookie.get('access_token')
-    });
-    this.librosList = new Array();
-    return this.http
-      .get(this.librosUrl, { headers: headers })
-      .toPromise()
-      .then((resp: Response) => {
-        for (const numLibro of Object.keys(resp)) {
-          const l = this.jsonAdapter.adaptarLibro(resp[numLibro]);
-          this.librosList.push(l);
-        }
-
-        return this.librosList;
+  getLibros(): Observable<Libro[]> {
+      if (this.log) {
+        console.log('Obteniendo Filtros');
+      }
+      const headers = new HttpHeaders({
+        'Content-type': 'application/json',
+        'Authorization': Cookie.get('access_token')
       });
+      return this.http
+        .get<Libro[]>(this.serverUrl + "modelo/libros", { headers: headers });
   }
 
   getLibro(urlLibro: string): Observable<FichaLibro> {
