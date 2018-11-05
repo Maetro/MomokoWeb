@@ -149,11 +149,8 @@
             <ng-container *ngFor="let bookTemp of bookTemplates; let i = index">
               <app-book-template [bookTemp]="bookTemp"></app-book-template>
             </ng-container>
-
-
           </div>
           <div class="infoEntrada">
-
             <span class="lineaHorizontalCorta"></span>
             <span class="etiquetasText">Etiquetas
               <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">

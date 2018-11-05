@@ -12,9 +12,11 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.author.enums.AuthorCreationError;
 import com.momoko.es.api.author.dto.AuthorDTO;
+import com.momoko.es.api.dto.request.ContactRequestDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.api.enums.errores.*;
@@ -268,6 +270,11 @@ public class ValidadorServiceImpl implements ValidadorService {
             errorList.add(AuthorCreationError.NO_URL);
         }
         return errorList;
+    }
+
+    @Override
+    public List<ErrorEmailContactEnum> validateEmailContact(ContactRequestDTO contactRequest) {
+        return null;
     }
 
 
