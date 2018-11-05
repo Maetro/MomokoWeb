@@ -9,12 +9,14 @@ import { SuscripcionService } from '../services/suscripcion.service';
 import { FormsModule } from '@angular/forms';
 
 import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
+import { JoinUsModule } from './comunes/join-us/join-us.module';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    JoinUsModule
   ],
   declarations: [HeaderComponent, MenuComponent, SidebarMenuComponent, FooterComponent],
   providers: [SuscripcionService],

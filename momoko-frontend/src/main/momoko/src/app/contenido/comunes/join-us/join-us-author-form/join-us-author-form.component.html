@@ -1,0 +1,47 @@
+<div class="return"><a (click)="volver()">ir atrás</a><a><i class="fa fa-times"></i></a></div>
+<div class="form-container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="authorRequestForm">
+    <div class="form-group col-md-6">
+      <i class="fa fa-user-circle"></i>
+      <input type="text" formControlName="name" id="name" class="form-control" [placeholder]="'Nombre *'" [ngClass]="{ 'is-invalid': submitted && authorF.name.errors }" />
+    </div>
+    <div class="form-group col-md-6">
+      <i class="fa fa-envelope"></i>
+      <input type="email" formControlName="email" id="email" class="form-control" [placeholder]="'Email *'" [ngClass]="{ 'is-invalid': submitted && authorF.name.errors }" />
+    </div>
+    <div class="form-group col-md-12">
+      <i class="fa fa-book"></i>
+      <input type="text" formControlName="title" id="title" class="form-control" [placeholder]="'Título de la obra'"
+        [ngClass]="{ 'is-invalid': submitted && authorF.title.errors }" />
+    </div>
+    <div class="form-group col-md-12">
+      <i class="fa fa-bookmark"></i>
+      <input type="text" formControlName="genre" id="genre" class="form-control" [placeholder]="'Género de la obra'"
+        [ngClass]="{ 'is-invalid': submitted && authorF.title.errors }" />
+    </div>
+    <div class="form-group col-md-12 align-left marginbottom0">
+      <label for="isPublished" class="whitelabel" [class.isInvalid]="submitted && this.authorF.isPublished.errors">¿Está tu obra publicada?</label>
+      <label class="checkcontainer">Sí
+        <input type="radio" checked="isPublished" formControlName="isPublished" name="isPublished" value="Sí">
+        <span class="radiobtn"></span>
+      </label>
+      <label class="checkcontainer">No
+        <input type="radio" checked="isPublished" formControlName="isPublished" name="isPublished" value="No">
+        <span class="radiobtn"></span>
+      </label>
+    </div>
+    <div class="form-group col-md-12 align-left">
+      <textarea formControlName="description" id="description" class="form-control marginbottom0" [placeholder]="'Cúentanos un poco de qué va tu obra y si has colaborado anteriormente con Momoko :)'"
+      [ngClass]="{ 'is-invalid': submitted && authorRequestForm.controls.description.errors }"></textarea>
+    </div>
+  <div class="form-group col-md-12 align-left marginbottom0">
+      <label class="checkcontainer privacyText" [class.isInvalid]="submitted && this.authorF.acceptedPrivacy.errors">He leído y acepto la política de privacidad
+          <input type="checkbox" formControlName="acceptedPrivacy" name="acceptedPrivacy"/>
+          <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="form-group col-md-12 align-right">
+      <div class="btn" (click)="onSubmit()">Enviar mensaje</div>
+    </div>
+  </form>
+</div>

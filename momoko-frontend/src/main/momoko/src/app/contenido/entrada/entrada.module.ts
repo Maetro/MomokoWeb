@@ -21,6 +21,8 @@ import { RedactorInfoModule } from '../comun/redactor-info/redactor-info.module'
 import { AnalisisSagaComponent } from './analisis-saga/analisis-saga.component';
 import { NoticiaSagaComponent } from './noticia-saga/noticia-saga.component';
 import { BookTemplateModule } from '../comun/book-template/book-template.module';
+import { PageNotFoundComponent } from '../estaticas/page-not-found/page-not-found.component';
+import { EstaticasModule } from '../estaticas/estaticas.module';
 
 @NgModule({
   imports: [
@@ -31,6 +33,7 @@ import { BookTemplateModule } from '../comun/book-template/book-template.module'
     BookTemplateModule,
     RedactorInfoModule,
     NgxJsonLdModule,
+    EstaticasModule,
     RouterModule.forChild([
       { path: '', component: EntradaComponent, pathMatch: 'full' }
     ])

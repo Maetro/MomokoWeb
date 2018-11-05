@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Entrada } from '../../dtos/entrada';
 import { LibroSimple } from '../../dtos/libroSimple';
@@ -7,7 +7,7 @@ import { EntradaSimple } from '../../dtos/entradaSimple';
 import { EntradaService } from '../../services/entrada.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ObtenerEntradaResponse } from '../../dtos/response/obtenerEntradaResponse';
-import { Meta } from '@angular/platform-browser';
+import { Meta, Title } from '@angular/platform-browser';
 import { UtilService } from '../../services/util/util.service';
 
 @Component({
@@ -43,7 +43,8 @@ export class EntradaComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private util: UtilService,
-    private metaService: Meta
+    private metaService: Meta,
+    private titleService: Title
   ) {}
 
   ngOnInit() {
@@ -57,41 +58,40 @@ export class EntradaComponent implements OnInit, OnDestroy {
       }
       this.route.data.subscribe(
         (data: { obtenerEntradaResponse: ObtenerEntradaResponse }) => {
-          this.entrada = data.obtenerEntradaResponse.entrada;
-          this.librosParecidos =
-            data.obtenerEntradaResponse.cincoLibrosParecidos;
-          this.comentarios = data.obtenerEntradaResponse.comentarios;
-          this.tipoEntrada = data.obtenerEntradaResponse.entrada.tipoEntrada;
-          this.hayLibros =
-            data.obtenerEntradaResponse.entrada.librosEntrada.length > 0;
-          this.haySagas =
-            data.obtenerEntradaResponse.entrada.sagasEntrada.length > 0;
-          this.entradaAnteriorYSiguiente =
-            data.obtenerEntradaResponse.obtenerEntradaAnteriorYSiguiente;
-          this.cuatroPostPequenosConImagen =
-            data.obtenerEntradaResponse.cuatroPostPequenosConImagen;
-
-          this.util.removeAllTags(this.metaService);
-
-          this.metaService.addTag({
-            name: 'og:url',
-            content: 'https://momoko.es/' + this.url
-          });
-          this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
-          this.metaService.addTag({
-            name: 'fb:app_id',
-            content: '1932678757049258'
-          });
-
-          // this.entrada.libroEntrada.forEach(libro => {
-          //   libro.autores.forEach(autor => {
-          //     this.autores += autor.nombre + ', ';
-          //   });
-          // });
-          // this.autores = this.autores.substring(0, this.autores.length - 2);
+          if (data.obtenerEntradaResponse.entrada){
+            this.entrada = data.obtenerEntradaResponse.entrada;
+            this.librosParecidos =
+              data.obtenerEntradaResponse.cincoLibrosParecidos;
+            this.comentarios = data.obtenerEntradaResponse.comentarios;
+            this.tipoEntrada = data.obtenerEntradaResponse.entrada.tipoEntrada;
+            this.hayLibros =
+              data.obtenerEntradaResponse.entrada.librosEntrada.length > 0;
+            this.haySagas =
+              data.obtenerEntradaResponse.entrada.sagasEntrada.length > 0;
+            this.entradaAnteriorYSiguiente =
+              data.obtenerEntradaResponse.obtenerEntradaAnteriorYSiguiente;
+            this.cuatroPostPequenosConImagen =
+              data.obtenerEntradaResponse.cuatroPostPequenosConImagen;
+  
+            this.util.removeAllTags(this.metaService);
+  
+            this.metaService.addTag({
+              name: 'og:url',
+              content: 'https://momoko.es/' + this.url
+            });
+            this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
+            this.metaService.addTag({
+              name: 'fb:app_id',
+              content: '1932678757049258'
+            });
+          } else{
+            const metatituloPagina =
+              'Momoko 404 - Contenido no encontrado';
+            this.titleService.setTitle(metatituloPagina);
+          }
+          
         }
       );
-      // In a real app: dispatch action to load the details here.
     });
   }
 

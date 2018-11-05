@@ -5,7 +5,6 @@ import { ListaEditorialesComponent } from './gestion-editoriales/lista-editorial
 import { EntryFormComponent } from './gestion-entradas/entry-form/entry-form.component';
 import { EntryListComponent } from './gestion-entradas/entry-list/entry-list.component';
 import { EntryResolverService } from './gestion-entradas/entry-resolver.service';
-import { ListaEntradasComponent } from './gestion-entradas/lista-entradas/lista-entradas.component';
 import { FilterFormComponent } from './gestion-filtros/filter-form/filter-form.component';
 import { FilterListComponent } from './gestion-filtros/filter-list/filter-list.component';
 import { ListaGaleriasComponent } from './gestion-galerias/lista-galerias/lista-galerias.component';
@@ -79,11 +78,6 @@ const adminRoutes: Routes = [
       entrada: EntryResolverService,
       generalData: GeneralDataResolverService
     }
-  },
-  {
-    path: 'lista-entradas',
-    canActivate: [AuthGuardService],
-    component: ListaEntradasComponent
   },
   {
     path: 'lista-sagas',

@@ -16,6 +16,7 @@ import { MobileSidebarComponent } from './mobile-sidebar/mobile-sidebar.componen
 import { TruncatePipe } from './truncate-pipe/truncate.pipe';
 import { NotaCircularPequenaComponent } from './nota-circular-pequena/nota-circular-pequena.component';
 import { CheckboxModule } from 'primeng/checkbox';
+import { JoinUsModule } from './join-us/join-us.module';
 
 @NgModule({
   imports: [CommonModule, RouterModule, CheckboxModule, FormsModule],

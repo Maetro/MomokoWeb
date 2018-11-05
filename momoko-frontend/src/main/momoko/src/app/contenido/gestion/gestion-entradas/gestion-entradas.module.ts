@@ -3,11 +3,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputTextModule, MultiSelectModule, GrowlModule,  FileUploadModule, DropdownModule,
   ChipsModule, CheckboxModule, DataTableModule, CalendarModule} from 'primeng/primeng';
-import { ListaEntradasComponent } from './lista-entradas/lista-entradas.component';
 
 
 import { QuillModule} from 'ngx-quill'
-import { EntradaDetailComponent } from './entrada-detail/entrada-detail.component';
 import { FormsModule } from '@angular/forms';
 import { EntradaService } from '../../../services/entrada.service';
 
@@ -37,10 +35,9 @@ import { QuillEditorComponent } from './entry-form/quill-editor/quill-editor.com
     CalendarModule,
     TableModule
   ],
-  declarations: [ListaEntradasComponent, EntradaDetailComponent, QuillEditorComponent, EntryListComponent, EntryFormComponent],
+  declarations: [QuillEditorComponent, EntryListComponent, EntryFormComponent],
   providers: [
     EntradaService, FileUploadService, UtilService, GeneralDataService, GaleriaService
-  ],
-  entryComponents: [ListaEntradasComponent]
+  ]
 })
 export class GestionEntradasModule { }

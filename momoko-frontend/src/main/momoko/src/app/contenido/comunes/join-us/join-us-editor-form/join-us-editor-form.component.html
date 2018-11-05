@@ -1,0 +1,26 @@
+<div class="return"><a (click)="volver()">ir atrás</a><a><i class="fa fa-times"></i></a></div>
+<div class="form-container">
+  <form (ngSubmit)="onSubmit()" [formGroup]="authorRequestForm">
+    <div class="form-group col-md-12">
+      <i class="fa fa-user-circle"></i>
+      <input type="text" formControlName="name" id="name" class="form-control" [placeholder]="'Nombre *'" [ngClass]="{ 'is-invalid': submitted && authorF.name.errors }" />
+    </div>
+    <div class="form-group col-md-12">
+      <i class="fa fa-envelope"></i>
+      <input type="email" formControlName="email" id="email" class="form-control" [placeholder]="'Email *'" [ngClass]="{ 'is-invalid': submitted && authorF.name.errors }" />
+    </div>
+    <div class="form-group col-md-12 align-left">
+      <textarea formControlName="description" id="description" class="form-control marginbottom0" [placeholder]="'Cuéntanos que tipo de literatura te gusta y si has escrito en algún otro medio. Si quieres, puedes incluir algún enlace a tus redes o posts escritos por ti :)'"
+      [ngClass]="{ 'is-invalid': submitted && authorRequestForm.controls.description.errors }"></textarea>
+    </div>
+  <div class="form-group col-md-12 align-left marginbottom0">
+      <label class="checkcontainer privacyText" [class.isInvalid]="submitted && this.authorF.acceptedPrivacy.errors">He leído y acepto la política de privacidad
+          <input type="checkbox" formControlName="acceptedPrivacy" name="acceptedPrivacy"/>
+          <span class="checkmark"></span>
+      </label>
+    </div>
+    <div class="form-group col-md-12 align-right">
+      <div class="btn" (click)="onSubmit()">Enviar mensaje</div>
+    </div>
+  </form>
+</div>

@@ -22,14 +22,7 @@ export class ObtenerEntradaResolverService implements Resolve<ObtenerEntradaResp
       console.log('Obteniendo opiniones 1');
     }
     const url = route.paramMap.get('url');
-    debugger;
-    return this.entradaService.getEntrada(url).pipe(take(1),map(entrada => {
-      if (entrada.entrada != null) {
-        return entrada;
-      } else { // url not found
-        this.router.navigate(['/not-found'], { skipLocationChange: true } );
-      }
-    }));
+    return this.entradaService.getEntrada(url);
   }
 
 }

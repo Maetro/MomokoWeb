@@ -1,5 +1,4 @@
-
-
+<app-join-us></app-join-us>
 <nav class="navbar navbar-default navbar-fixed-top menuDesktop">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -75,7 +74,7 @@
 
           </li>
           <li>
-            <a href="mailto:info@momoko.es" class="btnColaborar"> COLABORA </a>
+            <a class="btnColaborar" (click)="openJoinUsModal()"> COLABORA </a>
           </li>
           <li>
             <a routerLink="/auth/login" routerLinkActive="active" *ngIf="isLoggedIn === false">Login</a>

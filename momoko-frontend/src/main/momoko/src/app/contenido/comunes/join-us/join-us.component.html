@@ -1,0 +1,63 @@
+<div class="modal fade" id="bookTemplateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-body" style="min-height: 80px;">
+        <div class="col-sm-6 leftSide wrapper" [class.selected]="authorSelected || editorSelected || publisherSelected">
+          <div class="slide leftSlide">
+            <ng-container *ngIf="authorSelected">
+              <app-join-us-author></app-join-us-author>
+            </ng-container>
+            <ng-container *ngIf="editorSelected">
+              <app-join-us-editor></app-join-us-editor>
+            </ng-container>
+            <ng-container *ngIf="publisherSelected">
+              <app-join-us-publisher></app-join-us-publisher>
+            </ng-container>
+          </div>
+          <div class="imageHeaderContainer">
+            <img src="https://momoko.es/images/fijas/colabora-01.png" style="margin-top:20px;">
+          </div>
+          <h3><b>Eres un redactor</b></h3>
+          <div class="categoryDescription">
+            Te apasiona el mundo de la literatura<br />
+            y te encanta lo que hacmeos en<br />
+            Momoko, así que has dicho... <br />
+            ¿por qué no publicar mis <br />
+            posts aquí?
+          </div>
+          <div class="btn" (click)="editorSelected = true">¡Sí! Quiero escribir</div>
+        </div>
+        <div class="triangle" [class.selected]="authorSelected || editorSelected ||publisherSelected"></div>
+        <div class="col-sm-6 rightSide wrapper" [class.selected]="authorSelected || editorSelected ||publisherSelected">
+          <div class="slide rightSlide">
+            <ng-container *ngIf="authorSelected">
+              <app-join-us-author-form (return)='return()'></app-join-us-author-form>
+            </ng-container>
+            <ng-container *ngIf="editorSelected">
+              <app-join-us-editor-form (return)='return()'></app-join-us-editor-form>
+            </ng-container>
+            <ng-container *ngIf="publisherSelected">
+              <app-join-us-publisher-form (return)='return()'></app-join-us-publisher-form>
+            </ng-container>
+          </div>
+          <div class="imageHeaderContainer">
+            <img src="https://momoko.es/images/fijas/colabora-02.png">
+          </div>
+          <h3><b>Eres un autor o editorial</b></h3>
+          <div class="categoryDescription">
+            Tienes una obra a la que quieres<br />
+            darle difusión y sabes que<br />
+            Momoko es el sitio ideal<br />
+            para hacerlo porque <br />
+            nos tomamos cada lectura <br />
+            muy en serio
+          </div>
+          <div class="btn" (click)="authorSelected = true">Soy un autor</div>
+          <div class="btn reverse" (click)="publisherSelected = true">Soy una editorial</div>
+          <!--/.form-field -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

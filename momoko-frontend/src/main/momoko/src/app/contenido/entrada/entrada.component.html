@@ -31,3 +31,6 @@
     <app-video [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
         [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-video>
 </div>
+<div *ngIf="!tipoEntrada">
+        <app-page-not-found></app-page-not-found>
+</div>

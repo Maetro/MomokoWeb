@@ -57,6 +57,9 @@ export class MenuComponent implements OnInit {
     this.authService.checkCredentials();
   }
 
+  openJoinUsModal(){
+    $('#bookTemplateModal').modal();
+  }
 
 }
 
