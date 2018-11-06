@@ -1,5 +1,5 @@
 package com.momoko.es.api.contact.dtos;
 
-public class ErrorEmailContactEnum {
-    OK
+public enum ErrorEmailContactEnum {
+    OK, ERROR_EN_GUARDADO
 }

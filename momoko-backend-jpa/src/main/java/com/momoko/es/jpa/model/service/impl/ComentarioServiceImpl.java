@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.momoko.es.api.dto.request.ContactRequestDTO;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -196,6 +197,8 @@ public class ComentarioServiceImpl implements ComentarioService {
         }
     }
 
+
+
     private void enviarEmailRespuestaComentario(final ComentarioEntity comentarioPrincipal,
             final EntradaEntity entrada) {
         final ComentarioEntity referencia = comentarioPrincipal.getComentarioReferenciaEntity();
@@ -251,6 +254,13 @@ public class ComentarioServiceImpl implements ComentarioService {
         content = Mail.replaceTagInContent("${contenidoComentario}", comentarioPrincipal.getTextoComentario(), content);
         content = Mail.replaceTagInContent("${urlComentario}", "https://momoko.es/" + entrada.getUrlEntrada(), content);
         return content;
+    }
+
+    @Override
+    public void sendContactEmail(ContactRequestDTO contactRequest) {
+        Mail.sendEmail("Nuevo contacto en momoko.es", contactRequest.toString(), "info@momoko.es");
+        Mail.sendEmail("Nuevo contacto en momoko.es", contactRequest.toString(), "RMaetro@gmail.com");
+        Mail.sendEmail("Nuevo contacto en momoko.es", contactRequest.toString(), "kizuna.owo@gmail.com");
     }
 
 }

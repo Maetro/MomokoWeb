@@ -5,6 +5,6 @@ export interface EmailContact{
      description:string;
      title:string;
      genre:string;
-     isPublished: Boolean;
+     isPublished: string;
      acceptedPrivacy: boolean;
 }

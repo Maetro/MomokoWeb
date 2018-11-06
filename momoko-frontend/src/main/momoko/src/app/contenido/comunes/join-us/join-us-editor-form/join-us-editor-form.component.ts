@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Inject, PLATFORM_ID } from '@a
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/primeng';
 import { isPlatformBrowser } from '@angular/common';
+import { JoinUsService } from '../join-us.service';
 
 
 @Component({
@@ -18,7 +19,7 @@ export class JoinUsEditorFormComponent implements OnInit {
   submitted = false;
 
   constructor( private formBuilder: FormBuilder,@Inject(PLATFORM_ID) private platformId: Object, 
-   private messageService: MessageService) { }
+   private messageService: MessageService, private joinUsService: JoinUsService) { }
 
   ngOnInit() {
     this.getAuthorRequestForm();
@@ -53,6 +54,9 @@ export class JoinUsEditorFormComponent implements OnInit {
     }
     this.authorRequestForm.controls;
     const updateAuthorRequest = this.authorRequestForm.getRawValue();
+    this.joinUsService.sendEmail(updateAuthorRequest).subscribe(response =>{
+      console.log("response");
+    });
   }
 
   volver(){

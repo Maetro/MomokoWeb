@@ -1,12 +1,13 @@
 package com.momoko.es.jpa.model.facade.frontpage;
 
+import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.request.ContactRequestDTO;
 import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
+import com.momoko.es.jpa.model.service.ComentarioService;
 import com.momoko.es.jpa.model.service.GenreService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.apache.commons.collections4.CollectionUtils;
@@ -27,11 +28,14 @@ public class FrontBookController {
 
     private final ValidadorService validationService;
 
+    private final ComentarioService comentarioService;
 
     @Autowired
-    public FrontBookController(GenreService genreService, ValidadorService validationService) {
+    public FrontBookController(GenreService genreService, ValidadorService validationService,
+                               ComentarioService comentarioService) {
         this.genreService = genreService;
         this.validationService = validationService;
+        this.comentarioService = comentarioService;
     }
 
     @PostMapping(path = "/applyfilter/{url-genre}")
@@ -44,39 +48,28 @@ public class FrontBookController {
 
 
 
-    @PostMapping( path = "/contact/add")
-    ResponseEntity<GuardarComentarioResponse> sendContactEmail(@RequestBody final ContactRequestDTO contactRequest) {
+    @PostMapping( path = "/sendEmail")
+    ResponseEntity<Boolean> sendContactEmail(@RequestBody final ContactRequestDTO contactRequest) {
 
         // Validar
-        final List<ErrorCreacionComentario> listaErrores = this.validationService.validateEmailContact(contactRequest);
+        final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(contactRequest);
 
         // Guardar
         ComentarioDTO comentarioDTO = null;
-//        if (CollectionUtils.isEmpty(listaErrores)) {
-//            try {
-//                comentarioDTO = this.contactService.guardarComentario(comentario);
-//            } catch (final Exception e) {
-//                listaErrores.add(ErrorCreacionComentario.ERROR_EN_GUARDADO);
-//            }
-//        }
-//        try {
-//            this.comentarioService.enviarNotificacion(comentarioDTO);
-//        } catch (final Exception e) {
-//            e.printStackTrace();
-//        }
-
-        // Responder
-        final GuardarComentarioResponse respuesta = new GuardarComentarioResponse();
-        respuesta.setComentario(comentarioDTO);
-        respuesta.setListaErroresValidacion(listaErrores);
-
-        if ((comentarioDTO != null) && CollectionUtils.isEmpty(listaErrores)) {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.CORRECTO);
-        } else {
-            respuesta.setEstadoGuardado(EstadoGuardadoEnum.ERROR);
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                this.comentarioService.sendContactEmail(contactRequest);
+            } catch (final Exception e) {
+                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+            }
+        }
+        try {
+            this.comentarioService.enviarNotificacion(comentarioDTO);
+        } catch (final Exception e) {
+            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<GuardarComentarioResponse>(respuesta, HttpStatus.OK);
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
 
     }
 

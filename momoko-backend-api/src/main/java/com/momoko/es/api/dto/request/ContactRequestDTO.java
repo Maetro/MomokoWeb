@@ -10,7 +10,7 @@ public class ContactRequestDTO implements Serializable {
     private String description;
     private String title;
     private String genre;
-    private Boolean isPublished;
+    private String isPublished;
     private boolean acceptedPrivacy;
 
     public String getName() {
@@ -61,11 +61,11 @@ public class ContactRequestDTO implements Serializable {
         this.genre = genre;
     }
 
-    public Boolean getPublished() {
+    public String getPublished() {
         return isPublished;
     }
 
-    public void setPublished(Boolean published) {
+    public void setPublished(String published) {
         isPublished = published;
     }
 
@@ -75,5 +75,20 @@ public class ContactRequestDTO implements Serializable {
 
     public void setAcceptedPrivacy(boolean acceptedPrivacy) {
         this.acceptedPrivacy = acceptedPrivacy;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ContactRequestDTO{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", publisherName='" + publisherName + '\'' +
+                ", description='" + description + '\'' +
+                ", title='" + title + '\'' +
+                ", genre='" + genre + '\'' +
+                ", isPublished=" + isPublished +
+                ", acceptedPrivacy=" + acceptedPrivacy +
+                '}';
     }
 }
