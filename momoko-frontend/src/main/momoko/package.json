@@ -48,6 +48,7 @@
     "angulartics2": "^6.2.0",
     "core-js": "^2.5.7",
     "font-awesome": "^4.7.0",
+    "jquery.growl": "^1.3.5",
     "ng2-completer": "^2.0.8",
     "ng2-cookies": "^1.0.12",
     "ngx-quill": "^3.4.0",

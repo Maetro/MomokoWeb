@@ -1,31 +1,32 @@
-import { Component, OnInit, Output, EventEmitter, Inject, PLATFORM_ID } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MessageService } from 'primeng/primeng';
-import { isPlatformBrowser } from '@angular/common';
-import { EmailContact } from '../email-contact';
-import { JoinUsService } from '../join-us.service';
+import { isPlatformBrowser } from "@angular/common";
+import { Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { EmailContact } from "../email-contact";
+import { JoinUsService } from "../join-us.service";
 
-
+declare var $: any;
 @Component({
-  selector: 'app-join-us-author-form',
-  templateUrl: './join-us-author-form.component.html',
-  styleUrls: ['./join-us-author-form.component.scss']
+  selector: "app-join-us-author-form",
+  templateUrl: "./join-us-author-form.component.html",
+  styleUrls: ["./join-us-author-form.component.scss"]
 })
 export class JoinUsAuthorFormComponent implements OnInit {
-
-  @Output() return = new EventEmitter();
+  @Output()
+  return: EventEmitter<String> = new EventEmitter<String>();
 
   authorRequestForm: FormGroup;
 
   submitted = false;
 
-  constructor( private formBuilder: FormBuilder,@Inject(PLATFORM_ID) private platformId: Object, 
-   private messageService: MessageService, private joinUsService: JoinUsService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private joinUsService: JoinUsService
+  ) {}
 
   ngOnInit() {
     this.getAuthorRequestForm();
-    this.authorRequestForm.patchValue({
-    });
+    this.authorRequestForm.patchValue({});
   }
 
   onSubmit() {
@@ -33,38 +34,40 @@ export class JoinUsAuthorFormComponent implements OnInit {
     console.log(this.authorRequestForm.getRawValue());
     // stop here if form is invalid
     if (this.authorRequestForm.invalid) {
-      let detail = '';
-      if (this.authorF.name.errors && this.authorF.name.errors.required){
-        detail += 'El nombre es obligatorio';
-      } else if (this.authorF.name.errors){
-        if ( this.authorF.email.errors.required){
-          detail += 'El email es obligatorio';
+      let detail = "";
+      if (this.authorF.name.errors && this.authorF.name.errors.required) {
+        detail += "El nombre es obligatorio";
+      } else if (this.authorF.name.errors) {
+        if (this.authorF.email.errors.required) {
+          detail += "El email es obligatorio";
         } else if (this.authorF.email.errors.email)
-        detail += 'El email no tiene un formato correcto';
-      } else if (this.authorF.isPublished.errors){
-        detail += 'Hay que indicar si la obra esta publicada';
-      } else if (this.authorF.acceptedPrivacy.errors){
-        detail += 'Es obligatorio aceptar la política de privacidad';
+          detail += "El email no tiene un formato correcto";
+      } else if (this.authorF.isPublished.errors) {
+        detail += "Hay que indicar si la obra esta publicada";
+      } else if (this.authorF.acceptedPrivacy.errors) {
+        detail += "Es obligatorio aceptar la política de privacidad";
       }
       if (isPlatformBrowser(this.platformId)) {
-      this.messageService.add({
-        severity: "error",
-        summary: "Hay errores en el formulario",
-        detail: detail
-      });
-    }
+        $.growl.error({ message: "Hay errores en el formulario: " + detail });
+      }
       return;
     }
     this.authorRequestForm.controls;
     const updateAuthorRequest: EmailContact = this.authorRequestForm.getRawValue();
-    this.joinUsService.sendEmail(updateAuthorRequest).subscribe(response =>{
-      console.log("response");
+    this.joinUsService.sendEmail(updateAuthorRequest).subscribe(response => {
+      if (isPlatformBrowser(this.platformId)) {
+        $.growl.notice({
+          message:
+            "Se ha enviado el mensaje correctamente, te responderemos lo antes posible."
+        });
+      }
+      this.return.emit("SEND");
     });
   }
 
-  volver(){
-    console.log('volver');
-    this.return.emit();
+  volver() {
+    console.log("volver");
+    this.return.emit("RETURN");
   }
 
   get authorF() {
@@ -74,13 +77,12 @@ export class JoinUsAuthorFormComponent implements OnInit {
   private getAuthorRequestForm() {
     this.authorRequestForm = this.formBuilder.group({
       name: ["", Validators.required],
-      email:  ["", [Validators.required, Validators.email]],
+      email: ["", [Validators.required, Validators.email]],
       title: [""],
       genre: [""],
       isPublished: ["", Validators.required],
       description: [""],
-      acceptedPrivacy: ["", Validators.required],
+      acceptedPrivacy: ["", Validators.required]
     });
   }
-
 }
