@@ -16,7 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.momoko.es.api.dto.request.ContactRequestDTO;
+import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
+import com.momoko.es.api.dto.request.EditorContactRequestDTO;
+import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -257,10 +259,24 @@ public class ComentarioServiceImpl implements ComentarioService {
     }
 
     @Override
-    public void sendContactEmail(ContactRequestDTO contactRequest) {
-        Mail.sendEmail("Nuevo contacto en momoko.es", contactRequest.toString(), "info@momoko.es");
-        Mail.sendEmail("Nuevo contacto en momoko.es", contactRequest.toString(), "RMaetro@gmail.com");
-        Mail.sendEmail("Nuevo contacto en momoko.es", contactRequest.toString(), "kizuna.owo@gmail.com");
+    public void sendContactEmail(AuthorContactRequestDTO authorContactRequest) {
+        Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "info@momoko.es");
+        Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "RMaetro@gmail.com");
+        Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "kizuna.owo@gmail.com");
+    }
+
+    @Override
+    public void sendContactEmail(PublisherContactRequestDTO publisherContactRequestDTO) {
+        Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "info@momoko.es");
+        Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "RMaetro@gmail.com");
+        Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "kizuna.owo@gmail.com");
+    }
+
+    @Override
+    public void sendContactEmail(EditorContactRequestDTO editorContactRequestDTO) {
+        Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "info@momoko.es");
+        Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "RMaetro@gmail.com");
+        Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "kizuna.owo@gmail.com");
     }
 
 }

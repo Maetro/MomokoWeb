@@ -2,9 +2,9 @@ package com.momoko.es.jpa.model.facade.frontpage;
 
 import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
 import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.request.ContactRequestDTO;
-import com.momoko.es.api.dto.response.GuardarComentarioResponse;
-import com.momoko.es.api.enums.EstadoGuardadoEnum;
+import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
+import com.momoko.es.api.dto.request.EditorContactRequestDTO;
+import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.jpa.model.service.ComentarioService;
@@ -48,17 +48,67 @@ public class FrontBookController {
 
 
 
-    @PostMapping( path = "/sendEmail")
-    ResponseEntity<Boolean> sendContactEmail(@RequestBody final ContactRequestDTO contactRequest) {
+    @PostMapping( path = "/sendEmailAuthor")
+    ResponseEntity<Boolean> sendContactEmail(@RequestBody final AuthorContactRequestDTO authorContactRequestDTO) {
 
         // Validar
-        final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(contactRequest);
+        final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(authorContactRequestDTO);
 
         // Guardar
         ComentarioDTO comentarioDTO = null;
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
-                this.comentarioService.sendContactEmail(contactRequest);
+                this.comentarioService.sendContactEmail(authorContactRequestDTO);
+            } catch (final Exception e) {
+                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+            }
+        }
+        try {
+            this.comentarioService.enviarNotificacion(comentarioDTO);
+        } catch (final Exception e) {
+            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+
+    }
+
+    @PostMapping( path = "/sendEmailEditor")
+    ResponseEntity<Boolean> sendContactEmailEditor(@RequestBody final EditorContactRequestDTO editorContactRequestDTO) {
+
+        // Validar
+        final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(editorContactRequestDTO);
+
+        // Guardar
+        ComentarioDTO comentarioDTO = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                this.comentarioService.sendContactEmail(editorContactRequestDTO);
+            } catch (final Exception e) {
+                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+            }
+        }
+        try {
+            this.comentarioService.enviarNotificacion(comentarioDTO);
+        } catch (final Exception e) {
+            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+        }
+
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+
+    }
+
+    @PostMapping( path = "/sendEmailPublisher")
+    ResponseEntity<Boolean> sendContactEmailPublisher(@RequestBody final PublisherContactRequestDTO publisherContactRequestDTO) {
+
+        // Validar
+        final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(publisherContactRequestDTO);
+
+        // Guardar
+        ComentarioDTO comentarioDTO = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                this.comentarioService.sendContactEmail(publisherContactRequestDTO);
             } catch (final Exception e) {
                 return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
             }

@@ -5,8 +5,10 @@
 package com.momoko.es.jpa.model.service;
 
 import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.request.ContactRequestDTO;
+import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
+import com.momoko.es.api.dto.request.EditorContactRequestDTO;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
 
 import java.util.List;
 
@@ -47,5 +49,9 @@ public interface ComentarioService {
      */
     public void enviarNotificacion(ComentarioDTO comentarioDTO);
 
-    public void sendContactEmail(ContactRequestDTO contactRequest);
+    public void sendContactEmail(AuthorContactRequestDTO contactRequest);
+
+    public void sendContactEmail(PublisherContactRequestDTO publisherContactRequestDTO);
+
+    public void sendContactEmail(EditorContactRequestDTO editorContactRequestDTO);
 }

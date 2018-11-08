@@ -16,7 +16,9 @@ import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.author.enums.AuthorCreationError;
 import com.momoko.es.api.author.dto.AuthorDTO;
-import com.momoko.es.api.dto.request.ContactRequestDTO;
+import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
+import com.momoko.es.api.dto.request.EditorContactRequestDTO;
+import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.api.enums.errores.*;
@@ -273,8 +275,18 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public List<ErrorEmailContactEnum> validateEmailContact(ContactRequestDTO contactRequest) {
-        return null;
+    public List<ErrorEmailContactEnum> validateEmailContact(AuthorContactRequestDTO contactRequest) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<ErrorEmailContactEnum> validateEmailContact(EditorContactRequestDTO editorContactRequestDTO) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<ErrorEmailContactEnum> validateEmailContact(PublisherContactRequestDTO publisherContactRequestDTO) {
+        return new ArrayList<>();
     }
 
 

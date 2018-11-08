@@ -2,11 +2,10 @@ package com.momoko.es.api.dto.request;
 
 import java.io.Serializable;
 
-public class ContactRequestDTO implements Serializable {
+public class AuthorContactRequestDTO implements Serializable {
 
     private String name;
     private String email;
-    private String publisherName;
     private String description;
     private String title;
     private String genre;
@@ -27,14 +26,6 @@ public class ContactRequestDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPublisherName() {
-        return publisherName;
-    }
-
-    public void setPublisherName(String publisherName) {
-        this.publisherName = publisherName;
     }
 
     public String getDescription() {
@@ -80,10 +71,9 @@ public class ContactRequestDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "ContactRequestDTO{" +
+        return "AuthorContactRequestDTO{" +
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", publisherName='" + publisherName + '\'' +
                 ", description='" + description + '\'' +
                 ", title='" + title + '\'' +
                 ", genre='" + genre + '\'' +

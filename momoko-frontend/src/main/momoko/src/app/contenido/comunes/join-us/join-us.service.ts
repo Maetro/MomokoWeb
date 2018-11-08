@@ -3,7 +3,7 @@ import { environment } from "environments/environment";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { Cookie } from "ng2-cookies";
-import { EmailContact } from "./email-contact";
+import { AuthorContactRequest, EditorContactRequest, PublisherContactRequest } from "./email-contact";
 
 @Injectable({
     providedIn: 'root'
@@ -16,15 +16,37 @@ import { EmailContact } from "./email-contact";
   
     constructor(private http: HttpClient) {}
   
-    sendEmail(email: EmailContact): Observable<boolean[]> {
+    sendEmailAuthor(authorContactRequest: AuthorContactRequest): Observable<boolean[]> {
       if (this.log) {
         console.log('Enviando email');
       }
       const headers = new HttpHeaders({
-        'Content-type': 'application/json',
-        'Authorization': Cookie.get('access_token')
+        'Content-type': 'application/json'
       });
       return this.http
-        .post<boolean[]>(this.serverUrl + "public/sendEmail", JSON.stringify(email), { headers: headers });
+        .post<boolean[]>(this.serverUrl + "public/sendEmailAuthor", JSON.stringify(authorContactRequest), { headers: headers });
     }
+
+    sendEmailEditor(editorContactRequest: EditorContactRequest): Observable<boolean[]> {
+      if (this.log) {
+        console.log('Enviando email');
+      }
+      const headers = new HttpHeaders({
+        'Content-type': 'application/json'
+      });
+      return this.http
+        .post<boolean[]>(this.serverUrl + "public/sendEmailEditor", JSON.stringify(editorContactRequest), { headers: headers });
+    }
+
+    sendEmailPublisher(publisherContactRequest: PublisherContactRequest): Observable<boolean[]> {
+      if (this.log) {
+        console.log('Enviando email');
+      }
+      const headers = new HttpHeaders({
+        'Content-type': 'application/json'
+      });
+      return this.http
+        .post<boolean[]>(this.serverUrl + "public/sendEmailPublisher", JSON.stringify(publisherContactRequest), { headers: headers });
+    }
+
 }

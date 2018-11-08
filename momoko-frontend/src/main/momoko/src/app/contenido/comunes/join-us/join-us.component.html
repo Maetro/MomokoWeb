@@ -32,13 +32,13 @@
         <div class="col-sm-6 rightSide wrapper" [class.selected]="authorSelected || editorSelected ||publisherSelected">
           <div class="slide rightSlide">
             <ng-container *ngIf="authorSelected">
-              <app-join-us-author-form (return)='return()'></app-join-us-author-form>
+              <app-join-us-author-form (return)='return($event)'></app-join-us-author-form>
             </ng-container>
             <ng-container *ngIf="editorSelected">
-              <app-join-us-editor-form (return)='return()'></app-join-us-editor-form>
+              <app-join-us-editor-form (return)='return($event)'></app-join-us-editor-form>
             </ng-container>
             <ng-container *ngIf="publisherSelected">
-              <app-join-us-publisher-form (return)='return()'></app-join-us-publisher-form>
+              <app-join-us-publisher-form (return)='return($event)'></app-join-us-publisher-form>
             </ng-container>
           </div>
           <div class="imageHeaderContainer">

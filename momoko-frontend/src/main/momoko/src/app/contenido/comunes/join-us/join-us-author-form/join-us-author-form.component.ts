@@ -1,8 +1,8 @@
 import { isPlatformBrowser } from "@angular/common";
 import { Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { EmailContact } from "../email-contact";
 import { JoinUsService } from "../join-us.service";
+import { AuthorContactRequest } from "../email-contact";
 
 declare var $: any;
 @Component({
@@ -53,8 +53,8 @@ export class JoinUsAuthorFormComponent implements OnInit {
       return;
     }
     this.authorRequestForm.controls;
-    const updateAuthorRequest: EmailContact = this.authorRequestForm.getRawValue();
-    this.joinUsService.sendEmail(updateAuthorRequest).subscribe(response => {
+    const updateAuthorRequest: AuthorContactRequest = this.authorRequestForm.getRawValue();
+    this.joinUsService.sendEmailAuthor(updateAuthorRequest).subscribe(response => {
       if (isPlatformBrowser(this.platformId)) {
         $.growl.notice({
           message:
