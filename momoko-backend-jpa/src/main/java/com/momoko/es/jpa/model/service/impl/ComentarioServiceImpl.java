@@ -260,7 +260,7 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     @Override
     public void sendContactEmail(AuthorContactRequestDTO authorContactRequest) {
-        Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "info@momoko.es");
+    //    Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "info@momoko.es");
         Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "RMaetro@gmail.com");
         Mail.sendEmail("Autor en contacto en momoko.es", authorContactRequest.toString(), "kizuna.owo@gmail.com");
         System.out.println(authorContactRequest.toString());
@@ -268,7 +268,7 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     @Override
     public void sendContactEmail(PublisherContactRequestDTO publisherContactRequestDTO) {
-        Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "info@momoko.es");
+  //      Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "info@momoko.es");
         Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "RMaetro@gmail.com");
         Mail.sendEmail("Editorial en contacto en momoko.es", publisherContactRequestDTO.toString(), "kizuna.owo@gmail.com");
         System.out.println(publisherContactRequestDTO.toString());
@@ -276,7 +276,7 @@ public class ComentarioServiceImpl implements ComentarioService {
 
     @Override
     public void sendContactEmail(EditorContactRequestDTO editorContactRequestDTO) {
-        Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "info@momoko.es");
+    //    Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "info@momoko.es");
         Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "RMaetro@gmail.com");
         Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "kizuna.owo@gmail.com");
         System.out.println(editorContactRequestDTO.toString());
