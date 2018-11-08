@@ -16,37 +16,40 @@ import { AuthorContactRequest, EditorContactRequest, PublisherContactRequest } f
   
     constructor(private http: HttpClient) {}
   
-    sendEmailAuthor(authorContactRequest: AuthorContactRequest): Observable<boolean[]> {
+    sendEmailAuthor(authorContactRequest: AuthorContactRequest): Observable<String> {
       if (this.log) {
         console.log('Enviando email');
       }
       const headers = new HttpHeaders({
         'Content-type': 'application/json'
       });
+      const options = { headers: headers, responseType: 'text' as 'text' };
       return this.http
-        .post<boolean[]>(this.serverUrl + "public/sendEmailAuthor", JSON.stringify(authorContactRequest), { headers: headers });
+        .post(this.serverUrl + "public/sendEmailAuthor", JSON.stringify(authorContactRequest), options);
     }
 
-    sendEmailEditor(editorContactRequest: EditorContactRequest): Observable<boolean[]> {
+    sendEmailEditor(editorContactRequest: EditorContactRequest): Observable<String> {
       if (this.log) {
         console.log('Enviando email');
       }
       const headers = new HttpHeaders({
         'Content-type': 'application/json'
       });
+      const options = { headers: headers, responseType: 'text' as 'text' };
       return this.http
-        .post<boolean[]>(this.serverUrl + "public/sendEmailEditor", JSON.stringify(editorContactRequest), { headers: headers });
+        .post(this.serverUrl + "public/sendEmailEditor", JSON.stringify(editorContactRequest), options);
     }
 
-    sendEmailPublisher(publisherContactRequest: PublisherContactRequest): Observable<boolean[]> {
+    sendEmailPublisher(publisherContactRequest: PublisherContactRequest): Observable<String> {
       if (this.log) {
         console.log('Enviando email');
       }
       const headers = new HttpHeaders({
         'Content-type': 'application/json'
       });
+      const options = { headers: headers, responseType: 'text' as 'text' };
       return this.http
-        .post<boolean[]>(this.serverUrl + "public/sendEmailPublisher", JSON.stringify(publisherContactRequest), { headers: headers });
+        .post(this.serverUrl + "public/sendEmailPublisher", JSON.stringify(publisherContactRequest), options);
     }
 
 }

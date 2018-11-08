@@ -49,7 +49,7 @@ public class FrontBookController {
 
 
     @PostMapping( path = "/sendEmailAuthor")
-    ResponseEntity<Boolean> sendContactEmail(@RequestBody final AuthorContactRequestDTO authorContactRequestDTO) {
+    ResponseEntity<String> sendContactEmail(@RequestBody final AuthorContactRequestDTO authorContactRequestDTO) {
 
         // Validar
         final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(authorContactRequestDTO);
@@ -60,21 +60,16 @@ public class FrontBookController {
             try {
                 this.comentarioService.sendContactEmail(authorContactRequestDTO);
             } catch (final Exception e) {
-                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<String>("ERROR", HttpStatus.BAD_REQUEST);
             }
         }
-        try {
-            this.comentarioService.enviarNotificacion(comentarioDTO);
-        } catch (final Exception e) {
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
-        }
 
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        return new ResponseEntity<String>("SEND", HttpStatus.OK);
 
     }
 
     @PostMapping( path = "/sendEmailEditor")
-    ResponseEntity<Boolean> sendContactEmailEditor(@RequestBody final EditorContactRequestDTO editorContactRequestDTO) {
+    ResponseEntity<String> sendContactEmailEditor(@RequestBody final EditorContactRequestDTO editorContactRequestDTO) {
 
         // Validar
         final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(editorContactRequestDTO);
@@ -85,21 +80,16 @@ public class FrontBookController {
             try {
                 this.comentarioService.sendContactEmail(editorContactRequestDTO);
             } catch (final Exception e) {
-                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<String>("ERROR", HttpStatus.BAD_REQUEST);
             }
         }
-        try {
-            this.comentarioService.enviarNotificacion(comentarioDTO);
-        } catch (final Exception e) {
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
-        }
 
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        return new ResponseEntity<String>("SEND", HttpStatus.OK);
 
     }
 
     @PostMapping( path = "/sendEmailPublisher")
-    ResponseEntity<Boolean> sendContactEmailPublisher(@RequestBody final PublisherContactRequestDTO publisherContactRequestDTO) {
+    ResponseEntity<String> sendContactEmailPublisher(@RequestBody final PublisherContactRequestDTO publisherContactRequestDTO) {
 
         // Validar
         final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(publisherContactRequestDTO);
@@ -110,16 +100,11 @@ public class FrontBookController {
             try {
                 this.comentarioService.sendContactEmail(publisherContactRequestDTO);
             } catch (final Exception e) {
-                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+                return new ResponseEntity<String>("ERROR", HttpStatus.BAD_REQUEST);
             }
         }
-        try {
-            this.comentarioService.enviarNotificacion(comentarioDTO);
-        } catch (final Exception e) {
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
-        }
 
-        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
+        return new ResponseEntity<String>("SEND", HttpStatus.OK);
 
     }
 

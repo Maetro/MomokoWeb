@@ -177,7 +177,6 @@ const appRoutes: Routes = [
   { path: 'politica-cookies', component: PageCookiesComponent },
   { path: 'politica-privacidad', component: PagePrivacyComponent },
   { path: 'aviso-legal', component: PageLegalAdviceComponent },
-  { path: 'criterios', component: PageCriteriosComponent },
   {
     path: ':url',
     loadChildren: './contenido/entrada/entrada.module#EntradaModule',

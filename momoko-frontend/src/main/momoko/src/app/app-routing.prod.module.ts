@@ -21,6 +21,9 @@ import { ObtenerSagaMiscelaneosResolverService } from './services/resolvers/obte
 import { ObtenerSagaNoticiasResolverService } from './services/resolvers/obtener-saga-noticias.resolver.service';
 import { ObtenerSagaResolverService } from './services/resolvers/obtener-saga-resolver.service';
 import { ObtenerVideoResolverService } from './services/resolvers/obtener-video-resolver.service';
+import { PageCookiesComponent } from './contenido/estaticas/page-cookies/page-cookies.component';
+import { PagePrivacyComponent } from './contenido/estaticas/page-privacy/page-privacy.component';
+import { PageLegalAdviceComponent } from './contenido/estaticas/page-legal-advice/page-legal-advice.component';
 
 const appRoutes: Routes = [
   {
@@ -166,6 +169,9 @@ const appRoutes: Routes = [
   { path: 'not-found', component: PageNotFoundComponent },
   { path: 'solicitud', component: PageSolicitudComponent },
   { path: 'criterios', component: PageCriteriosComponent },
+  { path: 'politica-cookies', component: PageCookiesComponent },
+  { path: 'politica-privacidad', component: PagePrivacyComponent },
+  { path: 'aviso-legal', component: PageLegalAdviceComponent },
   {
     path: ':url',
     loadChildren: './contenido/entrada/entrada.module#EntradaModule',

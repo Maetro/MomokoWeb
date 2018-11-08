@@ -54,10 +54,17 @@ export class JoinUsEditorFormComponent implements OnInit {
     const updateAuthorRequest: EditorContactRequest = this.authorRequestForm.getRawValue();
     this.joinUsService.sendEmailEditor(updateAuthorRequest).subscribe(response => {
       if (isPlatformBrowser(this.platformId)) {
-        $.growl.notice({
-          message:
-            "Se ha enviado el mensaje correctamente, te responderemos lo antes posible."
-        });
+        if (response === 'SEND') {
+          $.growl.notice({
+            message:
+              'Se ha enviado el mensaje correctamente, te responderemos lo antes posible.'
+          });
+        } else {
+          $.growl.error({
+            message:
+              'Ha ocurrido un error al enviar el mensaje. Intentalo de nuevo más adelante'
+          });
+        }
       }
       this.return.emit("SEND");
     });
