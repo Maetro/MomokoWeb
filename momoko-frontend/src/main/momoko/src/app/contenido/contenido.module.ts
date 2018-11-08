@@ -5,8 +5,7 @@ import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
 import { MenuComponent } from './menu/menu.component';
 import { FooterComponent } from './footer/footer.component';
-import { SuscripcionService } from '../services/suscripcion.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { SidebarMenuComponent } from './sidebar-menu/sidebar-menu.component';
 import { JoinUsModule } from './comunes/join-us/join-us.module';
@@ -16,10 +15,10 @@ import { JoinUsModule } from './comunes/join-us/join-us.module';
     CommonModule,
     RouterModule,
     FormsModule,
-    JoinUsModule
+    ReactiveFormsModule,
+    JoinUsModule,
   ],
   declarations: [HeaderComponent, MenuComponent, SidebarMenuComponent, FooterComponent],
-  providers: [SuscripcionService],
   exports: [HeaderComponent, MenuComponent, SidebarMenuComponent, FooterComponent]
 })
 export class ContenidoModule { } 

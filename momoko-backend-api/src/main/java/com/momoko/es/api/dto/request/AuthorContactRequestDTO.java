@@ -52,12 +52,12 @@ public class AuthorContactRequestDTO implements Serializable {
         this.genre = genre;
     }
 
-    public String getPublished() {
+    public String getIsPublished() {
         return isPublished;
     }
 
-    public void setPublished(String published) {
-        isPublished = published;
+    public void setIsPublished(String isPublished) {
+        this.isPublished = isPublished;
     }
 
     public boolean isAcceptedPrivacy() {

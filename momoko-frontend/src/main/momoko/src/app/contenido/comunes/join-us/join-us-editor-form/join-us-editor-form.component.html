@@ -1,4 +1,4 @@
-<div class="return"><a (click)="volver()">ir atrás</a><a><i class="fa fa-times"></i></a></div>
+<div class="return"><a><i class="fa fa-times" (click)="close()"></i></a></div>
 <div class="form-container">
   <form (ngSubmit)="onSubmit()" [formGroup]="authorRequestForm">
     <div class="form-group col-md-12">

@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
-import com.momoko.es.api.dto.request.EditorContactRequestDTO;
-import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
+import com.momoko.es.api.dto.request.*;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
-import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.ComentarioEntity;
 import com.momoko.es.jpa.model.entity.EntradaEntity;
@@ -280,6 +277,13 @@ public class ComentarioServiceImpl implements ComentarioService {
         Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "RMaetro@gmail.com");
         Mail.sendEmail("Redactor en contacto en momoko.es", editorContactRequestDTO.toString(), "kizuna.owo@gmail.com");
         System.out.println(editorContactRequestDTO.toString());
+    }
+
+    @Override
+    public void sendContactEmail(SuscribeContactRequestDTO suscribeContactRequestDTO) {
+        Mail.sendEmail("Redactor en contacto en momoko.es", suscribeContactRequestDTO.toString(), "RMaetro@gmail.com");
+        Mail.sendEmail("Redactor en contacto en momoko.es", suscribeContactRequestDTO.toString(), "kizuna.owo@gmail.com");
+        System.out.println(suscribeContactRequestDTO.toString());
     }
 
 }

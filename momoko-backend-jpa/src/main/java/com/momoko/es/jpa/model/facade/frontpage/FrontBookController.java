@@ -5,10 +5,12 @@ import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
 import com.momoko.es.api.dto.request.EditorContactRequestDTO;
 import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
+import com.momoko.es.api.dto.request.SuscribeContactRequestDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.jpa.model.service.ComentarioService;
 import com.momoko.es.jpa.model.service.GenreService;
+import com.momoko.es.jpa.model.service.IndexService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +32,15 @@ public class FrontBookController {
 
     private final ComentarioService comentarioService;
 
+    private final IndexService indexService;
+
     @Autowired
     public FrontBookController(GenreService genreService, ValidadorService validationService,
-                               ComentarioService comentarioService) {
+                               ComentarioService comentarioService, IndexService indexService) {
         this.genreService = genreService;
         this.validationService = validationService;
         this.comentarioService = comentarioService;
+        this.indexService = indexService;
     }
 
     @PostMapping(path = "/applyfilter/{url-genre}")
@@ -99,6 +104,27 @@ public class FrontBookController {
         if (CollectionUtils.isEmpty(listaErrores)) {
             try {
                 this.comentarioService.sendContactEmail(publisherContactRequestDTO);
+            } catch (final Exception e) {
+                return new ResponseEntity<String>("ERROR", HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        return new ResponseEntity<String>("SEND", HttpStatus.OK);
+
+    }
+
+    @PostMapping( path = "/sendEmailSuscribe")
+    ResponseEntity<String> sendEmailSuscribe(@RequestBody final SuscribeContactRequestDTO suscribeContactRequestDTO) {
+
+        // Validar
+        final List<ErrorEmailContactEnum> listaErrores = this.validationService.validateEmailContact(suscribeContactRequestDTO);
+
+        // Guardar
+        ComentarioDTO comentarioDTO = null;
+        if (CollectionUtils.isEmpty(listaErrores)) {
+            try {
+                this.comentarioService.sendContactEmail(suscribeContactRequestDTO);
+                this.indexService.suscribirse(suscribeContactRequestDTO.getEmail());
             } catch (final Exception e) {
                 return new ResponseEntity<String>("ERROR", HttpStatus.BAD_REQUEST);
             }

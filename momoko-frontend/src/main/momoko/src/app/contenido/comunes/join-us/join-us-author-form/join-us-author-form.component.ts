@@ -67,23 +67,40 @@ export class JoinUsAuthorFormComponent implements OnInit {
         if (isPlatformBrowser(this.platformId)) {
           if (response === 'SEND') {
             $.growl.notice({
+              title: "Mensaje enviado",
               message:
                 'Se ha enviado el mensaje correctamente, te responderemos lo antes posible.'
             });
+            this.authorRequestForm.reset();
+            this.authorRequestForm.markAsPristine();
+            this.authorRequestForm.markAsUntouched();
           } else {
             $.growl.error({
+              title: "Error",
               message:
                 'Ha ocurrido un error al enviar el mensaje. Intentalo de nuevo más adelante'
             });
           }
         }
         this.return.emit('SEND');
+      }, error => {
+        if (isPlatformBrowser(this.platformId)) {
+          $.growl.error({
+            title: 'Error',
+            message:
+              'Ha ocurrido un error al enviar el mensaje. Intentalo de nuevo más adelante'
+          });
+        }
       });
   }
 
   volver() {
-    console.log('volver');
     this.return.emit('RETURN');
+  }
+
+  
+  close(){
+    this.return.emit("SEND");
   }
 
   get authorF() {

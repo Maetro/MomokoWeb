@@ -1,15 +1,22 @@
-import { isPlatformBrowser } from "@angular/common";
-import { Component, EventEmitter, Inject, OnInit, Output, PLATFORM_ID } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { JoinUsService } from "../join-us.service";
-import { PublisherContactRequest } from "../email-contact";
+import { isPlatformBrowser } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  OnInit,
+  Output,
+  PLATFORM_ID
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { JoinUsService } from '../join-us.service';
+import { PublisherContactRequest } from '../email-contact';
 
 declare var $: any;
 
 @Component({
-  selector: "app-join-us-publisher-form",
-  templateUrl: "./join-us-publisher-form.component.html",
-  styleUrls: ["./join-us-publisher-form.component.scss"]
+  selector: 'app-join-us-publisher-form',
+  templateUrl: './join-us-publisher-form.component.html',
+  styleUrls: ['./join-us-publisher-form.component.scss']
 })
 export class JoinUsPublisherFormComponent implements OnInit {
   @Output()
@@ -35,45 +42,64 @@ export class JoinUsPublisherFormComponent implements OnInit {
     console.log(this.authorRequestForm.getRawValue());
     // stop here if form is invalid
     if (this.authorRequestForm.invalid) {
-      let detail = "";
+      let detail = '';
       if (this.authorF.name.errors && this.authorF.name.errors.required) {
-        detail += "El nombre es obligatorio";
+        detail += 'El nombre es obligatorio';
       } else if (this.authorF.name.errors) {
         if (this.authorF.email.errors.required) {
-          detail += "El email es obligatorio";
+          detail += 'El email es obligatorio';
         } else if (this.authorF.email.errors.email)
-          detail += "El email no tiene un formato correcto";
+          detail += 'El email no tiene un formato correcto';
       } else if (this.authorF.acceptedPrivacy.errors) {
-        detail += "Es obligatorio aceptar la política de privacidad";
+        detail += 'Es obligatorio aceptar la política de privacidad';
       }
       if (isPlatformBrowser(this.platformId)) {
-        $.growl.error({ message: "Hay errores en el formulario: " + detail });
+        $.growl.error({ message: 'Hay errores en el formulario: ' + detail });
       }
       return;
     }
     this.authorRequestForm.controls;
     const updateAuthorRequest: PublisherContactRequest = this.authorRequestForm.getRawValue();
-    this.joinUsService.sendEmailPublisher(updateAuthorRequest).subscribe(response => {
-      if (isPlatformBrowser(this.platformId)) {
-        if (response === 'SEND') {
-          $.growl.notice({
-            message:
-              'Se ha enviado el mensaje correctamente, te responderemos lo antes posible.'
-          });
-        } else {
+    this.joinUsService
+      .sendEmailPublisher(updateAuthorRequest)
+      .subscribe(response => {
+        if (isPlatformBrowser(this.platformId)) {
+          if (response === 'SEND') {
+            $.growl.notice({
+              title: 'Mensaje enviado',
+              message:
+                'Se ha enviado el mensaje correctamente, te responderemos lo antes posible.'
+            });
+            this.authorRequestForm.reset();
+            this.authorRequestForm.markAsPristine();
+            this.authorRequestForm.markAsUntouched();
+          } else {
+            $.growl.error({
+              title: 'Error',
+              message:
+                'Ha ocurrido un error al enviar el mensaje. Intentalo de nuevo más adelante'
+            });
+          }
+        }
+        this.return.emit('SEND');
+      }, error => {
+        if (isPlatformBrowser(this.platformId)) {
           $.growl.error({
+            title: 'Error',
             message:
               'Ha ocurrido un error al enviar el mensaje. Intentalo de nuevo más adelante'
           });
         }
-      }
-      this.return.emit("SEND");
-    });
+      });
   }
 
   volver() {
-    console.log("volver");
-    this.return.emit("RETURN");
+    console.log('volver');
+    this.return.emit('RETURN');
+  }
+
+  close() {
+    this.return.emit('SEND');
   }
 
   get authorF() {
@@ -82,11 +108,11 @@ export class JoinUsPublisherFormComponent implements OnInit {
 
   private getAuthorRequestForm() {
     this.authorRequestForm = this.formBuilder.group({
-      name: ["", Validators.required],
-      email: ["", [Validators.required, Validators.email]],
-      publisherName: ["", Validators.required],
-      description: [""],
-      acceptedPrivacy: ["", Validators.required]
+      name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      publisherName: ['', Validators.required],
+      description: [''],
+      acceptedPrivacy: ['', Validators.required]
     });
   }
 }

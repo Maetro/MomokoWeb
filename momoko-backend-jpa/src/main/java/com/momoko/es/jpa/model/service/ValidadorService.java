@@ -10,12 +10,9 @@ import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.author.enums.AuthorCreationError;
 import com.momoko.es.api.author.dto.AuthorDTO;
-import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
-import com.momoko.es.api.dto.request.EditorContactRequestDTO;
-import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
+import com.momoko.es.api.dto.request.*;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.dto.request.NuevoComentarioRequest;
 import com.momoko.es.api.enums.errores.*;
 
 import java.util.List;
@@ -53,4 +50,6 @@ public interface ValidadorService {
     List<ErrorEmailContactEnum> validateEmailContact(EditorContactRequestDTO editorContactRequestDTO);
 
     List<ErrorEmailContactEnum> validateEmailContact(PublisherContactRequestDTO publisherContactRequestDTO);
+
+    List<ErrorEmailContactEnum> validateEmailContact(SuscribeContactRequestDTO suscribeContactRequestDTO);
 }

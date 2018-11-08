@@ -5,14 +5,14 @@
       <div class="modal-body" style="min-height: 80px;">
         <div class="col-sm-6 leftSide wrapper" [class.selected]="authorSelected || editorSelected || publisherSelected">
           <div class="slide leftSlide">
-            <ng-container *ngIf="authorSelected">
-              <app-join-us-author></app-join-us-author>
+            <ng-container *ngIf="showAuthor">
+              <app-join-us-author (return)='return($event)'></app-join-us-author>
             </ng-container>
-            <ng-container *ngIf="editorSelected">
-              <app-join-us-editor></app-join-us-editor>
+            <ng-container *ngIf="showEditor">
+              <app-join-us-editor (return)='return($event)'></app-join-us-editor>
             </ng-container>
-            <ng-container *ngIf="publisherSelected">
-              <app-join-us-publisher></app-join-us-publisher>
+            <ng-container *ngIf="showPublisher">
+              <app-join-us-publisher (return)='return($event)'></app-join-us-publisher>
             </ng-container>
           </div>
           <div class="imageHeaderContainer">
@@ -26,18 +26,18 @@
             ¿por qué no publicar mis <br />
             posts aquí?
           </div>
-          <div class="btn" (click)="editorSelected = true">¡Sí! Quiero escribir</div>
+          <div class="btn" (click)="editorSelected = true; showEditor = true;">¡Sí! Quiero escribir</div>
         </div>
         <div class="triangle" [class.selected]="authorSelected || editorSelected ||publisherSelected"></div>
         <div class="col-sm-6 rightSide wrapper" [class.selected]="authorSelected || editorSelected ||publisherSelected">
           <div class="slide rightSlide">
-            <ng-container *ngIf="authorSelected">
+            <ng-container *ngIf="showAuthor">
               <app-join-us-author-form (return)='return($event)'></app-join-us-author-form>
             </ng-container>
-            <ng-container *ngIf="editorSelected">
+            <ng-container *ngIf="showEditor">
               <app-join-us-editor-form (return)='return($event)'></app-join-us-editor-form>
             </ng-container>
-            <ng-container *ngIf="publisherSelected">
+            <ng-container *ngIf="showPublisher">
               <app-join-us-publisher-form (return)='return($event)'></app-join-us-publisher-form>
             </ng-container>
           </div>
@@ -53,8 +53,8 @@
             nos tomamos cada lectura <br />
             muy en serio
           </div>
-          <div class="btn" (click)="authorSelected = true">Soy un autor</div>
-          <div class="btn reverse" (click)="publisherSelected = true">Soy una editorial</div>
+          <div class="btn" (click)="authorSelected = true; showAuthor = true;">Soy un autor</div>
+          <div class="btn reverse" (click)="publisherSelected = true; showPublisher = true;">Soy una editorial</div>
           <!--/.form-field -->
         </div>
       </div>

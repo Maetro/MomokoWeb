@@ -19,8 +19,9 @@
                 position: absolute;
                 -webkit-transform: rotate(270deg);
                 transform: rotate(270deg);
+                transition: 1s;
                 &.selected{
-                    transition: 1s;
+                    
                     left: 42%;
                 }
             }

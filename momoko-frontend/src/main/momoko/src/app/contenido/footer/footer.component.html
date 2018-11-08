@@ -13,7 +13,8 @@
           <p>
             <b> Somos Momoko </b>
           </p>
-          <p> El mejor blog de literatura y análisis editorial creado por y para los apasionados a la lectura. Como tú o como
+          <p> El mejor blog de literatura y análisis editorial creado por y para los apasionados a la lectura. Como tú
+            o como
             yo. Estamos preparando grandes novedades para la página. ¡No te pierdas nada!
 
         </div>
@@ -65,28 +66,20 @@
 
         <div class="widget">
           <h3 class="widget-title section-title">SUSCRÍBETE A NUESTRA NEWSLETTER </h3>
-
-
-          <div class="">
-
-
-            <p> Introduce tu correo para recibir nuestras novedades una vez por semana. ¡Tranquilo! No te enviaremos spam ;)
-            </p>
-
-            <div class="form-field">
-              <label>
-                <input class="emailsuscripcion" id="emailsuscripcion" type="text" name="name" placeholder="Tu email" required="required">
-              </label>
+          <form (ngSubmit)="onSubmit()" [formGroup]="suscribeRequestForm">
+            <div class="">
+              <p> Introduce tu correo para recibir nuestras novedades una vez por semana. ¡Tranquilo! No te enviaremos
+                spam ;)
+              </p>
+              <div class="form-field">
+                <label>
+                  <input type="email" formControlName="email" id="email" class="form-control" [placeholder]="'Email *'"
+                   [ngClass]="{ 'is-invalid': submitted && authorF.email.errors }" />
+                </label>
+              </div>
+              <a (click)="onSubmit()" class="btn suscribirse">Suscribirse </a>
             </div>
-
-            <a (click)="suscribirse()" class="btn suscribirse">Suscribirse </a>
-
-
-
-          </div>
-          <div class="alert alert-success" [hidden]="!mostrarMensaje">
-            <strong>Te has suscrito correctamente</strong>
-          </div>
+          </form>
         </div>
 
       </div>
@@ -95,7 +88,7 @@
       <div class="col-sm-3" style="padding-left: 35px;">
         <div class="widget">
           <h3 class="widget-title section-title">ENLACES DE INTERÉS </h3>
-          <ul class="circled">
+          <ul class="footerList">
             <li>
               <a routerLink="/solicitud">Solicita tu reseña</a>
             </li>

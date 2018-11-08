@@ -52,4 +52,6 @@ import { AuthorContactRequest, EditorContactRequest, PublisherContactRequest } f
         .post(this.serverUrl + "public/sendEmailPublisher", JSON.stringify(publisherContactRequest), options);
     }
 
+
+
 }

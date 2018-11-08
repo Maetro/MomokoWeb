@@ -10,6 +10,21 @@
   font-size: 15px;
 }
 
+.footerList{
+    list-style-type: none;
+}
+
+ul.footerList{
+    padding-left: 0px;
+}
+
+.footerList a{
+    color: #e3b015;
+}
+
+.footerList a:hover{
+    color: #007ad9;
+}
 
 .NEWSLETTER h3 {
 
