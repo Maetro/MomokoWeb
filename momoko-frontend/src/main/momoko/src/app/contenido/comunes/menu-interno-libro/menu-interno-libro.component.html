@@ -12,7 +12,7 @@
             <u>Ficha del libro</u>
           </a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="libro.autores[0].description">
             <a routerLink="/autor/{{libro.autores[0].authorUrl}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <u>Autor</u>
             </a>

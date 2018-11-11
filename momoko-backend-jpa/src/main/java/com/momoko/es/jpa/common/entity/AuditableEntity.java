@@ -24,10 +24,6 @@ public class AuditableEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date modifiedDate;
 
-    @Column(name = "deleted_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date deletedDate;
-
     @Column(name = "created_by")
     @CreatedBy
     private String createdBy;
@@ -35,9 +31,6 @@ public class AuditableEntity {
     @Column(name = "modified_by")
     @LastModifiedBy
     private String modifiedBy;
-
-    @Column(name = "deleted_by")
-    private String deletedBy;
 
     public Date getCreatedDate() {
         return createdDate;

@@ -1,5 +1,7 @@
+import { EntryTypeEnum } from "./entrada";
+
 export class DatoEntrada {
-  tipoEntrada: number;
+  tipoEntrada: EntryTypeEnum;
   urlEntrada: string;
   enMenu: boolean;
   nombreMenuLibro: string;

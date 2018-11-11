@@ -28,7 +28,8 @@ import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 import javax.xml.bind.DatatypeConverter;
 
-import com.momoko.es.api.util.MomokoHelper;
+import com.momoko.es.api.enums.EntryStatusEnum;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.repository.*;
 import com.momoko.es.jpa.model.util.*;
@@ -56,7 +57,6 @@ import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
 import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
 import com.momoko.es.api.youtube.list.Video;
@@ -135,7 +135,7 @@ public class EntradaServiceImpl implements EntradaService {
                 .setImagenDestacada(this.almacenImagenes.obtenerImagenOriginal(entradaEntity.getImagenDestacada()));
         final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
         // Si es tipo video anadimos su URL
-        if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+        if (entradaDTO.getEntryType().equals(EntryTypeEnum.VIDEO)) {
             final VideoEntity videoEntity = this.videoRepository
                     .findFirstByEntradaUrlEntrada(entradaDTO.getUrlEntrada());
             if (videoEntity != null) {
@@ -170,7 +170,8 @@ public class EntradaServiceImpl implements EntradaService {
             } catch (final IOException e) {
                 e.printStackTrace();
             }
-            if (TipoEntrada.MISCELANEOS.getValue().equals(entradaDTO.getTipoEntrada())) {
+            if (EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType()) ||
+                    EntryTypeEnum.SPECIAL.equals(entradaDTO.getEntryType())) {
                 final String jsonLD = JsonLDUtils.crearJsonLDMiscelaneo(entradaDTO);
                 entradaDTO.setJsonLD(jsonLD);
             }
@@ -201,9 +202,9 @@ public class EntradaServiceImpl implements EntradaService {
                 respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
             }
 
-            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getFechaAlta()));
+            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getCreatedDate()));
             // Si es tipo video anadimos su URL
-            if (entradaDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+            if (entradaDTO.getEntryType().equals(EntryTypeEnum.VIDEO)) {
                 final VideoEntity videoEntity = this.videoRepository
                         .findFirstByEntradaUrlEntrada(entradaDTO.getUrlEntrada());
                 if (videoEntity != null) {
@@ -306,13 +307,13 @@ public class EntradaServiceImpl implements EntradaService {
         if (CollectionUtils.isNotEmpty(sagasEntrada)) {
             final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findBySagasEntradaIn(
                     sagasEntrada.stream().map(SagaEntity::getSagaId).collect(Collectors.toList()),
-                    new PageRequest(0, 99));
+                    PageRequest.of(0, 99));
 
             final List<DatoEntradaDTO> listaDatosEntradas = ConversionUtils
                     .obtenerDatosEntradaFromEntradaEntityList(entradasRelacionadas);
             entradaDTO.setDatosEntrada(listaDatosEntradas);
         }
-        if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
+        if (EntryTypeEnum.OPINION.equals(entradaDTO.getEntryType())) {
             entradaDTO.setJsonLD("{}");
         }
     }
@@ -326,7 +327,7 @@ public class EntradaServiceImpl implements EntradaService {
             for (final LibroEntity libroEntrada : librosEntrada) {
 
                 final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                        .findByLibrosEntradaIn(Arrays.asList(libroEntrada), new PageRequest(0, 99));
+                        .findByLibrosEntradaIn(Arrays.asList(libroEntrada), PageRequest.of(0, 99));
 
                 Collections.sort(entradasRelacionadas);
                 if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
@@ -350,7 +351,7 @@ public class EntradaServiceImpl implements EntradaService {
                         if (puntuacion != null) {
                             libroDTO.setNotaMomoko(puntuacion.getValor());
                         }
-                        if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
+                        if (EntryTypeEnum.OPINION.equals(entradaDTO.getEntryType())) {
                             final String jsonLD = JsonLDUtils.crearJsonLDOpiniones(libroDTO, entradaDTO,
                                     puntuacion.getValor());
                             entradaDTO.setJsonLD(jsonLD);
@@ -630,7 +631,7 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public List<EntradaDTO> recuperarEntradas() {
         final List<EntradaDTO> entradasDTO = new ArrayList<>();
-        final Iterable<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
+        final List<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
         final String imageServer = this.almacenImagenes.getUrlImageServer();
         for (final EntradaEntity entradaEntity : entradasEntity) {
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
@@ -785,12 +786,19 @@ public class EntradaServiceImpl implements EntradaService {
         if (!esNuevaEntrada && (coincidencia == null)) {
             throw new NoSeEncuentraEntradaException("No se encuentra la entrada");
         }
+        if (entradaAGuardar.getUrlMenuLibro() != null){
+            entradaEntity.setEntryType(EntryTypeEnum.SPECIAL);
+            entradaEntity.setTipoEntrada(5);
+        }
+        //TODO: FIX ME
+        entradaEntity.setEstadoEntrada(2);
+
         if (esNuevaEntrada) {
             entradaEntity = crearNuevaEntrada(entradaEntity);
         } else {
             entradaEntity = actualizarEntrada(entradaEntity, coincidencia);
         }
-        if (entradaEntity.getTipoEntrada().equals(TipoEntrada.VIDEO.getValue())) {
+        if (entradaEntity.getTipoEntrada().equals(EntryTypeEnum.VIDEO.getValue())) {
             VideoEntity videoEntity = this.videoRepository.findById(entradaEntity.getEntradaId()).orElse(null);
             if (videoEntity == null) {
                 videoEntity = new VideoEntity();
@@ -831,16 +839,6 @@ public class EntradaServiceImpl implements EntradaService {
             viejaEntrada.setSagasEntrada(null);
         }
 
-        viejaEntrada.setUsuarioModificacion(currentPrincipalName);
-        viejaEntrada.setFechaModificacion(Calendar.getInstance().getTime());
-
-        if (viejaEntrada.getPadreEntrada() != null) {
-            final EntradaEntity padre = this.entradaRepository
-                    .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
-            viejaEntrada.setPadreEntrada(padre);
-        } else {
-            viejaEntrada.setPadreEntrada(null);
-        }
         if (!viejaEntrada.getUrlEntrada().equals(entradaEntity.getUrlEntrada())) {
             viejaEntrada.setUrlAntigua(viejaEntrada.getUrlEntrada());
         }
@@ -855,11 +853,11 @@ public class EntradaServiceImpl implements EntradaService {
         viejaEntrada.setFraseDescriptiva(entradaEntity.getFraseDescriptiva());
         viejaEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
         viejaEntrada.setTituloEntrada(entradaEntity.getTituloEntrada());
+        viejaEntrada.setEntryType(entradaEntity.getEntryType());
         viejaEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
         viejaEntrada.setEtiquetas(entradaEntity.getEtiquetas());
         viejaEntrada.setImagenDestacada(entradaEntity.getImagenDestacada());
         viejaEntrada.setEntradaAutor(entradaEntity.getEntradaAutor());
-        viejaEntrada.setFechaAlta(entradaEntity.getFechaAlta());
         viejaEntrada.setEnMenu(entradaEntity.isEnMenu());
         viejaEntrada.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
         viejaEntrada.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
@@ -889,19 +887,7 @@ public class EntradaServiceImpl implements EntradaService {
         if (CollectionUtils.isNotEmpty(entradaEntity.getSagasEntrada())) {
             entradaEntity.setSagasEntrada(obtenerSagasEntrada(entradaEntity.getSagasEntrada()));
         }
-        if (entradaEntity.getFechaAlta() == null) {
-            entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
-        }
 
-        entradaEntity.setUsuarioAlta(currentPrincipalName);
-
-        if (entradaEntity.getPadreEntrada() != null) {
-            final EntradaEntity padre = this.entradaRepository
-                    .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
-            entradaEntity.setPadreEntrada(padre);
-        }
-        // TODO: RAMON: Implementar
-        entradaEntity.setNumeroComentarios(0);
         if (entradaEntity.getPermitirComentarios() == null) {
             entradaEntity.setPermitirComentarios(true);
         }
@@ -948,7 +934,7 @@ public class EntradaServiceImpl implements EntradaService {
                     final EntradaDTO nuevaEntradaVideo = new EntradaDTO();
                     nuevaEntradaVideo.setRedactor(ConversionUtils.getRedactorFromUsuario(autora));
                     nuevaEntradaVideo.setContenidoEntrada(videoData.getSnippet().getDescription());
-                    nuevaEntradaVideo.setEstadoEntrada(2);
+                    nuevaEntradaVideo.setEntryStatus(EntryStatusEnum.PUBLISHED);
                     final EtiquetaDTO etiqueta = new EtiquetaDTO();
 
                     etiqueta.setNombreEtiqueta("Video momoko");
@@ -975,7 +961,7 @@ public class EntradaServiceImpl implements EntradaService {
                     }
                     nuevaEntradaVideo.setPermitirComentarios(true);
                     nuevaEntradaVideo.setUrlEntrada(urlVideoRemote);
-                    nuevaEntradaVideo.setTipoEntrada(4);
+                    nuevaEntradaVideo.setEntryType(EntryTypeEnum.VIDEO);
                     nuevaEntradaVideo.setTituloEntrada(video.getSnippet().getTitle());
                     nuevaEntradaVideo.setEditorNombre("La insomne");
                     nuevaEntradaVideo.setImagenDestacada("imagenes-destacadas/" + urlVideo + ".png");
@@ -1049,16 +1035,7 @@ public class EntradaServiceImpl implements EntradaService {
         if (entradaEntity.getLibrosEntrada() != null) {
             entradaEntity.setLibrosEntrada(obtenerLibrosEntrada(entradaEntity.getLibrosEntrada()));
         }
-        entradaEntity.setFechaAlta(Calendar.getInstance().getTime());
-        entradaEntity.setUsuarioAlta(autor.getEmail());
 
-        if (entradaEntity.getPadreEntrada() != null) {
-            final EntradaEntity padre = this.entradaRepository
-                    .findFirstByUrlEntrada(entradaEntity.getPadreEntrada().getUrlEntrada());
-            entradaEntity.setPadreEntrada(padre);
-        }
-
-        entradaEntity.setNumeroComentarios(0);
         if (entradaEntity.getPermitirComentarios() == null) {
             entradaEntity.setPermitirComentarios(true);
         }
@@ -1101,41 +1078,41 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public List<EntradaSimpleDTO> obtenerNoticias(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaNoticias = this.entradaRepository
-                .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.NOTICIA.getValue(),
+                .findByTipoEntradaOrderByCreatedDateDesc(EntryTypeEnum.NEWS.getValue(),
                         PageRequest.of(request.getNumeroPagina() - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaNoticias, true);
     }
 
     @Override
     public Integer obtenerNumeroNoticias() {
-        return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.NOTICIA.getValue()).intValue();
+        return this.entradaRepository.countByTipoEntrada(EntryTypeEnum.NEWS.getValue()).intValue();
     }
 
     @Override
     public Collection<EntradaSimpleDTO> obtenerMiscelaneos(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
-                .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.MISCELANEOS.getValue(),
+                .findByTipoEntradaOrderByCreatedDateDesc(EntryTypeEnum.MISCELLANEOUS.getValue(),
                         PageRequest.of(request.getNumeroPagina() - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaMiscelaneos, true);
     }
 
     @Override
     public Integer obtenerNumeroMiscelaneos() {
-        return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.MISCELANEOS.getValue())
+        return this.entradaRepository.countByTipoEntrada(EntryTypeEnum.MISCELLANEOUS.getValue())
                 .intValue();
     }
 
     @Override
     public Collection<EntradaSimpleDTO> obtenerVideos(final ObtenerPaginaElementoRequest request) {
         final List<EntradaEntity> listaMiscelaneos = this.entradaRepository
-                .findByTipoEntradaAndFechaBajaIsNullOrderByFechaAltaDesc(TipoEntrada.VIDEO.getValue(),
+                .findByTipoEntradaOrderByCreatedDateDesc(EntryTypeEnum.VIDEO.getValue(),
                         PageRequest.of(request.getNumeroPagina() - 1, 9));
         return ConversionUtils.obtenerEntradasBasicas(listaMiscelaneos, true);
     }
 
     @Override
     public Integer obtenerNumeroVideos() {
-        return this.entradaRepository.countByTipoEntradaAndFechaBajaIsNull(TipoEntrada.VIDEO.getValue()).intValue();
+        return this.entradaRepository.countByTipoEntrada(EntryTypeEnum.VIDEO.getValue()).intValue();
     }
 
     @Override

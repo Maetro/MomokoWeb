@@ -8,12 +8,11 @@ export class Entrada {
   entradaId: number;
   redactor: Redactor;
   urlEntrada: string;
-  tipoEntrada: number;
-  tipoEntradaString: string;
+  entryType: EntryTypeEnum;
   tituloEntrada: string;
   contenidoEntrada: string;
   resumenEntrada: string;
-  estadoEntrada: number;
+  entryStatus: EntryStatusEnum;
   permitirComentarios: boolean;
   padreEntrada: Entrada;
   librosEntrada: Libro[];
@@ -36,4 +35,18 @@ export class Entrada {
   visitas: number;
   jsonLD: string;
   datosEntrada: DatoEntrada[];
+}
+
+export enum EntryStatusEnum {
+  DRAFT,
+  PUBLISHED,
+  DELETED
+}
+
+export enum EntryTypeEnum {
+  NEWS,
+  OPINION,
+  MISCELLANEOUS,
+  VIDEO,
+  SPECIAL
 }

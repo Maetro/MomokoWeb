@@ -22,7 +22,7 @@ import { ImageResize } from 'quill-image-resize-module';
 import { Fila } from '../fila';
 import { Columna } from '../columna';
 import { Event } from '@angular/router/src/events';
-import { Entrada } from '../../../../dtos/entrada';
+import { Entrada, EntryTypeEnum, EntryStatusEnum } from '../../../../dtos/entrada';
 import { Galeria } from '../../../../dtos/galeria';
 import { EntradaService } from '../../../../services/entrada.service';
 import { FileUploadService } from '../../services/file-upload.service';
@@ -431,11 +431,11 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
         this.entrada.etiquetas.push(et);
       });
     }
-    if (this.entrada.tipoEntrada == null) {
-      this.entrada.tipoEntrada = 1;
+    if (this.entrada.entryType == null) {
+      this.entrada.entryType = EntryTypeEnum.NEWS;
     }
-    if (this.entrada.estadoEntrada == null) {
-      this.entrada.estadoEntrada = 1;
+    if (this.entrada.entryStatus == null) {
+      this.entrada.entryStatus = EntryStatusEnum.DRAFT;
     }
     this.entrada.fechaAlta = this.date;
     this.entryService.saveEntry(this.entrada).subscribe(res => {
@@ -461,7 +461,7 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
   }
 
   esTipoVideo(): boolean {
-    return this.entrada.tipoEntrada === 4;
+    return this.entrada.entryType === EntryTypeEnum.VIDEO;
   }
 
   esMenu(): boolean {

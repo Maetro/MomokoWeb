@@ -244,7 +244,8 @@ public class SagaServiceImpl implements SagaService {
 
         final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
                 .findBySagasEntradaIn(Arrays.asList(sagaDTO.getSagaId()), new PageRequest(0, 3));
-        Collections.sort(entradasRelacionadas);
+        // TODO : Orden entradas relacionadas
+        //Collections.sort(entradasRelacionadas);
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
                 true);
         // generar miniaturas de 304 x 221
@@ -267,7 +268,8 @@ public class SagaServiceImpl implements SagaService {
 
         final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findByLibrosEntradaIn(librosSaga,
                 new PageRequest(0, 3));
-        Collections.sort(entradasRelacionadas);
+        // TODO : Orden entradas relacionadas
+        //Collections.sort(entradasRelacionadas);
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
                 true);
         // generar miniaturas de 304 x 221

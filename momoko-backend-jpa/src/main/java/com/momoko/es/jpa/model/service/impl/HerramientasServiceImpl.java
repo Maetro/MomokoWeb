@@ -9,6 +9,7 @@ package com.momoko.es.jpa.model.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.momoko.es.api.enums.EntryTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,6 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.model.service.EditorialService;
 import com.momoko.es.jpa.model.service.EntradaService;
@@ -190,22 +190,25 @@ public class HerramientasServiceImpl implements HerramientasService {
         String title = "";
         for (final EntradaDTO entrada : entradas) {
             final EntradaUrlDTO entradaUrlDTO = new EntradaUrlDTO();
-            final TipoEntrada tipoEntrada = TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada());
-            switch (tipoEntrada) {
-            case OPINIONES:
+            switch (entrada.getEntryType()) {
+                case OPINION:
                 url = "/opiniones/" + entrada.getUrlEntrada();
                 title = "Reseña libro - " + entrada.getLibrosEntrada().get(0).getTitulo();
                 break;
-            case NOTICIA:
+                case NEWS:
                 url = "/" + entrada.getUrlEntrada();
                 title = entrada.getTituloEntrada();
                 break;
-            case MISCELANEOS:
+                case MISCELLANEOUS:
                 url = "/" + entrada.getUrlEntrada();
                 title = entrada.getTituloEntrada();
                 break;
-            case VIDEO:
+                case VIDEO:
                 url = "/" + entrada.getUrlEntrada();
+                title = entrada.getTituloEntrada();
+                break;
+                case SPECIAL:
+                url = "/" + entrada.getUrlMenuLibro() + "/" + entrada.getUrlEntrada();
                 title = entrada.getTituloEntrada();
                 break;
 

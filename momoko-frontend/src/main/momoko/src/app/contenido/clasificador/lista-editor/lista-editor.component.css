@@ -192,6 +192,7 @@ h4:focus {
 
 img.avatar {
   width: 170px;
+  border-radius: 50%;
 }
 
 .post__share a {

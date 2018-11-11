@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Entrada } from '../../dtos/entrada';
+import { Entrada, EntryTypeEnum } from '../../dtos/entrada';
 import { LibroSimple } from '../../dtos/libroSimple';
 import { Comentario } from '../../dtos/comentario';
 import { EntradaSimple } from '../../dtos/entradaSimple';
@@ -16,27 +16,19 @@ import { UtilService } from '../../services/util/util.service';
   styleUrls: ['./entrada.component.scss']
 })
 export class EntradaComponent implements OnInit, OnDestroy {
+  
   private log = environment.log;
-
   private url: string;
-
   entrada: Entrada;
-
   suscriptor: any;
-
   librosParecidos: LibroSimple[];
-
   comentarios: Comentario[];
-
   entradaAnteriorYSiguiente: EntradaSimple[];
-
   cuatroPostPequenosConImagen: EntradaSimple[];
-
-  tipoEntrada: number;
-
+  entryType: EntryTypeEnum;
   haySagas: boolean;
-
   hayLibros: boolean;
+  public EntryTypeEnum: any = EntryTypeEnum;
 
   constructor(
     private entradaService: EntradaService,
@@ -63,7 +55,7 @@ export class EntradaComponent implements OnInit, OnDestroy {
             this.librosParecidos =
               data.obtenerEntradaResponse.cincoLibrosParecidos;
             this.comentarios = data.obtenerEntradaResponse.comentarios;
-            this.tipoEntrada = data.obtenerEntradaResponse.entrada.tipoEntrada;
+            this.entryType = data.obtenerEntradaResponse.entrada.entryType;
             this.hayLibros =
               data.obtenerEntradaResponse.entrada.librosEntrada.length > 0;
             this.haySagas =
@@ -107,4 +99,5 @@ export class EntradaComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.suscriptor.unsubscribe();
   }
+
 }

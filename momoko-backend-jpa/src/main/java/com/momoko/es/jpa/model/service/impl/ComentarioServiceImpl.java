@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.momoko.es.api.dto.request.*;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.ComentarioEntity;
 import com.momoko.es.jpa.model.entity.EntradaEntity;
 import com.momoko.es.jpa.model.entity.UsuarioEntity;
@@ -246,7 +246,7 @@ public class ComentarioServiceImpl implements ComentarioService {
         content = Mail.replaceTagInContent("${nombreComentario}", comentarioPrincipal.getNombreComentario(), content);
         content = Mail.replaceTagInContent("${tituloEntrada}", entrada.getTituloEntrada(), content);
         content = Mail.replaceTagInContent("${tipoEntrada}",
-                TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre(), content);
+                EntryTypeEnum.getEntryType(entrada.getTipoEntrada()).getName(), content);
 
         content = Mail.replaceTagInContent("${fechaComentario}", dt.format(comentarioPrincipal.getFechaAlta()),
                 content);

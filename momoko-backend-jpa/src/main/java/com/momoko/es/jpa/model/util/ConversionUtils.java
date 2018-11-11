@@ -12,8 +12,8 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.filter.dto.FilterValueDTO;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.entity.*;
 import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
 import com.momoko.es.jpa.model.facade.amp.AmpComment;
@@ -139,17 +139,20 @@ public class ConversionUtils {
                     if (entradaSimple.getUrlMenuLibro() != null) {
                         entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
                     } else {
-                        if (TipoEntrada.NOTICIA.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                        if (EntryTypeEnum.NEWS.getName().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("noticia");
                         }
-                        if (TipoEntrada.OPINIONES.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                        if (EntryTypeEnum.OPINION.getName().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("opiniones");
                         }
-                        if (TipoEntrada.MISCELANEOS.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                        if (EntryTypeEnum.MISCELLANEOUS.getName().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("miscelaneo");
                         }
-                        if (TipoEntrada.VIDEO.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                        if (EntryTypeEnum.VIDEO.getName().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("video");
+                        }
+                        if (EntryTypeEnum.SPECIAL.getName().equals(entradaSimple.getTipoEntrada())){
+                            entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
                         }
                     }
                     final StringBuilder titulosLibros = new StringBuilder();
@@ -173,7 +176,7 @@ public class ConversionUtils {
                         entradaSimple.setBloque(entradaSimple.getUrlMenuLibro());
                     } else {
 
-                        if (TipoEntrada.OPINIONES.getNombre().equals(entradaSimple.getTipoEntrada())) {
+                        if (EntryTypeEnum.OPINION.getName().equals(entradaSimple.getTipoEntrada())) {
                             entradaSimple.setBloque("opiniones");
                         }
 
@@ -203,13 +206,13 @@ public class ConversionUtils {
         entradaSimpleDTO.setUrlEntrada(entrada.getUrlEntrada());
         entradaSimpleDTO.setImagenEntrada(entrada.getImagenDestacada());
         entradaSimpleDTO.setUrlEditor(entrada.getEntradaAutor().getUsuarioUrl());
-        entradaSimpleDTO.setFechaAlta(entrada.getFechaAlta());
-        entradaSimpleDTO.setFechaModificacion(entrada.getFechaModificacion());
+        entradaSimpleDTO.setFechaAlta(entrada.getCreatedDate());
+        entradaSimpleDTO.setFechaModificacion(entrada.getModifiedDate());
         if (obtenerComentarios) {
             entradaSimpleDTO.setCategoria(obtenerCategoriaDeEntrada(entrada));
         }
         entradaSimpleDTO.setResumen(entrada.getResumenEntrada());
-        entradaSimpleDTO.setTipoEntrada(TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre());
+        entradaSimpleDTO.setTipoEntrada(EntryTypeEnum.getEntryType(entrada.getTipoEntrada()).getName());
 
         if (StringUtils.isNotBlank(entrada.getFraseDescriptiva())) {
             entradaSimpleDTO.setFraseDescriptiva(entrada.getFraseDescriptiva());
@@ -229,7 +232,7 @@ public class ConversionUtils {
 
     private static String obtenerCategoriaDeEntrada(final EntradaEntity entrada) {
         entrada.getTipoEntrada();
-        return TipoEntrada.obtenerTipoEntrada(entrada.getTipoEntrada()).getNombre();
+        return EntryTypeEnum.getEntryType(entrada.getTipoEntrada()).getName();
     }
 
     /**

@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
-import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.EntryTypeEnum;
 
 /**
  * The Class DatoEntradaDTO.
@@ -124,7 +124,7 @@ public class DatoEntradaDTO implements Serializable {
     @Override
     public String toString() {
         return new ToStringBuilder(this)
-                .append("tipoEntrada", TipoEntrada.obtenerTipoEntrada(this.tipoEntrada).getNombre())
+                .append("tipoEntrada", EntryTypeEnum.getEntryType(this.tipoEntrada).getName())
                 .append("urlEntrada", this.urlEntrada).append("enMenu", this.enMenu)
                 .append("nombreMenuLibro", this.nombreMenuLibro).append("urlMenuLibro", this.urlMenuLibro).toString();
     }

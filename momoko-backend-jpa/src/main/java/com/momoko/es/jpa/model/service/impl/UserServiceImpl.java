@@ -163,7 +163,7 @@ public class UserServiceImpl implements UserService {
                     .findEntradaByEditorURLsAndFechaBajaIsNullOrderByFechaAltaDesc(redactorDTO.getUrlRedactor(),
                             PageRequest.of(0, 1));
             if (CollectionUtils.isNotEmpty(ultimaEntrada)) {
-                redactorDTO.setFechaUltimaEntrada(ultimaEntrada.get(0).getFechaAlta());
+                redactorDTO.setFechaUltimaEntrada(ultimaEntrada.get(0).getCreatedDate());
             }
             redactorDTO.setAvatarRedactor(imageServer + redactorDTO.getAvatarRedactor());
             redactorDTO.setImagenCabeceraRedactor(imageServer + redactorDTO.getImagenCabeceraRedactor());

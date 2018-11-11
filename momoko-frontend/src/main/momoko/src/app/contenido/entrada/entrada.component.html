@@ -1,36 +1,43 @@
-<div *ngIf="tipoEntrada == 1">
-    <ng-container *ngIf="haySagas">
-        <app-noticia-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
-            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-noticia-saga>
-    </ng-container>
-    <ng-container *ngIf="!haySagas">
-        <app-noticia [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
-            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-noticia>
-    </ng-container>
+<ng-container [ngSwitch]="entryType">
+    <div *ngSwitchCase="'NEWS'">
+        <ng-container *ngIf="haySagas">
+            <app-noticia-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+                [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-noticia-saga>
+        </ng-container>
+        <ng-container *ngIf="!haySagas">
+            <app-noticia [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+                [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-noticia>
+        </ng-container>
 
-</div>
-<div *ngIf="tipoEntrada == 2">
-    <ng-container *ngIf="hayLibros">
-        <app-analisis [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis>
-    </ng-container>
-    <ng-container *ngIf="haySagas">
-        <app-analisis-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis-saga>
-    </ng-container>
-</div>
-<div *ngIf="tipoEntrada == 3">
-    <ng-container *ngIf="haySagas">
-        <app-miscelaneo-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
-            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [saga]="entrada.sagasEntrada[0]" [comentarios]="comentarios"></app-miscelaneo-saga>
-    </ng-container>
-    <ng-container *ngIf="!haySagas">
-        <app-miscelaneo [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
-            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-miscelaneo>
-    </ng-container>
-</div>
-<div *ngIf="tipoEntrada == 4">
-    <app-video [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
-        [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-video>
-</div>
-<div *ngIf="!tipoEntrada">
+    </div>
+    <div *ngSwitchCase="'OPINION'">
+        <ng-container *ngIf="hayLibros">
+            <app-analisis [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis>
+        </ng-container>
+        <ng-container *ngIf="haySagas">
+            <app-analisis-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis-saga>
+        </ng-container>
+    </div>
+    <div *ngSwitchCase="'MISCELLANEOUS'">
+        <ng-container *ngIf="haySagas">
+            <app-miscelaneo-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+                [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [saga]="entrada.sagasEntrada[0]"
+                [comentarios]="comentarios"></app-miscelaneo-saga>
+        </ng-container>
+        <ng-container *ngIf="!haySagas">
+            <app-miscelaneo [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+                [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-miscelaneo>
+        </ng-container>
+    </div>
+    <div *ngSwitchCase="'VIDEO'">
+        <app-video [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-video>
+    </div>
+    <div *ngSwitchCase="'SPECIAL'">
+            <app-special [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+                [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-special>
+    </div>
+    <div *ngIf="!entryType">
         <app-page-not-found></app-page-not-found>
-</div>
+    </div>
+</ng-container>

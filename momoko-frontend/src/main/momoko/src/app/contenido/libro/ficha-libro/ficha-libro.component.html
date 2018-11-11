@@ -12,7 +12,8 @@
   <div class="container inner nopaddingbottom">
     <div class="blog row">
       <div class="col-md-4" id="mirarAnchura">
-        <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight" [portada]="libro.urlImagen"></app-libro3d>
+        <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight"
+          [portada]="libro.urlImagen"></app-libro3d>
         <div class="post__share" data-title="" data-text="" data-image="http://demo.tokomoo.com/pustaka/buku/wp-content/uploads/sites/3/2016/10/Book_003.jpg"
           data-url="http://demo.tokomoo.com/pustaka/buku/product/since-youve-been-gone/" data-width="640" data-height="480">
           <strong></strong>
@@ -45,8 +46,14 @@
             <h1 class="post-title">{{libro.titulo}} </h1>
             <p class="titulo_original"> {{libro.tituloOriginal}} </p>
             <div class="autor_libro">
-              <span *ngFor="let autor of libro.autores,let last = last;"><a routerLink="/autor/{{autor.authorUrl}}">{{autor.name}}</a>
-                <span [hidden]="last">, </span>
+              <span *ngFor="let autor of libro.autores,let last = last;">
+                <ng-container *ngIf="autor.description">
+                  <a routerLink="/autor/{{autor.authorUrl}}">{{autor.name}}</a>
+                  <span [hidden]="last">, </span>
+                </ng-container>
+                <ng-container *ngIf="!autor.description">
+                    {{autor.name}} <span [hidden]="last">, </span>
+                  </ng-container>
               </span>
             </div>
           </div>
@@ -79,7 +86,8 @@
           <div class="col-md-12 marginTop40" *ngIf="libro.enlaceAmazon">
             <a class="amazon" href="{{libro.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
               <span class="btnComprarAmazon">Comprar libro &gt;</span>
-              <img src="https://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Comprar Amazon" title="Amazon">
+              <img src="https://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Comprar Amazon"
+                title="Amazon">
             </a>
           </div>
         </div>

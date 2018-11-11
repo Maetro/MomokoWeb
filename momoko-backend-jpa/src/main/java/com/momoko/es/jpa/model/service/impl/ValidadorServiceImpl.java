@@ -17,6 +17,8 @@ import com.momoko.es.api.dto.*;
 import com.momoko.es.api.author.enums.AuthorCreationError;
 import com.momoko.es.api.author.dto.AuthorDTO;
 import com.momoko.es.api.dto.request.*;
+import com.momoko.es.api.enums.EntryStatusEnum;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.api.enums.errores.*;
@@ -25,8 +27,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.enums.EstadoEntradaEnum;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.model.service.ValidadorService;
 
 /**
@@ -108,7 +108,7 @@ public class ValidadorServiceImpl implements ValidadorService {
         if (entradaDTO.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
-        if (estaPublicada(entradaDTO) && !esTipoMiscelaneaOVideoONoticia(entradaDTO)
+        if (estaPublicada(entradaDTO) && !isNewsMiscellaneousOrVideo(entradaDTO)
                 && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
                 && CollectionUtils.isEmpty(entradaDTO.getNombresSagasEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
@@ -126,10 +126,10 @@ public class ValidadorServiceImpl implements ValidadorService {
      *            the entrada dto
      * @return true, if successful
      */
-    public boolean esTipoMiscelaneaOVideoONoticia(final EntradaDTO entradaDTO) {
-        return TipoEntrada.MISCELANEOS.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()))
-                || TipoEntrada.VIDEO.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()))
-                || TipoEntrada.NOTICIA.equals(TipoEntrada.obtenerTipoEntrada(entradaDTO.getTipoEntrada()));
+    public boolean isNewsMiscellaneousOrVideo(final EntradaDTO entradaDTO) {
+        return EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType())
+                || EntryTypeEnum.VIDEO.equals(entradaDTO.getEntryType())
+                || EntryTypeEnum.NEWS.equals(entradaDTO.getEntryType());
     }
 
     /**
@@ -140,7 +140,7 @@ public class ValidadorServiceImpl implements ValidadorService {
      * @return true, if successful
      */
     public boolean estaPublicada(final EntradaDTO entradaDTO) {
-        return EstadoEntradaEnum.PUBLICADA.equals(EstadoEntradaEnum.obtenerTipoEntrada(entradaDTO.getEstadoEntrada()));
+        return EntryStatusEnum.PUBLISHED.equals(entradaDTO.getEntryStatus());
     }
 
     @Override

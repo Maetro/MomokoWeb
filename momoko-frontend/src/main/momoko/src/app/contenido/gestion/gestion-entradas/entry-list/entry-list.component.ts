@@ -1,6 +1,6 @@
 import { OnInit, ViewChild, Component } from "@angular/core";
 import { environment } from "environments/environment";
-import { Entrada } from "../../../../dtos/entrada";
+import { Entrada, EntryTypeEnum } from "../../../../dtos/entrada";
 import { Table } from "primeng/table";
 import { EntryService } from "../entry.service";
 import { Router } from "@angular/router";
@@ -20,6 +20,8 @@ import { EntradaSimple } from "../../../../dtos/entradaSimple";
   
     @ViewChild(Table) table: Table;
   
+
+
     cols: any[];
   
     loading: boolean;

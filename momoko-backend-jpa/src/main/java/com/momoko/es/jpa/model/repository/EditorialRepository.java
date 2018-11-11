@@ -34,7 +34,7 @@ public interface EditorialRepository extends CrudRepository<EditorialEntity, Int
     @Query("select COUNT(e) from EditorialEntity e join e.librosEditorial l WHERE e.urlEditorial = :urlEditorial AND l.fechaBaja IS NULL")
     Long findNumberEntradasByEditorialURLsAndFechaBajaIsNull(@Param("urlEditorial") String urlEditorial);
 
-    @Query("select distinct en from EditorialEntity e join e.librosEditorial l join l.entradas en WHERE e.urlEditorial = :urlEditorial AND en.fechaBaja IS NULL ORDER BY en.fechaAlta DESC")
+    @Query("select distinct en from EditorialEntity e join e.librosEditorial l join l.entradas en WHERE e.urlEditorial = :urlEditorial ORDER BY en.createdDate DESC")
     List<EntradaEntity> findEntradasByEditorialURLsAndFechaBajaIsNullOrderByFechaAltaDesc(
             @Param("urlEditorial") String urlEditorial, Pageable pageable);
 

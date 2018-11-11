@@ -34,7 +34,8 @@
             <div class="datos autor" *ngIf="authors">
               <b>Autor: </b>
                 <ng-container *ngFor="let author of entrada.librosEntrada[0].autores; let last = last;">
-                <a routerLink="/autor/{{author.authorUrl}}"><span class="info">{{author.name}}</span><span *ngIf="!last">, </span></a>
+                <a *ngIf="author.description" routerLink="/autor/{{author.authorUrl}}"><span class="info">{{author.name}}</span><span *ngIf="!last">, </span></a>
+                <ng-container *ngIf="!author.description"><span class="info">{{author.name}}</span><span *ngIf="!last">, </span></ng-container>
                </ng-container>
             </div>
             <div class="datos numPaginas" *ngIf="entrada.librosEntrada[0].numeroPaginas">

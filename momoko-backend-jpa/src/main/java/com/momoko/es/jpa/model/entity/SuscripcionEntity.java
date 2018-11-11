@@ -6,6 +6,8 @@
  */
 package com.momoko.es.jpa.model.entity;
 
+import com.momoko.es.jpa.common.entity.AuditableEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -13,7 +15,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "suscripcion")
-public class SuscripcionEntity {
+public class SuscripcionEntity extends AuditableEntity{
 
     /** The libro id. */
     private @Id @GeneratedValue Integer suscripcionId;

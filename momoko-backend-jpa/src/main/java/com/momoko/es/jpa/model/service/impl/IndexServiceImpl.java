@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.momoko.es.api.enums.EntryTypeEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
@@ -27,7 +28,6 @@ import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
 import com.momoko.es.jpa.model.entity.EntradaEntity;
 import com.momoko.es.jpa.model.entity.LibroEntity;
@@ -115,7 +115,7 @@ public class IndexServiceImpl implements IndexService {
                     e.printStackTrace();
                 }
             }
-            if (entradaSimpleDTO.getTipoEntrada().equals(TipoEntrada.VIDEO.getNombre())) {
+            if (entradaSimpleDTO.getTipoEntrada().equals(EntryTypeEnum.VIDEO.getName())) {
                 // Si es tipo video anadimos su URL
                 final VideoEntity videoEntity = this.videoRepository
                         .findFirstByEntradaUrlEntrada(entradaSimpleDTO.getUrlEntrada());

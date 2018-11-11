@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.filter.dto.FilterValueDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.commons.util.UserUtils;
@@ -24,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.jpa.author.entity.AuthorEntity;
 
 /**
@@ -106,7 +106,7 @@ public final class EntityToDTOAdapter {
         }
         if (CollectionUtils.isNotEmpty(libroEntity.getEntradas())) {
             for (final EntradaEntity entradaEntity : libroEntity.getEntradas()) {
-                if (TipoEntrada.OPINIONES.getValue().equals(entradaEntity.getTipoEntrada())) {
+                if (EntryTypeEnum.OPINION.getValue().equals(entradaEntity.getTipoEntrada())) {
                     libroDTO.setTieneOpinion(true);
                     if (!adaptarEntradas) {
                         break;
@@ -143,17 +143,13 @@ public final class EntityToDTOAdapter {
         entradaDTO.setEntradaId(entradaEntity.getEntradaId());
         entradaDTO.setContenidoEntrada(entradaEntity.getContenidoEntrada());
         entradaDTO.setRedactor(ConversionUtils.getRedactorFromUsuario(entradaEntity.getEntradaAutor()));
-        entradaDTO.setEstadoEntrada(entradaEntity.getEstadoEntrada());
+        entradaDTO.setEntryStatus(entradaEntity.getEntryStatus());
         if (entradaEntity.getLibrosEntrada() != null) {
             entradaDTO.setLibrosEntrada(adaptarLibros(entradaEntity.getLibrosEntrada()));
         }
         if (entradaEntity.getSagasEntrada() != null) {
             entradaDTO.setSagasEntrada(adaptarSagas(entradaEntity.getSagasEntrada()));
         }
-        entradaDTO.setNumeroComentarios(entradaEntity.getNumeroComentarios());
-        entradaDTO.setOrden(entradaEntity.getOrden());
-        entradaDTO.setPadreEntrada(
-                entradaEntity.getPadreEntrada() != null ? adaptarEntrada(entradaEntity.getPadreEntrada()) : null);
         entradaDTO.setPermitirComentarios(entradaEntity.getPermitirComentarios());
         entradaDTO.setResumenEntrada(entradaEntity.getResumenEntrada());
         if (StringUtils.isNotBlank(entradaEntity.getFraseDescriptiva())) {
@@ -168,19 +164,15 @@ public final class EntityToDTOAdapter {
                     ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getContenidoEntrada(), 200));
         }
 
-        entradaDTO.setTipoEntrada(entradaEntity.getTipoEntrada());
-        entradaDTO.setTipoEntradaString(TipoEntrada.obtenerTipoEntrada(entradaEntity.getTipoEntrada()).getNombre());
+        entradaDTO.setEntryType(entradaEntity.getEntryType());
+        entradaDTO.setFechaAlta(entradaEntity.getCreatedDate());
+        entradaDTO.setFechaModificacion(entradaEntity.getModifiedDate());
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setEditorNombre(entradaEntity.getEntradaAutor().getUsuarioNick());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
         entradaDTO.setUrlAntigua(entradaEntity.getUrlAntigua());
         entradaDTO.setEtiquetas(adaptarEtiquetas(new ArrayList(entradaEntity.getEtiquetas())));
-        entradaDTO.setFechaAlta(entradaEntity.getFechaAlta());
-        if (entradaEntity.getFechaModificacion() != null) {
-            entradaDTO.setFechaModificacion(entradaEntity.getFechaModificacion());
-        } else {
-            entradaDTO.setFechaModificacion(entradaEntity.getFechaAlta());
-        }
+
         entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
         if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
             final List<String> titulos = new ArrayList<String>();

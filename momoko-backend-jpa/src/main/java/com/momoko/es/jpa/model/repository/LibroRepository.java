@@ -34,7 +34,7 @@ public interface LibroRepository extends CrudRepository<LibroEntity, Integer> {
 
     @Query("select distinct l from LibroEntity l join l.entradas e join l.generos g join l.entradas e"
             + " WHERE e.tipoEntrada = 2 AND g.generoId IN :generoIds AND e.tipoEntrada IS NOT NULL"
-            + " AND e.fechaAlta < :ahora ORDER BY l.fechaAlta DESC")
+            + " AND e.createdDate < :ahora ORDER BY l.fechaAlta DESC")
     List<LibroEntity> obtenerLibrosConAnalisisGeneroPorFecha(@Param("generoIds") List<Integer> generoIds,
                                                              @Param("ahora") Date ahora, Pageable pageable);
 

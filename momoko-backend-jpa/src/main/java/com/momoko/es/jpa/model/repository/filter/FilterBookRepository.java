@@ -28,8 +28,8 @@ public interface FilterBookRepository extends CrudRepository<FilterBook, FilterB
             "and f.filter_id = :filterId " +
             "and fb.value LIKE :filterValue " +
             "AND e.tipo_entrada = 2 " +
-            "AND e.fecha_alta <= now() and e.fecha_baja is null " +
-            "order by e.fecha_alta desc", nativeQuery = true)
+            "AND e.created_date <= now() " +
+            "order by e.created_date desc", nativeQuery = true)
     List<String> getBookListWithAppliedFilter(@Param("urlGenero") String urlGenero,
                                                                    @Param("filterId") Integer filterId,
                                                                    @Param("filterValue") String filterValue);
@@ -46,8 +46,8 @@ public interface FilterBookRepository extends CrudRepository<FilterBook, FilterB
             "where g.url_genero LIKE :urlGenero " +
             ":filterQuery " +
             "AND e.tipo_entrada = 2 " +
-            "AND e.fecha_alta <= now() and e.fecha_baja is null " +
-            "order by e.fecha_alta desc", nativeQuery = true)
+            "AND e.created_date <= now() " +
+            "order by e.created_date desc", nativeQuery = true)
     List<LibroEntity> getBookListWithAppliedFilters(@Param("urlGenero") String urlGenero,
                                                     @Param("filterQuery") String filterQuery);
 

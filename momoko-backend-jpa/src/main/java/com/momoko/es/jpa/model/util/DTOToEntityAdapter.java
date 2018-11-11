@@ -94,26 +94,21 @@ public final class DTOToEntityAdapter {
         if (autor != null) {
             entradaEntity.setEntradaAutor(autor);
         }
-        entradaEntity.setEstadoEntrada(entradaDTO.getEstadoEntrada());
+        entradaEntity.setEntryStatus(entradaDTO.getEntryStatus());
         if (librosEntrada != null) {
             entradaEntity.setLibrosEntrada(adaptarLibros(librosEntrada));
         }
         if (sagasEntrada != null) {
             entradaEntity.setSagasEntrada(adaptarSagas(sagasEntrada));
         }
-        entradaEntity.setNumeroComentarios(entradaDTO.getNumeroComentarios());
-        entradaEntity.setOrden(entradaDTO.getOrden());
-        entradaEntity.setPadreEntrada(entradaDTO.getPadreEntrada() != null
-                ? adaptarEntrada(entradaDTO.getPadreEntrada(), null, null, null) : null);
         entradaEntity.setPermitirComentarios(entradaDTO.getPermitirComentarios());
         entradaEntity.setResumenEntrada(entradaDTO.getResumenEntrada());
-        entradaEntity.setTipoEntrada(entradaDTO.getTipoEntrada());
+        entradaEntity.setEntryType(entradaDTO.getEntryType());
         entradaEntity.setTituloEntrada(entradaDTO.getTituloEntrada());
         entradaEntity.setUrlEntrada(entradaDTO.getUrlEntrada());
         entradaEntity.setImagenDestacada(entradaDTO.getImagenDestacada());
         entradaEntity.setEtiquetas(adaptarEtiquetas(entradaDTO.getEtiquetas()));
         entradaEntity.setFraseDescriptiva(entradaDTO.getFraseDescriptiva());
-        entradaEntity.setFechaAlta(entradaDTO.getFechaAlta());
         entradaEntity.setEnMenu(entradaDTO.isEnMenu());
         entradaEntity.setConSidebar(entradaDTO.isConSidebar());
         entradaEntity.setUrlMenuLibro(entradaDTO.getUrlMenuLibro());

@@ -18,8 +18,7 @@ import { Cookie } from "ng2-cookies";
     getAuthorPage(authorUrl: string): Observable<AuthorPageResponse> {
   
         const headers = new HttpHeaders({
-            'Content-type': 'application/json',
-            Authorization: Cookie.get('access_token')
+            'Content-type': 'application/json'
           });
   
       return this.http.get<AuthorPageResponse>(this.serverUrl + "public/author/" + authorUrl, { headers: headers });

@@ -26,18 +26,6 @@
                           </th>
                       </tr>
                   </ng-template>
-                  <!--
-                  <p-column field="tipoEntrada" header="Tipo" [sortable]="true" [style]="{'width':'7%'}"></p-column>
-                    <p-column field="tituloEntrada" header="Titulo" [sortable]="true" [style]="{'width':'25%'}"></p-column>
-                    <p-column field="titulosLibros" header="Libro Asociado" [sortable]="true" [style]="{'width':'25%'}"></p-column>
-                    <p-column field="urlEntrada" header="URL" [sortable]="true" [style]="{'width':'25%'}"></p-column>
-                    <p-column field="nombreAutor" header="Autor" [sortable]="true" [style]="{'width':'7%'}"></p-column>
-                    <p-column field="fechaAlta" header="Fecha publicación" [sortable]="true" [style]="{'width':'11%'}">
-                      <ng-template let-col let-entrada="rowData" pTemplate="body">
-                        {{entrada[col.field]| date:'dd MMM yyyy' }}
-                      </ng-template>
-                  
-                  -->
                   <ng-template pTemplate="body" let-entry let-columns="columns">
                       <tr (click)="editEntry(entry)">
                           <td class="grayborder"> {{entry.tipoEntrada}} </td>

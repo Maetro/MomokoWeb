@@ -28,20 +28,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.model.service.*;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.commons.configuration.MomokoConfiguracion;
 import com.momoko.es.jpa.model.util.JsonLDUtils;
 
@@ -212,7 +210,7 @@ public class AMPFacade {
             List<ComentarioDTO> comments = this.entradaService.getEntryComments(urlEntrada);
             final ObtenerEntradaResponse obtenerEntrada = this.entradaService.obtenerEntrada(urlEntrada, false);
             final List<EntradaDTO> otrosMiscelaneos = this.entradaService
-                    .obtenerEntradasAleatoriasDeTipo(TipoEntrada.MISCELANEOS.getValue());
+                    .obtenerEntradasAleatoriasDeTipo(EntryTypeEnum.MISCELLANEOUS.getValue());
             final EntradaDTO entrada = obtenerEntrada.getEntrada();
 
             final String jsonLD = JsonLDUtils.crearJsonLDMiscelaneo(entrada);
@@ -268,7 +266,7 @@ public class AMPFacade {
             final ObtenerEntradaResponse obtenerEntrada = this.entradaService.obtenerEntrada(urlEntrada, false);
             List<ComentarioDTO> comments = this.entradaService.getEntryComments(urlEntrada);
             final List<EntradaDTO> otrasNoticas = this.entradaService
-                    .obtenerEntradasAleatoriasDeTipo(TipoEntrada.NOTICIA.getValue());
+                    .obtenerEntradasAleatoriasDeTipo(EntryTypeEnum.NEWS.getValue());
             final EntradaDTO entrada = obtenerEntrada.getEntrada();
 
             final String jsonLD = JsonLDUtils.crearJsonLDMiscelaneo(entrada);

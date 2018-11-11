@@ -1,9 +1,11 @@
 /**
  * EntradaEntity.java 11-oct-2017
- *
  */
 package com.momoko.es.jpa.model.entity;
 
+import com.momoko.es.api.enums.EntryStatusEnum;
+import com.momoko.es.api.enums.EntryTypeEnum;
+import com.momoko.es.jpa.common.entity.AuditableEntity;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -15,10 +17,12 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "entrada", indexes = { @Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true) })
-public class EntradaEntity implements Comparable<EntradaEntity> {
+@Table(name = "entrada", indexes = {@Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true)})
+public class EntradaEntity extends AuditableEntity implements Comparable<EntradaEntity> {
 
-    private @Id @GeneratedValue Integer entradaId;
+    private @Id
+    @GeneratedValue
+    Integer entradaId;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -30,10 +34,19 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     /** The tipo entrada. */
     private Integer tipoEntrada;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "entry_type", columnDefinition = "VARCHAR(15)")
+    private EntryTypeEnum entryType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "entry_status", columnDefinition = "VARCHAR(15)")
+    private EntryStatusEnum entryStatus;
+
     /** The titulo entrada. */
     private String tituloEntrada;
 
     /** The contenido entrada. */
+    @Column(name = "contenido_entrada", columnDefinition = "TEXT")
     private String contenidoEntrada;
 
     /** The resumen entrada. */
@@ -48,11 +61,6 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     /** The permitir comentarios. */
     private Boolean permitirComentarios;
 
-    /** The padre entrada. */
-    @ManyToOne
-    @JoinColumn(name = "padre_entrada")
-    private EntradaEntity padreEntrada;
-
     /** The libro entrada. */
     @ManyToMany
     @JoinTable(name = "entrada_libro", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "libro_id", referencedColumnName = "libroId"))
@@ -66,36 +74,12 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
     @OneToMany(mappedBy = "entrada", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ComentarioEntity> comentarios;
 
-    /** The numero comentarios. */
-    private Integer numeroComentarios;
-
-    /** The orden. */
-    private Integer orden;
-
     /** The genero id. */
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "entrada_etiqueta", joinColumns = @JoinColumn(name = "entrada_id", referencedColumnName = "entradaId"), inverseJoinColumns = @JoinColumn(name = "etiqueta_id", referencedColumnName = "etiquetaId"))
     private Set<EtiquetaEntity> etiquetas;
 
     private String imagenDestacada;
-
-    /** The usuario alta. */
-    private String usuarioAlta;
-
-    /** The fecha alta. */
-    private Date fechaAlta;
-
-    /** The usuario alta. */
-    private String usuarioModificacion;
-
-    /** The fecha alta. */
-    private Date fechaModificacion;
-
-    /** The usuario alta. */
-    private String usuarioBaja;
-
-    /** The fecha alta. */
-    private Date fechaBaja;
 
     /** The con sidebar. */
     private boolean conSidebar;
@@ -279,6 +263,14 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
         return this.permitirComentarios;
     }
 
+    public EntryTypeEnum getEntryType() {
+        return entryType;
+    }
+
+    public void setEntryType(EntryTypeEnum entryType) {
+        this.entryType = entryType;
+    }
+
     /**
      * Establece permitir comentarios.
      *
@@ -287,25 +279,6 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      */
     public void setPermitirComentarios(final Boolean permitirComentarios) {
         this.permitirComentarios = permitirComentarios;
-    }
-
-    /**
-     * Obtiene padre entrada.
-     *
-     * @return padre entrada
-     */
-    public EntradaEntity getPadreEntrada() {
-        return this.padreEntrada;
-    }
-
-    /**
-     * Establece padre entrada.
-     *
-     * @param padreEntrada
-     *            nuevo padre entrada
-     */
-    public void setPadreEntrada(final EntradaEntity padreEntrada) {
-        this.padreEntrada = padreEntrada;
     }
 
     /**
@@ -344,44 +317,6 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
      */
     public void setSagasEntrada(final List<SagaEntity> sagasEntrada) {
         this.sagasEntrada = sagasEntrada;
-    }
-
-    /**
-     * Obtiene numero comentarios.
-     *
-     * @return numero comentarios
-     */
-    public Integer getNumeroComentarios() {
-        return this.numeroComentarios;
-    }
-
-    /**
-     * Establece numero comentarios.
-     *
-     * @param numeroComentarios
-     *            nuevo numero comentarios
-     */
-    public void setNumeroComentarios(final Integer numeroComentarios) {
-        this.numeroComentarios = numeroComentarios;
-    }
-
-    /**
-     * Obtiene orden.
-     *
-     * @return orden
-     */
-    public Integer getOrden() {
-        return this.orden;
-    }
-
-    /**
-     * Establece orden.
-     *
-     * @param orden
-     *            nuevo orden
-     */
-    public void setOrden(final Integer orden) {
-        this.orden = orden;
     }
 
     /**
@@ -460,140 +395,12 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
         this.comentarios = comentarios;
     }
 
-    /**
-     * Gets the usuario alta.
-     *
-     * @return the usuario alta
-     */
-    public String getUsuarioAlta() {
-        return this.usuarioAlta;
+    public EntryStatusEnum getEntryStatus() {
+        return entryStatus;
     }
 
-    /**
-     * Sets the usuario alta.
-     *
-     * @param usuarioAlta
-     *            the new usuario alta
-     */
-    public void setUsuarioAlta(final String usuarioAlta) {
-        this.usuarioAlta = usuarioAlta;
-    }
-
-    /**
-     * Gets the fecha alta.
-     *
-     * @return the fecha alta
-     */
-    public Date getFechaAlta() {
-        return this.fechaAlta;
-    }
-
-    /**
-     * Sets the fecha alta.
-     *
-     * @param fechaAlta
-     *            the new fecha alta
-     */
-    public void setFechaAlta(final Date fechaAlta) {
-        this.fechaAlta = fechaAlta;
-    }
-
-    /**
-     * Gets the usuario modificacion.
-     *
-     * @return the usuario modificacion
-     */
-    public String getUsuarioModificacion() {
-        return this.usuarioModificacion;
-    }
-
-    /**
-     * Sets the usuario modificacion.
-     *
-     * @param usuarioModificacion
-     *            the new usuario modificacion
-     */
-    public void setUsuarioModificacion(final String usuarioModificacion) {
-        this.usuarioModificacion = usuarioModificacion;
-    }
-
-    /**
-     * Gets the fecha modificacion.
-     *
-     * @return the fecha modificacion
-     */
-    public Date getFechaModificacion() {
-        return this.fechaModificacion;
-    }
-
-    /**
-     * Sets the fecha modificacion.
-     *
-     * @param fechaModificacion
-     *            the new fecha modificacion
-     */
-    public void setFechaModificacion(final Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-
-    /**
-     * Gets the usuario baja.
-     *
-     * @return the usuario baja
-     */
-    public String getUsuarioBaja() {
-        return this.usuarioBaja;
-    }
-
-    /**
-     * Sets the usuario baja.
-     *
-     * @param usuarioBaja
-     *            the new usuario baja
-     */
-    public void setUsuarioBaja(final String usuarioBaja) {
-        this.usuarioBaja = usuarioBaja;
-    }
-
-    /**
-     * Gets the fecha baja.
-     *
-     * @return the fecha baja
-     */
-    public Date getFechaBaja() {
-        return this.fechaBaja;
-    }
-
-    /**
-     * Sets the fecha baja.
-     *
-     * @param fechaBaja
-     *            the new fecha baja
-     */
-    public void setFechaBaja(final Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
-    }
-
-    /**
-     * Anade el libro.
-     *
-     * @param libro
-     *            the libro
-     */
-    public void addLibro(final LibroEntity libro) {
-        this.librosEntrada.add(libro);
-        libro.getEntradas().add(this);
-    }
-
-    /**
-     * Elimina el libro.
-     *
-     * @param libro
-     *            the libro
-     */
-    public void removeLibro(final LibroEntity libro) {
-        this.librosEntrada.remove(libro);
-        libro.getEntradas().remove(this);
+    public void setEntryStatus(EntryStatusEnum entryStatus) {
+        this.entryStatus = entryStatus;
     }
 
     /**
@@ -700,9 +507,8 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
                 .append("urlEntrada", this.urlEntrada).append("tipoEntrada", this.tipoEntrada)
                 .append("tituloEntrada", this.tituloEntrada).append("contenidoEntrada", this.contenidoEntrada)
                 .append("resumenEntrada", this.resumenEntrada).append("estadoEntrada", this.estadoEntrada)
-                .append("permitirComentarios", this.permitirComentarios).append("padreEntrada", this.padreEntrada)
-                .append("librosEntrada", this.librosEntrada).append("numeroComentarios", this.numeroComentarios)
-                .append("orden", this.orden).toString();
+                .append("permitirComentarios", this.permitirComentarios)
+                .append("librosEntrada", this.librosEntrada).toString();
     }
 
     /*
@@ -729,13 +535,8 @@ public class EntradaEntity implements Comparable<EntradaEntity> {
         return new HashCodeBuilder().append(this.entradaId).toHashCode();
     }
 
-    /*
-     * (non-Javadoc)
-     *
-     * @see java.lang.Comparable#compareTo(java.lang.Object)
-     */
-    public int compareTo(final EntradaEntity other) {
-        return new CompareToBuilder().append(other.fechaAlta, this.fechaAlta).toComparison();
+    @Override
+    public int compareTo(EntradaEntity o) {
+        return new CompareToBuilder().append(o.getCreatedDate(), this.getCreatedDate()).toComparison();
     }
-
 }

@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +20,10 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.momoko.es.jpa.author.entity.AuthorEntity;
-import com.momoko.es.jpa.author.repository.AuthorRepository;
-import com.momoko.es.jpa.model.repository.filter.FilterRepository;
-import com.momoko.es.jpa.model.repository.filter.FilterValueRepository;
+import com.momoko.es.api.enums.EntryStatusEnum;
+import com.momoko.es.api.enums.EntryTypeEnum;
+import com.momoko.es.jpa.model.entity.EntradaEntity;
+import com.momoko.es.jpa.model.repository.EntradaRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +33,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StopWatch;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +47,6 @@ import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.DatoEntradaDTO;
 import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.InitDataDTO;
@@ -76,7 +73,6 @@ import com.momoko.es.api.dto.response.ObtenerPaginaLibroNoticiasResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaSagaColeccionResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.TipoEntrada;
 import com.momoko.es.api.enums.TipoVisitaEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
@@ -605,21 +601,21 @@ public class PublicFacade {
         final List<DatoEntradaDTO> entradasSimples = libro.getEntradasLibro();
 
         final Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
-        addDatosEntradaLibroTipo(noticias, entradasSimples, datosEntrada, TipoEntrada.NOTICIA);
+        addDatosEntradaLibroTipo(noticias, entradasSimples, datosEntrada, EntryTypeEnum.NEWS);
         if ((noticias.size() == 0) && (libro.getSaga() != null)) {
             final List<String> urlsLibrosSaga = this.sagaService.obtenerListaUrlsLibros(libro.getSaga().getSagaId());
             final List<LibroDTO> librosSaga = this.libroService.obtenerLibros(urlsLibrosSaga);
             librosSaga.forEach(libroSaga -> {
                 if (!libroSaga.getUrlLibro().equals(libro.getUrlLibro())) {
                     final List<DatoEntradaDTO> entradasSimplesHermano = libro.getEntradasLibro();
-                    addDatosEntradaLibroTipo(noticias, entradasSimplesHermano, datosEntrada, TipoEntrada.NOTICIA);
+                    addDatosEntradaLibroTipo(noticias, entradasSimplesHermano, datosEntrada, EntryTypeEnum.NEWS);
                 }
             });
             if (noticias.size() == 0) {
                 try {
                     final SagaDTO sagaLibro = this.sagaService.obtenerSaga(libro.getSaga().getUrlSaga());
                     final List<DatoEntradaDTO> entradasSaga = sagaLibro.getEntradasSaga();
-                    addDatosEntradaLibroTipo(noticias, entradasSaga, datosEntrada, TipoEntrada.NOTICIA);
+                    addDatosEntradaLibroTipo(noticias, entradasSaga, datosEntrada, EntryTypeEnum.NEWS);
 
                 } catch (final NoSeEncuentraElementoConUrl noSeEncuentraElementoConUrl) {
                     noSeEncuentraElementoConUrl.printStackTrace();
@@ -635,9 +631,9 @@ public class PublicFacade {
 
     private void addDatosEntradaLibroTipo(final List<EntradaSimpleDTO> noticias,
                                           final List<DatoEntradaDTO> entradasSimples, final Set<DatoEntradaDTO> datosEntrada,
-                                          final TipoEntrada tipoEntrada) {
+                                          final EntryTypeEnum entryType) {
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
-            if (datoEntradaDTO.getTipoEntrada().equals(tipoEntrada.getValue())) {
+            if (datoEntradaDTO.getTipoEntrada().equals(entryType.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
                         .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
                 if (entradaSimple.getImagenEntrada() != null) {
@@ -685,7 +681,7 @@ public class PublicFacade {
 
         final Set<DatoEntradaDTO> datosEntrada = new HashSet<>();
         final List<EntradaSimpleDTO> miscelaneos = new ArrayList<>();
-        addDatosEntradaLibroTipo(miscelaneos, entradasSimples, datosEntrada, TipoEntrada.MISCELANEOS);
+        addDatosEntradaLibroTipo(miscelaneos, entradasSimples, datosEntrada, EntryTypeEnum.MISCELLANEOUS);
         if ((miscelaneos.size() == 0) && (libro.getSaga() != null)) {
             final List<String> urlsLibrosSaga = this.sagaService.obtenerListaUrlsLibros(libro.getSaga().getSagaId());
             final List<LibroDTO> librosSaga = this.libroService.obtenerLibros(urlsLibrosSaga);
@@ -693,14 +689,14 @@ public class PublicFacade {
                 if (!libroSaga.getUrlLibro().equals(libro.getUrlLibro())) {
                     final List<DatoEntradaDTO> entradasSimplesHermano = libro.getEntradasLibro();
                     addDatosEntradaLibroTipo(miscelaneos, entradasSimplesHermano, datosEntrada,
-                            TipoEntrada.MISCELANEOS);
+                            EntryTypeEnum.MISCELLANEOUS);
                 }
             });
             if (miscelaneos.size() == 0) {
                 try {
                     final SagaDTO sagaLibro = this.sagaService.obtenerSaga(libro.getSaga().getUrlSaga());
                     final List<DatoEntradaDTO> entradasSaga = sagaLibro.getEntradasSaga();
-                    addDatosEntradaLibroTipo(miscelaneos, entradasSaga, datosEntrada, TipoEntrada.MISCELANEOS);
+                    addDatosEntradaLibroTipo(miscelaneos, entradasSaga, datosEntrada, EntryTypeEnum.MISCELLANEOUS);
 
                 } catch (final NoSeEncuentraElementoConUrl noSeEncuentraElementoConUrl) {
                     noSeEncuentraElementoConUrl.printStackTrace();
@@ -746,7 +742,7 @@ public class PublicFacade {
         int numeroEntradas = 0;
 
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
-            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.NOTICIA.getValue())) {
+            if (datoEntradaDTO.getTipoEntrada().equals(EntryTypeEnum.NEWS.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
                         .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
                 if (entradaSimple.getImagenEntrada() != null) {
@@ -802,7 +798,7 @@ public class PublicFacade {
         int numeroEntradas = 0;
 
         for (final DatoEntradaDTO datoEntradaDTO : entradasSimples) {
-            if (datoEntradaDTO.getTipoEntrada().equals(TipoEntrada.MISCELANEOS.getValue())) {
+            if (datoEntradaDTO.getTipoEntrada().equals(EntryTypeEnum.MISCELLANEOUS.getValue())) {
                 final EntradaSimpleDTO entradaSimple = this.entradaService
                         .obtenerEntradaSimple(datoEntradaDTO.getUrlEntrada());
                 if (entradaSimple.getImagenEntrada() != null) {
@@ -1122,104 +1118,52 @@ public class PublicFacade {
     }
 
     @Autowired(required = false)
-    private AuthorRepository authorRepository;
+    private EntradaRepository entradaRepository;
 
     @RequestMapping(method = RequestMethod.GET, path = "/test")
-    public String test() throws Exception {
-        for (AuthorEntity a : authorRepository.findAll()) {
-            if (StringUtils.isEmpty(a.getAuthorUrl())) {
-                a.setAuthorUrl(ConversionUtils.toSlug(a.getName()));
-                this.authorRepository.save(a);
+    public String test() {
+        Iterable<EntradaEntity> entries = entradaRepository.findAll();
+        int cont = 0;
+        for (EntradaEntity entry : entries) {
+            if (entry.getEntryType() == null && entry.getEntryStatus() == null) {
+                if (entry.getEntryType() == null) {
+                    switch (entry.getTipoEntrada()) {
+
+                        case 1:
+                            entry.setEntryType(EntryTypeEnum.NEWS);
+                            break;
+                        case 2:
+                            entry.setEntryType(EntryTypeEnum.OPINION);
+                            break;
+                        case 3:
+                            if (entry.getNombreMenuLibro() != null){
+                                entry.setEntryType(EntryTypeEnum.SPECIAL);
+                                entry.setTipoEntrada(5);
+                            } else {
+                                entry.setEntryType(EntryTypeEnum.MISCELLANEOUS);
+                            }
+                            break;
+                        case 4:
+                            entry.setEntryType(EntryTypeEnum.VIDEO);
+                            break;
+                    }
+                }
+                if (entry.getEntryStatus() == null) {
+                    switch (entry.getEstadoEntrada()) {
+                        case 1:
+                            entry.setEntryStatus(EntryStatusEnum.DRAFT);
+                            break;
+                        case 2:
+                            entry.setEntryStatus(EntryStatusEnum.PUBLISHED);
+                            break;
+                    }
+
+                }
+                entradaRepository.save(entry);
             }
+            System.out.println(++cont);
         }
         return "OK";
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/generarRedirects")
-    public @ResponseBody
-    String generarRedirects() throws Exception {
-        System.out.println("Generando redirections");
-        final StringBuilder builder = new StringBuilder();
-        final List<EntradaDTO> entradas = this.entradaService.recuperarEntradas();
-        for (final EntradaDTO entradaDTO : entradas) {
-            if (TipoEntrada.OPINIONES.getValue().equals(entradaDTO.getTipoEntrada())) {
-                generateOpinionRedirects(builder, entradaDTO);
-            } else if (TipoEntrada.MISCELANEOS.getValue().equals(entradaDTO.getTipoEntrada())) {
-                if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-                    generateMiscRedirects(builder, entradaDTO);
-                }
-            } else if (TipoEntrada.NOTICIA.getValue().equals(entradaDTO.getTipoEntrada())) {
-                if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-                    generateNewsRedirects(builder, entradaDTO);
-                }
-            }
-        }
-        System.out.println(builder.toString());
-        return builder.toString();
-    }
-
-    private void generateOpinionRedirects(final StringBuilder builder, final EntradaDTO entradaDTO) {
-        LibroDTO libro = null;
-        if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
-            libro = entradaDTO.getLibrosEntrada().iterator().next();
-        }
-        if (StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-            builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
-            if (libro != null) {
-                builder.append(
-                        "/amp/analisis/" + libro.getUrlLibro() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
-                        .append(";<br/>");
-            }
-        } else {
-            builder.append("/analisis/" + entradaDTO.getUrlAntigua() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
-            builder.append("/analisis/" + entradaDTO.getUrlEntrada() + " " + "/opiniones/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
-            if (libro != null) {
-                builder.append(
-                        "/amp/analisis/" + libro.getUrlLibro() + " " + "/amp/opiniones/" + entradaDTO.getUrlEntrada())
-                        .append(";<br/>");
-            }
-
-        }
-    }
-
-    private void generateMiscRedirects(final StringBuilder builder, final EntradaDTO entradaDTO) {
-        if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-            builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-        }
-    }
-
-    private void generateNewsRedirects(final StringBuilder builder, final EntradaDTO entradaDTO) {
-        if (!StringUtils.isEmpty(entradaDTO.getUrlAntigua())) {
-            builder.append("/noticia/" + entradaDTO.getUrlAntigua() + " " + "/noticia/" + entradaDTO.getUrlEntrada())
-                    .append(";<br/>");
-            builder.append("/" + entradaDTO.getUrlAntigua() + " " + "/" + entradaDTO.getUrlEntrada()).append(";<br/>");
-        }
-    }
-
-    @RequestMapping(method = RequestMethod.GET, path = "/arreglarEtiquetas")
-    public @ResponseBody
-    String arreglarEtiquetas() {
-        final Map<String, List<EtiquetaDTO>> etiquetas = this.etiquetaService.arreglarEtiquetas();
-
-        for (final List<EtiquetaDTO> etiquetaDTO : etiquetas.values()) {
-            final Iterator<EtiquetaDTO> ite = etiquetaDTO.iterator();
-            final EtiquetaDTO etiquetaNueva = ite.next();
-            while (ite.hasNext()) {
-                final EtiquetaDTO etiquetaAEliminar = ite.next();
-                final List<EntradaSimpleDTO> entradas = this.entradaService.obtenerEntradasEtiqueta(etiquetaAEliminar);
-                for (final EntradaSimpleDTO entradaSimpleDTO : entradas) {
-                    this.entradaService.eliminarEtiqueta(entradaSimpleDTO.getUrlEntrada(),
-                            etiquetaAEliminar.getEtiquetaId());
-                    this.entradaService.anadirEtiqueta(entradaSimpleDTO.getUrlEntrada(), etiquetaNueva.getEtiquetaId());
-                }
-            }
-        }
-
-        return null;
-
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/generarSiteMap")
@@ -1328,9 +1272,7 @@ public class PublicFacade {
         }
 
 
-        for (final LibroDTO libro : librosSimples)
-
-        {
+        for (final LibroDTO libro : librosSimples) {
             url = urlPagina + "/libro/" + libro.getUrlLibro();
 
             wsmUrl = new WebSitemapUrl.Options(url).lastMod(libro.getFechaAlta()).priority(0.5)
@@ -1341,9 +1283,7 @@ public class PublicFacade {
         }
 
         for (
-                final EtiquetaDTO etiqueta : etiquetas)
-
-        {
+                final EtiquetaDTO etiqueta : etiquetas) {
             if (etiqueta.getUrlEtiqueta() != null) {
                 url = urlPagina + "/tag/" + etiqueta.getUrlEtiqueta();
                 wsmUrl = new WebSitemapUrl.Options(url).priority(0.4).changeFreq(ChangeFreq.MONTHLY).build();
@@ -1353,13 +1293,9 @@ public class PublicFacade {
         }
 
         // One sitemap can contain a maximum of 50,000 URLs.
-        if (nrOfURLs <= 50000)
-
-        {
+        if (nrOfURLs <= 50000) {
             wsg.write();
-        } else
-
-        {
+        } else {
             // in this case multiple files will be created and sitemap_index.xml file describing the files which will be
             // ignored
             // workaround to resolve the issue described at

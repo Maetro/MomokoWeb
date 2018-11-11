@@ -23,6 +23,7 @@ import { NoticiaSagaComponent } from './noticia-saga/noticia-saga.component';
 import { BookTemplateModule } from '../comun/book-template/book-template.module';
 import { PageNotFoundComponent } from '../estaticas/page-not-found/page-not-found.component';
 import { EstaticasModule } from '../estaticas/estaticas.module';
+import { SpecialComponent } from './special/special.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,7 @@ import { EstaticasModule } from '../estaticas/estaticas.module';
     AnalisisComponent,
     AnalisisSagaComponent,
     VideoComponent,
+    SpecialComponent,
     MiscelaneoComponent,
     MiscelaneoSagaComponent,
     ZonaComentariosComponent,

@@ -14,7 +14,7 @@ import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
-import com.momoko.es.api.enums.TipoEntrada;
+import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
 import com.momoko.es.api.exceptions.NoExisteGeneroException;
 import com.momoko.es.api.author.service.AuthorService;
@@ -361,7 +361,7 @@ public class LibroServiceImpl implements LibroService {
         final List<EntradaEntity> entradas = libroEntity.getEntradas();
         EntradaDTO analisisLibro = null;
         for (final EntradaEntity entradaEntity : entradas) {
-            if (TipoEntrada.OPINIONES.getValue().equals(entradaEntity.getTipoEntrada())) {
+            if (EntryTypeEnum.OPINION.getValue().equals(entradaEntity.getTipoEntrada())) {
                 analisisLibro = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
                 break;
             }
