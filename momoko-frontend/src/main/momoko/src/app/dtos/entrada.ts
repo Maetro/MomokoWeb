@@ -18,6 +18,7 @@ export class Entrada {
   librosEntrada: Libro[];
   sagasEntrada: Saga[];
   numeroComentarios: number;
+  estadoEntrada: number;
   etiquetas: Etiqueta[];
   orden: number;
   imagenDestacada: string;
