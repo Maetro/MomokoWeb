@@ -8,8 +8,6 @@
   
   h1.post-title,
   h2.post-title {
-    font-size: 44px;
-    line-height: 52px;
     margin-bottom: 0px;
     display: inline-block;
   }
@@ -23,9 +21,6 @@
     margin-top: 0;
     color: #2B2B2B;
     margin-bottom: 10px;
-    font-weight: normal;
-    font-family: 'Playfair Display';
-    text-transform: none;
   }
   
   h1.post-title {
@@ -130,8 +125,6 @@
     color: white;
     line-height: 1;
     margin-bottom: 3px;
-    font-size: 14px;
-    font-size: 0.875em;
   }
   
   .post__share a.facebook {
@@ -150,18 +143,14 @@
   .section-title {
     font-family: 'Josefin Sans', sans-serif;
     text-transform: uppercase;
-    font-weight: 700;
   }
   
   .section-title {
     margin-bottom: 15px;
-    font-size: 14px;
-    line-height: 22px;
   }
   
   .widget-title {
     margin-bottom: 18px;
-    font-size: 18px;
   }
   
   .divider_line1 {
@@ -172,10 +161,7 @@
     border-width: 2px;
   }
   
-  .blog-content h3{
-    font-size: 30px;
-  }
-  
+
   h1.text-center {
     margin-bottom: 0px;
   }
@@ -183,8 +169,6 @@
   .textoCabecera{
     text-align: center;
     margin: 0;
-    font-size: 36px;
-    line-height: 50px;
     font-weight: normal;
     font-family: 'Vidaloka', serif;
     text-transform: none;

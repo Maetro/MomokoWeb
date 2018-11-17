@@ -9,31 +9,8 @@
         </div>
         <div class="container inner tp0">
           <div class="divide60"></div>
-          <div class="blog row">
-            <div class="col-sm-12 blog-content list-view">
-              <div class="row">
-                <div class="col-sm-9">
-                  <div class="product-layout-view active">
-                    <a class="active" (click)="desactivarEnLista()" title="Grid Layout">
-                      <i class="fa fa-th" aria-hidden="true"></i>
-                    </a>
-                    <a class="iconomono" (click)="activarEnLista()" title="List Layout">
-                      <i class="fa fa-list-ul" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
-                <!-- <div class="col-sm-3">
-                  <select class="ui-paginator-rpp-options ui-widget ui-state-default" (change)="onChangeOrder($event)">
-      
-                    <option value="1">Orden por fecha </option>
-                    <option value="2">Popularidad</option>
-                  </select>
-                  <br />
-                  <br />
-                </div> -->
-              </div>
-      
-              <div class="blog-content marginTop20">
+                       
+              <div class="blog-content">
                 <div class="blog-post">
                   
                   <div class="row">
@@ -50,7 +27,7 @@
                   
                         <div class="descripcionlibro" [innerHTML]="resultado.descripcion"> </div>
       
-                        <a routerLink="/{{resultado.url}}" class="btn">Leer más </a>
+                        <a routerLink="/{{resultado.url}}" class="btn marginTop10">Leer más </a>
                       </div>
                       <div class="clearfix"></div>
                     </div>
@@ -75,9 +52,6 @@
       
                   <!-- /.page-navi -->
                   <div class="clearfix"></div>
-                </div>
-                <!-- /.blog-content -->
-              </div>
       
       
             </div>
