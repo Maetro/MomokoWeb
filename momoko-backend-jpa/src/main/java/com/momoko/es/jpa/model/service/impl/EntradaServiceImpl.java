@@ -789,10 +789,12 @@ public class EntradaServiceImpl implements EntradaService {
         if (entradaAGuardar.getUrlMenuLibro() != null){
             entradaEntity.setEntryType(EntryTypeEnum.SPECIAL);
             entradaEntity.setTipoEntrada(5);
+        } else{
+            entradaEntity.setTipoEntrada(entradaEntity.getEntryType().getValue());
         }
         //TODO: FIX ME
         entradaEntity.setEstadoEntrada(2);
-
+        entradaEntity.setEntryStatus(EntryStatusEnum.PUBLISHED);
         if (esNuevaEntrada) {
             entradaEntity = crearNuevaEntrada(entradaEntity);
         } else {

@@ -440,7 +440,7 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
     this.entrada.fechaAlta = this.date;
     this.entryService.saveEntry(this.entrada).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
-        this.showSuccess('Libro guardado correctamente');
+        this.showSuccess('Entrada guardada correctamente');
         this.router.navigate(['/gestion/lista-entradas']);
       } else {
         this.showError(res.listaErroresValidacion);
