@@ -17,6 +17,7 @@ import { TruncatePipe } from './truncate-pipe/truncate.pipe';
 import { NotaCircularPequenaComponent } from './nota-circular-pequena/nota-circular-pequena.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { JoinUsModule } from './join-us/join-us.module';
+import { RelatedPostsComponent } from './related-posts/related-posts.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, CheckboxModule, FormsModule],
@@ -33,6 +34,7 @@ import { JoinUsModule } from './join-us/join-us.module';
     MenuInternoSagaComponent,
     EntradasSidebarComponent,
     MobileSidebarComponent,
+    RelatedPostsComponent,
     TruncatePipe
   ],
   exports: [
@@ -45,6 +47,7 @@ import { JoinUsModule } from './join-us/join-us.module';
     NotaCircularPequenaComponent,
     MenuInternoSagaComponent,
     MobileSidebarComponent,
+    RelatedPostsComponent,
     TruncatePipe
   ]
 })

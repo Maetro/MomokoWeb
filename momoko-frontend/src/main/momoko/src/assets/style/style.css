@@ -284,31 +284,32 @@ h1 {
 }
 
 h2 {
-  font-size: 26px;
+  font-size: 20px;
   line-height: 32px;
   font-weight: 600;
 }
 
 h3 {
-  font-size: 20px;
+  font-size: 17px;
   line-height: 28px;
   font-weight: 600;
 }
 
 h4 {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 26px;
   margin-bottom: 5px;
 }
 
 h5 {
-  font-size: 17px;
+  font-size: 15px;
   line-height: 22px;
   margin-bottom: 5px;
+  font-weight: 600;
 }
 
 h6 {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 21px;
   margin-bottom: 5px;
 }
@@ -4666,4 +4667,36 @@ span.ui-button-icon-left.ui-clickable.pi {
 .cuerpo .row+.row {
   padding-top: 50px;
   padding-bottom: 28px;
+}
+
+
+div.h1-style {
+  font-family: 'Montserrat', sans-serif;
+  text-transform: none;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-top: 0;
+  color: #2B2B2B;
+  margin-bottom: 10px;
+}
+
+div.h2-style {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  line-height: 32px;
+  font-weight: 600;
+  margin-top: 0;
+  color: #2B2B2B;
+  margin-bottom: 10px;
+}
+
+div.h3-style {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 17px;
+  line-height: 28px;
+  font-weight: 600;
+  margin-top: 0;
+  color: #2B2B2B;
+  margin-bottom: 10px;
 }

@@ -21,8 +21,8 @@
   </ng-template>
 
 
-  <app-menu-interno-libro *ngIf="entrada.librosEntrada?.length > 0" [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada"
-    [parentType]="'MISCELANEO'"></app-menu-interno-libro>
+  <app-menu-interno-saga *ngIf="entrada.sagasEntrada?.length > 0" [saga]="saga" [datosEntrada]="entrada.datosEntrada"
+    [parentType]="entrada.urlMenuLibro"></app-menu-interno-saga>
   <div class="container inner tp0">
 
     <div class="divide60"></div>
@@ -38,7 +38,7 @@
                 <div class="text-center">
                   <span class="category">
                     <em class="rose">
-                      <a href="#">Misceláneos </a>
+                      <a href="#">{{entrada.urlMenuLibro}} </a>
                     </em>
                   </span>
                 </div>
@@ -63,6 +63,7 @@
 
 
                 </div>
+
               </div>
             </div>
           </div>
@@ -70,9 +71,8 @@
       </div>
       <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
       <div class="col-sm-12">
-        <hr/>
+        <hr />
         <div class="post-nav-wrapper">
-           
           <div class="post-nav prev" *ngIf="entradaAnteriorYSiguiente[0]">
             <div class="meta">
               <i class="ion-android-arrow-back"></i> Artículo anterior </div>
@@ -96,11 +96,10 @@
             <h2 class="section-title"> Redactor del artículo </h2>
             <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
           </div>
-        </div>
-  
-        <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>
-
+        </div>     
         <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
+        <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>
+        <hr />
       </div>
       <!-- /.post-content -->
 
@@ -111,6 +110,3 @@
   <!-- /.blog-posts -->
 
 </div>
-<!-- /.classic-view -->
-
-<!-- /.light-wrapper -->

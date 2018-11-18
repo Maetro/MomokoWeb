@@ -24,6 +24,7 @@ import { BookTemplateModule } from '../comun/book-template/book-template.module'
 import { PageNotFoundComponent } from '../estaticas/page-not-found/page-not-found.component';
 import { EstaticasModule } from '../estaticas/estaticas.module';
 import { SpecialComponent } from './special/special.component';
+import { SpecialSagaComponent } from './special-saga/special-saga.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { SpecialComponent } from './special/special.component';
     AnalisisSagaComponent,
     VideoComponent,
     SpecialComponent,
+    SpecialSagaComponent,
     MiscelaneoComponent,
     MiscelaneoSagaComponent,
     ZonaComentariosComponent,

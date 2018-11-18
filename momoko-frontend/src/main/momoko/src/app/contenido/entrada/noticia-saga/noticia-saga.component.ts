@@ -93,6 +93,39 @@ export class NoticiaSagaComponent implements OnInit, AfterViewInit {
         href: 'https://momoko.es/' + this.entrada.urlEntrada
       });
     }
+    this.htmlContent = new Array();
+    this.bookTemplates = new Array();
+    if (this.entrada.contenidoEntrada.indexOf('book-template-angular') != -1) {
+      let content = this.entrada.contenidoEntrada;
+      let cont = 1;
+      while (content.indexOf('book-template-angular') != -1) {
+        const begin = content.indexOf(
+          '<book-template-angular'
+        );
+        const end = content.indexOf(
+          '</book-template-angular>'
+        );
+        this.htmlContent.push(
+          content.substring(0, begin)
+        );
+        
+        const book = content.substring(begin, end);
+        this.htmlContent.push(
+          "<div id=\"bookTemplate" + cont +"\" class=\"bookTemplate" + cont +"\">Book" + cont +"</div>"
+        );
+        
+        this.bookTemplates.push(book);
+        content = content.substring(end + 24);
+        cont++;
+      }
+      this.htmlContent.push(content);
+    } else {
+      this.htmlContent.push(this.entrada.contenidoEntrada);
+    }
+    this.content = "";
+    this.htmlContent.forEach(content => {
+      this.content += content; 
+    });
   }
 
   ngAfterViewInit(): void {

@@ -60,91 +60,45 @@
       
       
                 </div>
-
-                <hr>
-                <div class="post-nav-wrapper" *ngIf="entradaAnteriorYSiguiente">
-                  <div class="post-nav prev" *ngIf="entradaAnteriorYSiguiente[0]">
-                    <div class="meta">
-                      <i class="ion-android-arrow-back"></i> Artículo anterior </div>
-                    <h3 class="post-title">
-                      <a routerLink="/{{entradaAnteriorYSiguiente[0].urlEntrada}}">{{entradaAnteriorYSiguiente[0].tituloEntrada}}</a>
-                    </h3>
-                  </div>
-                  <div class="post-nav next" *ngIf="entradaAnteriorYSiguiente[1]">
-                    <div class="meta">Artículo siguiente
-                      <i class="ion-android-arrow-forward"></i>
-                    </div>
-                    <h3 class="post-title">
-                      <a routerLink="/{{entradaAnteriorYSiguiente[1].urlEntrada}}">{{entradaAnteriorYSiguiente[1].tituloEntrada}}</a>
-                    </h3>
-                  </div>
-                </div>
-                <!-- /.post-nav -->
-                <hr/>
-                <div class="row">
-                  <div class="col-md-12">
-                    <h2 class="section-title"> Redactor de la noticia </h2>
-                    <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
-                  </div>
-                </div>
-                <hr/>
-                <h2 class="section-title" *ngIf="cuatroPostPequenosConImagen">Otros posts que te gustarán :) </h2>
-                <div class="blog list-view row" *ngIf="cuatroPostPequenosConImagen">
-                  <div *ngFor="let post of cuatroPostPequenosConImagen, let i = index, let first = first">
-                    <div class="clearfix" *ngIf="i % 2 == 0 && !first"></div>
-                    <div class="col-sm-6">
-                      <div class="post row">
-                        <div class="col-md-5">
-                          <figure class="overlay small">
-                            <a routerLink="/{{post.urlEntrada}}">
-                              <span class="over">
-                                <span></span>
-                              </span>
-                              <img src="{{post.imagenEntrada}}" alt="Imagen Destacada - {{post.tituloEntrada}} ">
-                            </a>
-                          </figure>
-                        </div>
-                        <!-- /column -->
-                        <div class="col-md-7">
-                          <div class="post-content">
-                            <h4 class="post-title">
-                              <a routerLink="/{{post.urlEntrada}}">{{post.tituloEntrada}}</a>
-                            </h4>
-                            <div class="meta">
-                              <span class="date">{{post.fechaAlta | date:'dd MMM yyyy'}}</span>
-                              <span class="comments">
-                                <a routerLink="/{{post.urlEntrada}}">
-                                  <i class="ion-chatbubbles"></i> {{post.numeroComentarios}}</a>
-                              </span>
-                            </div>
-                          </div>
-                          <!-- /.post-content -->
-                        </div>
-                        <!-- /column -->
-
-                      </div>
-                      <!-- /.post -->
-                    </div>
-                  </div>
-                </div>
-
               </div>
-              <!-- /.post-content -->
-
             </div>
-            <!-- /.post -->
-
           </div>
-          <!-- /.blog-posts -->
-
         </div>
-        <!-- /.classic-view -->
-        <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
       </div>
-      <!-- /.blog-content -->
-
       <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
 
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+          <hr>
+          <div class="post-nav-wrapper" *ngIf="entradaAnteriorYSiguiente">
+            <div class="post-nav prev" *ngIf="entradaAnteriorYSiguiente[0]">
+              <div class="meta">
+                <i class="ion-android-arrow-back"></i> Artículo anterior </div>
+              <h3 class="post-title">
+                <a routerLink="/{{entradaAnteriorYSiguiente[0].urlEntrada}}">{{entradaAnteriorYSiguiente[0].tituloEntrada}}</a>
+              </h3>
+            </div>
+            <div class="post-nav next" *ngIf="entradaAnteriorYSiguiente[1]">
+              <div class="meta">Artículo siguiente
+                <i class="ion-android-arrow-forward"></i>
+              </div>
+              <h3 class="post-title">
+                <a routerLink="/{{entradaAnteriorYSiguiente[1].urlEntrada}}">{{entradaAnteriorYSiguiente[1].tituloEntrada}}</a>
+              </h3>
+            </div>
+          </div>
+          <hr/>
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="section-title"> Redactor de la noticia </h2>
+              <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
+            </div>
+          </div>
+          <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
+          <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>
+          
+      </div>
     </div>
     <!-- /.blog -->
 

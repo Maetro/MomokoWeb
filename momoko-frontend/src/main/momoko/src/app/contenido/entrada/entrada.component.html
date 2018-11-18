@@ -12,10 +12,12 @@
     </div>
     <div *ngSwitchCase="'OPINION'">
         <ng-container *ngIf="hayLibros">
-            <app-analisis [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis>
+            <app-analisis [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios" 
+            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen"></app-analisis>
         </ng-container>
         <ng-container *ngIf="haySagas">
-            <app-analisis-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"></app-analisis-saga>
+            <app-analisis-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"
+            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" ></app-analisis-saga>
         </ng-container>
     </div>
     <div *ngSwitchCase="'MISCELLANEOUS'">
@@ -34,10 +36,18 @@
             [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-video>
     </div>
     <div *ngSwitchCase="'SPECIAL'">
+        <ng-container *ngIf="haySagas">
+            <app-special-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
+                [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [saga]="entrada.sagasEntrada[0]"
+                [comentarios]="comentarios">
+            </app-special-saga>
+        </ng-container>
+        <ng-container *ngIf="!haySagas">
             <app-special [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
                 [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-special>
-    </div>
-    <div *ngIf="!entryType">
-        <app-page-not-found></app-page-not-found>
+        </ng-container>
     </div>
 </ng-container>
+<div *ngIf="!entryType">
+    <app-page-not-found></app-page-not-found>
+</div>

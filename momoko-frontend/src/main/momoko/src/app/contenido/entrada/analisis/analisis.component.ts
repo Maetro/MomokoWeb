@@ -6,6 +6,7 @@ import { Comentario } from '../../../dtos/comentario';
 import { Entrada } from '../../../dtos/entrada';
 import { LibroSimple } from '../../../dtos/libroSimple';
 import { LinkService } from '../../../services/link.service';
+import { EntradaSimple } from 'app/dtos/entradaSimple';
 
 declare var $: any;
 
@@ -28,6 +29,8 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
 
   @ViewChild('book-template-angular')
   bookTemplate: TemplateRef<any>;
+
+  @Input() cuatroPostPequenosConImagen: EntradaSimple[];
 
   tituloSeccionLibros = 'Otros libros parecidos';
 

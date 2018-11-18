@@ -122,8 +122,7 @@ public class EntradaServiceImpl implements EntradaService {
     /**
      * Obtener entrada para gestion.
      *
-     * @param urlEntrada
-     *            the url entrada
+     * @param urlEntrada the url entrada
      * @return the entrada dto
      */
     @Override
@@ -187,20 +186,20 @@ public class EntradaServiceImpl implements EntradaService {
                         generoDTO.setImagenCabeceraGenero(url + generoDTO.getImagenCabeceraGenero());
                     }
                 }
-            } else {
-
-                final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
-                        entradaEntity.getEntradaId());
-                for (final EntradaSimpleDTO entradaSimpleDTO : cuatroPostPequenosConImagen) {
-                    try {
-                        entradaSimpleDTO.setImagenEntrada(this.almacenImagenes
-                                .obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 137, 100, true));
-                    } catch (final IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
             }
+
+            final List<EntradaSimpleDTO> cuatroPostPequenosConImagen = obtener4PostPequenosConImagen(
+                    entradaEntity.getEntradaId());
+            for (final EntradaSimpleDTO entradaSimpleDTO : cuatroPostPequenosConImagen) {
+                try {
+                    entradaSimpleDTO.setImagenEntrada(this.almacenImagenes
+                            .obtenerMiniatura(entradaSimpleDTO.getImagenEntrada(), 370, 246, true));
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
+
 
             respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getCreatedDate()));
             // Si es tipo video anadimos su URL
@@ -293,12 +292,9 @@ public class EntradaServiceImpl implements EntradaService {
     /**
      * Asociar datos saga asociada a entrada.
      *
-     * @param respuesta
-     *            the respuesta
-     * @param entradaEntity
-     *            the entrada entity
-     * @param entradaDTO
-     *            the entrada dto
+     * @param respuesta     the respuesta
+     * @param entradaEntity the entrada entity
+     * @param entradaDTO    the entrada dto
      */
     public void obtenerEntradaAsociadaASagas(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
                                              final EntradaDTO entradaDTO) {
@@ -402,16 +398,14 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
 
-
-
     private String generateBookTemplateCode(LibroEntity libro, String columnas) {
         LibroDTO libroDTO = EntityToDTOAdapter.adaptarLibro(libro);
         libro.getUrlImagen();
         MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
-        String code = "<book-template-angular anchura=\""+ libroDTO.getPortadaWidth() +
-                "\" altura=\""+ libroDTO.getPortadaHeight()+ "\" imagen=\""+ libroDTO.getUrlImagen() +
-                "\" title=\""+ libroDTO.getTitulo() +"\" autor=\""+ MomokoUtils.generarAutoresString(libroDTO) +
-                "\" url=\""+ libroDTO.getUrlLibro() +"\" columnas=\""+ columnas +"\"></book-template-angular>";
+        String code = "<book-template-angular anchura=\"" + libroDTO.getPortadaWidth() +
+                "\" altura=\"" + libroDTO.getPortadaHeight() + "\" imagen=\"" + libroDTO.getUrlImagen() +
+                "\" title=\"" + libroDTO.getTitulo() + "\" autor=\"" + MomokoUtils.generarAutoresString(libroDTO) +
+                "\" url=\"" + libroDTO.getUrlLibro() + "\" columnas=\"" + columnas + "\"></book-template-angular>";
         return code;
 
     }
@@ -476,8 +470,7 @@ public class EntradaServiceImpl implements EntradaService {
     /**
      * Obtener galerias entrada.
      *
-     * @param entradaDTO
-     *            the entrada dto
+     * @param entradaDTO the entrada dto
      */
     public void obtenerGaleriasEntrada(final EntradaDTO entradaDTO) {
         int numeroGaleria = 0;
@@ -521,8 +514,7 @@ public class EntradaServiceImpl implements EntradaService {
     /**
      * Obtener imagenes contenidas entrada.
      *
-     * @param entradaDTO
-     *            the entrada dto
+     * @param entradaDTO the entrada dto
      */
     public void obtenerImagenesContenidasEntrada(final EntradaDTO entradaDTO) {
         if (entradaDTO.getContenidoEntrada().contains("contenido-entrada/")) {
@@ -594,21 +586,19 @@ public class EntradaServiceImpl implements EntradaService {
     /**
      * Obtener4 post pequenos con imagen.
      *
-     * @param entradaId
-     *            the entrada id
+     * @param entradaId the entrada id
      * @return the list
      */
     private List<EntradaSimpleDTO> obtener4PostPequenosConImagen(final Integer entradaId) {
         final List<EntradaEntity> listaEntities = this.entradaRepository
-                .seleccionarEntradasAleatorias(entradaId, PageRequest.of(0, 4)).getContent();
+                .seleccionarEntradasAleatorias(entradaId, PageRequest.of(0, 3)).getContent();
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
     /**
      * Obtener entrada anterior y siguiente.
      *
-     * @param fechaAlta
-     *            the fecha alta
+     * @param fechaAlta the fecha alta
      * @return the list
      */
     private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente(final Date fechaAlta) {
@@ -786,10 +776,10 @@ public class EntradaServiceImpl implements EntradaService {
         if (!esNuevaEntrada && (coincidencia == null)) {
             throw new NoSeEncuentraEntradaException("No se encuentra la entrada");
         }
-        if (entradaAGuardar.getUrlMenuLibro() != null){
+        if (entradaAGuardar.getUrlMenuLibro() != null) {
             entradaEntity.setEntryType(EntryTypeEnum.SPECIAL);
             entradaEntity.setTipoEntrada(5);
-        } else{
+        } else {
             entradaEntity.setTipoEntrada(entradaEntity.getEntryType().getValue());
         }
         //TODO: FIX ME

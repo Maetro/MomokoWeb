@@ -1,0 +1,38 @@
+<ng-container *ngIf="posts && posts.length > 0">
+    <hr />
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="related-entries-title">
+                <div class="h3-style">OTRAS ENTRADAS QUE TE GUSTARÁN</div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 post-block" *ngFor="let post of posts">
+            <div class="relatedImageConatiner">
+                <figure class="overlay small">
+                    <a routerLink="/{{post.urlEntrada}}">
+                        <span class="over">
+                            <span></span>
+                        </span>
+                        <img src="{{post.imagenEntrada}}" alt="Imagen destacada - {{post.tituloEntrada}}">
+                    </a>
+                </figure>
+            </div>
+            <div class="post-data">
+                <div class="meta">
+                    <span class="entryType">{{post.tipoEntrada}}</span>
+                    <span class="date">{{post.fechaAlta | date:'dd MMM yyyy'}}</span>
+
+                </div>
+            </div>
+            <div class="post-title-container">
+                <h4 class="post-title">
+                    <a routerLink="/{{post.urlEntrada}}">
+                        <h4>{{post.tituloEntrada}}</h4>
+                    </a>
+                </h4>
+            </div>
+        </div>
+    </div>
+</ng-container>
