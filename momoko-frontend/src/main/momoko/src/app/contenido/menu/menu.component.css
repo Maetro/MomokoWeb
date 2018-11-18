@@ -34,3 +34,18 @@
         display:none;
     }
 }
+
+.empty120{
+    height: 120px;
+}
+
+ul.nav.navbar-nav {
+    background: white;
+}
+
+.momokoLogo img {
+    max-width: 100%;
+}
+.momokoLogo {
+    width: 195px;
+}

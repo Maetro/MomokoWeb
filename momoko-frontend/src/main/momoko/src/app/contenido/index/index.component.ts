@@ -1,23 +1,24 @@
 import { UtilService } from '../../services/util/util.service';
-import { Component, OnInit, AfterViewInit, ViewChild, Inject, PLATFORM_ID } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ViewChild,
+  Inject,
+  PLATFORM_ID
+} from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { EntradaSimple } from '../../dtos/entradaSimple';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ObtenerIndexDataResponse } from '../../dtos/response/obtenerIndexDataResponse';
+import {  IndexDataResponse} from '../../dtos/response/indexDataResponse';
 import { LibroSimple } from '../../dtos/libroSimple';
 import { LibroEntradaSimple } from '../../dtos/simples/libroEntradaSimple';
-import { EntradaItem } from './entrada-portada/entrada-item';
 import { VideoYoutube } from '../../services/youtube-api/youtube';
-import { EntradaPortadaVideoComponent } from './entrada-portada/entrada-portada-video/entrada-portada-video.component';
-import { AnadirEntradaComponent } from './entrada-portada/anadir-entrada/anadir-entrada.component';
-import { AnadirEntrada2Component } from './entrada-portada/anadir-entrada2/anadir-entrada2.component';
-import { EntradaPortadaNormalComponent } from './entrada-portada/entrada-portada-normal/entrada-portada-normal.component';
 import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
 import { YoutubeService } from '../../services/youtube.service';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { LinkService } from '../../services/link.service';
-import { AnadirEntrada3Component } from './entrada-portada/anadir-entrada3/anadir-entrada3.component';
 
 declare var $: any;
 
@@ -27,14 +28,11 @@ declare var $: any;
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit, AfterViewInit {
-
   private log = environment.log;
 
-  ultimasEntradas: EntradaSimple[] = [];
-  ultimas3Entradas: EntradaSimple[] = [];
-  entradas1a5: EntradaSimple[] = [];
-  entradas8a10: EntradaSimple[] = [];
-  entradasPortada: EntradaItem[];
+  lastOpinions: EntradaSimple[] = [];
+  lastNews: EntradaSimple[] = [];
+  lastMiscellaneous: EntradaSimple[] = [];
   librosMasLeidosMes: LibroSimple[];
   ultimoComicAnalizado: LibroEntradaSimple;
   librosUltimosAnalisis: LibroSimple[];
@@ -44,10 +42,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   tituloUltimosAnalisis = 'Últimas fichas añadidas';
 
-  @ViewChild(AnadirEntradaComponent) anadirEntradaComponent: AnadirEntradaComponent;
-  @ViewChild(AnadirEntrada2Component) anadirEntrada2Component: AnadirEntrada2Component;
-  @ViewChild(AnadirEntrada3Component) anadirEntrada3Component: AnadirEntrada3Component;
-  @ViewChild(Fila3entradasfondonegroComponent) fila3entradasfondonegroComponent: Fila3entradasfondonegroComponent;
+  @ViewChild(Fila3entradasfondonegroComponent)
+  fila3entradasfondonegroComponent: Fila3entradasfondonegroComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -58,51 +54,77 @@ export class IndexComponent implements OnInit, AfterViewInit {
     private linkService: LinkService,
     private util: UtilService,
     @Inject(PLATFORM_ID) private platformId: Object
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.route.data.subscribe((data: { obtenerIndexDataResponse: ObtenerIndexDataResponse }) => {
-      if (this.log) {
-        console.log('Init index');
+    this.route.data.subscribe(
+      (data: { indexDataResponse: IndexDataResponse }) => {
+        if (this.log) {
+          console.log('Init index');
+        }
+        this.titleService.setTitle(
+          'Momoko - blog de literatura, análisis y noticias de libros'
+        );
+        this.util.removeAllTags(this.metaService);
+        this.metaService.addTag({
+          name: 'description',
+          content:
+            'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'
+        });
+        this.metaService.addTag({
+          name: 'og:url',
+          content: 'https://momoko.es'
+        });
+        this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
+        this.metaService.addTag({
+          name: 'fb:app_id',
+          content: '1932678757049258'
+        });
+        this.metaService.addTag({ name: 'og:type', content: 'article' });
+        this.metaService.addTag({
+          name: 'og:title',
+          content: 'Momoko - blog de literatura, análisis y noticias de libros'
+        });
+        this.metaService.addTag({
+          name: 'og:description',
+          content:
+            'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.'
+        });
+        this.metaService.addTag({
+          name: 'og:image',
+          content: 'https://momoko.es/assets/style/images/logo.png'
+        });
+        this.linkService.addTag({
+          rel: 'canonical',
+          href: 'https://momoko.es'
+        });
+        this.lastOpinions = data.indexDataResponse.lastOpinions;
+        this.lastNews = data.indexDataResponse.lastNews;
+        this.lastMiscellaneous = data.indexDataResponse.lastMiscellaneous;
+        this.librosMasLeidosMes = data.indexDataResponse.librosMasVistos;
+        this.librosUltimosAnalisis = data.indexDataResponse.ultimosAnalisis;
+        this.ultimoComicAnalizado = data.indexDataResponse.ultimoComicAnalizado;
+      },
+      error => {
+        if (this.log) {
+          console.log('Error al recuperar los datos generales ', error);
+        }
       }
-      this.ultimasEntradas = data.obtenerIndexDataResponse.ultimasEntradas;
-      this.obtenerEntradasPortada(data.obtenerIndexDataResponse.ultimasEntradas);
-      this.librosMasLeidosMes = data.obtenerIndexDataResponse.librosMasVistos;
-      this.librosUltimosAnalisis = data.obtenerIndexDataResponse.ultimosAnalisis;
-      this.ultimoComicAnalizado = data.obtenerIndexDataResponse.ultimoComicAnalizado;
-      this.titleService.setTitle('Momoko - blog de literatura, análisis y noticias de libros');
-      this.util.removeAllTags(this.metaService);
-      this.metaService.addTag({ name: 'description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.' });
-      this.metaService.addTag({ name: 'og:url', content: 'https://momoko.es' });
-      this.metaService.addTag({ name: 'og:locale', content: 'es_ES' });
-      this.metaService.addTag({ name: 'fb:app_id', content: '1932678757049258' });
-      this.metaService.addTag({ name: 'og:type', content: 'article' });
-      this.metaService.addTag({ name: 'og:title', content: 'Momoko - blog de literatura, análisis y noticias de libros' });
-      this.metaService.addTag({ name: 'og:description', content: 'Momoko es tu blog de referencia de noticias literarias, análisis y reseñas de cómics, libros, clásicos, novelas gráficas y mucho más.' });
-      this.metaService.addTag({ name: 'og:image', content: 'https://momoko.es/assets/style/images/logo.png' });
-      this.linkService.addTag({ rel: 'canonical', href: 'https://momoko.es' });
-    }, error => {
-      if (this.log) {
-        console.log('Error al recuperar los datos generales ', error);
-      }
-    });
-
+    );
 
     this.youtubeService.getMomokoFeed(3).subscribe(datos => {
       this.ultimos3Videos = datos.items;
-    })
-
+    });
   }
 
   ngAfterViewInit(): void {
-
     if (this.log) {
       console.log('Ejecutando JQuery');
     }
 
     if (isPlatformBrowser(this.platformId)) {
       // Client only code.
-      $('.swiper-container.image-blog-wide').each(function () {
+      $('.swiper-container.image-blog-wide').each(function() {
         $(this).swiper({
           pagination: '.image-blog-wide-wrapper .swiper-pagination',
           nextButton: '.image-blog-wide-wrapper .swiper-button-next',
@@ -127,47 +149,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
     if (isPlatformServer(this.platformId)) {
       // Server only code.
     }
-
-
-
   }
-
-  obtenerEntradasPortada(entradas: EntradaSimple[]) {
-    this.entradasPortada = [];
-    let entradasBD: EntradaItem[];
-    entradasBD = [];
-    if (this.log) {
-      console.log('Obtener entradas portada');
-    }
-    for (let i = 5; i < 8; i++) {
-      const entradaSimple = entradas[i];
-      let e: EntradaItem;
-      if (entradaSimple.tipoEntrada === 'Vídeo') {
-        e = new EntradaItem(EntradaPortadaVideoComponent, entradaSimple);
-      } else {
-        e = new EntradaItem(EntradaPortadaNormalComponent, entradaSimple);
-      }
-      entradasBD.push(e);
-    }
-
-    this.entradasPortada = entradasBD;
-    this.anadirEntradaComponent.loadComponent(this.entradasPortada[0]);
-    this.anadirEntrada2Component.loadComponent(this.entradasPortada[1]);
-    this.anadirEntrada3Component.loadComponent(this.entradasPortada[2]);
-
-    for (let pos = 0; pos < 5; pos++) {
-      this.entradas1a5.push(this.ultimasEntradas[pos]);
-    }
-
-    for (let pos = this.ultimasEntradas.length - 3; pos < this.ultimasEntradas.length; pos++) {
-      this.ultimas3Entradas.push(this.ultimasEntradas[pos]);
-    }
-    this.fila3entradasfondonegroComponent.loadEntradas(this.ultimas3Entradas);
-  }
-
 
   obtenerUrlEntradaSimple(entrada: EntradaSimple): string {
     return this.util.obtenerUrlEntradaSimple(entrada);
   }
-
 }

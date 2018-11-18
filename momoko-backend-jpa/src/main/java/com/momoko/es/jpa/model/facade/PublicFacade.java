@@ -1,29 +1,16 @@
-/**
- * PublicFacade.java 26-oct-2017
- * <p>
- * Copyright 2017 RAMON CASARES.
- *
- * @author Ramon.Casares.Porto@gmail.com
- */
 package com.momoko.es.jpa.model.facade;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.momoko.es.api.enums.EntryStatusEnum;
 import com.momoko.es.api.enums.EntryTypeEnum;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
 import com.momoko.es.jpa.model.repository.EntradaRepository;
+import com.momoko.es.jpa.model.repository.GeneroRepository;
+import com.momoko.es.jpa.model.repository.LibroRepository;
+import com.momoko.es.jpa.model.repository.VisitaRepository;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,7 +51,7 @@ import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;
-import com.momoko.es.api.dto.response.ObtenerIndexDataReponseDTO;
+import com.momoko.es.api.dto.response.IndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
@@ -170,10 +157,10 @@ public class PublicFacade {
 
     @GetMapping(path = "/indexData")
     public @ResponseBody
-    ObtenerIndexDataReponseDTO
-    getInfoIndex(@RequestHeader(value = "User-Agent") final String userAgent) {
+    IndexDataReponseDTO getInfoIndex() {
         final StopWatch stopWatch = new StopWatch("getInfoIndex()");
-        stopWatch.start("obtenerUltimasEntradas");
+        stopWatch.start("getInfoIndex");
+        IndexDataReponseDTO obtenerIndexDataResponseDTO = this.indexService.getIndexDataResponse();
         final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
         stopWatch.stop();
         stopWatch.start("obtenerLibrosMasVistos");
@@ -186,11 +173,9 @@ public class PublicFacade {
         final LibroEntradaSimpleDTO ultimoComicAnalizado = this.indexService.obtenerUltimoComicAnalizado();
         stopWatch.stop();
         stopWatch.start("Crear objeto respuesta");
-        final ObtenerIndexDataReponseDTO obtenerIndexDataResponseDTO = new ObtenerIndexDataReponseDTO();
-        obtenerIndexDataResponseDTO.setUltimasEntradas(ultimasEntradas);
         obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
         obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
-        obtenerIndexDataResponseDTO.setUltimasOpiniones(ultimasOpiniones);
+        obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimasOpiniones);
         stopWatch.stop();
         log.debug(stopWatch.prettyPrint());
         return obtenerIndexDataResponseDTO;
@@ -1118,51 +1103,19 @@ public class PublicFacade {
     }
 
     @Autowired(required = false)
+    private VisitaRepository visitaRepository;
+
+    @Autowired(required = false)
     private EntradaRepository entradaRepository;
+
+    @Autowired(required = false)
+    private LibroRepository libroRepository;
+
+    @Autowired(required = false)
+    private GeneroRepository generoRepository;
 
     @RequestMapping(method = RequestMethod.GET, path = "/test")
     public String test() {
-        Iterable<EntradaEntity> entries = entradaRepository.findAll();
-        int cont = 0;
-        for (EntradaEntity entry : entries) {
-            if (entry.getEntryType() == null && entry.getEntryStatus() == null) {
-                if (entry.getEntryType() == null) {
-                    switch (entry.getTipoEntrada()) {
-
-                        case 1:
-                            entry.setEntryType(EntryTypeEnum.NEWS);
-                            break;
-                        case 2:
-                            entry.setEntryType(EntryTypeEnum.OPINION);
-                            break;
-                        case 3:
-                            if (entry.getNombreMenuLibro() != null){
-                                entry.setEntryType(EntryTypeEnum.SPECIAL);
-                                entry.setTipoEntrada(5);
-                            } else {
-                                entry.setEntryType(EntryTypeEnum.MISCELLANEOUS);
-                            }
-                            break;
-                        case 4:
-                            entry.setEntryType(EntryTypeEnum.VIDEO);
-                            break;
-                    }
-                }
-                if (entry.getEntryStatus() == null) {
-                    switch (entry.getEstadoEntrada()) {
-                        case 1:
-                            entry.setEntryStatus(EntryStatusEnum.DRAFT);
-                            break;
-                        case 2:
-                            entry.setEntryStatus(EntryStatusEnum.PUBLISHED);
-                            break;
-                    }
-
-                }
-                entradaRepository.save(entry);
-            }
-            System.out.println(++cont);
-        }
         return "OK";
     }
 

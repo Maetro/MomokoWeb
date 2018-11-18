@@ -1,4 +1,3 @@
-import { IndexDataService } from '../../services/index-data.service';
 import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterViewChecked } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
@@ -29,7 +28,6 @@ export class SidebarMenuComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private indexDataService: IndexDataService, 
     @Inject(PLATFORM_ID) private platformId: Object
   ) { }
 

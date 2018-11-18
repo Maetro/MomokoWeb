@@ -17,7 +17,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "entrada", indexes = {@Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true)})
+@Table(name = "entrada", indexes = {@Index(name = "urlEntradaIndex", columnList = "urlEntrada", unique = true),
+                                    @Index(name = "entryTypeIndex", columnList = "entry_type", unique = false)})
 public class EntradaEntity extends AuditableEntity implements Comparable<EntradaEntity> {
 
     private @Id

@@ -11,13 +11,11 @@ import { EstaticasModule } from './contenido/estaticas/estaticas.module';
 import { ClasificadorService } from './services/clasificador.service';
 import { ComentariosService } from './services/comentarios.service';
 import { EntradaService } from './services/entrada.service';
-import { IndexDataService } from './services/index-data.service';
 import { LibroService } from './services/libro.service';
 import { LinkService } from './services/link.service';
 import { ObtenerEntradaResolverService } from './services/resolvers/obtener-entrada-resolver.service';
 import { ObtenerEntradaZonaResolverService } from './services/resolvers/obtener-entrada-zona-resolver.service';
 import { ObtenerListaEtiquetaResolverService } from './services/resolvers/obtener-etiqueta-resolver.service';
-import { ObtenerIndexDataResolverService } from './services/resolvers/obtener-index-data-resolver.service';
 import { ObtenerLibroMiscelaneosResolverService } from './services/resolvers/obtener-libro-miscelaneos-resolver.service';
 import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtener-libro-noticias-resolver.service';
 import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
@@ -45,8 +43,6 @@ import { MessageService } from 'primeng/primeng';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 
 export const PROVIDERS = [
-    ObtenerIndexDataResolverService,
-    IndexDataService,
     ObtenerListaCategoriaResolverService,
     ClasificadorService,
     ObtenerListaGeneroResolverService,

@@ -1,4 +1,7 @@
 <app-join-us></app-join-us>
+<div class="row">
+  <div class="empty120"></div>
+</div>
 <nav class="navbar navbar-default navbar-fixed-top menuDesktop">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -59,31 +62,43 @@
     <div class="nav-wrapper">
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li class="main-menu-header" *ngFor="let menuPart of menu">
-            <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
-              <b>{{menuPart.nombre}}</b>
-              <span class="caret"></span>
-            </a>
+          <ng-container *ngFor="let menuPart of menu; let i = index">
+            <li class="main-menu-header">
+              <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
+                <b>{{menuPart.nombre}}</b>
+                <span class="caret"></span>
+              </a>
 
-            <ul class="dropdown-menu double" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
-              <li *ngFor="let genero of menuPart.generos">
-                <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active">
-                  <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" /> {{genero.nombre}} </a>
+              <ul class="dropdown-menu double" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
+
+                <li *ngFor="let genero of menuPart.generos">
+                  <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active">
+                    <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" />
+                    {{genero.nombre}} </a>
+                </li>
+
+              </ul>
+
+            </li>
+            <li *ngIf="i === 2">
+                <div class="momokoLogo">
+                  <a routerLink="/">
+                    <img src="https://momoko.es/images/logo_momoko.png" alt="Logotipo de momoko.es" />
+                  </a>
+                </div>
               </li>
-            </ul>
-
-          </li>
+          </ng-container>
           <li>
             <a class="btnColaborar" (click)="openJoinUsModal()"> COLABORA </a>
           </li>
           <li>
             <a routerLink="/auth/login" routerLinkActive="active" *ngIf="isLoggedIn === false">Login</a>
-          </li> 
+          </li>
           <!-- <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
           <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
 
           <li class="main-menu-header" *ngIf="isLoggedIn === true">
-            <a routerLink="/gestion" routerLinkActive="active" >Administrar</a>
+            <a routerLink="/gestion" routerLinkActive="active">Administrar</a>
             <ul class="dropdown-menu double">
               <li>
                 <a routerLink="/gestion/lista-entradas" routerLinkActive="active">Entradas</a>

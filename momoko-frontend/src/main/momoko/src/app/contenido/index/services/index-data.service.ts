@@ -3,14 +3,10 @@ import {throwError as observableThrowError,  Observable } from 'rxjs';
 
 import {catchError, map} from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environment';
-import { ObtenerIndexDataResponse } from '../dtos/response/obtenerIndexDataResponse';
+import { environment } from '../../../../environments/environment';
+import { IndexDataResponse } from '../dtos/indexDataResponse';
 
 import { HttpClient } from '@angular/common/http';
-
-
-
-import { Cookie } from 'ng2-cookies';
 
 @Injectable()
 export class IndexDataService {
@@ -19,11 +15,11 @@ export class IndexDataService {
 
   private indexDataUrl = environment.indexDataUrl;
 
-  resultados: Observable<ObtenerIndexDataResponse>;
+  resultados: Observable<IndexDataResponse>;
 
   constructor(private http: HttpClient) { }
 
-  getIndexData(): Observable<ObtenerIndexDataResponse> {
+  getIndexData(): Observable<IndexDataResponse> {
     if (this.log) {
       console.log('getIndexData()');
     }
@@ -35,7 +31,7 @@ export class IndexDataService {
 
   }
 
-  private extractIndexData(res: ObtenerIndexDataResponse) {
+  private extractIndexData(res: IndexDataResponse) {
     return res;
   }
 

@@ -1,0 +1,70 @@
+<div class="light-wrapper">
+    <div class="container inner">
+        <div class="row">
+            <div class="col-sm-4" *ngFor="let opinion of opinions">
+                <div class="indexHeaderImageContainer">
+                    <a routerLink="/{{opinion.bloque}}/{{opinion.urlEntrada}}">
+                        <img src="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}">
+                    </a>
+                </div>
+                <div class="indexHeaderDataBlock">
+                    {{opinion.categoria}}
+                </div>
+                <div class="indexHeaderTitle">
+                    <a routerLink="/{{opinion.bloque}}/{{opinion.urlEntrada}}">
+                        <h3 class="entryTitle"> {{opinion.tituloEntrada}} </h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr/>
+    </div>
+    <div class="container inner">
+        <div class="row">
+            <div class="col-sm-7" *ngFor="let miscellaneous of miscellaneous">
+                <div class="indexHeaderImageContainer">
+                    <a routerLink="/{{miscellaneous.bloque}}/{{miscellaneous.urlEntrada}}">
+                        <img src="{{miscellaneous.imagenEntrada}}" alt="Imagen Destacada - {{miscellaneous.tituloEntrada}}">
+                    </a>
+                </div>
+                <div class="indexHeaderDataBlock">
+                    Misceláneo
+                </div>
+                <div class="indexHeaderTitle">
+                    <a routerLink="/{{miscellaneous.bloque}}/{{miscellaneous.urlEntrada}}">
+                        <h3 class="entryTitle"> {{miscellaneous.tituloEntrada}} </h3>
+                    </a>
+                </div>
+                <div class="indexHeaderSummary">
+                    
+                        <h5 class="summary"> {{miscellaneous.fraseDescriptiva}} </h5>
+                    
+                </div>
+                <hr/>
+            </div>
+            <div class="col-sm-5">
+                <div class="row">
+                    <ng-container *ngFor="let news of news, let i = index; let first = first">
+                        <div class="col-sm-6">
+                            <div class="indexHeaderImageContainer">
+                                <a routerLink="/{{news.bloque}}/{{news.urlEntrada}}">
+                                    <img src="{{news.imagenEntrada}}" alt="Imagen Destacada - {{news.tituloEntrada}}">
+                                </a>
+                            </div>
+                            <div class="indexHeaderDataBlock">
+                                Noticiakyk
+                            </div>
+                            <div class="indexHeaderTitle">
+                                <a routerLink="/{{news.bloque}}/{{news.urlEntrada}}">
+                                    <h3 class="entryNewsTitle"> {{news.tituloEntrada}} </h3>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="clearfix" *ngIf="(i+1) % 2 == 0 && !first"></div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

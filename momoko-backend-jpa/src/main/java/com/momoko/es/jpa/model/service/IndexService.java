@@ -10,6 +10,7 @@ import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
+import com.momoko.es.api.dto.response.IndexDataReponseDTO;
 
 import java.util.List;
 
@@ -68,4 +69,5 @@ public interface IndexService {
      */
     void suscribirse(String email);
 
+    IndexDataReponseDTO getIndexDataResponse();
 }

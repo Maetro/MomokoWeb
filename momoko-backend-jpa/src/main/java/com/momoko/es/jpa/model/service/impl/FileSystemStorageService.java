@@ -101,8 +101,8 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public String obtenerMiniatura(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer width,
             final Integer height, final boolean recortar) throws IOException {
-        final String miniatura = this.getFileSystemHelper().getThumbnail(tipoAlmacenamiento, fileNameOriginal, width,
-                height, recortar);
+        final String miniatura = this.getFileSystemHelper().getThumbnail(tipoAlmacenamiento, fileNameOriginal, (int) (width * 1.1),
+                (int) (height * 1.1), recortar);
         return miniatura;
     }
 

@@ -3,7 +3,9 @@ package com.momoko.es.jpa.model.repository;
 import java.util.Date;
 import java.util.List;
 
+import com.momoko.es.api.enums.EntryTypeEnum;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -114,4 +116,7 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
             + "            order by p.valor desc limit :initElement, :endElement", nativeQuery = true)
     List<EntradaEntity> obtenerAnalisisSagasYlibrosPorGeneroYNota(@Param("urlGenero") String urlGenero,
             @Param("initElement") Integer initElement, @Param("endElement") Integer endElement);
+
+    @Query("select e from EntradaEntity e WHERE e.entryType = :entryType AND e.createdDate < :ahora ORDER by e.createdDate DESC")
+    List<EntradaEntity> findLastEntries(@Param("ahora") Date ahora, @Param("entryType") EntryTypeEnum entryType, Pageable pageable);
 }

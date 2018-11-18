@@ -695,7 +695,7 @@ footer .sub-footer .inner {
   font-weight: 700;
   transition: all 150ms ease-in;
   line-height: 1;
-  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
   color: #404040 !important;
   position: relative;
 }
@@ -749,7 +749,7 @@ footer .sub-footer .inner {
   color: #404040 !important;
   font-size: 12px;
   font-weight: 700;
-  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
   padding: 0;
   line-height: 1;
 }

@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.momoko.es.api.dto.response.IndexDataReponseDTO;
 import com.momoko.es.api.enums.EntryTypeEnum;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -326,6 +327,38 @@ public class IndexServiceImpl implements IndexService {
             this.suscripcionRepository.save(nuevaSuscripcion);
         }
 
+    }
+
+    @Override
+    public IndexDataReponseDTO getIndexDataResponse() {
+        IndexDataReponseDTO indexDataReponseDTO = new IndexDataReponseDTO();
+        List<EntradaSimpleDTO> opinions = getLastEntriesOfType(3, EntryTypeEnum.OPINION, 370, 490);
+        List<EntradaSimpleDTO> miscellaneous = getLastEntriesOfType(1, EntryTypeEnum.MISCELLANEOUS, 704, 469);
+        List<EntradaSimpleDTO> news = getLastEntriesOfType(4, EntryTypeEnum.NEWS, 220, 220);
+
+        indexDataReponseDTO.setLastOpinions(opinions);
+        indexDataReponseDTO.setLastMiscellaneous(miscellaneous);
+        indexDataReponseDTO.setLastNews(news);
+        return indexDataReponseDTO;
+    }
+
+    private List<EntradaSimpleDTO> getLastEntriesOfType(int quantity, EntryTypeEnum entryType, int thumbnailWidth, int thumbnailHeight) {
+        final List<EntradaEntity> lastReviews = this.entradaRepository
+                .findLastEntries(Calendar.getInstance().getTime(), entryType, PageRequest.of(0, quantity));
+        final List<EntradaSimpleDTO> lastReviewsSimple = ConversionUtils.obtenerEntradasBasicas(lastReviews, true);
+        for (EntradaSimpleDTO entradaSimpleDTO : lastReviewsSimple) {
+            if (entradaSimpleDTO.getImagenEntrada() != null) {
+                try {
+                    final String thumbnail = this.storageService.obtenerMiniatura("imagenes-destacadas",
+                            entradaSimpleDTO.getImagenEntrada(), thumbnailWidth, thumbnailHeight, true);
+                    entradaSimpleDTO.setImagenEntrada(thumbnail);
+
+                } catch (final IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return lastReviewsSimple;
     }
 
 }

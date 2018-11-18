@@ -7,7 +7,6 @@ import { PageSolicitudComponent } from './contenido/estaticas/page-solicitud/pag
 import { ObtenerEntradaResolverService } from './services/resolvers/obtener-entrada-resolver.service';
 import { ObtenerEntradaZonaResolverService } from './services/resolvers/obtener-entrada-zona-resolver.service';
 import { ObtenerListaEtiquetaResolverService } from './services/resolvers/obtener-etiqueta-resolver.service';
-import { ObtenerIndexDataResolverService } from './services/resolvers/obtener-index-data-resolver.service';
 import { ObtenerLibroMiscelaneosResolverService } from './services/resolvers/obtener-libro-miscelaneos-resolver.service';
 import { ObtenerLibroNoticiasResolverService } from './services/resolvers/obtener-libro-noticias-resolver.service';
 import { ObtenerLibroResolverService } from './services/resolvers/obtener-libro-resolver.service';
@@ -181,10 +180,7 @@ const appRoutes: Routes = [
   },
   {
     path: '',
-    loadChildren: './contenido/index/index.module#IndexModule',
-    resolve: {
-      obtenerIndexDataResponse: ObtenerIndexDataResolverService
-    }
+    loadChildren: './contenido/index/index.module#IndexModule'
   }
 ];
 
