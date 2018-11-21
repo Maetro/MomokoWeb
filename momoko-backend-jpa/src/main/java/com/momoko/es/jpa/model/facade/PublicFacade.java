@@ -38,7 +38,6 @@ import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.InitDataDTO;
 import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.RedactorDTO;
@@ -51,7 +50,6 @@ import com.momoko.es.api.dto.response.GuardarComentarioResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;
-import com.momoko.es.api.dto.response.IndexDataReponseDTO;
 import com.momoko.es.api.dto.response.ObtenerPaginaBusquedaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.api.dto.response.ObtenerPaginaEditorialResponse;
@@ -72,7 +70,7 @@ import com.momoko.es.jpa.model.service.EditorialService;
 import com.momoko.es.jpa.model.service.EntradaService;
 import com.momoko.es.jpa.model.service.EtiquetaService;
 import com.momoko.es.jpa.model.service.GenreService;
-import com.momoko.es.jpa.model.service.IndexService;
+import com.momoko.es.api.index.service.IndexService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.SagaService;
 import com.momoko.es.jpa.model.service.StorageService;
@@ -155,31 +153,7 @@ public class PublicFacade {
         return initDataDTO;
     }
 
-    @GetMapping(path = "/indexData")
-    public @ResponseBody
-    IndexDataReponseDTO getInfoIndex() {
-        final StopWatch stopWatch = new StopWatch("getInfoIndex()");
-        stopWatch.start("getInfoIndex");
-        IndexDataReponseDTO obtenerIndexDataResponseDTO = this.indexService.getIndexDataResponse();
-        final List<EntradaSimpleDTO> ultimasEntradas = this.indexService.obtenerUltimasEntradas();
-        stopWatch.stop();
-        stopWatch.start("obtenerLibrosMasVistos");
-        final List<LibroSimpleDTO> librosMasVistos = this.indexService.obtenerLibrosMasVistos();
-        stopWatch.stop();
-        stopWatch.start("obtenerUltimasFichas");
-        final List<LibroSimpleDTO> ultimasOpiniones = this.indexService.obtenerUltimasFichas();
-        stopWatch.stop();
-        stopWatch.start("obtenerUltimoComicAnalizado");
-        final LibroEntradaSimpleDTO ultimoComicAnalizado = this.indexService.obtenerUltimoComicAnalizado();
-        stopWatch.stop();
-        stopWatch.start("Crear objeto respuesta");
-        obtenerIndexDataResponseDTO.setLibrosMasVistos(librosMasVistos);
-        obtenerIndexDataResponseDTO.setUltimoComicAnalizado(ultimoComicAnalizado);
-        obtenerIndexDataResponseDTO.setUltimosAnalisis(ultimasOpiniones);
-        stopWatch.stop();
-        log.debug(stopWatch.prettyPrint());
-        return obtenerIndexDataResponseDTO;
-    }
+
 
     @GetMapping(path = "/entrada/{url-entrada}")
     public @ResponseBody

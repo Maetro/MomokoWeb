@@ -42,7 +42,7 @@ import com.momoko.es.jpa.model.repository.SuscripcionRepository;
 import com.momoko.es.jpa.model.repository.VideoRepository;
 import com.momoko.es.jpa.model.repository.VisitaRepository;
 import com.momoko.es.jpa.model.service.GenreService;
-import com.momoko.es.jpa.model.service.IndexService;
+import com.momoko.es.api.index.service.IndexService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.jpa.model.util.ConversionUtils;

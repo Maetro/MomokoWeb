@@ -1,4 +1,4 @@
-package com.momoko.es.jpa.model.facade.frontpage.author;
+package com.momoko.es.jpa.author.controller;
 
 import com.momoko.es.api.author.response.AuthorPageResponse;
 import com.momoko.es.api.author.service.AuthorService;

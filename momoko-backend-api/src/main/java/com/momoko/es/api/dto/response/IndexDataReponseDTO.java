@@ -9,11 +9,7 @@ package com.momoko.es.api.dto.response;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-
 import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.IndexDataDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 

@@ -4,13 +4,15 @@
  * Copyright 2017 RAMON CASARES.
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.jpa.model.service;
+package com.momoko.es.api.index.service;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.response.IndexDataReponseDTO;
+import com.momoko.es.api.customblock.dtos.request.SaveCustomBlockRequest;
+import com.momoko.es.api.customblock.dtos.response.SaveCustomBlockResponse;
 
 import java.util.List;
 
@@ -70,4 +72,5 @@ public interface IndexService {
     void suscribirse(String email);
 
     IndexDataReponseDTO getIndexDataResponse();
+
 }

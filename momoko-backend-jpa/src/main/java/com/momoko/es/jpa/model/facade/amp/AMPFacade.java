@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.index.service.IndexService;
 import com.momoko.es.jpa.model.service.*;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import org.apache.commons.collections4.CollectionUtils;

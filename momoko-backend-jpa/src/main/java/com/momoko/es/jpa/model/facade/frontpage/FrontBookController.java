@@ -10,7 +10,7 @@ import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.jpa.model.service.ComentarioService;
 import com.momoko.es.jpa.model.service.GenreService;
-import com.momoko.es.jpa.model.service.IndexService;
+import com.momoko.es.api.index.service.IndexService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;

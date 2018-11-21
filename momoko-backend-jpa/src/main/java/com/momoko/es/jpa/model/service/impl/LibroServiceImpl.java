@@ -231,7 +231,7 @@ public class LibroServiceImpl implements LibroService {
         respuesta.setDatosEntrada(ConversionUtils.obtenerDatosEntradaFromEntradaEntityList(libroEntity.getEntradas()));
         if (libroEntity != null) {
             final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                    .findByLibrosEntradaIn(Arrays.asList(libroEntity), new PageRequest(0, 4));
+                    .findByLibrosEntradaIn(Arrays.asList(libroEntity), PageRequest.of(0, 4));
             Collections.sort(entradasRelacionadas);
             final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
                     true);

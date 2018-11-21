@@ -243,7 +243,7 @@ public class SagaServiceImpl implements SagaService {
     public List<EntradaSimpleDTO> obtenerEntradasSaga(final SagaDTO sagaDTO) {
 
         final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                .findBySagasEntradaIn(Arrays.asList(sagaDTO.getSagaId()), new PageRequest(0, 3));
+                .findBySagasEntradaIn(Arrays.asList(sagaDTO.getSagaId()), PageRequest.of(0, 3));
         // TODO : Orden entradas relacionadas
         //Collections.sort(entradasRelacionadas);
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
@@ -267,7 +267,7 @@ public class SagaServiceImpl implements SagaService {
         final List<LibroEntity> librosSaga = this.libroRepository.findByUrlLibroIn(sagaDTO.getLibrosSaga());
 
         final List<EntradaEntity> entradasRelacionadas = this.entradaRepository.findByLibrosEntradaIn(librosSaga,
-                new PageRequest(0, 3));
+                PageRequest.of(0, 3));
         // TODO : Orden entradas relacionadas
         //Collections.sort(entradasRelacionadas);
         final List<EntradaSimpleDTO> entradasBasicas = ConversionUtils.obtenerEntradasBasicas(entradasRelacionadas,
