@@ -17,3 +17,4 @@ momoko-backend-commons/.settings/
 *.factorypath
 devops/example/
 devops/mysql/start_BD.sql
+momoko-frontend/src/main/frontend/node_modules/

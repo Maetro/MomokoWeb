@@ -21,6 +21,8 @@ a{
   margin-top: 15px;
 }
 
+
+
 .separatop {
   margin-top: 16px;
 }
@@ -31,6 +33,10 @@ a{
 
 .separatop35 {
   margin-top: 35px;
+}
+
+.separatop40 {
+  margin-top: 40px;
 }
 
 select.ui-paginator-rpp-options.ui-widget.ui-state-default {

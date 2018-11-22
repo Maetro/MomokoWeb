@@ -48,6 +48,11 @@ const adminRoutes: Routes = [
     canLoad: [AuthGuardService]
   },
   {
+    path: 'index',
+    loadChildren: './index-administration/index-administration.module#IndexAdministrationModule',
+    canLoad: [AuthGuardService]
+  },
+  {
     path: 'nuevo-libro',
     canActivate: [AuthGuardService],
     component: BookFormComponent
