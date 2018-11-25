@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
         if (distanciaTop > 500) {
           $('body,html').animate(
             {
-              scrollTop: 0
+              scrollTop: 1
             },
             800
           );

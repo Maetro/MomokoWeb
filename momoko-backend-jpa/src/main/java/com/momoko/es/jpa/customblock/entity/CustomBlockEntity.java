@@ -8,9 +8,11 @@ import com.momoko.es.jpa.common.entity.AuditableEntity;
 import javax.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "custom_block", indexes = { @Index(name = "custom_block_type_index", columnList = "custom_block_type", unique = false) })
 public class CustomBlockEntity extends AuditableEntity {
 
-    private @Id @GeneratedValue Integer Id;
+    private @Id @GeneratedValue Integer id;
 
     @Column(name = "active")
     private boolean active;
@@ -21,7 +23,7 @@ public class CustomBlockEntity extends AuditableEntity {
     @Column(name = "custom_block_main_image")
     private String customBlockMainImage;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "link")
@@ -39,11 +41,11 @@ public class CustomBlockEntity extends AuditableEntity {
     private CustomBlockTemplateEnum template;
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Integer id) {
-        Id = id;
+        id = id;
     }
 
     public boolean isActive() {

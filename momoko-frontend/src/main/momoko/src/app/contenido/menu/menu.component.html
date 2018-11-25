@@ -1,42 +1,43 @@
 <app-join-us></app-join-us>
 <div class="row">
-  <div class="empty120"></div>
+  <div class="empty170"></div>
 </div>
-<nav class="navbar navbar-default navbar-fixed-top menuDesktop">
+
+<div class="leftSocialIcons" [class.scrolled]="scrolled">
+  <div class="header-left">
+    <ul class="social">
+      <li>
+        <a href="https://www.facebook.com/Momoko.blog/" target="_blank">
+          <i class="ion-social-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://twitter.com/momoko_blog" target="_blank">
+          <i class="ion-social-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.instagram.com/momoko_blog/" target="_blank">
+          <i class="ion-social-instagram"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.youtube.com/momoko_blog" target="_blank">
+          <i class="ion-social-youtube"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.pinterest.es/momoko_blog/" target="_blank">
+          <i class="ion-social-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-top menuDesktop" [class.scrolled]="scrolled">
   <div class="container-fluid">
     <div class="navbar-header">
-      <div class="header-left">
-        <ul class="social">
-          <li>
-            <a href="https://www.facebook.com/Momoko.blog/" target="_blank">
-              <i class="ion-social-facebook"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/momoko_blog" target="_blank">
-              <i class="ion-social-twitter"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/momoko_blog/" target="_blank">
-              <i class="ion-social-instagram"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.youtube.com/momoko_blog" target="_blank">
-              <i class="ion-social-youtube"></i>
-            </a>
-          </li>
-          <li>
-            <a href="https://www.pinterest.es/momoko_blog/" target="_blank">
-              <i class="ion-social-pinterest"></i>
-            </a>
-          </li>
-
-
-
-        </ul>
-      </div>
       <!-- /.header-left -->
       <div class="header-right">
 
@@ -81,23 +82,76 @@
 
             </li>
             <li *ngIf="i === 2">
+                <div class="prefixedWidth">
                 <div class="momokoLogo">
                   <a routerLink="/">
                     <img src="https://momoko.es/images/logo_momoko.png" alt="Logotipo de momoko.es" />
                   </a>
                 </div>
+               </div>
               </li>
           </ng-container>
-          <li>
-            <a class="btnColaborar" (click)="openJoinUsModal()"> COLABORA </a>
+          <li class="main-menu-header">
+            <a routerLink="/categoria/miscelaneos" routerLinkActive="active">
+              <b>Misceláneo</b>
+              <span class="caret"></span>
+            </a>
+
+            <ul class="dropdown-menu double">
+
+              <li>
+                <a routerLink="/categoria/videos" routerLinkActive="active">
+                  Vídeos </a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-entradas" routerLinkActive="active">Entradas</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-libros" routerLinkActive="active">Libros</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-sagas" routerLinkActive="active">Sagas</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-generos" routerLinkActive="active">Géneros</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-galerias" routerLinkActive="active">Galerias</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/autores" routerLinkActive="active">Autores</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-redactores" routerLinkActive="active">Redactores</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-editoriales" routerLinkActive="active">Editoriales</a>
+              </li>
+              <li>
+                <a routerLink="/gestion/lista-filtros" routerLinkActive="active">Filtros</a>
+              </li>
+              <li>
+                  <a routerLink="/gestion/general" routerLinkActive="active">Gestión general</a>
+                </li>
+              <li>
+                <a routerLink="/gestion/gestor-urls" routerLinkActive="active">Herramientas</a>
+              </li>
+              <li class="main-menu-header">
+                <a (click)="onLogout()">Desconectarse</a>
+              </li>
+            </ul>
+
           </li>
           <li>
+            <a (click)="openJoinUsModal()"> Colabora </a>
+          </li>
+          <!-- <li>
             <a routerLink="/auth/login" routerLinkActive="active" *ngIf="isLoggedIn === false">Login</a>
-          </li>
+          </li>-->
           <!-- <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
           <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
 
-          <li class="main-menu-header" *ngIf="isLoggedIn === true">
+          <!--<li class="main-menu-header" *ngIf="isLoggedIn === true">
             <a routerLink="/gestion" routerLinkActive="active">Administrar</a>
             <ul class="dropdown-menu double">
               <li>
@@ -114,7 +168,7 @@
                 <a (click)="onLogout()">Desconectarse</a>
               </li>
             </ul>
-          </li>
+          </li>-->
         </ul>
       </div>
       <!--/.nav-collapse -->

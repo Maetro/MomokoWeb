@@ -1,5 +1,5 @@
 import { IndexDataService } from '../index/services/index-data.service';
-import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Inject, PLATFORM_ID, Input, AfterViewChecked, HostListener } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { Menu } from '../../dtos/menu';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ declare var $: any;
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  styleUrls: ['./menu.component.scss']
 })
 export class MenuComponent implements OnInit {
 
@@ -22,6 +22,8 @@ export class MenuComponent implements OnInit {
   isLoggedIn = false;
 
   menu: Menu[];
+
+  scrolled = false;
 
   constructor(
     private router: Router,
@@ -40,6 +42,16 @@ export class MenuComponent implements OnInit {
     });
     this.menu = APP_DATA.menu;
   }
+
+  @HostListener('window:scroll', ['$event']) 
+  doSomething(event) {
+    if (window.pageYOffset > 0){
+      this.scrolled = true;
+    } else{
+      this.scrolled = false;
+    }
+  }
+
 
   buscarResultados() {
     if (this.log) {

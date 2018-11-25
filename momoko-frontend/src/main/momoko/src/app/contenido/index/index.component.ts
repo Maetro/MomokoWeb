@@ -5,7 +5,8 @@ import {
   AfterViewInit,
   ViewChild,
   Inject,
-  PLATFORM_ID
+  PLATFORM_ID,
+  ComponentFactoryResolver
 } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { EntradaSimple } from '../../dtos/entradaSimple';
@@ -19,6 +20,9 @@ import { YoutubeService } from '../../services/youtube.service';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { Meta, Title } from '@angular/platform-browser';
 import { LinkService } from '../../services/link.service';
+import { CustomBlockIndexDirective } from './custom-block-index/custom-block-index.directive';
+import { IndexDataService } from './services/index-data.service';
+import { CustomBlockComponent } from '../comunes/custom-block/custom-block.component';
 
 declare var $: any;
 
@@ -38,6 +42,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
   librosUltimosAnalisis: LibroSimple[];
   ultimos3Videos: VideoYoutube[];
 
+  @ViewChild(CustomBlockIndexDirective) customBlockHost: CustomBlockIndexDirective;
+
   tituloSeccionLibros = 'Lo más leído este mes...';
 
   tituloUltimosAnalisis = 'Últimas fichas añadidas';
@@ -52,7 +58,9 @@ export class IndexComponent implements OnInit, AfterViewInit {
     private metaService: Meta,
     private titleService: Title,
     private linkService: LinkService,
+    private indexDataService: IndexDataService,
     private util: UtilService,
+    private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
@@ -117,6 +125,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
     });
   }
 
+  
   ngAfterViewInit(): void {
     if (this.log) {
       console.log('Ejecutando JQuery');
@@ -149,6 +158,21 @@ export class IndexComponent implements OnInit, AfterViewInit {
     if (isPlatformServer(this.platformId)) {
       // Server only code.
     }
+    this.loadComponent();
+  }
+
+  loadComponent() {
+    let customBlockItem = this.indexDataService.getCustomBlockIndex().subscribe(customBlock =>{
+      let componentFactory = this.componentFactoryResolver.resolveComponentFactory(CustomBlockComponent);
+
+      let viewContainerRef = this.customBlockHost.viewContainerRef;
+      viewContainerRef.clear();
+  
+      let componentRef = viewContainerRef.createComponent(componentFactory);
+      (<CustomBlockComponent>componentRef.instance).customBlock = customBlock;
+    });
+
+  
   }
 
   obtenerUrlEntradaSimple(entrada: EntradaSimple): string {

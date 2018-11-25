@@ -48,8 +48,8 @@ const adminRoutes: Routes = [
     canLoad: [AuthGuardService]
   },
   {
-    path: 'index',
-    loadChildren: './index-administration/index-administration.module#IndexAdministrationModule',
+    path: 'general',
+    loadChildren: './general-administration/general-administration.module#GeneralAdministrationModule',
     canLoad: [AuthGuardService]
   },
   {

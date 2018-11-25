@@ -1,0 +1,8 @@
+<ng-container *ngFor="let customBlockInstance of customBlock">
+<ng-container *ngIf="customBlockInstance.template == 'FOUR_LINKS_WITH_CONTENT'">
+    <app-four-links-with-content [customBlock]="customBlockInstance"></app-four-links-with-content>
+</ng-container>
+<ng-container *ngIf="customBlockInstance.template == 'BLOCK_ONLY'">
+    SIDEBAR
+</ng-container>
+</ng-container>

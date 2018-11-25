@@ -1,96 +1,39 @@
 <ngx-json-ld [json]="schema"></ngx-json-ld>
-<div class="parallax page-title inverse-wrapper parallax2 custombackground" [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
-  <div class="container inner">
-    <div class="generosLibro">
-      <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">{{genero.nombre}}
-        <span [hidden]="last">, </span>
-      </span>
-    </div>
-  </div>
-</div>
-<app-menu-interno-libro [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-libro>
+<!-- <app-menu-interno-libro [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-libro>-->
 <div class="light-wrapper">
-  <div class="container inner">
+  <div class="container marginBottom50">
     <div class="blog row">
-      <div class="col-md-8">
-        <img src="{{entrada.imagenDestacada}}" alt="Imágen destacada - {{entrada.tituloEntrada}}" title="Imágen destacada - {{entrada.tituloEntrada}}" />
-      </div>
-      <div class="col-md-4">
-        <div class="dark-wrapper bloqueInfoLibro">
-          <div class="bloqueNota">
-            <app-nota-circular [nota]="entrada.librosEntrada[0].notaMomoko"></app-nota-circular>
-          </div>
-          <div class="bloqueDatos">
-            <div class="datos autor" *ngIf="entrada.librosEntrada[0].titulo">
-              <b>Título:
-                <span class="info">{{entrada.librosEntrada[0].titulo}}</span>
-              </b>
-            </div>
-            <div class="datos autor" *ngIf="entrada.librosEntrada[0].tituloOriginal">
-              <b>Título original:
-                <span class="info">{{entrada.librosEntrada[0].tituloOriginal}}</span>
-              </b>
-            </div>
-            <div class="datos autor" *ngIf="authors">
-              <b>Autor: </b>
-              <ng-container *ngFor="let author of entrada.librosEntrada[0].autores; let last = last;">
-                <a *ngIf="author.description" routerLink="/autor/{{author.authorUrl}}"><span class="info">{{author.name}}</span><span
-                    *ngIf="!last">, </span></a>
-                <ng-container *ngIf="!author.description"><span class="info">{{author.name}}</span><span *ngIf="!last">,
-                  </span></ng-container>
-              </ng-container>
-            </div>
-            <div class="datos numPaginas" *ngIf="entrada.librosEntrada[0].numeroPaginas">
-              <b>Nº de páginas:
-                <span class="info">{{entrada.librosEntrada[0].numeroPaginas}}</span>
-              </b>
-            </div>
-            <div class="datos autor" *ngIf="entrada.librosEntrada[0].anoPublicacion">
-              <b>Año de publicación:
-                <span class="info">{{entrada.librosEntrada[0].anoPublicacion}}</span>
-              </b>
-            </div>
-            <div class="datos autor" *ngIf="entrada.librosEntrada[0].anoEdicion">
-              <b>Año de edición:
-                <span class="info">{{entrada.librosEntrada[0].anoEdicion}}</span>
-              </b>
-            </div>
-          </div>
-          <div class="bloqueBotones" *ngIf="entrada.librosEntrada[0].enlaceAmazon">
-            <div class="col-md-12">
-              <a class="amazon" href="{{entrada.librosEntrada[0].enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
-                <span class="btnComprarAmazon">Comprar libro &gt;</span>
-                <img src="https://www.momoko.es/wp-content/themes/pustaka/assets/img/compralo_en_amazon.png" alt="Amazon"
-                  title="Amazon">
-              </a>
-            </div>
-          </div>
+      <div class="col-md-12 align-center">
+        <div class="categoryTitle">Reseña</div>
+        <div class="tituloEntrada">
+          <h1>{{entrada.tituloEntrada}}</h1>
+        </div>
+        <div class="infoEntrada">
+          Análisis de
+          <span class="autorEntrada">
+            <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
+          </span>
+          <span class="generosText">Género
+            <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
+              <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
+              <span [hidden]="last">, </span>
+            </span>
+          </span>
+          <span class="editorialText">Editorial
+            <span class="autorEntrada">
+              <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
+            </span>
+          </span>
         </div>
       </div>
     </div>
+
     <div class="row">
       <div class="contenidoEntrada">
         <div [ngClass]="(entrada.tieneGaleria)?'col-md-12':'col-md-8'">
-          <div class="tituloEntrada">
-            <h1>{{entrada.tituloEntrada}}</h1>
-          </div>
-          <div class="infoEntrada">
-            Análisis de
-            <span class="autorEntrada">
-              <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
-            </span>
-            <span class="generosText">Género
-              <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-                <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
-                <span [hidden]="last">, </span>
-              </span>
-            </span>
-            <span class="editorialText">Editorial
-              <span class="autorEntrada">
-                <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
-              </span>
-            </span>
-          </div>
+
+          <img src="{{entrada.imagenDestacada}}" alt="Imágen destacada - {{entrada.tituloEntrada}}" title="Imágen destacada - {{entrada.tituloEntrada}}" />
+
           <div class="cuerpo">
             <div [innerHTML]="content | sanitizeHtml"></div>
             <ng-container *ngFor="let bookTemp of bookTemplates; let i = index">
@@ -110,6 +53,11 @@
             </span>
           </div>
         </div>
+
+        <div class="col-sm-4">
+          <app-book-data [book]="entrada.librosEntrada[0]"></app-book-data>
+
+        </div>
         <ng-container *ngIf="!entrada.tieneGaleria">
           <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
         </ng-container>
@@ -124,7 +72,7 @@
               <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
             </div>
           </div>
-     
+
           <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
           <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>
 

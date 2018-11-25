@@ -63,7 +63,25 @@ export class AuthorFormComponent implements OnInit {
           authorHeaderImage: this.author.authorHeaderImage
         });
       });
-    } 
+    } else {
+      this.author= {
+          authorId: null,
+          name: null,
+          authorUrl: null,
+          birhtYear: null,
+          deathYear: null,
+          birthCountry: null,
+          description: null,
+          avatar: null,
+          twitter: null,
+          facebook: null,
+          instagram: null,
+          youtube: null,
+          webpage: null,
+          authorHeaderImage: null,
+          authorBooks: null,
+      } ;
+    }
   }
 
   private getAuthorForm() {

@@ -4,9 +4,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
 import { CheckboxModule, ChipsModule, DropdownModule, FileUploadModule, GrowlModule, InputTextModule, MultiSelectModule, PickListModule, SharedModule } from 'primeng/primeng';
 import { TableModule } from 'primeng/table';
-import { AuthorFormComponent } from './author-form/author-form.component';
-import { AuthorListComponent } from './author-list/author-list.component';
-import { IndexAdministrationRoutingModule } from './general-administration-routing.module';
+import { GeneralAdministrationRoutingModule } from './general-administration-routing.module';
+import { CustomBlockListComponent } from './custom-block-list/custom-block-list.component';
+import { CustomBlockFormComponent } from './custom-block-form/custom-block-form.component';
+import { GeneralAdministrationComponent } from './general-administration/general-administration.component';
 
 @NgModule({
   imports: [
@@ -25,8 +26,8 @@ import { IndexAdministrationRoutingModule } from './general-administration-routi
     ChipsModule,
     FroalaEditorModule.forRoot(), 
     FroalaViewModule.forRoot(),
-    IndexAdministrationRoutingModule
+    GeneralAdministrationRoutingModule
   ],
-  declarations: [AuthorListComponent, AuthorFormComponent]
+  declarations: [CustomBlockListComponent, CustomBlockFormComponent, GeneralAdministrationComponent]
 })
 export class GeneralAdministrationModule { }

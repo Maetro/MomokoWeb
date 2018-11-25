@@ -10,6 +10,7 @@ import { LibrosHorizontalComponent } from './libros-horizontal/libros-horizontal
 import { VideosHorizontalComponent } from './videos-horizontal/videos-horizontal.component';
 import { YoutubeService } from '../../services/youtube.service';
 import { IndexHeaderComponent } from './index-header/index-header.component';
+import { CustomBlockIndexDirective } from './custom-block-index/custom-block-index.directive';
 
 @NgModule({
   imports: [
@@ -30,8 +31,10 @@ import { IndexHeaderComponent } from './index-header/index-header.component';
     Fila3entradasfondonegroComponent,
     LibrosHorizontalComponent,
     VideosHorizontalComponent,
-    IndexHeaderComponent
+    IndexHeaderComponent,
+    CustomBlockIndexDirective
   ],
-  providers: [YoutubeService, ObtenerIndexDataResolverService, IndexDataService]
+  providers: [YoutubeService, ObtenerIndexDataResolverService, IndexDataService],
+  entryComponents: []
 })
 export class IndexModule {}

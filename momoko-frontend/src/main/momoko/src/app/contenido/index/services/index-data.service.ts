@@ -6,12 +6,17 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { IndexDataResponse } from '../dtos/indexDataResponse';
 
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { CustomBlock } from 'app/contenido/comunes/common-dtos/custom-block';
+import { Cookie } from 'ng2-cookies';
+import { Author } from 'app/dtos/autor';
 
 @Injectable()
 export class IndexDataService {
+  
 
   private log = environment.log;
+  private serverUrl = environment.serverUrl;
 
   private indexDataUrl = environment.indexDataUrl;
 
@@ -33,6 +38,19 @@ export class IndexDataService {
 
   private extractIndexData(res: IndexDataResponse) {
     return res;
+  }
+
+  getCustomBlockIndex(): Observable<CustomBlock> {
+
+      if (this.log) {
+        console.log('Obteniendo Autor');
+      }
+      const headers = new HttpHeaders({
+        'Content-type': 'application/json'
+      });
+      return this.http
+        .get<CustomBlock>(this.serverUrl + "public/customblock/INDEX/", { headers: headers });
+    
   }
 
 }

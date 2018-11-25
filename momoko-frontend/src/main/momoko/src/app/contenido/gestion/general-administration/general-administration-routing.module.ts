@@ -1,37 +1,42 @@
-import { NgModule } from "@angular/core";
-import { RouterModule } from "@angular/router";
-import { AuthorFormComponent } from "./author-form/author-form.component";
-import { AuthorListComponent } from "./author-list/author-list.component";
-import { AuthorListResolverService } from "./resolvers/author-list-resolver.service";
-import { EditAuthorResolverService } from "./resolvers/edit-author-resolver.service";
-import { NewAuthorResolverService } from "./resolvers/new-author-resolver.service";
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { CustomBlockFormComponent } from './custom-block-form/custom-block-form.component';
+import { CustomBlockListComponent } from './custom-block-list/custom-block-list.component';
+import { CustomBlockListResolverService } from './resolvers/custom-block-list-resolver.service';
+import { EditCustomBlockResolverService } from './resolvers/edit-custom-block-resolver.service';
+import { NewCustomBlockResolverService } from './resolvers/new-custom-block-resolver.service';
+import { GeneralAdministrationComponent } from './general-administration/general-administration.component';
 
-const indexAdministrationRoutes = [
-    {
-      path: '',
-      component: AuthorListComponent,
-      pathMatch: 'full',
-      resolve: { roles: AuthorListResolverService }
-    },
-    {
-      path: 'nuevo',
-      component: AuthorFormComponent,
-      pathMatch: 'full',
-      resolve: { data: NewAuthorResolverService }
-    },
-    {
-      path: 'editar/:url',
-      component: AuthorFormComponent,
-      pathMatch: 'full',
-      resolve: { author: EditAuthorResolverService }
-    },
-  ];
-  
-  @NgModule({
-    imports: [RouterModule.forChild(indexAdministrationRoutes)],
-    exports: [RouterModule]
-  })
-  export class IndexAdministrationRoutingModule {
-    constructor() {
-    }
+const generalAdministrationRoutes = [
+  {
+    path: '',
+    component: GeneralAdministrationComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: 'customblock',
+    component: CustomBlockListComponent,
+    pathMatch: 'full',
+    resolve: { data: CustomBlockListResolverService }
+  },
+  {
+    path: 'customblock/nuevo',
+    component: CustomBlockFormComponent,
+    pathMatch: 'full',
+    resolve: { data: NewCustomBlockResolverService }
+  },
+  {
+    path: 'customblock/editar/:id',
+    component: CustomBlockFormComponent,
+    pathMatch: 'full',
+    resolve: { data: EditCustomBlockResolverService }
   }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(generalAdministrationRoutes)],
+  exports: [RouterModule]
+})
+export class GeneralAdministrationRoutingModule {
+  constructor() {}
+}

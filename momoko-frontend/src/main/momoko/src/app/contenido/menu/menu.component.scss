@@ -1,0 +1,104 @@
+.leftSocialIcons {
+  position: fixed;
+  top: 25px;
+  left: 80px;
+  z-index: 1010;
+  padding: 25px 10px;
+  background-color: #f2f3f5;
+  transition: all 0.5s ease 0s;
+  &.scrolled{
+    top: 10px;
+    padding: 10px;
+  }
+}
+
+.main-menu-header {
+    .dropdown-menu {
+      display: block;
+      max-height: 0;
+      transition: max-height 0.60s ease-out;
+      opacity: 0;
+      overflow: hidden;
+    }
+    &:hover .dropdown-menu {
+      visibility: visible;
+      max-height: 1000px;
+      opacity: 1;
+      display: block;
+    }
+  }
+  
+  .navbar-nav {
+    .dropdown-menu > li > a {
+      white-space: nowrap;
+    }
+    &:not(.sm-collapsible) ul {
+      margin-top: 0px;
+    }
+  }
+  
+  .navbar {
+    position: fixed;
+    padding-top: 30px;
+    transition: all 0.5s ease 0s;
+
+    .navbar-collapse {
+      margin-top: 30px;
+      transition: all 0.5s ease 0s;
+
+    }
+
+    .prefixedWidth{
+      width: 286px;
+      text-align: center;
+      .momokoLogo {
+        transition: all 0.25s ease 0s;
+        margin: auto;
+        width: 286px;
+        margin-top: -15px;
+        img {
+          max-width: 100%;
+        }
+      }
+    }
+
+    &.scrolled{
+      padding-top: 0px;
+      .prefixedWidth .momokoLogo{
+        width: 175px;
+        margin-top: 0px;
+        
+      }
+
+      .navbar-collapse {
+        margin-top: 0px;        
+      }
+    }
+    .navbar-nav>li>a {
+      font-size: 16px;
+  }
+
+
+
+  }
+  
+  .menuDesktop {
+    display: block;
+    background-color: white;
+  }
+  
+  @media (max-width: 1280px) {
+    .menuDesktop {
+      display: none;
+    }
+  }
+  
+  .empty170 {
+    height: 170px;    
+  }
+  
+  ul.nav.navbar-nav {
+    background: white;
+  }
+  
+  

@@ -1,0 +1,99 @@
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <button type="button" (click)="volver()" class="btn btn-outline-primary">Volver</button>
+            </div>
+        </div>
+    </div>
+    <div class="form-container">
+        <form (ngSubmit)="onSubmit()" [formGroup]="customBlockForm">
+            <div class="form-group">
+                <label for="type"><b>Tipo </b></label>
+                <select formControlName="type" id="type" name="type" class="size-xl">
+                    <option value="">Selecciona tipo</option>
+                    <option *ngFor="let type of types" [ngValue]="type">
+                        {{type.label }}
+                    </option>
+                </select>
+            </div>
+            <ng-container *ngIf="customBlockF.type && customBlockF.type.value">
+                <div class="form-group">
+                    <label for="template"><b>Plantilla </b></label>
+                    <select formControlName="template" id="template" name="template" class="size-xl" (change)="onChangeTemplate($event.target.value)">
+                        <option value="">Selecciona platilla</option>
+                        <option *ngFor="let template of templates" [ngValue]="template">
+                            {{template.label }}
+                        </option>
+                    </select>
+                </div>
+                <ng-container *ngIf="customBlockF.template && customBlockF.template.value">
+
+                    <div class="form-group">
+                        <label for="link"><b>Link</b></label>
+                        <input type="text" formControlName="link" id="link" class="form-control" [placeholder]="'Enlace del contenido (Opcional)'" />
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="active"><b>Activo</b></label>
+                            <input class="form-check-input" formControlName="active" type="checkbox" id="active" name="active">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="form-check form-check-inline">
+                            <label class="form-check-label" for="isCode"><b>Ejecutable</b></label>
+                            <input class="form-check-input" formControlName="isCode" type="checkbox" id="isCode" name="isCode">
+                        </div>
+                    </div>
+
+
+                    <div class="form-field">
+                        <label for="template"><b>Imagen de central del bloque </b></label>
+                        <img *ngIf="customBlockF.customBlockMainImage && customBlockF.customBlockMainImage.value" src="{{customBlockF.customBlockMainImage.value}}"
+                            alt="Cabecera bloque" />
+                        <p-fileUpload name="cabeceraFile[]" customUpload="true" accept="image/*" (uploadHandler)="fileChangeCabecera($event)"
+                            chooseLabel="Subir imagen" auto="auto" maxFileSize="1000000">
+
+                            <ng-template pTemplate="content">
+                                <div>Arrastra aquí la imagen que quieras subir.</div>
+                            </ng-template>
+                        </p-fileUpload>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="content"><b>Contenido</b></label>
+                        <textarea [froalaEditor] formControlName="content" [(froalaModel)]="customBlock.content"></textarea>
+                    </div>
+
+                    <div class="form-group" formArrayName="links" *ngFor="let link of links.controls; let i = index; ">
+                        <label for="links"><b>Link asociado {{i +1}}</b></label>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <p-dropdown [options]="booksAndEntriesSelectable" [formControlName]="i" [filter]="true"
+                                    filterBy="label" [style]="{'width':'400px'}"></p-dropdown>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-xs-12">
+                            {{getValue()}}
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary save-button" (click)="onSubmit()">
+                        Guardar
+                    </button>
+                </ng-container>
+            </ng-container>
+            <button type="button" class="btn btn-secondary" routerLink="/admin/roles">
+                Volver
+            </button>
+
+        </form>
+
+
+    </div>
+</div>

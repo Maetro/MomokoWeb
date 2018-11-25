@@ -352,6 +352,7 @@ public class EntradaServiceImpl implements EntradaService {
                                     puntuacion.getValor());
                             entradaDTO.setJsonLD(jsonLD);
                         }
+                        MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
                     }
 
                 }

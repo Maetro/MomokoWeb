@@ -18,6 +18,9 @@ import { NotaCircularPequenaComponent } from './nota-circular-pequena/nota-circu
 import { CheckboxModule } from 'primeng/checkbox';
 import { JoinUsModule } from './join-us/join-us.module';
 import { RelatedPostsComponent } from './related-posts/related-posts.component';
+import { CustomBlockComponent } from './custom-block/custom-block.component';
+import { FourLinksWithContentComponent } from './custom-block/templates/four-links-with-content/four-links-with-content.component';
+import { BookDataComponent } from './book-data/book-data.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, CheckboxModule, FormsModule],
@@ -35,6 +38,9 @@ import { RelatedPostsComponent } from './related-posts/related-posts.component';
     EntradasSidebarComponent,
     MobileSidebarComponent,
     RelatedPostsComponent,
+    CustomBlockComponent,
+    FourLinksWithContentComponent,
+    BookDataComponent,
     TruncatePipe
   ],
   exports: [
@@ -48,7 +54,10 @@ import { RelatedPostsComponent } from './related-posts/related-posts.component';
     MenuInternoSagaComponent,
     MobileSidebarComponent,
     RelatedPostsComponent,
+    CustomBlockComponent,
+    BookDataComponent,
     TruncatePipe
-  ]
+  ],
+  entryComponents: [CustomBlockComponent]
 })
 export class ComunesModule {}

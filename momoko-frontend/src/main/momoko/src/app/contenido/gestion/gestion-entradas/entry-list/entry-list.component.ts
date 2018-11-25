@@ -54,7 +54,6 @@ import { EntradaSimple } from "../../../../dtos/entradaSimple";
       if (this.log) {
         console.log('ngOnInit Lista getBooks');
       }
-      this.loading = true;
       this.entryService.getEntries().subscribe(entries => {
         const entryList = entries;
         entryList.forEach(entry => {

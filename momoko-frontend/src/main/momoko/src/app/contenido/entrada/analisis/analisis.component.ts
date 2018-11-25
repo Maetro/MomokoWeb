@@ -13,7 +13,7 @@ declare var $: any;
 @Component({
   selector: 'app-analisis',
   templateUrl: './analisis.component.html',
-  styleUrls: ['./analisis.component.css']
+  styleUrls: ['./analisis.component.scss']
 })
 export class AnalisisComponent implements OnInit, AfterViewInit {
   private log = environment.log;

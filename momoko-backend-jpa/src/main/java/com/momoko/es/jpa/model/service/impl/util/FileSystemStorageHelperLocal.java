@@ -101,33 +101,53 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
     }
 
     @Override
-    public String getThumbnail(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer width,
-            final Integer height, final boolean recortar) throws IOException {
+    public String getThumbnail(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer destinationWidth,
+            final Integer destinationHeight, final boolean recortar) throws IOException {
         String miniatura = "";
         final String[] trozos = fileNameOriginal.split("\\.")[0].split("/");
         String fileName = trozos[trozos.length - 1];
-        final String fileNameNuevo = fileName + "_thumbnail_" + (recortar ? "1_" : "") + width + "px_" + height + "px"
+        final String fileNameNuevo = fileName + "_thumbnail_" + (recortar ? "1_" : "") + destinationWidth + "px_" + destinationHeight + "px"
                 + ".jpg";
         fileName += "." + fileNameOriginal.split("\\.")[1];
         final Path locationMiniatura = getFileLocation(tipoAlmacenamiento).resolve(fileNameNuevo);
         final Path locationOriginal = getFileLocation(tipoAlmacenamiento).resolve(fileName);
         if (!Files.exists(locationMiniatura) && Files.exists(locationOriginal)) {
+            if (!recortar){
+                final InputStream imagenOriginalInputStream = Files.newInputStream(locationOriginal);
+                final BufferedImage originalImageBuffer = ImageIO.read(imagenOriginalInputStream);
+                int originalWidth = originalImageBuffer.getWidth();
+                int originalHeight = originalImageBuffer.getHeight();
+                final float sourceAspectRatio = (float) originalWidth / originalHeight;
+                final float destinationAspectRatio = (float) destinationWidth / destinationHeight;
+                Scalr.Mode resizeMode = null;
+                if ((originalWidth - destinationWidth) > (originalHeight - destinationHeight)){
+                    resizeMode = Scalr.Mode.FIT_TO_WIDTH;
+                } else {
+                    resizeMode = Scalr.Mode.FIT_TO_HEIGHT;
+                }
 
-            final InputStream imagenOriginalInputStream = Files.newInputStream(locationOriginal);
-            final BufferedImage imageToScale = ImageIO.read(imagenOriginalInputStream);
-            final float sourceAspectRatio = (float) imageToScale.getWidth() / imageToScale.getHeight();
-            final float destinationAspectRatio = (float) width / height;
-            final Scalr.Mode resizeMode = sourceAspectRatio > destinationAspectRatio ? Scalr.Mode.FIT_TO_HEIGHT
-                    : Scalr.Mode.FIT_TO_WIDTH;
+                BufferedImage scaledImg = Scalr.resize(originalImageBuffer, Method.ULTRA_QUALITY, resizeMode, destinationWidth, destinationHeight);
 
-            BufferedImage scaledImg = Scalr.resize(imageToScale, Method.ULTRA_QUALITY, resizeMode, width, height);
 
-            if (recortar && ((scaledImg.getWidth() - width) >= 0) && ((scaledImg.getHeight() - height) >= 0)) {
-                scaledImg = Scalr.crop(scaledImg, (scaledImg.getWidth() - width) / 2,
-                        (scaledImg.getHeight() - height) / 2, width, height);
+                final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
+                ImageIO.write(scaledImg, "jpg", newName);
+            } else {
+                final InputStream imagenOriginalInputStream = Files.newInputStream(locationOriginal);
+                final BufferedImage imageToScale = ImageIO.read(imagenOriginalInputStream);
+                final float sourceAspectRatio = (float) imageToScale.getWidth() / imageToScale.getHeight();
+                final float destinationAspectRatio = (float) destinationWidth / destinationHeight;
+                final Scalr.Mode resizeMode = sourceAspectRatio > destinationAspectRatio ? Scalr.Mode.FIT_TO_HEIGHT
+                        : Scalr.Mode.FIT_TO_WIDTH;
+
+                BufferedImage scaledImg = Scalr.resize(imageToScale, Method.ULTRA_QUALITY, resizeMode, destinationWidth, destinationHeight);
+                if (recortar && ((scaledImg.getWidth() - destinationWidth) >= 0) && ((scaledImg.getHeight() - destinationHeight) >= 0)) {
+
+                    scaledImg = Scalr.crop(scaledImg, (scaledImg.getWidth() - destinationWidth) / 2,
+                            (scaledImg.getHeight() - destinationHeight) / 2, destinationWidth, destinationHeight);
+                }
+                final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
+                ImageIO.write(scaledImg, "jpg", newName);
             }
-            final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
-            ImageIO.write(scaledImg, "jpg", newName);
         }
         miniatura = this.momokoConfiguracion.getDirectorios().getRemote().getUrlImages() + tipoAlmacenamiento + "/"
                 + fileNameNuevo;

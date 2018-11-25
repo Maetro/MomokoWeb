@@ -1,0 +1,86 @@
+<div class="light-wrapper">
+    <div class="container inner">
+        <div class="row">
+            <div class="col-xs-12 align-center marginBottom50">
+                <h2 class="sectionTitle"> LA SELECCIÓN DE MOMOKO</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2">
+                <ng-container *ngFor="let link of customBlock.links; let i = index;">
+                    <div *ngIf="link.libro && i < 2">
+                        <a routerLink="/libro/{{link.libro.urlLibro}}" routerLinkActive="router-link-active">
+                            <div class="linkImage align-center"><img src="{{link.libro.portada}}"/></div>
+                        </a>
+                        <div class="indexCustomBlockDataBlock">
+                            Libro
+                        </div>
+                        <div class="indexCustomBlockTitle">
+                            <a routerLink="/libro/{{link.libro.urlLibro}}">
+                                <h3 class="entryTitle"> {{link.libro.titulo}} </h3>
+                            </a>
+                        </div>
+            
+                    </div>
+                    <div *ngIf="link.entrada && i < 2">
+                        <a routerLink="/libro/{{link.entrada.urlLibro}}" routerLinkActive="router-link-active">
+                            <div class="linkImage align-center"><img src="{{link.entrada.imagenEntrada}}"/></div>
+                        </a>
+                        <div class="indexCustomBlockDataBlock">
+                            {{link.entrada.tipoEntrada}}
+                        </div>
+                        <div class="indexCustomBlockTitle">
+                            <a routerLink="/{{link.entrada.bloque}}/{{link.entrada.urlEntrada}}">
+                                <h3 class="entryTitle"> {{link.entrada.tituloEntrada}} </h3>
+                            </a>
+                        </div>
+                        <div class="linkTitle"><h4></h4></div>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="col-sm-8">
+                <div class="indexCustomBlockImageContainer" *ngIf="customBlock.customBlockMainImage">
+                    <a *ngIf="customBlock.link" routerLink="{{customBlock.link}}">
+                        <img src="{{customBlock.customBlockMainImage}}" alt="Imagen Destacada - Contenido destacado">
+                    </a>
+                    <ng-container *ngIf="!customBlock.link">
+                        <img src="{{customBlock.customBlockMainImage}}" alt="Imagen Destacada - Contenido destacado">
+                    </ng-container>
+                </div>
+                <div class="customBlockContent" [innerHTML]="customBlock.content"> </div>
+            </div>
+            <div class="col-sm-2">
+                <ng-container *ngFor="let link of customBlock.links; let i = index;">
+                    <div *ngIf="link.libro && i >= 2">
+                        <a routerLink="/libro/{{link.libro.urlLibro}}" routerLinkActive="router-link-active">
+                            <div class="linkImage align-center"><img src="{{link.libro.portada}}"/></div>
+                        </a>
+                        <div class="indexCustomBlockDataBlock">
+                            Libro
+                        </div>
+                        <div class="indexCustomBlockTitle">
+                            <a routerLink="/libro/{{link.libro.urlLibro}}">
+                                <h3 class="entryTitle"> {{link.libro.titulo}} </h3>
+                            </a>
+                        </div>
+            
+                    </div>
+                    <div *ngIf="link.entrada && i >= 2">
+                        <a routerLink="/libro/{{link.entrada.urlLibro}}" routerLinkActive="router-link-active">
+                            <div class="linkImage align-center"><img src="{{link.entrada.imagenEntrada}}"/></div>
+                        </a>
+                        <div class="indexCustomBlockDataBlock">
+                            {{link.entrada.tipoEntrada}}
+                        </div>
+                        <div class="indexCustomBlockTitle">
+                            <a routerLink="/{{link.entrada.bloque}}/{{link.entrada.urlEntrada}}">
+                                <h3 class="entryTitle"> {{link.entrada.tituloEntrada}} </h3>
+                            </a>
+                        </div>
+                        <div class="linkTitle"><h4></h4></div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>

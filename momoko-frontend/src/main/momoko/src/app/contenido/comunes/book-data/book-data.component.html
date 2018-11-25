@@ -1,0 +1,48 @@
+<div class="light-wrapper bloqueInfoLibro defineBorder">
+    <div class="bookDataTitle">
+        LIBRO
+    </div>
+
+    <div class="bookDataImageContainer">
+        <div class="bloqueNota">
+            <app-nota-circular [nota]="book.notaMomoko"></app-nota-circular>
+        </div>
+        <img src="{{book.urlImagen}}" alt="Portada libro - {{book.titulo}}">
+    </div>
+    <div class="bloqueDatos">
+        <div class="datos titulo" *ngIf="book.titulo">
+            <b><span class="titleBook">{{book.titulo}}</span></b>
+        </div>
+        <div class="datos extra" *ngIf="book.autores">
+            <ng-container *ngFor="let author of book.autores; let last = last;">
+                <a *ngIf="author.description" routerLink="/autor/{{author.authorUrl}}"><span class="info">{{author.name}}</span><span
+                        *ngIf="!last">, </span></a>
+                <ng-container *ngIf="!author.description"><span class="info">{{author.name}}</span><span *ngIf="!last">,
+                    </span></ng-container>
+            </ng-container>
+            <span class="dot"></span>
+            <ng-container *ngFor="let genero of book.generos; let last = last;">
+                <a *ngIf="genero.nombre" routerLink="/genero/{{genero.urlGenero}}"><span class="info">{{genero.nombre}}</span><span
+                        *ngIf="!last">, </span></a>
+            </ng-container>
+            <span class="dot"></span>
+            <a routerLink="/editorial/{{book.editorial.urlEditorial}}">{{book.editorial.nombreEditorial}}</a>
+        </div>
+        <div class="datos resumen">
+            <div class="row">
+                <div class="cos-xs-12">
+                        {{book.resumen}}
+                </div>
+            </div>
+                
+        </div>
+    </div>
+    <div class="bloqueBotones align-center" *ngIf="book.enlaceAmazon">
+        <div class="col-md-12">
+            <a class="amazon" href="{{book.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
+                <img src="https://www.momoko.es/images/fijas/amazon-badge.png" alt="Amazon"
+                    title="Amazon">
+            </a>
+        </div>
+    </div>
+</div>

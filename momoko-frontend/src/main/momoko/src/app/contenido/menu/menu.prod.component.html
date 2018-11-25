@@ -1,86 +1,145 @@
 <app-join-us></app-join-us>
-<nav class="navbar navbar-default navbar-fixed-top menuDesktop">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <div class="header-left">
-          <ul class="social">
-            <li> 
-              <a href="https://www.facebook.com/Momoko.blog/" target="_blank">
-                <i class="ion-social-facebook"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://twitter.com/momoko_blog" target="_blank">
-                <i class="ion-social-twitter"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://www.instagram.com/momoko_blog/" target="_blank">
-                <i class="ion-social-instagram"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://www.youtube.com/momoko_blog" target="_blank">
-                <i class="ion-social-youtube"></i>
-              </a>
-            </li>
-            <li>
-              <a href="https://www.pinterest.es/momoko_blog/" target="_blank">
-                <i class="ion-social-pinterest"></i>
-              </a>
-            </li>
-  
-  
-  
-          </ul>
+<div class="row">
+  <div class="empty170"></div>
+</div>
+
+<div class="leftSocialIcons" [class.scrolled]="scrolled">
+  <div class="header-left">
+    <ul class="social">
+      <li>
+        <a href="https://www.facebook.com/Momoko.blog/" target="_blank">
+          <i class="ion-social-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://twitter.com/momoko_blog" target="_blank">
+          <i class="ion-social-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.instagram.com/momoko_blog/" target="_blank">
+          <i class="ion-social-instagram"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.youtube.com/momoko_blog" target="_blank">
+          <i class="ion-social-youtube"></i>
+        </a>
+      </li>
+      <li>
+        <a href="https://www.pinterest.es/momoko_blog/" target="_blank">
+          <i class="ion-social-pinterest"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-top menuDesktop" [class.scrolled]="scrolled">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <!-- /.header-left -->
+      <div class="header-right">
+
+        <div class="search-form">
+          <form action="#">
+            <fieldset>
+              <input id="search" [(ngModel)]="busqueda" (keyup.enter)="buscarResultados()" name="busqueda" placeholder="Buscar" />
+            </fieldset>
+          </form>
         </div>
-        <!-- /.header-left -->
-        <div class="header-right">
-  
-          <div class="search-form">
-            <form action="#">
-              <fieldset>
-                <input id="search" [(ngModel)]="busqueda" (keyup.enter)="buscarResultados()" name="busqueda" placeholder="Buscar" />
-              </fieldset>
-            </form>
-          </div>
-        </div>
-        <!-- /.header-right -->
-        <div class="nav-bars-wrapper">
-          <div class="nav-bars-inner">
-            <div class="nav-bars" data-toggle="collapse" data-target=".navbar-collapse">
-              <span></span>
-            </div>
-          </div>
-          <!-- /.nav-bars-inner -->
-        </div>
-        <!-- /.nav-bars-wrapper -->
       </div>
-      <div class="nav-wrapper">
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li class="main-menu-header" *ngFor="let menuPart of menu">
+      <!-- /.header-right -->
+      <div class="nav-bars-wrapper">
+        <div class="nav-bars-inner">
+          <div class="nav-bars" data-toggle="collapse" data-target=".navbar-collapse">
+            <span></span>
+          </div>
+        </div>
+        <!-- /.nav-bars-inner -->
+      </div>
+      <!-- /.nav-bars-wrapper -->
+    </div>
+    <div class="nav-wrapper">
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <ng-container *ngFor="let menuPart of menu; let i = index">
+            <li class="main-menu-header">
               <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
                 <b>{{menuPart.nombre}}</b>
                 <span class="caret"></span>
               </a>
-  
+
               <ul class="dropdown-menu double" [ngClass]="{'double': menuPart.generos.length > 8}" *ngIf="menuPart.generos.length">
+
                 <li *ngFor="let genero of menuPart.generos">
                   <a routerLink="/genero/{{genero.urlGenero}}" routerLinkActive="active">
-                    <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" /> {{genero.nombre}} </a>
+                    <img class="iconosmenu" src="{{genero.iconoGenero}}" alt="Icono menu para {{genero.nombre}}" />
+                    {{genero.nombre}} </a>
                 </li>
+
               </ul>
-  
+
             </li>
-            <li>
-              <a class="btnColaborar" (click)="openJoinUsModal()"> COLABORA </a>
-            </li>
-                       
-          </ul>
-        </div>
-        <!--/.nav-collapse -->
+            <li *ngIf="i === 2">
+                <div class="prefixedWidth">
+                <div class="momokoLogo">
+                  <a routerLink="/">
+                    <img src="https://momoko.es/images/logo_momoko.png" alt="Logotipo de momoko.es" />
+                  </a>
+                </div>
+               </div>
+              </li>
+          </ng-container>
+          <li class="main-menu-header">
+            <a routerLink="/categoria/miscelaneos" routerLinkActive="active">
+              <b>Misceláneos</b>
+              <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu double">
+              <li>
+                <a routerLink="/categoria/miscelaneos" routerLinkActive="active">
+                  <img class="iconosmenu" src="" alt="Icono menu para vídeos" />
+                  Misceláneos </a>
+              </li>
+              <li>
+                <a routerLink="/categoria/videos" routerLinkActive="active">
+                  <img class="iconosmenu" src="" alt="Icono menu para vídeos" />
+                  Vídeos </a>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <a (click)="openJoinUsModal()"> Colabora </a>
+          </li>
+          <!-- <li>
+            <a routerLink="/auth/login" routerLinkActive="active" *ngIf="isLoggedIn === false">Login</a>
+          </li>-->
+          <!-- <li><a routerLink="/auth/editprofile" routerLinkActive="active"  *ngIf="isLoggedIn === true">My Profile</a></li> -->
+          <!-- <li><a routerLink="/auth/logout" routerLinkActive="active" *ngIf="isLoggedIn === true"  (click)="onLogout()">Logout</a></li> -->
+
+          <!--<li class="main-menu-header" *ngIf="isLoggedIn === true">
+            <a routerLink="/gestion" routerLinkActive="active">Administrar</a>
+            <ul class="dropdown-menu double">
+              <li>
+                <a routerLink="/gestion/lista-entradas" routerLinkActive="active">Entradas</a>
+                <a routerLink="/gestion/lista-libros" routerLinkActive="active">Libros</a>
+                <a routerLink="/gestion/lista-sagas" routerLinkActive="active">Sagas</a>
+                <a routerLink="/gestion/lista-generos" routerLinkActive="active">Géneros</a>
+                <a routerLink="/gestion/lista-galerias" routerLinkActive="active">Galerias</a>
+                <a routerLink="/gestion/autores" routerLinkActive="active">Autores</a>
+                <a routerLink="/gestion/lista-redactores" routerLinkActive="active">Redactores</a>
+                <a routerLink="/gestion/lista-editoriales" routerLinkActive="active">Editoriales</a>
+                <a routerLink="/gestion/lista-filtros" routerLinkActive="active">Filtros</a>
+                <a routerLink="/gestion/gestor-urls" routerLinkActive="active">Herramientas</a>
+                <a (click)="onLogout()">Desconectarse</a>
+              </li>
+            </ul>
+          </li>-->
+        </ul>
       </div>
+      <!--/.nav-collapse -->
     </div>
-  </nav>
-  <!-- /.navbar -->
+  </div>
+</nav>
+<!-- /.navbar -->

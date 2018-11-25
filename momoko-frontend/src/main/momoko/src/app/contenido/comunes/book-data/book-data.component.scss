@@ -1,0 +1,74 @@
+.defineBorder {
+    border: 2px solid gainsboro;
+}
+
+
+
+.bookDataTitle {
+    text-align: center;
+    margin: 30px 145px 20px;
+    border-bottom: 1px solid black;
+}
+
+.bookDataImageContainer {
+    width: 60%;
+    margin: 0% 20%;
+}
+
+.bloqueNota {
+    position: absolute;
+    right: 40px;
+    top: 20px;
+}
+
+.titleBook {
+    font-family: strawberry-blossom;
+    font-size: 52px;
+    font-weight: 400;
+}
+
+.datos.titulo {
+    text-align: center;
+    color: black;
+    margin: 25px 0px 10px;
+}
+
+.datos.extra {
+    text-align: center;
+    color: rgb(37, 37, 37);
+
+}
+
+.dot {
+    height: 4px;
+    width: 4px;
+    margin: 2px 10px;
+    background-color: #252525;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+a {
+    color: black;
+}
+
+.bloqueBotones {
+    display: grid;
+}
+
+.datos.resumen {
+    text-align: center;
+    width: 80%;
+    margin: 10%;
+    font-size: 13px;
+}
+
+.amazon {
+
+    img {
+        max-width: 110px;
+        margin: 10px;
+    }
+
+    text-align: right;
+}
