@@ -1,0 +1,9 @@
+<div class="col-sm-4">
+    <app-book-data [book]="entrada.librosEntrada[0]"></app-book-data>
+</div>
+<ng-container *ngIf="!entrada.tieneGaleria">
+    <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
+</ng-container>
+<div class="row">
+    <app-mobile-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-mobile-sidebar>
+</div>

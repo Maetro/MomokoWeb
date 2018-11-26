@@ -2,84 +2,23 @@
 <!-- <app-menu-interno-libro [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-libro>-->
 <div class="light-wrapper">
   <div class="container marginBottom50">
-    <div class="blog row">
-      <div class="col-md-12 align-center">
-        <div class="categoryTitle">Reseña</div>
-        <div class="tituloEntrada">
-          <h1>{{entrada.tituloEntrada}}</h1>
-        </div>
-        <div class="infoEntrada">
-          Análisis de
-          <span class="autorEntrada">
-            <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
-          </span>
-          <span class="generosText">Género
-            <span *ngFor="let genero of entrada.librosEntrada[0].generos, let last = last;">
-              <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
-              <span [hidden]="last">, </span>
-            </span>
-          </span>
-          <span class="editorialText">Editorial
-            <span class="autorEntrada">
-              <a routerLink="/editorial/{{entrada.librosEntrada[0].editorial.urlEditorial}}">{{entrada.librosEntrada[0].editorial.nombreEditorial}}</a>
-            </span>
-          </span>
-        </div>
-      </div>
-    </div>
-
+    
+    <entry-header [entry]="entrada" [book]="entrada.librosEntrada[0]"> </entry-header>
     <div class="row">
       <div class="contenidoEntrada">
         <div [ngClass]="(entrada.tieneGaleria)?'col-md-12':'col-md-8'">
 
-          <img src="{{entrada.imagenDestacada}}" alt="Imágen destacada - {{entrada.tituloEntrada}}" title="Imágen destacada - {{entrada.tituloEntrada}}" />
-
-          <div class="cuerpo">
-            <div [innerHTML]="content | sanitizeHtml"></div>
-            <ng-container *ngFor="let bookTemp of bookTemplates; let i = index">
-              <app-book-template [bookTemp]="bookTemp"></app-book-template>
-            </ng-container>
-
-
-          </div>
-          <div class="infoEntrada">
-
-            <span class="lineaHorizontalCorta"></span>
-            <span class="etiquetasText">Etiquetas
-              <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
-                <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
-                <span [hidden]="last">, </span>
-              </span>
-            </span>
-          </div>
+          <entry-content [entry]="entrada"> </entry-content>
         </div>
 
-        <div class="col-sm-4">
-          <app-book-data [book]="entrada.librosEntrada[0]"></app-book-data>
-
-        </div>
-        <ng-container *ngIf="!entrada.tieneGaleria">
-          <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
-        </ng-container>
-        <div class="row">
-          <app-mobile-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-mobile-sidebar>
-        </div>
+        <entry-sidebar [entry]="entrada"> </entry-sidebar>
         <div class="col-sm-12">
-          <hr />
-          <div class="row">
-            <div class="col-sm-12">
-              <h2 class="section-title"> Análisis de </h2>
-              <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
-            </div>
-          </div>
-
-          <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
-          <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>
+          <entry-footer [entry]="entrada"> </entry-footer>
 
         </div>
       </div>
 
     </div>
 
-  </div>
+  </entry-header>
 </div>

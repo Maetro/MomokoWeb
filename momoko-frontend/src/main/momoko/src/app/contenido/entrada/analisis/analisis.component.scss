@@ -8,11 +8,7 @@
     color: gray;
   }
 
-  .tituloEntrada h1{
-    font-size: 42px;
-    line-height: 50px;
-    margin: 30px 0 20px;
-  }
+
 }
 
 .bloqueInfoLibro {
@@ -44,17 +40,7 @@ span.info {
   }
 }
 
-.infoEntrada {
-  margin-bottom: 30px;
-}
 
-span {
-
-  &.generosText,
-  &.editorialText {
-    margin-left: 20px;
-  }
-}
 
 .sidebox .section-title {
   margin-top: 50px;
@@ -82,34 +68,6 @@ span {
   font-family: 'Vidaloka', serif;
   text-transform: none;
   color: #fff;
-}
-
-.amazon {
-  img {
-    width: 96px;
-    margin-top: -1px;
-    display: block;
-    float: left;
-    margin-left: 10px;
-  }
-
-  span {
-    display: block;
-    float: left;
-    margin-left: 10px;
-  }
-}
-
-.btnComprarAmazon {
-  background: #231f20;
-  padding: 8px 25px;
-  margin-right: 10px;
-  color: #fff;
-  border-radius: 6px;
-
-  &:hover {
-    background: #dbae27;
-  }
 }
 
 hr {
