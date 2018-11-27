@@ -218,7 +218,7 @@ public class EntradaServiceImpl implements EntradaService {
             respuesta.setCuatroPostPequenosConImagen(cuatroPostPequenosConImagen);
 
 
-            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getCreatedDate()));
+            respuesta.setEntradaAnteriorYSiguiente(obtenerEntradaAnteriorYSiguiente(entradaEntity.getEntradaId()));
             // Si es tipo video anadimos su URL
             if (entradaDTO.getEntryType().equals(EntryTypeEnum.VIDEO)) {
                 final VideoEntity videoEntity = this.videoRepository
@@ -621,12 +621,12 @@ public class EntradaServiceImpl implements EntradaService {
      * @param fechaAlta the fecha alta
      * @return the list
      */
-    private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente(final Date fechaAlta) {
+    private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente(final Integer entryId) {
         final List<EntradaEntity> entradaAnterior = this.entradaRepository
-                .findEntradaMiscelaneosAnteriorAFecha(fechaAlta, PageRequest.of(0, 1)).getContent();
+                .findEntradaMiscelaneosAnteriorAFecha(entryId, PageRequest.of(0, 1)).getContent();
 
         final List<EntradaEntity> entradaPosterior = this.entradaRepository
-                .findEntradaMiscelaneosPosteriorAFecha(fechaAlta, PageRequest.of(0, 1)).getContent();
+                .findEntradaMiscelaneosPosteriorAFecha(entryId, PageRequest.of(0, 1)).getContent();
 
         final List<EntradaEntity> listaEntities = new ArrayList<>();
         if (CollectionUtils.isNotEmpty(entradaAnterior)) {

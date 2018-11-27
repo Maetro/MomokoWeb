@@ -130,9 +130,6 @@ public class PublicFacade {
     @Autowired(required = false)
     private TrackService trackService;
 
-    @Autowired(required = false)
-    private PasswordEncoder passwordEncoder;
-
     @GetMapping(path = "/health")
     public @ResponseBody
     String getHealth() {
