@@ -1,14 +1,17 @@
 .leftSocialIcons {
   position: fixed;
   top: 25px;
-  left: 80px;
+  left: 2%;
   z-index: 1010;
-  padding: 25px 10px;
+  padding: 25px 0px 25px 10px;
   background-color: #f2f3f5;
   transition: all 0.5s ease 0s;
   &.scrolled{
     top: 10px;
     padding: 10px;
+  }
+  @media(max-width:1279px){
+    display:none;
   }
 }
 
@@ -76,6 +79,9 @@
     }
     .navbar-nav>li>a {
       font-size: 16px;
+      @media(max-width:1530px){
+        font-size: 13px;
+      }
   }
 
 
@@ -87,14 +93,17 @@
     background-color: white;
   }
   
-  @media (max-width: 1280px) {
+  @media (max-width: 1279px) {
     .menuDesktop {
       display: none;
     }
   }
   
   .empty170 {
-    height: 170px;    
+    height: 170px;  
+    @media (max-width: 1279px) {
+      height: 60px;
+    }  
   }
   
   ul.nav.navbar-nav {

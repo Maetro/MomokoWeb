@@ -1,10 +1,29 @@
+<hr>
+
+<div class="post-nav-wrapper">
+    <div class="post-nav prev" *ngIf="entradaAnteriorYSiguiente[0]">
+        <div class="meta">
+            <i class="ion-android-arrow-back"></i> Artículo anterior </div>
+        <h3 class="post-title">
+            <a routerLink="/{{entradaAnteriorYSiguiente[0].urlEntrada}}">{{entradaAnteriorYSiguiente[0].tituloEntrada}}</a>
+        </h3>
+    </div>
+    <div class="post-nav next" *ngIf="entradaAnteriorYSiguiente[1]">
+        <div class="meta">Artículo siguiente
+            <i class="ion-android-arrow-forward"></i>
+        </div>
+        <h3 class="post-title">
+            <a routerLink="/{{entradaAnteriorYSiguiente[1].urlEntrada}}">{{entradaAnteriorYSiguiente[1].tituloEntrada}}</a>
+        </h3>
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-sm-12">
         <h2 class="section-title"> Análisis de </h2>
-        <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
+        <app-redactor-info [redactor]="entry.redactor"></app-redactor-info>
     </div>
 </div>
 
-<app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
+<app-zona-comentarios [comentarios]="comentarios" [entrada]="entry"></app-zona-comentarios>
 <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>

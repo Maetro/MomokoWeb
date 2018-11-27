@@ -1,112 +1,27 @@
 <ngx-json-ld [json]="schema"></ngx-json-ld>
 <div class="light-wrapper">
+  <div class="container marginBottom50">
 
-  <div *ngIf="entrada.librosEntrada?.length > 0; else elseBlock" class="parallax page-title inverse-wrapper parallax2"
-    [ngStyle]="{background: 'url(' + entrada.librosEntrada[0].generos[0].imagenCabeceraGenero + ')'}">
-    <div class="container inner">
-      <div class="textoCabecera">
-        <span> {{entrada.tituloEntrada}} </span>
-      </div>
-    </div>
-  </div>
-  <ng-template #elseBlock>
-    <div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{'background-image': 'url(' + backgroundImage + ')'}">
-      <div class="container inner">
-        <div class="textoCabecera">
-          <span> {{entrada.tituloEntrada}} </span>
+    <app-entry-header [entry]="entrada" [book]="entrada.librosEntrada[0]" [type]="'Especial'" [subheaderAuthorIntro]="'Artículo de '">
+    </app-entry-header>
+    <div class="row">
+      <div class="contenidoEntrada">
+        <div class="col-md-8">
+
+          <app-entry-content [entry]="entrada"> </app-entry-content>
+        </div>
+
+        <app-entry-sidebar [entry]="entrada" [book]="entrada.librosEntrada[0]" [librosParecidos]="librosParecidos">
+        </app-entry-sidebar>
+        <div class="col-sm-12">
+          <app-entry-footer [entry]="entrada" [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"
+          [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente">
+          </app-entry-footer>
+
         </div>
       </div>
-      <!-- /.container -->
-    </div>
-  </ng-template>
-
-
-  <app-menu-interno-saga *ngIf="entrada.sagasEntrada?.length > 0" [saga]="saga" [datosEntrada]="entrada.datosEntrada"
-    [parentType]="entrada.urlMenuLibro"></app-menu-interno-saga>
-  <div class="container inner tp0">
-
-    <div class="divide60"></div>
-    <div class="blog row">
-      <div class="col-sm-8">
-        <div class="blog-content classic-view">
-          <div class="blog-posts">
-            <div class="post">
-              <div class="post-content">
-                <figure>
-                  <img src="{{entrada.imagenDestacada}}" alt="Imagen Destacada - {{entrada.tituloEntrada}} ">
-                </figure>
-                <div class="text-center">
-                  <span class="category">
-                    <em class="rose">
-                      <a href="#">{{entrada.urlMenuLibro}} </a>
-                    </em>
-                  </span>
-                </div>
-                <div class="tituloEntrada">
-                  <h1>{{entrada.tituloEntrada}}</h1>
-                </div>
-                <div class="meta text-center">
-                  <span class="date">{{entrada.fechaAlta | date:'dd MMM yyyy'}}</span>
-                  <span class="author">By
-                    <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
-                  </span>
-                  <span class="comments">
-                    <a href="#">{{entrada.numeroComentarios}} Comentarios</a>
-                  </span>
-                </div>
-
-                <div class="cuerpo">
-                  <div [innerHTML]="content | sanitizeHtml"></div>
-                  <ng-container *ngFor="let bookTemp of bookTemplates; let i = index">
-                    <app-book-template [bookTemp]="bookTemp"></app-book-template>
-                  </ng-container>
-
-
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>
-      <div class="col-sm-12">
-        <hr />
-        <div class="post-nav-wrapper">
-          <div class="post-nav prev" *ngIf="entradaAnteriorYSiguiente[0]">
-            <div class="meta">
-              <i class="ion-android-arrow-back"></i> Artículo anterior </div>
-            <h3 class="post-title">
-              <a routerLink="/{{entradaAnteriorYSiguiente[0].urlEntrada}}">{{entradaAnteriorYSiguiente[0].tituloEntrada}}</a>
-            </h3>
-          </div>
-          <div class="post-nav next" *ngIf="entradaAnteriorYSiguiente[1]">
-            <div class="meta">Artículo siguiente
-              <i class="ion-android-arrow-forward"></i>
-            </div>
-            <h3 class="post-title">
-              <a routerLink="/{{entradaAnteriorYSiguiente[1].urlEntrada}}">{{entradaAnteriorYSiguiente[1].tituloEntrada}}</a>
-            </h3>
-          </div>
-        </div>
-        <!-- /.post-nav -->
-        <hr />
-        <div class="row">
-          <div class="col-md-12">
-            <h2 class="section-title"> Redactor del artículo </h2>
-            <app-redactor-info [redactor]="entrada.redactor"></app-redactor-info>
-          </div>
-        </div>     
-        <app-zona-comentarios [comentarios]="comentarios" [entrada]="entrada"></app-zona-comentarios>
-        <app-related-posts [posts]="cuatroPostPequenosConImagen"></app-related-posts>
-        <hr />
-      </div>
-      <!-- /.post-content -->
 
     </div>
-    <!-- /.post -->
 
   </div>
-  <!-- /.blog-posts -->
-
 </div>

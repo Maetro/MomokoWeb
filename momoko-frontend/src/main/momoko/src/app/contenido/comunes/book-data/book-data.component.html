@@ -4,14 +4,14 @@
     </div>
 
     <div class="bookDataImageContainer">
-        <div class="bloqueNota">
+        <div class="bloqueNota" *ngIf="book.notaMomoko">
             <app-nota-circular [nota]="book.notaMomoko"></app-nota-circular>
         </div>
-        <img src="{{book.urlImagen}}" alt="Portada libro - {{book.titulo}}">
+        <a routerLink="/libro/{{book.urlLibro}}"><img src="{{book.urlImagen}}" alt="Portada libro - {{book.titulo}}"></a>
     </div>
     <div class="bloqueDatos">
         <div class="datos titulo" *ngIf="book.titulo">
-            <b><span class="titleBook">{{book.titulo}}</span></b>
+                <a routerLink="/libro/{{book.urlLibro}}"><b><span class="titleBook">{{book.titulo}}</span></b></a>
         </div>
         <div class="datos extra" *ngIf="book.autores">
             <ng-container *ngFor="let author of book.autores; let last = last;">
@@ -28,10 +28,11 @@
             <span class="dot"></span>
             <a routerLink="/editorial/{{book.editorial.urlEditorial}}">{{book.editorial.nombreEditorial}}</a>
         </div>
+        
         <div class="datos resumen">
             <div class="row">
                 <div class="cos-xs-12">
-                        {{book.resumen}}
+                        {{book.resumen | truncate : 400 : true }}
                 </div>
             </div>
                 
@@ -40,7 +41,7 @@
     <div class="bloqueBotones align-center" *ngIf="book.enlaceAmazon">
         <div class="col-md-12">
             <a class="amazon" href="{{book.enlaceAmazon}}" target="_blank" title="Compra  en Amazon">
-                <img src="https://www.momoko.es/images/fijas/amazon-badge.png" alt="Amazon"
+                <img src="https://www.momoko.es/images/fijas/amazon-badge2.png" alt="Amazon"
                     title="Amazon">
             </a>
         </div>

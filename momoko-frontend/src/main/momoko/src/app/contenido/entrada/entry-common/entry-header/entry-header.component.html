@@ -1,25 +1,24 @@
 <div class="blog row">
-    <div class="col-md-12 align-center">
-      <div class="categoryTitle">{{type}}</div>
-      <div class="tituloEntrada">
-        <h1>{{entrada.tituloEntrada}}</h1>
-      </div>
-      <div class="infoEntrada">
-        Análisis de
-        <span class="autorEntrada">
-          <a routerLink="/redactor/{{entrada.redactor.urlRedactor}}">{{entrada.redactor.nombre}}</a>
-        </span>
-        <span class="generosText">Género
-          <span *ngFor="let genero of libro.generos, let last = last;">
-            <a routerLink="/genero/{{genero.urlGenero}}">{{genero.nombre}}</a>
-            <span [hidden]="last">, </span>
-          </span>
-        </span>
-        <span class="editorialText">Editorial
-          <span class="autorEntrada">
-            <a routerLink="/editorial/{{libro.editorial.urlEditorial}}">{{libro.editorial.nombreEditorial}}</a>
-          </span>
-        </span>
-      </div>
+  <div class="col-md-12 align-center">
+    <div class="categoryTitle">{{type}}</div>
+    <div class="tituloEntrada">
+      <h1>{{entry.tituloEntrada}}</h1>
+    </div>
+    <div class="infoEntrada">
+      <span class="autorEntrada">
+        {{subheaderAuthorIntro}}
+        <a routerLink="/redactor/{{entry.redactor.urlRedactor}}">{{entry.redactor.nombre}}</a>
+      </span>
+      <span class="dot"></span>
+      <span class="entryDate">
+        {{entry.fechaAlta | date:'dd MMM yyyy'}}
+      </span>
+      <span class="dot"></span>
+      <span class="numberOfComments">
+        {{entry.numeroComentarios}} 
+        <span *ngIf="entry.numeroComentarios === 1"> Comentario </span>
+        <span *ngIf="entry.numeroComentarios !== 1"> Comentarios </span>
+      </span>
     </div>
   </div>
+</div>

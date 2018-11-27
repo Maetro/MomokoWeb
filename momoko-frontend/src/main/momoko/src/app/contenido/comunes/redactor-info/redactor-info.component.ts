@@ -1,6 +1,8 @@
-import { Redactor } from '../../../dtos/redactor';
+
 import { Component, OnInit, Input } from '@angular/core';
-import { environment } from '../../../../environments/environment';
+import { environment } from 'environments/environment';
+import { Redactor } from 'app/dtos/redactor';
+
 
 @Component({
   selector: 'app-redactor-info',

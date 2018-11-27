@@ -14,7 +14,7 @@ declare var $: any;
   templateUrl: './video.component.html',
   styleUrls: ['./video.component.css']
 })
-export class VideoComponent implements OnInit, AfterViewInit {
+export class VideoComponent implements OnInit {
 
   private log = environment.log;
 
@@ -28,9 +28,6 @@ export class VideoComponent implements OnInit, AfterViewInit {
 
   @Input() comentarios: Comentario[];
 
-  @ViewChild('book-template-angular')
-  bookTemplate: TemplateRef<any>;
-
   tituloSeccionLibros = 'Otros libros parecidos';
 
   backgroundImage = '/assets/style/images/art/parallax2.jpg';
@@ -38,12 +35,6 @@ export class VideoComponent implements OnInit, AfterViewInit {
   codigoVideo: string;
 
   safeURL: SafeUrl;
-
-  content: string;
-
-  htmlContent: string[];
-
-  bookTemplates: string[];
 
   constructor(private domSanitizationService: DomSanitizer, private titleService: Title, private metaService: Meta, @Inject(PLATFORM_ID) private platformId: Object) { }
 
@@ -68,62 +59,4 @@ export class VideoComponent implements OnInit, AfterViewInit {
     this.metaService.addTag({ name: 'og:video', content: url });
   }
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.log) {
-        console.log('Ejecutando JQuery');
-      }
-      $('.light-gallery').lightGallery({
-        thumbnail: false,
-        selector: '.lgitem',
-        animateThumb: true,
-        showThumbByDefault: false,
-        download: false,
-        autoplayControls: false,
-        zoom: false,
-        fullScreen: false,
-        thumbWidth: 100,
-        thumbContHeight: 80,
-        hash: false,
-        videoMaxWidth: '1000px'
-      });
-      setTimeout(() => this.crearCollage(), 2000);
-    }
-    const columna = document.getElementById('bookTemplate1')
-    const width = columna.offsetWidth;
-    const style = window.getComputedStyle(columna);
-    // tslint:disable-next-line:radix
-    const margin = parseInt(style.paddingLeft) + parseInt(style.paddingRight);
-    let anchura = width - margin;
-    console.log('anchura');
-    
-    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
-      let replaceCode = $($("app-book-template").get(cont-1)).html();
-      $($("app-book-template").get(cont-1)).html("");
-      $(".bookTemplate"+ cont).html(replaceCode);
-    }
-  }
-
-  crearCollage() {
-    $('.collage').attr('id', 'collage-large');
-    this.collage();
-    $('.collage .collage-image-wrapper').css('opacity', 0);
-    $('.overlay a').prepend('<span class="over"><span></span></span>');
-  }
-
-  collage() {
-    $('.collage')
-    .removeWhitespace()
-    .collagePlus({
-      fadeSpeed: 5000,
-      targetHeight: 400,
-      effect: 'effect-2',
-      direction: 'vertical',
-      allowPartialLastRow: true
-    });
-  };
-
-  youtubeURL() {
-
-  }
 }

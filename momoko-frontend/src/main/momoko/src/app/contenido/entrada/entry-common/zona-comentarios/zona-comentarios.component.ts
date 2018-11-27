@@ -1,12 +1,10 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { environment } from '../../../../environments/environment';
-import { Entrada } from '../../../dtos/entrada';
-import { Comentario } from '../../../dtos/comentario';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { environment } from '../../../../../environments/environment';
+import { Comentario } from '../../../../dtos/comentario';
+import { Entrada } from '../../../../dtos/entrada';
+import { ComentarioRequest } from '../../../../dtos/request/comentarioRequest';
+import { ComentariosService } from '../../../../services/comentarios.service';
 import { PlantillaComentarioComponent } from './plantilla-comentario/plantilla-comentario.component';
-import { ComentarioRequest } from '../../../dtos/request/comentarioRequest';
-import { ComentariosService } from '../../../services/comentarios.service';
-import { NgForm } from '@angular/forms';
-import { Message } from 'primeng/components/common/api';
 
 @Component({
   selector: 'app-zona-comentarios',

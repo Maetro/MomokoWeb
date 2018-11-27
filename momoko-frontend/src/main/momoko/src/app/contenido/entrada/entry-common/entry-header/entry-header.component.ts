@@ -11,9 +11,12 @@ import { Libro } from "app/dtos/libro";
 export class EntryHeaderComponent implements OnInit {
   
   @Input() entry: Entrada;
+
   @Input() book: Libro;
 
   @Input() type: string;
+
+  @Input() subheaderAuthorIntro: string;
 
   private log = environment.log;
 

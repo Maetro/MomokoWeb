@@ -1,4 +1,4 @@
-<img src="{{entrada.imagenDestacada}}" alt="Imágen destacada - {{entrada.tituloEntrada}}" title="Imágen destacada - {{entrada.tituloEntrada}}" />
+<img class="mainEntryImage" src="{{entry.imagenDestacada}}" alt="Imágen destacada - {{entry.tituloEntrada}}" title="Imágen destacada - {{entry.tituloEntrada}}" />
 
 <div class="cuerpo">
   <div [innerHTML]="content | sanitizeHtml"></div>
@@ -11,7 +11,7 @@
 
   <span class="lineaHorizontalCorta"></span>
   <span class="etiquetasText">Etiquetas
-    <span *ngFor="let etiqueta of entrada.etiquetas, let last = last;">
+    <span *ngFor="let etiqueta of entry.etiquetas, let last = last;">
       <a routerLink="/tag/{{etiqueta.urlEtiqueta}}">{{etiqueta.nombreEtiqueta}}</a>
       <span [hidden]="last">, </span>
     </span>

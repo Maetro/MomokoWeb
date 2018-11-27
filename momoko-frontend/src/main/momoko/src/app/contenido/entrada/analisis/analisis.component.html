@@ -2,23 +2,26 @@
 <!-- <app-menu-interno-libro [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-libro>-->
 <div class="light-wrapper">
   <div class="container marginBottom50">
-    
-    <entry-header [entry]="entrada" [book]="entrada.librosEntrada[0]"> </entry-header>
+
+    <app-entry-header [entry]="entrada" [book]="entrada.librosEntrada[0]" [type]="'Reseña'"
+    [subheaderAuthorIntro]="'Análisis de '"> </app-entry-header>
     <div class="row">
       <div class="contenidoEntrada">
-        <div [ngClass]="(entrada.tieneGaleria)?'col-md-12':'col-md-8'">
+        <div class="col-md-8">
 
-          <entry-content [entry]="entrada"> </entry-content>
+          <app-entry-content [entry]="entrada"> </app-entry-content>
         </div>
 
-        <entry-sidebar [entry]="entrada"> </entry-sidebar>
+        <app-entry-sidebar [entry]="entrada" [book]="entrada.librosEntrada[0]" [librosParecidos]="librosParecidos"> </app-entry-sidebar>
         <div class="col-sm-12">
-          <entry-footer [entry]="entrada"> </entry-footer>
+        <app-entry-footer [entry]="entrada" [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"
+        [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente">
+          </app-entry-footer>
 
         </div>
       </div>
 
     </div>
 
-  </entry-header>
+  </div>
 </div>

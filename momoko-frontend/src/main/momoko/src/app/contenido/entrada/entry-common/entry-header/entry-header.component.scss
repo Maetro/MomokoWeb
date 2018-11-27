@@ -6,6 +6,7 @@
 
   .infoEntrada {
     margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
   }
   
   span {
@@ -14,4 +15,27 @@
     &.editorialText {
       margin-left: 20px;
     }
+
+    &.autorEntrada {
+      margin-right: 5px;
+    }
+  }
+
+  .categoryTitle {
+    font-size: 11px;
+    line-height: 19px;
+    letter-spacing: 2px;
+    font-weight: 400;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    color: gray;
+  }
+
+  .dot{
+    width: 2px;
+    height: 2px;
+    display: inline-block;
+    background-color: #ccc;
+    border-radius: 100%;
+    margin: 0 .5rem;
   }

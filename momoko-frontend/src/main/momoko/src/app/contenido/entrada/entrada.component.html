@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="entryType">
+<div class="background" [ngSwitch]="entryType">
     <div *ngSwitchCase="'NEWS'">
         <ng-container *ngIf="haySagas">
             <app-noticia-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"
@@ -13,11 +13,11 @@
     <div *ngSwitchCase="'OPINION'">
         <ng-container *ngIf="hayLibros">
             <app-analisis [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios" 
-            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen"></app-analisis>
+            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente"></app-analisis>
         </ng-container>
         <ng-container *ngIf="haySagas">
             <app-analisis-saga [entrada]="entrada" [librosParecidos]="librosParecidos" [comentarios]="comentarios"
-            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" ></app-analisis-saga>
+            [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente" ></app-analisis-saga>
         </ng-container>
     </div>
     <div *ngSwitchCase="'MISCELLANEOUS'">
@@ -47,7 +47,7 @@
                 [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"></app-special>
         </ng-container>
     </div>
-</ng-container>
+</div>
 <div *ngIf="!entryType">
     <app-page-not-found></app-page-not-found>
 </div>

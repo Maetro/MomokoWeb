@@ -8,14 +8,14 @@ import { LibroSimple } from '../../../dtos/libroSimple';
 import { LinkService } from '../../../services/link.service';
 import { EntradaSimple } from 'app/dtos/entradaSimple';
 
-declare var $: any;
+
 
 @Component({
   selector: 'app-analisis',
   templateUrl: './analisis.component.html',
   styleUrls: ['./analisis.component.scss']
 })
-export class AnalisisComponent implements OnInit, AfterViewInit {
+export class AnalisisComponent implements OnInit {
   private log = environment.log;
 
   @Input()
@@ -27,12 +27,9 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
   @Input()
   comentarios: Comentario[];
 
-  @ViewChild('book-template-angular')
-  bookTemplate: TemplateRef<any>;
-
   @Input() cuatroPostPequenosConImagen: EntradaSimple[];
 
-  tituloSeccionLibros = 'Otros libros parecidos';
+  @Input() entradaAnteriorYSiguiente: EntradaSimple[];
 
   authors: string;
 
@@ -41,7 +38,6 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
   constructor(
     private titleService: Title,
     private metaService: Meta,
-    @Inject(PLATFORM_ID) private platformId: Object,
     private linkService: LinkService
   ) {}
 
@@ -49,13 +45,7 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     if (this.log) {
       console.log('Generando pagina opiniones');
     }
-    this.authors = '';
-    this.entrada.librosEntrada.forEach(libro => {
-      libro.autores.forEach(author => {
-        this.authors += author.name + ', ';
-      });
-    });
-    this.authors = this.authors.substring(0, this.authors.length - 2);
+
     if (this.entrada.fechaAlta.valueOf() > new Date('2018/07/15').valueOf()) {
       const metatituloPagina = this.entrada.tituloEntrada;
       this.titleService.setTitle(metatituloPagina);
@@ -99,55 +89,5 @@ export class AnalisisComponent implements OnInit, AfterViewInit {
     
   }
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.log) {
-        console.log('Ejecutando JQuery');
-      }
-      $('.light-gallery').lightGallery({
-        thumbnail: false,
-        selector: '.lgitem',
-        animateThumb: true,
-        showThumbByDefault: false,
-        download: false,
-        autoplayControls: false,
-        zoom: false,
-        fullScreen: false,
-        thumbWidth: 100,
-        thumbContHeight: 80,
-        hash: false,
-        videoMaxWidth: '1000px'
-      });
-      setTimeout(() => this.crearCollage(), 2000);
-    }
-    
-    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
-      let replaceCode = $($("app-book-template").get(cont-1)).html();
-      $($("app-book-template").get(cont-1)).html("");
-      $(".bookTemplate"+ cont).html(replaceCode);
-    }
-    
-  }
 
-  crearCollage() {
-    $('.collage').attr('id', 'collage-large');
-    if (this.log) {
-      console.log('COLLAGE');
-    }
-    this.collage();
-    $('.collage .collage-image-wrapper').css('opacity', 0);
-    $('.overlay a').prepend('<span class="over"><span></span></span>');
-  }
-
-  collage() {
-    $('.collage')
-    .removeWhitespace()
-    .collagePlus({
-      fadeSpeed: 5000,
-      targetHeight: 400,
-      effect: 'effect-2',
-      direction: 'vertical',
-      allowPartialLastRow: true
-    });
-  }
 }
