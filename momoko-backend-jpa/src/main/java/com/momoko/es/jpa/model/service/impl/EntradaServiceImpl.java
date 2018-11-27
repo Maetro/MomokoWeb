@@ -12,6 +12,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -155,6 +160,11 @@ public class EntradaServiceImpl implements EntradaService {
         return EntityToDTOAdapter.adaptarEntradas(entradas);
     }
 
+    public LocalDateTime convertToLocalDateViaInstant(Date dateToConvert) {
+        return dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault()).toLocalDateTime();
+    }
+
     @Override
     public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) {
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
@@ -164,9 +174,16 @@ public class EntradaServiceImpl implements EntradaService {
             final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
 
             try {
-                entradaDTO.setImagenDestacada(
-                        this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 432, true));
-            } catch (final IOException e) {
+                LocalDateTime creationDate = convertToLocalDateViaInstant(entradaEntity.getCreatedDate());
+                LocalDateTime newImageFormat = LocalDateTime.of(2018, Month.NOVEMBER, 26, 23, 0);
+                if ( entradaDTO.getEntryType().equals(EntryTypeEnum.OPINION) && creationDate.isAfter(newImageFormat)) {
+                    entradaDTO.setImagenDestacada(
+                            this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 1180, true));
+                } else {
+                    entradaDTO.setImagenDestacada(
+                            this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 432, true));
+                }
+            } catch( final IOException e){
                 e.printStackTrace();
             }
             if (EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType()) ||
@@ -288,6 +305,8 @@ public class EntradaServiceImpl implements EntradaService {
         }
         return respuesta;
     }
+
+
 
     /**
      * Asociar datos saga asociada a entrada.
