@@ -34,6 +34,8 @@ public class MenuDTO implements Serializable, Comparable<MenuDTO> {
     /** The generos. */
     private List<GenreDTO> generos;
 
+    private boolean showOnMenu;
+
     /**
      * Gets the nombre.
      *
@@ -108,6 +110,14 @@ public class MenuDTO implements Serializable, Comparable<MenuDTO> {
      */
     public void setOrden(final Integer orden) {
         this.orden = orden;
+    }
+
+    public boolean isShowOnMenu() {
+        return showOnMenu;
+    }
+
+    public void setShowOnMenu(boolean showOnMenu) {
+        this.showOnMenu = showOnMenu;
     }
 
     @Override

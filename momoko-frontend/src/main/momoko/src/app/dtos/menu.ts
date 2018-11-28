@@ -7,4 +7,5 @@ export class Menu {
   orden: number;
   url: string;
   generos: Genero[];
+  showOnMenu: boolean;
 }

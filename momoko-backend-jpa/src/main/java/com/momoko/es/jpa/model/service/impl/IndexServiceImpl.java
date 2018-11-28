@@ -196,6 +196,7 @@ public class IndexServiceImpl implements IndexService {
             menuPart.setNombre(categoria.getNombreCategoria());
             menuPart.setUrl(categoria.getUrlCategoria());
             menuPart.setOrden(categoria.getOrden());
+            menuPart.setShowOnMenu(categoria.isShowOnMenu());
             final List<GenreDTO> generosCategoria = new ArrayList<GenreDTO>();
             for (final GenreDTO generoDTO : generos) {
                 if (generoDTO.getCategoria().equals(categoria)) {

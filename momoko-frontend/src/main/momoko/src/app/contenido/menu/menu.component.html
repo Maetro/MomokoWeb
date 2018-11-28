@@ -64,7 +64,8 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <ng-container *ngFor="let menuPart of menu; let i = index">
-            <li class="main-menu-header">
+            <li class="main-menu-header" *ngIf="menuPart.showOnMenu">
+              
               <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
                 <b>{{menuPart.nombre}}</b>
                 <span class="caret"></span>

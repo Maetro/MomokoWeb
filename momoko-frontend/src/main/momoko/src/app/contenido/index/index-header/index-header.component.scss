@@ -3,20 +3,16 @@
     @media(min-width: 1500px) {
         background-image: url(https://momoko.es/images/fijas/leave-left.jpg), url(https://momoko.es/images/fijas/leave-right.jpg);
         background-repeat: no-repeat, no-repeat;
-        background-position: left bottom, right top;
+        background-position: left 600px, right top;
     }
 
     .container.inner {
-        padding: 0px;
 
         .indexHeaderImageContainer {
             text-align: center;
             margin-top: 5px;
             overflow: hidden;
             width: 100%;
-            @media (max-width: 800px) {
-                padding: 5px 15px;
-            }
 
             img {
                 max-width: 100%;
@@ -36,7 +32,10 @@
         .indexHeaderDataBlock {
             font-size: 14px;
             margin-top: 25px;
-            font-weight: 600;
+            margin-bottom: 10px;
+            font-weight: 400;
+            font-family: 'Montserrat';
+
             @media (max-width: 800px) {
                 padding: 5px 15px;
             }
@@ -45,14 +44,16 @@
         h3.entryTitle {
             font-size: 20px;
             line-height: 28px;
+
             @media (max-width: 800px) {
                 padding: 5px 15px;
             }
         }
 
-        h3.entryNewsTitle{
+        h3.entryNewsTitle {
             font-size: 16px;
             line-height: 22.4px;
+
             @media (max-width: 800px) {
                 padding: 5px 15px;
             }
@@ -60,9 +61,26 @@
 
         h5.summary {
             font-weight: 400;
+
             @media (max-width: 800px) {
                 padding: 5px 15px;
             }
         }
+
+        hr.fat {
+            border-bottom: 5px solid #F2F2F2!important;
+            margin-top: 40px;
+
+        }
+    }
+
+    .breadcrumbs {
+        font-size: 12px;
+        margin-top: 25px;
+        margin-bottom: 10px;
+        margin-left: 20px;
+        font-weight: 400;
+        text-transform: uppercase;
+        font-family: 'Montserrat';
     }
 }

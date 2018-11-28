@@ -64,7 +64,7 @@
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
           <ng-container *ngFor="let menuPart of menu; let i = index">
-            <li class="main-menu-header">
+            <li class="main-menu-header" *ngIf="menuPart.showOnMenu">
               <a routerLink="/categoria/{{menuPart.url}}" routerLinkActive="active">
                 <b>{{menuPart.nombre}}</b>
                 <span class="caret"></span>
@@ -99,12 +99,10 @@
             <ul class="dropdown-menu double">
               <li>
                 <a routerLink="/categoria/miscelaneos" routerLinkActive="active">
-                  <img class="iconosmenu" src="" alt="Icono menu para vídeos" />
                   Misceláneos </a>
               </li>
               <li>
                 <a routerLink="/categoria/videos" routerLinkActive="active">
-                  <img class="iconosmenu" src="" alt="Icono menu para vídeos" />
                   Vídeos </a>
               </li>
             </ul>

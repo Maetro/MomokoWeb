@@ -17,7 +17,24 @@
                 </div>
             </div>
         </div>
-        <hr/>
+        <hr class="fat hidden-xs" />
+    </div>
+    <div class="container inner marginBottom50 hidden-xs">
+        <div class="row">
+            <div class="col-xs-6 align-left">
+                <h3>La actualidad literaria</h3>
+            </div>
+            <div class="col-xs-6 align-right">
+                <span class="breadcrumbs"> Noticias </span><span class="breadcrumbs">/ </span> <span class="breadcrumbs">Misceláneos</span>
+            </div>
+        </div>
+    </div>
+    <div class="container inner hidden-sm-up">
+        <div class="row">
+            <div class="col-xs-12 align-left">
+                <h3>La actualidad literaria</h3>
+            </div>
+        </div>
     </div>
     <div class="container inner">
         <div class="row">
@@ -36,16 +53,16 @@
                     </a>
                 </div>
                 <div class="indexHeaderSummary">
-                    
-                        <h5 class="summary"> {{miscellaneous.fraseDescriptiva}} </h5>
-                    
+
+                    <h5 class="summary"> {{miscellaneous.fraseDescriptiva}} </h5>
+
                 </div>
-                <hr/>
+                <hr />
             </div>
             <div class="col-sm-5">
                 <div class="row">
                     <ng-container *ngFor="let news of news, let i = index; let first = first">
-                        <div class="col-sm-6">
+                        <div class="col-xs-6">
                             <div class="indexHeaderImageContainer">
                                 <a routerLink="/{{news.bloque}}/{{news.urlEntrada}}">
                                     <img src="{{news.imagenEntrada}}" alt="Imagen Destacada - {{news.tituloEntrada}}">
