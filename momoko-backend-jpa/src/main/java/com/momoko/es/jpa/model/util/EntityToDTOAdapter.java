@@ -474,6 +474,7 @@ public final class EntityToDTOAdapter {
         categoriaDTO.setUrlCategoria(categoriaEntity.getUrlCategoria());
         categoriaDTO.setNombreCategoria(categoriaEntity.getNombreCategoria());
         categoriaDTO.setOrden(categoriaEntity.getOrden());
+        categoriaDTO.setShowOnMenu(categoriaEntity.isShowOnMenu());
         return categoriaDTO;
 
     }

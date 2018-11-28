@@ -393,6 +393,7 @@ public final class DTOToEntityAdapter {
         categoriaEntity.setBackgroundColor(categoria.getBackgroundColor());
         categoriaEntity.setUrlCategoria(categoria.getUrlCategoria());
         categoriaEntity.setOrden(categoria.getOrden());
+        categoriaEntity.setShowOnMenu(categoria.isShowOnMenu());
         categoriaEntity.setNombreCategoria(categoria.getNombreCategoria());
         return categoriaEntity;
 

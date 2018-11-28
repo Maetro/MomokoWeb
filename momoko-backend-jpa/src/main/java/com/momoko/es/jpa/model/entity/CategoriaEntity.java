@@ -38,6 +38,8 @@ public class CategoriaEntity {
     /** The orden. */
     private Integer orden;
 
+    private boolean showOnMenu;
+
     /** The usuario alta. */
     private String usuarioAlta;
 
@@ -282,6 +284,14 @@ public class CategoriaEntity {
      */
     public void setFechaBaja(final Date fechaBaja) {
         this.fechaBaja = fechaBaja;
+    }
+
+    public boolean isShowOnMenu() {
+        return showOnMenu;
+    }
+
+    public void setShowOnMenu(boolean showOnMenu) {
+        this.showOnMenu = showOnMenu;
     }
 
     /*

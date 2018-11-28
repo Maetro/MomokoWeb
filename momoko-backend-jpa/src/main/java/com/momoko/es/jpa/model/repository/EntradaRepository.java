@@ -48,10 +48,10 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
     @Query("select e from EntradaEntity e inner join e.sagasEntrada s where s.sagaId IN :sagaIds ORDER by e.createdDate DESC")
     List<EntradaEntity> findBySagasEntradaIn(@Param("sagaIds") List<Integer> sagaIds, Pageable limit);
 
-    @Query("select e from EntradaEntity e where e.entrada_id < :entryId and e.entryStatus LIKE 'PUBLISHED' ORDER by e.entrada_id DESC")
+    @Query("select e from EntradaEntity e where e.entradaId < :entryId and e.entryStatus LIKE 'PUBLISHED' ORDER by e.entradaId DESC")
     Page<EntradaEntity> findEntradaMiscelaneosAnteriorAFecha(@Param("entryId") Integer entryId, Pageable limit);
 
-    @Query("select e from EntradaEntity e where e.entrada_id > :entryId and e.entryStatus LIKE 'PUBLISHED' ORDER by e.entrada_id ASC")
+    @Query("select e from EntradaEntity e where e.entradaId > :entryId and e.entryStatus LIKE 'PUBLISHED' ORDER by e.entradaId ASC")
     Page<EntradaEntity> findEntradaMiscelaneosPosteriorAFecha(@Param("entryId") Integer entryId, Pageable limit);
 
     @Query("SELECT e from EntradaEntity e where e.entradaId <> :entradaId ORDER BY rand()")

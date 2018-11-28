@@ -5,4 +5,5 @@ export class Categoria {
     nombreCategoria: string;
     backgroundColor: string;
     foregroundColor: string;
+    showOnMenu:boolean;
 }

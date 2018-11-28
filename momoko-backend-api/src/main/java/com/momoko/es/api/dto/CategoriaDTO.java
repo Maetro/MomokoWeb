@@ -39,6 +39,8 @@ public class CategoriaDTO implements Serializable, Comparable<CategoriaDTO> {
     /** The orden. */
     private Integer orden;
 
+    private boolean showOnMenu;
+
     /**
      * Gets the categoria id.
      *
@@ -141,6 +143,14 @@ public class CategoriaDTO implements Serializable, Comparable<CategoriaDTO> {
      */
     public Integer getOrden() {
         return this.orden;
+    }
+
+    public boolean isShowOnMenu() {
+        return showOnMenu;
+    }
+
+    public void setShowOnMenu(boolean showOnMenu) {
+        this.showOnMenu = showOnMenu;
     }
 
     /**
