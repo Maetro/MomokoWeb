@@ -1,7 +1,7 @@
 <div class="light-wrapper">
-    <div class="container inner">
+    <div class="container">
         <div class="row">
-            <div class="col-sm-4" *ngFor="let opinion of opinions">
+            <div class="col-md-4 col-sm-6" *ngFor="let opinion of opinions">
                 <div class="indexHeaderImageContainer">
                     <a routerLink="/{{opinion.bloque}}/{{opinion.urlEntrada}}">
                         <img src="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}">
@@ -19,7 +19,7 @@
         </div>
         <hr class="fat hidden-xs" />
     </div>
-    <div class="container inner marginBottom50 hidden-xs">
+    <div class="container marginBottom50 hidden-xs">
         <div class="row">
             <div class="col-xs-6 align-left">
                 <h3>La actualidad literaria</h3>
@@ -29,14 +29,16 @@
             </div>
         </div>
     </div>
-    <div class="container inner hidden-sm-up">
+
+    <div class="container hidden-sm hidden-md hidden-lg">
+        <hr />
         <div class="row">
             <div class="col-xs-12 align-left">
                 <h3>La actualidad literaria</h3>
             </div>
         </div>
     </div>
-    <div class="container inner">
+    <div class="container">
         <div class="row">
             <div class="col-sm-7" *ngFor="let miscellaneous of miscellaneous">
                 <div class="indexHeaderImageContainer">
