@@ -7,27 +7,27 @@
  */
 package com.momoko.es.jpa.model.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.validation.Valid;
-
-import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
-import com.momoko.es.api.dto.*;
-import com.momoko.es.api.author.enums.AuthorCreationError;
 import com.momoko.es.api.author.dto.AuthorDTO;
-import com.momoko.es.api.dto.request.*;
-import com.momoko.es.api.enums.EntryStatusEnum;
-import com.momoko.es.api.enums.EntryTypeEnum;
+import com.momoko.es.api.author.enums.AuthorCreationError;
+import com.momoko.es.api.contact.dtos.ErrorEmailContactEnum;
+import com.momoko.es.api.dto.EditorialDTO;
+import com.momoko.es.api.dto.LibroDTO;
+import com.momoko.es.api.dto.request.AuthorContactRequestDTO;
+import com.momoko.es.api.dto.request.EditorContactRequestDTO;
+import com.momoko.es.api.dto.request.PublisherContactRequestDTO;
+import com.momoko.es.api.dto.request.SuscribeContactRequestDTO;
+import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
+import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
+import com.momoko.es.api.enums.errores.FilterCreationError;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.filter.enums.FilterRuleType;
-import com.momoko.es.api.enums.errores.*;
+import com.momoko.es.jpa.model.service.ValidadorService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.jpa.model.service.ValidadorService;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The Class ValidadorServiceImpl.
@@ -64,166 +64,6 @@ public class ValidadorServiceImpl implements ValidadorService {
             listaErrores.add(ErrorCreacionLibro.ENLACE_IMAGEN_LARGO);
         }
 
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorCreacionGenero> validarGenero(final GenreDTO generoDTO) {
-        final List<ErrorCreacionGenero> listaErrores = new ArrayList<>();
-
-        if (StringUtils.isEmpty(generoDTO.getNombre())) {
-            listaErrores.add(ErrorCreacionGenero.FALTA_GENERO);
-
-        }
-        if (StringUtils.isEmpty(generoDTO.getUrlGenero())) {
-            listaErrores.add(ErrorCreacionGenero.FALTA_URL);
-
-        }
-        if (StringUtils.isEmpty(generoDTO.getImagenCabeceraGenero())) {
-            listaErrores.add(ErrorCreacionGenero.FALTA_IMAGEN_CABECERA);
-
-        }
-        if (StringUtils.isEmpty(generoDTO.getIconoGenero())) {
-            listaErrores.add(ErrorCreacionGenero.FALTA_ICONO);
-        }
-
-        if (generoDTO.getCategoria() == null) {
-            listaErrores.add(ErrorCreacionGenero.FALTA_CATEGORIA);
-        }
-
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorCreacionEntrada> validarEntrada(final EntradaDTO entradaDTO) {
-        final List<ErrorCreacionEntrada> listaErrores = new ArrayList<>();
-        if (entradaDTO.getTituloEntrada() == null) {
-            listaErrores.add(ErrorCreacionEntrada.FALTA_TITULO);
-        }
-        if (entradaDTO.getContenidoEntrada() == null) {
-            listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
-        }
-        if (estaPublicada(entradaDTO) && !isNewsMiscellaneousOrVideo(entradaDTO)
-                && CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
-                && CollectionUtils.isEmpty(entradaDTO.getNombresSagasEntrada())) {
-            listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
-        }
-        if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {
-            listaErrores.add(ErrorCreacionEntrada.FALTA_EDITOR_POST);
-        }
-        return listaErrores;
-    }
-
-    /**
-     * Es tipo miscelanea.
-     *
-     * @param entradaDTO
-     *            the entrada dto
-     * @return true, if successful
-     */
-    public boolean isNewsMiscellaneousOrVideo(final EntradaDTO entradaDTO) {
-        return EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType())
-                || EntryTypeEnum.VIDEO.equals(entradaDTO.getEntryType())
-                || EntryTypeEnum.NEWS.equals(entradaDTO.getEntryType());
-    }
-
-    /**
-     * Esta publicada.
-     *
-     * @param entradaDTO
-     *            the entrada dto
-     * @return true, if successful
-     */
-    public boolean estaPublicada(final EntradaDTO entradaDTO) {
-        return EntryStatusEnum.PUBLISHED.equals(entradaDTO.getEntryStatus());
-    }
-
-    @Override
-    public List<ErrorPublicarComentario> validarComentario(final ComentarioDTO comentarioDTO) {
-        final List<ErrorPublicarComentario> listaErrores = new ArrayList<>();
-        if (StringUtils.isNotEmpty(comentarioDTO.getTextoComentario())) {
-            listaErrores.add(ErrorPublicarComentario.COMENTARIO_VACIO);
-        }
-        if (comentarioDTO.getEntradaId() == null) {
-            listaErrores.add(ErrorPublicarComentario.FALTA_ENTIDAD_ASOCIADA);
-        }
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(final PuntuacionDTO puntuacionDTO) {
-        final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<>();
-        if ((puntuacionDTO.getValor() == null)
-                || ((puntuacionDTO.getValor().intValue() >= 0) && (puntuacionDTO.getValor().intValue() <= 10))) {
-            listaErrores.add(ErrorAnadirPuntuacionEnum.PUNTUACION_INCORRECTA);
-        }
-        if (puntuacionDTO.getLibroId() == null) {
-            listaErrores.add(ErrorAnadirPuntuacionEnum.FALTA_LIBRO);
-        }
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorCreacionComentario> validarComentario(final NuevoComentarioRequest comentario) {
-        final List<ErrorCreacionComentario> listaErrores = new ArrayList<>();
-        if (StringUtils.isEmpty(comentario.getNombre())) {
-            listaErrores.add(ErrorCreacionComentario.FALTA_NOMBRE);
-        }
-        if (StringUtils.isEmpty(comentario.getEmail())) {
-            listaErrores.add(ErrorCreacionComentario.FALTA_EMAIL);
-        }
-        if (StringUtils.isEmpty(comentario.getContenido())) {
-            listaErrores.add(ErrorCreacionComentario.COMENTARIO_VACIO);
-        }
-        if (comentario.getEntradaId() == null) {
-            listaErrores.add(ErrorCreacionComentario.NO_SE_ENCUENTRA_ENTRADA);
-        }
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorCreacionGaleria> validarGaleria(final GaleriaDTO galeriaDTO) {
-        final List<ErrorCreacionGaleria> listaErrores = new ArrayList<>();
-        if (StringUtils.isEmpty(galeriaDTO.getNombreGaleria())) {
-            listaErrores.add(ErrorCreacionGaleria.FALTA_NOMBRE);
-        }
-        if (StringUtils.isEmpty(galeriaDTO.getUrlGaleria())) {
-            listaErrores.add(ErrorCreacionGaleria.FALTA_URL);
-        }
-        if (galeriaDTO.getColumnas() == null) {
-            listaErrores.add(ErrorCreacionGaleria.FALTA_NUMERO_COLUMNAS);
-        }
-        if (CollectionUtils.isEmpty(galeriaDTO.getImagenes())) {
-            listaErrores.add(ErrorCreacionGaleria.FALTAN_IMAGENES);
-        }
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorCreacionSaga> validarSaga(final SagaDTO sagaDTO) {
-        final List<ErrorCreacionSaga> listaErrores = new ArrayList<>();
-        if (CollectionUtils.isEmpty(sagaDTO.getLibrosSaga())) {
-            listaErrores.add(ErrorCreacionSaga.FALTAN_LIBROS);
-        }
-        if (StringUtils.isEmpty(sagaDTO.getNombreSaga())) {
-            listaErrores.add(ErrorCreacionSaga.FALTA_NOMBRE);
-        }
-        if (StringUtils.isEmpty(sagaDTO.getImagenSaga())) {
-            listaErrores.add(ErrorCreacionSaga.FALTA_IMAGEN);
-        }
-        if (StringUtils.isEmpty(sagaDTO.getUrlSaga())) {
-            listaErrores.add(ErrorCreacionSaga.FALTA_URL);
-        }
-
-        return listaErrores;
-    }
-
-    @Override
-    public List<ErrorCreacionRedactor> validarRedactor(final RedactorDTO redactorDTO) {
-        final List<ErrorCreacionRedactor> listaErrores = new ArrayList<>();
-        if (StringUtils.isEmpty(redactorDTO.getNombre())) {
-            listaErrores.add(ErrorCreacionRedactor.FALTA_NOMBRE);
-        }
         return listaErrores;
     }
 

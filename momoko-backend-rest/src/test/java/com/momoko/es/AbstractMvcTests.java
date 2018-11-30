@@ -3,7 +3,6 @@ package com.momoko.es;
 import com.momoko.es.commons.mail.MailSender;
 import com.momoko.es.commons.util.LecUtils;
 import com.momoko.es.jpa.model.repository.UsuarioRepository;
-import com.momoko.es.jpa.security.MomokoSecurityConfig;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(secure=false)
 @ComponentScan(basePackages = "com.momoko.es")
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.HSQL)
-@Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
+@Sql({"/src/test/resources/test-data/initialize.sql", "/src/test/resources/test-data/finalize.sql"})
 @ActiveProfiles("test")
 public abstract class AbstractMvcTests {
 	

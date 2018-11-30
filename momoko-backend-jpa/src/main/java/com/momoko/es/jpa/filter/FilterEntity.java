@@ -1,7 +1,7 @@
 package com.momoko.es.jpa.filter;
 
 import com.momoko.es.api.filter.enums.FilterRuleType;
-import com.momoko.es.jpa.model.entity.GenreEntity;
+import com.momoko.es.jpa.genre.entity.GenreEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

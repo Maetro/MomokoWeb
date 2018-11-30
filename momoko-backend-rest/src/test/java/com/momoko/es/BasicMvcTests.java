@@ -1,16 +1,14 @@
 package com.momoko.es;
 
 import com.momoko.es.commons.util.LecUtils;
-import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Sql({"/test-data/initialize.sql", "/test-data/finalize.sql", })
+@Sql({"/src/test/resources/test-data/initialize.sql", "/src/test/resources/test-data/finalize.sql", })
 public class BasicMvcTests extends AbstractMvcTests {
 	
 	@Test

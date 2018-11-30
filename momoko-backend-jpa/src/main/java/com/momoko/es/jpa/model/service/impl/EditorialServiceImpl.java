@@ -12,6 +12,7 @@ import com.momoko.es.api.dto.EditorialDTO;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
 import com.momoko.es.jpa.entry.EntradaEntity;
 import com.momoko.es.jpa.publisher.EditorialEntity;
 import com.momoko.es.jpa.book.LibroEntity;
@@ -225,6 +226,11 @@ public class EditorialServiceImpl implements EditorialService {
             }
         }
         return entradasSimples;
+    }
+
+    @Override
+    public List<ErrorCreacionEditorial> validarEditorial(EditorialDTO editorialDTO) {
+        return null;
     }
 
 }

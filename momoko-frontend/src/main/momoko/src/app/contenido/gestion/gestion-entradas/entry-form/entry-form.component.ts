@@ -605,7 +605,6 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
   }
 
   addBookTemplateToEditor(data: any){
-    console.log('hola');
     if (this.bookTemplateRange) {
       // tslint:disable-next-line:max-line-length
       this.bookTemplateEditor.insertText(this.bookTemplateRange.index, '[momoko-libro titulo="'+ this.selectedBookTemplate +'"]');

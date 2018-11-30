@@ -13,8 +13,10 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import com.momoko.es.api.enums.errores.ErrorCreacionRedactor;
 import com.momoko.es.commons.security.MomokoPrincipal;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,5 +261,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public UsuarioEntity findByUsuarioEmail(String username) throws UserNotFoundException{
         return usuarioRepository.findByEmail(username).orElseThrow(() -> new UserNotFoundException(username));
+    }
+
+    @Override
+    public List<ErrorCreacionRedactor> validarRedactor(final RedactorDTO redactorDTO) {
+        final List<ErrorCreacionRedactor> listaErrores = new ArrayList<>();
+        if (StringUtils.isEmpty(redactorDTO.getNombre())) {
+            listaErrores.add(ErrorCreacionRedactor.FALTA_NOMBRE);
+        }
+        return listaErrores;
     }
 }

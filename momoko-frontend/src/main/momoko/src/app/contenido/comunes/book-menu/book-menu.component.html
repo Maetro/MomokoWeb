@@ -1,0 +1,74 @@
+<div class="col-md-12 marginTop20 bookMenuBlock">
+    <div class="bookMenuTitle align-center">
+        Menú del libro
+    </div>
+    <ul class="bookMenuList">
+        <li class="list-element" *ngIf="esSaga">
+            <a routerLink="/saga/{{libro.saga.urlSaga}}">
+                <span class="softHighlight">Pertenece a la saga: </span><span>{{libro.saga.nombreSaga}}</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <li class="list-element">
+            <a routerLink="/libro/{{libro.urlLibro}}" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                <span class="softHighlight">Libro: </span><span> {{libro.titulo}}</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <ng-container *ngFor="let autor of libro.autores">
+            <li class="list-element" *ngIf="autor.description">
+                <a routerLink="/autor/{{autor.authorUrl}}" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">
+                    <span class="softHighlight">Autor: </span><span>{{autor.name}}</span>
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+        </ng-container>
+        <li class="list-element" *ngIf="hayAnalisis">
+            <a routerLinkActive="active" routerLink="/opiniones/{{urlAnalisis}}" [class.active]="isActive('ANALISIS')">
+                <span class="softHighlight">Reseña</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <li class="list-element" *ngIf="numNoticias == 1">
+            <a class="nav-link link-noticia" routerLink="/{{urlNoticia}}" [class.active]="isActive('NOTICIA')">
+                <span class="softHighlight">Noticias</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <li class="list-element" *ngIf="numNoticias > 1">
+            <a class="nav-link link-noticia" routerLink="/noticias-libro/{{libro.urlLibro}}" [class.active]="isActive('NOTICIA')">
+                <span class="softHighlight">Noticias</span>
+            </a>
+        </li>
+        <li class="list-element" *ngIf="numMiscelaneos == 1">
+            <a class="nav-link link-noticia" routerLink="/{{urlMiscelaneo}}" [class.active]="isActive('MISCELANEO')">
+                <span class="softHighlight">Miscelaneos</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <li class="list-element" *ngIf="numMiscelaneos > 1">
+            <a class="nav-link link-noticia" routerLink="/miscelaneos-libro/{{libro.urlLibro}}" [class.active]="isActive('MISCELANEO')">
+                <span class="softHighlight">Miscelaneos</span>
+            </a>
+        </li>
+        <li class="list-element" *ngIf="numVideos == 1">
+            <a class="nav-link link-noticia" routerLink="/{{urlVideo}}" [class.active]="isActive('VIDEO')">
+                <span class="softHighlight">Vídeos</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <li class="list-element" *ngIf="numVideos > 1">
+            <a class="nav-link link-noticia" routerLink="/videos-libro/{{libro.urlLibro}}" [class.active]="isActive('VIDEO')">
+                <span class="softHighlight">Vídeos</span>
+            </a>
+        </li>
+        <li class="list-element" *ngFor="let datoEntrada of menuLibroExtra, let last = last;">
+            <a class="nav-link" routerLink="/{{datoEntrada.urlMenuLibro}}/{{datoEntrada.urlEntrada}}" [class.active]="isActive(datoEntrada.urlMenuLibro)">
+                <span class="softHighlight">{{datoEntrada.nombreMenuLibro}}</span>
+                <i class="fa fa-angle-right"></i>
+            </a>
+        </li>
+        <!--:url_libro/:url_zona/:url_entrada-->
+    </ul>
+</div>

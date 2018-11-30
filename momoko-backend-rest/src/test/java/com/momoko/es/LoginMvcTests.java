@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
+@Sql({"/src/test/resources/test-data/initialize.sql", "/src/test/resources/test-data/finalize.sql"})
 public class LoginMvcTests extends AbstractMvcTests {
 	
 	@Test

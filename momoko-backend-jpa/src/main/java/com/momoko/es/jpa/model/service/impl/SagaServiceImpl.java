@@ -1,7 +1,8 @@
 /**
  * SagaServiceImpl.java 01-mar-2018
- *
+ * <p>
  * Copyright 2018 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.jpa.model.service.impl;
@@ -15,7 +16,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
@@ -282,6 +285,25 @@ public class SagaServiceImpl implements SagaService {
         }
 
         return entradasBasicas;
+    }
+
+    @Override
+    public List<ErrorCreacionSaga> validarSaga(final SagaDTO sagaDTO) {
+        final List<ErrorCreacionSaga> listaErrores = new ArrayList<>();
+        if (org.springframework.util.CollectionUtils.isEmpty(sagaDTO.getLibrosSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTAN_LIBROS);
+        }
+        if (StringUtils.isEmpty(sagaDTO.getNombreSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTA_NOMBRE);
+        }
+        if (StringUtils.isEmpty(sagaDTO.getImagenSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTA_IMAGEN);
+        }
+        if (StringUtils.isEmpty(sagaDTO.getUrlSaga())) {
+            listaErrores.add(ErrorCreacionSaga.FALTA_URL);
+        }
+
+        return listaErrores;
     }
 
 }

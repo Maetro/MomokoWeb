@@ -1,7 +1,7 @@
 package com.momoko.es.jpa.model.repository.filter;
 
-import com.momoko.es.jpa.model.entity.GenreEntity;
 import com.momoko.es.jpa.filter.FilterEntity;
+import com.momoko.es.jpa.genre.entity.GenreEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

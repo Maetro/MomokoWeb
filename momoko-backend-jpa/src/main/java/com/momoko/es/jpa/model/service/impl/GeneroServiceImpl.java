@@ -7,39 +7,45 @@
  */
 package com.momoko.es.jpa.model.service.impl;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.AnchuraAlturaDTO;
+import com.momoko.es.api.dto.CategoriaDTO;
+import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.dto.LibroSimpleDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.genre.GenrePageResponse;
+import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
+import com.momoko.es.api.enums.OrderType;
+import com.momoko.es.api.enums.errores.ErrorCreacionGenero;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.api.filter.dto.FilterValueDTO;
-import com.momoko.es.api.dto.response.ApplyFilterResponseDTO;
 import com.momoko.es.api.filter.service.FilterService;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.category.CategoriaEntity;
+import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.genre.entity.GenreEntity;
+import com.momoko.es.jpa.genre.repository.GeneroRepository;
+import com.momoko.es.jpa.genre.service.GenreService;
+import com.momoko.es.jpa.model.repository.CategoriaRepository;
+import com.momoko.es.jpa.model.repository.EntradaRepository;
+import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.jpa.model.service.LibroService;
+import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.jpa.model.util.*;
+import com.momoko.es.jpa.saga.SagaEntity;
+import com.momoko.es.jpa.score.PuntuacionEntity;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.dto.genre.GenrePageResponse;
-import com.momoko.es.api.enums.OrderType;
-import com.momoko.es.jpa.category.CategoriaEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
-import com.momoko.es.jpa.model.entity.GenreEntity;
-import com.momoko.es.jpa.book.LibroEntity;
-import com.momoko.es.jpa.score.PuntuacionEntity;
-import com.momoko.es.jpa.saga.SagaEntity;
-import com.momoko.es.jpa.model.repository.CategoriaRepository;
-import com.momoko.es.jpa.model.repository.EntradaRepository;
-import com.momoko.es.jpa.genre.repository.GeneroRepository;
-import com.momoko.es.jpa.model.service.EntradaService;
-import com.momoko.es.jpa.genre.service.GenreService;
-import com.momoko.es.jpa.model.service.LibroService;
-import com.momoko.es.jpa.model.service.StorageService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The Class GeneroServiceImpl.
@@ -164,6 +170,33 @@ public class GeneroServiceImpl implements GenreService {
         response.setAvaliableFiltersList(finalFilterList);
         response.setBooksSelected(books);
         return response;
+    }
+
+    @Override
+    public List<ErrorCreacionGenero> validarGenero(GenreDTO generoDTO) {
+        final List<ErrorCreacionGenero> listaErrores = new ArrayList<>();
+
+        if (StringUtils.isEmpty(generoDTO.getNombre())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_GENERO);
+
+        }
+        if (StringUtils.isEmpty(generoDTO.getUrlGenero())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_URL);
+
+        }
+        if (StringUtils.isEmpty(generoDTO.getImagenCabeceraGenero())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_IMAGEN_CABECERA);
+
+        }
+        if (StringUtils.isEmpty(generoDTO.getIconoGenero())) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_ICONO);
+        }
+
+        if (generoDTO.getCategoria() == null) {
+            listaErrores.add(ErrorCreacionGenero.FALTA_CATEGORIA);
+        }
+
+        return listaErrores;
     }
 
     private List<FilterDTO> getFiltersAvaliableByGenre(GenreDTO generoDTO) {

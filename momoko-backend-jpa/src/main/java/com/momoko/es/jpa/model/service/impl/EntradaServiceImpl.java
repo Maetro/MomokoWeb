@@ -33,6 +33,7 @@ import javax.xml.bind.DatatypeConverter;
 
 import com.momoko.es.api.enums.EntryStatusEnum;
 import com.momoko.es.api.enums.EntryTypeEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.entry.EntradaEntity;
 import com.momoko.es.jpa.gallery.GaleriaEntity;
@@ -609,24 +610,12 @@ public class EntradaServiceImpl implements EntradaService {
         return stringBuilder.toString();
     }
 
-    /**
-     * Obtener4 post pequenos con imagen.
-     *
-     * @param entradaId the entrada id
-     * @return the list
-     */
     private List<EntradaSimpleDTO> obtener4PostPequenosConImagen(final Integer entradaId) {
         final List<EntradaEntity> listaEntities = this.entradaRepository
                 .seleccionarEntradasAleatorias(entradaId, PageRequest.of(0, 3)).getContent();
         return ConversionUtils.obtenerEntradasBasicas(listaEntities, true);
     }
 
-    /**
-     * Obtener entrada anterior y siguiente.
-     *
-     * @param fechaAlta the fecha alta
-     * @return the list
-     */
     private List<EntradaSimpleDTO> obtenerEntradaAnteriorYSiguiente(final Integer entryId) {
         final List<EntradaEntity> entradaAnterior = this.entradaRepository
                 .findEntradaMiscelaneosAnteriorAFecha(entryId, PageRequest.of(0, 1)).getContent();
@@ -1263,5 +1252,49 @@ public class EntradaServiceImpl implements EntradaService {
     @Override
     public List<ComentarioDTO> getEntryComments(String urlEntrada) {
         return this.comentarioService.obtenerComentariosEntrada(urlEntrada);
+    }
+
+    @Override
+    public List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO) {
+        final List<ErrorCreacionEntrada> listaErrores = new ArrayList<>();
+        if (entradaDTO.getTituloEntrada() == null) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_TITULO);
+        }
+        if (entradaDTO.getContenidoEntrada() == null) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
+        }
+        if (estaPublicada(entradaDTO) && !isNewsMiscellaneousOrVideo(entradaDTO)
+                && org.springframework.util.CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
+                && org.springframework.util.CollectionUtils.isEmpty(entradaDTO.getNombresSagasEntrada())) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
+        }
+        if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {
+            listaErrores.add(ErrorCreacionEntrada.FALTA_EDITOR_POST);
+        }
+        return listaErrores;
+    }
+
+    /**
+     * Es tipo miscelanea.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     * @return true, if successful
+     */
+    public boolean isNewsMiscellaneousOrVideo(final EntradaDTO entradaDTO) {
+        return EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType())
+                || EntryTypeEnum.VIDEO.equals(entradaDTO.getEntryType())
+                || EntryTypeEnum.NEWS.equals(entradaDTO.getEntryType());
+    }
+
+    /**
+     * Esta publicada.
+     *
+     * @param entradaDTO
+     *            the entrada dto
+     * @return true, if successful
+     */
+    public boolean estaPublicada(final EntradaDTO entradaDTO) {
+        return EntryStatusEnum.PUBLISHED.equals(entradaDTO.getEntryStatus());
     }
 }

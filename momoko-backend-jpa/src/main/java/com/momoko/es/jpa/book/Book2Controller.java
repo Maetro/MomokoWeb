@@ -16,7 +16,7 @@ import java.util.List;
 @Controller
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
 @RequestMapping(path = "/model")
-public class BookController {
+public class Book2Controller {
 
     @Autowired(required = false)
     private ValidadorService validadorService;

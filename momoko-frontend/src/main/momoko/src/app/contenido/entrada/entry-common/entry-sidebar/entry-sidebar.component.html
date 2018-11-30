@@ -1,5 +1,8 @@
-<div class="col-sm-4" *ngIf="book">
+<div class="col-sm-6 col-md-4" *ngIf="book">
     <app-book-data [book]="book"></app-book-data>
+</div>
+<div class="col-sm-6 col-md-4" *ngIf="book">
+    <app-book-menu [libro]="book" [datosEntrada]="datosEntrada" [parentType]="parentType"></app-book-menu>
 </div>
 <ng-container>
     <app-sidebar [libros]="librosParecidos" [tituloSeccionLibros]="tituloSeccionLibros"></app-sidebar>

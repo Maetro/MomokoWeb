@@ -130,4 +130,9 @@ public class UtilFrontController {
 
     }
 
+    @RequestMapping(method = RequestMethod.GET, path = "/test")
+    public String test() {
+        return "OK";
+    }
+
 }

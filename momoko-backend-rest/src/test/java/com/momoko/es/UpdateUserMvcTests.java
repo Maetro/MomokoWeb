@@ -18,7 +18,7 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
+@Sql({"/src/test/resources/test-data/initialize.sql", "/src/test/resources/test-data/finalize.sql"})
 public class UpdateUserMvcTests extends AbstractMvcTests {
 	
 	private static final String UPDATED_NAME = "Edited name";
@@ -28,22 +28,22 @@ public class UpdateUserMvcTests extends AbstractMvcTests {
     private String userPatchNullName;
     private String userPatchLongName;
 	
-	@Value("classpath:/update-user/patch-update-user.json")
+	@Value("classpath:/src/test/resources/update-user/patch-update-user.json")
 	public void setUserPatch(Resource patch) throws IOException {
 		this.userPatch = MomokoUtils.toString(patch);
 	}
 	
-	@Value("classpath:/update-user/patch-admin-role.json")
+	@Value("classpath:/src/test/resources/update-user/patch-admin-role.json")
 	public void setUserPatchAdminRole(Resource patch) throws IOException {
 		this.userPatchAdminRole = MomokoUtils.toString(patch);;
 	}
 
-	@Value("classpath:/update-user/patch-null-name.json")
+	@Value("classpath:/src/test/resources/update-user/patch-null-name.json")
 	public void setUserPatchNullName(Resource patch) throws IOException {
 		this.userPatchNullName = MomokoUtils.toString(patch);;
 	}
 
-	@Value("classpath:/update-user/patch-long-name.json")
+	@Value("classpath:/src/test/resources/update-user/patch-long-name.json")
 	public void setUserPatchLongName(Resource patch) throws IOException {
 		this.userPatchLongName = MomokoUtils.toString(patch);;
 	}

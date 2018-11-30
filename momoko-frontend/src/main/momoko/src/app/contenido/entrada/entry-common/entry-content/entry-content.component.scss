@@ -1,5 +1,7 @@
+@media(max-width: 1279px) {
 
-.etiquetasText {
-    color: #d0d0d0;
-    font-size: 13px;
+  ::ng-deep h2 {
+    font-size: 24px;
   }
+
+}

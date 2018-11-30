@@ -37,7 +37,7 @@ Author:		elemis
 	26. DIVIDERS
 	27. RESPONSIVE
 
-	font-family: 'Josefin Sans', sans-serif;
+	font-family: 'Cabin', sans-serif;
 	font-family: 'Vidaloka', serif;
 	text: #505050
 	hover: #d77d8a
@@ -181,7 +181,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
   color: #505050;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cabin', sans-serif;
   background: #fff;
   display: flex;
   height: 100vh;
@@ -314,7 +314,7 @@ h6 {
 
 .widget-title,
 .section-title {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cabin', sans-serif;
   text-transform: uppercase;
   font-weight: 700;
 }
@@ -625,7 +625,7 @@ footer .sub-footer .inner {
   margin: 0;
   position: relative;
   background: #f2f3f5;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .navbar.inverse {
@@ -654,7 +654,7 @@ footer .sub-footer .inner {
   letter-spacing: 1.5px;
   margin-top: -12px;
   text-transform: uppercase;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .navbar .header-left,
@@ -1523,7 +1523,7 @@ figure a .text-overlay .info .meta {
   letter-spacing: normal;
   margin-bottom: 10px;
   text-transform: uppercase;
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .category {
@@ -2206,7 +2206,7 @@ ul.tag-list li a.btn:hover {
 }
 
 h4.panel-title {
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cabin', sans-serif;
 }
 
 .panel-group .panel-title>a {
@@ -4003,7 +4003,7 @@ select {
     display: none
   }
   #comments .message-inner {
-    margin-left: 0
+    margin: 0px 15px;
   }
   #comments ul.children {
     padding: 0 0 0 25px

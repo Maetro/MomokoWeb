@@ -3,6 +3,7 @@ import { environment } from "environments/environment";
 import { LibroSimple } from "app/dtos/libroSimple";
 import { Entrada } from "app/dtos/entrada";
 import { Libro } from "app/dtos/libro";
+import { DatoEntrada } from "app/dtos/datoEntrada";
 
 @Component({
     selector: 'app-entry-sidebar',
@@ -16,6 +17,10 @@ export class EntrySidebarComponent implements OnInit {
     @Input() book: Libro;
 
     @Input() librosParecidos: LibroSimple[]; 
+
+    @Input() datosEntrada: DatoEntrada[];
+
+    @Input() parentType: string;
 
     tituloSeccionLibros = 'Otros libros parecidos';
 

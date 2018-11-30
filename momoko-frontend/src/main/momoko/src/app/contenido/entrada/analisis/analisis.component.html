@@ -1,5 +1,5 @@
 <ngx-json-ld [json]="schema"></ngx-json-ld>
-<!-- <app-menu-interno-libro [libro]="entrada.librosEntrada[0]" [datosEntrada]="entrada.datosEntrada" [parentType]="'ANALISIS'"></app-menu-interno-libro>-->
+
 <div class="light-wrapper">
   <div class="container marginBottom50">
 
@@ -12,7 +12,8 @@
           <app-entry-content [entry]="entrada"> </app-entry-content>
         </div>
 
-        <app-entry-sidebar [entry]="entrada" [book]="entrada.librosEntrada[0]" [librosParecidos]="librosParecidos"> </app-entry-sidebar>
+        <app-entry-sidebar [entry]="entrada" [book]="entrada.librosEntrada[0]" [librosParecidos]="librosParecidos" [datosEntrada]="entrada.datosEntrada"
+        [parentType]="'ANALISIS'"> </app-entry-sidebar>
         <div class="col-sm-12">
         <app-entry-footer [entry]="entrada" [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"
         [entradaAnteriorYSiguiente]="entradaAnteriorYSiguiente">

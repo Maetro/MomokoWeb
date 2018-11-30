@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,6 +41,24 @@ public class GaleriaServiceImpl implements GaleriaService {
     @Override
     public GaleriaDTO obtenerGaleria(final Integer galeriaId) {
         return EntityToDTOAdapter.adaptarGaleria(this.galeriaRepository.findById(galeriaId).orElse(null));
+    }
+
+    @Override
+    public List<ErrorCreacionGaleria> validarGaleria(final GaleriaDTO galeriaDTO) {
+        final List<ErrorCreacionGaleria> listaErrores = new ArrayList<>();
+        if (StringUtils.isEmpty(galeriaDTO.getNombreGaleria())) {
+            listaErrores.add(ErrorCreacionGaleria.FALTA_NOMBRE);
+        }
+        if (StringUtils.isEmpty(galeriaDTO.getUrlGaleria())) {
+            listaErrores.add(ErrorCreacionGaleria.FALTA_URL);
+        }
+        if (galeriaDTO.getColumnas() == null) {
+            listaErrores.add(ErrorCreacionGaleria.FALTA_NUMERO_COLUMNAS);
+        }
+        if (org.springframework.util.CollectionUtils.isEmpty(galeriaDTO.getImagenes())) {
+            listaErrores.add(ErrorCreacionGaleria.FALTAN_IMAGENES);
+        }
+        return listaErrores;
     }
 
     @Override

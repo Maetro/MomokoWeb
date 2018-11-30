@@ -22,6 +22,7 @@ import { CustomBlockComponent } from './custom-block/custom-block.component';
 import { FourLinksWithContentComponent } from './custom-block/templates/four-links-with-content/four-links-with-content.component';
 import { BookDataComponent } from './book-data/book-data.component';
 import { BlockOnlyComponent } from './custom-block/templates/block-only/block-only.component';
+import { BookMenuComponent } from './book-menu/book-menu.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, CheckboxModule, FormsModule],
@@ -43,7 +44,8 @@ import { BlockOnlyComponent } from './custom-block/templates/block-only/block-on
     FourLinksWithContentComponent,
     BlockOnlyComponent,
     BookDataComponent,
-    TruncatePipe
+    TruncatePipe,
+    BookMenuComponent
   ],
   exports: [
     TagCategoriaComponent,
@@ -58,7 +60,8 @@ import { BlockOnlyComponent } from './custom-block/templates/block-only/block-on
     RelatedPostsComponent,
     CustomBlockComponent,
     BookDataComponent,
-    TruncatePipe
+    TruncatePipe,
+    BookMenuComponent
   ],
   entryComponents: [CustomBlockComponent]
 })

@@ -20,6 +20,7 @@ import com.momoko.es.jpa.entry.EntradaEntity;
 import com.momoko.es.jpa.gallery.GaleriaEntity;
 import com.momoko.es.jpa.filter.FilterEntity;
 import com.momoko.es.jpa.filter.FilterValueEntity;
+import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.publisher.EditorialEntity;
 import com.momoko.es.jpa.saga.SagaEntity;
 import com.momoko.es.jpa.score.PuntuacionEntity;

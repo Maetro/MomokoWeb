@@ -1,17 +1,9 @@
-<div class="parallax page-title inverse-wrapper parallax2" [ngStyle]="{background: 'url(' + libro.generos[0].imagenCabeceraGenero + ')'}">
-  <div class="container inner">
-    <div class="textoCabecera">
-      <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
-        <span [hidden]="last">, </span>
-      </span>
-    </div>
-  </div>
-</div>
-<app-menu-interno-libro [libro]="libro" [datosEntrada]="datosEntrada" [parentType]="'FICHA'"></app-menu-interno-libro>
+
 <div class="light-wrapper">
   <div class="container inner nopaddingbottom">
     <div class="blog row">
-      <div class="col-md-4" id="mirarAnchura">
+      
+      <div class="col-xs-12 col-sm-6 col-md-3" id="mirarAnchura">
         <app-libro3d [anchura]="mirarAnchura()" [anchuraPortada]="libro.portadaWidth" [alturaPortada]="libro.portadaHeight"
           [portada]="libro.urlImagen"></app-libro3d>
         <div class="post__share" data-title="" data-text="" data-image="http://demo.tokomoo.com/pustaka/buku/wp-content/uploads/sites/3/2016/10/Book_003.jpg"
@@ -35,10 +27,10 @@
           </div>
         </div>
       </div>
-      <div class="col-md-8">
+      <div class="col-xs-12 col-sm-6 col-md-6">
         <div class="row">
-          <div class="col-md-9">
-            <div class="etiquetaLibro">
+          <div class="col-xs-12 col-md-9">
+            <div class="etiquetaLibro hidden-xs hidden-sm">
               <span *ngFor="let genero of libro.generos, let last = last;">{{genero.nombre}}
                 <span [hidden]="last"> / </span>
               </span>
@@ -57,13 +49,13 @@
               </span>
             </div>
           </div>
-          <div class="col-md-3" *ngIf="libro.notaMomoko">
+          <div class="col-xs-12  col-md-3" *ngIf="libro.notaMomoko">
             <app-nota-circular [nota]="libro.notaMomoko"></app-nota-circular>
           </div>
-          <div class="col-md-12">
+          <div class="col-xs-12  col-md-12">
             <p> {{libro.resumen}} </p>
           </div>
-          <div class="col-md-12">
+          <div class="col-xs-12 col-md-12">
             <div class="datos editorial" *ngIf="libro.editorial.nombreEditorial">
               <b>EDITORIAL: </b>
               <a routerLink="/editorial/{{libro.editorial.urlEditorial}}">
@@ -91,6 +83,9 @@
             </a>
           </div>
         </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-sm-offset-6 col-md-3 col-md-offset-0" style="margin-top: -20px;">
+          <app-book-menu [libro]="libro" [datosEntrada]="datosEntrada" [parentType]="'FICHA'"></app-book-menu>
       </div>
     </div>
   </div>

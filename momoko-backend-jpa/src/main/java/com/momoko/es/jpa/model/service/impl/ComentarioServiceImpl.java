@@ -18,7 +18,10 @@ import java.util.Set;
 
 import com.momoko.es.api.dto.request.*;
 import com.momoko.es.api.enums.EntryTypeEnum;
+import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
+import com.momoko.es.api.enums.errores.ErrorPublicarComentario;
 import com.momoko.es.api.exceptions.UserNotFoundException;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -285,5 +288,37 @@ public class ComentarioServiceImpl implements ComentarioService {
         Mail.sendEmail("Redactor en contacto en momoko.es", suscribeContactRequestDTO.toString(), "kizuna.owo@gmail.com");
         System.out.println(suscribeContactRequestDTO.toString());
     }
+
+    @Override
+    public List<ErrorPublicarComentario> validarComentario(final ComentarioDTO comentarioDTO) {
+        final List<ErrorPublicarComentario> listaErrores = new ArrayList<>();
+        if (StringUtils.isNotEmpty(comentarioDTO.getTextoComentario())) {
+            listaErrores.add(ErrorPublicarComentario.COMENTARIO_VACIO);
+        }
+        if (comentarioDTO.getEntradaId() == null) {
+            listaErrores.add(ErrorPublicarComentario.FALTA_ENTIDAD_ASOCIADA);
+        }
+        return listaErrores;
+    }
+
+    @Override
+    public List<ErrorCreacionComentario> validarComentario(final NuevoComentarioRequest comentario) {
+        final List<ErrorCreacionComentario> listaErrores = new ArrayList<>();
+        if (StringUtils.isEmpty(comentario.getNombre())) {
+            listaErrores.add(ErrorCreacionComentario.FALTA_NOMBRE);
+        }
+        if (StringUtils.isEmpty(comentario.getEmail())) {
+            listaErrores.add(ErrorCreacionComentario.FALTA_EMAIL);
+        }
+        if (StringUtils.isEmpty(comentario.getContenido())) {
+            listaErrores.add(ErrorCreacionComentario.COMENTARIO_VACIO);
+        }
+        if (comentario.getEntradaId() == null) {
+            listaErrores.add(ErrorCreacionComentario.NO_SE_ENCUENTRA_ENTRADA);
+        }
+        return listaErrores;
+    }
+
+
 
 }

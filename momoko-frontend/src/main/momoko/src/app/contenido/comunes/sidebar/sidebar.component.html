@@ -1,4 +1,4 @@
-<aside class="col-sm-4 sidebar hidden-xs">
+<aside class="col-md-4 sidebar hidden-xs hidden-sm">
 
   <!-- /.widget -->
   <div class="sidebox widget">
@@ -20,18 +20,18 @@
     <h3 class="widget-title section-title">Filtrar por</h3>
     <div *ngFor="let filter of basicFilters; let last = last;">
 
-        <h4>{{filter.nameFilter}}</h4>
-        <div class="row" style="width:250px;margin-bottom:10px">
-          <div class="col-xs-12" *ngFor="let option of filter.filterValues">
-            <p-checkbox (onChange)="updateFilters()" name="{{filter.nameFilter}}" value="{{option.value}}" label="{{option.name}}"
+      <h4>{{filter.nameFilter}}</h4>
+      <div class="row" style="width:250px;margin-bottom:10px">
+        <div class="col-xs-12" *ngFor="let option of filter.filterValues">
+          <p-checkbox (onChange)="updateFilters()" name="{{filter.nameFilter}}" value="{{option.value}}" label="{{option.name}}"
             [(ngModel)]="filter.stringSelectedValues" inputId="filter.urlFilter"></p-checkbox>
-           
-                  <!-- <p-checkbox name="{{filter.nameFilter}}" value="{{possibleValue.value}}" [(ngModel)]="filter.value" label="{{possibleValue.name}}"></p-checkbox> -->
 
-              
-          </div>
+          <!-- <p-checkbox name="{{filter.nameFilter}}" value="{{possibleValue.value}}" [(ngModel)]="filter.value" label="{{possibleValue.name}}"></p-checkbox> -->
+
+
         </div>
-        <hr *ngIf="!last" />
+      </div>
+      <hr *ngIf="!last" />
 
     </div>
     <!-- /.post-list -->
@@ -49,14 +49,14 @@
         <div id="collapseOne" class="panel-collapse collapse">
           <div class="panel-body">
             <div *ngFor="let filter of advancedFilters; let last = last;">
-                <h4>{{filter.nameFilter}}</h4>
-                <div class="row" style="width:250px;margin-bottom:10px">
-                  <div class="col-xs-12" *ngFor="let option of filter.filterValues">
-                      <p-checkbox (onChange)="updateFilters()" name="{{filter.nameFilter}}" value="{{option.value}}" label="{{option.name}}"
-                      [(ngModel)]="filter.stringSelectedValues" inputId="filter.urlFilter"></p-checkbox>
-                  </div>
+              <h4>{{filter.nameFilter}}</h4>
+              <div class="row" style="width:250px;margin-bottom:10px">
+                <div class="col-xs-12" *ngFor="let option of filter.filterValues">
+                  <p-checkbox (onChange)="updateFilters()" name="{{filter.nameFilter}}" value="{{option.value}}" label="{{option.name}}"
+                    [(ngModel)]="filter.stringSelectedValues" inputId="filter.urlFilter"></p-checkbox>
                 </div>
-                <hr *ngIf="!last" />
+              </div>
+              <hr *ngIf="!last" />
             </div>
 
           </div>
@@ -83,6 +83,14 @@
     <!-- /.post-list -->
   </div>
 
+
+  
+  <!-- MomokoSidebarAd -->
+  <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-6920065371274198" data-ad-slot="5176388064"
+    data-ad-format="auto" data-full-width-responsive="true"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <div class="sidebox widget marginTop30">
     <h3 class="widget-title section-title">Ayudanos a crecer
       <img class="imagen-buscador" src="https://momoko.es/images/fijas/kofi.gif" alt="Gif for kofi patreon" />

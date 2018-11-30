@@ -4,8 +4,11 @@
  */
 package com.momoko.es.jpa.model.service.impl;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
+import com.momoko.es.api.enums.errores.ErrorAnadirPuntuacionEnum;
 import com.momoko.es.api.exceptions.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -63,6 +66,20 @@ public class PuntuacionServiceImpl implements PuntuacionService {
         }
 
         return EntityToDTOAdapter.adaptarPuntuacion(respuesta);
+    }
+
+
+    @Override
+    public List<ErrorAnadirPuntuacionEnum> validarPuntuacion(final PuntuacionDTO puntuacionDTO) {
+        final List<ErrorAnadirPuntuacionEnum> listaErrores = new ArrayList<>();
+        if ((puntuacionDTO.getValor() == null)
+                || ((puntuacionDTO.getValor().intValue() >= 0) && (puntuacionDTO.getValor().intValue() <= 10))) {
+            listaErrores.add(ErrorAnadirPuntuacionEnum.PUNTUACION_INCORRECTA);
+        }
+        if (puntuacionDTO.getLibroId() == null) {
+            listaErrores.add(ErrorAnadirPuntuacionEnum.FALTA_LIBRO);
+        }
+        return listaErrores;
     }
 
     /**

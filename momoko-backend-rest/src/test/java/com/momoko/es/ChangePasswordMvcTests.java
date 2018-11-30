@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Sql({"/test-data/initialize.sql", "/test-data/finalize.sql"})
+@Sql({"/src/test/resources/test-data/initialize.sql", "/src/test/resources/test-data/finalize.sql"})
 public class ChangePasswordMvcTests extends AbstractMvcTests {
 	
 	private static final String NEW_PASSWORD = "a-new-password";

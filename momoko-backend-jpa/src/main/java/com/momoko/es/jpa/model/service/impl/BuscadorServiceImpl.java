@@ -14,6 +14,7 @@ import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.category.CategoriaEntity;
 import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.genre.repository.GeneroRepository;
 import com.momoko.es.jpa.model.repository.*;
 import com.momoko.es.jpa.model.service.BuscadorService;

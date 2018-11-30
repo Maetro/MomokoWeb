@@ -24,6 +24,7 @@ import com.momoko.es.jpa.entry.EntradaEntity;
 import com.momoko.es.jpa.gallery.GaleriaEntity;
 import com.momoko.es.jpa.filter.FilterEntity;
 import com.momoko.es.jpa.filter.FilterValueEntity;
+import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.publisher.EditorialEntity;
 import com.momoko.es.jpa.saga.SagaEntity;
 import com.momoko.es.jpa.score.PuntuacionEntity;
@@ -335,7 +336,7 @@ public final class EntityToDTOAdapter {
      * @return the establece
      */
     public static Set<GenreDTO> adaptarGeneros(final Set<GenreEntity> generos) {
-        final Set<GenreDTO> generosEntities = new HashSet<GenreDTO>();
+        final Set<GenreDTO> generosEntities = new HashSet<>();
         for (final GenreEntity generoEntity : generos) {
             generosEntities.add(adaptarGenero(generoEntity));
         }
@@ -350,7 +351,7 @@ public final class EntityToDTOAdapter {
      * @return the establece
      */
     public static List<GenreDTO> adaptarGeneros(final List<GenreEntity> generos) {
-        final List<GenreDTO> generosEntities = new ArrayList<GenreDTO>();
+        final List<GenreDTO> generosEntities = new ArrayList<>();
         for (final GenreEntity generoEntity : generos) {
             generosEntities.add(adaptarGenero(generoEntity));
         }

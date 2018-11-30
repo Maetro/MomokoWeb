@@ -1,41 +1,54 @@
-.tituloEntrada h1{
-    font-size: 42px;
-    line-height: 50px;
-    margin: 30px 0 20px;
+.tituloEntrada h1 {
+  font-size: 42px;
+  line-height: 50px;
+  margin: 30px 0 20px;
+}
+
+.infoEntrada {
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+span {
+
+  &.generosText,
+  &.editorialText {
+    margin-left: 20px;
   }
 
-  .infoEntrada {
-    margin-bottom: 30px;
-    font-family: 'Montserrat', sans-serif;
+  &.autorEntrada {
+    margin-right: 5px;
   }
-  
-  span {
-  
-    &.generosText,
-    &.editorialText {
-      margin-left: 20px;
-    }
+}
 
-    &.autorEntrada {
-      margin-right: 5px;
-    }
+.categoryTitle {
+  font-size: 11px;
+  line-height: 19px;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-family: 'Montserrat', sans-serif;
+  color: gray;
+}
+
+.dot {
+  width: 2px;
+  height: 2px;
+  display: inline-block;
+  background-color: #ccc;
+  border-radius: 100%;
+  margin: 0 .5rem;
+}
+
+@media(max-width: 1279px) {
+  .mobileMarginTop20 {
+    margin-top: 20px;
   }
 
-  .categoryTitle {
-    font-size: 11px;
-    line-height: 19px;
-    letter-spacing: 2px;
-    font-weight: 400;
-    text-transform: uppercase;
-    font-family: 'Montserrat', sans-serif;
-    color: gray;
+  .tituloEntrada h1 {
+    font-size: 29px;
+    line-height: 36px;
+    margin: 15px 0 15px;
   }
 
-  .dot{
-    width: 2px;
-    height: 2px;
-    display: inline-block;
-    background-color: #ccc;
-    border-radius: 100%;
-    margin: 0 .5rem;
-  }
+}

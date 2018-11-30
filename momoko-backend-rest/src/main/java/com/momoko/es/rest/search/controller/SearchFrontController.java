@@ -9,21 +9,22 @@ import com.momoko.es.jpa.model.service.BuscadorService;
 import com.momoko.es.jpa.model.service.EntradaService;
 import com.momoko.es.jpa.model.service.StorageService;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
 @RequestMapping(path = "/public")
 public class SearchFrontController {
+
+    private static final Logger log = LoggerFactory.getLogger(SearchFrontController.class);
 
     private static final String LIBRO = "libro/";
     private static final String GENERO = "genero/";
@@ -46,6 +47,7 @@ public class SearchFrontController {
     ObtenerPaginaBusquedaResponse obtenerBusqueda(
             @PathVariable("parametros-busqueda") final String parametrosBusqueda,
             @RequestHeader(value = "User-Agent") final String userAgent) {
+        log.debug("search");
         final ObtenerPaginaBusquedaResponse busquedaResponse = new ObtenerPaginaBusquedaResponse();
 
         final String key = "AIzaSyBnQDrUmjpTtgHSgxTaOnt39u6SXiDvwPE";
@@ -265,6 +267,46 @@ public class SearchFrontController {
             entradas.add(urlPart);
             order.add(urlPart);
         }
+    }
+
+
+
+    private Date obtenerFechaLibroMasReciente(final List<LibroDTO> librosSimples) {
+        Date fechaMasReciente = null;
+        for (final LibroDTO libro : librosSimples) {
+            if (libro.getFechaAlta() != null) {
+                fechaMasReciente = obtenerFechaMasReciente(fechaMasReciente, libro.getFechaAlta());
+            }
+        }
+        return fechaMasReciente;
+    }
+
+    /**
+     * Obtener fecha actualizacion mas reciente.
+     *
+     * @param entradasSimples the entradas simples
+     * @return the date
+     */
+    private Date obtenerFechaActualizacionMasReciente(final List<EntradaSimpleDTO> entradasSimples) {
+        Date fechaMasReciente = null;
+        for (final EntradaSimpleDTO entradaSimpleDTO : entradasSimples) {
+            fechaMasReciente = obtenerFechaMasReciente(fechaMasReciente, entradaSimpleDTO.getFechaAlta());
+        }
+        return fechaMasReciente;
+    }
+
+    /**
+     * Obtener fecha mas reciente.
+     *
+     * @param fechaMasReciente the fecha mas reciente
+     * @param candidata        the candidata
+     * @return the date
+     */
+    public Date obtenerFechaMasReciente(Date fechaMasReciente, final Date candidata) {
+        if ((fechaMasReciente == null) || (candidata.after(fechaMasReciente))) {
+            fechaMasReciente = candidata;
+        }
+        return fechaMasReciente;
     }
 
 }
