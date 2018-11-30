@@ -74,7 +74,7 @@ public class AMPFacade {
     @Cacheable("opinionesAMP")
     public @ResponseBody
     String getOpinionesAMP(final HttpServletRequest request, final HttpServletResponse response,
-                           @PathVariable("url-entrada") final String urlEntrada) {
+                           @PathVariable("url-entrada") final String urlEntrada) throws IOException {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -133,8 +133,12 @@ public class AMPFacade {
             content = replaceTagInContent("${comments}", generarCommentsSection(comments), content);
         } catch (final IOException e) {
             e.printStackTrace();
+            response.sendError(404);
+        } catch (final NullPointerException e) {
+            e.printStackTrace();
+            response.sendError(404);
+            return "El elemento que ha buscado no existe, o no se encuentra disponible en este momento";
         }
-
         response.setCharacterEncoding("utf-8");
         return content;
     }
@@ -196,7 +200,7 @@ public class AMPFacade {
     @Cacheable("miscelaneoAMP")
     public @ResponseBody
     String getMiscelaneoAMP(final HttpServletRequest request, final HttpServletResponse response,
-                            @PathVariable("url-entrada") final String urlEntrada) {
+                            @PathVariable("url-entrada") final String urlEntrada) throws IOException {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -242,6 +246,11 @@ public class AMPFacade {
             content = replaceTagInContent("${meta-titulo}", entrada.getTituloEntrada(), content);
         } catch (final IOException e) {
             e.printStackTrace();
+            response.sendError(404);
+        } catch (final NullPointerException e) {
+            e.printStackTrace();
+            response.sendError(404);
+            return "El elemento que ha buscado no existe, o no se encuentra disponible en este momento";
         }
 
         response.setCharacterEncoding("utf-8");
@@ -252,7 +261,7 @@ public class AMPFacade {
     @Cacheable("noticiaAMP")
     public @ResponseBody
     String getNoticiaAMP(final HttpServletRequest request, final HttpServletResponse response,
-                         @PathVariable("url-entrada") final String urlEntrada) {
+                         @PathVariable("url-entrada") final String urlEntrada) throws IOException {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -298,6 +307,11 @@ public class AMPFacade {
             content = replaceTagInContent("${meta-titulo}", entrada.getTituloEntrada(), content);
         } catch (final IOException e) {
             e.printStackTrace();
+            response.sendError(404);
+        } catch (final NullPointerException e) {
+            e.printStackTrace();
+            response.sendError(404);
+            return "El elemento que ha buscado no existe, o no se encuentra disponible en este momento";
         }
 
         response.setCharacterEncoding("utf-8");

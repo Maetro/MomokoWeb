@@ -6,7 +6,7 @@
         background-position: left 600px, right top;
     }
 
-    .container.inner {
+    .container {
 
         .indexHeaderImageContainer {
             text-align: center;
@@ -35,9 +35,10 @@
             margin-bottom: 10px;
             font-weight: 400;
             font-family: 'Montserrat';
-
             @media (max-width: 800px) {
-                padding: 5px 15px;
+                padding: 5px 0px;
+                margin-top: 0px;
+                margin-bottom: 0px;
             }
         }
 
@@ -46,7 +47,9 @@
             line-height: 28px;
 
             @media (max-width: 800px) {
-                padding: 5px 15px;
+                padding: 5px 0px;
+                font-size: 16px;
+                line-height: 20px;
             }
         }
 
@@ -65,9 +68,7 @@
             @media (max-width: 800px) {
                 padding: 5px 15px;
             }
-        }
-
-  
+        }  
     }
 
     hr.fat {
@@ -84,5 +85,35 @@
         font-weight: 400;
         text-transform: uppercase;
         font-family: 'Montserrat';
+    }
+}
+
+.dark-wrapper{
+    
+    h1{
+        font-family: 'Montserrat', sans-serif;
+        font-size: 32px;
+        line-height: 41px;
+        font-weight: 600;
+        color: #222222;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .aboutUs{
+        font-size: 11px;
+        line-height: 16px;
+        letter-spacing: 2px;
+        color: #acacac;
+        font-weight: 400;
+        margin-top: 90px;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        font-family: 'Montserrat';
+    }
+
+    .companionText{
+        margin-bottom: 90px;
+        color: #adadad;
     }
 }
