@@ -6,13 +6,13 @@
  */
 package com.momoko.es.api.dto;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 /**
  * The Class ComentarioDTO.
@@ -217,57 +217,26 @@ public class ComentarioDTO implements Serializable {
         return this.comentariosHijo;
     }
 
-    /**
-     * Establece comentario referencia.
-     *
-     * @param comentarioReferencia
-     *            nuevo comentario referencia
-     */
     public void setComentarioReferencia(final List<ComentarioDTO> comentariosHijo) {
         this.comentariosHijo = comentariosHijo;
     }
 
-    /**
-     * Sets the comentario referencia.
-     *
-     * @param comentarioPadreId
-     *            the new comentario referencia
-     */
     public void setComentarioReferencia(final Integer comentarioPadreId) {
         this.comentarioPadreId = comentarioPadreId;
     }
 
-    /**
-     * Gets the comentario padre id.
-     *
-     * @return the comentario padre id
-     */
     public Integer getComentarioPadreId() {
         return this.comentarioPadreId;
     }
 
-    /**
-     * Gets the fecha.
-     *
-     * @return the fecha
-     */
     public Date getFecha() {
         return this.fecha;
     }
 
-    /**
-     * Sets the fecha.
-     *
-     * @param fecha
-     *            the new fecha
-     */
     public void setFecha(final Date fecha) {
         this.fecha = fecha;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public boolean equals(final Object other) {
         if (!(other instanceof ComentarioDTO)) {

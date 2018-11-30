@@ -6,6 +6,7 @@ package com.momoko.es.jpa.model.service;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.request.*;
+import com.momoko.es.api.enums.errores.ErrorCreacionComentario;
 
 import java.util.List;
 
@@ -53,4 +54,6 @@ public interface ComentarioService {
     public void sendContactEmail(EditorContactRequestDTO editorContactRequestDTO);
 
     public void sendContactEmail(SuscribeContactRequestDTO suscribeContactRequestDTO);
+
+    List<ErrorCreacionComentario> validarComentario(NuevoComentarioRequest comentario);
 }

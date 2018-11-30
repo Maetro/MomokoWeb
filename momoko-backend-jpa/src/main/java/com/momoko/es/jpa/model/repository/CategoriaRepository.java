@@ -6,7 +6,7 @@
  */
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.CategoriaEntity;
+import com.momoko.es.jpa.category.CategoriaEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;

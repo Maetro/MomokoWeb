@@ -68,11 +68,6 @@ public class ValidadorServiceImpl implements ValidadorService {
     }
 
     @Override
-    public boolean validarUsuario(@Valid final RegistroNuevoUsuarioDTO nuevoUsuarioRequest) {
-        return true;
-    }
-
-    @Override
     public List<ErrorCreacionGenero> validarGenero(final GenreDTO generoDTO) {
         final List<ErrorCreacionGenero> listaErrores = new ArrayList<>();
 

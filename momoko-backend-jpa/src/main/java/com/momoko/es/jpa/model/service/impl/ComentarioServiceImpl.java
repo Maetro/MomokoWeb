@@ -27,9 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.momoko.es.api.dto.ComentarioDTO;
 import com.momoko.es.api.dto.UsuarioBasicoDTO;
-import com.momoko.es.jpa.model.entity.ComentarioEntity;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.comment.ComentarioEntity;
+import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import com.momoko.es.jpa.model.repository.ComentarioRepository;
 import com.momoko.es.jpa.model.repository.EntradaRepository;
 import com.momoko.es.jpa.model.repository.UsuarioRepository;

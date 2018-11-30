@@ -6,16 +6,16 @@
  */
 package com.momoko.es.api.dto.response;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionGaleria;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The Class GuardarGaleriaResponse.

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.GaleriaDTO;
 import com.momoko.es.api.exceptions.ErrorEnGuardadoReconocidoException;
-import com.momoko.es.jpa.model.entity.GaleriaEntity;
+import com.momoko.es.jpa.gallery.GaleriaEntity;
 import com.momoko.es.jpa.model.repository.GaleriaRepository;
 import com.momoko.es.jpa.model.service.GaleriaService;
 import com.momoko.es.jpa.model.service.StorageService;

@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.PuntuacionDTO;
 import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
-import com.momoko.es.jpa.model.entity.SagaEntity;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.score.PuntuacionEntity;
+import com.momoko.es.jpa.saga.SagaEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.model.repository.PuntuacionRepository;
 import com.momoko.es.jpa.model.repository.SagaRepository;

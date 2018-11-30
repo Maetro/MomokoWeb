@@ -4,7 +4,7 @@
  */
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.ComentarioEntity;
+import com.momoko.es.jpa.comment.ComentarioEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

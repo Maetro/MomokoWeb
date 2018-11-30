@@ -2,7 +2,7 @@ package com.momoko.es;
 
 import com.momoko.es.commons.security.JwtService;
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -6,10 +6,10 @@
  */
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
-import com.momoko.es.jpa.model.entity.SagaEntity;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.score.PuntuacionEntity;
+import com.momoko.es.jpa.saga.SagaEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

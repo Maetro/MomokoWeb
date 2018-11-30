@@ -2,13 +2,11 @@ package com.momoko.es.jpa.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.momoko.es.commons.security.PermissionEvaluatorEntity;
-import com.momoko.es.commons.security.UserDto;
 import com.momoko.es.commons.security.UsuarioDTO;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 import javax.persistence.MappedSuperclass;
-import java.io.Serializable;
 
 /**
  * Base class for all entities.

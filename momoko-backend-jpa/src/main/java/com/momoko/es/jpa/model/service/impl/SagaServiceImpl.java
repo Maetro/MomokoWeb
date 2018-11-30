@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,12 +27,12 @@ import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConID;
-import com.momoko.es.api.exceptions.NoSeEncuentraElementoConUrl;
+import com.momoko.es.api.exceptions.UrlElementNotFoundException;
 import com.momoko.es.api.exceptions.NoSeEncuentranLibrosSagaException;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
-import com.momoko.es.jpa.model.entity.SagaEntity;
+import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.score.PuntuacionEntity;
+import com.momoko.es.jpa.saga.SagaEntity;
 import com.momoko.es.jpa.model.repository.EntradaRepository;
 import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.model.repository.PuntuacionRepository;
@@ -190,10 +189,10 @@ public class SagaServiceImpl implements SagaService {
     }
 
     @Override
-    public SagaDTO obtenerSaga(final String urlSaga) throws NoSeEncuentraElementoConUrl {
+    public SagaDTO obtenerSaga(final String urlSaga) throws UrlElementNotFoundException {
         final SagaEntity sagaEntity = this.sagaRepository.findOneByUrlSaga(urlSaga);
         if (sagaEntity == null) {
-            throw new NoSeEncuentraElementoConUrl("Saga URL: " + urlSaga);
+            throw new UrlElementNotFoundException("Saga URL: " + urlSaga);
         }
         final SagaDTO sagaDTO = EntityToDTOAdapter.adaptarSaga(sagaEntity, true, true);
         if (CollectionUtils.isNotEmpty(sagaDTO.getGeneros())) {

@@ -2,11 +2,9 @@ package com.momoko.es.jpa.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.momoko.es.commons.security.UserDto;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.commons.util.UserUtils;
 import com.momoko.es.commons.validation.Password;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
 import com.momoko.es.jpa.validation.Captcha;
 import com.momoko.es.jpa.validation.UniqueEmail;
 

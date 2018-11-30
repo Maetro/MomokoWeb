@@ -21,8 +21,6 @@ public interface ValidadorService {
 
     List<ErrorCreacionLibro> validarLibro(LibroDTO libroDTO);
 
-    boolean validarUsuario(RegistroNuevoUsuarioDTO nuevoUsuarioRequest);
-
     List<ErrorCreacionGenero> validarGenero(GenreDTO generoDTO);
 
     List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO);

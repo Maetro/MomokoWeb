@@ -1,7 +1,7 @@
 package com.momoko.es.jpa;
 
 import com.momoko.es.commons.security.UsuarioDTO;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.springframework.security.oauth2.core.oidc.StandardClaimNames;
 import org.springframework.stereotype.Service;

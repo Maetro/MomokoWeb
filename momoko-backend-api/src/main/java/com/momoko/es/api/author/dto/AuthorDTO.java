@@ -7,13 +7,14 @@
  */
 package com.momoko.es.api.author.dto;
 
-import java.io.Serializable;
-import java.util.Set;
 
 import com.momoko.es.api.dto.LibroDTO;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import java.io.Serializable;
+import java.util.Set;
 
 /**
  * The Class AuthorDTO.

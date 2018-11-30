@@ -11,11 +11,15 @@ import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.jpa.model.entity.*;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.category.CategoriaEntity;
+import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.genre.repository.GeneroRepository;
 import com.momoko.es.jpa.model.repository.*;
 import com.momoko.es.jpa.model.service.BuscadorService;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import com.momoko.es.jpa.model.util.EntityToDTOAdapter;
+import com.momoko.es.jpa.tag.EtiquetaEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

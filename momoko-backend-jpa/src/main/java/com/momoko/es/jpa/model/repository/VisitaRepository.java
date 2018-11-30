@@ -6,7 +6,7 @@
  */
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.VisitaEntity;
+import com.momoko.es.jpa.visit.VisitaEntity;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

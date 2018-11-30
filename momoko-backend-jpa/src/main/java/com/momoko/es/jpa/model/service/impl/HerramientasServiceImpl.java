@@ -9,7 +9,6 @@ package com.momoko.es.jpa.model.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.momoko.es.api.enums.EntryTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +22,10 @@ import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.model.repository.LibroRepository;
-import com.momoko.es.jpa.model.service.EditorialService;
+import com.momoko.es.jpa.publisher.EditorialService;
 import com.momoko.es.jpa.model.service.EntradaService;
 import com.momoko.es.jpa.model.service.EtiquetaService;
-import com.momoko.es.jpa.model.service.GenreService;
+import com.momoko.es.jpa.genre.service.GenreService;
 import com.momoko.es.jpa.model.service.HerramientasService;
 import com.momoko.es.jpa.model.service.LibroService;
 import com.momoko.es.jpa.model.service.SagaService;

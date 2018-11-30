@@ -6,7 +6,7 @@
  */
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.GaleriaEntity;
+import com.momoko.es.jpa.gallery.GaleriaEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

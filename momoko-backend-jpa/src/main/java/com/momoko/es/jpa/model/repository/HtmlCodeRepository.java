@@ -1,6 +1,6 @@
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.HtmlCodeEntity;
+import com.momoko.es.jpa.htmlcode.HtmlCodeEntity;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

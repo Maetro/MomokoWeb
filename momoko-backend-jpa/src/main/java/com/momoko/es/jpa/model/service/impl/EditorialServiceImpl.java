@@ -12,13 +12,13 @@ import com.momoko.es.api.dto.EditorialDTO;
 
 import com.momoko.es.api.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.jpa.model.entity.EntradaEntity;
-import com.momoko.es.jpa.model.entity.EditorialEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.PuntuacionEntity;
+import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.publisher.EditorialEntity;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.score.PuntuacionEntity;
 import com.momoko.es.jpa.model.repository.EditorialRepository;
 import com.momoko.es.jpa.model.repository.PuntuacionRepository;
-import com.momoko.es.jpa.model.service.EditorialService;
+import com.momoko.es.jpa.publisher.EditorialService;
 import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.jpa.model.util.ConversionUtils;
 import com.momoko.es.jpa.model.util.DTOToEntityAdapter;

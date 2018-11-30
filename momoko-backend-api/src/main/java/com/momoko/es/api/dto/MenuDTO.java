@@ -6,14 +6,14 @@
  */
 package com.momoko.es.api.dto;
 
-import java.io.Serializable;
-import java.util.List;
-
-import org.apache.commons.lang.builder.CompareToBuilder;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
 
 import com.momoko.es.api.dto.genre.GenreDTO;
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The Class MenuDTO.

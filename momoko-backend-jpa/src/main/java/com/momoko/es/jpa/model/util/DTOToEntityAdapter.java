@@ -13,9 +13,18 @@ import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.jpa.author.entity.AuthorEntity;
-import com.momoko.es.jpa.model.entity.*;
-import com.momoko.es.jpa.model.entity.filter.FilterEntity;
-import com.momoko.es.jpa.model.entity.filter.FilterValueEntity;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.category.CategoriaEntity;
+import com.momoko.es.jpa.comment.ComentarioEntity;
+import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.gallery.GaleriaEntity;
+import com.momoko.es.jpa.filter.FilterEntity;
+import com.momoko.es.jpa.filter.FilterValueEntity;
+import com.momoko.es.jpa.publisher.EditorialEntity;
+import com.momoko.es.jpa.saga.SagaEntity;
+import com.momoko.es.jpa.score.PuntuacionEntity;
+import com.momoko.es.jpa.tag.EtiquetaEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.util.ArrayList;
@@ -87,7 +96,7 @@ public final class DTOToEntityAdapter {
      * @return the entrada entity
      */
     public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final List<LibroDTO> librosEntrada,
-            final List<SagaDTO> sagasEntrada, final UsuarioEntity autor) {
+                                               final List<SagaDTO> sagasEntrada, final UsuarioEntity autor) {
         final EntradaEntity entradaEntity = new EntradaEntity();
         entradaEntity.setEntradaId(entradaDTO.getEntradaId());
         entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
@@ -343,7 +352,7 @@ public final class DTOToEntityAdapter {
      * @return the comentario entity
      */
     public static ComentarioEntity adaptarComentario(final ComentarioDTO comentarioDTO, final EntradaEntity entrada,
-            final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
+                                                     final UsuarioEntity autor, final ComentarioEntity comentarioReferenciaEntity) {
         final ComentarioEntity comentario = new ComentarioEntity();
         comentario.setEmailComentario(autor.getEmail());
         comentario.setNombreComentario(autor.getUsuarioLogin());
@@ -369,7 +378,7 @@ public final class DTOToEntityAdapter {
      * @return the puntuacion entity
      */
     public static PuntuacionEntity adaptarPuntuacion(final PuntuacionDTO puntuacionDTO, final UsuarioEntity autor,
-            final LibroEntity libro) {
+                                                     final LibroEntity libro) {
         final PuntuacionEntity puntuacionEntity = new PuntuacionEntity();
         puntuacionEntity.setAutor(autor);
         puntuacionEntity.setComentario(puntuacionDTO.getComentario());

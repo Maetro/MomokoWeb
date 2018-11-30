@@ -1,7 +1,7 @@
 package com.momoko.es;
 
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import com.momoko.es.jpa.util.MomokoUtils;
 import org.junit.Assert;
 import org.junit.Test;

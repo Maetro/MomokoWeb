@@ -6,7 +6,7 @@
  */
 package com.momoko.es.jpa.model.repository;
 
-import com.momoko.es.jpa.model.entity.SuscripcionEntity;
+import com.momoko.es.jpa.suscription.SuscripcionEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**

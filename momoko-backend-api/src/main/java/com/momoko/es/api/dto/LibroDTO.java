@@ -6,19 +6,19 @@
  */
 package com.momoko.es.api.dto;
 
+
+import com.momoko.es.api.author.dto.AuthorDTO;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.filter.dto.FilterDTO;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import com.momoko.es.api.author.dto.AuthorDTO;
-import com.momoko.es.api.filter.dto.FilterDTO;
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.apache.commons.lang.builder.ToStringBuilder;
-
-import com.momoko.es.api.dto.genre.GenreDTO;
 
 /**
  * The Class LibroDTO.

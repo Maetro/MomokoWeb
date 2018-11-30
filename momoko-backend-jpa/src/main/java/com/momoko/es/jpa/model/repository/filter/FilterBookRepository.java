@@ -1,8 +1,8 @@
 package com.momoko.es.jpa.model.repository.filter;
 
-import com.momoko.es.jpa.model.entity.LibroEntity;
-import com.momoko.es.jpa.model.entity.filter.FilterBook;
-import com.momoko.es.jpa.model.entity.filter.key.FilterBookValueId;
+import com.momoko.es.jpa.book.LibroEntity;
+import com.momoko.es.jpa.filter.FilterBook;
+import com.momoko.es.jpa.filter.key.FilterBookValueId;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

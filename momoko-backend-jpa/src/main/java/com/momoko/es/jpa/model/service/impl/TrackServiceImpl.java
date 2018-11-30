@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.momoko.es.api.enums.TipoVisitaEnum;
-import com.momoko.es.jpa.model.entity.VisitaEntity;
+import com.momoko.es.jpa.visit.VisitaEntity;
 import com.momoko.es.jpa.model.repository.VisitaRepository;
 import com.momoko.es.jpa.model.service.TrackService;
 

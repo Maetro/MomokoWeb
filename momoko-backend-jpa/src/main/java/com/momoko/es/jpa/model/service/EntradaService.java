@@ -9,6 +9,7 @@ package com.momoko.es.jpa.model.service;
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
+import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 
 import java.util.Collection;
 import java.util.List;
@@ -270,4 +271,6 @@ public interface EntradaService {
     EntradaDTO obtenerEntrada(String urlEntrada);
 
     List<ComentarioDTO> getEntryComments(String urlEntrada);
+
+    List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO);
 }

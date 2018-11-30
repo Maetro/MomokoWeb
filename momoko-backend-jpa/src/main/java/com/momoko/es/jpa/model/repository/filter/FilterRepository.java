@@ -1,10 +1,8 @@
 package com.momoko.es.jpa.model.repository.filter;
 
 import com.momoko.es.jpa.model.entity.GenreEntity;
-import com.momoko.es.jpa.model.entity.filter.FilterEntity;
-import org.springframework.data.jpa.repository.Query;
+import com.momoko.es.jpa.filter.FilterEntity;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;

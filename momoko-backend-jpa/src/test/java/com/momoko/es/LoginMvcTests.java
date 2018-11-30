@@ -1,7 +1,7 @@
 package com.momoko.es;
 
 import com.momoko.es.commons.util.LecUtils;
-import com.momoko.es.jpa.model.entity.UsuarioEntity;
+import com.momoko.es.jpa.user.UsuarioEntity;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.jdbc.Sql;

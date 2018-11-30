@@ -7,7 +7,7 @@
 package com.momoko.es.jpa.author.entity;
 
 import com.momoko.es.jpa.common.entity.AuditableEntity;
-import com.momoko.es.jpa.model.entity.LibroEntity;
+import com.momoko.es.jpa.book.LibroEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;

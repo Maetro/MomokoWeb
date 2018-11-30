@@ -4,7 +4,6 @@ import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.filter.enums.FilterRuleType;
 import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.util.MomokoHelper;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -182,6 +181,20 @@ public class FilterDTO implements Serializable {
 
     @Override
     public String toString() {
-        return MomokoHelper.toStringInJson(this);
+        return "FilterDTO{" +
+                "filterId=" + filterId +
+                ", nameFilter='" + nameFilter + '\'' +
+                ", urlFilter='" + urlFilter + '\'' +
+                ", filterType=" + filterType +
+                ", basic=" + basic +
+                ", inclusive=" + inclusive +
+                ", genres=" + genres +
+                ", books=" + books +
+                ", sagas=" + sagas +
+                ", referencedProperty='" + referencedProperty + '\'' +
+                ", filterValues=" + filterValues +
+                ", selectedFilterValues=" + selectedFilterValues +
+                ", stringSelectedValues=" + stringSelectedValues +
+                '}';
     }
 }
