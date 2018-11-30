@@ -1,6 +1,6 @@
 import { AppPage } from './app.po';
 
-describe('momoko-frontend App', () => {
+describe('workspace-project App', () => {
   let page: AppPage;
 
   beforeEach(() => {
