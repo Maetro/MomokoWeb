@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { LibroSimple } from '../../../dtos/libroSimple';
 import { Router } from '@angular/router';
@@ -11,6 +11,7 @@ import { Filter } from '../../../dtos/filter/filter';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
+  
   private log = environment.log;
 
   busqueda = '';

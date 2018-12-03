@@ -106,10 +106,10 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
     private messageService: MessageService
   ) {
     this.tiposEntrada = [];
-    this.tiposEntrada.push({ label: 'Noticia', value: 1 });
-    this.tiposEntrada.push({ label: 'Análisis', value: 2 });
-    this.tiposEntrada.push({ label: 'Misceláneos', value: 3 });
-    this.tiposEntrada.push({ label: 'Vídeo', value: 4 });
+    this.tiposEntrada.push({ label: 'Noticia', value: 'NEWS' });
+    this.tiposEntrada.push({ label: 'Análisis', value: 'OPINION' });
+    this.tiposEntrada.push({ label: 'Misceláneos', value: 'MISCELLANEOUS' });
+    this.tiposEntrada.push({ label: 'Vídeo', value: 'VIDEO' });
     this.estadosEntrada = [];
     this.estadosEntrada.push({ label: 'Borrador', value: 1 });
     this.estadosEntrada.push({ label: 'Publicada', value: 2 });
@@ -203,7 +203,8 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
         data.entrada.etiquetas.forEach((etiqueta: Etiqueta) => {
           this.etiquetas.push(etiqueta.nombreEtiqueta);
         });
-        this.date = new Date(data.entrada.fechaAlta);
+        this.date = new Date(data.entrada.publishDate);
+        this.entrada.entryType
       });
     } else {
       this.route.data.subscribe(data => {
@@ -229,6 +230,7 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
       this.entrada.permitirComentarios = true;
       this.entrada.conSidebar = true;
       this.entrada.editorNombre = 'La Insomne';
+      this.entrada.entryType = EntryTypeEnum.NEWS;
       this.date = new Date();
       const filas = new Array();
       const fila = new Fila(0, '');
@@ -423,8 +425,9 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
         this.entrada.etiquetas.push(et);
       });
     }
-    if (this.entrada.entryType == null) {
-      this.entrada.entryType = EntryTypeEnum.NEWS;
+    let entryType = 'NEWS';
+    if (this.entrada.entryType !== 0) {
+      entryType = this.entrada.entryType.toString();
     }
     if (this.entrada.entryStatus == null) {
       this.entrada.entryStatus = EntryStatusEnum.DRAFT;
@@ -435,8 +438,8 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
       tituloEntrada: this.entrada.tituloEntrada,
       urlEntrada: this.entrada.urlEntrada,
       etiquetas: this.entrada.etiquetas,
-      entryType: this.entrada.entryType.toString(),
       titulosLibrosEntrada: this.entrada.titulosLibrosEntrada,
+      entryType: entryType,
       nombresSagasEntrada: this.entrada.nombresSagasEntrada,
       editorNombre: this.entrada.editorNombre,
       imagenDestacada: this.entrada.imagenDestacada,
@@ -451,7 +454,7 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
       fraseDescriptiva: this.entrada.fraseDescriptiva,
       urlVideo: this.entrada.urlVideo,
       
-      entryStatusId: this.entrada.estadoEntrada,
+      entryStatusId: 2,
       publishDate: this.date,
     }
     this.entryService.saveEntry(saveEntryRequest).subscribe(res => {
