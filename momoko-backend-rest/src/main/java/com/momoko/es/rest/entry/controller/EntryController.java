@@ -1,12 +1,12 @@
 package com.momoko.es.rest.entry.controller;
 
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.response.GuardarEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.util.MomokoUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

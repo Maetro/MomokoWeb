@@ -13,6 +13,8 @@ import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.dto.response.GuardarLibroResponse;
 import com.momoko.es.api.dto.response.ObtenerFichaLibroResponse;
+import com.momoko.es.api.entry.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionLibro;
@@ -22,11 +24,12 @@ import com.momoko.es.api.filter.service.FilterService;
 import com.momoko.es.jpa.author.entity.AuthorEntity;
 import com.momoko.es.jpa.author.repository.AuthorRepository;
 import com.momoko.es.jpa.book.LibroEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.adapter.EntryAdapter;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.genre.repository.GeneroRepository;
 import com.momoko.es.jpa.model.repository.EditorialRepository;
-import com.momoko.es.jpa.model.repository.EntradaRepository;
+import com.momoko.es.jpa.entry.repository.EntradaRepository;
 import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.model.repository.PuntuacionRepository;
 import com.momoko.es.jpa.model.service.LibroService;
@@ -374,7 +377,7 @@ public class LibroServiceImpl implements LibroService {
         EntradaDTO analisisLibro = null;
         for (final EntradaEntity entradaEntity : entradas) {
             if (EntryTypeEnum.OPINION.getValue().equals(entradaEntity.getTipoEntrada())) {
-                analisisLibro = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+                analisisLibro = EntryAdapter.adaptarEntrada(entradaEntity);
                 break;
             }
         }

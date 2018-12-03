@@ -8,7 +8,7 @@ package com.momoko.es.api.dto.response;
 
 import java.util.List;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 
 /**

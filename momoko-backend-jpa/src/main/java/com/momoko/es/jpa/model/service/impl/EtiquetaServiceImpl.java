@@ -8,7 +8,7 @@ package com.momoko.es.jpa.model.service.impl;
 
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.jpa.tag.EtiquetaEntity;
-import com.momoko.es.jpa.model.repository.EntradaRepository;
+import com.momoko.es.jpa.entry.repository.EntradaRepository;
 import com.momoko.es.jpa.model.repository.EtiquetaRepository;
 import com.momoko.es.jpa.model.service.EtiquetaService;
 import com.momoko.es.jpa.model.util.ConversionUtils;

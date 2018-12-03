@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.momoko.es.api.dto.CategoriaDTO;
 import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.dto.EntradaUrlDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.LibroDTO;
@@ -23,7 +23,7 @@ import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.model.repository.LibroRepository;
 import com.momoko.es.jpa.publisher.EditorialService;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.EtiquetaService;
 import com.momoko.es.jpa.genre.service.GenreService;
 import com.momoko.es.jpa.model.service.HerramientasService;

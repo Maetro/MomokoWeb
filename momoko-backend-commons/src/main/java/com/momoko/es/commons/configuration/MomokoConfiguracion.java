@@ -136,6 +136,8 @@ public class MomokoConfiguracion {
         /** The url templates. */
         private String urlTemplates;
 
+        private String backendServer;
+
         /**
          * Gets the url files.
          *
@@ -231,13 +233,15 @@ public class MomokoConfiguracion {
             this.urlTemplates = urlTemplates;
         }
 
+        public String getBackendServer() {
+            return backendServer;
+        }
+
+        public void setBackendServer(String backendServer) {
+            this.backendServer = backendServer;
+        }
     }
 
-    /**
-     * The Class Configuracion.
-     *
-     * @author <a href="RMaetro@gmail.com">Ramon Casares</a>
-     */
     public static class Remote {
 
         /** The url files. */

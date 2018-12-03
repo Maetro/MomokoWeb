@@ -1,12 +1,11 @@
 package com.momoko.es.rest.util;
 
 import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.enums.EntryTypeEnum;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.StorageService;
-import com.momoko.es.rest.publisher.controller.PublisherController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

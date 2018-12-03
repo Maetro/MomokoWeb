@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 
 /**

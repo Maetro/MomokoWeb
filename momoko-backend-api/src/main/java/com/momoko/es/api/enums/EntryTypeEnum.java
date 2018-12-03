@@ -1,7 +1,8 @@
 package com.momoko.es.api.enums;
 
 public enum EntryTypeEnum {
-    NEWS(1, "Noticia"), OPINION(2, "Opinión"), MISCELLANEOUS(3, "Miscelaneo"), VIDEO(4, "Vídeo"), SPECIAL(5, "Especial");
+    EMPTY (0, "Sin tipo"), NEWS(1, "Noticia"), OPINION(2, "Opinión"), MISCELLANEOUS(3, "Miscelaneo"), VIDEO(4, "Vídeo"),
+    SPECIAL(5, "Especial");
 
     private final Integer value;
     private final String name;

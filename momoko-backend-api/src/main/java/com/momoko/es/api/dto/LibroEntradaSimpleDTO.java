@@ -6,6 +6,8 @@
  */
 package com.momoko.es.api.dto;
 
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
+
 import java.io.Serializable;
 
 /**

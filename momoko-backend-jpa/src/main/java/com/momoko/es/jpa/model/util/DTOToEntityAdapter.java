@@ -6,20 +6,20 @@
  */
 package com.momoko.es.jpa.model.util;
 
-import com.momoko.es.api.dto.*;
 import com.momoko.es.api.author.dto.AuthorDTO;
-import com.momoko.es.api.filter.dto.FilterValueDTO;
+import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
+import com.momoko.es.api.filter.dto.FilterValueDTO;
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.jpa.author.entity.AuthorEntity;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.category.CategoriaEntity;
 import com.momoko.es.jpa.comment.ComentarioEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
-import com.momoko.es.jpa.gallery.GaleriaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.filter.FilterEntity;
 import com.momoko.es.jpa.filter.FilterValueEntity;
+import com.momoko.es.jpa.gallery.GaleriaEntity;
 import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.publisher.EditorialEntity;
 import com.momoko.es.jpa.saga.SagaEntity;
@@ -89,42 +89,7 @@ public final class DTOToEntityAdapter {
         return libroEntity;
     }
 
-    /**
-     * Adaptar entrada.
-     *
-     * @param entradaDTO
-     *            entrada DTO
-     * @return the entrada entity
-     */
-    public static EntradaEntity adaptarEntrada(final EntradaDTO entradaDTO, final List<LibroDTO> librosEntrada,
-                                               final List<SagaDTO> sagasEntrada, final UsuarioEntity autor) {
-        final EntradaEntity entradaEntity = new EntradaEntity();
-        entradaEntity.setEntradaId(entradaDTO.getEntradaId());
-        entradaEntity.setContenidoEntrada(entradaDTO.getContenidoEntrada());
-        if (autor != null) {
-            entradaEntity.setEntradaAutor(autor);
-        }
-        entradaEntity.setEntryStatus(entradaDTO.getEntryStatus());
-        if (librosEntrada != null) {
-            entradaEntity.setLibrosEntrada(adaptarLibros(librosEntrada));
-        }
-        if (sagasEntrada != null) {
-            entradaEntity.setSagasEntrada(adaptarSagas(sagasEntrada));
-        }
-        entradaEntity.setPermitirComentarios(entradaDTO.getPermitirComentarios());
-        entradaEntity.setResumenEntrada(entradaDTO.getResumenEntrada());
-        entradaEntity.setEntryType(entradaDTO.getEntryType());
-        entradaEntity.setTituloEntrada(entradaDTO.getTituloEntrada());
-        entradaEntity.setUrlEntrada(entradaDTO.getUrlEntrada());
-        entradaEntity.setImagenDestacada(entradaDTO.getImagenDestacada());
-        entradaEntity.setEtiquetas(adaptarEtiquetas(entradaDTO.getEtiquetas()));
-        entradaEntity.setFraseDescriptiva(entradaDTO.getFraseDescriptiva());
-        entradaEntity.setEnMenu(entradaDTO.isEnMenu());
-        entradaEntity.setConSidebar(entradaDTO.isConSidebar());
-        entradaEntity.setUrlMenuLibro(entradaDTO.getUrlMenuLibro());
-        entradaEntity.setNombreMenuLibro(entradaDTO.getNombreMenuLibro());
-        return entradaEntity;
-    }
+
 
     /**
      * Adaptar libros.

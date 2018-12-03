@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.momoko.es.api.dto.*;
+import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.filter.dto.FilterValueDTO;
 import com.momoko.es.api.filter.dto.FilterDTO;
@@ -20,7 +21,8 @@ import com.momoko.es.jpa.author.adapter.AuthorAdapter;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.category.CategoriaEntity;
 import com.momoko.es.jpa.comment.ComentarioEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.adapter.EntryAdapter;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.gallery.GaleriaEntity;
 import com.momoko.es.jpa.filter.FilterEntity;
 import com.momoko.es.jpa.filter.FilterValueEntity;
@@ -31,7 +33,6 @@ import com.momoko.es.jpa.score.PuntuacionEntity;
 import com.momoko.es.jpa.tag.EtiquetaEntity;
 import com.momoko.es.jpa.user.UsuarioEntity;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 
 import com.momoko.es.commons.security.UsuarioDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
@@ -131,79 +132,7 @@ public final class EntityToDTOAdapter {
         return libroDTO;
     }
 
-    public static List<EntradaDTO> adaptarEntradas(final List<EntradaEntity> entradaEntities) {
-        final List<EntradaDTO> entradas = new ArrayList<>();
-        if (CollectionUtils.isNotEmpty(entradaEntities)) {
-            for (final EntradaEntity entradaEntity : entradaEntities) {
-                entradas.add(adaptarEntrada(entradaEntity));
-            }
-        }
-        return entradas;
-    }
 
-    /**
-     * Adaptar entrada.
-     *
-     * @param entradaEntity
-     *            entrada DTO
-     * @return the entrada entity
-     */
-    public static EntradaDTO adaptarEntrada(final EntradaEntity entradaEntity) {
-        final EntradaDTO entradaDTO = new EntradaDTO();
-        entradaDTO.setEntradaId(entradaEntity.getEntradaId());
-        entradaDTO.setContenidoEntrada(entradaEntity.getContenidoEntrada());
-        entradaDTO.setRedactor(ConversionUtils.getRedactorFromUsuario(entradaEntity.getEntradaAutor()));
-        entradaDTO.setEntryStatus(entradaEntity.getEntryStatus());
-        if (entradaEntity.getLibrosEntrada() != null) {
-            entradaDTO.setLibrosEntrada(adaptarLibros(entradaEntity.getLibrosEntrada()));
-        }
-        if (entradaEntity.getSagasEntrada() != null) {
-            entradaDTO.setSagasEntrada(adaptarSagas(entradaEntity.getSagasEntrada()));
-        }
-        entradaDTO.setPermitirComentarios(entradaEntity.getPermitirComentarios());
-        entradaDTO.setResumenEntrada(entradaEntity.getResumenEntrada());
-        if (StringUtils.isNotBlank(entradaEntity.getFraseDescriptiva())) {
-            entradaDTO.setFraseDescriptiva(entradaEntity.getFraseDescriptiva());
-        } else if (StringUtils.isNotBlank(entradaEntity.getResumenEntrada())) {
-            entradaDTO
-                    .setFraseDescriptiva(ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getResumenEntrada(), 200));
-        } else {
-            entradaDTO
-                    .setResumenEntrada(ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getContenidoEntrada(), 500));
-            entradaDTO.setFraseDescriptiva(
-                    ConversionUtils.limpiarHTMLyRecortar(entradaEntity.getContenidoEntrada(), 200));
-        }
-
-        entradaDTO.setEntryType(entradaEntity.getEntryType());
-        entradaDTO.setFechaAlta(entradaEntity.getCreatedDate());
-        entradaDTO.setFechaModificacion(entradaEntity.getModifiedDate());
-        entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
-        entradaDTO.setEditorNombre(entradaEntity.getEntradaAutor().getUsuarioNick());
-        entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());
-        entradaDTO.setUrlAntigua(entradaEntity.getUrlAntigua());
-        entradaDTO.setEtiquetas(adaptarEtiquetas(new ArrayList(entradaEntity.getEtiquetas())));
-
-        entradaDTO.setImagenDestacada(entradaEntity.getImagenDestacada());
-        if (CollectionUtils.isNotEmpty(entradaEntity.getLibrosEntrada())) {
-            final List<String> titulos = new ArrayList<String>();
-            for (final LibroEntity libroEntity : entradaEntity.getLibrosEntrada()) {
-                titulos.add(libroEntity.getTitulo());
-            }
-            entradaDTO.setTitulosLibrosEntrada(titulos);
-        }
-        if (CollectionUtils.isNotEmpty(entradaEntity.getSagasEntrada())) {
-            final List<String> nombres = new ArrayList<String>();
-            for (final SagaEntity sagaEntity : entradaEntity.getSagasEntrada()) {
-                nombres.add(sagaEntity.getNombre());
-            }
-            entradaDTO.setNombresSagasEntrada(nombres);
-        }
-        entradaDTO.setEnMenu(entradaEntity.isEnMenu());
-        entradaDTO.setConSidebar(entradaEntity.isConSidebar());
-        entradaDTO.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
-        entradaDTO.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
-        return entradaDTO;
-    }
 
     /**
      * Adaptar libros.
@@ -268,7 +197,7 @@ public final class EntityToDTOAdapter {
         if (adaptarEntradas) {
             final List<EntradaDTO> entradasSaga = new ArrayList<>();
             if (CollectionUtils.isNotEmpty(sagaEntity.getEntradas())) {
-                entradasSaga.addAll(adaptarEntradas(sagaEntity.getEntradas()));
+                entradasSaga.addAll(EntryAdapter.adaptarEntradas(sagaEntity.getEntradas()));
             }
         }
         if (CollectionUtils.isNotEmpty(sagaEntity.getLibros())) {

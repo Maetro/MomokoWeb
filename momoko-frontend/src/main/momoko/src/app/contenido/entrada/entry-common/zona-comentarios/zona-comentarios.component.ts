@@ -9,7 +9,7 @@ import { PlantillaComentarioComponent } from './plantilla-comentario/plantilla-c
 @Component({
   selector: 'app-zona-comentarios',
   templateUrl: './zona-comentarios.component.html',
-  styleUrls: ['./zona-comentarios.component.css']
+  styleUrls: ['./zona-comentarios.component.scss']
 })
 export class ZonaComentariosComponent implements OnInit {
 

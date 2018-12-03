@@ -1,5 +1,6 @@
-package com.momoko.es.api.dto;
+package com.momoko.es.api.entry.dto;
 
+import com.momoko.es.api.dto.*;
 import com.momoko.es.api.enums.EntryStatusEnum;
 import com.momoko.es.api.enums.EntryTypeEnum;
 import org.apache.commons.lang3.builder.EqualsBuilder;

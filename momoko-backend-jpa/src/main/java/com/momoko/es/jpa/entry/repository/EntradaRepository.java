@@ -1,4 +1,4 @@
-package com.momoko.es.jpa.model.repository;
+package com.momoko.es.jpa.entry.repository;
 
 import java.util.Date;
 import java.util.List;
@@ -11,7 +11,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.book.LibroEntity;
 
 @Repository

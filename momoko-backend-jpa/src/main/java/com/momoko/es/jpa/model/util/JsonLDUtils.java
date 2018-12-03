@@ -10,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.momoko.es.api.datosestructurados.*;
-import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;

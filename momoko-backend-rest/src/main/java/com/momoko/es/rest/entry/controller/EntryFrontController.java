@@ -1,7 +1,7 @@
 package com.momoko.es.rest.entry.controller;
 
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.util.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

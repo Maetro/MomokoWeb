@@ -4,11 +4,13 @@
  * Copyright 2017 .
  * Departamento de Sistemas
  */
-package com.momoko.es.jpa.model.service;
+package com.momoko.es.api.entry.service;
 
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
+import com.momoko.es.api.entry.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 
 import java.util.Collection;

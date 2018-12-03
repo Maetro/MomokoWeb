@@ -1,7 +1,7 @@
 /**
  * EntradaEntity.java 11-oct-2017
  */
-package com.momoko.es.jpa.entry;
+package com.momoko.es.jpa.entry.entity;
 
 import com.momoko.es.api.enums.EntryStatusEnum;
 import com.momoko.es.api.enums.EntryTypeEnum;
@@ -17,6 +17,7 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -100,6 +101,9 @@ public class EntradaEntity extends AuditableEntity implements Comparable<Entrada
 
     /** The url antigua. */
     private String urlAntigua;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date publishDate;
 
     /**
      * Instancia un nuevo entrada entity.
@@ -362,40 +366,18 @@ public class EntradaEntity extends AuditableEntity implements Comparable<Entrada
         this.imagenDestacada = imagenDestacada;
     }
 
-    /**
-     * Obtiene comentarios.
-     *
-     * @return comentarios
-     */
     public List<ComentarioEntity> getComentarios() {
         return this.comentarios;
     }
 
-    /**
-     * Gets the frase descriptiva.
-     *
-     * @return the frase descriptiva
-     */
     public String getFraseDescriptiva() {
         return this.fraseDescriptiva;
     }
 
-    /**
-     * Sets the frase descriptiva.
-     *
-     * @param fraseDescriptiva
-     *            the new frase descriptiva
-     */
     public void setFraseDescriptiva(final String fraseDescriptiva) {
         this.fraseDescriptiva = fraseDescriptiva;
     }
 
-    /**
-     * Establece comentarios.
-     *
-     * @param comentarios
-     *            nuevo comentarios
-     */
     public void setComentarios(final List<ComentarioEntity> comentarios) {
         this.comentarios = comentarios;
     }
@@ -408,99 +390,52 @@ public class EntradaEntity extends AuditableEntity implements Comparable<Entrada
         this.entryStatus = entryStatus;
     }
 
-    /**
-     * Checks if is con sidebar.
-     *
-     * @return true, if is con sidebar
-     */
     public boolean isConSidebar() {
         return this.conSidebar;
     }
 
-    /**
-     * Sets the con sidebar.
-     *
-     * @param conSidebar
-     *            the new con sidebar
-     */
     public void setConSidebar(final boolean conSidebar) {
         this.conSidebar = conSidebar;
     }
 
-    /**
-     * Checks if is en menu.
-     *
-     * @return true, if is en menu
-     */
     public boolean isEnMenu() {
         return this.enMenu;
     }
 
-    /**
-     * Sets the en menu.
-     *
-     * @param enMenu
-     *            the new en menu
-     */
     public void setEnMenu(final boolean enMenu) {
         this.enMenu = enMenu;
     }
 
-    /**
-     * Gets the nombre menu libro.
-     *
-     * @return the nombre menu libro
-     */
     public String getNombreMenuLibro() {
         return this.nombreMenuLibro;
     }
 
-    /**
-     * Sets the nombre menu libro.
-     *
-     * @param nombreMenuLibro
-     *            the new nombre menu libro
-     */
     public void setNombreMenuLibro(final String nombreMenuLibro) {
         this.nombreMenuLibro = nombreMenuLibro;
     }
 
-    /**
-     * Gets the url menu libro.
-     *
-     * @return the url menu libro
-     */
     public String getUrlMenuLibro() {
         return this.urlMenuLibro;
     }
 
-    /**
-     * Sets the url menu libro.
-     *
-     * @param urlMenuLibro
-     *            the new url menu libro
-     */
     public void setUrlMenuLibro(final String urlMenuLibro) {
         this.urlMenuLibro = urlMenuLibro;
     }
 
-    /**
-     * Gets the url antigua.
-     *
-     * @return the url antigua
-     */
     public String getUrlAntigua() {
         return this.urlAntigua;
     }
 
-    /**
-     * Sets the url antigua.
-     *
-     * @param urlAntigua
-     *            the new url antigua
-     */
     public void setUrlAntigua(final String urlAntigua) {
         this.urlAntigua = urlAntigua;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     /**

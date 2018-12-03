@@ -7,7 +7,7 @@
 package com.momoko.es.jpa.book;
 
 import com.momoko.es.jpa.author.entity.AuthorEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.filter.FilterBook;
 import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.score.PuntuacionEntity;

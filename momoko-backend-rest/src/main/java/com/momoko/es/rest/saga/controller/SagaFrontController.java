@@ -1,6 +1,6 @@
 package com.momoko.es.rest.saga.controller;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.response.ObtenerFichaSagaResponse;

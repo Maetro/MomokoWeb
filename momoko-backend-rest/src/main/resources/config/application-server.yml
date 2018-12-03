@@ -60,9 +60,11 @@ momokoConfiguracion:
       urlTemplates: https://momoko.es/templates
       urlImages: https://momoko.es/images/
       urlUpload: https://momoko.es/
+      backendServer: https://momoko.es/
     local:
       urlSitemap: /var/www/html
       urlFiles: /var/www/html/images
       urlTemplates: /var/www/html/templates
       urlImages: https://momoko.es/images/
       urlUpload: https://momoko.es/
+      backendServer: https://momoko.es/

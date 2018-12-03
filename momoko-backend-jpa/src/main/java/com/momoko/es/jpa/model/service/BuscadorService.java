@@ -7,7 +7,7 @@
 package com.momoko.es.jpa.model.service;
 
 import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;

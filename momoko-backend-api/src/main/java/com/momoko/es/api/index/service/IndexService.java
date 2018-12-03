@@ -6,13 +6,11 @@
  */
 package com.momoko.es.api.index.service;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.MenuDTO;
 import com.momoko.es.api.dto.response.IndexDataReponseDTO;
-import com.momoko.es.api.customblock.dtos.request.SaveCustomBlockRequest;
-import com.momoko.es.api.customblock.dtos.response.SaveCustomBlockResponse;
 
 import java.util.List;
 

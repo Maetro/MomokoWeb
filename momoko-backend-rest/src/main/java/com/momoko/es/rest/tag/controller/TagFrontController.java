@@ -1,10 +1,10 @@
 package com.momoko.es.rest.tag.controller;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerPaginaEtiquetaResponse;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.EtiquetaService;
 import com.momoko.es.jpa.model.service.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;

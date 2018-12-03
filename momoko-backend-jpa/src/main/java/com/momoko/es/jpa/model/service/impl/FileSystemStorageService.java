@@ -240,4 +240,22 @@ public class FileSystemStorageService implements StorageService {
         }
     }
 
+    @Override
+    public String getUrlUpload() {
+        if (esServidorLocal()) {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getUrlUpload();
+        } else {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getUrlUpload();
+        }
+    }
+
+    @Override
+    public String getBackendServer() {
+        if (esServidorLocal()) {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getBackendServer();
+        } else {
+            return this.momokoConfiguracion.getDirectorios().getLocal().getBackendServer();
+        }
+    }
+
 }

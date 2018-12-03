@@ -4,7 +4,7 @@
  */
 package com.momoko.es.jpa.comment;
 
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 

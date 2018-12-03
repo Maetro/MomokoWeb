@@ -1,7 +1,7 @@
 
 package com.momoko.es.api.dto.response;
 
-import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 import org.apache.commons.lang3.builder.EqualsBuilder;

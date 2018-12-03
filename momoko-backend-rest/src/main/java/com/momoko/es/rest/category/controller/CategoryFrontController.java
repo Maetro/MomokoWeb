@@ -1,11 +1,11 @@
 package com.momoko.es.rest.category.controller;
 
 import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerPaginaCategoriaResponse;
 import com.momoko.es.jpa.genre.service.GenreService;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.rest.util.ControllerUtil;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

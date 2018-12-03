@@ -6,7 +6,7 @@
  */
 package com.momoko.es.jpa.video;
 
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 
 import javax.persistence.*;
 import java.util.Date;

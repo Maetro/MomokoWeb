@@ -28,6 +28,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.momoko.es.api.dto.*;
 import com.momoko.es.api.dto.request.NuevoComentarioRequest;
+import com.momoko.es.api.entry.dto.EntradaDTO;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.api.index.service.IndexService;
 import com.momoko.es.jpa.model.service.*;
 import com.momoko.es.jpa.model.util.ConversionUtils;
@@ -47,7 +49,7 @@ import com.momoko.es.jpa.model.util.JsonLDUtils;
 @Controller
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
 @RequestMapping(path = "/amp")
-public class AMPFacade {
+public class AMPController {
 
     @Autowired(required = false)
     private StorageService almacenImagenes;
@@ -75,6 +77,14 @@ public class AMPFacade {
     public @ResponseBody
     String getOpinionesAMP(final HttpServletRequest request, final HttpServletResponse response,
                            @PathVariable("url-entrada") final String urlEntrada) throws IOException {
+        return getOpinionesAMPAfterComment(request, response, urlEntrada, 0);
+    }
+
+    @GetMapping("/opiniones/{url-entrada}/{info}")
+    @Cacheable("opinionesAMP")
+    public @ResponseBody
+    String getOpinionesAMPAfterComment(final HttpServletRequest request, final HttpServletResponse response,
+                           @PathVariable("url-entrada") final String urlEntrada, @PathVariable("info") final Integer info) throws IOException {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -113,6 +123,9 @@ public class AMPFacade {
                     content);
             final String miniatura = this.almacenImagenes.obtenerMiniatura(opinion.getImagenDestacada(), 1280, 768,
                     true);
+
+            content = replaceTagInContent("${evironment}", this.almacenImagenes.getBackendServer(), content);
+            content = replaceTagInContent("${info}", getInfo(info), content);
             content = replaceTagInContent("${imagen-entrada}", miniatura, content);
             this.entradaService.obtenerGaleriasEntradaAmp(opinion);
             String body = opinion.getContenidoEntrada();
@@ -141,6 +154,20 @@ public class AMPFacade {
         }
         response.setCharacterEncoding("utf-8");
         return content;
+    }
+
+    private String getInfo(Integer info) {
+        String response = null;
+        if (info == 0){
+            response = "";
+        } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append("<div class=\"info\">")
+                    .append("El comentario se ha enviado correctamente. Muchas gracias por participar")
+                    .append("</div>");
+            response = builder.toString();
+        }
+        return response;
     }
 
     public String adaptarImagenesAmp(String body) throws IOException, MalformedURLException {
@@ -200,7 +227,16 @@ public class AMPFacade {
     @Cacheable("miscelaneoAMP")
     public @ResponseBody
     String getMiscelaneoAMP(final HttpServletRequest request, final HttpServletResponse response,
-                            @PathVariable("url-entrada") final String urlEntrada) throws IOException {
+                           @PathVariable("url-entrada") final String urlEntrada) throws IOException {
+        return getMiscelaneoAMPAfterComment(request, response, urlEntrada, 0);
+    }
+
+    @GetMapping("/miscelaneo/{url-entrada}/{info}")
+    @Cacheable("miscelaneoAMP")
+    public @ResponseBody
+    String getMiscelaneoAMPAfterComment(final HttpServletRequest request, final HttpServletResponse response,
+                            @PathVariable("url-entrada") final String urlEntrada,
+                                        @PathVariable("info") final Integer info) throws IOException {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -244,6 +280,8 @@ public class AMPFacade {
             content = replaceTagInContent("${contenido}", body, content);
 
             content = replaceTagInContent("${meta-titulo}", entrada.getTituloEntrada(), content);
+            content = replaceTagInContent("${evironment}", this.almacenImagenes.getBackendServer(), content);
+            content = replaceTagInContent("${info}", getInfo(info), content);
         } catch (final IOException e) {
             e.printStackTrace();
             response.sendError(404);
@@ -262,6 +300,15 @@ public class AMPFacade {
     public @ResponseBody
     String getNoticiaAMP(final HttpServletRequest request, final HttpServletResponse response,
                          @PathVariable("url-entrada") final String urlEntrada) throws IOException {
+        return getNoticiaAMPAfterComment(request, response, urlEntrada, 0);
+    }
+
+    @GetMapping("/noticia/{url-entrada}/{info}")
+    @Cacheable("noticiaAMP")
+    public @ResponseBody
+    String getNoticiaAMPAfterComment(final HttpServletRequest request, final HttpServletResponse response,
+                         @PathVariable("url-entrada") final String urlEntrada,
+                         @PathVariable("info") final Integer info) throws IOException {
         final String contentType = "text/html;charset=UTF-8";
         response.setContentType(contentType);
         try {
@@ -305,6 +352,8 @@ public class AMPFacade {
             content = replaceTagInContent("${contenido}", body, content);
 
             content = replaceTagInContent("${meta-titulo}", entrada.getTituloEntrada(), content);
+            content = replaceTagInContent("${evironment}", this.almacenImagenes.getBackendServer(), content);
+            content = replaceTagInContent("${info}", getInfo(info), content);
         } catch (final IOException e) {
             e.printStackTrace();
             response.sendError(404);
@@ -517,7 +566,7 @@ public class AMPFacade {
 
     @RequestMapping(value = "/comment", method = RequestMethod.GET)
     public @ResponseBody
-    ComentarioDTO saveComment(final HttpServletRequest request, final HttpServletResponse response,
+    String saveComment(final HttpServletRequest request, final HttpServletResponse response,
                            @RequestParam String name, @RequestParam String comment) throws Exception {
 
         NuevoComentarioRequest nuevoComentario = new NuevoComentarioRequest();
@@ -533,8 +582,14 @@ public class AMPFacade {
         nuevoComentario.setContenido(comment);
         nuevoComentario.setEntradaId(entrada.getEntradaId());
         ComentarioDTO comentario = this.comentarioService.guardarComentario(nuevoComentario);
+        this.comentarioService.enviarNotificacion(comentario);
         response.addHeader("AMP-Access-Control-Allow-Source-Origin", "https://momoko.es");
-        return comentario;
+        if (EntryTypeEnum.OPINION.equals(entrada.getEntryType())) {
+            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+            String urlRedirect = this.almacenImagenes.getBackendServer() + "amp/opiniones/" + url + "/" + 1;
+            response.setHeader("Location", urlRedirect);
+        }
+        return "REDIRECT";
 
 
     }

@@ -1,6 +1,6 @@
 package com.momoko.es.jpa.model.service;
 
-import com.momoko.es.api.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;

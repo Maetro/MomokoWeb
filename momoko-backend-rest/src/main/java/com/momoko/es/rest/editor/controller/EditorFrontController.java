@@ -1,15 +1,14 @@
 package com.momoko.es.rest.editor.controller;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.RedactorDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerPaginaRedactorResponse;
 import com.momoko.es.api.exceptions.UserNotFoundException;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.StorageService;
 import com.momoko.es.jpa.model.service.UserService;
 import com.momoko.es.jpa.model.util.ConversionUtils;
-import com.momoko.es.rest.entry.controller.EntryController;
 import com.momoko.es.rest.util.ControllerUtil;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;

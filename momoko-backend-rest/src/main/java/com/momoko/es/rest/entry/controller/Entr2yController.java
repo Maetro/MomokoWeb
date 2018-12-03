@@ -1,9 +1,9 @@
-package com.momoko.es.jpa.entry;
+package com.momoko.es.rest.entry.controller;
 
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.ValidadorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

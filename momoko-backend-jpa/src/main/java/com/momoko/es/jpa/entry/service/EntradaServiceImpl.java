@@ -5,40 +5,37 @@
  *
  * @author Ramon.Casares.Porto@gmail.com
  */
-package com.momoko.es.jpa.model.service.impl;
+package com.momoko.es.jpa.entry.service;
 
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
-
+import com.momoko.es.api.dto.*;
+import com.momoko.es.api.dto.genre.GenreDTO;
+import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
+import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
+import com.momoko.es.api.entry.dto.EntradaDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.api.enums.EntryStatusEnum;
 import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
+import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
+import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
+import com.momoko.es.api.youtube.list.Video;
+import com.momoko.es.api.youtube.list.YoutubeVideoList;
+import com.momoko.es.api.youtube.video.Item;
+import com.momoko.es.api.youtube.video.VideoYoutube;
+import com.momoko.es.commons.configuration.MomokoConfiguracion;
 import com.momoko.es.jpa.book.LibroEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.adapter.EntryAdapter;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
+import com.momoko.es.jpa.entry.repository.EntradaRepository;
 import com.momoko.es.jpa.gallery.GaleriaEntity;
+import com.momoko.es.jpa.genre.service.GenreService;
 import com.momoko.es.jpa.htmlcode.HtmlCodeEntity;
 import com.momoko.es.jpa.model.repository.*;
+import com.momoko.es.jpa.model.service.ComentarioService;
+import com.momoko.es.jpa.model.service.LibroService;
+import com.momoko.es.jpa.model.service.StorageService;
+import com.momoko.es.jpa.model.service.impl.util.FileSystemStorageHelper;
 import com.momoko.es.jpa.model.util.*;
 import com.momoko.es.jpa.saga.SagaEntity;
 import com.momoko.es.jpa.score.PuntuacionEntity;
@@ -55,33 +52,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import com.momoko.es.api.dto.AnchuraAlturaDTO;
-import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.ComentarioDTO;
-import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
-import com.momoko.es.api.dto.EtiquetaDTO;
-import com.momoko.es.api.dto.LibroDTO;
-import com.momoko.es.api.dto.LibroSimpleDTO;
-import com.momoko.es.api.dto.RedactorDTO;
-import com.momoko.es.api.dto.SagaDTO;
-import com.momoko.es.api.dto.genre.GenreDTO;
-import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
-import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
-import com.momoko.es.api.exceptions.NoSeEncuentraEntradaException;
-import com.momoko.es.api.exceptions.URLEntradaYaExisteException;
-import com.momoko.es.api.youtube.list.Video;
-import com.momoko.es.api.youtube.list.YoutubeVideoList;
-import com.momoko.es.api.youtube.video.Item;
-import com.momoko.es.api.youtube.video.VideoYoutube;
-import com.momoko.es.commons.configuration.MomokoConfiguracion;
-import com.momoko.es.jpa.model.service.ComentarioService;
-import com.momoko.es.jpa.model.service.EntradaService;
-import com.momoko.es.jpa.genre.service.GenreService;
-import com.momoko.es.jpa.model.service.LibroService;
-import com.momoko.es.jpa.model.service.StorageService;
-import com.momoko.es.jpa.model.service.impl.util.FileSystemStorageHelper;
+import javax.imageio.ImageIO;
+import javax.xml.bind.DatatypeConverter;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneId;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * The Class EntradaServiceImpl.
@@ -144,7 +126,7 @@ public class EntradaServiceImpl implements EntradaService {
 
         entradaEntity
                 .setImagenDestacada(this.almacenImagenes.obtenerImagenOriginal(entradaEntity.getImagenDestacada()));
-        final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+        final EntradaDTO entradaDTO = EntryAdapter.adaptarEntrada(entradaEntity);
         // Si es tipo video anadimos su URL
         if (entradaDTO.getEntryType().equals(EntryTypeEnum.VIDEO)) {
             final VideoEntity videoEntity = this.videoRepository
@@ -164,7 +146,7 @@ public class EntradaServiceImpl implements EntradaService {
 
         final List<EntradaEntity> entradas = this.entradaRepository.findAllByLibrosEntradaIdIn(Arrays.asList(libroId),
                 Calendar.getInstance().getTime());
-        return EntityToDTOAdapter.adaptarEntradas(entradas);
+        return EntryAdapter.adaptarEntradas(entradas);
     }
 
     public LocalDateTime convertToLocalDateViaInstant(Date dateToConvert) {
@@ -178,7 +160,7 @@ public class EntradaServiceImpl implements EntradaService {
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         if (entradaEntity != null) {
 
-            final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+            final EntradaDTO entradaDTO = EntryAdapter.adaptarEntrada(entradaEntity);
 
             try {
                 LocalDateTime creationDate = convertToLocalDateViaInstant(entradaEntity.getCreatedDate());
@@ -639,7 +621,7 @@ public class EntradaServiceImpl implements EntradaService {
         final List<EntradaEntity> entradasEntity = this.entradaRepository.findAll();
         final String imageServer = this.almacenImagenes.getUrlImageServer();
         for (final EntradaEntity entradaEntity : entradasEntity) {
-            final EntradaDTO entradaDTO = EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+            final EntradaDTO entradaDTO = EntryAdapter.adaptarEntrada(entradaEntity);
             entradaDTO.setImagenDestacada(imageServer + entradaDTO.getImagenDestacada());
 
             entradaDTO.setTitulosLibrosEntrada(obtenerTitulosLibrosEntrada(entradaEntity));
@@ -742,7 +724,7 @@ public class EntradaServiceImpl implements EntradaService {
         }
         final UsuarioEntity autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getEditorNombre());
 
-        EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, sagasEntrada,
+        EntradaEntity entradaEntity = EntryAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, sagasEntrada,
                 autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
@@ -820,7 +802,7 @@ public class EntradaServiceImpl implements EntradaService {
             }
             this.videoRepository.save(videoEntity);
         }
-        return EntityToDTOAdapter.adaptarEntrada(entradaEntity);
+        return EntryAdapter.adaptarEntrada(entradaEntity);
     }
 
     private String soloNombreImagenADestacadas(final String imagenDestacada) {
@@ -1009,7 +991,7 @@ public class EntradaServiceImpl implements EntradaService {
         final UsuarioEntity autor = this.usuarioRepository
                 .findByUsuarioLogin(entradaAGuardar.getRedactor().getNombre());
 
-        final EntradaEntity entradaEntity = DTOToEntityAdapter.adaptarEntrada(entradaAGuardar, librosEntrada,
+        final EntradaEntity entradaEntity = EntryAdapter.adaptarEntrada(entradaAGuardar, librosEntrada,
                 sagasEntrada, autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
@@ -1175,7 +1157,7 @@ public class EntradaServiceImpl implements EntradaService {
                     }
                 }
                 if (entradaValida) {
-                    entradas.add(EntityToDTOAdapter.adaptarEntrada(entradaEntity));
+                    entradas.add(EntryAdapter.adaptarEntrada(entradaEntity));
                 }
 
             }
@@ -1188,7 +1170,7 @@ public class EntradaServiceImpl implements EntradaService {
         final List<EntradaDTO> entradas = new ArrayList<>();
         final List<EntradaEntity> entradasEntity = this.entradaRepository.obtenerEntradasAleatoriasDeTipo(tipoEntrada);
         for (final EntradaEntity entradaEntity : entradasEntity) {
-            entradas.add(EntityToDTOAdapter.adaptarEntrada(entradaEntity));
+            entradas.add(EntryAdapter.adaptarEntrada(entradaEntity));
         }
         return entradas;
     }
@@ -1246,7 +1228,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     public EntradaDTO obtenerEntrada(final String urlEntrada) {
-        return EntityToDTOAdapter.adaptarEntrada(this.entradaRepository.findFirstByUrlEntrada(urlEntrada));
+        return EntryAdapter.adaptarEntrada(this.entradaRepository.findFirstByUrlEntrada(urlEntrada));
     }
 
     @Override

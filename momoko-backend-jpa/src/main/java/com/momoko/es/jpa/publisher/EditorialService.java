@@ -7,10 +7,9 @@
 package com.momoko.es.jpa.publisher;
 
 import com.momoko.es.api.dto.EditorialDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
-import com.momoko.es.jpa.publisher.EditorialEntity;
 
 
 import java.util.List;

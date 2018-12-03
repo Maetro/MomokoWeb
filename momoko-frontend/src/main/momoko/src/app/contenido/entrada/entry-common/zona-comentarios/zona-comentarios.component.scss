@@ -1,0 +1,57 @@
+.user img {
+  border-radius: 50%;
+}
+
+.comentarioAResponder {
+  .message-inner {
+    margin-left: 0px !important;
+    background-color: #f3f3f3;
+    padding: 10px 0px 0px 20px;
+  }
+
+  .info {
+    margin-left: 90px;
+  }
+}
+
+.comentarioTexto {
+  margin-left: 90px;
+}
+
+.comentarioAResponder#comments ol.commentlist li {
+  padding: 0px 0 0 0;
+}
+
+i.budicon-cancel-1 {
+  float: right;
+  color: black;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.comment-form-wrapper {
+  margin-bottom: 20px;
+}
+
+form div {
+  margin-bottom: 15px;
+
+  input {
+
+    background: white;
+    border: 1px solid #d9d9d9;
+
+    &.btn.btn-submit {
+      width: 100%;
+      border: 0px;
+      background: rgb(238, 188, 55);
+      padding: 11px;
+    }
+  }
+
+  textarea {
+    background: white;
+    border: 1px solid #d9d9d9;
+    margin-bottom: 0px;
+  }
+}

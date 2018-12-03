@@ -7,13 +7,14 @@
 package com.momoko.es.jpa.model.service.impl;
 
 import com.momoko.es.api.dto.CategoriaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.EtiquetaDTO;
 import com.momoko.es.api.dto.LibroDTO;
 import com.momoko.es.api.dto.genre.GenreDTO;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.category.CategoriaEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
+import com.momoko.es.jpa.entry.repository.EntradaRepository;
 import com.momoko.es.jpa.genre.entity.GenreEntity;
 import com.momoko.es.jpa.genre.repository.GeneroRepository;
 import com.momoko.es.jpa.model.repository.*;

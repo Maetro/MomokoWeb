@@ -1,8 +1,7 @@
 package com.momoko.es.jpa.customblock.mapper;
 
 import com.momoko.es.api.customblock.dtos.CustomBlockDTO;
-import com.momoko.es.api.customblock.dtos.request.SaveCustomBlockRequest;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroEntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.jpa.customblock.entity.CustomBlockEntity;

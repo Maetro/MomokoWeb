@@ -7,7 +7,7 @@
 package com.momoko.es.jpa.saga;
 
 import com.momoko.es.jpa.book.LibroEntity;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.score.PuntuacionEntity;
 
 import javax.persistence.*;

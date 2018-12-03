@@ -68,9 +68,11 @@ momoko-configuracion:
       urlTemplates: http://momoko.local/templates
       urlImages: http://momoko.local/images/
       urlUpload: http://momoko.local/
+      backendServer: http://localhost:5000/
     local:
       urlSitemap: D:\XAMPP\htdocs\momoko
       urlFiles: D:\XAMPP\htdocs\momoko\images
       urlTemplates: D:\XAMPP\htdocs\momoko\templates
       urlImages: http://momoko.local/images/
       urlUpload: http://momoko.local/
+      backendServer: http://localhost:5000/

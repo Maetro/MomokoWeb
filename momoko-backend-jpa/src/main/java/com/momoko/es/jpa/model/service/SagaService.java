@@ -6,7 +6,7 @@
  */
 package com.momoko.es.jpa.model.service;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.enums.errores.ErrorCreacionSaga;
 import com.momoko.es.api.exceptions.NoSeEncuentraElementoConID;

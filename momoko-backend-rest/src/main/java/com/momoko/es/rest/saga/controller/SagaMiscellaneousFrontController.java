@@ -1,13 +1,13 @@
 package com.momoko.es.rest.saga.controller;
 
 import com.momoko.es.api.dto.DatoEntradaDTO;
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.SagaDTO;
 import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerPaginaSagaColeccionResponse;
 import com.momoko.es.api.enums.EntryTypeEnum;
 import com.momoko.es.api.exceptions.UrlElementNotFoundException;
-import com.momoko.es.jpa.model.service.EntradaService;
+import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.jpa.model.service.SagaService;
 import com.momoko.es.jpa.model.service.StorageService;
 import org.slf4j.Logger;

@@ -10,10 +10,10 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.momoko.es.api.dto.EditorialDTO;
 
-import com.momoko.es.api.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.LibroSimpleDTO;
 import com.momoko.es.api.enums.errores.ErrorCreacionEditorial;
-import com.momoko.es.jpa.entry.EntradaEntity;
+import com.momoko.es.jpa.entry.entity.EntradaEntity;
 import com.momoko.es.jpa.publisher.EditorialEntity;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.score.PuntuacionEntity;

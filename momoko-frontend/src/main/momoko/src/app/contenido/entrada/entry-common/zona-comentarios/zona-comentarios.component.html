@@ -1,4 +1,3 @@
-
 <hr />
 <div id="comments" class="text-left">
   <h3>{{entrada.numeroComentarios}} comentarios en este post </h3>
@@ -14,7 +13,7 @@
 <div class="alert alert-success" role="alert" *ngIf="mostrarMensaje">
   Tu message ha sido enviado correctamente.</div>
 <div class="alert alert-warning" role="alert" *ngIf="mostrarError">
-    Ha habido un problema al enviar el message. Vuelve a intentarlo más tarde</div>
+  Ha habido un problema al enviar el message. Vuelve a intentarlo más tarde</div>
 <div class="comment-form-wrapper text-left">
   <h3>¿Te gustaría compartir lo que piensas?</h3>
   <div class="comentarioAResponder" id="comments" *ngIf="comentarioSeleccionado">
@@ -46,23 +45,24 @@
     </ol>
   </div>
   <p>No te preocupes, no publicaremos tu correo electrónico *</p>
-  <form (ngSubmit)="onPublicarComentario()" #commentForm="ngForm" class="comment-form" name="form_name" action="#" method="post">
-    <div class="name-field">
-      <input id="name" required [(ngModel)]="nuevoComentario.nombre" #name="ngModel" placeholder="Nombre*" type="text" name="name"
-        title="Nombre*" />
-    </div>
-    <div class="email-field">
-      <input id="email" required [(ngModel)]="nuevoComentario.email" #email="ngModel" placeholder="Email*" type="email" name="email"
-        title="Email*" />
-    </div>
-    <div class="website-field">
-      <input id="paginaWeb" [(ngModel)]="nuevoComentario.paginaWeb" #paginaWeb="ngModel" placeholder="Página web" type="text" name="paginaWeb"
-      />
-    </div>
+  <form (ngSubmit)="onPublicarComentario()" #commentForm="ngForm" class="comment-form" name="form_name" action="#"
+    method="post">
     <div class="message-field">
       <textarea name="textarea" id="textarea" [(ngModel)]="nuevoComentario.contenido" rows="5" cols="30" placeholder="Escribe aquí tu comentario..."></textarea>
     </div>
-    <input type="submit" value="Enviar" name="submit" #posicionRespuesta class="btn btn-submit" />
+    <div class="row">
+      <div class="name-field col-sm-4">
+        <input id="name" required [(ngModel)]="nuevoComentario.nombre" #name="ngModel" placeholder="Nombre*" type="text"
+          name="name" title="Nombre*" />
+      </div>
+      <div class="email-field col-sm-4">
+        <input id="email" required [(ngModel)]="nuevoComentario.email" #email="ngModel" placeholder="Email*" type="email"
+          name="email" title="Email*" />
+      </div>
+      <div class="email-field col-sm-4">
+        <input type="submit" value="Enviar" name="submit" #posicionRespuesta class="btn btn-submit" />
+      </div>
+    </div>
   </form>
 </div>
 <!-- /.comment-form-wrapper -->
