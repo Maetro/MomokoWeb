@@ -11,6 +11,7 @@ import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.request.SaveEntryRequestDTO;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ public interface EntradaService {
      * @throws Exception
      *             de exception
      */
-    EntradaDTO guardarEntrada(EntradaDTO entradaAGuardar) throws Exception;
+    EntradaDTO guardarEntrada(SaveEntryRequestDTO entradaAGuardar) throws Exception;
 
     /**
      * Obtener entrada.
@@ -274,5 +275,5 @@ public interface EntradaService {
 
     List<ComentarioDTO> getEntryComments(String urlEntrada);
 
-    List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO);
+    List<ErrorCreacionEntrada> validarEntrada(SaveEntryRequestDTO entradaDTO);
 }

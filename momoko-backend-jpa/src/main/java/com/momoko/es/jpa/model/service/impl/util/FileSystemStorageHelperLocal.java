@@ -131,6 +131,7 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
 
                 final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
                 ImageIO.write(scaledImg, "jpg", newName);
+                imagenOriginalInputStream.close();
             } else {
                 final InputStream imagenOriginalInputStream = Files.newInputStream(locationOriginal);
                 final BufferedImage imageToScale = ImageIO.read(imagenOriginalInputStream);
@@ -147,6 +148,7 @@ public class FileSystemStorageHelperLocal extends FileSystemStorageHelper {
                 }
                 final File newName = new File(getFileLocation(tipoAlmacenamiento) + "/" + fileNameNuevo);
                 ImageIO.write(scaledImg, "jpg", newName);
+                imagenOriginalInputStream.close();
             }
         }
         miniatura = this.momokoConfiguracion.getDirectorios().getRemote().getUrlImages() + tipoAlmacenamiento + "/"

@@ -4,6 +4,8 @@ import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.dto.response.GuardarEntradaResponse;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
+import com.momoko.es.api.entry.request.EditEntryRequest;
+import com.momoko.es.api.entry.request.SaveEntryRequestDTO;
 import com.momoko.es.api.enums.EstadoGuardadoEnum;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 import com.momoko.es.api.entry.service.EntradaService;
@@ -55,7 +57,7 @@ public class EntryController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @RequestMapping(method = RequestMethod.POST, path = "/entradas/add")
-    ResponseEntity<GuardarEntradaResponse> guardarEntrada(@RequestBody final EntradaDTO entradaDTO) {
+    ResponseEntity<GuardarEntradaResponse> guardarEntrada(@RequestBody final SaveEntryRequestDTO entradaDTO) {
 
         // Validar
         final List<ErrorCreacionEntrada> listaErrores = this.entradaService.validarEntrada(entradaDTO);
@@ -85,5 +87,24 @@ public class EntryController {
 
         return new ResponseEntity<>(respuesta, status);
 
+    }
+
+
+    @GetMapping(path = "/entry")
+    public @ResponseBody
+    List<EntradaSimpleDTO> getAllBooks() {
+        final List<EntradaSimpleDTO> entries = this.entradaService.recuperarEntradasSimples();
+        return entries;
+    }
+
+    @GetMapping(path = "/entry/{urlEntry}")
+    public @ResponseBody
+    EntradaDTO getEntry(@PathVariable("urlEntry") String urlEntry) {
+
+        if (log.isDebugEnabled()) {
+            log.debug(String.format("Obtener entrada: %s", urlEntry));
+        }
+        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntradaParaGestion(urlEntry);
+        return entrada.getEntrada();
     }
 }

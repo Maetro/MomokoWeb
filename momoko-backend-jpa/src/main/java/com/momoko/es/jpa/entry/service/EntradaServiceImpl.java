@@ -13,6 +13,7 @@ import com.momoko.es.api.dto.request.ObtenerPaginaElementoRequest;
 import com.momoko.es.api.dto.response.ObtenerEntradaResponse;
 import com.momoko.es.api.entry.dto.EntradaDTO;
 import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
+import com.momoko.es.api.entry.request.SaveEntryRequestDTO;
 import com.momoko.es.api.entry.service.EntradaService;
 import com.momoko.es.api.enums.EntryStatusEnum;
 import com.momoko.es.api.enums.EntryTypeEnum;
@@ -27,6 +28,7 @@ import com.momoko.es.commons.configuration.MomokoConfiguracion;
 import com.momoko.es.jpa.book.LibroEntity;
 import com.momoko.es.jpa.entry.adapter.EntryAdapter;
 import com.momoko.es.jpa.entry.entity.EntradaEntity;
+import com.momoko.es.jpa.entry.mapper.SaveEntryMapper;
 import com.momoko.es.jpa.entry.repository.EntradaRepository;
 import com.momoko.es.jpa.gallery.GaleriaEntity;
 import com.momoko.es.jpa.genre.service.GenreService;
@@ -651,7 +653,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     @Transactional
-    public EntradaDTO guardarEntrada(final EntradaDTO entradaAGuardar) throws Exception {
+    public EntradaDTO guardarEntrada(final SaveEntryRequestDTO entradaAGuardar) throws Exception {
 
         final List<LibroDTO> librosEntrada = new ArrayList<>();
         final List<SagaDTO> sagasEntrada = new ArrayList<>();
@@ -724,7 +726,9 @@ public class EntradaServiceImpl implements EntradaService {
         }
         final UsuarioEntity autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getEditorNombre());
 
-        EntradaEntity entradaEntity = EntryAdapter.adaptarEntrada(entradaAGuardar, librosEntrada, sagasEntrada,
+        EntradaDTO entradaAGuardarDTO = SaveEntryMapper.instance.saveEntryRequestDTOToEntradaDTO(entradaAGuardar);
+        
+        EntradaEntity entradaEntity = EntryAdapter.adaptarEntrada(entradaAGuardarDTO, librosEntrada, sagasEntrada,
                 autor);
 
         if (CollectionUtils.isNotEmpty(entradaEntity.getEtiquetas())) {
@@ -758,13 +762,13 @@ public class EntradaServiceImpl implements EntradaService {
         } else {
             entradaEntity.setImagenDestacada(this.momokoConfiguracion.getImagenDefault());
         }
-        final boolean esNuevaEntrada = entradaAGuardar.getEntradaId() == null;
+        final boolean esNuevaEntrada = entradaAGuardarDTO.getEntradaId() == null;
         // Comprobamos si la url de la entrada existe.
         EntradaEntity coincidencia;
         if (esNuevaEntrada) {
             coincidencia = this.entradaRepository.findFirstByUrlEntrada(entradaEntity.getUrlEntrada());
         } else {
-            coincidencia = this.entradaRepository.findById(entradaAGuardar.getEntradaId()).orElse(null);
+            coincidencia = this.entradaRepository.findById(entradaAGuardarDTO.getEntradaId()).orElse(null);
         }
 
         if (esNuevaEntrada && (coincidencia != null)) {
@@ -779,9 +783,9 @@ public class EntradaServiceImpl implements EntradaService {
         } else {
             entradaEntity.setTipoEntrada(entradaEntity.getEntryType().getValue());
         }
-        //TODO: FIX ME
-        entradaEntity.setEstadoEntrada(2);
-        entradaEntity.setEntryStatus(EntryStatusEnum.PUBLISHED);
+        entradaEntity.setEstadoEntrada(entradaAGuardar.getEntryStatusId());
+        entradaEntity.setEntryStatus(EntryStatusEnum.getEntryStatus(entradaAGuardar.getEntryStatusId()));
+        entradaEntity.setPublishDate(entradaAGuardar.getPublishDate());
         if (esNuevaEntrada) {
             entradaEntity = crearNuevaEntrada(entradaEntity);
         } else {
@@ -842,7 +846,6 @@ public class EntradaServiceImpl implements EntradaService {
         viejaEntrada.setFraseDescriptiva(entradaEntity.getFraseDescriptiva());
         viejaEntrada.setTipoEntrada(entradaEntity.getTipoEntrada());
         viejaEntrada.setTituloEntrada(entradaEntity.getTituloEntrada());
-        viejaEntrada.setEntryType(entradaEntity.getEntryType());
         viejaEntrada.setUrlEntrada(entradaEntity.getUrlEntrada());
         viejaEntrada.setEtiquetas(entradaEntity.getEtiquetas());
         viejaEntrada.setImagenDestacada(entradaEntity.getImagenDestacada());
@@ -850,6 +853,9 @@ public class EntradaServiceImpl implements EntradaService {
         viejaEntrada.setEnMenu(entradaEntity.isEnMenu());
         viejaEntrada.setUrlMenuLibro(entradaEntity.getUrlMenuLibro());
         viejaEntrada.setNombreMenuLibro(entradaEntity.getNombreMenuLibro());
+        viejaEntrada.setPublishDate(entradaEntity.getPublishDate());
+        viejaEntrada.setEntryType(entradaEntity.getEntryType());
+        viejaEntrada.setEntryStatus(entradaEntity.getEntryStatus());
         this.entradaRepository.save(viejaEntrada);
         return viejaEntrada;
     }
@@ -857,7 +863,7 @@ public class EntradaServiceImpl implements EntradaService {
     private List<SagaEntity> obtenerSagasEntrada(final List<SagaEntity> sagasABuscar) {
         List<SagaEntity> librosEncontrado = null;
         if (CollectionUtils.isNotEmpty(sagasABuscar)) {
-            final List<Integer> sagasIds = new ArrayList<Integer>();
+            final List<Integer> sagasIds = new ArrayList<>();
             for (final SagaEntity sagaEntity : sagasABuscar) {
                 sagasIds.add(sagaEntity.getSagaId());
             }
@@ -1237,46 +1243,32 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public List<ErrorCreacionEntrada> validarEntrada(EntradaDTO entradaDTO) {
+    public List<ErrorCreacionEntrada> validarEntrada(SaveEntryRequestDTO saveEntryRequest) {
         final List<ErrorCreacionEntrada> listaErrores = new ArrayList<>();
-        if (entradaDTO.getTituloEntrada() == null) {
+        if (saveEntryRequest.getTituloEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_TITULO);
         }
-        if (entradaDTO.getContenidoEntrada() == null) {
+        if (saveEntryRequest.getContenidoEntrada() == null) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_CONTENIDO);
         }
-        if (estaPublicada(entradaDTO) && !isNewsMiscellaneousOrVideo(entradaDTO)
-                && org.springframework.util.CollectionUtils.isEmpty(entradaDTO.getTitulosLibrosEntrada())
-                && org.springframework.util.CollectionUtils.isEmpty(entradaDTO.getNombresSagasEntrada())) {
+        if (estaPublicada(saveEntryRequest) && !isNewsMiscellaneousOrVideo(saveEntryRequest)
+                && org.springframework.util.CollectionUtils.isEmpty(saveEntryRequest.getTitulosLibrosEntrada())
+                && org.springframework.util.CollectionUtils.isEmpty(saveEntryRequest.getNombresSagasEntrada())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_LIBRO);
         }
-        if (StringUtils.isEmpty(entradaDTO.getEditorNombre())) {
+        if (StringUtils.isEmpty(saveEntryRequest.getEditorNombre())) {
             listaErrores.add(ErrorCreacionEntrada.FALTA_EDITOR_POST);
         }
         return listaErrores;
     }
 
-    /**
-     * Es tipo miscelanea.
-     *
-     * @param entradaDTO
-     *            the entrada dto
-     * @return true, if successful
-     */
-    public boolean isNewsMiscellaneousOrVideo(final EntradaDTO entradaDTO) {
-        return EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType())
-                || EntryTypeEnum.VIDEO.equals(entradaDTO.getEntryType())
-                || EntryTypeEnum.NEWS.equals(entradaDTO.getEntryType());
+    public boolean isNewsMiscellaneousOrVideo(final SaveEntryRequestDTO saveEntryRequestDTO) {
+        return EntryTypeEnum.MISCELLANEOUS.getName().equals(saveEntryRequestDTO.getEntryType())
+                || EntryTypeEnum.VIDEO.getName().equals(saveEntryRequestDTO.getEntryType())
+                || EntryTypeEnum.NEWS.getName().equals(saveEntryRequestDTO.getEntryType());
     }
 
-    /**
-     * Esta publicada.
-     *
-     * @param entradaDTO
-     *            the entrada dto
-     * @return true, if successful
-     */
-    public boolean estaPublicada(final EntradaDTO entradaDTO) {
-        return EntryStatusEnum.PUBLISHED.equals(entradaDTO.getEntryStatus());
+    public boolean estaPublicada(final SaveEntryRequestDTO saveEntryRequestDTO) {
+        return EntryStatusEnum.PUBLISHED.getValue() == saveEntryRequestDTO.getEntryStatusId();
     }
 }

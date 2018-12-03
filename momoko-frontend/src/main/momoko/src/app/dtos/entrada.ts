@@ -9,6 +9,7 @@ export class Entrada {
   redactor: Redactor;
   urlEntrada: string;
   entryType: EntryTypeEnum;
+  entryTypeId: number;
   tituloEntrada: string;
   contenidoEntrada: string;
   resumenEntrada: string;

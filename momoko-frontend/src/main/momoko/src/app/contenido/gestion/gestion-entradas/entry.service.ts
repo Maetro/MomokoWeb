@@ -1,11 +1,12 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { UtilService } from '../../../services/util/util.service';
-import { Entrada } from '../../../dtos/entrada';
 import { Observable } from 'rxjs';
+import { Entrada } from '../../../dtos/entrada';
 import { EntradaSimple } from '../../../dtos/entradaSimple';
 import { GuardarEntradaResponse } from '../../../dtos/response/guardarEntradaResponse';
+import { UtilService } from '../../../services/util/util.service';
+import { SaveEntryRequest } from './dtos/save-entry-request';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class EntryService {
     }
     const headers = this.util.getHeaderWithAuth();
   
-    return this.http.get<EntradaSimple[]>(this.serverUrl + 'model/entry', { headers: headers });
+    return this.http.get<EntradaSimple[]>(this.serverUrl + 'modelo/entry', { headers: headers });
   }
 
   getEntradaAdmin(urlEntrada): Observable<Entrada> {
@@ -35,10 +36,10 @@ export class EntryService {
 
     const headers = this.util.getHeaderWithAuth();
 
-    return this.http.get<Entrada>(this.serverUrl + 'model/entry/'+ urlEntrada, { headers: headers });
+    return this.http.get<Entrada>(this.serverUrl + 'modelo/entry/'+ urlEntrada, { headers: headers });
   }
 
-  saveEntry(entrada: Entrada): Observable<GuardarEntradaResponse> {
+  saveEntry(entrada: SaveEntryRequest): Observable<GuardarEntradaResponse> {
 
     const headers = this.util.getHeaderWithAuth();
 

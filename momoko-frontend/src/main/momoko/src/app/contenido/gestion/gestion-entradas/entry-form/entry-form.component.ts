@@ -1,37 +1,29 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
-  HostListener
-} from '@angular/core';
-
-import { Message, Dropdown, MessageService } from 'primeng/primeng';
-
-import { SelectItem } from 'primeng/components/common/selectitem';
-
+import { Component, OnInit } from '@angular/core';
 import { AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Event } from '@angular/router/src/events';
 import { environment } from 'environments/environment';
+import { SelectItem } from 'primeng/components/common/selectitem';
+import { Message, MessageService } from 'primeng/primeng';
+import { ImageResize } from 'quill-image-resize-module';
+import { Entrada, EntryStatusEnum, EntryTypeEnum } from '../../../../dtos/entrada';
+import { Etiqueta } from '../../../../dtos/etiqueta';
+import { Galeria } from '../../../../dtos/galeria';
+import { UtilService } from '../../../../services/util/util.service';
+import { FileUploadService } from '../../services/file-upload.service';
+import { GaleriaService } from '../../services/galeria.service';
+import { GeneralDataService } from '../../services/general-data.service';
+import { Columna } from '../columna';
+import { SaveEntryRequest } from '../dtos/save-entry-request';
+import { EntryService } from '../entry.service';
+import { Fila } from '../fila';
+
+
+
 
 declare var Quill: any;
 declare var $: any;
 
-import { ImageResize } from 'quill-image-resize-module';
-import { Fila } from '../fila';
-import { Columna } from '../columna';
-import { Event } from '@angular/router/src/events';
-import { Entrada, EntryTypeEnum, EntryStatusEnum } from '../../../../dtos/entrada';
-import { Galeria } from '../../../../dtos/galeria';
-import { EntradaService } from '../../../../services/entrada.service';
-import { FileUploadService } from '../../services/file-upload.service';
-import { UtilService } from '../../../../services/util/util.service';
-import { GeneralDataService } from '../../services/general-data.service';
-import { GaleriaService } from '../../services/galeria.service';
-import { Etiqueta } from '../../../../dtos/etiqueta';
-import { EntryService } from '../entry.service';
-import { ActivatedRoute, Router } from '@angular/router';
 const Parchment = Quill.import('parchment');
 Quill.register('imageResize', ImageResize);
 
@@ -438,7 +430,31 @@ export class EntryFormComponent implements OnInit, AfterViewInit {
       this.entrada.entryStatus = EntryStatusEnum.DRAFT;
     }
     this.entrada.fechaAlta = this.date;
-    this.entryService.saveEntry(this.entrada).subscribe(res => {
+    const saveEntryRequest: SaveEntryRequest = {
+      entradaId: this.entrada.entradaId,
+      tituloEntrada: this.entrada.tituloEntrada,
+      urlEntrada: this.entrada.urlEntrada,
+      etiquetas: this.entrada.etiquetas,
+      entryType: this.entrada.entryType.toString(),
+      titulosLibrosEntrada: this.entrada.titulosLibrosEntrada,
+      nombresSagasEntrada: this.entrada.nombresSagasEntrada,
+      editorNombre: this.entrada.editorNombre,
+      imagenDestacada: this.entrada.imagenDestacada,
+      permitirComentarios: this.entrada.permitirComentarios,
+      conSidebar: this.entrada.conSidebar,
+      enMenu: this.entrada.enMenu,
+      nombreMenuLibro: this.entrada.nombreMenuLibro,
+      urlMenuLibro: this.entrada.urlMenuLibro,
+      
+      contenidoEntrada: this.entrada.contenidoEntrada,
+      resumenEntrada: this.entrada.resumenEntrada,
+      fraseDescriptiva: this.entrada.fraseDescriptiva,
+      urlVideo: this.entrada.urlVideo,
+      
+      entryStatusId: this.entrada.estadoEntrada,
+      publishDate: this.date,
+    }
+    this.entryService.saveEntry(saveEntryRequest).subscribe(res => {
       if (res.estadoGuardado === 'CORRECTO') {
         this.showSuccess('Entrada guardada correctamente');
         this.router.navigate(['/gestion/lista-entradas']);

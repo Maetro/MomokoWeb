@@ -92,12 +92,6 @@ public class FileSystemStorageService implements StorageService {
         return this.getFileSystemHelper().storeWithExtension(image, tipoAlmacenamiento, name, extension);
     }
 
-    public void crearMiniatura(final InputStream fileInputStream, final String tipoAlmacenamiento,
-            final String filename) throws IOException {
-        this.getFileSystemHelper().createThumbnail(fileInputStream, tipoAlmacenamiento, filename);
-
-    }
-
     @Override
     public String obtenerMiniatura(final String tipoAlmacenamiento, final String fileNameOriginal, final Integer width,
             final Integer height, final boolean recortar) throws IOException {
@@ -142,6 +136,7 @@ public class FileSystemStorageService implements StorageService {
                 resultado.setAltura(height);
                 resultado.setAnchura(width);
             }
+            imagenOriginalInputStream.close();
         }
         return resultado;
     }
