@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
     if (event instanceof NavigationEnd) {
       if (isPlatformBrowser(this.platformId)) {
         // Client only code.
-       // this.globals.loading = false;
+        this.globals.loading = false;
         const distanciaTop = $(document).scrollTop();
         if (this.log) {
           console.log('Distancia top: ' + distanciaTop);
