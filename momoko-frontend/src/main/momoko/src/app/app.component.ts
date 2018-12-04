@@ -20,7 +20,7 @@ declare var $: any;
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
   private log = environment.log;
@@ -67,7 +67,7 @@ export class AppComponent implements OnInit {
     if (event instanceof NavigationEnd) {
       if (isPlatformBrowser(this.platformId)) {
         // Client only code.
-        this.globals.loading = false;
+       // this.globals.loading = false;
         const distanciaTop = $(document).scrollTop();
         if (this.log) {
           console.log('Distancia top: ' + distanciaTop);
