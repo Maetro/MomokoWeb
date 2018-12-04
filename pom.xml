@@ -31,11 +31,8 @@
 		<module>momoko-backend-jpa</module>
         <module>momoko-backend-api</module>
 		<module>momoko-backend-rest</module>
-    	<module>momoko-checker</module>
-
 
 	</modules>
-
 
 	<dependencies>
 
@@ -46,25 +43,6 @@
 		</dependency>
 
 	</dependencies>
-
-	<build>
-		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-		</plugins>
-	</build>
 
 	<repositories>
 		<repository>
