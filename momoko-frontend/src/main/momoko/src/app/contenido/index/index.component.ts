@@ -1,28 +1,20 @@
-import { UtilService } from '../../services/util/util.service';
-import {
-  Component,
-  OnInit,
-  AfterViewInit,
-  ViewChild,
-  Inject,
-  PLATFORM_ID,
-  ComponentFactoryResolver
-} from '@angular/core';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { AfterViewInit, Component, ComponentFactoryResolver, Inject, OnInit, PLATFORM_ID, ViewChild } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { EntradaSimple } from '../../dtos/entradaSimple';
-import { ActivatedRoute, Router } from '@angular/router';
-import {  IndexDataResponse} from '../../dtos/response/indexDataResponse';
 import { LibroSimple } from '../../dtos/libroSimple';
+import { IndexDataResponse } from '../../dtos/response/indexDataResponse';
 import { LibroEntradaSimple } from '../../dtos/simples/libroEntradaSimple';
-import { VideoYoutube } from '../../services/youtube-api/youtube';
-import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
-import { YoutubeService } from '../../services/youtube.service';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
-import { Meta, Title } from '@angular/platform-browser';
 import { LinkService } from '../../services/link.service';
-import { CustomBlockIndexDirective } from './custom-block-index/custom-block-index.directive';
-import { IndexDataService } from './services/index-data.service';
+import { UtilService } from '../../services/util/util.service';
+import { VideoYoutube } from '../../services/youtube-api/youtube';
+import { YoutubeService } from '../../services/youtube.service';
 import { CustomBlockComponent } from '../comunes/custom-block/custom-block.component';
+import { CustomBlockIndexDirective } from './custom-block-index/custom-block-index.directive';
+import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
+import { IndexDataService } from './services/index-data.service';
 
 declare var $: any;
 
@@ -41,6 +33,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
   ultimoComicAnalizado: LibroEntradaSimple;
   librosUltimosAnalisis: LibroSimple[];
   ultimos3Videos: VideoYoutube[];
+
+  showQuoteSeparator: boolean;
 
   @ViewChild(CustomBlockIndexDirective) customBlockHost: CustomBlockIndexDirective;
 

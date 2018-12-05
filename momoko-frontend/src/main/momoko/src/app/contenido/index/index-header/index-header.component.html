@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col-md-4 col-sm-6" *ngFor="let opinion of opinions">
                 <div class="indexHeaderImageContainer">
-                    <a routerLink="/{{opinion.bloque}}/{{opinion.urlEntrada}}">
-                        <img src="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}">
-                    </a>
+                    <app-lazy-image link="/{{opinion.bloque}}/{{opinion.urlEntrada}}" 
+                    image="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}">
+                    </app-lazy-image>
                 </div>
                 <div class="indexHeaderDataBlock">
                     {{opinion.categoria}}
@@ -43,9 +43,8 @@
         <div class="row">
             <div class="col-sm-7" *ngFor="let miscellaneous of miscellaneous">
                 <div class="indexHeaderImageContainer">
-                    <a routerLink="/{{miscellaneous.bloque}}/{{miscellaneous.urlEntrada}}">
-                        <img src="{{miscellaneous.imagenEntrada}}" alt="Imagen Destacada - {{miscellaneous.tituloEntrada}}">
-                    </a>
+                    <app-lazy-image link="/{{miscellaneous.bloque}}/{{miscellaneous.urlEntrada}}" image="{{miscellaneous.imagenEntrada}}" alt="Imagen Destacada - {{miscellaneous.tituloEntrada}}">
+                    </app-lazy-image>
                 </div>
                 <div class="indexHeaderDataBlock">
                     Misceláneo
@@ -67,9 +66,9 @@
                     <ng-container *ngFor="let news of news, let i = index; let first = first">
                         <div class="col-xs-6">
                             <div class="indexHeaderImageContainer">
-                                <a routerLink="/{{news.bloque}}/{{news.urlEntrada}}">
-                                    <img src="{{news.imagenEntrada}}" alt="Imagen Destacada - {{news.tituloEntrada}}">
-                                </a>
+                                <app-lazy-image link="/{{news.bloque}}/{{news.urlEntrada}}" 
+                                image="{{news.imagenEntrada}}" alt="Imagen Destacada - {{news.tituloEntrada}}">
+                                </app-lazy-image>
                             </div>
                             <div class="indexHeaderDataBlock">
                                 Noticia
@@ -94,8 +93,8 @@
             <div class="col-xs-12">
                 <h4 class="aboutUs">Sobre nosotros</h4>
                 <h1>Bienvenido a Momoko <br /> tu blog de referencia de libros</h1>
-                <div class="companionText">Aunque sería más correcto que nos llamásemos revista literaria, pero no queríamos sonar pretenciosos. 
-                    Somos un espacio de enamorados de la literatura que recomiendan buena literatura. Así que pon una tetera al fuego y siéntate 
+                <div class="companionText">Aunque sería más correcto que nos llamásemos revista literaria, pero no queríamos sonar pretenciosos.
+                    Somos un espacio de enamorados de la literatura que recomiendan buena literatura. Así que pon una tetera al fuego y siéntate
                     con nosotros a descubrir esas curiosidades mágicas de ese libro que hizo que te palpitara el corazón.</div>
             </div>
         </div>

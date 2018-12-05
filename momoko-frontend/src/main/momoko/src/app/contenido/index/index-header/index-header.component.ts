@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, Input, OnInit } from "@angular/core";
 import { EntradaSimple } from "app/dtos/entradaSimple";
 
 @Component({
@@ -11,6 +11,9 @@ import { EntradaSimple } from "app/dtos/entradaSimple";
     @Input() opinions: EntradaSimple[];
     @Input() miscellaneous: EntradaSimple[];
     @Input() news: EntradaSimple[];
+
+    showMiscellaneousImage = false;
+
     ngOnInit(): void {
         
     }

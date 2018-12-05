@@ -1,17 +1,16 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { YoutubeService } from '../../services/youtube.service';
 import { ComunesModule } from '../comunes/comunes.module';
+import { CustomBlockIndexDirective } from './custom-block-index/custom-block-index.directive';
+import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
+import { IndexHeaderComponent } from './index-header/index-header.component';
 import { IndexComponent } from './index.component';
+import { LibrosHorizontalComponent } from './libros-horizontal/libros-horizontal.component';
 import { ObtenerIndexDataResolverService } from './resolvers/obtener-index-data-resolver.service';
 import { IndexDataService } from './services/index-data.service';
-import { RouterModule } from '@angular/router';
-import { Fila3entradasfondonegroComponent } from './fila3entradasfondonegro/fila3entradasfondonegro.component';
-import { LibrosHorizontalComponent } from './libros-horizontal/libros-horizontal.component';
 import { VideosHorizontalComponent } from './videos-horizontal/videos-horizontal.component';
-import { YoutubeService } from '../../services/youtube.service';
-import { IndexHeaderComponent } from './index-header/index-header.component';
-import { CustomBlockIndexDirective } from './custom-block-index/custom-block-index.directive';
-
 @NgModule({
   imports: [
     CommonModule,

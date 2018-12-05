@@ -1,28 +1,30 @@
-
 <app-index-header [opinions]="lastOpinions" [news]="lastNews" [miscellaneous]="lastMiscellaneous"></app-index-header>
 <ng-template custom-block-index></ng-template>
 <app-libros-horizontal [libros]="librosUltimosAnalisis" [titulo]="tituloUltimosAnalisis"></app-libros-horizontal>
-<section data-kc-equalheight="true" data-kc-equalheight-align="middle" class="kc-elm kc-css-313498 kc_row fen-bg-overlay hidden-xs">
-    <div class="kc-row-container  kc-container">
-        <div class="kc-wrap-columns">
-            <div class="kc-css-201147 col-md-2 col-xs-12 vertical">
-                <div class="kc-col-container horizontal">
-                    <div class="kc-elm kc-css-97853 kc-icon-wrapper vertical">
-                        <i class="budicon-book-5"></i>
+<section data-kc-equalheight="true" data-kc-equalheight-align="middle" class="kc-elm kc-css-313498 kc_row fen-bg-overlay hidden-xs" (deferLoad)="showQuoteSeparator = true">
+    <ng-container *ngIf="showQuoteSeparator">
+        <div class="kc-row-container  kc-container">
+            <div class="kc-wrap-columns">
+                <div class="kc-css-201147 col-md-2 col-xs-12 vertical">
+                    <div class="kc-col-container horizontal">
+                        <div class="kc-elm kc-css-97853 kc-icon-wrapper vertical">
+                            <i class="budicon-book-5"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="kc-elm kc-css-24122 col-md-8 col-xs-12 kc_column kc_col-sm-10">
-                <div class="kc-col-container">
-                    <div class="kc-elm kc-css-435038 kc_text_block">
-                        <p>Alabastro, adorado monstruo, sensato demente, el orogen más poderoso de toda la Quietud e inminente aperitivo de Comepiedras, te mira. Lo hace con la intensidad de siempre, sientes su decisión, lo que lo convierte en la fuerza de la naturaleza que es. </p>
-                        <p>El portal de los obeliscos - N.K. Jemisin</p>
-                        <div class="mailmunch-forms-in-post-middle" style="display: none !important;"></div>
+                <div class="kc-elm kc-css-24122 col-md-8 col-xs-12 kc_column kc_col-sm-10">
+                    <div class="kc-col-container">
+                        <div class="kc-elm kc-css-435038 kc_text_block">
+                            <p>Alabastro, adorado monstruo, sensato demente, el orogen más poderoso de toda la Quietud e inminente aperitivo de Comepiedras, te mira. Lo hace con
+                                la intensidad de siempre, sientes su decisión, lo que lo convierte en la fuerza de la naturaleza que es. </p>
+                            <p>El portal de los obeliscos - N.K. Jemisin</p>
+                            <div class="mailmunch-forms-in-post-middle" style="display: none !important;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </ng-container>
 </section>
 <div class="dark-wrapper hidden-xs">
     <div class="container inner">
