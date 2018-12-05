@@ -31,7 +31,7 @@
 		<module>momoko-backend-jpa</module>
         <module>momoko-backend-api</module>
 		<module>momoko-backend-rest</module>
-
+		<module>momoko-frontend</module>
 	</modules>
 
 	<dependencies>

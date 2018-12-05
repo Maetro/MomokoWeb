@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material';
+import { HeaderMenuComponent } from './header-menu/header-menu.component';
 /* our own custom components */
 import { SomeCustomComponent } from './some-custom/some-custom.component';
-import { HeaderMenuComponent } from './header-menu/header-menu.component';
 
 
 @NgModule({
@@ -30,7 +30,8 @@ import { HeaderMenuComponent } from './header-menu/header-menu.component';
     MatButtonModule,
 
     /* our own custom components */
-    SomeCustomComponent
+    SomeCustomComponent,
+    HeaderMenuComponent
   ]
 })
 export class SharedModule { }
