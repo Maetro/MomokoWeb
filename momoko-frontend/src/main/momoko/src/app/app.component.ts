@@ -1,18 +1,12 @@
-import { environment } from '../environments/environment';
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { isPlatformBrowser } from '@angular/common';
+import { Component, Inject, PLATFORM_ID, OnInit } from '@angular/core';
+
 import {
-  Router,
   // import as RouterEvent to avoid confusion with the DOM Event
-  Event as RouterEvent,
-  NavigationStart,
-  NavigationEnd,
-  NavigationCancel,
-  NavigationError
+  Event as RouterEvent, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router
 } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { isPlatformBrowser } from '@angular/common';
-import { OnInit, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { environment } from '../environments/environment';
 import { Globals } from './app.globals';
 
 declare var $: any;
@@ -72,7 +66,7 @@ export class AppComponent implements OnInit {
         // Client only code.
         this.globals.loading = false;
         this.showFooter = true;
-        
+
         const distanciaTop = $(document).scrollTop();
         if (this.log) {
           console.log('Distancia top: ' + distanciaTop);
