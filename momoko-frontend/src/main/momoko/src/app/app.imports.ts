@@ -41,6 +41,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import {ToastModule} from 'primeng/toast';
 import { MessageService } from 'primeng/primeng';
 import { FroalaEditorModule, FroalaViewModule } from 'angular-froala-wysiwyg';
+import { FooterModule } from './shared/footer/footer.module';
 
 export const PROVIDERS = [
     ObtenerListaCategoriaResolverService,
@@ -86,5 +87,6 @@ export const MODULES = [
     ToastModule,
     EstaticasModule,
     AngularFontAwesomeModule,
+    FooterModule,
     AuthModule,
     AppRoutingModule];

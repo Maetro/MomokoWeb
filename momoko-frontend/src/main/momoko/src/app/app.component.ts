@@ -12,7 +12,7 @@ import {
 } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { isPlatformBrowser } from '@angular/common';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnInit, AfterViewInit } from '@angular/core/src/metadata/lifecycle_hooks';
 import { Globals } from './app.globals';
 
 declare var $: any;
@@ -23,6 +23,7 @@ declare var $: any;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  
   private log = environment.log;
 
   private urlSeguimiento = environment.seguimientoJS;
@@ -30,6 +31,8 @@ export class AppComponent implements OnInit {
   busqueda: string;
 
   url_seguimiento: string;
+
+  showFooter = false;
 
   // Sets initial value to true to show loading spinner on first load
 
@@ -68,6 +71,8 @@ export class AppComponent implements OnInit {
       if (isPlatformBrowser(this.platformId)) {
         // Client only code.
         this.globals.loading = false;
+        this.showFooter = true;
+        
         const distanciaTop = $(document).scrollTop();
         if (this.log) {
           console.log('Distancia top: ' + distanciaTop);

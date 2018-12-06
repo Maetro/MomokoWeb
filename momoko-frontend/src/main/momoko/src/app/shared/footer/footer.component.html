@@ -1,5 +1,7 @@
-<div class="row no-gutter hidden-xs">
-  <div id="instafeed" class="items row row-offset-0"></div>
+<div class="row no-gutter hidden-xs" (deferLoad)="downloadInstaFeed()">
+  <ng-container *ngIf="showInstaFeed">
+    <div id="instafeed" class="items row row-offset-0"></div>
+  </ng-container>
 </div>
 
 <!-- /.content-wrapper -->
@@ -64,22 +66,25 @@
 
 
 
-        <div class="widget">
-          <h3 class="widget-title section-title">SUSCRÍBETE A NUESTRA NEWSLETTER </h3>
-          <form (ngSubmit)="onSubmit()" [formGroup]="suscribeRequestForm">
-            <div class="">
-              <p> Introduce tu correo para recibir nuestras novedades una vez por semana. ¡Tranquilo! No te enviaremos
-                spam ;)
-              </p>
-              <div class="form-field">
-                <label>
-                  <input type="email" formControlName="email" id="email" class="form-control" [placeholder]="'Email *'"
-                   [ngClass]="{ 'is-invalid': submitted && suscribeF.email.errors }" />
-                </label>
+        <div class="widget" (deferLoad)="showSuscribe = true">
+          <ng-container *ngIf="showSuscribe">
+            <h3 class="widget-title section-title">SUSCRÍBETE A NUESTRA NEWSLETTER </h3>
+            <form (ngSubmit)="onSubmit()" [formGroup]="suscribeRequestForm">
+              <div class="">
+                <p> Introduce tu correo para recibir nuestras novedades una vez por semana. ¡Tranquilo! No te
+                  enviaremos
+                  spam ;)
+                </p>
+                <div class="form-field">
+                  <label>
+                    <input type="email" formControlName="email" id="email" class="form-control" [placeholder]="'Email *'"
+                      [ngClass]="{ 'is-invalid': submitted && suscribeF.email.errors }" />
+                  </label>
+                </div>
+                <a (click)="onSubmit()" class="btn suscribirse">Suscribirse </a>
               </div>
-              <a (click)="onSubmit()" class="btn suscribirse">Suscribirse </a>
-            </div>
-          </form>
+            </form>
+          </ng-container>
         </div>
 
       </div>

@@ -9,7 +9,6 @@ import { CustomBlockComponent } from './custom-block/custom-block.component';
 import { BlockOnlyComponent } from './custom-block/templates/block-only/block-only.component';
 import { FourLinksWithContentComponent } from './custom-block/templates/four-links-with-content/four-links-with-content.component';
 
-import { LazyLoadDirective } from './lazy-image-with-link/lazy-load.directive';
 import { Libro3dComponent } from './libro3d/libro3d.component';
 import { MenuInternoLibroComponent } from './menu-interno-libro/menu-interno-libro.component';
 import { MenuInternoSagaComponent } from './menu-interno-saga/menu-interno-saga.component';
@@ -24,11 +23,10 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { SobreAutorComponent } from './sobre-autor/sobre-autor.component';
 import { TagCategoriaComponent } from './tag-categoria/tag-categoria.component';
 import { TruncatePipe } from './truncate-pipe/truncate.pipe';
-import { LazyImageWithLinkComponent } from './lazy-image-with-link/lazy-image-with-link.component';
-import { LazyImageComponent } from './lazy-image/lazy-image.component';
+import { LazyLoadModule } from 'app/shared/lazy-load/lazy-load.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, CheckboxModule, FormsModule],
+  imports: [CommonModule, RouterModule, CheckboxModule, FormsModule, LazyLoadModule],
   declarations: [
     TagCategoriaComponent,
     SidebarComponent,
@@ -48,10 +46,7 @@ import { LazyImageComponent } from './lazy-image/lazy-image.component';
     BlockOnlyComponent,
     BookDataComponent,
     TruncatePipe,
-    BookMenuComponent,
-    LazyImageWithLinkComponent,
-    LazyImageComponent,
-    LazyLoadDirective
+    BookMenuComponent
   ],
   exports: [
     TagCategoriaComponent,
@@ -67,10 +62,7 @@ import { LazyImageComponent } from './lazy-image/lazy-image.component';
     CustomBlockComponent,
     BookDataComponent,
     TruncatePipe,
-    BookMenuComponent,
-    LazyImageWithLinkComponent,
-    LazyImageComponent,
-    LazyLoadDirective
+    BookMenuComponent
   ],
   entryComponents: [CustomBlockComponent]
 })

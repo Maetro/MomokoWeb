@@ -4,7 +4,7 @@
             <img src="{{image}}" alt="{{alt}}">
         </ng-container>
         <ng-container *ngIf="!showImage">
-            <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="{{alt}}" [style.height.px]="height" data-src="{{image}}">
+            <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="{{alt}}" [style.height.px]="height" >
         </ng-container>
         {{msg}}
     </a>

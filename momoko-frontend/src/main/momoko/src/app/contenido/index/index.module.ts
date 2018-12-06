@@ -11,10 +11,13 @@ import { LibrosHorizontalComponent } from './libros-horizontal/libros-horizontal
 import { ObtenerIndexDataResolverService } from './resolvers/obtener-index-data-resolver.service';
 import { IndexDataService } from './services/index-data.service';
 import { VideosHorizontalComponent } from './videos-horizontal/videos-horizontal.component';
+import { FooterModule } from 'app/shared/footer/footer.module';
+import { LazyLoadModule } from 'app/shared/lazy-load/lazy-load.module';
 @NgModule({
   imports: [
     CommonModule,
     ComunesModule,
+    LazyLoadModule,
     RouterModule.forChild([
       { path: '', 
       component: IndexComponent,
