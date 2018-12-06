@@ -25,7 +25,7 @@ declare var $: any;
   templateUrl: './miscelaneo-saga.component.html',
   styleUrls: ['./miscelaneo-saga.component.css']
 })
-export class MiscelaneoSagaComponent implements OnInit, AfterViewInit {
+export class MiscelaneoSagaComponent implements OnInit {
   private log = environment.log;
 
   @Input() entrada: Entrada;
@@ -52,12 +52,6 @@ export class MiscelaneoSagaComponent implements OnInit, AfterViewInit {
   sectionTitle: string;
 
   schema;
-
-  content: string;
-
-  htmlContent: string[];
-
-  bookTemplates: string[];
 
   constructor(
     private titleService: Title,
@@ -104,51 +98,5 @@ export class MiscelaneoSagaComponent implements OnInit, AfterViewInit {
     this.sectionTitle = 'Misceláneo saga: ' + this.entrada.sagasEntrada[0].nombreSaga;
   }
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      if (this.log) {
-        console.log('Ejecutando JQuery');
-      }
-      $('.light-gallery').lightGallery({
-        thumbnail: false,
-        selector: '.lgitem',
-        animateThumb: true,
-        showThumbByDefault: false,
-        download: false,
-        autoplayControls: false,
-        zoom: false,
-        fullScreen: false,
-        thumbWidth: 100,
-        thumbContHeight: 80,
-        hash: false,
-        videoMaxWidth: '1000px'
-      });
-      setTimeout(() => this.crearCollage(), 2000);
-    }
-    
-    for (let cont = 1; cont <= this.bookTemplates.length; cont++){
-      let replaceCode = $($("app-book-template").get(cont-1)).html();
-      $($("app-book-template").get(cont-1)).html("");
-      $(".bookTemplate"+ cont).html(replaceCode);
-    }
-  }
 
-  crearCollage() {
-    $('.collage').attr('id', 'collage-large');
-    this.collage();
-    $('.collage .collage-image-wrapper').css('opacity', 0);
-    $('.overlay a').prepend('<span class="over"><span></span></span>');
-  }
-
-  collage() {
-    $('.collage')
-    .removeWhitespace()
-    .collagePlus({
-      fadeSpeed: 5000,
-      targetHeight: 400,
-      effect: 'effect-2',
-      direction: 'vertical',
-      allowPartialLastRow: true
-    });
-  }
 }
