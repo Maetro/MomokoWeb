@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @Controller
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:4000", "https://www.momoko.es", "https://momoko.es", "http://admin.momoko.es"})
@@ -33,7 +34,11 @@ public class EntryFrontController {
         log.debug("getEntradaByUrl");
         ObtenerEntradaResponse respuesta = null;
         if (!urlEntrada.equals("not-found")) {
-            respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+            try {
+                respuesta = this.entradaService.obtenerEntrada(urlEntrada, true);
+            } catch (IOException e) {
+                throw new NotFoundException("Error al generar miniatura " + urlEntrada);
+            }
         }
         if (respuesta == null || respuesta.getEntrada() == null) {
             throw new NotFoundException("No se ha encontrado la entrada: " + urlEntrada);
@@ -44,8 +49,12 @@ public class EntryFrontController {
     @GetMapping(path = "/video/{url-video}")
     public @ResponseBody
     ObtenerEntradaResponse obtenerVideo(@PathVariable("url-video") final String urlVideo,
-                                        @RequestHeader(value = "User-Agent") final String userAgent) {
-        return this.entradaService.obtenerEntradaVideo(urlVideo);
+                                        @RequestHeader(value = "User-Agent") final String userAgent) throws NotFoundException {
+        try {
+            return this.entradaService.obtenerEntradaVideo(urlVideo);
+        } catch (IOException e) {
+            throw new NotFoundException("Error al generar miniatura " + urlVideo);
+        }
     }
 
 }

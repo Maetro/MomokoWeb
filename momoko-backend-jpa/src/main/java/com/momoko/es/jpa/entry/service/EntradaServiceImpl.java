@@ -157,7 +157,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) {
+    public ObtenerEntradaResponse obtenerEntrada(final String urlEntrada, final boolean transformarGalerias) throws IOException {
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();
         final EntradaEntity entradaEntity = this.entradaRepository.findFirstByUrlEntrada(urlEntrada);
         if (entradaEntity != null) {
@@ -325,7 +325,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
-                                              final EntradaDTO entradaDTO) {
+                                              final EntradaDTO entradaDTO) throws IOException {
         final Set<DatoEntradaDTO> datosEntradas = new HashSet<>();
         final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
         final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
@@ -373,7 +373,7 @@ public class EntradaServiceImpl implements EntradaService {
                 final String url = this.almacenImagenes.getUrlImageServer();
                 for (final LibroSimpleDTO libroSimple : librosParecidos) {
 
-                    libroSimple.setPortada(url + libroSimple.getPortada());
+                    libroSimple.setPortada(this.almacenImagenes.obtenerMiniatura(libroSimple.getPortada(), 240, 350, false));
 
                 }
             }
@@ -905,7 +905,7 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
     @Override
-    public ObtenerEntradaResponse obtenerEntradaVideo(final String urlVideo) {
+    public ObtenerEntradaResponse obtenerEntradaVideo(final String urlVideo) throws IOException {
         // TODO Auto-generated method stub
 
         final ObtenerEntradaResponse respuesta = new ObtenerEntradaResponse();

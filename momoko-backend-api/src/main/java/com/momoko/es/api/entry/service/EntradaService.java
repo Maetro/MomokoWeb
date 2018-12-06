@@ -14,6 +14,7 @@ import com.momoko.es.api.entry.dto.EntradaSimpleDTO;
 import com.momoko.es.api.entry.request.SaveEntryRequestDTO;
 import com.momoko.es.api.enums.errores.ErrorCreacionEntrada;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -44,7 +45,7 @@ public interface EntradaService {
      *            the url entrada
      * @return the obtener entrada response
      */
-    ObtenerEntradaResponse obtenerEntrada(String urlEntrada, boolean transformarGalerias);
+    ObtenerEntradaResponse obtenerEntrada(String urlEntrada, boolean transformarGalerias) throws IOException;
 
     /**
      * Obtener entrada video.
@@ -53,7 +54,7 @@ public interface EntradaService {
      *            the url video
      * @return the obtener ficha libro response
      */
-    ObtenerEntradaResponse obtenerEntradaVideo(String urlVideo);
+    ObtenerEntradaResponse obtenerEntradaVideo(String urlVideo) throws IOException;
 
     /**
      * Obtener tres ultimas entradas populares con libro.
