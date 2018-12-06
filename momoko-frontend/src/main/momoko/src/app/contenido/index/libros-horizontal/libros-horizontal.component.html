@@ -1,25 +1,23 @@
 <div class="light-wrapper marginBottom50 hidden-xs">
   <div class="container">
-
-
     <div class="grid-view">
-
-
       <span class="titulos">
         <h2> {{titulo}} </h2>
       </span>
-
       <div class="row blog-posts blog-content" style="margin-top:50px;">
         <div class="row">
           <div class="col-md-1"></div>
-          <div class="post col-sm-12 col-md-2" *ngFor="let libro of libros; let first = first;">
+          <div class="post col-sm-12 col-md-2" *ngFor="let libro of libros; let first = first; let i = index;">
             <div class="portadaContainer" style="max-width: 100%; margin-bottom: 10px">
               <figure class="overlay vertical">
                 <a routerLink="/libro/{{libro.urlLibro}}">
                   <span class="over">
                     <span></span>
                   </span>
-                  <img src="{{libro.portada}}" alt="Portada libro - {{libro.titulo}}">
+                  <app-lazy-image
+                  image="{{libro.portada}}" alt="Portada libro - {{libro.titulo}}"
+                  name="Portada - {{i}}">
+                  </app-lazy-image>
                 </a>
               </figure>
             </div>
@@ -36,25 +34,11 @@
                 <a routerLink="/libro/{{libro.urlLibro}}" class="more">Continuar leyendo</a>
               </div>
             </div>
-            <!-- /.post-content -->
-
           </div>
         </div>
-
-
         <hr>
-
       </div>
-      <!-- /.blog-posts -->
-
     </div>
-    <!-- /.grid-view -->
-
-
-
-
-    <!-- /.container -->
   </div>
-  <!-- /.dark-wrapper -->
 
 </div>

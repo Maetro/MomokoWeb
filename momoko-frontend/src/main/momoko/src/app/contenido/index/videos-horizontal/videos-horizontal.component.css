@@ -24,7 +24,8 @@
   .product__image > a {
     overflow: hidden;
     display: block;
-    height: 208px;
+    height: 243px;
+    margin-top: -35px;
   }
   
   .product__image img {

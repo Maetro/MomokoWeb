@@ -1,7 +1,8 @@
 <app-index-header [opinions]="lastOpinions" [news]="lastNews" [miscellaneous]="lastMiscellaneous"></app-index-header>
 <ng-template custom-block-index></ng-template>
 <app-libros-horizontal [libros]="librosUltimosAnalisis" [titulo]="tituloUltimosAnalisis"></app-libros-horizontal>
-<section data-kc-equalheight="true" data-kc-equalheight-align="middle" class="kc-elm kc-css-313498 kc_row fen-bg-overlay hidden-xs" (deferLoad)="showQuoteSeparator = true">
+<section data-kc-equalheight="true" data-kc-equalheight-align="middle" class="kc-elm kc-css-313498 kc_row fen-bg-overlay hidden-xs"
+    (deferLoad)="showQuoteSeparator = true">
     <ng-container *ngIf="showQuoteSeparator">
         <div class="kc-row-container  kc-container">
             <div class="kc-wrap-columns">
@@ -15,8 +16,10 @@
                 <div class="kc-elm kc-css-24122 col-md-8 col-xs-12 kc_column kc_col-sm-10">
                     <div class="kc-col-container">
                         <div class="kc-elm kc-css-435038 kc_text_block">
-                            <p>Alabastro, adorado monstruo, sensato demente, el orogen más poderoso de toda la Quietud e inminente aperitivo de Comepiedras, te mira. Lo hace con
-                                la intensidad de siempre, sientes su decisión, lo que lo convierte en la fuerza de la naturaleza que es. </p>
+                            <p>Alabastro, adorado monstruo, sensato demente, el orogen más poderoso de toda la Quietud
+                                e inminente aperitivo de Comepiedras, te mira. Lo hace con
+                                la intensidad de siempre, sientes su decisión, lo que lo convierte en la fuerza de la
+                                naturaleza que es. </p>
                             <p>El portal de los obeliscos - N.K. Jemisin</p>
                             <div class="mailmunch-forms-in-post-middle" style="display: none !important;"></div>
                         </div>
@@ -38,8 +41,10 @@
                 <a routerLink="/opiniones/{{ultimoComicAnalizado.entrada.urlEntrada}}" class="btn">Ver cómic </a>
             </div>
         </div>
-        <div class="col-sm-12 col-md-3" style="margin-top:-70px">
-            <app-libro3d [anchura]="292" [anchuraPortada]="292" [alturaPortada]="400" [portada]="ultimoComicAnalizado.libro.portada"></app-libro3d>
+        <div class="col-sm-12 col-md-3" style="margin-top:-70px" (deferLoad)="show3dBook= true">
+            <ng-container *ngIf="show3dBook">
+                <app-libro3d [anchura]="292" [anchuraPortada]="292" [alturaPortada]="400" [portada]="ultimoComicAnalizado.libro.portada"></app-libro3d>
+            </ng-container>
         </div>
     </div>
 </div>

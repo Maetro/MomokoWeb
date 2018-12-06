@@ -36,6 +36,8 @@ export class IndexComponent implements OnInit, AfterViewInit {
 
   showQuoteSeparator: boolean;
 
+  show3dBook = false;
+
   @ViewChild(CustomBlockIndexDirective) customBlockHost: CustomBlockIndexDirective;
 
   tituloSeccionLibros = 'Lo más leído este mes...';

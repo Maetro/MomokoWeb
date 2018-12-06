@@ -1,11 +1,11 @@
 <div class="light-wrapper">
     <div class="container align-center">
         <div class="row">
-            <div class="col-md-4 col-sm-6" *ngFor="let opinion of opinions">
+            <div class="col-md-4 col-sm-6" *ngFor="let opinion of opinions; let i = index;">
                 <div class="indexHeaderImageContainer">
-                    <app-lazy-image link="/{{opinion.bloque}}/{{opinion.urlEntrada}}" 
-                    image="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}">
-                    </app-lazy-image>
+                    <app-lazy-image-with-link link="/{{opinion.bloque}}/{{opinion.urlEntrada}}" name="Opinion - {{i}}" 
+                    image="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}" height="490">
+                    </app-lazy-image-with-link>
                 </div>
                 <div class="indexHeaderDataBlock">
                     {{opinion.categoria}}
@@ -43,8 +43,9 @@
         <div class="row">
             <div class="col-sm-7" *ngFor="let miscellaneous of miscellaneous">
                 <div class="indexHeaderImageContainer">
-                    <app-lazy-image link="/{{miscellaneous.bloque}}/{{miscellaneous.urlEntrada}}" image="{{miscellaneous.imagenEntrada}}" alt="Imagen Destacada - {{miscellaneous.tituloEntrada}}">
-                    </app-lazy-image>
+                    <app-lazy-image-with-link link="/{{miscellaneous.bloque}}/{{miscellaneous.urlEntrada}}" image="{{miscellaneous.imagenEntrada}}" 
+                    alt="Imagen Destacada - {{miscellaneous.tituloEntrada}}" name="Miscelaneo">
+                    </app-lazy-image-with-link>
                 </div>
                 <div class="indexHeaderDataBlock">
                     Misceláneo
@@ -66,9 +67,10 @@
                     <ng-container *ngFor="let news of news, let i = index; let first = first">
                         <div class="col-xs-6">
                             <div class="indexHeaderImageContainer">
-                                <app-lazy-image link="/{{news.bloque}}/{{news.urlEntrada}}" 
-                                image="{{news.imagenEntrada}}" alt="Imagen Destacada - {{news.tituloEntrada}}">
-                                </app-lazy-image>
+                                <app-lazy-image-with-link link="/{{news.bloque}}/{{news.urlEntrada}}" 
+                                image="{{news.imagenEntrada}}" alt="Imagen Destacada - {{news.tituloEntrada}}"
+                                name="Noticia - {{i}}">
+                                </app-lazy-image-with-link>
                             </div>
                             <div class="indexHeaderDataBlock">
                                 Noticia

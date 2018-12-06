@@ -1,9 +1,8 @@
-<a routerLink="{{link}}" (deferLoad)="showImage = true">
-                        
-    <ng-container *ngIf="showImage">
-        <img src="{{image}}" alt="{{alt}}">
-    </ng-container>
-    <ng-container *ngIf="!showImage">
-        <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="{{alt}}">
-    </ng-container>
-</a>
+<div class="lazyImageContainer" (deferLoad)="downloadImage()">
+            <ng-container *ngIf="showImage">
+                <img src="{{image}}" alt="{{alt}}" class="{{class}}">
+            </ng-container>
+            <ng-container *ngIf="!showImage">
+                <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="{{alt}}" class="{{class}}" [style.height.px]="height">
+            </ng-container>
+</div>
