@@ -167,14 +167,26 @@ public class EntradaServiceImpl implements EntradaService {
             try {
                 LocalDateTime creationDate = convertToLocalDateViaInstant(entradaEntity.getCreatedDate());
                 LocalDateTime newImageFormat = LocalDateTime.of(2018, Month.NOVEMBER, 26, 23, 0);
-                if ( entradaDTO.getEntryType().equals(EntryTypeEnum.OPINION) && creationDate.isAfter(newImageFormat)) {
-                    entradaDTO.setImagenDestacada(
-                            this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 1180, true));
+                if (creationDate.isAfter(newImageFormat)) {
+                    if (entradaDTO.getEntryType().equals(EntryTypeEnum.OPINION)) {
+                        entradaDTO.setImagenDestacada(
+                                this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 1180, true));
+                    } else if (entradaDTO.getEntryType().equals(EntryTypeEnum.NEWS)) {
+                        entradaDTO.setImagenDestacada(
+                                this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 770, true));
+                    } else if (entradaDTO.getEntryType().equals(EntryTypeEnum.MISCELLANEOUS)) {
+                        entradaDTO.setImagenDestacada(
+                                this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 513, true));
+                    } else {
+                        entradaDTO.setImagenDestacada(
+                                this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 432, true));
+                    }
                 } else {
                     entradaDTO.setImagenDestacada(
                             this.almacenImagenes.obtenerMiniatura(entradaDTO.getImagenDestacada(), 770, 432, true));
                 }
-            } catch( final IOException e){
+
+            } catch (final IOException e) {
                 e.printStackTrace();
             }
             if (EntryTypeEnum.MISCELLANEOUS.equals(entradaDTO.getEntryType()) ||
@@ -298,7 +310,6 @@ public class EntradaServiceImpl implements EntradaService {
     }
 
 
-
     /**
      * Asociar datos saga asociada a entrada.
      *
@@ -327,58 +338,57 @@ public class EntradaServiceImpl implements EntradaService {
     public void obtenerEntradaAsociadaALibros(final ObtenerEntradaResponse respuesta, final EntradaEntity entradaEntity,
                                               final EntradaDTO entradaDTO) throws IOException {
         final Set<DatoEntradaDTO> datosEntradas = new HashSet<>();
-        final List<LibroSimpleDTO> librosParecidos = new ArrayList<LibroSimpleDTO>();
+        final List<LibroSimpleDTO> librosParecidos = new ArrayList<>();
         final List<LibroEntity> librosEntrada = entradaEntity.getLibrosEntrada();
-        if (CollectionUtils.isNotEmpty(librosEntrada)) {
-            for (final LibroEntity libroEntrada : librosEntrada) {
+        for (final LibroEntity libroEntrada : librosEntrada) {
 
-                final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
-                        .findByLibrosEntradaIn(Arrays.asList(libroEntrada), PageRequest.of(0, 99));
+            final List<EntradaEntity> entradasRelacionadas = this.entradaRepository
+                    .findByLibrosEntradaIn(Arrays.asList(libroEntrada), PageRequest.of(0, 99));
 
-                Collections.sort(entradasRelacionadas);
-                if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
-                    for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
-                        final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
-                        datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
-                        datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
-                        datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
-                        datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
-                        datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
-                        datosEntradas.add(datoEntrada);
-                    }
-                }
-
-                if (CollectionUtils.isNotEmpty(entradaDTO.getLibrosEntrada())) {
-                    for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
-                        librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
-
-                        final PuntuacionEntity puntuacion = this.puntuacionRepository
-                                .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
-                        if (puntuacion != null) {
-                            libroDTO.setNotaMomoko(puntuacion.getValor());
-                        }
-                        if (EntryTypeEnum.OPINION.equals(entradaDTO.getEntryType())) {
-                            final String jsonLD = JsonLDUtils.crearJsonLDOpiniones(libroDTO, entradaDTO,
-                                    puntuacion.getValor());
-                            entradaDTO.setJsonLD(jsonLD);
-                        }
-                        MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
-                    }
-
+            Collections.sort(entradasRelacionadas);
+            if (CollectionUtils.isNotEmpty(entradasRelacionadas)) {
+                for (final EntradaEntity entradaRelacionadaEntity : entradasRelacionadas) {
+                    final DatoEntradaDTO datoEntrada = new DatoEntradaDTO();
+                    datoEntrada.setTipoEntrada(entradaRelacionadaEntity.getTipoEntrada());
+                    datoEntrada.setUrlEntrada(entradaRelacionadaEntity.getUrlEntrada());
+                    datoEntrada.setEnMenu(entradaRelacionadaEntity.isEnMenu());
+                    datoEntrada.setNombreMenuLibro(entradaRelacionadaEntity.getNombreMenuLibro());
+                    datoEntrada.setUrlMenuLibro(entradaRelacionadaEntity.getUrlMenuLibro());
+                    datosEntradas.add(datoEntrada);
                 }
             }
-            respuesta.setCincoLibrosParecidos(
-                    librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
-            if (CollectionUtils.isNotEmpty(librosParecidos)) {
-                final String url = this.almacenImagenes.getUrlImageServer();
-                for (final LibroSimpleDTO libroSimple : librosParecidos) {
 
-                    libroSimple.setPortada(this.almacenImagenes.obtenerMiniatura(libroSimple.getPortada(), 240, 350, false));
+            for (final LibroDTO libroDTO : entradaDTO.getLibrosEntrada()) {
+                if (libroDTO.getLibroId().equals(libroEntrada.getLibroId())) {
+                    librosParecidos.addAll(this.libroService.obtenerLibrosParecidos(libroDTO, 5));
 
+                    final PuntuacionEntity puntuacion = this.puntuacionRepository
+                            .findOneByEsPuntuacionMomokoAndLibro(true, libroEntrada);
+                    if (puntuacion != null) {
+                        libroDTO.setNotaMomoko(puntuacion.getValor());
+                    }
+                    if (EntryTypeEnum.OPINION.equals(entradaDTO.getEntryType())) {
+                        final String jsonLD = JsonLDUtils.crearJsonLDOpiniones(libroDTO, entradaDTO,
+                                puntuacion.getValor());
+                        entradaDTO.setJsonLD(jsonLD);
+                    }
+                    MomokoThumbnailUtils.tratarImagenesFichaLibro(this.almacenImagenes, libroDTO);
                 }
             }
-            entradaDTO.setDatosEntrada(new ArrayList<>(datosEntradas));
+
+
         }
+        respuesta.setCincoLibrosParecidos(
+                librosParecidos.subList(0, librosParecidos.size() > 5 ? 5 : librosParecidos.size()));
+        if (CollectionUtils.isNotEmpty(librosParecidos)) {
+            for (final LibroSimpleDTO libroSimple : librosParecidos) {
+
+                libroSimple.setPortada(this.almacenImagenes.obtenerMiniatura(libroSimple.getPortada(), 240, 350, false));
+
+            }
+        }
+        entradaDTO.setDatosEntrada(new ArrayList<>(datosEntradas));
+
     }
 
     private void obtenerGifs(final EntradaDTO entradaDTO) {
@@ -727,7 +737,7 @@ public class EntradaServiceImpl implements EntradaService {
         final UsuarioEntity autor = this.usuarioRepository.findByUsuarioLogin(entradaAGuardar.getEditorNombre());
 
         EntradaDTO entradaAGuardarDTO = SaveEntryMapper.instance.saveEntryRequestDTOToEntradaDTO(entradaAGuardar);
-        
+
         EntradaEntity entradaEntity = EntryAdapter.adaptarEntrada(entradaAGuardarDTO, librosEntrada, sagasEntrada,
                 autor);
 

@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { AfterViewInit, Directive, ElementRef, EventEmitter, Inject, Input, NgZone, OnDestroy, Output, PLATFORM_ID } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+import { debug } from 'util';
 
 @Directive({
     selector: '[deferLoad]'
@@ -116,8 +117,8 @@ export class LazyLoadDirective implements AfterViewInit, OnDestroy {
 
     private isVisible () {
         let scrollPosition = this.getScrollPosition();
-        let elementOffset = this._element.nativeElement.getBoundingClientRect().top + window.scrollY;
-        return elementOffset <= scrollPosition;
+        let elementOffset = this._element.nativeElement.getBoundingClientRect().top;
+        return elementOffset > 0 && elementOffset <= scrollPosition;
     }
 
     private getScrollPosition () {

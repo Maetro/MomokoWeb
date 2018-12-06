@@ -14,7 +14,7 @@ export class EntrySidebarComponent implements OnInit {
 
     @Input() entry: Entrada;
 
-    @Input() book: Libro;
+    @Input() books: Libro[];
 
     @Input() librosParecidos: LibroSimple[]; 
 

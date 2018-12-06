@@ -12,7 +12,7 @@
           <app-entry-content [entry]="entrada"> </app-entry-content>
         </div>
 
-        <app-entry-sidebar [entry]="entrada" [book]="entrada.librosEntrada[0]" [librosParecidos]="librosParecidos" [datosEntrada]="entrada.datosEntrada"
+        <app-entry-sidebar [entry]="entrada" [books]="entrada.librosEntrada" [librosParecidos]="librosParecidos" [datosEntrada]="entrada.datosEntrada"
         [parentType]="'ANALISIS'"> </app-entry-sidebar>
         <div class="col-sm-12">
         <app-entry-footer [entry]="entrada" [cuatroPostPequenosConImagen]="cuatroPostPequenosConImagen" [comentarios]="comentarios"

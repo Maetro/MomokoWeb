@@ -17,7 +17,7 @@ import { Component, Input } from "@angular/core";
     showImage = false;
 
     downloadImage(){
-      console.log('Download image: '+ this.name);
+      console.debug('Download image: '+ this.name);
       this.showImage = true;
     }
 
