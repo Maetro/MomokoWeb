@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ViewChild, ElementRef, Renderer2 } from "@angular/core";
 
 @Component({
     selector: 'app-lazy-image-with-link',
@@ -14,11 +14,16 @@ import { Component, Input } from "@angular/core";
     @Input() msg: string = '';
     @Input() height: number = 1;
 
+    @ViewChild("myContainer") imageToMove: ElementRef;
+
+    constructor(private renderer: Renderer2){}
+
     showImage = false;
 
     downloadImage(){
       console.debug('Download image: '+ this.name);
       this.showImage = true;
+     this.renderer.addClass(this.imageToMove.nativeElement, "already-visible");
     }
 
   }

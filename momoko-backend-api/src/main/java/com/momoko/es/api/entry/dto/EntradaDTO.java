@@ -32,6 +32,7 @@ public class EntradaDTO {
     private String urlVideo;
     private Date fechaAlta;
     private Date fechaModificacion;
+    private Date publishDate;
     private boolean tieneGaleria = false;
     private String editorNombre;
     private boolean conSidebar;
@@ -257,6 +258,14 @@ public class EntradaDTO {
 
     public void setFechaModificacion(final Date fechaModificacion) {
         this.fechaModificacion = fechaModificacion;
+    }
+
+    public Date getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(Date publishDate) {
+        this.publishDate = publishDate;
     }
 
     public List<String> getNombresSagasEntrada() {

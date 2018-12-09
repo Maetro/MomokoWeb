@@ -64,7 +64,7 @@ public class JsonLDUtils {
             final Review reviewMomoko = new Review();
             reviewMomoko.setType("Review");
             reviewMomoko.setAuthor(entrada.getRedactor().getNombre());
-            reviewMomoko.setDatePublished(entrada.getFechaAlta().toString());
+            reviewMomoko.setDatePublished(entrada.getPublishDate().toString());
             reviewMomoko.setName(entrada.getTituloEntrada());
             reviewMomoko.setDescription(entrada.getResumenEntrada());
             // reviewMomoko.setReviewBody(entrada.getContenidoEntrada());
@@ -104,7 +104,7 @@ public class JsonLDUtils {
             blogPosting.setDateCreated(entrada.getFechaAlta().toString());
             blogPosting.setDescription(entrada.getResumenEntrada());
             blogPosting.setArticleBody(entrada.getContenidoEntrada());
-            blogPosting.setDatePublished(entrada.getFechaAlta().toString());
+            blogPosting.setDatePublished(entrada.getPublishDate().toString());
             final Publisher publisher = new Publisher();
             publisher.setName("Momoko");
             publisher.setType("Organization");

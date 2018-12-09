@@ -29,13 +29,13 @@ export class IndexComponent implements OnInit, AfterViewInit {
   lastOpinions: EntradaSimple[] = [];
   lastNews: EntradaSimple[] = [];
   lastMiscellaneous: EntradaSimple[] = [];
+  masonryIndex: EntradaSimple[] = [];
   librosMasLeidosMes: LibroSimple[];
   ultimoComicAnalizado: LibroEntradaSimple;
   librosUltimosAnalisis: LibroSimple[];
   ultimos3Videos: VideoYoutube[];
 
-  showQuoteSeparator: boolean;
-
+  showQuoteSeparator = false;
   show3dBook = false;
 
   @ViewChild(CustomBlockIndexDirective) customBlockHost: CustomBlockIndexDirective;
@@ -105,6 +105,7 @@ export class IndexComponent implements OnInit, AfterViewInit {
         this.lastOpinions = data.indexDataResponse.lastOpinions;
         this.lastNews = data.indexDataResponse.lastNews;
         this.lastMiscellaneous = data.indexDataResponse.lastMiscellaneous;
+        this.masonryIndex = data.indexDataResponse.masonryEntries;
         this.librosMasLeidosMes = data.indexDataResponse.librosMasVistos;
         this.librosUltimosAnalisis = data.indexDataResponse.ultimosAnalisis;
         this.ultimoComicAnalizado = data.indexDataResponse.ultimoComicAnalizado;

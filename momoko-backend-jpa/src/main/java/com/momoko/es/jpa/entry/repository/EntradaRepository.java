@@ -118,4 +118,8 @@ public interface EntradaRepository extends CrudRepository<EntradaEntity, Integer
 
     @Query("select e from EntradaEntity e WHERE e.entryType = :entryType AND e.createdDate < :ahora ORDER by e.createdDate DESC")
     List<EntradaEntity> findLastEntries(@Param("ahora") Date ahora, @Param("entryType") EntryTypeEnum entryType, Pageable pageable);
+
+    @Query("select e from EntradaEntity e WHERE e.urlEntrada not in (:alreadyUsedUrls) AND e.createdDate < :ahora ORDER by e.createdDate DESC")
+    List<EntradaEntity> findLastEntriesNotUsed(
+            @Param("ahora") Date ahora, @Param("alreadyUsedUrls") List<String> alreadyUsedUrls, Pageable pageable);
 }

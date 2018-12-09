@@ -44,4 +44,29 @@ public enum EntryTypeEnum {
         }
         return result;
     }
+
+    public static EntryTypeEnum getEntryTypeByName(final String entryType) {
+        EntryTypeEnum result = null;
+        switch (entryType) {
+            case "Noticia":
+                result = EntryTypeEnum.NEWS;
+                break;
+            case "Opinión":
+                result = EntryTypeEnum.OPINION;
+                break;
+            case "Miscelaneo":
+                result = EntryTypeEnum.MISCELLANEOUS;
+                break;
+            case "Vídeo":
+                result = EntryTypeEnum.VIDEO;
+                break;
+            case "Especial":
+                result = EntryTypeEnum.SPECIAL;
+                break;
+            default:
+                result = EntryTypeEnum.MISCELLANEOUS;
+                break;
+        }
+        return result;
+    }
 }

@@ -105,6 +105,7 @@ public class EntryAdapter {
         entradaDTO.setEntryType(entradaEntity.getEntryType());
         entradaDTO.setFechaAlta(entradaEntity.getCreatedDate());
         entradaDTO.setFechaModificacion(entradaEntity.getModifiedDate());
+        entradaDTO.setPublishDate(entradaEntity.getPublishDate());
         entradaDTO.setTituloEntrada(entradaEntity.getTituloEntrada());
         entradaDTO.setEditorNombre(entradaEntity.getEntradaAutor().getUsuarioNick());
         entradaDTO.setUrlEntrada(entradaEntity.getUrlEntrada());

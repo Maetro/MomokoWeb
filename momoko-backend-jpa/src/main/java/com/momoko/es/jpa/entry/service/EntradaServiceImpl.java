@@ -47,6 +47,7 @@ import com.momoko.es.jpa.video.VideoEntity;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -663,6 +664,7 @@ public class EntradaServiceImpl implements EntradaService {
 
     @Override
     @Transactional
+    @CacheEvict("index")
     public EntradaDTO guardarEntrada(final SaveEntryRequestDTO entradaAGuardar) throws Exception {
 
         final List<LibroDTO> librosEntrada = new ArrayList<>();

@@ -1,11 +1,13 @@
-<div class="lazyImageContainer" (deferLoad)="downloadImage()">
-    <a routerLink="{{link}}">
-        <ng-container *ngIf="showImage">
-            <img src="{{image}}" alt="{{alt}}">
-        </ng-container>
-        <ng-container *ngIf="!showImage">
-            <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="{{alt}}" [style.height.px]="height" >
-        </ng-container>
-        {{msg}}
-    </a>
+<div class="lazyImageContainer" (deferLoad)="downloadImage()" >
+    <div class="slide-in" #myContainer>
+        <a routerLink="{{link}}">
+            <ng-container *ngIf="showImage">
+                <img src="{{image}}" alt="{{alt}}">
+            </ng-container>
+            <ng-container *ngIf="!showImage">
+                <img src="data:image/png;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="{{alt}}" [style.height.px]="height">
+            </ng-container>
+            {{msg}}
+        </a>
+    </div>
 </div>

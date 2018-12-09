@@ -8,6 +8,7 @@ import {
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { environment } from '../environments/environment';
 import { Globals } from './app.globals';
+import { WINDOW} from '@ng-toolkit/universal';
 
 declare var $: any;
 
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit {
     //NO ELIMINAR
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(WINDOW) private window:Window,
     private globals: Globals
   ) {
     router.events.subscribe((event: RouterEvent) => {

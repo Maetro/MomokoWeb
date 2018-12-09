@@ -27,6 +27,8 @@ public class IndexDataReponseDTO implements Serializable {
 
     private List<EntradaSimpleDTO> lastMiscellaneous;
 
+    private List<EntradaSimpleDTO> masonryEntries;
+
     /** The libros mas vistos. */
     private List<LibroSimpleDTO> librosMasVistos;
 
@@ -83,5 +85,13 @@ public class IndexDataReponseDTO implements Serializable {
 
     public void setUltimoComicAnalizado(LibroEntradaSimpleDTO ultimoComicAnalizado) {
         this.ultimoComicAnalizado = ultimoComicAnalizado;
+    }
+
+    public List<EntradaSimpleDTO> getMasonryEntries() {
+        return masonryEntries;
+    }
+
+    public void setMasonryEntries(List<EntradaSimpleDTO> masonryEntries) {
+        this.masonryEntries = masonryEntries;
     }
 }

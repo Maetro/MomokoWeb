@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import javax.management.InstanceNotFoundException;
 import java.util.List;
 
 @Controller
@@ -47,12 +48,9 @@ public class EntryController {
     }
 
     @GetMapping(path = "/entrada/{url-entrada}")
+    @Deprecated
     public @ResponseBody EntradaDTO getEntradaByUrl(@PathVariable("url-entrada") final String urlEntrada) {
-        if (log.isDebugEnabled()) {
-            log.debug(String.format("Obtener entrada: %s", urlEntrada));
-        }
-        final ObtenerEntradaResponse entrada = this.entradaService.obtenerEntradaParaGestion(urlEntrada);
-        return entrada.getEntrada();
+        throw new RuntimeException("DEPRECATED");
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")

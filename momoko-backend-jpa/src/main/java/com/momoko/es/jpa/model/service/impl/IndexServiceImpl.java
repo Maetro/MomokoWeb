@@ -1,7 +1,8 @@
 /**
  * IndexServiceImpl.java 28-oct-2017
- *
+ * <p>
  * Copyright 2017 RAMON CASARES.
+ *
  * @author Ramon.Casares.Porto@gmail.com
  */
 package com.momoko.es.jpa.model.service.impl;
@@ -13,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.momoko.es.api.dto.response.IndexDataReponseDTO;
 import com.momoko.es.api.enums.EntryTypeEnum;
@@ -331,35 +333,76 @@ public class IndexServiceImpl implements IndexService {
     }
 
     @Override
+    @Cacheable("index")
     public IndexDataReponseDTO getIndexDataResponse() {
         IndexDataReponseDTO indexDataReponseDTO = new IndexDataReponseDTO();
         List<EntradaSimpleDTO> opinions = getLastEntriesOfType(3, EntryTypeEnum.OPINION, 370, 490);
         List<EntradaSimpleDTO> miscellaneous = getLastEntriesOfType(1, EntryTypeEnum.MISCELLANEOUS, 704, 469);
         List<EntradaSimpleDTO> news = getLastEntriesOfType(4, EntryTypeEnum.NEWS, 220, 220);
-
+        List<String> alreadyUsedUrls = new ArrayList<>();
+        alreadyUsedUrls.addAll(opinions.stream().map(EntradaSimpleDTO::getUrlEntrada).collect(Collectors.toList()));
+        alreadyUsedUrls.addAll(miscellaneous.stream().map(EntradaSimpleDTO::getUrlEntrada).collect(Collectors.toList()));
+        alreadyUsedUrls.addAll(news.stream().map(EntradaSimpleDTO::getUrlEntrada).collect(Collectors.toList()));
+        List<EntradaSimpleDTO> masonryEntries = getLastEntriesNotUsedBefore(6, alreadyUsedUrls);
         indexDataReponseDTO.setLastOpinions(opinions);
         indexDataReponseDTO.setLastMiscellaneous(miscellaneous);
         indexDataReponseDTO.setLastNews(news);
+        indexDataReponseDTO.setMasonryEntries(masonryEntries);
         return indexDataReponseDTO;
     }
+
+    private List<EntradaSimpleDTO> getLastEntriesNotUsedBefore(int quantity, List<String> alreadyUsedUrls) {
+        final List<EntradaEntity> lastReviews = this.entradaRepository
+                .findLastEntriesNotUsed(Calendar.getInstance().getTime(), alreadyUsedUrls, PageRequest.of(0, quantity));
+        final List<EntradaSimpleDTO> lastReviewsSimple = ConversionUtils.obtenerEntradasBasicas(lastReviews, true);
+        Integer thumbnailHeight = 0;
+        for (EntradaSimpleDTO entradaSimpleDTO : lastReviewsSimple) {
+            switch (EntryTypeEnum.getEntryTypeByName(entradaSimpleDTO.getTipoEntrada())){
+                case NEWS:
+                    thumbnailHeight = 370;
+                    break;
+                case OPINION:
+                    thumbnailHeight = 490;
+                    break;
+                case SPECIAL:
+                case MISCELLANEOUS:
+                case VIDEO:
+                    thumbnailHeight = 246;
+                    break;
+                case EMPTY:
+                    thumbnailHeight = 0;
+            }
+            adaptImagesToIndexPlace(entradaSimpleDTO, 370, thumbnailHeight);
+        }
+        return lastReviewsSimple;
+    }
+
 
     private List<EntradaSimpleDTO> getLastEntriesOfType(int quantity, EntryTypeEnum entryType, int thumbnailWidth, int thumbnailHeight) {
         final List<EntradaEntity> lastReviews = this.entradaRepository
                 .findLastEntries(Calendar.getInstance().getTime(), entryType, PageRequest.of(0, quantity));
         final List<EntradaSimpleDTO> lastReviewsSimple = ConversionUtils.obtenerEntradasBasicas(lastReviews, true);
         for (EntradaSimpleDTO entradaSimpleDTO : lastReviewsSimple) {
-            if (entradaSimpleDTO.getImagenEntrada() != null) {
-                try {
-                    final String thumbnail = this.storageService.obtenerMiniatura("imagenes-destacadas",
-                            entradaSimpleDTO.getImagenEntrada(), thumbnailWidth, thumbnailHeight, true);
-                    entradaSimpleDTO.setImagenEntrada(thumbnail);
-
-                } catch (final IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            adaptImagesToIndexPlace(entradaSimpleDTO, thumbnailWidth, thumbnailHeight);
         }
         return lastReviewsSimple;
+    }
+
+
+    private void adaptImagesToIndexPlace(EntradaSimpleDTO entradaSimpleDTO, Integer thumbnailWidth, Integer thumbnailHeight) {
+
+
+        if (entradaSimpleDTO.getImagenEntrada() != null) {
+            try {
+                final String thumbnail = this.storageService.obtenerMiniatura("imagenes-destacadas",
+                        entradaSimpleDTO.getImagenEntrada(), thumbnailWidth, thumbnailHeight, true);
+                entradaSimpleDTO.setImagenEntrada(thumbnail);
+
+            } catch (final IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
 }

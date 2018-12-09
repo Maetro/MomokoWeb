@@ -1,0 +1,77 @@
+.masonry-item {
+    width: 370px;
+}
+
+.indexHeaderImageContainer {
+    text-align: center;
+    margin-top: 5px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.indexHeaderDataBlock {
+    font-size: 14px;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-family: 'Montserrat';
+
+    @media (max-width: 800px) {
+        padding: 5px 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+    }
+}
+
+h3.entryTitle {
+    font-size: 20px;
+    line-height: 28px;
+
+    @media (max-width: 800px) {
+        padding: 5px 0px;
+        font-size: 16px;
+        line-height: 20px;
+    }
+}
+
+h3.entryNewsTitle {
+    font-size: 16px;
+    line-height: 22.4px;
+
+    @media (max-width: 800px) {
+        padding: 5px 15px;
+    }
+}
+
+h5.summary {
+    font-weight: 400;
+
+    @media (max-width: 800px) {
+        padding: 5px 15px;
+    }
+}
+
+.masonry {
+    /* Masonry container */
+    column-count: 3;
+    column-gap: 70px;
+
+    @media (max-width: 991px) {
+        column-count: 2;
+        column-gap: 30px;
+    }
+
+    @media (max-width: 767px) {
+        column-count: 1;
+        column-gap: 0px;
+    }
+
+}
+
+.item {
+    /* Masonry bricks or child elements */
+    display: inline-block;
+    margin: 0 0 3em;
+    width: 100%;
+
+}

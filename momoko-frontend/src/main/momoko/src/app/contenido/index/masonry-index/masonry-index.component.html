@@ -1,0 +1,24 @@
+<div class="light-wrapper">
+    <div class="container">
+        <div class="masonry">
+            <div class="item" *ngFor="let opinion of items; let i = index;">
+                <div class="indexHeaderImageContainer">
+                    <app-lazy-image-with-link link="/{{opinion.bloque}}/{{opinion.urlEntrada}}" name="Masonry - {{i}}"
+                        image="{{opinion.imagenEntrada}}" alt="Imagen Destacada - {{opinion.tituloEntrada}}">
+                    </app-lazy-image-with-link>
+                </div>
+                <div class="indexHeaderDataBlock">
+                    {{opinion.categoria}}
+                </div>
+                <div class="indexHeaderTitle">
+                    <a routerLink="/{{opinion.bloque}}/{{opinion.urlEntrada}}">
+                        <h3 class="entryTitle"> {{opinion.tituloEntrada}} </h3>
+                    </a>
+                </div>
+                <div class="indexHeaderSummary">
+                    <h5 class="summary"> {{opinion.resumen}} </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
