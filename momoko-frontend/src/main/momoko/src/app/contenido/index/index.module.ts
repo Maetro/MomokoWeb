@@ -14,14 +14,12 @@ import { MasonryIndexComponent } from './masonry-index/masonry-index.component';
 import { ObtenerIndexDataResolverService } from './resolvers/obtener-index-data-resolver.service';
 import { IndexDataService } from './services/index-data.service';
 import { VideosHorizontalComponent } from './videos-horizontal/videos-horizontal.component';
-import { NgxMasonryModule } from 'ngx-masonry';
 
 @NgModule({
   imports: [
     CommonModule,
     ComunesModule,
     LazyLoadModule,
-    NgxMasonryModule,
     RouterModule.forChild([
       { path: '', 
       component: IndexComponent,
