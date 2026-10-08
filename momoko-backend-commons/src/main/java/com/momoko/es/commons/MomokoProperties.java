@@ -195,6 +195,7 @@ public class MomokoProperties {
 				"Referer",
 				"User-Agent",
 				"x-requested-with",
+				"X-Token",
 				LecUtils.TOKEN_REQUEST_HEADER_NAME};
 		
 		/**
